@@ -67,3 +67,17 @@ Validation: 40 shared tests, 5 Scoville build tests, 8 Ask tests and 49 GitHub
 publication tests passed. All 15 packages passed layout, frontmatter and README
 contract checks. Mermaid source was preserved or inspected; browser rendering
 was not tested. The profile retained its personal structure.
+
+## Cost wording follow-up
+
+W-031 narrows every cost block to actual added usage, time or maintenance effort.
+The shared template and GitHub publication guidance now enforce that distinction.
+Research and Brainstorm use one short shared Codex capacity notice under Compatibility.
+Brainstorm's diagram now separates idea agents, research, coordination and criticism.
+Relevant test gaps remain under development instead of inflating the cost lists.
+
+All 21 affected repositories were pushed and their remote commits and complete
+trees verified. The profile required no change. All 15 built packages changed
+only README files. Releases and tags were untouched. Validation passed 40 shared,
+5 Scoville, 8 Ask and 4 publication-policy tests plus 15 package-contract checks.
+The diagram was checked against the Skill's agent flow, not browser-rendered.
