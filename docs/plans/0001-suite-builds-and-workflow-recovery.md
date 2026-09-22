@@ -4,7 +4,7 @@ id: PLAN-0001
 status: active
 created: 2026-09-21
 updated: 2026-09-22
-current_item: W-025
+current_item: W-031
 ---
 
 # Suite-Builds und zuverlässige Workflow-Übergaben
@@ -21,6 +21,21 @@ Scoville und Ask werden in getrennten Suite-Quellen unter `E:/Dropbox/AI Project
 - Keine Task-Identifikation allein über Titel oder Titelpräfixe.
 
 ## Work items
+
+### W-031 Tatsächliche Kosten und Agentenablauf verständlich veröffentlichen
+
+Status: in_progress
+Depends on: []
+Blocked by: []
+Decisions: []
+Outcome: Kostenblöcke nennen tatsächlichen Mehraufwand. Brainstorm zeigt Agentenrollen und Informationsfluss verständlich.
+Acceptance: Gemeinsame Vorlage und alle betroffenen README-Quellen sind korrigiert; Builds übernehmen dieselben Beschreibungen. Research und Brainstorm verwenden denselben kurzen Codex-Kapazitätshinweis. Tests und Remote-Dateivergleiche bestehen; Laufzeitdateien und Releases bleiben unverändert.
+Steps:
+1. Korrigiere Kostenfragmente beider Suites und eigenständige Projekt-READMEs sowie die gemeinsame Vorlage und GitHub-Publikationsregel. Entferne unpassende Disclaimer; bewahre relevante Sicherheits- und Testgrenzen an ihrem passenden Ort.
+2. Ersetze das Brainstorm-Diagramm in development/readme/scoville-brainstorm/mechanism.md durch belegte Agentenrollen und Übergaben. Generiere den gemeinsamen Kapazitätshinweis aus ../shared/readme/codex-subagent-limit.md.
+3. Regeneriere READMEs und Pakete; prüfe Tests und unveränderte Laufzeitdateien. Committe und pushe die betroffenen Quellen und Distributionen; verifiziere Remote-Commits und Dateibäume.
+Evidence: [Kostenquellen korrigiert; 40 Shared-Tests plus 5 Scoville-Tests plus 8 Ask-Tests bestanden]
+Next action: Finale Pakete erzeugen und die verifizierten README-Änderungen veröffentlichen.
 
 ### W-001 Zwei Suite-Quellen mit reproduzierbaren Einzelpaketen
 

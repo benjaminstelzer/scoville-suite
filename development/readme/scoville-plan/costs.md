@@ -1,4 +1,3 @@
 ## What it costs
 
-- Maintaining records adds reading, writing and validation overhead.
-- A structurally valid Plan does not prove that its implementation works. Small tasks may not need one.
+- Reading, updating and checking Plan records add token usage and maintenance time.

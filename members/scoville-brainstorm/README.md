@@ -17,13 +17,21 @@ their assumptions and returns a shortlist for a human decision.
 - Return up to three directions, or two in Compact mode, with benefits, risks and cheap falsifiers. Stop before selection or implementation.
 
 ```mermaid
-flowchart LR
-    B["Fixed brief"] --> G["Generate mechanisms"]
-    B --> L["Inspect existing approaches"]
-    G --> C["Compare and challenge"]
-    L --> C
-    C --> S["Shortlist"]
-    S --> H["Human selection"]
+flowchart TD
+    B["Coordinator: fix the brief and constraints"]
+    subgraph P["Parallel agents: no shared findings during generation"]
+        G1["Idea agent 1: one approach"]
+        G2["Idea agent 2: a different approach"]
+        GN["More idea agents if capacity allows"]
+        L["Research agent: inspect existing approaches"]
+    end
+    B --> G1 & G2 & GN & L
+    G1 & G2 & GN & L --> C["Coordinator: merge variants and compare with evidence"]
+    C --> K{"Capacity for an independent critic?"}
+    K -->|Yes| R["Critic agent: challenge assumptions and weak directions"]
+    K -->|No| F["Coordinator: apply the same checks"]
+    R & F --> S["Coordinator: shortlist with risks and cheap tests"]
+    S --> H["Human chooses the direction"]
 ```
 
 ## What it enforces
@@ -48,12 +56,7 @@ flowchart LR
 
 ## What it costs
 
-- Separate generation and comparison consume additional context and time.
-- A shortlist still needs a decision and validation. Originality claims apply only to the inspected comparison scope.
-- A known fix or ordinary review does not need this process.
-- The Codex Desktop surface tested on 2026-09-19 had interruption but no documented control to close completed subagents and free their slots. Other hosts may differ.
-- Brainstorm reports unavailable cleanup before isolated generation and stays within observable agent capacity.
-- Interrupting, archiving, deleting tasks or killing processes does not establish that a subagent slot was freed.
+- Separate idea generation, comparison and critique use additional tokens and time.
 
 ## How it was developed
 
@@ -68,6 +71,9 @@ flowchart LR
 ## Compatibility
 
 Any Agent Skills host that can read references/. Isolated generators, a landscape agent and an independent critic need subagent spawning; without it the Skill uses its documented solo fallback. Web search improves the landscape pass. No scripts, no network service. Developed for Codex and Claude Code; other hosts untested.
+
+Codex currently offers no way to close subagents and free their slots. This limits
+additional parallel work within a session.
 
 ## Install
 
