@@ -18,9 +18,22 @@ the package-root prefix. Its prompt did not specify the relative-path base.
 No Skill defect or passing result follows from this failure.
 
 A separate r2 attempt adds only the missing path-base instruction. Original
-case, key, package, runner and failed evidence remain unchanged. Cases 20 and
-25 await the transport check. Raw evidence stays under workspace
+case, key, package, runner and failed evidence remain unchanged. Cases 17, 20
+and 25 passed in r2. SOL reviewed all five answers against the fixed keys.
+The author independently read them and agrees with those judgments.
+
+Native session records confirm Luna Medium for all 13 turns across the five
+accepted runs. Every process exited successfully, with no stderr, timeout or
+stream error. This verifies theoretical comprehension, not live execution of
+the simulated actions. Raw evidence stays under workspace
 `temp/2026-09-22-release-workflow-luna/`.
+
+## Upstream preservation
+
+The four existing Ask repositories still have the exact default-branch commits
+recorded as their `import_commit` in `ask-suite-for-codex/suite.json`.
+The live GitHub check found no later upstream changes to reconcile. The new
+SOL single-adviser distribution has no existing history to compare.
 
 ## Plan Viewer
 
