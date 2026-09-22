@@ -387,8 +387,8 @@ Steps:
 3. Prüfe die Live-Releases und Tags aller autorisierten Ziele. Wende die GitHub-Verträge references/release-and-publication.md und references/suite-build-publication.md an. Prüfe Plan-Viewer-Assets gegen Buildmatrix, README, Herkunft und SHA-256.
 4. Veröffentliche die beiden Suites und 14 Einzelpakete ohne separates Workflow-Repo. Bewahre Historien, benenne das WordPress-Ziel wie autorisiert um und prüfe komplette Remote-Bestände. Verifiziere neue Releases und Asset-Nachfolger vor dem Entfernen abgedeckter älterer Releases und Release-Versionstags.
 5. Veröffentliche E:/Dropbox/AI Projects/projects/BenjaminStelzer/README.md mit Scoville oben und Ask darunter; prüfe finale Installationslinks, Topics, Releases und Tags. Historische Belege bleiben unverändert.
-Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, Portable Suite-Quellen: alle 15 Pakete isoliert bytegleich; 36 gemeinsame Tests bestanden]
-Next action: Vollständige Suite-Releasebäume mit packages vorbereiten und Quellbestand prüfen; danach betroffene Luna-Fälle auf finalen Paketen ausführen.
+Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus]
+Next action: Workflow-Luna-Ergebnisse unabhängig prüfen und verbleibende betroffene Fälle ausführen; anschließend Remote-Releases und Plan-Viewer-Provenienz vollständig prüfen.
 
 ### W-026 Entwicklungslinks nach README-Ziel generieren
 
