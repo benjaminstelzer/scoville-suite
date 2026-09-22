@@ -119,10 +119,12 @@ result had no archive blockers; exact-ID `verify_archive` passed for G27
 This is live recovery evidence, not merely a fixture result. No DIVI5 guard
 or project files were changed by this task.
 
-Earlier Workflow Luna results do not qualify the changed rollover instructions.
-Before publication, rerun the affected rollover cases plus a missing-list,
-exact-active case against the final package under the existing SOL/Luna gate.
-The deterministic tests above are not a new model-comprehension result.
+The targeted SOL/Luna retest is complete: four protocol passes, three accepted
+semantic passes and one chain-case failure. Luna understood the missing-list
+exception but omitted explicit archive-failure recovery and current-coordinator
+exclusion. Publication remains unqualified for that case. See
+`development/luna-tests/workflow-archive-results.md` for fixed inputs, independent
+author checks, the precise evidence limit and the remaining targeted test.
 
 ## Handoff and UI qualification
 
