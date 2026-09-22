@@ -9,6 +9,11 @@ against the fixed constraints and existing approaches, challenges their weak
 assumptions and returns a shortlist you can make a decision from. It stops
 before choosing or implementing a direction.
 
+The agent develops candidate mechanisms separately before comparing them, so
+the first plausible idea does not define every alternative. Exploration and
+comparison add tokens and time, and a shortlist still needs a decision and
+validation. A claim of originality is limited to what was actually examined.
+
 Use it for architecture, product, workflow or research questions that need
 materially different approaches, including competing explanations for an unknown
 cause. A known fix, ordinary review or wording question does not need this process.
@@ -137,15 +142,15 @@ did not produce a change worth keeping. The existing instructions stayed.
 Each Skill works independently. Combine only the concerns the task actually
 needs:
 
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
 - [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
 - [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
 - [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
 - [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## Current Codex lifecycle limitation

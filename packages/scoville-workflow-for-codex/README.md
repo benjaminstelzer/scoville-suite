@@ -2,13 +2,39 @@
 
 **Beta.** Available for real-project testing. Host-level behavior remains under qualification.
 
-A plan needs someone to keep it moving. It does not need that someone to do
-every job as well.
+Scoville Workflow supports structured, AI-assisted software development. It is
+built for extending and maintaining projects over time, including larger
+codebases. Fast vibe coding and throwaway prototyping are not its intended use.
+
+A long implementation task can leave one agent planning, coding, reviewing its
+own changes and remembering every earlier decision. The conversation grows,
+unfinished work becomes harder to track, and a confident summary can hide the
+gap between what was requested and what was actually checked.
 
 Scoville Workflow coordinates a repository-owned Scoville Plan through normal
 Codex project tasks. Workers implement, fresh reviewers check material changes,
 and one coordinator updates the Plan and commits accepted work. The suite's
 specialist Skills keep their own activation rules and responsibilities.
+
+Plan, Code and Workflow address different parts of that work. Plan preserves
+scope, decisions and progress. Code requires changes to respect the existing
+implementation and checks whether the requested behavior actually works.
+Workflow coordinates execution, independent review and continuation. Together,
+they support maintainable changes across a larger project without asking one
+conversation to carry its entire history. They do not replace engineering
+judgment or guarantee that a change is safe.
+
+The coordinator gives each worker a bounded assignment and selects its model
+and reasoning effort from the task's risk. The repository Plan holds progress
+and decisions, so continuation does not depend on retelling the conversation.
+A fresh reviewer checks changes without being the agent that wrote them.
+Context handoffs let long work continue in a new task, while explicit write
+ownership keeps coordination and implementation from competing in the checkout.
+
+That separation costs tokens and time. Extra tasks need instructions, reviews
+repeat some inspection, and handoffs add coordination. Workflow is intended for
+sustained software development through a Plan. A small direct fix usually does
+not need this machinery.
 
 Workflow is available only as part of Scoville Suite, not from a separate
 repository. It requires Codex desktop and native task controls. Other suite
@@ -34,22 +60,33 @@ flowchart TD
     H --> C
 ```
 
-Code and critical documentation changes require review. Routine changes can
-skip it after a bounded consistency check. Findings go to their actual owner,
-so a Plan correction does not need a repair worker. Material or unclear
-corrections require another review. After three repair workers, unresolved
-project findings require your decision instead of a fourth attempt.
-The diagram follows completed work. Blockers, failed checks and unresolved
-decisions do not count as acceptance. Finished child tasks are archived only
-after their results have been retained, with confirmation for the exact task.
+**Review and repairs.** Code and critical documentation changes get a fresh
+reviewer. Routine changes can skip review when a short check confirms that the
+result matches the worker's report. The coordinator corrects the Plan. A repair
+worker corrects the project. Material changes or unclear results get another
+review. If three repair workers cannot resolve the findings, the workflow asks
+you how to proceed. Failed checks and open decisions are not accepted work.
 
-The context check happens after an accepted unit, not halfway through work.
-Its configurable coordinator threshold defaults to 33 percent. A successor
-continues from the repository Plan and a compact handoff. The old coordinator
-loses write ownership before the new one takes over. Archival requires separate
-host confirmation. If that proof is missing but safe continuation is verified,
-the predecessor stays open for later cleanup. Missing context measurements are
-not guessed. A stop or completed scope creates no successor.
+**Context handoffs.** Long tasks can continue in a fresh task before the current
+context fills up. The defaults are configurable:
+
+- **Coordinator: at or above 33%.** Check after a work unit has been accepted
+  and committed. If more requested work remains, a new coordinator takes over
+  using the repository Plan and a compact handoff.
+- **Workers, reviewers and repair workers: above 66%.** Check at a natural
+  stopping point while work remains. A successor keeps the same role, model
+  and assignment, and continues in the same checkout. This is a continuation,
+  not another repair attempt.
+
+These percentages measure current context use, not total tokens spent. Missing
+or stale measurements are not guessed. Completed work needs no successor, and
+an explicit stop does not start another coordinator.
+
+**Task cleanup.** Results are saved before finished tasks are archived. During
+a coordinator handoff, the old coordinator gives up write access before the
+new one takes over. Codex must confirm archival for the exact task. If that
+confirmation is missing but safe continuation is verified, work continues and
+the old coordinator stays open for later cleanup.
 
 ## Why "Scoville"?
 
@@ -235,15 +272,15 @@ version history does not constitute a suite release.
 Each Skill works independently. Combine only the concerns the task actually
 needs:
 
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
 - [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
 - [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
 - [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
 - [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## Sources
