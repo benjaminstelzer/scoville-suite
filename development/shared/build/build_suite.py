@@ -237,6 +237,14 @@ def render_readmes(root: Path, write: bool) -> list[str]:
     return changed
 
 
+def package_bytes(path: Path) -> bytes:
+    data = path.read_bytes()
+    if path.suffix.lower() in {'.md', '.txt', '.py', '.js', '.json', '.svg', '.toml', '.yaml', '.yml'} or path.name in {'LICENSE', '.gitattributes'}:
+        data.decode('utf-8')
+        return data.replace(b'\r\n', b'\n')
+    return data
+
+
 def payload(root: Path, member: dict) -> dict[str, bytes]:
     result = {'README.md': readme(root, member)}
     for item in member['files']:
@@ -248,7 +256,7 @@ def payload(root: Path, member: dict) -> dict[str, bytes]:
             raise ValueError(f'development or local file in package: {target}')
         if target.split('/')[0] != member['name'] and target not in {'LICENSE', 'LICENSE.md', 'LICENSE.txt', 'CHANGELOG.md', '.gitattributes'}:
             raise ValueError(f'non-distribution file: {target}')
-        result[target] = within(root, item['source']).read_bytes()
+        result[target] = package_bytes(within(root, item['source']))
         if item.get('template'):
             result[target] = expand_variables(result[target].decode('utf-8'), member).encode('utf-8')
         if target.endswith('.md') and b'{{' in result[target]:
@@ -260,7 +268,7 @@ def payload(root: Path, member: dict) -> dict[str, bytes]:
         if not target.startswith(member['name'] + '/scripts/'):
             raise ValueError('shared helper must be bundled in the member scripts directory')
         within(root, target)
-        result[target] = within(shared_root(), item['source']).read_bytes()
+        result[target] = package_bytes(within(shared_root(), item['source']))
     if member['name'] + '/SKILL.md' not in result:
         raise ValueError('missing entrypoint')
     validate_package_links(result)
@@ -376,7 +384,7 @@ def verify_shared_helpers(root: Path, output: Path) -> list[str]:
     for built in receipt['members']:
         member = members[built['name']]
         for helper in member.get('shared_helpers', []):
-            source = within(shared_root(), helper['source']).read_bytes()
+            source = package_bytes(within(shared_root(), helper['source']))
             target = within(output / package_path(config, member), helper['target'])
             if not target.is_file() or target.read_bytes() != source:
                 errors.append(member['name'] + ': shared helper drift: ' + helper['target'])
