@@ -104,6 +104,17 @@ UI 25 is still pending. Native execution and final package-byte checks remain
 separate acceptance steps. Raw runs are under workspace
 `temp/2026-09-22-release-handoff-ui-luna/`.
 
+Independent native-record inspection confirms Luna Medium for all 13 turns in
+those eight runs. Every turn has a successful process/protocol result without
+stderr, timeout or stream failure. UI 25 and final package-byte checks remain open.
+
+## Frontmatter validation
+
+All fifteen r4 packages parse as YAML and have matching directory/name values,
+nonempty descriptions and compatibility strings of 1-500 characters. The generic
+Skill Creator validator rejects the supported compatibility field, so its result
+is not counted as a pass. The explicit contract checks above cover these fields.
+
 ## Plan Viewer
 
 Existing release `v1.7.5` supplies eleven Viewer `v1.3.2` files and
