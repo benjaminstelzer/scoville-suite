@@ -4,7 +4,7 @@ id: PLAN-0001
 status: active
 created: 2026-09-21
 updated: 2026-09-22
-current_item: W-030
+current_item: W-025
 ---
 
 # Suite-Builds und zuverlässige Workflow-Übergaben
@@ -392,7 +392,7 @@ Next action: Veröffentlichten Release-Abschluss aus temp/2026-09-22-suite-relea
 
 ### W-030 Einheitliche Skill-READMEs und gemeinsame Beschreibungsblöcke veröffentlichen
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: []
@@ -404,8 +404,7 @@ Steps:
 3. Verankere die Vorlage und die Prüfregeln im kanonischen ../benjaminstelzer-github-skill. Migriere gepflegte eigenständige Skill-READMEs ohne Laufzeitänderungen und ohne erfundene Entwicklungs- oder Testbehauptungen.
 4. Teste gemeinsame Builder und beide Suites, synchronisiere development/shared und erzeuge frische isolierte Ausgaben. Prüfe Reihenfolge, Listen, Diagramme, Linkziele und Paketgleichheit; committe Quellen lokal.
 5. Veröffentliche pro freigegebenem Ziel die geprüften Dokumentationsänderungen unter Erhalt der Historie. Vergleiche vollständige Remote-Bestände und dokumentiere Ergebnis und Ausnahmen je Repo; ändere keine Release-Tags oder Assets.
-Evidence: [Live-Inventar enthält zwei Suites und 14 öffentliche Einzel-Skills sowie vier private Skill-Repositories; keine offenen Decision-Proposals]
-Next action: Repo-Matrix und wiederverwendbaren README-Vertrag erstellen; danach gemeinsame Builder-Projektion korrigieren.
+Evidence: [Nutzer erweitert Vorlage ausdrücklich auf Nicht-Skill-Projekte; development/readme-unification.md nennt alle Ziele und Ausnahmen, 22 Repositories gepusht; Remote-Commit und vollständiger Git-Dateibaum verifiziert; Releases und Tags nicht verändert, 40 Shared-Tests plus 5 Scoville-Tests plus 8 Ask-Tests plus 49 GitHub-Tests bestanden; 15 Paketverträge geprüft]
 
 ### W-029 Deferred after W-025: Release-Ablauf wiederverwendbar automatisieren
 
