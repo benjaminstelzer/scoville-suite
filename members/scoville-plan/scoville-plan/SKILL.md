@@ -43,7 +43,7 @@ Relevant neighboring owners:
 
 {{ include: family.neighbors }}
 
-The private optional `scoville-workflow-for-codex` Skill may make Steps usable as
+The optional `scoville-workflow-for-codex` Skill may make Steps usable as
 later dispatch units without activating or loading that Workflow. Group each
 Step around one coherent outcome slice with comparable consequence and
 reasoning demand. Evaluate the complete expected execution and verification
