@@ -34,22 +34,33 @@ flowchart TD
     H --> C
 ```
 
-Code and critical documentation changes require review. Routine changes can
-skip it after a bounded consistency check. Findings go to their actual owner,
-so a Plan correction does not need a repair worker. Material or unclear
-corrections require another review. After three repair workers, unresolved
-project findings require your decision instead of a fourth attempt.
-The diagram follows completed work. Blockers, failed checks and unresolved
-decisions do not count as acceptance. Finished child tasks are archived only
-after their results have been retained, with confirmation for the exact task.
+**Review and repairs.** Code and critical documentation changes get a fresh
+reviewer. Routine changes can skip review when a short check confirms that the
+result matches the worker's report. The coordinator corrects the Plan. A repair
+worker corrects the project. Material changes or unclear results get another
+review. If three repair workers cannot resolve the findings, the workflow asks
+you how to proceed. Failed checks and open decisions are not accepted work.
 
-The context check happens after an accepted unit, not halfway through work.
-Its configurable coordinator threshold defaults to 33 percent. A successor
-continues from the repository Plan and a compact handoff. The old coordinator
-loses write ownership before the new one takes over. Archival requires separate
-host confirmation. If that proof is missing but safe continuation is verified,
-the predecessor stays open for later cleanup. Missing context measurements are
-not guessed. A stop or completed scope creates no successor.
+**Context handoffs.** Long tasks can continue in a fresh task before the current
+context fills up. The defaults are configurable:
+
+- **Coordinator: at or above 33%.** Check after a work unit has been accepted
+  and committed. If more requested work remains, a new coordinator takes over
+  using the repository Plan and a compact handoff.
+- **Workers, reviewers and repair workers: above 66%.** Check at a natural
+  stopping point while work remains. A successor keeps the same role, model
+  and assignment, and continues in the same checkout. This is a continuation,
+  not another repair attempt.
+
+These percentages measure current context use, not total tokens spent. Missing
+or stale measurements are not guessed. Completed work needs no successor, and
+an explicit stop does not start another coordinator.
+
+**Task cleanup.** Results are saved before finished tasks are archived. During
+a coordinator handoff, the old coordinator gives up write access before the
+new one takes over. Codex must confirm archival for the exact task. If that
+confirmation is missing but safe continuation is verified, work continues and
+the old coordinator stays open for later cleanup.
 
 ## Why "Scoville"?
 
