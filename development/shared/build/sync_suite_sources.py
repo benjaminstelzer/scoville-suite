@@ -12,6 +12,11 @@ def snapshot(root, source):
     paths = {'build/build_suite.py', 'build/sync_suite_sources.py', 'build/export_suite.py',
              'build/verify_package_set.py', 'build/fragments.md',
              'instruction-writing.md', 'luna-release-gate.md'}
+    # Retain shared development sources and tests, not only runtime consumers.
+    for folder in ('build', 'readme', 'runtime', 'tests'):
+        paths.update(p.relative_to(source).as_posix() for p in (source / folder).rglob('*')
+                     if p.is_file() and '__pycache__' not in p.parts
+                     and p.suffix not in ('.pyc', '.pyo'))
     entries = list(config.get('readme', []))
     for member in config['members']:
         entries.extend(member['readme'])
