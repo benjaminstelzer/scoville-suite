@@ -42,8 +42,6 @@
   distinct from the selected model and reasoning level.
 - Enforce the accepted-Decision prerequisite before bundling adjacent compatible
   Steps; without that authority, one Step remains one dispatch unit.
-- Restore the missing v0.3.1 launcher and parking contract to the durable
-  changelog before its older release page is retired.
 
 ## v0.3.3 - 2026-09-21
 
