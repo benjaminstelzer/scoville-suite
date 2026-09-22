@@ -17,9 +17,10 @@ historical member records unless that member's work explicitly requires them.
 
 README fragments under `development/readme/` are authoritative. Member README
 files are generated previews. Build them from the fragments, never edit both.
-Each member's first README fragment owns its title and description. The suite
+Each member's `description_fragments` owns its complete description block. The suite
 uses `suite.descriptions` and manifest `featured_member` to place Workflow first.
 Keep those fragments self-contained with absolute links and no include tags.
+Use development/shared/readme/README-template.md for section order and lists.
 Skill descriptions explain the problem, the solution and how the rules produce
 it. Briefly name relevant costs or limits, including extra tokens and process
 overhead where applicable. Keep benefits central. Do not invent measured gains

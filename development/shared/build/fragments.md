@@ -76,10 +76,12 @@ scope and authored order; adding a family member never expands a subset.
 An existing optional private neighbor reference is not publication approval.
 Historical evidence and ordinary prose references are not membership lists.
 
-The first member README fragment owns its title and description. It must have
-one H1 and a nonempty body, absolute links only, and no include tags. Suite
-descriptions reuse that text with H2 headings. Keep compatibility and any
-suite-only distribution limit in a featured member's description.
+The first four member README fragments form `description_fragments`: title and
+introduction, How it works, What it enforces, What it costs. The last three use
+bullets. Suite descriptions reuse the complete block and demote headings outside
+code fences. Keep absolute links and no include tags inside these fragments.
+Follow [the common project template](../readme/README-template.md) for all projects.
+How it was developed uses bullets and stays outside the suite description block.
 
 The shared builder expands placeholders before packaging. Packages contain
 complete Markdown and need no shared directory. Never install source templates.

@@ -1,44 +1,31 @@
 # Scoville Workflow for Codex
 
+A long software task can leave one agent planning, coding, reviewing its own
+changes and remembering every earlier decision. Context grows while unfinished
+work becomes harder to track.
+
+Scoville Workflow supports structured, AI-assisted software development and
+long-term project maintenance, including larger codebases. It is not intended
+for fast vibe coding or throwaway prototyping. Plan preserves direction and
+decisions, Code requires maintainable changes and meaningful checks, and Workflow
+coordinates workers, fresh reviewers and continuation. Together they help keep
+project development recoverable without making one conversation carry its history.
+
 **Beta.** Available for real-project testing. Host-level behavior remains under qualification.
 
-Scoville Workflow supports structured, AI-assisted software development. It is
-built for extending and maintaining projects over time, including larger
-codebases. Fast vibe coding and throwaway prototyping are not its intended use.
+Workflow is suite-only and requires Codex desktop with native task controls.
+Other suite Skills should work with many Agent Skills-compatible hosts, subject
+to their requirements. Testing has been limited to Codex, Claude Code and Antigravity.
 
-A long implementation task can leave one agent planning, coding, reviewing its
-own changes and remembering every earlier decision. The conversation grows,
-unfinished work becomes harder to track, and a confident summary can hide the
-gap between what was requested and what was actually checked.
+## How it works
 
-Scoville Workflow coordinates a repository-owned Scoville Plan through normal
-Codex project tasks. Workers implement, fresh reviewers check material changes,
-and one coordinator updates the Plan and commits accepted work. The suite's
-specialist Skills keep their own activation rules and responsibilities.
-
-Plan, Code and Workflow address different parts of that work. Plan preserves
-scope, decisions and progress. Code requires changes to respect the existing
-implementation and checks whether the requested behavior actually works.
-Workflow coordinates execution, independent review and continuation. Together,
-they support maintainable changes across a larger project without asking one
-conversation to carry its entire history. They do not replace engineering
-judgment or guarantee that a change is safe.
-
-The coordinator gives each worker a bounded assignment and selects its model
-and reasoning effort from the task's risk. The repository Plan holds progress
-and decisions, so continuation does not depend on retelling the conversation.
-A fresh reviewer checks changes without being the agent that wrote them.
-Context handoffs let long work continue in a new task, while explicit write
-ownership keeps coordination and implementation from competing in the checkout.
-
-That separation costs tokens and time. Extra tasks need instructions, reviews
-repeat some inspection, and handoffs add coordination. Workflow is intended for
-sustained software development through a Plan. A small direct fix usually does
-not need this machinery.
-
-Workflow is available only as part of Scoville Suite, not from a separate
-repository. It requires Codex desktop and native task controls. Other suite
-Skills have their own host requirements.
+- The coordinator selects a bounded Plan unit and routes its model and reasoning effort by risk. Workers implement in the existing checkout.
+- Fresh reviewers check code and critical documentation changes. Routine changes can skip review after a bounded consistency check.
+- The coordinator corrects Plan findings. Repair workers correct project findings, with further review when changes are material or unclear.
+- Accepted work and Plan updates enter one commit. Failed checks and open decisions do not count as acceptance.
+- At an accepted boundary with more work remaining, the coordinator hands over at or above 33% context use. Workers, reviewers and repairs hand over above 66% at natural stopping points.
+- Both thresholds are configurable and measure current context, not total tokens spent. Missing or stale measurements are not guessed.
+- A successor retains the assignment and checkout. A context handoff is not another repair attempt. Results are saved before exact-task archival is confirmed.
 
 ```mermaid
 flowchart TD
@@ -60,39 +47,82 @@ flowchart TD
     H --> C
 ```
 
-**Review and repairs.** Code and critical documentation changes get a fresh
-reviewer. Routine changes can skip review when a short check confirms that the
-result matches the worker's report. The coordinator corrects the Plan. A repair
-worker corrects the project. Material changes or unclear results get another
-review. If three repair workers cannot resolve the findings, the workflow asks
-you how to proceed. Failed checks and open decisions are not accepted work.
+## What it enforces
 
-**Context handoffs.** Long tasks can continue in a fresh task before the current
-context fills up. The defaults are configurable:
+- **Explicit activation.** Asking for implementation or delegation alone does not start Workflow.
+- **Separate responsibilities.** The coordinator owns Plan updates, dispatch and accepted commits. Workers implement. Reviewers stay read-only.
+- **One live checkout.** Tasks use the existing working state. Workflow does not create an isolated worktree without an explicit choice.
+- **Cooperative write ownership.** A project guard grants one worker a bounded unit. Invalid state stops writes. This coordinates agents, not a filesystem lock against external tools.
+- **Complete but bounded context.** Dispatch includes the selected Plan unit and its Decisions without truncation. Workers do not reconstruct it from a summary or reopen the Plan.
+- **Configured routing.** Risk selects the model and effort. Unsupported required pairs block rather than silently falling back.
+- **Independent review where needed.** Code and critical documentation changes require a fresh reviewer. Unresolved worker findings allow at most three repair workers before user input is required.
+- **Measured rollover.** By default, the coordinator hands over at or above 33 percent after an accepted unit. Child roles hand over strictly above 66 percent at a natural boundary. Missing or stale measurements are not guessed. Both thresholds are configurable.
+- **Verified cleanup.** Results are retained before children are archived. A rollover successor takes ownership before archiving its predecessor, whose turn must have ended. Exact task IDs matter, not titles or list visibility alone.
+- **Accepted work before commit.** One unit commit includes its accepted changes and complete accumulated Plan state. Failed hooks and outstanding backup requirements are not bypassed.
+- **A binding scope.** Without a narrower boundary, continue through the active Plan. Preserve explicit stops and decisions. Archiving a task is not cancelling it.
 
-- **Coordinator: at or above 33%.** Check after a work unit has been accepted
-  and committed. If more requested work remains, a new coordinator takes over
-  using the repository Plan and a compact handoff.
-- **Workers, reviewers and repair workers: above 66%.** Check at a natural
-  stopping point while work remains. A successor keeps the same role, model
-  and assignment, and continues in the same checkout. This is a continuation,
-  not another repair attempt.
+- The canonical Plan owns progress. Workflow does not add a persistent Codex goal or another continuation loop alongside its coordinator.
 
-These percentages measure current context use, not total tokens spent. Missing
-or stale measurements are not guessed. Completed work needs no successor, and
-an explicit stop does not start another coordinator.
+- For delivery recovery, permission boundaries and failure handling, see [Native Codex operations](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md).
 
-**Task cleanup.** Results are saved before finished tasks are archived. During
-a coordinator handoff, the old coordinator gives up write access before the
-new one takes over. Codex must confirm archival for the exact task. If that
-confirmation is missing but safe continuation is verified, work continues and
-the old coordinator stays open for later cleanup.
+## What it costs
 
-## Why "Scoville"?
+- Separate tasks, repeated review inspection and handoffs add tokens, latency and coordination overhead.
+- The workflow needs Codex desktop and its task controls. A small direct fix usually does not need it.
+- After three repair workers, unresolved project findings require your decision.
+- Missing archive confirmation can leave an old coordinator open for later cleanup when safe continuation is otherwise verified.
+- Beta qualification still covers automatic compaction immediately after terminal handoff and event-driven dormancy beyond the native wait ceiling.
+- Focused tests do not prove those host behaviors end to end. Engineering judgment and project-specific acceptance remain necessary.
 
-The family is named for useful signal that remains detectable after dilution.
-In Workflow Codex, that means preserving the Plan's intent and the few facts
-needed at a task transition without repeating the Plan or carrying a work log.
+## How it was developed
+
+- Workflow grew out of a CLI-based Scoville workflow whose communication and supervision added work of their own.
+- The native version kept Plan ownership, routing, review and rollover, while moving execution into ordinary Codex tasks.
+- Real-project histories are analyzed alongside results to identify failures and unnecessary context use.
+- Targeted simulation and optimization workflows inform revisions. Changes are retained only when the required behavior survives.
+
+- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-workflow-for-codex) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-workflow-for-codex/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-workflow-for-codex/development/README.md)
+
+## Compatibility
+
+Requires Codex desktop, a saved local project, native task creation, waiting,
+messaging and archival controls, access to the task's own `CODEX_THREAD_ID`,
+and a supported Scoville Plan profile. Python 3.11+ runs the deterministic helpers.
+There is no CLI or Claude Code execution path.
+
+Tasks must share the existing checkout. If the host cannot provide that,
+Workflow asks for a decision instead of silently creating another workspace.
+Measured rollover uses native `token_count` data when available. Missing or
+contradictory measurements do not by themselves block valid bounded work.
+
+Native approval can hold a cross-task message pending. Workflow waits without
+polling or duplicate delivery. A definite result-delivery failure still leaves
+the child's validated final result available to the coordinator's recovery path.
+
+## Install
+
+### Install this Skill
+
+In a local Codex session, ask:
+
+```text
+Install this Agent Skill for all my projects from this exact package directory:
+https://github.com/benjaminstelzer/scoville-suite/tree/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex
+Preserve existing customizations and ask before overwriting conflicting files.
+Report the installed location and whether Codex discovers the Skill.
+As the final installation check, create one no-tool normal project task and verify that its approval policy, access to the project root, and network access match this calling task. Archive the probe. If they differ, do not mark the Skill ready; report the exact mismatch and ask whether to apply the needed Codex configuration change.
+```
+
+The agent needs source access and permission to write to the
+personal Skills location. The installable package is the nested
+`scoville-workflow-for-codex/` directory, not the repository root. Manual fallback:
+[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills).
+
+### Install the complete Scoville suite
+
+Get the complete suite from the
+[Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
+Install its released Skill packages, not development templates.
 
 ## How to use
 
@@ -122,23 +152,7 @@ SCW PLAN-0001 W-001/step-1 REVIEW RUN [#1]
 SCW PLAN-0001 W-001/step-1 REPAIR RUN [#2]
 ```
 
-## Compatibility
-
-Requires Codex desktop, a saved local project, native task creation, waiting,
-messaging and archival controls, access to the task's own `CODEX_THREAD_ID`,
-and a supported Scoville Plan profile. Python 3.11+ runs the deterministic helpers.
-There is no CLI or Claude Code execution path.
-
-Tasks must share the existing checkout. If the host cannot provide that,
-Workflow asks for a decision instead of silently creating another workspace.
-Measured rollover uses native `token_count` data when available. Missing or
-contradictory measurements do not by themselves block valid bounded work.
-
-Native approval can hold a cross-task message pending. Workflow waits without
-polling or duplicate delivery. A definite result-delivery failure still leaves
-the child's validated final result available to the coordinator's recovery path.
-
-## Routing
+### Routing
 
 The coordinator classifies each fresh dispatch unit and maps its effective route
 to one executor pair. The reviewer pair is used only when the material-change
@@ -174,103 +188,14 @@ not raise the class. Route, model, and reasoning are separate values; the final
 route selects the configured pair before a Step-level execution override is
 applied.
 
-## Install
+## Sources
 
-### Install this Skill
+- [Agent Skills specification](https://agentskills.io/specification) for the
+  portable package and progressive disclosure model.
+- [OpenAI coding-agent best practices](https://developers.openai.com/codex/learn/best-practices)
+  for explicit outcomes, constraints, planning, and completion evidence.
 
-The repository is private. In an authenticated local Codex session, ask:
-
-```text
-Install this Agent Skill for all my projects from this exact package directory:
-https://github.com/benjaminstelzer/scoville-suite/tree/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex
-Preserve existing customizations and ask before overwriting conflicting files.
-Report the installed location and whether Codex discovers the Skill.
-As the final installation check, create one no-tool normal project task and verify that its approval policy, access to the project root, and network access match this calling task. Archive the probe. If they differ, do not mark the Skill ready; report the exact mismatch and ask whether to apply the needed Codex configuration change.
-```
-
-The agent needs authenticated source access and permission to write to the
-personal Skills location. The installable package is the nested
-`scoville-workflow-for-codex/` directory, not the repository root. Manual fallback:
-[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills).
-
-### Install the complete Scoville suite
-
-Get the complete suite from the
-[Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
-Install its released Skill packages, not development templates.
-
-## What it enforces
-
-- **Explicit activation.** Asking for implementation or delegation alone does not start Workflow.
-- **Separate responsibilities.** The coordinator owns Plan updates, dispatch and accepted commits. Workers implement. Reviewers stay read-only.
-- **One live checkout.** Tasks use the existing working state. Workflow does not create an isolated worktree without an explicit choice.
-- **Cooperative write ownership.** A project guard grants one worker a bounded unit. Invalid state stops writes. This coordinates agents, not a filesystem lock against external tools.
-- **Complete but bounded context.** Dispatch includes the selected Plan unit and its Decisions without truncation. Workers do not reconstruct it from a summary or reopen the Plan.
-- **Configured routing.** Risk selects the model and effort. Unsupported required pairs block rather than silently falling back.
-- **Independent review where needed.** Code and critical documentation changes require a fresh reviewer. Unresolved worker findings allow at most three repair workers before user input is required.
-- **Measured rollover.** By default, the coordinator hands over at or above 33 percent after an accepted unit. Child roles hand over strictly above 66 percent at a natural boundary. Missing or stale measurements are not guessed. Both thresholds are configurable.
-- **Verified cleanup.** Results are retained before children are archived. A rollover successor takes ownership before archiving its predecessor, whose turn must have ended. Exact task IDs matter, not titles or list visibility alone.
-- **Accepted work before commit.** One unit commit includes its accepted changes and complete accumulated Plan state. Failed hooks and outstanding backup requirements are not bypassed.
-- **A binding scope.** Without a narrower boundary, continue through the active Plan. Preserve explicit stops and decisions. Archiving a task is not cancelling it.
-
-The canonical Plan owns progress. Workflow does not add a persistent Codex goal
-or another continuation loop alongside its coordinator.
-
-For delivery recovery, permission boundaries and failure handling, see
-[Native Codex operations](scoville-workflow-for-codex/references/operations.md).
-
-## How it works
-
-The launcher starts one coordinator in the existing checkout. The coordinator
-selects a Plan unit, chooses its configured model and sends a helper-built prompt
-to one worker. The prompt contains the selected work and referenced Decisions,
-not the entire project history.
-
-The dispatch helper keeps the payload separate from its compact delivery receipt.
-An unchanged payload is reused. An uncertain delivery is recovered through its
-identity and recorded state, not sent again on the assumption that nothing happened.
-
-Instructions follow the same principle. A small required core routes to twelve
-phase references. The coordinator loads the rules needed now and reuses them
-while their complete, unchanged contents remain available. After context loss,
-it reloads the current rules. Remembering that a file was read is not remembering
-what it said.
-
-Completed results are validated before review, acceptance or archival. Accepted
-work and its accumulated Plan state enter one unit commit. The coordinator then
-selects the next eligible unit within the requested scope.
-
-Messages announce real transitions, findings and decisions. Unchanged waits stay
-silent. The exact recovery and ownership rules live in
-[Native Codex operations](scoville-workflow-for-codex/references/operations.md).
-
-## How it was developed
-
-Workflow grew out of a CLI-based Scoville workflow whose communication and
-supervision added work of their own. The native version kept Plan ownership,
-routing, review and rollover, while moving execution into ordinary Codex tasks.
-
-Later task-history audits exposed repeated dispatch text and unnecessary full
-rule reads. Dispatch now separates the payload from its receipt, and the
-operations contract loads by phase. Contract tests and focused model cases
-check those paths. They do not settle the host-level limits listed below.
-
-The current source belongs to Scoville Suite. Common helpers are built into the
-package, so an installation does not depend on the development workspace.
-
-## Status
-
-The source contract and focused tests pass. Two host-level qualifications remain
-open: automatic compaction immediately after a terminal handoff, and event-driven
-coordinator dormancy beyond the 120-second native wait ceiling. Until those
-traces pass, the repository does not claim either host behavior as observed end
-to end. Workflow is now maintained in the suite. The earlier standalone
-version history does not constitute a suite release.
-
-## Scoville family
-
-Each Skill works independently. Combine only the concerns the task actually
-needs:
+## Family
 
 - [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
 - [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
@@ -282,19 +207,6 @@ needs:
 - [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
 - [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
 - [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
-
-## Sources
-
-- [Agent Skills specification](https://agentskills.io/specification) for the
-  portable package and progressive disclosure model.
-- [OpenAI coding-agent best practices](https://developers.openai.com/codex/learn/best-practices)
-  for explicit outcomes, constraints, planning, and completion evidence.
-
-## Development
-
-Maintained in the suite. Individual repositories contain generated packages.
-
-[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-workflow-for-codex) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-workflow-for-codex/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-workflow-for-codex/development/README.md)
 
 ## License
 
