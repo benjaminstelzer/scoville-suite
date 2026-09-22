@@ -122,7 +122,9 @@ or project files were changed by this task.
 The targeted SOL/Luna retest is complete: four protocol passes, three accepted
 semantic passes and one chain-case failure. Luna understood the missing-list
 exception but omitted explicit archive-failure recovery and current-coordinator
-exclusion. Publication remains unqualified for that case. See
+exclusion. The shared contract now states these rules as an ordered loop, but
+both bounded retests exhausted four READ turns without a final answer. They
+are inconclusive, not passes. Publication remains unqualified for that case. See
 `development/luna-tests/workflow-archive-results.md` for fixed inputs, independent
 author checks, the precise evidence limit and the remaining targeted test.
 
