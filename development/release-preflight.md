@@ -27,7 +27,11 @@ publication. Do not overwrite the frozen test builds.
 The package reader now normalizes CRLF to LF for the supported text formats
 and preserves binary and unknown formats byte-for-byte. All 38 shared tests
 pass, including the new normalization test. Both suites bundle the fix.
-An isolated final rebuild still needs comparison before closing this finding.
+The r4 exports were rebuilt in fresh temporary Git checkouts using only bundled
+sources. Complete two-way inventories and SHA-256 comparisons match the r4
+public builds: 188 Scoville files and 50 Ask files, with no missing, extra or
+different package files. This closes the package reproducibility finding.
+R3 evidence and frozen model-test builds remain unchanged.
 
 ## Workflow qualification
 
