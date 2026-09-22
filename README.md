@@ -51,8 +51,10 @@ sustained software development through a Plan. A small direct fix usually does
 not need this machinery.
 
 Workflow is available only as part of Scoville Suite, not from a separate
-repository. It requires Codex desktop and native task controls. Other suite
-Skills have their own host requirements.
+repository. It requires Codex desktop and native task controls. The other suite
+Skills should work with many Agent Skills-compatible hosts, subject to their
+individual requirements. Testing has been limited to Codex, Claude Code and
+Antigravity.
 
 ```mermaid
 flowchart TD
