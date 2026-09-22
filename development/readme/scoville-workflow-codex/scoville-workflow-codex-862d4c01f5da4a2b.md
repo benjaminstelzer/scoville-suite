@@ -2,6 +2,10 @@
 
 {{ var: release_notice }}
 
+Scoville Workflow supports structured, AI-assisted software development. It is
+built for extending and maintaining projects over time, including larger
+codebases. Fast vibe coding and throwaway prototyping are not its intended use.
+
 A long implementation task can leave one agent planning, coding, reviewing its
 own changes and remembering every earlier decision. The conversation grows,
 unfinished work becomes harder to track, and a confident summary can hide the
@@ -12,6 +16,14 @@ Codex project tasks. Workers implement, fresh reviewers check material changes,
 and one coordinator updates the Plan and commits accepted work. The suite's
 specialist Skills keep their own activation rules and responsibilities.
 
+Plan, Code and Workflow address different parts of that work. Plan preserves
+scope, decisions and progress. Code requires changes to respect the existing
+implementation and checks whether the requested behavior actually works.
+Workflow coordinates execution, independent review and continuation. Together,
+they support maintainable changes across a larger project without asking one
+conversation to carry its entire history. They do not replace engineering
+judgment or guarantee that a change is safe.
+
 The coordinator gives each worker a bounded assignment and selects its model
 and reasoning effort from the task's risk. The repository Plan holds progress
 and decisions, so continuation does not depend on retelling the conversation.
@@ -21,7 +33,8 @@ ownership keeps coordination and implementation from competing in the checkout.
 
 That separation costs tokens and time. Extra tasks need instructions, reviews
 repeat some inspection, and handoffs add coordination. Workflow is intended for
-sustained Plan execution. A small direct fix usually does not need this machinery.
+sustained software development through a Plan. A small direct fix usually does
+not need this machinery.
 
 Workflow is available only as part of Scoville Suite, not from a separate
 repository. It requires Codex desktop and native task controls. Other suite
