@@ -1213,6 +1213,7 @@
   "readme": [
     "development/readme/suite-intro.md",
     "shared:suite-descriptions.md",
+    "development/readme/suite-install.md",
     "development/readme/suite-development.md",
     "shared:suite-development-links.md"
   ],
