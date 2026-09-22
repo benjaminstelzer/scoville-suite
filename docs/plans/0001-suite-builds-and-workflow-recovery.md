@@ -390,6 +390,21 @@ Steps:
 Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus]
 Next action: Workflow-Luna-Ergebnisse unabhängig prüfen und verbleibende betroffene Fälle ausführen; anschließend Remote-Releases und Plan-Viewer-Provenienz vollständig prüfen.
 
+### W-029 Deferred after W-025: Release-Ablauf wiederverwendbar automatisieren
+
+Status: todo
+Depends on: [W-025]
+Blocked by: []
+Decisions: []
+Outcome: Ein gemeinsames Release-Script führt den belegten Suite-Ablauf mit überprüfbarer Wiederaufnahme aus; der GitHub-Skill nennt den genauen Aufruf.
+Acceptance: Tests belegen frische und unterbrochene Läufe ohne doppelte Veröffentlichung sowie Ablehnung geänderter Eingaben und fehlender Gates. Remote-Dateien und Plan-Viewer-Assets werden vor Bereinigung geprüft. Dokumentierte Befehle decken Start, Status, Wiederaufnahme und Fehlerfälle ab; gespeicherte Zustände ersetzen keine frische Remote-Prüfung oder Freigabe.
+Steps:
+1. Überführe den tatsächlich geprüften W-025-Ablauf in ../shared/build/ mit festen Eingaben für Quellen, Pakete, Versionen, Ziele, Autorisierung und Testbelege. Bewahre Versionshistorien und eigenständige Pakete.
+2. Implementiere nachvollziehbare Schritte für Buildprüfung, Veröffentlichung, Remote-Verifikation und nachgelagerte Release-Bereinigung. Speichere bestätigte Ergebnisse mit Eingabehashes; gleiche unbekannte Ergebnisse vor Wiederaufnahme mit GitHub ab. Bewahre fremde Drafts und operative Tags.
+3. Teste Unterbrechungen vor und nach externen Änderungen sowie fehlende Assets, Drift und mehrdeutige Remote-Ergebnisse ohne Live-Schreibzugriffe. Dokumentiere den belegten Aufruf und passe den kanonischen GitHub-Skill an; synchronisiere gemeinsame Suite-Kopien.
+Evidence: []
+Next action: Nach W-025 dessen verifizierte Release-Schritte und Eingaben für den gemeinsamen Ablauf übernehmen.
+
 ### W-026 Entwicklungslinks nach README-Ziel generieren
 
 Status: done
