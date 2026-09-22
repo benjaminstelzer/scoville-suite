@@ -19,15 +19,15 @@ Finding another family Skill does not make it available or applicable. Use each
 only for its own concern when active and available. Never require or simulate
 an absent sibling. An opt-out applies only to the excluded Skill.
 
-- `scoville-brainstorm`: deliberate divergence before selection.
-- `scoville-research`: source-backed research and synthesis.
 - `scoville-code-anti-ai-slop`: engineering scope, implementation, risk, and validation.
-- `scoville-design-anti-ai-slop`: visual definition, art direction, critique, and repair.
+- `scoville-plan`: durable Plans, Work Items, Decisions, and lifecycle state.
+- `scoville-scribe-anti-ai-slop`: wording, terminology, meaning, and source fidelity.
 - `scoville-ui-anti-ai-slop`: framework UI implementation, accessibility mechanics, and rendered proof.
 - `scoville-wordpress-ui-backend-anti-ai-slop`: WordPress plugin-owned wp-admin implementation and UI acceptance.
-- `scoville-scribe-anti-ai-slop`: wording, terminology, meaning, and source fidelity.
-- `scoville-plan`: durable Plans, Work Items, Decisions, and lifecycle state.
+- `scoville-design-anti-ai-slop`: visual definition, art direction, critique, and repair.
 - `scoville-handoff`: active-work transfer.
+- `scoville-research`: source-backed research and synthesis.
+- `scoville-brainstorm`: deliberate divergence before selection.
 - `scoville-workflow-for-codex`: explicit Plan execution through native Codex project tasks.
 
 ## Select the working mode and scope

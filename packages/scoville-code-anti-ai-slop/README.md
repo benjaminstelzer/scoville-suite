@@ -3,11 +3,38 @@
 A coding agent can finish the wrong thing quite thoroughly. The tests are green,
 the report sounds certain, but the behavior you asked for is still missing.
 
-Scoville Code keeps the requested outcome at the centre of engineering work.
-It asks the agent to find the code that owns the problem, make a proportionate
-change and check the behavior affected by it. A failing check needs a cause.
-Calling it pre-existing, or weakening the assertion until it passes, does not
-resolve it.
+Scoville Code is the engineering foundation of the suite. Before substantial
+editing, it requires the agent to establish what must work, which existing code
+owns that behavior, what the change could break and which check would expose
+that failure. Those answers guide the work. They are not another form to fill in.
+
+The rules require the agent to:
+
+- **Find the cause before patching the symptom.** Read the responsible code and
+  the relevant callers, contracts and tests. Expand the search only when the
+  evidence points elsewhere.
+- **Fix the existing implementation.** Keep behavior in its established owner
+  instead of adding a parallel path, speculative abstraction or unrelated
+  cleanup. Preserve the project's conventions and your unfinished changes.
+- **Test the claim, not just the code.** Choose a check that could reveal the
+  reported defect or the failure the change might introduce. A passing mock
+  does not prove an integration that the mock replaced.
+- **Investigate failures.** Do not call a failing test pre-existing without
+  evidence, or weaken its assertions to get green output. If two corrections
+  fail on the same underlying problem, reread the cause and change the approach.
+- **Report what was actually verified.** A successful build is not a working
+  user flow. Missing evidence stays visible, and required acceptance checks
+  remain open when they cannot run.
+
+The point is to connect the requested result, the implementation and the proof.
+Each constrains the next. That makes it harder to substitute plausible code,
+busywork or a confident completion message for the behavior you asked for.
+It also limits unnecessary work. Once the changed behavior and its material
+risks have decisive evidence, more searching and testing need a concrete reason.
+
+Reading the relevant code and checking the result can use more tokens and time
+than producing an immediate patch. The rules keep that cost tied to the actual
+change, rather than requiring a full audit for every edit.
 
 Use it for implementation, diagnosis, review and removal of code or engineering
 artifacts. It can investigate without editing. Small changes should stay small,
@@ -119,15 +146,15 @@ survives.
 Each Skill works independently. Combine only the concerns the task actually
 needs:
 
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
 - [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
 - [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
 - [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
 - [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## Sources
