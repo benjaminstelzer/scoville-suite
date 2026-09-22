@@ -26,7 +26,9 @@ including fallback-copy isolation. This changes test sources only.
 
 Seven historical changelog entries were restored from verified GitHub release
 notes. New member versions describe actual runtime changes. Scribe's runtime
-is unchanged and needs only a distribution/documentation push at v1.0.33.
+is unchanged. Its v1.0.34 records the user-requested distribution migration:
+standalone downloads exclude development files, which remain in the suite.
+This needs a new immutable tag so the current download follows that contract.
 No GitHub mutation has occurred at this checkpoint. Raw release evidence is in
 workspace `temp/2026-09-22-suite-release/`.
 
