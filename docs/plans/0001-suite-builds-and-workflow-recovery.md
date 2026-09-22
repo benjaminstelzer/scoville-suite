@@ -377,7 +377,7 @@ Evidence: [development/wordpress-suite-integration.md belegt Import sowie Build 
 
 Status: in_progress
 Depends on: []
-Blocked by: []
+Blocked by: [RELEASE-HISTORY]
 Decisions: [ADR-0009, ADR-0010]
 Outcome: Beide Suites und ihre Einzelpakete sind veröffentlicht; Workflow ist ausschließlich in der Suite als Beta verfügbar und Scoville Plan behält seine Viewer-Downloads.
 Acceptance: Finale Pakete erfüllen das Luna-Gate und entsprechen den Remote-Dateien. Beide Suite-Quellen bauen ohne privaten Nachbarordner. Je autorisiertem Releaseziel verbleiben ein aktuelles Release und ein Release-Versionstag; operative Tags bleiben erhalten. Plan-Viewer-Assets entsprechen Buildmatrix und README mit belegter Herkunft und Hashes. Profil und Installationslinks zeigen auf erreichbare Ziele. Fehlende Nachfolger verhindern Bereinigung.
@@ -387,8 +387,8 @@ Steps:
 3. Prüfe die Live-Releases und Tags aller autorisierten Ziele. Wende die GitHub-Verträge references/release-and-publication.md und references/suite-build-publication.md an. Prüfe Plan-Viewer-Assets gegen Buildmatrix, README, Herkunft und SHA-256.
 4. Veröffentliche die beiden Suites und 14 Einzelpakete ohne separates Workflow-Repo. Bewahre Historien, benenne das WordPress-Ziel wie autorisiert um und prüfe komplette Remote-Bestände. Verifiziere neue Releases und Asset-Nachfolger vor dem Entfernen abgedeckter älterer Releases und Release-Versionstags.
 5. Veröffentliche E:/Dropbox/AI Projects/projects/BenjaminStelzer/README.md mit Scoville oben und Ask darunter; prüfe finale Installationslinks, Topics, Releases und Tags. Historische Belege bleiben unverändert.
-Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus]
-Next action: Workflow-Luna-Ergebnisse unabhängig prüfen und verbleibende betroffene Fälle ausführen; anschließend Remote-Releases und Plan-Viewer-Provenienz vollständig prüfen.
+Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus, development/release-preflight.md belegt Workflow und WordPress sowie Handoff/UI; Code-Nachtest besteht; Design-Nachtest und Plan-Gate laufen, Isolierte r4-Builds liefern 238 bytegleiche Paketdateien; 38 gemeinsame Tests bestehen; Viewer-Dateien entsprechen elf CI-Artefakten, RELEASE-HISTORY: Entscheidung zum Nachtragen sieben belegter veröffentlichter Versionen angefragt; keine Remote-Mutation]
+Next action: Design-Nachtest 24/06 und Plan-Fälle 13/19/25 unabhängig prüfen; vor Veröffentlichung Entscheidung RELEASE-HISTORY einholen und finale Pakete samt Evidenzzuordnung erstellen.
 
 ### W-029 Deferred after W-025: Release-Ablauf wiederverwendbar automatisieren
 
