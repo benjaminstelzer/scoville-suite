@@ -39,6 +39,38 @@ class RolloverReadinessTests(unittest.TestCase):
         request['listing']['threads'][0]['id'] = 'wrong'
         self.assertFalse(lc.run(request)['may_archive_predecessor'])
 
+    def test_active_exact_successor_can_replace_missing_list_entry(self):
+        request = self.request()
+        request['exact_successor']['status'] = 'active'
+        result = lc.run(request)
+        self.assertEqual([], result['archive_blockers'])
+        self.assertFalse(result['retain_predecessor'])
+        self.assertEqual(dict(threadId='old', hostId='local', archived=True), result['archive_arguments'])
+        for status in ('idle', 'notLoaded', 'failed', 'needsAttention', None):
+            request['exact_successor']['status'] = status
+            with self.subTest(status=status):
+                self.assertFalse(lc.run(request)['may_archive_predecessor'])
+
+    def test_active_successor_does_not_bypass_other_archive_proofs(self):
+        base = self.request()
+        base['exact_successor']['status'] = 'active'
+        for change in ({'status_retained': False},
+                       {'listing': dict(threads=[], pinnedThreads=[], sections=[], unavailableHosts=['local'])},
+                       {'listing': dict(threads=[], pinnedThreads=[], sections=[], unavailableSources=['codex'])},
+                       {'listing': dict(threads=[], pinnedThreads=[], sections=[{}])},
+                       {'listing': dict(threads=[])}):
+            with self.subTest(change=change):
+                self.assertFalse(lc.run(base | change)['may_archive_predecessor'])
+        for section, key, value in (('exact_successor', 'hostId', 'other'),
+                                    ('exact_successor', 'threadId', 'other'),
+                                    ('exact_successor', 'reachable', False),
+                                    ('guard', 'coordinator_id', 'old'),
+                                    ('predecessor_turn', 'status', 'active')):
+            request = copy.deepcopy(base)
+            request[section][key] = value
+            with self.subTest(section=section, key=key), self.assertRaises(ValueError):
+                lc.run(request)
+
     def test_deferred_archive_rechecks_fresh_proof_and_verifies_target(self):
         initial = self.request()
         deferred = lc.run(initial)
@@ -89,7 +121,9 @@ class RolloverReadinessTests(unittest.TestCase):
         for listing in (dict(threads=[entry]),
                         dict(threads=[entry], pinnedThreads=[entry], sections=[]),
                         dict(threads=[entry], pinnedThreads=[], sections=[dict(itemKeys=['codex:thread:local:new'])])):
-            result = lc.run(self.request() | {'listing': listing})
+            request = self.request() | {'listing': listing}
+            request['exact_successor']['status'] = 'active'
+            result = lc.run(request)
             self.assertTrue(result['may_continue'])
             self.assertFalse(result['may_archive_predecessor'])
 
@@ -121,6 +155,15 @@ class RolloverReadinessTests(unittest.TestCase):
         self.assertEqual([], result['archive_arguments'])
         self.assertEqual(['new'], [h['threadId'] for h in result['pending_predecessors']])
         self.assertTrue(result['may_continue'])
+
+    def test_recovery_archives_chain_when_active_successor_is_omitted(self):
+        request = self.recovery_request()
+        request['listing']['threads'] = []
+        request['exact_successor']['status'] = 'active'
+        result = lc.run(request)
+        self.assertEqual(['old', 'new'], [a['threadId'] for a in result['archive_arguments']])
+        request['archive_receipts'] = [dict(threadId='old', hostId='local', reply=dict(threadId='old', archived=True))]
+        self.assertEqual(['new'], [a['threadId'] for a in lc.run(request)['archive_arguments']])
 
     def test_recovery_rejects_broken_chain_and_wrong_receipts(self):
         base = self.recovery_request()

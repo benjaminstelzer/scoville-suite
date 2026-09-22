@@ -91,8 +91,33 @@ contexts identify Luna Medium. Original failure evidence remains unchanged.
 Live release notes exist without matching local changelog headings for
 Brainstorm v1.1.13, Code v1.0.33, Handoff v2.0.16, Research v1.1.10,
 Scribe v1.0.33, UI v1.2.8 and WordPress v1.2.9. Their release bodies describe
-functional changes. Publication needs an explicit migration choice before
-reconciling these histories. No existing tag has been changed or removed.
+functional changes. On 2026-09-22 the user authorized restoring verified entries
+only when useful to users; omit housekeeping. RELEASE-HISTORY is resolved as a
+decision, not as completed reconciliation. Restore relevant behavior, routing,
+compatibility and limitation changes from the release bodies. Existing tags
+remain unchanged; version reconciliation is still required before publication.
+
+## Rollover archive correction
+
+DIVI5 G30 retained G27-G29 with `successor_not_listed`, although its exact-ID
+host read reported `active` and the predecessor activation turn was complete.
+The shared helper now accepts that fresh native active status as an alternative
+to exact list membership. Guard, identity, completed-turn, placement and retained
+status checks still apply. Unavailable listing sources also defer archival.
+
+Two regression cases failed before the code change and pass afterward. All 11
+rollover, 38 shared, 21 Scoville build and 8 Ask build tests pass. Both suites
+bundle the changed shared source. Local packages were built under
+`skills/public/rollover-fix-2026-09-22/`; only the three affected Workflow files
+were installed into Codex, with previous files retained in
+`state/2026-09-22-rollover-fix/` and installed hashes checked against the build.
+G30 received a safe-boundary recovery instruction using its existing chain.
+No DIVI5 guard or project files were changed by this task.
+
+Earlier Workflow Luna results do not qualify the changed rollover instructions.
+Before publication, rerun the affected rollover cases plus a missing-list,
+exact-active case against the final package under the existing SOL/Luna gate.
+The deterministic tests above are not a new model-comprehension result.
 
 ## Handoff and UI qualification
 

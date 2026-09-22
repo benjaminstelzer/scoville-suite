@@ -108,14 +108,13 @@ Perform this sequence once:
    The successor calls `list_threads` without moving itself between sidebar
    sections and follows [rollover_readiness](../scripts/rollover_readiness.md) with
    the fresh verified guard, exact reachability and completed-turn evidence.
-   For archival only, require
-   `threads` to contain that same task ID and host ID and require
-   `pinnedThreads` not to contain it. Derive its exact section item key as
-   `codex:thread:<hostId>:<taskId>` and require every `sections[].itemKeys` list
-   to omit that key. Only these checks together prove that the successor is
-   unarchived, visible in the normal task list, unpinned, and outside custom
-   sections. It posts or retains the current user-facing phase or blocker.
-   If these visibility checks are incomplete but exact reachability, active
+   Include `exact_successor.status` from the fresh host read's
+   `thread.status.type`. The helper accepts either exact ID/host listing or
+   that native `active` status; list omission alone does not block archival.
+   Both paths retain placement, availability, handoff and status-reporting
+   checks defined in the helper contract. Do not infer host status from the guard.
+   Post or retain the current user-facing phase or blocker.
+   If the archive proofs are incomplete but exact reachability, active
    guard identity/generation and predecessor completion are confirmed, continue
    ordinary guarded Plan selection without archiving either coordinator. Retain
    the helper's `archive_record` and `archive_blockers` as an open handoff
@@ -128,7 +127,7 @@ Perform this sequence once:
    to the next coordinator; at scope completion report
    any remaining predecessor IDs and blockers. Never poll for visibility.
    Never create another successor or infer visibility from a title prefix.
-   Only after visibility and completion proofs does the successor call
+   Only after the helper permits archival does the successor call
    `set_thread_archived` for the exact predecessor task ID and require the
    response to prove that same predecessor ID has `archived: true`. The
    predecessor never calls archival on itself. A wait tool error, terminal
@@ -159,8 +158,8 @@ same transition key; an unknown create outcome never creates a second successor.
 | Ready successor not yet validated or transferred | Both remain read-only for handoff; predecessor stays visible |
 | Ready successor completed validation checks | Successor validates and ends; predecessor confirms its exact completed turn and reconciles the same validated guard even if acknowledgement delivery failed |
 | Guard is `rollover_validated` and predecessor is awake | Predecessor transfers the guard and sends same-key activation; it never self-archives |
-| Activated visible successor sees predecessor turn completion | Successor alone archives that exact predecessor and requires same-ID `archived: true` before selection or dispatch |
+| Activated successor is listed or exact-read active and sees predecessor turn completion | After the helper permits archival, successor alone archives that exact predecessor and requires same-ID `archived: true` before selection or dispatch |
 | Transfer succeeded but activation delivery failed | Keep both tasks unarchived; predecessor visibly reports the blocker without Plan or project writes and reconciles only the same-key activation |
-| Successor list visibility is unproven but exact reachability and predecessor completion are proven under the active guard | Continue guarded selection; retain predecessor open; create no replacement coordinator |
+| Successor is neither listed nor exact-read active but reachability and predecessor completion are proven under the active guard | Continue guarded selection; retain predecessor open; create no replacement coordinator |
 | Successor exact reachability or predecessor completion is unproven | Archive neither task; preserve the guard and report the exact blocker |
 | Scope complete, Plan complete, or Stop | Create no successor |
