@@ -71,7 +71,7 @@ Routes select reference reading, not permission to execute. Apply in order:
    needs only this core.
 2. Combine the table's routes for currently authorized work. An unblocked
    Develop request includes implementation and focused acceptance evidence:
-   select Change and Validation. Pure classification selects no table route.
+   select Change and Validation. Classification-only uses the last row.
 3. Classify the current operation using Risk state. Structural or High always
    adds Change to the selected references, even when implementation inspection
    and edits are forbidden. This risk override applies after the table.
@@ -92,7 +92,7 @@ Read this core before references. Step 2 uses this table:
 | Create or change plan/Decision representation, lifecycle or sequencing; coordinate several dependent outcomes with material interruption risk; prepare a durable handoff; or resolve a material choice still open after inspection | Planning |
 | Explore or change code, locate ownership or root cause, or review an implementation or patch | Change |
 | Choose, run or interpret checks; judge actual test, validation or completion evidence; or select the next evidence action after repeated failure | Validation |
-| Only classify described future work or mention a later operation without performing or judging it | No additional route |
+| Only classify described future work or mention a later operation without performing or judging it | Normal: no additional route. Structural or High: Change. |
 
 Combine rows only when the current operation performs both. An explicit
 ownership contract that resolves a bounded implementation choice and a bounded
