@@ -90,6 +90,10 @@ The tester is exactly `gpt-5.6-luna`, reasoning `medium`.
 - From the Design04 repair onward, discovery-only cases replace the generic
   application/READ suffix with `codex-discovery-transport-v6.md`. Do not use
   this suffix for application cases.
+- For new application prompts, specify the READ path base without supplying
+  reference names or routing hints: requested paths are relative to the Skill
+  package root, while Markdown links resolve relative to the file containing
+  them. Freeze this instruction with the prompt. Do not rewrite older runs.
 - Never include keys, grader comments, earlier answers or unrelated Skills.
   Save the exact UTF-8 prompt bytes and their SHA256 before execution.
 - For Ask single25, R15 supplies the manifested root `config.default.json`
