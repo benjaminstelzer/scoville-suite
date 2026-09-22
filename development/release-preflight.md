@@ -6,8 +6,16 @@ current-source package checks passed. Source-only export changes after those
 builds leave all installable package bytes unchanged.
 
 Full source exports, including shared development sources and all packages,
-are under workspace `temp/2026-09-22-suite-release/r2/`. Both pass isolated
-`--check-sources` without the private sibling shared directory.
+are under workspace `temp/2026-09-22-suite-release/r3/`. Both pass isolated
+`--check-sources` without the private sibling shared directory. Scoville's 634
+tracked files and Ask's 150 match their source Git blobs exactly. The exports
+identify commits `a3e6789` and `355845e`, respectively. Later documentation
+commits require a fresh final export.
+
+The export now reads Git blobs in one batch. The previous worktree read could
+export different line endings despite a clean Git status. A regression test
+reproduced that failure and passes with the fix. Portable-source verification
+also passes. Both frozen test builds still pass current-source package checks.
 
 ## Workflow qualification
 
@@ -34,6 +42,20 @@ The four existing Ask repositories still have the exact default-branch commits
 recorded as their `import_commit` in `ask-suite-for-codex/suite.json`.
 The live GitHub check found no later upstream changes to reconcile. The new
 SOL single-adviser distribution has no existing history to compare.
+
+## WordPress qualification
+
+All five fixed cases passed protocol checks and SOL's semantic review against
+the frozen keys. The author independently read every answer and agrees.
+Native records confirm Luna Medium for all ten turns, with no process,
+stderr, timeout or stream failure. Raw evidence remains under workspace
+`temp/2026-09-22-release-wordpress-luna/`.
+
+The spacing case rejects an arbitrary scale, an unnecessary React migration
+and plugin-defined WPDS tokens while preserving Core spacing ownership. The
+other cases cover hybrid gaps, hidden fields, focus recovery, portals, i18n,
+version boundaries and excluded surfaces. These are comprehension results,
+not proof of a rendered WordPress implementation.
 
 ## Plan Viewer
 
