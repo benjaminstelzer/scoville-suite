@@ -28,17 +28,37 @@ def export(root, output):
     if any(not m['public_distribution'] for m in config['members']):
         raise ValueError('Full suite export requires approval for every member')
     files = {}
+    sources = []
     for entry in git(root, 'ls-files', '--stage', '-z').split(b'\0'):
         if not entry:
             continue
         metadata, path = entry.split(b'\t', 1)
-        mode, _, stage = metadata.decode().split()
+        mode, object_id, stage = metadata.decode().split()
         name = path.decode('utf-8')
         if mode not in ('100644', '100755') or stage != '0':
             raise ValueError('Unsupported source entry: ' + name)
         if name.startswith('packages/'):
             raise ValueError('Source checkout must not own generated packages')
-        files[name] = within(root, name).read_bytes()
+        within(root, name)
+        sources.append((name, object_id))
+    objects = subprocess.run(
+        ['git', '-C', str(root), 'cat-file', '--batch'],
+        input=''.join(object_id + '\n' for _, object_id in sources).encode(),
+        check=True, capture_output=True).stdout
+    offset = 0
+    for name, object_id in sources:
+        header_end = objects.index(b'\n', offset)
+        actual_id, kind, size = objects[offset:header_end].decode().split()
+        if actual_id != object_id or kind != 'blob':
+            raise ValueError('Unexpected source object: ' + name)
+        start = header_end + 1
+        end = start + int(size)
+        if objects[end:end + 1] != b'\n':
+            raise ValueError('Incomplete source object: ' + name)
+        files[name] = objects[start:end]
+        offset = end + 1
+    if offset != len(objects):
+        raise ValueError('Unexpected trailing source objects')
     for member in config['members']:
         for relative, data in payload(root, member).items():
             files['packages/' + member['name'] + '/' + relative] = data
