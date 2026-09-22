@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="3552" height="2552" viewBox="0 0 3552 2552"><title>Icon form and surrounding treatment: controlled sewing-label comparison</title><desc>A retains original tiles. B removes only pill backgrounds and orange accents. C replaces only icon drawings while retaining original treatment. Compare A with B and A with C; no automatic winner.</desc><rect width="3552" height="2552" fill="#ffffff" /><text x="48" y="66" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#173C3B">ICON FORM / SURROUNDING TREATMENT</text><text x="48" y="114" font-family="Arial, sans-serif" font-size="30" font-weight="400" fill="#173C3B">Same six labels. Unchanged typography and tile geometry. Original tiles regrouped into comparison rows.</text><text x="48" y="195" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#173C3B">A  ORIGINAL</text><text x="48" y="237" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#173C3B">Original drawings, pill backgrounds and orange accents.</text><g id="A-label-1" transform="translate(48 280)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M65 25v50m30-50v50M65 130v55m30-55v55" /><path d="M73 25h14m-14 18h14m-14 18h14m-14 86h14m-14 18h14m-14 18h14" /><rect x="62" y="76" width="36" height="53" rx="9" /><path d="M80 88v24" /></g>
+ <path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="A-title-1" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">REISSVERSCHLÜSSE</text>
+ <text id="A-note-1" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">20-40 cm</text>
+ </g>
+<g id="A-label-2" transform="translate(48 640)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M43 42h74M43 167h74M53 43v123m54-123v123M56 63l48 17m-48 8 48 17m-48 8 48 17m-48 8 48 17" /><path d="M107 143c33 0 23 45 44 40" /></g>
+ <path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="A-title-2" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">NÄHGARN</text>
+ <text id="A-note-2" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Nach Farbe ordnen</text>
+ </g>
+<g id="A-label-3" transform="translate(48 1000)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M29 67l81-24 27 104-81 24z" /><path d="M38 39l81 20-26 105-81-20z" fill="#FBF8EE" /><path d="M47 55l50 12-18 79-50-12z" stroke-dasharray="3 10" stroke-width="3" /></g>
+ <path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="A-title-3" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">STOFFRESTE</text>
+ <text id="A-note-3" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Baumwolle und Leinen</text>
+ </g>
+<g id="A-label-4" transform="translate(48 1360)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M69 25h22v64H69z" /><path d="M74 89v91l6 18 6-18V89" /><path d="M80 158v18" stroke-width="3" /><path d="M38 41v53m0 0v76m87-103v45m0 0v69" /></g>
+ <path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="A-title-4" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">MASCHINENNADELN</text>
+ <text id="A-note-4" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Stärken 70-100</text>
+ </g>
+<g id="A-label-5" transform="translate(48 1720)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><ellipse cx="80" cy="83" rx="57" ry="30" /><path d="M23 83v56c0 17 25 30 57 30s57-13 57-30V83" /><path d="M38 127c21 16 63 16 84 0" stroke-dasharray="3 10" stroke-width="3" /></g>
+ <path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="A-title-5" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">GUMMIBÄNDER</text>
+ <text id="A-note-5" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">10-25 mm</text>
+ </g>
+<g id="A-label-6" transform="translate(48 2080)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><ellipse cx="40" cy="152" rx="22" ry="29" transform="rotate(-30 40 152)" /><ellipse cx="120" cy="152" rx="22" ry="29" transform="rotate(30 120 152)" /><path d="m52 128 61-98c12 47-12 73-34 86m29 12L47 30c-12 47 12 73 34 86" /><circle cx="80" cy="108" r="5" fill="#173C3B" stroke="none" /></g>
+ <path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="A-title-6" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">SCHNEIDERSCHEREN</text>
+ <text id="A-note-6" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Nur für Stoff</text>
+ </g>
+<text x="1216" y="195" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#173C3B">B  TREATMENT ONLY</text><text x="1216" y="237" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#173C3B">Same drawings; only pill backgrounds and orange accents removed.</text><g id="B-label-1" transform="translate(1216 280)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M65 25v50m30-50v50M65 130v55m30-55v55" /><path d="M73 25h14m-14 18h14m-14 18h14m-14 86h14m-14 18h14m-14 18h14" /><rect x="62" y="76" width="36" height="53" rx="9" /><path d="M80 88v24" /></g>
+ <text id="B-title-1" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">REISSVERSCHLÜSSE</text>
+ <text id="B-note-1" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">20-40 cm</text>
+ </g>
+<g id="B-label-2" transform="translate(1216 640)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M43 42h74M43 167h74M53 43v123m54-123v123M56 63l48 17m-48 8 48 17m-48 8 48 17m-48 8 48 17" /><path d="M107 143c33 0 23 45 44 40" /></g>
+ <text id="B-title-2" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">NÄHGARN</text>
+ <text id="B-note-2" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Nach Farbe ordnen</text>
+ </g>
+<g id="B-label-3" transform="translate(1216 1000)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M29 67l81-24 27 104-81 24z" /><path d="M38 39l81 20-26 105-81-20z" fill="#FBF8EE" /><path d="M47 55l50 12-18 79-50-12z" stroke-dasharray="3 10" stroke-width="3" /></g>
+ <text id="B-title-3" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">STOFFRESTE</text>
+ <text id="B-note-3" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Baumwolle und Leinen</text>
+ </g>
+<g id="B-label-4" transform="translate(1216 1360)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M69 25h22v64H69z" /><path d="M74 89v91l6 18 6-18V89" /><path d="M80 158v18" stroke-width="3" /><path d="M38 41v53m0 0v76m87-103v45m0 0v69" /></g>
+ <text id="B-title-4" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">MASCHINENNADELN</text>
+ <text id="B-note-4" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Stärken 70-100</text>
+ </g>
+<g id="B-label-5" transform="translate(1216 1720)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><ellipse cx="80" cy="83" rx="57" ry="30" /><path d="M23 83v56c0 17 25 30 57 30s57-13 57-30V83" /><path d="M38 127c21 16 63 16 84 0" stroke-dasharray="3 10" stroke-width="3" /></g>
+ <text id="B-title-5" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">GUMMIBÄNDER</text>
+ <text id="B-note-5" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">10-25 mm</text>
+ </g>
+<g id="B-label-6" transform="translate(1216 2080)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><ellipse cx="40" cy="152" rx="22" ry="29" transform="rotate(-30 40 152)" /><ellipse cx="120" cy="152" rx="22" ry="29" transform="rotate(30 120 152)" /><path d="m52 128 61-98c12 47-12 73-34 86m29 12L47 30c-12 47 12 73 34 86" /><circle cx="80" cy="108" r="5" fill="#173C3B" stroke="none" /></g>
+ <text id="B-title-6" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">SCHNEIDERSCHEREN</text>
+ <text id="B-note-6" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Nur für Stoff</text>
+ </g>
+<text x="2384" y="195" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#173C3B">C  DRAWING ONLY</text><text x="2384" y="237" font-family="Arial, sans-serif" font-size="27" font-weight="400" fill="#173C3B">Revised drawings; original backgrounds and accents retained.</text><g id="C-label-1" transform="translate(2384 280)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M58 30v64m44-64v64M58 135v47m44-47v47" /><path d="M65 36h11m8 12h11M65 60h11m8 12h11M65 84h11M65 147h11m8 12h11M65 171h11" /><rect x="61" y="94" width="38" height="40" rx="7" /><path d="M80 105v18" /></g><path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="C-title-1" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">REISSVERSCHLÜSSE</text>
+ <text id="C-note-1" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">20-40 cm</text>
+ </g>
+<g id="C-label-2" transform="translate(2384 640)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><rect x="39" y="43" width="82" height="16" rx="5" /><rect x="39" y="153" width="82" height="16" rx="5" /><path d="M49 59v94m62-94v94M50 70l60 18m-60 0 60 18m-60 0 60 18m-60 0 60 18" /><path d="M112 144c22 0 17 26 29 26" /></g><path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="C-title-2" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">NÄHGARN</text>
+ <text id="C-note-2" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Nach Farbe ordnen</text>
+ </g>
+<g id="C-label-3" transform="translate(2384 1000)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M53 38l69 16-23 112-69-16z" fill="#FBF8EE" /><path d="M27 60l74 12-18 108-74-12z" fill="#FBF8EE" /><path d="M40 76l45 8-12 78-45-8z" stroke-dasharray="5 9" /></g><path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="C-title-3" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">STOFFRESTE</text>
+ <text id="C-note-3" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Baumwolle und Leinen</text>
+ </g>
+<g id="C-label-4" transform="translate(2384 1360)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M66 29h28v64H66z" /><path d="M73 93v71l7 20 7-20V93" /><path d="M80 146v14" /></g><path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="C-title-4" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">MASCHINENNADELN</text>
+ <text id="C-note-4" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Stärken 70-100</text>
+ </g>
+<g id="C-label-5" transform="translate(2384 1720)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><g transform="rotate(-18 80 106)"><rect x="24" y="62" width="112" height="88" rx="40" /><rect x="38" y="77" width="84" height="58" rx="27" /></g></g><path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="C-title-5" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">GUMMIBÄNDER</text>
+ <text id="C-note-5" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">10-25 mm</text>
+ </g>
+<g id="C-label-6" transform="translate(2384 2080)">
+ <rect width="1120" height="336" rx="5" fill="#FBF8EE" stroke="#173C3B" stroke-width="2" />
+ <path d="M0 0h16v336H0z" fill="#173C3B" />
+ <rect x="46" y="52" width="180" height="232" rx="90" fill="#EAE6D7" />
+ <g transform="translate(56 62)" stroke="#173C3B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"><ellipse cx="42" cy="157" rx="23" ry="28" transform="rotate(-18 42 157)" /><ellipse cx="118" cy="157" rx="20" ry="25" transform="rotate(18 118 157)" /><path d="M55 132L114 34l-18 71-27 40M105 135L44 34l19 71 28 38" /><circle cx="80" cy="110" r="5" fill="#173C3B" stroke="none" /></g><path d="M270 83h56" stroke="#B26A32" stroke-width="7" />
+ <text id="C-title-6" x="270" y="162" font-family="Arial, sans-serif" font-size="55" font-weight="700" letter-spacing="0.2" fill="#173C3B">SCHNEIDERSCHEREN</text>
+ <text id="C-note-6" x="272" y="223" font-family="Arial, sans-serif" font-size="34" fill="#173C3B">Nur für Stoff</text>
+ </g>
+<text x="48" y="2470" font-family="Arial, sans-serif" font-size="30" font-weight="400" fill="#173C3B">A–B isolates the combined surrounding treatment. A–C isolates drawing. B–C changes both.</text><text x="48" y="2514" font-family="Arial, sans-serif" font-size="30" font-weight="400" fill="#173C3B">Candidates for judgment, not a ranking. Fewer elements, ellipses or orange are not inherently better or worse.</text></svg>

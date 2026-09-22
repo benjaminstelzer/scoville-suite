@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "scope": "bounded teaching assets; values are example-specific",
+  "entries": [
+    {
+      "id": "repeated-card-span",
+      "source": "repeated-card-span.svg",
+      "render": "repeated-card-span.png",
+      "source_sha256": "dd8285f113deac0778ed7608eb6f3edd0b877d9a500adc67f21e8f42995254aa",
+      "render_sha256": "8c9413c68c32ae9db24c82f18d6dc4abe00e12b80606692b43211272299180ff",
+      "viewport": [
+        640,
+        400
+      ],
+      "review": "native-image-view-2026-09-07"
+    },
+    {
+      "id": "type-role-map",
+      "source": "type-role-map.svg",
+      "render": "type-role-map.png",
+      "source_sha256": "6ffa43d30d04ace4771622dd9260dcd0d073948a454f68f0ec75f2c50470975c",
+      "render_sha256": "f9cf0e78e670fe1d502bd63b3a0890c230d8ba37648e0c125579a1205ec53349",
+      "viewport": [
+        640,
+        400
+      ],
+      "review": "native-image-view-2026-09-07"
+    },
+    {
+      "id": "longest-content-fit",
+      "source": "longest-content-fit.svg",
+      "render": "longest-content-fit.png",
+      "source_sha256": "e54878b3a321416a0fbfd70d250be3942e9e213c57718f000e8cfe02ab54752c",
+      "render_sha256": "eb953e64d54c2f8b456ee2bfe1028e3aac09a7ce6431437c4485fb1ac06b68bf",
+      "viewport": [
+        640,
+        400
+      ],
+      "review": "native-image-view-2026-09-07"
+    },
+    {
+      "id": "optical-correction",
+      "source": "optical-correction.svg",
+      "render": "optical-correction.png",
+      "source_sha256": "45927074c3dd490fe7678d4473c9baea8cbf93c39cf566aec1725e271fb51c00",
+      "render_sha256": "6f322b03f93fcdd7af5134fc3a3cf8c4da0c8981714e8ffb2a8bf35e76044afc",
+      "viewport": [
+        640,
+        400
+      ],
+      "review": "native-image-view-2026-09-07"
+    },
+    {
+      "id": "intentional-asymmetry",
+      "source": "intentional-asymmetry.svg",
+      "render": "intentional-asymmetry.png",
+      "source_sha256": "494b6af68adb5939a20ee3c7910b0f409a43639141590f4253e5b5385bd3dbaa",
+      "render_sha256": "c0b5ece9a21b81a8af545fd9e3a75b922f51e7e0c1bf3068f1bbe8e7d0379d52",
+      "viewport": [
+        640,
+        400
+      ],
+      "review": "native-image-view-2026-09-07"
+    },
+    {
+      "id": "decoration-control",
+      "source": "decoration-control.svg",
+      "render": "decoration-control.png",
+      "source_sha256": "feb7cb8425572c6d6c962bd536335c491325bbcd06d44db96065fe52e8ed2260",
+      "render_sha256": "1067a35e95f500a2101ac48770ef8d2cf2e52615852e6ef76e3cc3bc7fb8ee50",
+      "viewport": [
+        640,
+        400
+      ],
+      "review": "native-image-view-2026-09-07"
+    }
+  ]
+}
