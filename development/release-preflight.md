@@ -31,6 +31,7 @@ macOS Intel and Apple Silicon at source commit
 `66de550e726612589295f018a628c98cf7302498`.
 
 The candidate Viewer has the same 60-file inventory as that commit. Git blob
-comparison differs only for `development/viewer/README.md`. Direct comparison
-with downloaded CI artifacts remains pending. No binary execution or new
-release is claimed. Old assets and releases are unchanged.
+comparison differs only for `development/viewer/README.md`. All eleven release
+files are byte-identical to the corresponding successful CI artifacts. This
+supports reusing the unchanged Viewer without renaming or rebuilding it.
+No binary execution or new release is claimed. Old assets and releases are unchanged.
