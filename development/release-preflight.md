@@ -100,13 +100,26 @@ SOL accepted Handoff 06, 09, 15 and 25 and UI 01, 04, 08 and 17.
 The author read these eight answers against the fixed keys and agrees.
 Handoff preserves unknowns, source-recovery limits, secret redaction and the
 size-conflict boundary. UI preserves specialist ownership and evidence limits.
-UI 25 is still pending. Native execution and final package-byte checks remain
-separate acceptance steps. Raw runs are under workspace
+UI 25 also passes SOL and independent author review. It preserves Design and
+component ownership, rejects global overrides and retains missing rendered
+proof. Raw runs are under workspace
 `temp/2026-09-22-release-handoff-ui-luna/`.
 
-Independent native-record inspection confirms Luna Medium for all 13 turns in
-those eight runs. Every turn has a successful process/protocol result without
-stderr, timeout or stream failure. UI 25 and final package-byte checks remain open.
+Independent native-record inspection confirms Luna Medium for all 16 turns in
+the nine runs. Every turn has a successful process/protocol result without
+stderr, timeout or stream failure.
+
+Two-way runtime inventories and SHA-256 comparisons against r5 show no changes
+from the tested release build for Handoff's four files, UI's six, WordPress's
+fifteen and Workflow's twenty-eight. This supports carrying their test results
+to r5. It does not cover changed Code or Plan instructions.
+
+## Distribution boundaries
+
+The exact receipt checks and distribution-layout checks pass for all fifteen
+packages in Scoville r5 and Ask r4. No development directory is included in
+those standalone distribution trees. Full suite source exports intentionally
+retain development material outside their installable packages.
 
 ## Frontmatter validation
 
