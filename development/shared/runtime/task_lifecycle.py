@@ -193,7 +193,7 @@ def rollover_record(request):
 
 
 def rollover_readiness(request):
-    """Separate guarded continuation from predecessor archive visibility proof."""
+    """Require a listed or exact-read active successor before predecessor archive."""
     archive_record = rollover_record(request)
     successor, predecessor = request['successor'], request['predecessor']
     successor_id, predecessor_id = ready(successor), ready(predecessor)
@@ -211,13 +211,17 @@ def rollover_readiness(request):
     def matches(entry):
         return entry.get('id') == successor_id and entry.get('hostId') == successor['hostId'] and entry.get('kind') == 'codex'
     visible = any(matches(entry) for entry in listing.get('threads', []))
+    active_exact = reachable.get('status') == 'active'
     pinned = any(matches(entry) for entry in listing.get('pinnedThreads', []))
     key = 'codex:thread:' + successor['hostId'] + ':' + successor_id
     sectioned = any(key in section.get('itemKeys', []) for section in listing.get('sections', []))
     complete_listing = all(isinstance(listing.get(key), list) for key in ('threads', 'pinnedThreads', 'sections'))
+    complete_listing = complete_listing and all(isinstance(section.get('itemKeys'), list)
+                                               for section in listing.get('sections', []))
+    complete_listing = complete_listing and not (listing.get('unavailableHosts') or listing.get('unavailableSources'))
     archive_blockers = []
     for condition, reason in ((not complete_listing, 'listing_incomplete'),
-                              (not visible, 'successor_not_listed'),
+                              (not visible and not active_exact, 'successor_not_listed'),
                               (pinned, 'successor_pinned'), (sectioned, 'successor_sectioned'),
                               (request.get('status_retained') is not True, 'status_not_retained')):
         if condition:
