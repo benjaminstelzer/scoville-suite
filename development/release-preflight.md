@@ -1,5 +1,37 @@
 # Release preflight
 
+## Final candidate, 2026-09-22
+
+R8 public packages identify clean commits `50ca2bc` (Scoville) and `1e632b1`
+(Ask). Exact receipt, distribution-layout and current-source checks pass for
+all fifteen packages. Isolated full-source exports reproduce every member's
+inventory and hashes without the private shared sibling.
+
+Runtime mapping to accepted tests is exact for Code (r4), Design (r6), Plan
+(r5), Handoff/UI/WordPress (initial release build), Research/Scribe (R13), and
+Workflow (rollover-fix r2). Brainstorm's only difference from R13 is normalized
+line endings in `agents/openai.yaml`, verified against its frozen hash.
+
+Ask maps to the accepted R13/R14/R15 evidence with three bounded differences:
+the user-exempted Astra High defaults, verified CRLF-to-LF normalization, and
+the shared helper's Workflow-only `rollover_readiness` fix. AST comparison
+confirms all other helper functions unchanged. The unchanged Ask lifecycle
+contract and accepted consultation cases remain applicable. The Workflow fix
+has its separate accepted Luna regression in `luna-tests/workflow-archive-results.md`.
+
+Current checks pass: 38 shared tests, 23 Scoville build tests, 8 Ask suite tests
+and 72 isolated Ask member tests. Two retained Astra tests initially expected
+the obsolete Extra High default. They now check the user's High requirement,
+including fallback-copy isolation. This changes test sources only.
+
+Seven historical changelog entries were restored from verified GitHub release
+notes. New member versions describe actual runtime changes. Scribe's runtime
+is unchanged and needs only a distribution/documentation push at v1.0.33.
+No GitHub mutation has occurred at this checkpoint. Raw release evidence is in
+workspace `temp/2026-09-22-suite-release/`.
+
+The following sections retain the earlier preflight sequence and findings.
+
 Local candidates are under workspace `skills/public/release-2026-09-22/`.
 Both receipts identify clean committed sources. Exact inventory, hashes and
 current-source package checks passed. Source-only export changes after those
