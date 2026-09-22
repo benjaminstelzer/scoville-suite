@@ -6,7 +6,10 @@ W-023 adds an explicitly authorized Terra-Medium context-fix test path only;
 see [workflow-context-execution.md](workflow-context-execution.md). Current
 runner SHA256 is `0c963cb437f1626edfca2f704da7192064049d4c34187f17380bccc14a4ea6eb`.
 It adds explicit READ path resolution to continuation prompts. All 16 offline
-checks pass. Live qualification of this revision is pending. Earlier release
+checks pass. Plan-07-r2 qualified the continuation in two live Luna Medium
+turns with four hash-verified reference files. Both processes exited cleanly
+without tool use, stderr, timeout or stream errors. Evidence remains in workspace
+`temp/2026-09-22-release-plan-luna/r2/plan-07-run/`. Earlier release
 runs used `4cb9ea0f660c3bfee33f3d555a7549998e78c89a1e8ec2ddad85038488725519`.
 Luna remains the general release-gate tester. The
 starter hash and 15-test pilot below describe the retained earlier Luna baseline.
