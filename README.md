@@ -193,9 +193,10 @@ Edit member sources under `members/`. Edit README fragments under
 `development/readme/` and their ordered paths in `suite.json`. Member README
 files are generated previews, not a second authoring source.
 
-Keep `scoville-suite/`, `ask-suite-for-codex/` and `shared/` as siblings.
-Both suites use the builder and common templates in `shared/`. That directory
-is a build dependency, never an installed Skill dependency.
+An isolated clone builds from the shared tools and templates bundled under
+`development/shared/`. In the authoring workspace, the sibling `shared/`
+directory owns those sources and supplies both suites. Installed Skills use
+only the helpers inside their own package.
 
 The shared Development block appears in this suite and its member previews.
 Individual releases omit it. Maintain its source, test and note paths in each
