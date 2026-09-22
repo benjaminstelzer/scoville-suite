@@ -94,6 +94,16 @@ Scribe v1.0.33, UI v1.2.8 and WordPress v1.2.9. Their release bodies describe
 functional changes. Publication needs an explicit migration choice before
 reconciling these histories. No existing tag has been changed or removed.
 
+## Handoff and UI qualification
+
+SOL accepted Handoff 06, 09, 15 and 25 and UI 01, 04, 08 and 17.
+The author read these eight answers against the fixed keys and agrees.
+Handoff preserves unknowns, source-recovery limits, secret redaction and the
+size-conflict boundary. UI preserves specialist ownership and evidence limits.
+UI 25 is still pending. Native execution and final package-byte checks remain
+separate acceptance steps. Raw runs are under workspace
+`temp/2026-09-22-release-handoff-ui-luna/`.
+
 ## Plan Viewer
 
 Existing release `v1.7.5` supplies eleven Viewer `v1.3.2` files and
