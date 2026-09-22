@@ -1,5 +1,4 @@
 ## What it costs
 
-- Critique, rendering and revision take time. Generated variants can add image or token costs.
-- Attractive output does not establish asset rights, accessibility or production readiness.
-- Mechanical conversions and prose-only tasks do not need this process.
+- Critique, rendering and revision add time and token usage.
+- Generating image variants can also incur image-generation charges.

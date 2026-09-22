@@ -81,12 +81,7 @@ flowchart TD
 
 ### What it costs
 
-- Separate tasks, repeated review inspection and handoffs add tokens, latency and coordination overhead.
-- The workflow needs Codex desktop and its task controls. A small direct fix usually does not need it.
-- After three repair workers, unresolved project findings require your decision.
-- Missing archive confirmation can leave an old coordinator open for later cleanup when safe continuation is otherwise verified.
-- Beta qualification still covers automatic compaction immediately after terminal handoff and event-driven dormancy beyond the native wait ceiling.
-- Focused tests do not prove those host behaviors end to end. Engineering judgment and project-specific acceptance remain necessary.
+- Separate worker and reviewer tasks, context handoffs and Plan updates use additional tokens and time.
 
 ## Scoville Code Anti-AI-Slop
 
@@ -133,8 +128,7 @@ remove code without turning every small change into a full audit.
 
 ### What it costs
 
-- Source inspection and meaningful checks use more tokens and time than an immediate patch.
-- The checks remain proportionate to the change. Instructions cannot guarantee correct code or replace engineering judgment.
+- Source inspection and checks use more tokens and time than an immediate patch.
 
 ## Scoville Plan
 
@@ -172,8 +166,7 @@ projects, not to turn a small reversible edit into paperwork.
 
 ### What it costs
 
-- Maintaining records adds reading, writing and validation overhead.
-- A structurally valid Plan does not prove that its implementation works. Small tasks may not need one.
+- Reading, updating and checking Plan records add token usage and maintenance time.
 
 ## Scoville Scribe Anti-AI-Slop
 
@@ -223,8 +216,7 @@ enough information to understand and act.
 
 ### What it costs
 
-- Source comparison and revision add tokens and time, especially for exact or sensitive text.
-- The Skill cannot make an unsupported claim true or supply missing source facts.
+- Source comparison and revision use additional tokens and time.
 
 ## Scoville UI Anti-AI-Slop
 
@@ -264,9 +256,7 @@ responsive behavior and accessibility to evidence from the rendered interface.
 
 ### What it costs
 
-- Browser checks and corrections add time and tokens beyond a source-only change.
-- Without rendered or interactive access, visual and interaction claims remain unverified. Backend-only work does not need this Skill.
-- The latest change to validation after related edits has not yet been tested in a browser or through a live agent regression run.
+- Browser inspection, interaction checks and corrections use additional tokens and time.
 
 ## Scoville WordPress UI Backend Anti-AI-Slop
 
@@ -310,10 +300,7 @@ without forcing a second UI system onto a working page.
 
 ### What it costs
 
-- Meaningful visual checks need a running WordPress environment and add inspection time.
-- The Skill covers plugin-owned admin pages, not frontends, themes, the editor canvas or extensions inside Core screens.
-- Scoville UI does not run a second acceptance process on the same supported surface.
-- Five theoretical comprehension cases cover routing and rule use, including spacing. They do not prove rendered WordPress behavior. The latest source-first verification scheduling still needs a live WordPress interface test.
+- Inspecting spacing, responsive behavior and interactions in WordPress adds token usage and testing time.
 
 ## Scoville Design Anti-AI-Slop
 
@@ -360,9 +347,8 @@ style request into choices that can be inspected and explained.
 
 ### What it costs
 
-- Critique, rendering and revision take time. Generated variants can add image or token costs.
-- Attractive output does not establish asset rights, accessibility or production readiness.
-- Mechanical conversions and prose-only tasks do not need this process.
+- Critique, rendering and revision add time and token usage.
+- Generating image variants can also incur image-generation charges.
 
 ## Scoville Handoff
 
@@ -404,9 +390,7 @@ to resume without quietly advancing or completing the work.
 
 ### What it costs
 
-- Preparing a reliable handoff requires additional reading and tokens.
-- Missing facts cannot be recovered from an empty record. If required facts cannot fit, the limit must be resolved.
-- Ordinary summaries, low context and ending a session do not activate this Skill.
+- Reading the task state and preparing the handoff use additional tokens and time.
 
 ## Scoville Research
 
@@ -454,10 +438,7 @@ keeping contradictions and gaps visible instead of replacing them with certainty
 
 ### What it costs
 
-- Searching and reading multiple sources costs more time and tokens than a quick answer.
-- Access gaps and conflicting evidence can leave the question unresolved.
-- One known-page summary or ordinary repository inspection does not need a research workflow.
-- On 2026-09-19, the tested Codex Desktop tool surface exposed `interrupt_agent` but no control whose documented semantics close a completed subagent and free its slot. Interrupting stops the current turn while leaving the agent available. Other Codex hosts may expose an equivalent control under a different name. Research therefore discovers lifecycle controls by documented behavior, reports unavailable cleanup before delegation, skips optional evidence lanes that do not fit, and blocks a required composed lane when capacity is insufficient. Archiving, deleting a task, or killing a process is not assumed to free a subagent slot either.
+- Searching, reading and comparing multiple sources use more tokens and time than a quick answer.
 
 ## Scoville Brainstorm
 
@@ -478,13 +459,21 @@ their assumptions and returns a shortlist for a human decision.
 - Return up to three directions, or two in Compact mode, with benefits, risks and cheap falsifiers. Stop before selection or implementation.
 
 ```mermaid
-flowchart LR
-    B["Fixed brief"] --> G["Generate mechanisms"]
-    B --> L["Inspect existing approaches"]
-    G --> C["Compare and challenge"]
-    L --> C
-    C --> S["Shortlist"]
-    S --> H["Human selection"]
+flowchart TD
+    B["Coordinator: fix the brief and constraints"]
+    subgraph P["Parallel agents: no shared findings during generation"]
+        G1["Idea agent 1: one approach"]
+        G2["Idea agent 2: a different approach"]
+        GN["More idea agents if capacity allows"]
+        L["Research agent: inspect existing approaches"]
+    end
+    B --> G1 & G2 & GN & L
+    G1 & G2 & GN & L --> C["Coordinator: merge variants and compare with evidence"]
+    C --> K{"Capacity for an independent critic?"}
+    K -->|Yes| R["Critic agent: challenge assumptions and weak directions"]
+    K -->|No| F["Coordinator: apply the same checks"]
+    R & F --> S["Coordinator: shortlist with risks and cheap tests"]
+    S --> H["Human chooses the direction"]
 ```
 
 ### What it enforces
@@ -509,12 +498,7 @@ flowchart LR
 
 ### What it costs
 
-- Separate generation and comparison consume additional context and time.
-- A shortlist still needs a decision and validation. Originality claims apply only to the inspected comparison scope.
-- A known fix or ordinary review does not need this process.
-- The Codex Desktop surface tested on 2026-09-19 had interruption but no documented control to close completed subagents and free their slots. Other hosts may differ.
-- Brainstorm reports unavailable cleanup before isolated generation and stays within observable agent capacity.
-- Interrupting, archiving, deleting tasks or killing processes does not establish that a subagent slot was freed.
+- Separate idea generation, comparison and critique use additional tokens and time.
 
 ## Install the suite
 
