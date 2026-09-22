@@ -26,6 +26,9 @@ CONTINUATION = (
     "Continue the same hypothetical case using only supplied text. Do not use\n"
     "tools or execute project actions. Request any other required packaged text\n"
     "with `READ <relative-path>` lines; otherwise provide the final case answer.\n"
+    "READ paths are relative to the Skill package root. Resolve Markdown links\n"
+    "relative to the supplied file containing them, then request the resulting\n"
+    "package-root-relative path.\n"
 )
 DISABLED_FEATURES = (
     "shell_tool", "apps", "hooks", "plugins", "remote_plugin", "plugin_sharing",
