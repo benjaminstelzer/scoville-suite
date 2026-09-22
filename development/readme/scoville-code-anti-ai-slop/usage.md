@@ -1,0 +1,19 @@
+## How to use
+
+Name Scoville Code for codebase work where scope, ownership, risk, or evidence
+matters:
+
+```text
+Use Scoville Code to implement rate limiting in the existing API owner. Keep the diff scoped, preserve public behavior outside the stated limit, and run the repository's relevant checks.
+```
+
+```text
+Use Scoville Code to diagnose why this migration sometimes leaves consumers on the old schema. Identify the supported root cause and evidence. Do not change files.
+```
+
+```text
+Use Scoville Code to review this patch for correctness, hidden failure paths, ownership drift, and missing validation. Report prioritized findings only.
+```
+
+Explicit `$scoville-code-anti-ai-slop` invocation also works on hosts that
+support named Skill invocation.

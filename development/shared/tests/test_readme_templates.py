@@ -33,7 +33,7 @@ class ReadmeTemplateTests(unittest.TestCase):
                     release = builder.readme(root, member).decode()
                     preview = builder.readme(root, member, 'suite').decode()
                     self.assertNotIn('## Development\n', release)
-                    self.assertIn('## Development\n', preview)
+                    self.assertIn('## How it was developed\n', preview)
                     self.assertIn(member['name'], index)
                     for path in member['development'].values():
                         self.assertTrue((root / path).exists())
@@ -49,6 +49,7 @@ class ReadmeTemplateTests(unittest.TestCase):
             builder.readme_references([], 'sutie')
         root = SHARED.parent / 'scoville-suite'
         member = dict(builder.load(root)['members'][0])
+        member.pop('description_fragments', None)
         member['readme'] = ['shared:member-development.md']
         with self.assertRaisesRegex(ValueError, 'requires suite audience'):
             builder.readme(root, member)
@@ -101,7 +102,7 @@ class ReadmeTemplateTests(unittest.TestCase):
         for member in builder.load(root)['members']:
             source = builder.readme_source(root, member['readme'][0]).read_text(encoding='utf-8').strip()
             self.assertIn(builder.expand_variables(source.partition('\n')[2], member), result)
-        self.assertIn('only as part of Scoville Suite', result)
+        self.assertIn('Workflow is suite-only', result)
         self.assertIn('requires Codex desktop', result)
         expected = sorted(builder.load(root)['members'], key=lambda m: m['family']['order'])
         expected = [m for m in expected if m['name'] != 'scoville-workflow-for-codex']

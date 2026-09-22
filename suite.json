@@ -15,19 +15,21 @@
       "public_distribution": true,
       "import_commit": "2426f32040ed9bbc373de99654487f9cbf7b076c",
       "readme": [
-        "development/readme/scoville-brainstorm/scoville-brainstorm-ad58d0b30b5f9f27.md",
-        "development/readme/scoville-brainstorm/why-scoville-82aa5466596390dc.md",
-        "development/readme/scoville-brainstorm/how-to-use-d4c256021ecb1f84.md",
+        "development/readme/scoville-brainstorm/description.md",
+        "development/readme/scoville-brainstorm/mechanism.md",
+        "development/readme/scoville-brainstorm/requirements.md",
+        "development/readme/scoville-brainstorm/costs.md",
+        "development/readme/scoville-brainstorm/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-brainstorm/compatibility-683ee66978d90896.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-brainstorm/what-it-enforces-5df48c8e9c9c595d.md",
-        "development/readme/scoville-brainstorm/how-it-works-9797f2518c63289c.md",
-        "development/readme/scoville-brainstorm/how-it-was-developed-c11d1829ec325609.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-brainstorm/current-codex-lifecycle-limitation-2c6953ecd61e10a5.md",
-        "development/readme/scoville-brainstorm/sources-09f6a9181053b027.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-brainstorm/usage.md",
+        "development/readme/scoville-brainstorm/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -91,7 +93,13 @@
       "variables": {
         "skill_name": "scoville-brainstorm",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-brainstorm/description.md",
+        "development/readme/scoville-brainstorm/mechanism.md",
+        "development/readme/scoville-brainstorm/requirements.md",
+        "development/readme/scoville-brainstorm/costs.md"
+      ]
     },
     {
       "name": "scoville-code-anti-ai-slop",
@@ -105,18 +113,21 @@
       "public_distribution": true,
       "import_commit": "6c8ade8889bb0eee12fb51ba46a6abc1b4ee9dac",
       "readme": [
-        "development/readme/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop-cef182d83828c761.md",
-        "development/readme/scoville-code-anti-ai-slop/why-scoville-b4b97094d903f380.md",
-        "development/readme/scoville-code-anti-ai-slop/how-to-use-125dc57117695bb7.md",
+        "development/readme/scoville-code-anti-ai-slop/description.md",
+        "development/readme/scoville-code-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-code-anti-ai-slop/requirements.md",
+        "development/readme/scoville-code-anti-ai-slop/costs.md",
+        "development/readme/scoville-code-anti-ai-slop/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-code-anti-ai-slop/compatibility-4055f96f435388ed.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-code-anti-ai-slop/what-it-enforces-6e900466e9f616b6.md",
-        "development/readme/scoville-code-anti-ai-slop/how-it-works-974cc5ba4216d30f.md",
-        "development/readme/scoville-code-anti-ai-slop/how-it-was-developed-67bdcb6a7fc1ded7.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-code-anti-ai-slop/sources-e6cae9c6a5fee685.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-code-anti-ai-slop/usage.md",
+        "development/readme/scoville-code-anti-ai-slop/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -166,7 +177,13 @@
       "variables": {
         "skill_name": "scoville-code-anti-ai-slop",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-code-anti-ai-slop/description.md",
+        "development/readme/scoville-code-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-code-anti-ai-slop/requirements.md",
+        "development/readme/scoville-code-anti-ai-slop/costs.md"
+      ]
     },
     {
       "name": "scoville-design-anti-ai-slop",
@@ -180,18 +197,21 @@
       "public_distribution": true,
       "import_commit": "f7bbc70649ac73371f619b4c0275f1998d39c741",
       "readme": [
-        "development/readme/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop-b22b6abd031ca908.md",
-        "development/readme/scoville-design-anti-ai-slop/why-scoville-2fe3ca191291bdde.md",
-        "development/readme/scoville-design-anti-ai-slop/how-to-use-f9617d675ac0f7a6.md",
+        "development/readme/scoville-design-anti-ai-slop/description.md",
+        "development/readme/scoville-design-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-design-anti-ai-slop/requirements.md",
+        "development/readme/scoville-design-anti-ai-slop/costs.md",
+        "development/readme/scoville-design-anti-ai-slop/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-design-anti-ai-slop/compatibility-d3b748a2878f57c6.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-design-anti-ai-slop/what-it-enforces-fe92f6a08ecd0d0b.md",
-        "development/readme/scoville-design-anti-ai-slop/how-it-works-47d04d56f00c20f2.md",
-        "development/readme/scoville-design-anti-ai-slop/how-it-was-developed-81cef36f90854416.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-design-anti-ai-slop/sources-779c639a4cfa86d0.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-design-anti-ai-slop/usage.md",
+        "development/readme/scoville-design-anti-ai-slop/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -437,7 +457,13 @@
       "variables": {
         "skill_name": "scoville-design-anti-ai-slop",
         "codex_skills_guide": "https://developers.openai.com/codex/skills/"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-design-anti-ai-slop/description.md",
+        "development/readme/scoville-design-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-design-anti-ai-slop/requirements.md",
+        "development/readme/scoville-design-anti-ai-slop/costs.md"
+      ]
     },
     {
       "name": "scoville-handoff",
@@ -451,18 +477,21 @@
       "public_distribution": true,
       "import_commit": "1e365c1566565cc6399b891e04b11c75c1dc10bb",
       "readme": [
-        "development/readme/scoville-handoff/scoville-handoff-695add0aaada8430.md",
-        "development/readme/scoville-handoff/why-scoville-326c1d3bd2b75706.md",
-        "development/readme/scoville-handoff/how-to-use-447dd0adec136ecb.md",
+        "development/readme/scoville-handoff/description.md",
+        "development/readme/scoville-handoff/mechanism.md",
+        "development/readme/scoville-handoff/requirements.md",
+        "development/readme/scoville-handoff/costs.md",
+        "development/readme/scoville-handoff/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-handoff/compatibility-f77ff2edbfe28893.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-handoff/what-it-enforces-8db6958eadfde9fa.md",
-        "development/readme/scoville-handoff/how-it-works-8a45621a2247944c.md",
-        "development/readme/scoville-handoff/how-it-was-developed-e5c56003f2ebb574.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-handoff/sources-5fb5df96e3197496.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-handoff/usage.md",
+        "development/readme/scoville-handoff/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -504,7 +533,13 @@
       "variables": {
         "skill_name": "scoville-handoff",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-handoff/description.md",
+        "development/readme/scoville-handoff/mechanism.md",
+        "development/readme/scoville-handoff/requirements.md",
+        "development/readme/scoville-handoff/costs.md"
+      ]
     },
     {
       "name": "scoville-plan",
@@ -518,19 +553,21 @@
       "public_distribution": true,
       "import_commit": "629ec7a5a3e3af0637ecefbc82048ec8e93df4aa",
       "readme": [
-        "development/readme/scoville-plan/scoville-plan-76f360bc7d6a54d8.md",
-        "development/readme/scoville-plan/why-scoville-24b60fda50ff27f1.md",
-        "development/readme/scoville-plan/companion-app-13c3a512429e3f5e.md",
-        "development/readme/scoville-plan/how-to-use-e443eae0dce20d29.md",
+        "development/readme/scoville-plan/description.md",
+        "development/readme/scoville-plan/mechanism.md",
+        "development/readme/scoville-plan/requirements.md",
+        "development/readme/scoville-plan/costs.md",
+        "development/readme/scoville-plan/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-plan/compatibility-16ef3bbbbcff0431.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-plan/what-it-enforces-de4684ca46cd2a63.md",
-        "development/readme/scoville-plan/how-it-works-8d4848459723891f.md",
-        "development/readme/scoville-plan/how-it-was-developed-d1c63401e08fbed3.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-plan/sources-54320e2169a6275e.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-plan/usage.md",
+        "development/readme/scoville-plan/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -635,7 +672,13 @@
       "variables": {
         "skill_name": "scoville-plan",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-plan/description.md",
+        "development/readme/scoville-plan/mechanism.md",
+        "development/readme/scoville-plan/requirements.md",
+        "development/readme/scoville-plan/costs.md"
+      ]
     },
     {
       "name": "scoville-research",
@@ -649,19 +692,21 @@
       "public_distribution": true,
       "import_commit": "796a78353f2823e67e3c4bbe744e27f223c158c8",
       "readme": [
-        "development/readme/scoville-research/scoville-research-1e738a829176c931.md",
-        "development/readme/scoville-research/why-scoville-c965dca173674e20.md",
-        "development/readme/scoville-research/how-to-use-f49d2e404f6acff1.md",
+        "development/readme/scoville-research/description.md",
+        "development/readme/scoville-research/mechanism.md",
+        "development/readme/scoville-research/requirements.md",
+        "development/readme/scoville-research/costs.md",
+        "development/readme/scoville-research/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-research/compatibility-5f11b43b7bb31c2a.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-research/what-it-enforces-160c65527ef697d7.md",
-        "development/readme/scoville-research/how-it-works-054b3a586dc06f89.md",
-        "development/readme/scoville-research/how-it-was-developed-803c183793312c7e.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-research/current-codex-lifecycle-limitation-a12016992dd3517d.md",
-        "development/readme/scoville-research/sources-3a130a4e8d05e726.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-research/usage.md",
+        "development/readme/scoville-research/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -729,7 +774,13 @@
       "variables": {
         "skill_name": "scoville-research",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-research/description.md",
+        "development/readme/scoville-research/mechanism.md",
+        "development/readme/scoville-research/requirements.md",
+        "development/readme/scoville-research/costs.md"
+      ]
     },
     {
       "name": "scoville-scribe-anti-ai-slop",
@@ -743,18 +794,21 @@
       "public_distribution": true,
       "import_commit": "2d47c6ffd0a1a79d167963500dd391c1a90b86a5",
       "readme": [
-        "development/readme/scoville-scribe-anti-ai-slop/scoville-scribe-anti-ai-slop-f6acb87bcbbdcdaf.md",
-        "development/readme/scoville-scribe-anti-ai-slop/why-scoville-c284ffa4e958a537.md",
-        "development/readme/scoville-scribe-anti-ai-slop/how-to-use-e0d3e6b61fe03dcd.md",
+        "development/readme/scoville-scribe-anti-ai-slop/description.md",
+        "development/readme/scoville-scribe-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-scribe-anti-ai-slop/requirements.md",
+        "development/readme/scoville-scribe-anti-ai-slop/costs.md",
+        "development/readme/scoville-scribe-anti-ai-slop/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-scribe-anti-ai-slop/compatibility-11964753f4f757b3.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-scribe-anti-ai-slop/what-it-enforces-d608647ac2e002ba.md",
-        "development/readme/scoville-scribe-anti-ai-slop/how-it-works-9ffc61b40588ee1d.md",
-        "development/readme/scoville-scribe-anti-ai-slop/how-it-was-developed-fdf7bd44ccd908b6.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-scribe-anti-ai-slop/sources-63661eaf80463d0a.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-scribe-anti-ai-slop/usage.md",
+        "development/readme/scoville-scribe-anti-ai-slop/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -822,7 +876,13 @@
       "variables": {
         "skill_name": "scoville-scribe-anti-ai-slop",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-scribe-anti-ai-slop/description.md",
+        "development/readme/scoville-scribe-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-scribe-anti-ai-slop/requirements.md",
+        "development/readme/scoville-scribe-anti-ai-slop/costs.md"
+      ]
     },
     {
       "name": "scoville-ui-anti-ai-slop",
@@ -836,20 +896,21 @@
       "public_distribution": true,
       "import_commit": "52eaa9e04c408fb5934d2f296d2892bd345ecf85",
       "readme": [
-        "development/readme/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop-95859a72eee019f7.md",
-        "development/readme/scoville-ui-anti-ai-slop/why-scoville-4f4a2efabae2b10b.md",
-        "development/readme/scoville-ui-anti-ai-slop/how-to-use-bcdc624359633615.md",
-        "development/readme/scoville-ui-anti-ai-slop/source-first-checks-and-consistency-audits-f991a16c323da3d6.md",
+        "development/readme/scoville-ui-anti-ai-slop/description.md",
+        "development/readme/scoville-ui-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-ui-anti-ai-slop/requirements.md",
+        "development/readme/scoville-ui-anti-ai-slop/costs.md",
+        "development/readme/scoville-ui-anti-ai-slop/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-ui-anti-ai-slop/compatibility-221fa1eaa338cb20.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-ui-anti-ai-slop/what-it-enforces-6a2ff8fd79a9c34e.md",
-        "development/readme/scoville-ui-anti-ai-slop/how-it-works-98781da386f5d326.md",
-        "development/readme/scoville-ui-anti-ai-slop/how-it-was-developed-6867be24d9ccf783.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-ui-anti-ai-slop/status-edcb7f59875f85ff.md",
-        "development/readme/scoville-ui-anti-ai-slop/sources-38aee36f3f1cb84e.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-ui-anti-ai-slop/usage.md",
+        "development/readme/scoville-ui-anti-ai-slop/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -917,7 +978,13 @@
       "variables": {
         "skill_name": "scoville-ui-anti-ai-slop",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-ui-anti-ai-slop/description.md",
+        "development/readme/scoville-ui-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-ui-anti-ai-slop/requirements.md",
+        "development/readme/scoville-ui-anti-ai-slop/costs.md"
+      ]
     },
     {
       "name": "scoville-workflow-for-codex",
@@ -950,20 +1017,21 @@
       "public_distribution": true,
       "import_commit": "c232a71217a73f7f655ffab8ebae27e1f8968946",
       "readme": [
-        "development/readme/scoville-workflow-codex/scoville-workflow-codex-862d4c01f5da4a2b.md",
-        "development/readme/scoville-workflow-codex/why-scoville-83dcd8422548b19d.md",
-        "development/readme/scoville-workflow-codex/how-to-use-4164a3d2b4f92e64.md",
+        "development/readme/scoville-workflow-codex/description.md",
+        "development/readme/scoville-workflow-codex/mechanism.md",
+        "development/readme/scoville-workflow-codex/requirements.md",
+        "development/readme/scoville-workflow-codex/costs.md",
+        "development/readme/scoville-workflow-codex/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-workflow-codex/compatibility-3248926e0f8a0db5.md",
-        "development/readme/scoville-workflow-codex/routing-f9eb9fa1040600ee.md",
         "development/readme/scoville-workflow-codex/install-94174f7bf19c6c42.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-workflow-codex/what-it-enforces-9a65ea1bfbe79ea1.md",
-        "development/readme/scoville-workflow-codex/how-it-works-ac77fa06081f8f96.md",
-        "development/readme/scoville-workflow-codex/how-it-was-developed-fbda3adf3a695160.md",
-        "development/readme/scoville-workflow-codex/status-ad6145793ea51516.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-workflow-codex/sources-951f28c7804eae66.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "development/readme/scoville-workflow-codex/usage.md",
+        "development/readme/scoville-workflow-codex/sources.md",
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -1085,7 +1153,13 @@
         "owner": "explicit Plan execution through native Codex project tasks.",
         "summary": "coordinates explicit Plan execution through native Codex project tasks.",
         "order": 9
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-workflow-codex/description.md",
+        "development/readme/scoville-workflow-codex/mechanism.md",
+        "development/readme/scoville-workflow-codex/requirements.md",
+        "development/readme/scoville-workflow-codex/costs.md"
+      ]
     },
     {
       "name": "scoville-wordpress-ui-backend-anti-ai-slop",
@@ -1100,18 +1174,21 @@
       "import_commit": "583288b7f89bbdee011f3bc302bc210c1d989c71",
       "history_repository": "benjaminstelzer/wordpress-backend-ui-skill",
       "readme": [
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/intro.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/why-scoville.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/how-to-use.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/description.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/requirements.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/costs.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/development.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
         "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/compatibility.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/what-it-enforces.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/how-it-works.md",
-        "shared:scoville-family.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/status.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/usage.md",
         "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/sources.md",
-        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:family.md",
         "shared:license.md"
       ],
       "files": [
@@ -1207,7 +1284,13 @@
       "variables": {
         "skill_name": "scoville-wordpress-ui-backend-anti-ai-slop",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
+      },
+      "description_fragments": [
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/description.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/mechanism.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/requirements.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/costs.md"
+      ]
     }
   ],
   "readme": [

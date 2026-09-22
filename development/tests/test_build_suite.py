@@ -56,7 +56,7 @@ class BuildTests(unittest.TestCase):
             self.assertIn(name, {m['name'] for m in receipt['members']})
             for member in receipt['members']:
                 readme = (output / member['package_path'] / 'README.md').read_text(encoding='utf-8')
-                family = readme.split('## Scoville family', 1)[1]
+                family = readme.split('## Family', 1)[1]
                 self.assertEqual(family.count('https://github.com/benjaminstelzer/' + name), 1)
                 self.assertNotIn('{{ include:', readme)
             package = output / name / name

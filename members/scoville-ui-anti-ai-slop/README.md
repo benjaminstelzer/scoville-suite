@@ -1,64 +1,54 @@
 # Scoville UI Anti-AI-Slop
 
-A good desktop screenshot does not tell you whether someone can use the page.
+A good desktop screenshot does not show whether someone can use the page.
 The main action may disappear on mobile, keyboard focus may be missing, or an
 error may leave the user with no way forward.
 
-Scoville UI helps implement and audit interfaces through the framework and
-design system the product already uses. It covers components, interaction
-states, responsive behavior and accessibility, then asks for evidence from the
-actual rendered interface.
+Scoville UI implements and audits interfaces through the framework and design
+system already in use. It connects component choices, interaction states,
+responsive behavior and accessibility to evidence from the rendered interface.
 
-The agent must connect implementation choices to the existing components and
-check the affected states and layouts, rather than treating a successful build
-as visual proof. Browser checks and corrections take additional time and tokens.
-Without access to the rendered interface, that part of the result stays unverified.
+## How it works
 
-When Scoville Design is active, UI implements its design decisions. Otherwise
-it can develop a bounded direction for a new interface. Backend-only work and
-wording alone do not activate it.
+- Identify the existing design system, implementation owner and any active Design decisions.
+- Read the relevant component and styling code before changing the interface.
+- Implement affected states and responsive behavior through supported framework components.
+- Check the completed batch in the actual rendered interface, including relevant input and focus behavior.
+- Return only a blocked design decision for revision. Without Design, use the bounded new-interface fallback.
 
-## Why "Scoville"?
+## What it enforces
 
-The family is named for useful signal that remains detectable after dilution.
-In UI, that means keeping the user's task clear across screen sizes, interaction states and visual choices.
+- **The product keeps its visual owner.** The incumbent design system comes
+  first. Within it, an active Design record owns design judgment while UI owns
+  implementation. Without Design, UI uses its bounded fallback.
+- **The task has a hierarchy.** Primary decisions, supporting information, and
+  secondary actions remain distinguishable.
+- **Real states exist.** Loading, empty, error, disabled, success, focus,
+  keyboard, and touch behavior are covered when relevant.
+- **Responsive means adapted.** The task survives narrow, wide, zoomed, and
+  content-heavy conditions rather than just scaling down the desktop layout.
+- **Accessibility is structural.** Reading order, names, relationships,
+  contrast, focus, and input behavior are checked in their real context.
+- **Evidence matches the claim.** Source inspection can prove structure.
+  Rendered or interactive claims require rendered or interactive evidence.
 
-## How to use
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop/blob/main/scoville-ui-anti-ai-slop/SKILL.md).
 
-Name Scoville UI for interface design, implementation, or audit work:
+## What it costs
 
-```text
-Use Scoville UI to implement this settled settings-screen design through the product's existing component system. Cover loading, empty, error, and success states, then verify the rendered result responsively.
-```
+- Browser checks and corrections add time and tokens beyond a source-only change.
+- Without rendered or interactive access, visual and interaction claims remain unverified. Backend-only work does not need this Skill.
+- The latest change to validation after related edits has not yet been tested in a browser or through a live agent regression run.
 
-```text
-Use Scoville UI to audit the current checkout for hierarchy, accessibility, keyboard use, responsive behavior, and recovery from errors. Do not change files.
-```
+## How it was developed
 
-```text
-Use Scoville Design with Scoville UI. Design owns the workflow, hierarchy, typography, spacing, and design-system decision. UI implements that record through the existing framework and proves component states and interactions.
-```
+- UI developed through interface work and comparisons of how agents use the instructions.
+- One recurring problem was checking the rendered page before understanding which component or CSS rule owned it.
+- Another was interrupting related edits with repeated screenshots.
+- Real-project histories are analyzed alongside results to identify failures and unnecessary context use.
+- Targeted simulation and optimization workflows inform revisions. Changes are retained only when the required behavior survives.
 
-Explicit `$scoville-ui-anti-ai-slop` invocation also works on hosts that
-support named Skill invocation.
-
-## Source-first checks and consistency audits
-
-Implementation groups related UI changes before validation. Complete the planned
-edits, then check source, measure affected relationships and view the result.
-Screenshots and measurements follow the completed batch, not each small edit.
-If checks reveal defects, collect the related corrections and validate affected
-concerns after that correction batch is complete.
-
-Custom styling needs a concrete owner/API justification
-before it is written. Authored units and expressions remain distinct from their
-computed pixel values and visible geometry.
-
-An ordinary request to check a page for consistency uses a read-only inventory
-of its regions, variants and relevant states, including content below the fold.
-Every entry maps to source, measurement and visual evidence or a named gap.
-The visual routine compares intended edges, text position, apparent whitespace,
-control interiors, icons, wrapping and clipping. Sampling limits remain explicit.
+- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui-anti-ai-slop/development/README.md)
 
 ## Compatibility
 
@@ -89,68 +79,42 @@ Get the complete suite from the
 [Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
 Install its released Skill packages, not development templates.
 
-## What it enforces
+## How to use
 
-- **The product keeps its visual owner.** The incumbent design system comes
-  first. Within it, an active Design record owns design judgment while UI owns
-  implementation. Without Design, UI uses its bounded fallback.
-- **The task has a hierarchy.** Primary decisions, supporting information, and
-  secondary actions remain distinguishable.
-- **Real states exist.** Loading, empty, error, disabled, success, focus,
-  keyboard, and touch behavior are covered when relevant.
-- **Responsive means adapted.** The task survives narrow, wide, zoomed, and
-  content-heavy conditions rather than just scaling down the desktop layout.
-- **Accessibility is structural.** Reading order, names, relationships,
-  contrast, focus, and input behavior are checked in their real context.
-- **Evidence matches the claim.** Source inspection can prove structure.
-  Rendered or interactive claims require rendered or interactive evidence.
+Name Scoville UI for interface design, implementation, or audit work:
 
-The complete contract is in
-[SKILL.md](scoville-ui-anti-ai-slop/SKILL.md).
+```text
+Use Scoville UI to implement this settled settings-screen design through the product's existing component system. Cover loading, empty, error, and success states, then verify the rendered result responsively.
+```
 
-## How it works
+```text
+Use Scoville UI to audit the current checkout for hierarchy, accessibility, keyboard use, responsive behavior, and recovery from errors. Do not change files.
+```
 
-The Core resolves activation, the incumbent product system, any active Design
-record, and the requested implementation outcome. It then loads only the
-framework-alignment, UI-quality, or rendered-validation guidance that applies.
-UI never searches for or simulates Design. A real framework constraint returns
-only the affected decision for revision instead of silently redesigning the
-screen. Audit-only requests remain read-only. Browser behavior needs a check in the browser.
+```text
+Use Scoville Design with Scoville UI. Design owns the workflow, hierarchy, typography, spacing, and design-system decision. UI implements that record through the existing framework and proves component states and interactions.
+```
 
-## How it was developed
+Explicit `$scoville-ui-anti-ai-slop` invocation also works on hosts that
+support named Skill invocation.
 
-UI developed through interface work and comparisons of how agents use the
-instructions. One recurring problem was checking the rendered page before
-understanding which component or CSS rule owned it. Another was interrupting
-related edits with repeated screenshots. The [changelog](CHANGELOG.md) follows
-the changes to source inspection and validation after a completed batch.
+### Source-first checks and consistency audits
 
-I read task histories alongside the interface to see which checks help and
-which merely repeat work. Earlier
-[optimization runs](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop/blob/3b054c35187437743e6994aad1a2d42bac228e53/CHANGELOG.md)
-also explored selective loading and the boundary with Design. When SkillOpt
-found no better candidate, I kept the existing instructions.
+Implementation groups related UI changes before validation. Complete the planned
+edits, then check source, measure affected relationships and view the result.
+Screenshots and measurements follow the completed batch, not each small edit.
+If checks reveal defects, collect the related corrections and validate affected
+concerns after that correction batch is complete.
 
-## Scoville family
+Custom styling needs a concrete owner/API justification
+before it is written. Authored units and expressions remain distinct from their
+computed pixel values and visible geometry.
 
-Each Skill works independently. Combine only the concerns the task actually
-needs:
-
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
-
-## Status
-
-The latest change to validation after related edits has not yet been tested
-in a browser or through a live agent regression run.
+An ordinary request to check a page for consistency uses a read-only inventory
+of its regions, variants and relevant states, including content below the fold.
+Every entry maps to source, measurement and visual evidence or a named gap.
+The visual routine compares intended edges, text position, apparent whitespace,
+control interiors, icons, wrapping and clipping. Sampling limits remain explicit.
 
 ## Sources
 
@@ -162,11 +126,18 @@ in a browser or through a live agent regression run.
   for system-owned components, patterns, and platform conventions.
 - [WCAG 2.2](https://www.w3.org/TR/WCAG22/) for accessibility requirements.
 
-## Development
+## Family
 
-Maintained in the suite. Individual repositories contain generated packages.
-
-[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui-anti-ai-slop/development/README.md)
+- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
+- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
+- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
+- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 
