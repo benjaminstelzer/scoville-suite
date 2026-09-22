@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location('builder', ROOT / 'development/build_suite.py')
@@ -18,7 +19,7 @@ class BuildTests(unittest.TestCase):
             self.assertEqual(a, b)
             expected = {m['name'] for m in builder.load(ROOT)['members'] if m['public_distribution']}
             self.assertEqual(expected, {m['name'] for m in a['members']})
-            self.assertNotIn('scoville-workflow-for-codex', expected)
+            self.assertIn('scoville-workflow-for-codex', expected)
             for member in a['members']:
                 self.assertIn(member['name'] + '/SKILL.md', member['files'])
                 self.assertIn('README.md', member['files'])
@@ -35,11 +36,14 @@ class BuildTests(unittest.TestCase):
                     builder.within(ROOT, path)
 
     def test_private_member_is_not_silently_published(self):
-        private = [m['name'] for m in builder.load(ROOT)['members'] if not m['public_distribution']]
+        config = builder.load(ROOT)
+        member = config['members'][0]
+        member['visibility'] = 'private'
+        member['public_distribution'] = False
         with tempfile.TemporaryDirectory() as temp:
-            for name in private:
+            with patch.object(builder._module, 'load', return_value=config):
                 with self.assertRaises(ValueError):
-                    builder.build(ROOT, Path(temp) / name, True, [name])
+                    builder.build(ROOT, Path(temp) / member['name'], True, [member['name']])
 
     def test_readmes_match_sources(self):
         self.assertEqual([], builder.render_readmes(ROOT, False))
@@ -51,7 +55,7 @@ class BuildTests(unittest.TestCase):
             receipt = builder.build(ROOT, output, True, [])
             self.assertIn(name, {m['name'] for m in receipt['members']})
             for member in receipt['members']:
-                readme = (output / member['name'] / 'README.md').read_text(encoding='utf-8')
+                readme = (output / member['package_path'] / 'README.md').read_text(encoding='utf-8')
                 family = readme.split('## Scoville family', 1)[1]
                 self.assertEqual(family.count('https://github.com/benjaminstelzer/' + name), 1)
                 self.assertNotIn('{{ include:', readme)
