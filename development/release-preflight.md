@@ -119,14 +119,14 @@ result had no archive blockers; exact-ID `verify_archive` passed for G27
 This is live recovery evidence, not merely a fixture result. No DIVI5 guard
 or project files were changed by this task.
 
-The targeted SOL/Luna retest is complete: four protocol passes, three accepted
-semantic passes and one chain-case failure. Luna understood the missing-list
-exception but omitted explicit archive-failure recovery and current-coordinator
-exclusion. The shared contract now states these rules as an ordered loop, but
-both bounded retests exhausted four READ turns without a final answer. They
-are inconclusive, not passes. Publication remains unqualified for that case. See
-`development/luna-tests/workflow-archive-results.md` for fixed inputs, independent
-author checks, the precise evidence limit and the remaining targeted test.
+The targeted SOL/Luna gate is accepted. Three cases passed initially. The
+chain case failed explicit failure-path coverage; the shared contract was
+clarified. Two four-turn retries were inconclusive. After the user authorized
+eight turns, R4 passed in six native Luna/medium turns with the original prompt
+and key. SOL and the author independently accepted all mandatory behavior.
+See `development/luna-tests/workflow-archive-results.md` for immutable prior
+attempts, exact package identity and extended-runner qualification. Final release
+package mapping and the other publication gates remain required.
 
 ## Handoff and UI qualification
 

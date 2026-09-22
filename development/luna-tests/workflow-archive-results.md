@@ -85,3 +85,32 @@ No further retry was made. The wording correction is implemented; model
 comprehension remains unverified. Before another model run, resolve the bounded
 reference-delivery issue without weakening the fixed semantic key or silently
 extending the qualified runner limits. Publication remains open for this case.
+
+## Authorized eight-turn qualification — accepted
+
+The user then explicitly authorized raising the test limit. The runner now
+defaults to eight turns and accepts 1–8; explicit four-turn historical runs
+remain reproducible. All 18 offline tests pass, including fifth-turn completion
+after four READs and failure when an explicit four-turn budget is exhausted.
+Timeout, isolation, path, hash, event and native identity checks are unchanged.
+
+R4 uses the original initial prompt and hidden key, unchanged r2 package,
+and the new runner with `--max-turns 8`. It completes in six turns: five READ
+exchanges and a final answer. SOL semantic PASS and independent author acceptance
+confirm all required behavior: exact active status can replace list membership;
+only returned predecessors may be archived; never the current coordinator;
+exact archived:true verification and retained receipt precede each next target;
+failed or unverified replies stop the chain while preserving outstanding targets.
+
+The author independently checked all six native Luna/medium contexts, complete
+event streams, clean exits/stderr/process results, six delivered hashes and
+the unchanged initial prompt. This qualifies the extended runner through real
+continuation beyond turn four and closes this chain-case comprehension gap.
+Earlier failures remain historical, not relabeled. No publication is claimed.
+
+Evidence: workspace `temp/2026-09-22-workflow-archive-luna-r4/`.
+
+- Runner SHA256: `ce08138d98d846bcd5d29a6324469ef8bab3b80e9ae5fbab2d400b3a39fc2009`.
+- Frozen manifest SHA256: `0c4325514644a0a46f347c52283e300ca1a578e8ff5d414d91bb9706837b2149`.
+- SOL grade SHA256: `25786313b84f1221aaca3521b886a5f40798be8f86a8cb6f9d9941206d7e95c7`.
+- Package receipt SHA256: `5c2b12d11674d35dca10f1d0714578290d4c457de732f2bf5ff2524523f9fdc7`.
