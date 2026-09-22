@@ -86,7 +86,7 @@
             "description": "visual concept and art direction after selection."
           }
         ],
-        "order": 0
+        "order": 8
       },
       "variables": {
         "skill_name": "scoville-brainstorm",
@@ -161,7 +161,7 @@
         "label": "Code",
         "owner": "engineering scope, implementation, risk, and validation.",
         "summary": "owns engineering scope, implementation, risk, and validation.",
-        "order": 2
+        "order": 0
       },
       "variables": {
         "skill_name": "scoville-code-anti-ai-slop",
@@ -432,7 +432,7 @@
         "label": "Design",
         "owner": "visual definition, art direction, critique, and repair.",
         "summary": "owns visual definition, art direction, design systems, critique, and repair.",
-        "order": 3
+        "order": 5
       },
       "variables": {
         "skill_name": "scoville-design-anti-ai-slop",
@@ -499,7 +499,7 @@
         "label": "Handoff",
         "owner": "active-work transfer.",
         "summary": "transfers active work to another agent or session.",
-        "order": 8
+        "order": 6
       },
       "variables": {
         "skill_name": "scoville-handoff",
@@ -630,7 +630,7 @@
             "optional": true
           }
         ],
-        "order": 7
+        "order": 1
       },
       "variables": {
         "skill_name": "scoville-plan",
@@ -724,7 +724,7 @@
             "description": "durable Plans, Work Items, Decisions, and lifecycle state."
           }
         ],
-        "order": 1
+        "order": 7
       },
       "variables": {
         "skill_name": "scoville-research",
@@ -817,7 +817,7 @@
             "description": "interface mechanics, states, accessibility, and rendered proof."
           }
         ],
-        "order": 6
+        "order": 2
       },
       "variables": {
         "skill_name": "scoville-scribe-anti-ai-slop",
@@ -912,7 +912,7 @@
             "description": "wording, terminology, meaning, and source fidelity."
           }
         ],
-        "order": 4
+        "order": 3
       },
       "variables": {
         "skill_name": "scoville-ui-anti-ai-slop",
@@ -1192,7 +1192,7 @@
         "label": "WordPress UI Backend",
         "owner": "WordPress plugin-owned wp-admin implementation and UI acceptance.",
         "summary": "owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.",
-        "order": 5,
+        "order": 4,
         "neighbors": [
           {
             "member": "scoville-code-anti-ai-slop",
