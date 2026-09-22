@@ -25,6 +25,7 @@
           "audience": "suite"
         },
         "development/readme/scoville-brainstorm/compatibility-683ee66978d90896.md",
+        "shared:codex-subagent-limit.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
         "development/readme/scoville-brainstorm/usage.md",
@@ -702,6 +703,7 @@
           "audience": "suite"
         },
         "development/readme/scoville-research/compatibility-5f11b43b7bb31c2a.md",
+        "shared:codex-subagent-limit.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
         "development/readme/scoville-research/usage.md",

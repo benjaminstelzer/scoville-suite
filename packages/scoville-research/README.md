@@ -44,10 +44,7 @@ keeping contradictions and gaps visible instead of replacing them with certainty
 
 ## What it costs
 
-- Searching and reading multiple sources costs more time and tokens than a quick answer.
-- Access gaps and conflicting evidence can leave the question unresolved.
-- One known-page summary or ordinary repository inspection does not need a research workflow.
-- On 2026-09-19, the tested Codex Desktop tool surface exposed `interrupt_agent` but no control whose documented semantics close a completed subagent and free its slot. Interrupting stops the current turn while leaving the agent available. Other Codex hosts may expose an equivalent control under a different name. Research therefore discovers lifecycle controls by documented behavior, reports unavailable cleanup before delegation, skips optional evidence lanes that do not fit, and blocks a required composed lane when capacity is insufficient. Archiving, deleting a task, or killing a process is not assumed to free a subagent slot either.
+- Searching, reading and comparing multiple sources use more tokens and time than a quick answer.
 
 ## How it was developed
 
@@ -59,7 +56,10 @@ keeping contradictions and gaps visible instead of replacing them with certainty
 
 ## Compatibility
 
-Any Agent Skills host that can read references/. Requires web search and fetching actual source pages. Deep mode also needs a writable workspace and Python 3 for scripts/validate_research_artifacts.py. Subagents are optional and capacity-bound: without a documented close control, report open targets and skip lanes that do not fit. Developed for Codex and Claude Code; other hosts untested.
+Any Agent Skills host that can read references/. Requires web search and fetching actual source pages. Deep mode also needs a writable workspace and Python 3 for scripts/validate_research_artifacts.py. Subagents are optional and depend on available capacity. Developed for Codex and Claude Code; other hosts untested.
+
+Codex currently offers no way to close subagents and free their slots. This limits
+additional parallel work within a session.
 
 ## Install
 

@@ -36,9 +36,7 @@ responsive behavior and accessibility to evidence from the rendered interface.
 
 ## What it costs
 
-- Browser checks and corrections add time and tokens beyond a source-only change.
-- Without rendered or interactive access, visual and interaction claims remain unverified. Backend-only work does not need this Skill.
-- The latest change to validation after related edits has not yet been tested in a browser or through a live agent regression run.
+- Browser inspection, interaction checks and corrections use additional tokens and time.
 
 ## How it was developed
 
@@ -47,6 +45,8 @@ responsive behavior and accessibility to evidence from the rendered interface.
 - Another was interrupting related edits with repeated screenshots.
 - Real-project histories are analyzed alongside results to identify failures and unnecessary context use.
 - Targeted simulation and optimization workflows inform revisions. Changes are retained only when the required behavior survives.
+
+- The latest change to when checks run after related edits still needs a live browser and agent regression test.
 
 ## Compatibility
 
