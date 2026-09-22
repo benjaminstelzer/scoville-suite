@@ -128,6 +128,20 @@ nonempty descriptions and compatibility strings of 1-500 characters. The generic
 Skill Creator validator rejects the supported compatibility field, so its result
 is not counted as a pass. The explicit contract checks above cover these fields.
 
+## Design correction and Plan pilot
+
+Design 24's initial semantic PASS was overturned by independent review and SOL
+reassessment: its proposed next action included repair under read-only Critique.
+The mode row now makes that authority boundary explicit. The r6 package's
+Design 24 answer preserves read-only inspection and reporting. Repair 06 remains
+the pending regression check. Original answers and revised judgments are retained.
+
+Plan 07 passes SOL and independent author review against the fixed key. It
+preserves the partial profile and stops before initialization or writes.
+Its two native turns confirm Luna Medium and clean process/protocol completion.
+Four packaged references were supplied before the final answer, qualifying the
+new continuation prompt. Plan 13, 19 and 25 remain pending.
+
 ## Plan Viewer
 
 Existing release `v1.7.5` supplies eleven Viewer `v1.3.2` files and
