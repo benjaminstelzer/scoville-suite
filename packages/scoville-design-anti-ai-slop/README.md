@@ -1,49 +1,59 @@
 # Scoville Design Anti-AI-Slop
 
 A design can look polished and still miss the brief. An 80s reference becomes
-neon, chrome and VHS noise, but the combination says little about the actual
-subject. Or every element is neatly spaced, yet nothing tells the reader where
-to start.
+neon and chrome, but the combination says little about the subject. Or every
+element is neatly spaced, yet nothing tells the reader where to start.
 
-Scoville Design connects the visual choices to the content, audience and medium.
-It helps create a direction, develop it into an artifact, inspect the result and
-repair specific problems. A critique should explain what is wrong and why,
-while preserving the parts that work.
+Scoville Design connects visual choices to content, audience and medium. It
+supports generation, read-only critique and targeted repair, turning a vague
+style request into choices that can be inspected and explained.
 
-The agent has to explain how typography, composition and visual references serve
-the brief, then inspect the artifact and make targeted corrections. This adds
-critique and revision time, and generated variants can add token or image costs.
-More iterations are not useful when they no longer resolve a concrete problem.
+## How it works
 
-Use it for graphic, editorial, brand, advertising, packaging, wayfinding, web,
-interface, information and motion design. It also handles style interpretation.
-Mechanical edits to a settled design, conversion or rendering alone, backend
-work and prose-only editing do not need it.
+- Frame the brief and choose generation, critique or repair.
+- Develop a direction through composition, typography, colour, imagery and the actual content.
+- Load specialist methods only for an open design question. Keep rough ideas provisional until a direction is needed.
+- Inspect the complete rendered artifact, then its groups and details. Use suitable measurements alongside visual judgment.
+- Repair specific defects while preserving strengths. After two unsuccessful passes, reassess the cause and method.
+- When UI is also active, Design owns visual intent and UI owns framework implementation and interaction proof. The incumbent system still takes priority.
 
-## Why "Scoville"?
+## What it enforces
 
-The family is named for useful signal that remains detectable after dilution.
-In Design, that means keeping the idea and the content legible through the visual choices.
+- **The brief becomes a design thesis.** Purpose, audience, content, medium,
+  constraints, and desired effect shape one specific direction.
+- **Relationships do the work.** Hierarchy, composition, typography, colour,
+  imagery, spacing, data, and sequence support the same intent.
+- **Style is a system.** Period, movement, genre, or vernacular traits are
+  translated through structure, type, colour, image logic, material, and
+  medium. Familiar signs remain available when they help recognition.
+- **Rules may be broken deliberately.** The communication and accessibility
+  floors survive, the intent is legible, and compensating structure prevents a
+  local exception from becoming general damage.
+- **Critique makes repair actionable.** Findings connect observation, likely
+  effect, severity, the smallest coherent correction, and preserved strengths.
+  Critique stays read-only. An authorised repair adds the change and its render.
+- **Evidence matches the claim.** Source, syntax, render, interaction, and
+  production proof remain distinct. Attractive output does not prove rights,
+  accessibility, or press readiness.
+- **Professional boundaries stay visible.** Asset rights, cultural authority,
+  provenance, supplier specifications, and human approval are not guessed
+  from appearance.
 
-## How to use
+- The installed Core contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop/blob/main/scoville-design-anti-ai-slop/SKILL.md).
 
-Name Scoville Design when the task needs design judgment or original visual
-direction:
+## What it costs
 
-```text
-Use Scoville Design to create an editable A3 poster from this brief. Develop one subject-specific concept, typeset every required line, inspect the render, and repair the highest-impact problem.
-```
+- Critique, rendering and revision take time. Generated variants can add image or token costs.
+- Attractive output does not establish asset rights, accessibility or production readiness.
+- Mechanical conversions and prose-only tasks do not need this process.
 
-```text
-Use Scoville Design to critique this webpage. Distinguish defects, tradeoffs, preferences, and deliberate exceptions. Preserve what works and propose the smallest coherent repair.
-```
+## How it was developed
 
-```text
-Use Scoville Design to make this landing page feel unmistakably like professional 1980s neon and retro computing. Use period DNA structurally, avoid a pile of familiar symbols, and verify desktop and mobile renders.
-```
-
-Explicit `$scoville-design-anti-ai-slop` invocation also works on hosts that
-support named Skill invocation.
+- I developed Design by comparing the instructions with actual visual work.
+- Source review, rendered artifacts and blind comparisons exposed different problems, and I revised the Skill around what each could show.
+- That led to composition foundations in the Core and specialist methods loaded only when the task needs them.
+- Real-project histories are analyzed alongside results to identify failures and unnecessary context use.
+- Targeted simulation and optimization workflows inform revisions. Changes are retained only when the required behavior survives.
 
 ## Compatibility
 
@@ -76,54 +86,25 @@ Get the complete suite from the
 [Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
 Install its released Skill packages, not development templates.
 
-## What it enforces
+## How to use
 
-- **The brief becomes a design thesis.** Purpose, audience, content, medium,
-  constraints, and desired effect shape one specific direction.
-- **Relationships do the work.** Hierarchy, composition, typography, colour,
-  imagery, spacing, data, and sequence support the same intent.
-- **Style is a system.** Period, movement, genre, or vernacular traits are
-  translated through structure, type, colour, image logic, material, and
-  medium. Familiar signs remain available when they help recognition.
-- **Rules may be broken deliberately.** The communication and accessibility
-  floors survive, the intent is legible, and compensating structure prevents a
-  local exception from becoming general damage.
-- **Critique makes repair actionable.** Findings connect observation, likely
-  effect, severity, the smallest coherent correction, and preserved strengths.
-  Critique stays read-only. An authorised repair adds the change and its render.
-- **Evidence matches the claim.** Source, syntax, render, interaction, and
-  production proof remain distinct. Attractive output does not prove rights,
-  accessibility, or press readiness.
-- **Professional boundaries stay visible.** Asset rights, cultural authority,
-  provenance, supplier specifications, and human approval are not guessed
-  from appearance.
+Name Scoville Design when the task needs design judgment or original visual
+direction:
 
-The installed Core contract is in [SKILL.md](scoville-design-anti-ai-slop/SKILL.md).
+```text
+Use Scoville Design to create an editable A3 poster from this brief. Develop one subject-specific concept, typeset every required line, inspect the render, and repair the highest-impact problem.
+```
 
-## How it works
+```text
+Use Scoville Design to critique this webpage. Distinguish defects, tradeoffs, preferences, and deliberate exceptions. Preserve what works and propose the smallest coherent repair.
+```
 
-The Core runs a compact studio loop: frame and route, explore, consolidate,
-execute, inspect, resolve and deliver. Composition foundations apply throughout
-Design work. A direct index selects from 30 specialist modules only when an open
-decision or needed method calls for them. Rough ideas can stay provisional.
-Shared spacing and type roles are committed before repetition, then the actual
-render is inspected from the whole down to groups and native details.
+```text
+Use Scoville Design to make this landing page feel unmistakably like professional 1980s neon and retro computing. Use period DNA structurally, avoid a pile of familiar symbols, and verify desktop and mobile renders.
+```
 
-Visual inspection and suitable measurements check the same final artifact.
-Neither substitutes for the other. A clean first render can pass, and repair
-has no one-correction cap. After two unsuccessful passes, reassess the cause and
-method. Preserve useful expression while fixing the supported problem.
-
-The package has three modes: generation, read-only critique and repair.
-Style direction remains a domain available within each mode. A requested artifact must be editable and rendered through
-the appropriate format tool when available. Advice alone does not complete an
-artifact request.
-
-The modules include practical ways to build and compare a design: adjust
-measure and leading with the actual text, construct a role palette, compare
-mark contours, allocate content across media, or place map labels without
-moving their features. Select the operation the task needs. These methods
-do not impose a universal visual preset or a module-size target.
+Explicit `$scoville-design-anti-ai-slop` invocation also works on hosts that
+support named Skill invocation.
 
 ### Design and UI
 
@@ -142,37 +123,6 @@ is absent, inactive, inapplicable, or explicitly excluded, UI retains its
 bounded Greenfield fallback. Neither Skill searches for, requires, or simulates
 the other.
 
-## How it was developed
-
-I developed Design by comparing the instructions with actual visual work.
-Source review, rendered artifacts and blind comparisons exposed different
-problems, and I revised the Skill around what each could show. That led to
-composition foundations in the Core and specialist methods loaded only when
-the task needs them.
-
-The [changelog](CHANGELOG.md) follows that development. I continue reading task
-histories alongside the resulting artifacts to find missed defects, repeated
-repairs and reference reads that do not help the design. The comparisons used
-changing briefs and Skill versions with one human reviewer (me, with over 20 years
-of experience in media design). They helped me
-revise the instructions, but are not a benchmark of general design quality.
-
-## Scoville family
-
-Each Skill works independently. Combine only the concerns the task actually
-needs:
-
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
-
 ## Sources
 
 The Skill contains original synthesis, not copied books, screenshots, datasets,
@@ -186,6 +136,19 @@ Primary foundations include [Graphic Design and Print Production Fundamentals](h
 Sources establish provenance, not an online runtime dependency or a guarantee
 of professional competence. Rights, production, and jurisdiction-specific
 claims still need current verification.
+
+## Family
+
+- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
+- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
+- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
+- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 

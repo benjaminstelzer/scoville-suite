@@ -1,48 +1,61 @@
 # Scoville Scribe Anti-AI-Slop
 
 A rewrite can sound better and say something different. "May reduce latency"
-becomes "will improve performance", or a summary drops the condition that made
+becomes "will improve performance", or a summary loses the condition that made
 the result true. Smooth prose does not repair a changed claim.
 
 Scoville Scribe drafts, edits, summarizes, localizes and audits requested text.
-It preserves meaning, evidence, attribution, terms and behavior while removing
-filler and unclear wording. Explanations must introduce their concepts,
-identify what they refer to and give the reader enough information to act.
+It improves clarity while preserving meaning, evidence, terminology and the
+author's position. It also checks whether an explanation gives the reader
+enough information to understand and act.
 
-The agent checks the revision against the source's claims and qualifications,
-then asks whether the reader can follow the explanation without supplying
-missing knowledge. That comparison adds reading and revision work, especially
-for source-sensitive text. It does not make unsupported claims true.
+## How it works
 
-Use it for articles, reports, help, interface text and exact-source work.
-Ordinary answers and status updates do not activate it merely because they
-contain prose. When Scoville Plan applies, Plan owns its own records, including
-wording audits. Neither Skill requires the other.
+- Identify the requested transformation, audience, source facts and canonical terms.
+- Route each segment to the relevant prose, interface or fidelity guidance.
+- Make the smallest useful revision and compare it against claims, conditions and source boundaries.
+- Check referents, introduced concepts and causal links from the reader's perspective.
+- Keep ordinary conversation outside the Skill. Scoville Plan owns its own records when applicable.
 
-## Why "Scoville"?
+## What it enforces
 
-The family is named for useful signal that remains detectable after dilution.
-In Scribe, that means preserving meaning through editing, shortening and translation.
+- **Facts survive the edit.** Numbers, quotations, conditions, attribution,
+  modality, and uncertainty keep their meaning.
+- **Canonical terms stay canonical.** A setting named `Padding` keeps that name
+  so the reader can find it in the product.
+- **Working strings keep working.** Placeholders, ICU branches, access keys,
+  shortcuts, schemas, and accessible names retain their contracts.
+- **Behavior-bound text stays true.** Interface labels, help, errors, and
+  procedures describe supported behavior rather than desired fiction.
+- **The author's position survives.** Voice may improve without inventing
+  certainty, experience, identity, or conclusions.
+- **Prose is built around sentences.** Rewrite sentences that rely on em
+  dashes, en dashes, or semicolons instead of mechanically replacing the marks.
+  Structure newly written or edited prose primarily with periods and commas,
+  using `-` only sparingly when a dash is genuinely needed. Existing text outside
+  the requested edit scope stays unchanged, as do exact quotations, protected
+  source text, and technical syntax.
+- **The requested operation stays narrow.** An audit reports. An edit changes
+  the smallest real defect. Source-exact output remains exact.
+- **Filler does not stand in for meaning.** Check unearned contrasts, vague
+  authority, inflated significance, and decorative formatting. Interface copy
+  names the actual action and state without unsupported reassurance or
+  celebration. These are contextual editing checks, not authorship detection.
 
-## How to use
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop/blob/main/scoville-scribe-anti-ai-slop/SKILL.md).
 
-Name Scoville Scribe when wording must improve without changing its factual or
-technical contract:
+## What it costs
 
-```text
-Use Scoville Scribe to tighten this release note while preserving every claim, version number, condition, and uncertainty. Keep the existing product terminology.
-```
+- Source comparison and revision add tokens and time, especially for exact or sensitive text.
+- The Skill cannot make an unsupported claim true or supply missing source facts.
 
-```text
-Use Scoville Scribe to localize these interface strings into German. Preserve placeholders, access keys, ICU branches, and the distinction between labels, help text, and errors.
-```
+## How it was developed
 
-```text
-Use Scoville Scribe in Source-exact mode to extract the text between the named markers. Preserve the selected bytes and return nothing else.
-```
-
-Explicit `$scoville-scribe-anti-ai-slop` invocation also works on hosts that
-support named Skill invocation.
+- Scribe grew through writing tasks where an apparently better sentence changed the meaning.
+- I examine the source, the final text and the task history together to find missing conditions, altered terms and explanations that still leave the reader guessing.
+- Those cases guide changes to the instructions.
+- Real-project histories are analyzed alongside results to identify failures and unnecessary context use.
+- Targeted simulation and optimization workflows inform revisions. Changes are retained only when the required behavior survives.
 
 ## Compatibility
 
@@ -73,70 +86,25 @@ Get the complete suite from the
 [Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
 Install its released Skill packages, not development templates.
 
-## What it enforces
+## How to use
 
-- **Facts survive the edit.** Numbers, quotations, conditions, attribution,
-  modality, and uncertainty keep their meaning.
-- **Canonical terms stay canonical.** A setting named `Padding` keeps that name
-  so the reader can find it in the product.
-- **Working strings keep working.** Placeholders, ICU branches, access keys,
-  shortcuts, schemas, and accessible names retain their contracts.
-- **Behavior-bound text stays true.** Interface labels, help, errors, and
-  procedures describe supported behavior rather than desired fiction.
-- **The author's position survives.** Voice may improve without inventing
-  certainty, experience, identity, or conclusions.
-- **Prose is built around sentences.** Rewrite sentences that rely on em
-  dashes, en dashes, or semicolons instead of mechanically replacing the marks.
-  Structure newly written or edited prose primarily with periods and commas,
-  using `-` only sparingly when a dash is genuinely needed. Existing text outside
-  the requested edit scope stays unchanged, as do exact quotations, protected
-  source text, and technical syntax.
-- **The requested operation stays narrow.** An audit reports. An edit changes
-  the smallest real defect. Source-exact output remains exact.
-- **Filler does not stand in for meaning.** Check unearned contrasts, vague
-  authority, inflated significance, and decorative formatting. Interface copy
-  names the actual action and state without unsupported reassurance or
-  celebration. These are contextual editing checks, not authorship detection.
+Name Scoville Scribe when wording must improve without changing its factual or
+technical contract:
 
-The complete contract is in
-[SKILL.md](scoville-scribe-anti-ai-slop/SKILL.md).
+```text
+Use Scoville Scribe to tighten this release note while preserving every claim, version number, condition, and uncertainty. Keep the existing product terminology.
+```
 
-## How it works
+```text
+Use Scoville Scribe to localize these interface strings into German. Preserve placeholders, access keys, ICU branches, and the distinction between labels, help text, and errors.
+```
 
-The Skill description first keeps ordinary conversation and domain-owned normal
-results out of Scribe. Once an artifact or transformation activates the Core,
-it resolves truth, terminology, audience, and requested transformation per
-segment, then loads only the Interface, Prose, or Fidelity guide needed for
-that segment. Chat delivery alone neither activates nor suppresses Scribe.
+```text
+Use Scoville Scribe in Source-exact mode to extract the text between the named markers. Preserve the selected bytes and return nothing else.
+```
 
-## How it was developed
-
-Scribe grew through writing tasks where an apparently better sentence changed
-the meaning. I examine the source, the final text and the task history together
-to find missing conditions, altered terms and explanations that still leave
-the reader guessing. Those cases guide changes to the instructions.
-
-I have also compared which references an agent loads and used
-[paired optimization tests](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop/blob/660ae1c863d4404c74a83af7aff56ea726fee4b2/CHANGELOG.md)
-to examine a shorter Core. The [changelog](CHANGELOG.md) follows the resulting
-work on activation, source-exact handling and explanatory text. The aim is to
-spend context on the writing problem actually being solved.
-
-## Scoville family
-
-Each Skill works independently. Combine only the concerns the task actually
-needs:
-
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
+Explicit `$scoville-scribe-anti-ai-slop` invocation also works on hosts that
+support named Skill invocation.
 
 ## Sources
 
@@ -151,6 +119,19 @@ needs:
   LLM style imitation and authorship inference.
 - [Peter Yang's no-ai-slop](https://github.com/petergyang/no-ai-slop) for
   reader-first editing and skepticism toward word-list detectors.
+
+## Family
+
+- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
+- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
+- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
+- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 

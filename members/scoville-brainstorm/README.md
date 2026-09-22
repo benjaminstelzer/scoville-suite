@@ -1,27 +1,98 @@
 # Scoville Brainstorm
 
-Three versions of the same idea do not give you three useful choices. A queue,
-an event queue and a queue with different arrows may still solve the problem
-in exactly the same way.
+Three descriptions of the same idea do not give you three useful choices.
+A queue, an event queue and a queue with different arrows may still solve the
+problem in exactly the same way.
 
-Scoville Brainstorm explores alternatives by how they work. It compares them
-against the fixed constraints and existing approaches, challenges their weak
-assumptions and returns a shortlist you can make a decision from. It stops
-before choosing or implementing a direction.
+Scoville Brainstorm explores genuinely different solution mechanisms before
+selection. It compares them with constraints and existing approaches, tests
+their assumptions and returns a shortlist for a human decision.
 
-The agent develops candidate mechanisms separately before comparing them, so
-the first plausible idea does not define every alternative. Exploration and
-comparison add tokens and time, and a shortlist still needs a decision and
-validation. A claim of originality is limited to what was actually examined.
+## How it works
 
-Use it for architecture, product, workflow or research questions that need
-materially different approaches, including competing explanations for an unknown
-cause. A known fix, ordinary review or wording question does not need this process.
+- Check that the request needs materially different mechanisms, then freeze the factual brief and constraints.
+- Generate candidates separately from landscape research and criticism when the host supports independent agents.
+- Without delegation, use one generation pass and one landscape pass, and state that independence was unavailable.
+- Group surface variants by mechanism, challenge weak assumptions and compare against inspected approaches.
+- Return up to three directions, or two in Compact mode, with benefits, risks and cheap falsifiers. Stop before selection or implementation.
 
-## Why "Scoville"?
+```mermaid
+flowchart LR
+    B["Fixed brief"] --> G["Generate mechanisms"]
+    B --> L["Inspect existing approaches"]
+    G --> C["Compare and challenge"]
+    L --> C
+    C --> S["Shortlist"]
+    S --> H["Human selection"]
+```
 
-The family is named for useful signal that remains detectable after dilution.
-Here, that signal is the difference between approaches after constraints and criticism have been applied.
+## What it enforces
+
+- **Decision-shaped activation.** Difficulty alone does not trigger an idea
+  search. The request must need materially different mechanisms.
+- **One factual frame.** Facts, authority, fixed constraints, assumptions,
+  source scope, and effort profile are frozen before divergence.
+- **Independent generation when available.** Generators do not see sibling or
+  landscape output. A single-agent fallback is labeled by its real capacity.
+- **One landscape owner in combined mode.** Research replaces the native
+  Brainstorm landscape agent when both Skills are explicitly requested. It
+  never becomes a standalone dependency.
+- **Mechanisms over paraphrases.** Convergence merges surface variants and
+  rejects unsupported or constraint-breaking directions.
+- **Calibrated originality.** Evidence labels describe only the documented,
+  bounded comparison and never claim objective novelty or patentability.
+- **A hard decision stop.** The result gives benefits, risks, and cheapest
+  falsifiers, then waits for human selection.
+
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-brainstorm/blob/main/scoville-brainstorm/SKILL.md).
+
+## What it costs
+
+- Separate generation and comparison consume additional context and time.
+- A shortlist still needs a decision and validation. Originality claims apply only to the inspected comparison scope.
+- A known fix or ordinary review does not need this process.
+- The Codex Desktop surface tested on 2026-09-19 had interruption but no documented control to close completed subagents and free their slots. Other hosts may differ.
+- Brainstorm reports unavailable cleanup before isolated generation and stays within observable agent capacity.
+- Interrupting, archiving, deleting tasks or killing processes does not establish that a subagent slot was freed.
+
+## How it was developed
+
+- I developed Brainstorm around a recurring problem: asking for different ideas often produces different descriptions of the same idea.
+- The instructions keep generation separate from criticism and compare alternatives by how they work.
+- That distinction matters more than the number of proposals.
+- Real-project histories are analyzed alongside results to identify failures and unnecessary context use.
+- Targeted simulation and optimization workflows inform revisions. Changes are retained only when the required behavior survives.
+
+- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-brainstorm/development/README.md)
+
+## Compatibility
+
+Any Agent Skills host that can read references/. Isolated generators, a landscape agent and an independent critic need subagent spawning; without it the Skill uses its documented solo fallback. Web search improves the landscape pass. No scripts, no network service. Developed for Codex and Claude Code; other hosts untested.
+
+## Install
+
+### Install this Skill
+
+In a local Codex or Claude Code session, ask:
+
+```text
+Install this Agent Skill for all my projects from this exact package directory:
+https://github.com/benjaminstelzer/scoville-brainstorm/tree/main/scoville-brainstorm
+Preserve existing customizations and ask before overwriting conflicting files.
+Report the installed location and whether the host discovers the Skill.
+```
+
+The agent needs source access and permission to write to its personal Skills
+location. Manual fallback: [Codex Skills guide](https://learn.chatgpt.com/docs/build-skills)
+or [Claude Code Skills guide](https://code.claude.com/docs/en/skills).
+
+Install only the linked package for the focused option.
+
+### Install the complete Scoville suite
+
+Get the complete suite from the
+[Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
+Install its released Skill packages, not development templates.
 
 ## How to use
 
@@ -57,113 +128,6 @@ Use Scoville Brainstorm together with Scoville Research. Freeze the factual fram
 Explicit `$scoville-brainstorm` invocation also works on hosts that support
 named Skill invocation.
 
-## Compatibility
-
-Any Agent Skills host that can read references/. Isolated generators, a landscape agent and an independent critic need subagent spawning; without it the Skill uses its documented solo fallback. Web search improves the landscape pass. No scripts, no network service. Developed for Codex and Claude Code; other hosts untested.
-
-## Install
-
-### Install this Skill
-
-In a local Codex or Claude Code session, ask:
-
-```text
-Install this Agent Skill for all my projects from this exact package directory:
-https://github.com/benjaminstelzer/scoville-brainstorm/tree/main/scoville-brainstorm
-Preserve existing customizations and ask before overwriting conflicting files.
-Report the installed location and whether the host discovers the Skill.
-```
-
-The agent needs source access and permission to write to its personal Skills
-location. Manual fallback: [Codex Skills guide](https://learn.chatgpt.com/docs/build-skills)
-or [Claude Code Skills guide](https://code.claude.com/docs/en/skills).
-
-Install only the linked package for the focused option.
-
-### Install the complete Scoville suite
-
-Get the complete suite from the
-[Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
-Install its released Skill packages, not development templates.
-
-## What it enforces
-
-- **Decision-shaped activation.** Difficulty alone does not trigger an idea
-  search. The request must need materially different mechanisms.
-- **One factual frame.** Facts, authority, fixed constraints, assumptions,
-  source scope, and effort profile are frozen before divergence.
-- **Independent generation when available.** Generators do not see sibling or
-  landscape output. A single-agent fallback is labeled by its real capacity.
-- **One landscape owner in combined mode.** Research replaces the native
-  Brainstorm landscape agent when both Skills are explicitly requested. It
-  never becomes a standalone dependency.
-- **Mechanisms over paraphrases.** Convergence merges surface variants and
-  rejects unsupported or constraint-breaking directions.
-- **Calibrated originality.** Evidence labels describe only the documented,
-  bounded comparison and never claim objective novelty or patentability.
-- **A hard decision stop.** The result gives benefits, risks, and cheapest
-  falsifiers, then waits for human selection.
-
-The complete contract is in [SKILL.md](scoville-brainstorm/SKILL.md).
-
-## How it works
-
-A request is routed as `NO`, `ASK`, or `YES`. A positive run freezes one brief,
-uses isolated generators and a separate landscape pass when the host supports
-them, clusters ideas by mechanism, applies independent criticism, and returns
-at most three distinct directions (two in Compact). With no agent delegation,
-one consolidated generation pass is followed by exactly one landscape pass,
-without claiming isolation or independent criticism. Truncated sources have a
-targeted recovery path before the frame is frozen. Observation labels remain
-facts, not automatic constraints. A known material source change after freezing
-requires visible reconciliation instead of silently mixing revisions.
-
-In explicit combined mode, Research owns the only landscape lane. Brainstorm
-freezes and runs its generators without that result, receives the inspected
-landscape only after collection, and then converges by mechanism. Outside that
-mode the native Brainstorm landscape remains unchanged. Research can require browsing, and parallel branches use additional context.
-The Skill installs no executable software or dedicated network service.
-
-## How it was developed
-
-I developed Brainstorm around a recurring problem: asking for different ideas
-often produces different descriptions of the same idea. The instructions keep
-generation separate from criticism and compare alternatives by how they work.
-That distinction matters more than the number of proposals.
-
-I use it in real tasks and read the complete histories to see where alternatives
-collapse into one another, constraints get lost or the search continues after
-it has enough useful directions. I have also used SkillOpt to try instruction
-changes. An [early optimization run](https://github.com/benjaminstelzer/scoville-brainstorm/blob/1ca176c9a6ec85188a2cd50feebd579f35991247/CHANGELOG.md)
-did not produce a change worth keeping. The existing instructions stayed.
-
-## Scoville family
-
-Each Skill works independently. Combine only the concerns the task actually
-needs:
-
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
-
-## Current Codex lifecycle limitation
-
-On 2026-09-19, the tested Codex Desktop tool surface exposed `interrupt_agent`
-but no control whose documented semantics close a completed subagent and free
-its slot. Interrupting stops the current turn while leaving the agent available. Other
-Codex hosts may expose an equivalent control under a different name. Brainstorm
-therefore discovers lifecycle controls by documented behavior, reports unavailable
-cleanup before isolated generation, and keeps generators, landscape work, and any
-critic within observable capacity. Archiving, deleting a task, or killing a
-process is not assumed to free a subagent slot either.
-
 ## Sources
 
 - [UditAkhourii/adhd](https://github.com/UditAkhourii/adhd/tree/3d9dc487bc2eba4449742e2db0d92be9ebdf95b6)
@@ -176,11 +140,18 @@ process is not assumed to free a subagent slot either.
 - [Agent Skills specification](https://agentskills.io/specification) for the
   portable package contract.
 
-## Development
+## Family
 
-Maintained in the suite. Individual repositories contain generated packages.
-
-[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-brainstorm/development/README.md)
+- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
+- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
+- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
+- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 
