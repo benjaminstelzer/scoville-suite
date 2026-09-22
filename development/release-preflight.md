@@ -80,7 +80,19 @@ answers and rejected case 24. The author confirmed that failure: Luna identifies
 Structural risk but selects no route, overlooking the mandatory Change override.
 The failed answer remains unchanged under workspace
 `temp/2026-09-22-release-code-luna/code-release-24-run/`.
-Publication remains blocked on correcting and retesting this routing ambiguity.
+The classification row now states the risk override directly. A separate r2
+run on the rebuilt package passes cases 06 and 24 under SOL review. The author
+read both answers and agrees: Normal remains core-only, while Structural adds
+Change. Case 24 also selects Validation for the evidence judgment. Four native
+contexts identify Luna Medium. Original failure evidence remains unchanged.
+
+## Historical release mismatch
+
+Live release notes exist without matching local changelog headings for
+Brainstorm v1.1.13, Code v1.0.33, Handoff v2.0.16, Research v1.1.10,
+Scribe v1.0.33, UI v1.2.8 and WordPress v1.2.9. Their release bodies describe
+functional changes. Publication needs an explicit migration choice before
+reconciling these histories. No existing tag has been changed or removed.
 
 ## Plan Viewer
 
