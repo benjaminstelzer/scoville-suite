@@ -9,6 +9,12 @@ interfaces through the WordPress layer that actually owns them. It covers
 Classic PHP pages, Core Components and supported mixed runtimes, with explicit
 rules for spacing, responsive behavior, states, accessibility and i18n.
 
+The agent first identifies the supported WordPress runtime, then uses its
+components and spacing rules instead of inventing a second UI system. It checks
+the rendered page, including vertical flow and smaller screens. This needs more
+inspection and validation than styling from a screenshot, and meaningful visual
+checks need a running WordPress environment.
+
 It owns implementation and UI acceptance for those surfaces. Scoville UI does
 not run a second acceptance process. Frontends, the editor canvas and extensions
 inside Core screens remain outside this Skill's scope.

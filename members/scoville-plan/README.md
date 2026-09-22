@@ -9,7 +9,9 @@ Scoville Plan keeps Plans, Work Items and Decisions in the repository. Use it
 when work spans dependent outcomes, needs explicit decisions or must survive
 interruption. It preserves the existing planning owner and keeps completion
 tied to an observed result, rather than the presence of a file or a checked box.
-Small reversible changes usually need no durable Plan.
+The agent records the active work, relevant decisions, evidence and next action
+where the next session can find them. Updating these records takes time and
+tokens. Small reversible changes usually need no durable Plan.
 
 ## Why "Scoville"?
 

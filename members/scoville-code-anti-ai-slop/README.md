@@ -32,6 +32,10 @@ busywork or a confident completion message for the behavior you asked for.
 It also limits unnecessary work. Once the changed behavior and its material
 risks have decisive evidence, more searching and testing need a concrete reason.
 
+Reading the relevant code and checking the result can use more tokens and time
+than producing an immediate patch. The rules keep that cost tied to the actual
+change, rather than requiring a full audit for every edit.
+
 Use it for implementation, diagnosis, review and removal of code or engineering
 artifacts. It can investigate without editing. Small changes should stay small,
 while migrations, security boundaries and irreversible work need closer checks.
