@@ -76,37 +76,6 @@ new one takes over. Codex must confirm archival for the exact task. If that
 confirmation is missing but safe continuation is verified, work continues and
 the old coordinator stays open for later cleanup.
 
-## Scoville Brainstorm
-
-Three versions of the same idea do not give you three useful choices. A queue,
-an event queue and a queue with different arrows may still solve the problem
-in exactly the same way.
-
-Scoville Brainstorm explores alternatives by how they work. It compares them
-against the fixed constraints and existing approaches, challenges their weak
-assumptions and returns a shortlist you can make a decision from. It stops
-before choosing or implementing a direction.
-
-Use it for architecture, product, workflow or research questions that need
-materially different approaches, including competing explanations for an unknown
-cause. A known fix, ordinary review or wording question does not need this process.
-
-## Scoville Research
-
-A source list can look convincing while the answer rests on very little. Five
-articles may repeat the same press release. A real citation may concern the
-right topic without supporting the sentence attached to it.
-
-Scoville Research follows claims back to the evidence that can answer the
-question. It covers current web research, GitHub-first implementation discovery,
-academic literature and longer investigations that need saved records. It
-keeps contradictions and gaps visible and stops when another search would no
-longer change the decision.
-
-Use it for questions that need several sources examined together. A summary of
-one known page or paper, ordinary repository inspection, brainstorming,
-implementation or wording work belongs with the corresponding task.
-
 ## Scoville Code Anti-AI-Slop
 
 A coding agent can finish the wrong thing quite thoroughly. The tests are green,
@@ -122,22 +91,34 @@ Use it for implementation, diagnosis, review and removal of code or engineering
 artifacts. It can investigate without editing. Small changes should stay small,
 while migrations, security boundaries and irreversible work need closer checks.
 
-## Scoville Design Anti-AI-Slop
+## Scoville Plan
 
-A design can look polished and still miss the brief. An 80s reference becomes
-neon, chrome and VHS noise, but the combination says little about the actual
-subject. Or every element is neatly spaced, yet nothing tells the reader where
-to start.
+A useful plan lets you pick up the work again without reconstructing the whole
+conversation. It says what is active, which decisions apply and what needs to
+happen next. If maintaining the plan becomes most of the work, the structure
+is getting in the way.
 
-Scoville Design connects the visual choices to the content, audience and medium.
-It helps create a direction, develop it into an artifact, inspect the result and
-repair specific problems. A critique should explain what is wrong and why,
-while preserving the parts that work.
+Scoville Plan keeps Plans, Work Items and Decisions in the repository. Use it
+when work spans dependent outcomes, needs explicit decisions or must survive
+interruption. It preserves the existing planning owner and keeps completion
+tied to an observed result, rather than the presence of a file or a checked box.
+Small reversible changes usually need no durable Plan.
 
-Use it for graphic, editorial, brand, advertising, packaging, wayfinding, web,
-interface, information and motion design. It also handles style interpretation.
-Mechanical edits to a settled design, conversion or rendering alone, backend
-work and prose-only editing do not need it.
+## Scoville Scribe Anti-AI-Slop
+
+A rewrite can sound better and say something different. "May reduce latency"
+becomes "will improve performance", or a summary drops the condition that made
+the result true. Smooth prose does not repair a changed claim.
+
+Scoville Scribe drafts, edits, summarizes, localizes and audits requested text.
+It preserves meaning, evidence, attribution, terms and behavior while removing
+filler and unclear wording. Explanations must introduce their concepts,
+identify what they refer to and give the reader enough information to act.
+
+Use it for articles, reports, help, interface text and exact-source work.
+Ordinary answers and status updates do not activate it merely because they
+contain prose. When Scoville Plan applies, Plan owns its own records, including
+wording audits. Neither Skill requires the other.
 
 ## Scoville UI Anti-AI-Slop
 
@@ -169,34 +150,22 @@ It owns implementation and UI acceptance for those surfaces. Scoville UI does
 not run a second acceptance process. Frontends, the editor canvas and extensions
 inside Core screens remain outside this Skill's scope.
 
-## Scoville Scribe Anti-AI-Slop
+## Scoville Design Anti-AI-Slop
 
-A rewrite can sound better and say something different. "May reduce latency"
-becomes "will improve performance", or a summary drops the condition that made
-the result true. Smooth prose does not repair a changed claim.
+A design can look polished and still miss the brief. An 80s reference becomes
+neon, chrome and VHS noise, but the combination says little about the actual
+subject. Or every element is neatly spaced, yet nothing tells the reader where
+to start.
 
-Scoville Scribe drafts, edits, summarizes, localizes and audits requested text.
-It preserves meaning, evidence, attribution, terms and behavior while removing
-filler and unclear wording. Explanations must introduce their concepts,
-identify what they refer to and give the reader enough information to act.
+Scoville Design connects the visual choices to the content, audience and medium.
+It helps create a direction, develop it into an artifact, inspect the result and
+repair specific problems. A critique should explain what is wrong and why,
+while preserving the parts that work.
 
-Use it for articles, reports, help, interface text and exact-source work.
-Ordinary answers and status updates do not activate it merely because they
-contain prose. When Scoville Plan applies, Plan owns its own records, including
-wording audits. Neither Skill requires the other.
-
-## Scoville Plan
-
-A useful plan lets you pick up the work again without reconstructing the whole
-conversation. It says what is active, which decisions apply and what needs to
-happen next. If maintaining the plan becomes most of the work, the structure
-is getting in the way.
-
-Scoville Plan keeps Plans, Work Items and Decisions in the repository. Use it
-when work spans dependent outcomes, needs explicit decisions or must survive
-interruption. It preserves the existing planning owner and keeps completion
-tied to an observed result, rather than the presence of a file or a checked box.
-Small reversible changes usually need no durable Plan.
+Use it for graphic, editorial, brand, advertising, packaging, wayfinding, web,
+interface, information and motion design. It also handles style interpretation.
+Mechanical edits to a settled design, conversion or rendering alone, backend
+work and prose-only editing do not need it.
 
 ## Scoville Handoff
 
@@ -211,6 +180,37 @@ Changes belonging to the user remain identifiable.
 
 Request it when you want to transfer work to another agent or session. Ordinary
 summaries, low context and ending a conversation do not activate it.
+
+## Scoville Research
+
+A source list can look convincing while the answer rests on very little. Five
+articles may repeat the same press release. A real citation may concern the
+right topic without supporting the sentence attached to it.
+
+Scoville Research follows claims back to the evidence that can answer the
+question. It covers current web research, GitHub-first implementation discovery,
+academic literature and longer investigations that need saved records. It
+keeps contradictions and gaps visible and stops when another search would no
+longer change the decision.
+
+Use it for questions that need several sources examined together. A summary of
+one known page or paper, ordinary repository inspection, brainstorming,
+implementation or wording work belongs with the corresponding task.
+
+## Scoville Brainstorm
+
+Three versions of the same idea do not give you three useful choices. A queue,
+an event queue and a queue with different arrows may still solve the problem
+in exactly the same way.
+
+Scoville Brainstorm explores alternatives by how they work. It compares them
+against the fixed constraints and existing approaches, challenges their weak
+assumptions and returns a shortlist you can make a decision from. It stops
+before choosing or implementing a direction.
+
+Use it for architecture, product, workflow or research questions that need
+materially different approaches, including competing explanations for an unknown
+cause. A known fix, ordinary review or wording question does not need this process.
 
 ## Install the suite
 
@@ -276,14 +276,14 @@ GitHub Skill. Never push a private suite tree to a public member repository.
 Sources, tests and notes stay in this suite. Individual packages omit this block
 and the development files.
 
-- **scoville-brainstorm**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-brainstorm/development/README.md)
-- **scoville-research**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-research) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-research/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-research/development/README.md)
 - **scoville-code-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code-anti-ai-slop/development/README.md)
-- **scoville-design-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-design-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-design-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-design-anti-ai-slop/development/README.md)
+- **scoville-plan**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
+- **scoville-scribe-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-scribe-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-scribe-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-scribe-anti-ai-slop/development/README.md)
 - **scoville-ui-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui-anti-ai-slop/development/README.md)
 - **scoville-wordpress-ui-backend-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-wordpress-ui-backend-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/luna-tests/wordpress-sol-results.md) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-wordpress-ui-backend-anti-ai-slop/development/README.md)
-- **scoville-scribe-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-scribe-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-scribe-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-scribe-anti-ai-slop/development/README.md)
-- **scoville-plan**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
+- **scoville-design-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-design-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-design-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-design-anti-ai-slop/development/README.md)
 - **scoville-handoff**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
+- **scoville-research**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-research) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-research/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-research/development/README.md)
+- **scoville-brainstorm**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-brainstorm/development/README.md)
 - **scoville-workflow-for-codex**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-workflow-for-codex) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-workflow-for-codex/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-workflow-for-codex/development/README.md)
 
