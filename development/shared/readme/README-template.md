@@ -6,7 +6,7 @@ English with Benjamin's voice. Preserve technical requirements and install paths
 1. `# Project name`: concise prose explaining the problem, purpose and benefit.
 2. `## How it works`: concrete process bullets.
 3. `## What it enforces`: requirement bullets.
-4. `## What it costs`: cost, overhead and limitation bullets. No invented metrics.
+4. `## What it costs`: actual added tokens, time, fees or required user effort as bullets. One useful point is enough. No invented metrics, activation rules or disclaimers against unclaimed benefits.
 5. `## How it was developed`: factual development bullets, not a prose recap.
 6. `## Compatibility`
 7. `## Install`
@@ -23,6 +23,7 @@ and development text remain suite-specific sources.
 
 Use a flowchart only when it clarifies branches or dependent steps and replaces
 longer explanation. Keep the Workflow flowchart. Lists may precede a diagram.
-Keep operational examples and configuration under How to use, limitations under
-What it costs and developer links under How it was developed. Suite-only developer
+Keep operational examples and configuration under How to use. Put material
+compatibility or evidence limits beside the affected claim, not in What it costs.
+Keep developer links under How it was developed. Suite-only developer
 links stay absent from standalone distributions. Preserve historical evidence.

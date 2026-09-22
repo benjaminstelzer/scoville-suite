@@ -67,12 +67,7 @@ flowchart TD
 
 ## What it costs
 
-- Separate tasks, repeated review inspection and handoffs add tokens, latency and coordination overhead.
-- The workflow needs Codex desktop and its task controls. A small direct fix usually does not need it.
-- After three repair workers, unresolved project findings require your decision.
-- Missing archive confirmation can leave an old coordinator open for later cleanup when safe continuation is otherwise verified.
-- Beta qualification still covers automatic compaction immediately after terminal handoff and event-driven dormancy beyond the native wait ceiling.
-- Focused tests do not prove those host behaviors end to end. Engineering judgment and project-specific acceptance remain necessary.
+- Separate worker and reviewer tasks, context handoffs and Plan updates use additional tokens and time.
 
 ## How it was developed
 
@@ -80,6 +75,8 @@ flowchart TD
 - The native version kept Plan ownership, routing, review and rollover, while moving execution into ordinary Codex tasks.
 - Real-project histories are analyzed alongside results to identify failures and unnecessary context use.
 - Targeted simulation and optimization workflows inform revisions. Changes are retained only when the required behavior survives.
+
+- Beta testing still needs to cover automatic context compaction immediately after handoff and waiting beyond the host's maximum wait duration.
 
 ## Compatibility
 

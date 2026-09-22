@@ -46,8 +46,7 @@ enough information to understand and act.
 
 ## What it costs
 
-- Source comparison and revision add tokens and time, especially for exact or sensitive text.
-- The Skill cannot make an unsupported claim true or supply missing source facts.
+- Source comparison and revision use additional tokens and time.
 
 ## How it was developed
 
