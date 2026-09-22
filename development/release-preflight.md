@@ -133,8 +133,11 @@ is not counted as a pass. The explicit contract checks above cover these fields.
 Design 24's initial semantic PASS was overturned by independent review and SOL
 reassessment: its proposed next action included repair under read-only Critique.
 The mode row now makes that authority boundary explicit. The r6 package's
-Design 24 answer preserves read-only inspection and reporting. Repair 06 remains
-the pending regression check. Original answers and revised judgments are retained.
+Design 24 answer preserves read-only inspection and reporting. Repair 06 also
+passes SOL and independent author review, preserving the authorized alignment
+fix without reopening settled choices. Native records confirm Luna Medium for
+all four turns, with clean process/protocol results. Original answers and revised
+judgments are retained.
 
 Plan 07 passes SOL and independent author review against the fixed key. It
 preserves the partial profile and stops before initialization or writes.
