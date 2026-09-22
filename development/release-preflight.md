@@ -24,6 +24,11 @@ in CRLF/LF line endings. Source export is exact, but package byte reproducibilit
 is still open. Fix the package reader and reassess affected evidence before
 publication. Do not overwrite the frozen test builds.
 
+The package reader now normalizes CRLF to LF for the supported text formats
+and preserves binary and unknown formats byte-for-byte. All 38 shared tests
+pass, including the new normalization test. Both suites bundle the fix.
+An isolated final rebuild still needs comparison before closing this finding.
+
 ## Workflow qualification
 
 SOL Medium runs the five fixed cases with Luna Medium. Initial cases 01 and 06
@@ -63,6 +68,15 @@ and plugin-defined WPDS tokens while preserving Core spacing ownership. The
 other cases cover hybrid gaps, hidden fields, focus recovery, portals, i18n,
 version boundaries and excluded surfaces. These are comprehension results,
 not proof of a rendered WordPress implementation.
+
+## Code qualification
+
+All fifteen selected runs passed transport checks. SOL accepted fourteen
+answers and rejected case 24. The author confirmed that failure: Luna identifies
+Structural risk but selects no route, overlooking the mandatory Change override.
+The failed answer remains unchanged under workspace
+`temp/2026-09-22-release-code-luna/code-release-24-run/`.
+Publication remains blocked on correcting and retesting this routing ambiguity.
 
 ## Plan Viewer
 
