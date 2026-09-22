@@ -49,3 +49,39 @@ and package hashes; `semantic-grades.json` contains SOL's independent reasons.
 
 The changed runtime package matches current sources. Its receipt retains the
 original pre-commit build provenance; it is not a final clean-release receipt.
+
+## Instruction correction and bounded retries
+
+The shared contract now gives an ordered archive loop: predecessor IDs only,
+never the current coordinator; exact verification before the next target;
+failure or unknown reply stops the loop and retains the chain, verified receipts
+and all unverified targets. No helper logic or key changed. Both suites bundle
+the updated source; the built Codex contract was installed with a backup under
+workspace `state/2026-09-22-rollover-wording-fix/`.
+
+The r2 build under `skills/public/rollover-fix-2026-09-22-r2/scoville/` differs
+in only `scripts/rollover_readiness.md` among the 28 Workflow runtime files.
+Its SHA256 is `2bf23fe34d709e52a781edd9d051b214eca6d2c0e09a422d4512ce9775049e49`.
+Current-source package verification and all 11 rollover tests pass.
+
+SOL coordinated two bounded attempts of the unchanged chain case and key:
+
+- R2 reused the original initial prompt. Four valid READ turns exhausted the
+  limit before an answer; the last request was the changed contract.
+- R3 supplied the exact core and operations invariant text upfront, following
+  the existing context-test transport, and restored the shared hypothetical
+  setup. Four READ turns again exhausted the limit; the last request was the
+  lifecycle contract. No phase-specific hint or key was supplied.
+
+Both are `turn_limit_without_final_answer`, semantic `NOT_GRADED`, not new
+Skill failures or passes. SOL verified eight native Luna/medium contexts and
+clean tool-free process results. Raw evidence remains under workspace
+`temp/2026-09-22-workflow-archive-luna-r2/` and `...-r3/`.
+Frozen manifest hashes are respectively
+`357ee03d28a58c1e59975ac300b27af0910620dfdd7a335216a55231247cdac6`
+and `06558de7002e12a16bdbd461e2b01c42851ef97f19ec5161a64d72fa24a7e298`.
+
+No further retry was made. The wording correction is implemented; model
+comprehension remains unverified. Before another model run, resolve the bounded
+reference-delivery issue without weakening the fixed semantic key or silently
+extending the qualified runner limits. Publication remains open for this case.

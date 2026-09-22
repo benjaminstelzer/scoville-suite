@@ -55,9 +55,17 @@ activation turns and the current fresh guard/successor proof. Never reconstruct
 missing links from titles or fabricate completion evidence; report a missing
 chain and preserve its tasks.
 
-Call each returned `archive_arguments` entry sequentially. After each success,
-run `verify_archive` and retain `{threadId,hostId,reply}` in `archive_receipts`,
-using the actual decoded host reply. Stop on a failed or unknown archive result;
-retain outstanding targets for the next meaningful boundary. A later recovery
-skips verified receipts. Empty arguments plus nonempty `pending_predecessors`
-means deferred, not complete. Discard the chain only when no predecessor remains.
+Archive only returned predecessor IDs, never the current coordinator. For each
+target, in order:
+
+1. Call `set_thread_archived` with its returned arguments.
+2. Run `verify_archive` on the actual decoded reply. Require the same target ID
+   and `archived:true` before calling the next target.
+3. On failure, unknown reply or failed verification: stop the archive loop.
+   Keep the full chain, verified receipts and all unverified targets for the next
+   accepted boundary. Do not advance this archive transition or claim completion.
+4. On verified success: retain `{threadId,hostId,reply}` in `archive_receipts`.
+   Only then proceed to the next target.
+
+Recovery skips verified receipts. Empty arguments with pending predecessors
+means deferred, not complete. Discard the chain only when none remain.
