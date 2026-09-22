@@ -107,6 +107,16 @@ def readme(root: Path, member: dict, audience: str = 'release') -> bytes:
     references = readme_references(member['readme'], audience)
     text = ''.join(readme_source(root, p).read_text(encoding='utf-8').rstrip() + '\n\n' for p in references)
     text = expand_variables(text, member)
+    if 'description_fragments' in member:
+        expected = ['How it works', 'What it enforces', 'What it costs',
+                    'How it was developed', 'Compatibility', 'Install',
+                    'How to use', 'Sources', 'Family', 'License']
+        actual = re.findall(r'^## (.+)$', text, re.M)
+        # Shared family and license headings are expanded from their files above.
+        if actual != expected:
+            raise ValueError(f'noncanonical README sections for {member["name"]}: {actual}')
+        if member['readme'][:4] != member['description_fragments']:
+            raise ValueError('description_fragments must be the first four README entries')
     return expand_fragments(root, text, member, audience=audience).encode('utf-8')
 
 
@@ -157,6 +167,10 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             if member is None:
                 raise ValueError('suite.exclusions requires a member')
             return ', '.join(m['name'] for m in members if m['name'] != member['name'])
+        if key == 'family.catalog':
+            return '\n'.join(f'- [{m.get("family", {}).get("label", m["name"])}](https://github.com/{m["repository"]})'
+                             + (' ' + m['family']['summary'] if 'family' in m else '.')
+                             for m in members if m['public_distribution'])
         if key == 'family.neighbors':
             if member is None:
                 raise ValueError('family.neighbors requires a member')
@@ -184,17 +198,25 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             selected = ([by_name[featured]] if featured else []) + [m for m in members if m['name'] != featured]
             sections = []
             for item in selected:
-                references = item.get('readme', [])
+                references = item.get('description_fragments', item.get('readme', [])[:1])
                 if not references:
                     raise ValueError(f'missing description: {item["name"]}')
-                description = readme_source(root, references[0]).read_text(encoding='utf-8').strip()
+                description = '\n\n'.join(readme_source(root, ref).read_text(encoding='utf-8').strip() for ref in references)
                 heading, separator, body = description.partition('\n')
                 if not heading.startswith('# ') or not separator or not body.strip():
                     raise ValueError(f'expected title and description: {item["name"]}')
                 # Descriptions stay self-contained so moving them cannot break relative links.
                 if '{{ include:' in description or re.search(r'\]\((?!https?://)[^)]+\)', description):
                     raise ValueError(f'description must use absolute links and no includes: {item["name"]}')
-                sections.append('## ' + heading[2:] + '\n' + expand_variables(body, item))
+                lines = []
+                fenced = False
+                for line in expand_variables(description, item).splitlines():
+                    if line.startswith('```'):
+                        fenced = not fenced
+                    if not fenced and re.match(r'^#{1,5} ', line):
+                        line = '#' + line
+                    lines.append(line)
+                sections.append('\n'.join(lines))
             return '\n\n'.join(sections)
         formats = {'family.owners', 'family.links', 'family.install'}
         if key not in formats:

@@ -1,46 +1,56 @@
 # Scoville Handoff
 
-The next session needs enough information to continue the work. A long account
-of the conversation can still miss the current blocker, the uncommitted changes
-or the reason an earlier approach failed.
+The next session needs enough information to continue, not another transcript.
+A long summary can still miss the current blocker, unfinished changes or the
+reason an earlier approach failed.
 
-Scoville Handoff turns active work into one compact continuation prompt. It
-preserves the objective, decisions, permissions, file ownership, observed
-results and next safe action. A test that is still running stays unresolved.
-Changes belonging to the user remain identifiable.
+Scoville Handoff produces one compact continuation prompt with the objective,
+current state, authority and next safe action. It preserves the facts needed
+to resume without quietly advancing or completing the work.
 
-The agent reads the named task sources and separates the objective, current
-state and resume steps into a fixed structure. Preparing it costs a little
-extra reading and tokens. It cannot recover facts that were never recorded or
-turn an unfinished check into a result.
+## How it works
 
-Request it when you want to transfer work to another agent or session. Ordinary
-summaries, low context and ending a conversation do not activate it.
+- Read the named task sources with bounded recovery when a read is incomplete.
+- Capture decisions, ownership, evidence, blockers and hazards without secrets.
+- Organize the result into Receiver Instructions, Objective, State and Resume Steps.
+- Compare the prompt against the captured facts and return one copy-ready block.
+- The receiver checks current state before acting. A tight limit removes repetition before necessary facts.
 
-## Why "Scoville"?
+## What it enforces
 
-The family is named for useful signal that remains detectable after dilution.
-In Handoff, that means preserving what the next session needs when the conversation is shortened.
+- **Explicit transfer only.** Ordinary summaries and context reduction do not
+  produce a handoff artifact.
+- **One receiver contract.** Every handoff contains Receiver Instructions,
+  Objective, State, and Resume Steps in one copy-ready block.
+- **Facts instead of pointers.** Named sources are read with targeted recovery
+  for truncation or a transient failure, within explicit user limits. Their material
+  facts enter the artifact so the receiver has them when resuming.
+- **Authority and ownership survive.** Commit, publication, destructive-action,
+  external-effect, file-owner, and dirty-tree boundaries stay explicit.
+- **Unknown stays unknown.** Running or unobserved work never becomes a success
+  claim, and secret values never enter the handoff.
+- **The receiver can act.** Step 1 is the next safe action. The final step names
+  an observable completion result.
+- **Transfer does not advance the task.** Handoff reads the named state but does
+  not edit, test, publish, or otherwise improve it on the way out.
 
-## How to use
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-handoff/blob/main/scoville-handoff/SKILL.md).
 
-Request an explicit transfer and name any task sources the receiver will need:
+## What it costs
 
-```text
-Use Scoville Handoff to transfer this active task to a new session. Read docs/plans/0001-migration.md and ADR-0002.md, include the current Git state, and return one copy-ready continuation prompt.
-```
+- Preparing a reliable handoff requires additional reading and tokens.
+- Missing facts cannot be recovered from an empty record. If required facts cannot fit, the limit must be resolved.
+- Ordinary summaries, low context and ending a session do not activate this Skill.
 
-```text
-Create a compact handoff for another agent. Preserve the objective, accepted decisions, dirty files, observed test evidence, current blocker, and next safe action. Do not continue the task.
-```
+## How it was developed
 
-```text
-Use Scoville Handoff for the work completed in this session. Mark unverified commands and external state as unknown rather than inferring success.
-```
+- Handoff grew out of moving real work between sessions and seeing what the next session was missing.
+- A long summary could still omit the current blocker or fail to say which local changes belonged to the user.
+- The [changelog](CHANGELOG.md) traces the move from a large conditional template to four sections built around continuing the work.
+- Real-project histories are analyzed alongside results to identify failures and unnecessary context use.
+- Targeted simulation and optimization workflows inform revisions. Changes are retained only when the required behavior survives.
 
-Explicit `$scoville-handoff` invocation also works on hosts that support named
-Skill invocation. The former `$compact-handoff` identifier is retired. Natural
-requests such as “compact handoff” still activate this Skill.
+- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
 
 ## Compatibility
 
@@ -71,67 +81,25 @@ Get the complete suite from the
 [Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
 Install its released Skill packages, not development templates.
 
-## What it enforces
+## How to use
 
-- **Explicit transfer only.** Ordinary summaries and context reduction do not
-  produce a handoff artifact.
-- **One receiver contract.** Every handoff contains Receiver Instructions,
-  Objective, State, and Resume Steps in one copy-ready block.
-- **Facts instead of pointers.** Named sources are read with targeted recovery
-  for truncation or a transient failure, within explicit user limits. Their material
-  facts enter the artifact so the receiver has them when resuming.
-- **Authority and ownership survive.** Commit, publication, destructive-action,
-  external-effect, file-owner, and dirty-tree boundaries stay explicit.
-- **Unknown stays unknown.** Running or unobserved work never becomes a success
-  claim, and secret values never enter the handoff.
-- **The receiver can act.** Step 1 is the next safe action. The final step names
-  an observable completion result.
-- **Transfer does not advance the task.** Handoff reads the named state but does
-  not edit, test, publish, or otherwise improve it on the way out.
+Request an explicit transfer and name any task sources the receiver will need:
 
-The complete contract is in [SKILL.md](scoville-handoff/SKILL.md).
+```text
+Use Scoville Handoff to transfer this active task to a new session. Read docs/plans/0001-migration.md and ADR-0002.md, include the current Git state, and return one copy-ready continuation prompt.
+```
 
-## How it works
+```text
+Create a compact handoff for another agent. Preserve the objective, accepted decisions, dirty files, observed test evidence, current blocker, and next safe action. Do not continue the task.
+```
 
-The Skill runs `READ -> CAPTURE -> RENDER -> CHECK -> SEND`: inspect named
-sources with bounded read recovery, capture non-secret continuation facts, map them into four fixed
-sections, compare the artifact with the ledger, and return only the copy-ready
-prompt. The receiver checks the current state before acting on the handoff.
+```text
+Use Scoville Handoff for the work completed in this session. Mark unverified commands and external state as unknown rather than inferring success.
+```
 
-A tight output limit removes repetition and irrelevant history first, never
-authority, ownership, hazards, evidence limits, or the safe next step. An
-explicit lossless request retains every in-scope non-secret fact. If the
-required content cannot fit, the Skill reports that conflict instead of
-claiming a complete transfer.
-
-## How it was developed
-
-Handoff grew out of moving real work between sessions and seeing what the next
-session was missing. A long summary could still omit the current blocker or
-fail to say which local changes belonged to the user. The
-[changelog](CHANGELOG.md) traces the move from a large conditional template to
-four sections built around continuing the work.
-
-I used [SkillOpt and reduction work](https://github.com/benjaminstelzer/scoville-handoff/blob/d319aa3291160a20d30baad5157b1ab5083ea0e1/CHANGELOG.md)
-to refine that format. In ongoing use, I compare the task history with the
-handoff to look for lost facts, repeated failed approaches and unnecessary
-detail. A shorter handoff helps only if the next session can still act on it.
-
-## Scoville family
-
-Each Skill works independently. Combine only the concerns the task actually
-needs:
-
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
+Explicit `$scoville-handoff` invocation also works on hosts that support named
+Skill invocation. The former `$compact-handoff` identifier is retired. Natural
+requests such as “compact handoff” still activate this Skill.
 
 ## Sources
 
@@ -146,11 +114,18 @@ needs:
 - [OWASP LLM06: Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)
   for keeping consequential authority explicit across agent boundaries.
 
-## Development
+## Family
 
-Maintained in the suite. Individual repositories contain generated packages.
-
-[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
+- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
+- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
+- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
+- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 

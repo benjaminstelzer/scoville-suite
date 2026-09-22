@@ -1,49 +1,57 @@
 # Scoville WordPress UI Backend Anti-AI-Slop
 
 A plugin settings page can look tidy and still fight WordPress. Native controls
-get rebuilt, a second spacing scale appears, and React is treated as proof that
-the page uses WPDS. None of those choices follows from the task.
+get rebuilt, spacing becomes inconsistent, and React is treated as proof that
+the page uses the right platform components.
 
-Scoville WordPress UI Backend implements and audits plugin-owned `wp-admin`
-interfaces through the WordPress layer that actually owns them. It covers
-Classic PHP pages, Core Components and supported mixed runtimes, with explicit
-rules for spacing, responsive behavior, states, accessibility and i18n.
+Scoville WordPress UI Backend implements and audits plugin-owned wp-admin
+interfaces through the WordPress runtime that actually owns them. It keeps
+controls, spacing, vertical flow, accessibility and translations consistent
+without forcing a second UI system onto a working page.
 
-The agent first identifies the supported WordPress runtime, then uses its
-components and spacing rules instead of inventing a second UI system. It checks
-the rendered page, including vertical flow and smaller screens. This needs more
-inspection and validation than styling from a screenshot, and meaningful visual
-checks need a running WordPress environment.
+## How it works
 
-It owns implementation and UI acceptance for those surfaces. Scoville UI does
-not run a second acceptance process. Frontends, the editor canvas and extensions
-inside Core screens remain outside this Skill's scope.
+- Identify the supported surface and its Classic PHP, Core Components or mixed runtime.
+- Reuse platform APIs, controls and spacing owners before adding custom rules.
+- Batch related source corrections, measure spacing relationships, then inspect and operate the rendered page.
+- Check scoped regions, smaller screens and relevant loading, error and permission states.
+- Apply WordPress internationalization rules without turning an unrelated audit into a translation project.
 
-## Why "Scoville"?
+## What it enforces
 
-The family is named for useful signal that remains detectable after dilution.
-Here, the signal is WordPress ownership. A local layout change should not bury
-it under another design system.
+- **WordPress before custom CSS.** Reuse APIs, semantic markup, Core classes,
+  components and available tokens before adding a narrowly scoped rule.
+- **Runtime ownership.** Classic, Core Components and experimental WPDS are
+  separate paths. React alone does not choose one.
+- **No forced migration.** Keep working native controls and margins.
+  WordPress 7.1 token availability is not a reason to rebuild a PHP page.
+- **One spacing owner.** The parent owns gaps in new plugin compositions.
+  Native margins and component padding retain their existing owners.
+- **Usable states.** Loading, empty, error and permission states preserve the
+  task, keyboard access, focus and recovery.
+- **Translation readiness.** Use WordPress i18n APIs and test text expansion.
+  Translation catalogs are required only when translation delivery is in scope.
+  RTL checks follow the supported or explicitly planned language scope.
+- **Evidence in order.** Inspect and correct source, measure relationships,
+  then view and operate the affected interface. A screenshot or build alone
+  cannot prove the complete result.
 
-## How to use
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop/blob/main/scoville-wordpress-ui-backend-anti-ai-slop/SKILL.md).
 
-Ask for the specific page and concern:
+## What it costs
 
-```text
-Use $scoville-wordpress-ui-backend-anti-ai-slop to fix spacing on this plugin settings page. Preserve its Classic markup and keep the change within this page.
-```
+- Meaningful visual checks need a running WordPress environment and add inspection time.
+- The Skill covers plugin-owned admin pages, not frontends, themes, the editor canvas or extensions inside Core screens.
+- Scoville UI does not run a second acceptance process on the same supported surface.
+- Five theoretical comprehension cases cover routing and rule use, including spacing. They do not prove rendered WordPress behavior. The latest source-first verification scheduling still needs a live WordPress interface test.
 
-```text
-Audit this plugin-owned wp-admin workflow for responsive behavior, accessibility and error recovery. Report findings without changing code.
-```
+## How it was developed
 
-The Skill selects Implement or Audit from the request. An audit stays read-only.
-"Check and fix" permits corrections within the stated scope, not a redesign.
-A design-only request does not authorize implementation.
+- Started as wordpress-backend-ui-skill and was integrated into Scoville Suite.
+- Five varied tasks were tested with Luna Medium under SOL coordination, including a dedicated spacing case.
+- Real-project findings drive further revisions. The suite owns sources and development material.
 
-It first checks who owns the surface and each affected runtime region.
-Editor extensions, Core screens and another plugin's UI do not inherit its
-plugin-page shell or spacing rules.
+- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-wordpress-ui-backend-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/luna-tests/wordpress-sol-results.md) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-wordpress-ui-backend-anti-ai-slop/development/README.md)
 
 ## Compatibility
 
@@ -78,64 +86,25 @@ Get the complete suite from the
 [Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
 Install its released Skill packages, not development templates.
 
-## What it enforces
+## How to use
 
-- **WordPress before custom CSS.** Reuse APIs, semantic markup, Core classes,
-  components and available tokens before adding a narrowly scoped rule.
-- **Runtime ownership.** Classic, Core Components and experimental WPDS are
-  separate paths. React alone does not choose one.
-- **No forced migration.** Keep working native controls and margins.
-  WordPress 7.1 token availability is not a reason to rebuild a PHP page.
-- **One spacing owner.** The parent owns gaps in new plugin compositions.
-  Native margins and component padding retain their existing owners.
-- **Usable states.** Loading, empty, error and permission states preserve the
-  task, keyboard access, focus and recovery.
-- **Translation readiness.** Use WordPress i18n APIs and test text expansion.
-  Translation catalogs are required only when translation delivery is in scope.
-  RTL checks follow the supported or explicitly planned language scope.
-- **Evidence in order.** Inspect and correct source, measure relationships,
-  then view and operate the affected interface. A screenshot or build alone
-  cannot prove the complete result.
+Ask for the specific page and concern:
 
-The complete contract is in
-[SKILL.md](scoville-wordpress-ui-backend-anti-ai-slop/SKILL.md).
+```text
+Use $scoville-wordpress-ui-backend-anti-ai-slop to fix spacing on this plugin settings page. Preserve its Classic markup and keep the change within this page.
+```
 
-## How it works
+```text
+Audit this plugin-owned wp-admin workflow for responsive behavior, accessibility and error recovery. Report findings without changing code.
+```
 
-The Skill identifies the mode, surface and runtime, then loads only the
-references needed for the requested concern. A spacing audit stays a spacing
-audit. It does not become a translation project because the page contains PHP.
+The Skill selects Implement or Audit from the request. An audit stays read-only.
+"Check and fix" permits corrections within the stated scope, not a redesign.
+A design-only request does not authorize implementation.
 
-Implementation batches related corrections before measuring and viewing the
-result. An ordinary page-consistency audit inventories the scoped regions,
-variants and relevant states, including content below the fold. Missing
-evidence remains a named gap, not a whole-page pass.
-
-The spacing rules distinguish WordPress defaults from this Skill's own
-composition rules. Existing native margins keep their owner, and a new CSS
-exception needs a demonstrated gap that the platform cannot already express.
-
-## Scoville family
-
-Each Skill works independently. Combine only the concerns the task actually
-needs:
-
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
-
-## Status
-
-Five theoretical comprehension cases cover routing and rule use, including
-spacing. They do not prove rendered WordPress behavior. The latest source-first
-verification scheduling still needs a live WordPress interface test.
+It first checks who owns the surface and each affected runtime region.
+Editor extensions, Core screens and another plugin's UI do not inherit its
+plugin-page shell or spacing rules.
 
 ## Sources
 
@@ -148,11 +117,18 @@ verification scheduling still needs a live WordPress interface test.
   and [accessibility coding standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/accessibility/)
   provide language and accessibility requirements.
 
-## Development
+## Family
 
-Maintained in the suite. Individual repositories contain generated packages.
-
-[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-wordpress-ui-backend-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/luna-tests/wordpress-sol-results.md) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-wordpress-ui-backend-anti-ai-slop/development/README.md)
+- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
+- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
+- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
+- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
+- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
+- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
+- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
+- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
+- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
+- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 
