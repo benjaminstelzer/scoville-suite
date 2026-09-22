@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "luna-cli-frozen-input-r14-ask-paired25",
+  "baseline": {
+    "file": "codex-cli-inputs-r13-ask.json",
+    "sha256": "e94b3dc9211b768301ef1064cd469910f92f281639ffb5b05c9cc604e559fd42"
+  },
+  "scope": "One authorized rerun of ask-paired case25 after the delivery-recovery clarification. R13 evidence remains historical. No other case is authorized.",
+  "prompt_root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation",
+  "prompts": {
+    "prepared-ask-paired-r14-25.md": "57ab9341b387683bb664e30b2616e1b23eb95068c75ab646ed641f8636403fd9"
+  },
+  "corpus": {
+    "ask-paired-cases.md": "4be8714678f0679ddff2e33aea2e49b36e1c9f57a36e9f990f5bfc43c97a0ef9",
+    "ask-paired-expected.md": "4992a7f14c13e241febd0f7e1f30e628d8f947695d97580db017654499a51211",
+    "selected-cases.json": "505dd712e35f0c63463f349d81600e6fb00834eb235c084a76c01b1fea77a56e"
+  },
+  "receipts": {
+    "historical_r13": {
+      "path": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/ask-luna-candidate/build-receipt.json",
+      "sha256": "c135f30a5403a6e7aa3b9b31db4ea275c3b48cf57b70b2a4c229d3b5b9483243"
+    },
+    "r14": {
+      "path": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/ask-r14-delivery-recovery/build-receipt.json",
+      "sha256": "081a6e651d612a65b2eff800fd09bcff697893d0491651355c66462cbcf6074c"
+    }
+  },
+  "changed_cores": {
+    "ask-claude-and-sol-for-codex": {
+      "r13_sha256": "cac434268858acafd6271b7c327766dc02421b9b23e0afa48c9a147fedfb9381",
+      "r14_sha256": "10a7b186781806d6c180c7c37b3f1dc72b9aea0bd87e5ba0cf237563e56f7a5a"
+    },
+    "ask-claude-and-astra-for-codex": {
+      "r13_sha256": "8f0e22e38b3d278079e45cc028106d91ebb18a2a70e5b36436cd05c1d47345bb",
+      "r14_sha256": "3c400668597f58b6e48d3e75fc676dfc349f3dde9b89ab2b008df4b4cf41f788"
+    }
+  },
+  "subject": {
+    "model": "gpt-5.6-luna",
+    "reasoning": "medium",
+    "transport": "Codex CLI"
+  }
+}

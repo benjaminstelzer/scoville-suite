@@ -1,0 +1,484 @@
+format_version: 1
+package_schema: successor-v2
+distribution_files:
+  - LICENSE
+  - references/direct-expert-index.md
+  - scripts/measure-layout.js
+  - scripts/inventory-svg-layout.js
+  - scripts/read-source.py
+  - examples/spatial-proof/README.md
+  - examples/spatial-proof/manifest.json
+  - examples/spatial-proof/repeated-card-span.svg
+  - examples/spatial-proof/repeated-card-span.png
+  - examples/spatial-proof/type-role-map.svg
+  - examples/spatial-proof/type-role-map.png
+  - examples/spatial-proof/longest-content-fit.svg
+  - examples/spatial-proof/longest-content-fit.png
+  - examples/spatial-proof/optical-correction.svg
+  - examples/spatial-proof/optical-correction.png
+  - examples/spatial-proof/intentional-asymmetry.svg
+  - examples/spatial-proof/intentional-asymmetry.png
+  - examples/spatial-proof/decoration-control.svg
+  - examples/spatial-proof/decoration-control.png
+  - examples/icon-treatment/comparison.svg
+  - examples/icon-treatment/comparison.png
+
+# Non-routed packaging/evaluation metadata; not an installed runtime dependency.
+# Repository tooling generates references/direct-expert-index.md from route_label/path;
+# generate_module_index.py --check and validate_package.py detect index drift.
+# Those authoring tools are not shipped or required for ordinary installed use.
+# evidence values identify external development receipts, not included files.
+# Empty = none referenced; nonempty does not imply pass or current qualification.
+# SKILL.md and its linked index own runtime routing, including decision-level exclusions. Signals
+# below are declared inputs after that interpretation, not a keyword router.
+# Empty unless/requires/conflicts lists do not remove the Core's exclusions or
+# introduce automatic expert dependencies.
+# Status records development evidence, not document length or runtime priority.
+# Intervention describes the intended evaluation mechanism: focus = attention;
+# correction = remedy an error; teaching = add knowledge; external-verification
+# = obtain proof outside generation. These labels do not prove effectiveness.
+
+signal_enum:
+  - needs_brief_frame
+  - needs_concept
+  - layout_method
+  - typography
+  - font_technology
+  - writing_system
+  - colour_system
+  - reproduction
+  - imagery
+  - art_direction
+  - data_story
+  - spatial_story
+  - relation_diagram
+  - brand_system
+  - ui_workflow
+  - interaction_states
+  - responsive_web
+  - fixed_media
+  - editorial_sequence
+  - motion
+  - sequence
+  - production
+  - handoff
+  - deep_critique
+  - rule_exception
+  - culture_risk
+  - privacy_risk
+  - sustainability_claim
+  - synthetic_evidence
+  - source_audit
+  - rights_provenance
+  - license_attribution
+  - named_style
+  - cross_medium_style
+  - style_system
+  - identity_mark
+  - instructional_explanation
+  - advertising_campaign
+  - packaging_graphics
+  - packaging_sku_system
+  - physical_wayfinding
+  - signage_system
+  - generic_cliche
+  - partner_coordination
+
+non_routed_references:
+  - references/source-index.md
+
+modules:
+  - id: brief-framing-and-criteria
+    status: draft
+    intervention: focus
+    path: references/brief-framing-and-criteria.md
+    route_label: incomplete or conflicting brief, field authority, selection criteria, or open communication concern
+    when_any: [needs_brief_frame]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [brief_frame, field_authority, required_content_manifest, degrees_of_freedom, selection_criteria, approval_authority]
+    sources: [SRC-BRIEF-HCD, SRC-FOUNDATION-GRAPHIC, SRC-PROFESSIONAL-SCOPE, SRC-PACKAGE-LOCAL-SYNTHESIS, SRC-COMMUNICATION-CANON]
+    evidence: []
+  - id: concept-development-and-selection
+    status: draft
+    intervention: focus
+    path: references/concept-development-and-selection.md
+    route_label: concept territories, carriers, rough comparison, selection, or concept repair
+    when_any: [needs_concept]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [concept_territories, concept_carriers, rough_comparison, concept_selection, concept_repair, originality_boundary]
+    sources: [SRC-CONCEPT-EVIDENCE, SRC-BRIEF-HCD, SRC-FOUNDATION-GRAPHIC, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: composition-and-layout
+    status: draft
+    intervention: external-verification
+    path: references/composition-and-layout.md
+    route_label: Composition methods for an open relation needing source-assisted discovery, measurement, or a diagnostic comparison with suitable inputs
+    when_any: [layout_method]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [spatial_discovery_methods, layout_measurement_methods, diagnostic_layout_comparisons]
+    sources: [SRC-COMPOSITION-CANON, SRC-GESTALT-EVIDENCE, SRC-TYPE-DETAIL, SRC-PROFESSIONAL-SCOPE, SRC-CRITIQUE-CANON, SRC-DESIGN-EVALUATION-EMPIRICAL, SRC-PACKAGE-LOCAL-SYNTHESIS, SRC-NESTED-CONTOUR-GEOMETRY]
+    evidence: []
+  - id: typography-and-typesetting
+    status: draft
+    intervention: external-verification
+    path: references/typography-and-typesetting.md
+    route_label: type roles, selection or combination, hierarchy, typesetting, microtype, or type exception
+    when_any: [typography]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [type_roles, glyph_differentiation, typeface_compatibility, type_hierarchy, typesetting, microtypography, type_exception]
+    sources: [SRC-TYPE-CANON, SRC-TYPE-SELECTION, SRC-TYPE-DETAIL, SRC-TYPE-EMPIRICAL, SRC-FONT-TECH, SRC-PACKAGE-LOCAL-SYNTHESIS, SRC-HEADLINE-BREAKS]
+    evidence: []
+  - id: font-technology-and-script-safety
+    status: draft
+    intervention: external-verification
+    path: references/font-technology-and-script-safety.md
+    route_label: font repertoire, features, variation, fallback, embedding, shaping, bidi, vertical, or script safety
+    when_any: [font_technology, writing_system]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [font_technology, font_fallback, script_requirements, bidi_vertical, font_proof]
+    sources: [SRC-FONT-TECH, SRC-FONT-LICENCE-PROOF, SRC-DATA-ACCESS-LOCALE, SRC-PROFESSIONAL-SCOPE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: colour-and-reproduction
+    status: draft
+    intervention: external-verification
+    path: references/colour-and-reproduction.md
+    route_label: semantic colour, states or themes, accessibility, gamut, profiles, ink, substrate, or colour proof
+    when_any: [colour_system, reproduction]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [colour_roles, colour_access, gamut_boundary, reproduction_chain, colour_proof]
+    sources: [SRC-COLOUR-PERCEPTION, SRC-COLOUR-MANAGEMENT, SRC-COLOUR-ACCESS-DATA, SRC-PRODUCTION-PRINT, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: imagery-and-art-direction
+    status: draft
+    intervention: external-verification
+    path: references/imagery-and-art-direction.md
+    route_label: image purpose, selection, crop, treatment, sequence, commission, capture, or art direction
+    when_any: [imagery, art_direction]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [image_thesis, image_mode, shot_or_generation_brief, image_sequence, crop_system, image_treatment_integrity_floor]
+    sources: [SRC-IMAGE-CRAFT, SRC-IMAGE-INTEGRITY, SRC-PEOPLE-PRIVACY, SRC-IMAGE-METADATA-ACCESS, SRC-SYNTHETIC-PROVENANCE, SRC-ASSET-RIGHTS, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: information-design-and-data-visualization
+    status: draft
+    intervention: external-verification
+    path: references/information-design-and-data-visualization.md
+    route_label: chart, table, dashboard, quantitative encoding, uncertainty, or data handoff
+    when_any: [data_story]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [data_encoding, data_integrity, uncertainty_display, dashboard_information, data_handoff]
+    sources: [SRC-DATA-CANON, SRC-DATA-EMPIRICAL, SRC-DATA-ACCESS-LOCALE, SRC-SOURCE-EVIDENCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: cartography-and-spatial-data
+    status: draft
+    intervention: external-verification
+    path: references/cartography-and-spatial-data.md
+    route_label: map choice, route geometry, direction, orientation, topology, extent, projection, boundary, normalization, classification, uncertainty, or geoprivacy
+    when_any: [spatial_story]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [map_decision, spatial_encoding, map_normalization, cartographic_proof]
+    sources: [SRC-CARTOGRAPHY, SRC-DATA-CANON, SRC-DATA-EMPIRICAL, SRC-CULTURE-AUTHORITY, SRC-PEOPLE-PRIVACY, SRC-SOURCE-EVIDENCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: diagrams-and-relational-information
+    status: draft
+    intervention: external-verification
+    path: references/diagrams-and-relational-information.md
+    route_label: typed nodes and edges, process, architecture, hierarchy, network, or notation
+    when_any: [relation_diagram]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [diagram_semantics, relation_encoding, edge_contract, diagram_proof]
+    sources: [SRC-DIAGRAM-SEMANTICS, SRC-DATA-CANON, SRC-DATA-EMPIRICAL, SRC-DATA-ACCESS-LOCALE, SRC-SOURCE-EVIDENCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: brand-and-visual-systems
+    status: draft
+    intervention: focus
+    path: references/brand-and-visual-systems.md
+    route_label: corporate design or visual identity system, authored icon-family or stroke system, incumbent CI conformance, brand architecture, cross-touchpoint invariants, governance, or lifecycle
+    when_any: [brand_system]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [visual_identity_thesis, visual_identity_authority, brand_architecture, identity_grammar, icon_and_symbol_system, system_invariants, controlled_variation, ci_conformance, brand_governance]
+    sources: [SRC-BRAND-CANON, SRC-BRAND-EVIDENCE, SRC-BRAND-SYSTEM-GOVERNANCE, SRC-CORPORATE-DESIGN-CONFORMANCE, SRC-BRAND-ARCHITECTURE, SRC-UI-EVALUATION, SRC-ASSET-RIGHTS, SRC-PACKAGE-LOCAL-SYNTHESIS, SRC-STROKE-ROLE-AND-GAP]
+    evidence: []
+  - id: logo-and-identity-mark-design
+    status: draft
+    intervention: focus
+    path: references/logo-and-identity-mark-design.md
+    route_label: identity-mark, wordmark, monogram, emblem, combination-mark, formal mechanism, or responsive and optical mark-form creation or repair
+    when_any: [identity_mark]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [identity_mark_form, wordmark_form, mark_optical_variants, mark_form_proof]
+    sources: [SRC-MARK-DESIGN, SRC-BRAND-CANON, SRC-BRAND-EVIDENCE, SRC-CULTURE-AUTHORITY, SRC-ASSET-RIGHTS, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: instructional-and-explanatory-design
+    status: draft
+    intervention: external-verification
+    path: references/instructional-and-explanatory-design.md
+    route_label: visual explanation, misconception repair, procedure, warning chain, or comprehension-test design
+    when_any: [instructional_explanation]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [explanation_objective, explanation_sequence, instructional_visual_relation, comprehension_test_contract]
+    sources: [SRC-INSTRUCTIONAL-COMMUNICATION, SRC-COMMUNICATION-CLARITY, SRC-DIAGRAM-SEMANTICS, SRC-DATA-ACCESS-LOCALE, SRC-SOURCE-EVIDENCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: advertising-and-campaign-art-direction
+    status: draft
+    intervention: focus
+    path: references/advertising-and-campaign-art-direction.md
+    route_label: persuasive advertising concept, visual rhetoric, key visual, campaign family, or placement-native creative variation
+    when_any: [advertising_campaign]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [advertising_creative_platform, visual_rhetoric, advertising_image_copy_relation, campaign_creative_variation, advertising_context_proof]
+    sources: [SRC-AD-CREATIVE-CANON, SRC-AD-OPEN-LEARNING, SRC-AD-CREATIVE-EVIDENCE, SRC-AD-ETHICS-CURRENT, SRC-BRAND-CANON, SRC-SOURCE-EVIDENCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: ui-workflow-and-interaction-design
+    status: draft
+    intervention: external-verification
+    path: references/ui-workflow-and-interaction-design.md
+    route_label: UI workflow, information architecture, navigation, forms, interaction patterns, states, or design-system definition
+    when_any: [ui_workflow, interaction_states]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [workflow_design, information_architecture, interaction_pattern_intent, state_recovery_intent, ui_system_definition, design_ui_record]
+    sources: [SRC-UI-HCD-IA, SRC-UI-FORMS-STATES, SRC-UI-EVALUATION, SRC-BRIEF-HCD, SRC-BRAND-SYSTEM-GOVERNANCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: web-and-responsive-design
+    status: draft
+    intervention: external-verification
+    path: references/web-and-responsive-design.md
+    route_label: responsive priority, content-pressure transformation, density, responsive assets, or web recomposition intent
+    when_any: [responsive_web]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [responsive_priority, responsive_transformation, density_disclosure, responsive_asset_intent, responsive_design_record]
+    sources: [SRC-WEB-RESPONSIVE, SRC-TYPE-DETAIL, SRC-TYPE-EMPIRICAL, SRC-FONT-TECH, SRC-FONT-LICENCE-PROOF, SRC-IMAGE-METADATA-ACCESS, SRC-DATA-ACCESS-LOCALE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: editorial-and-fixed-media-design
+    status: draft
+    intervention: external-verification
+    path: references/editorial-and-fixed-media-design.md
+    route_label: fixed canvas, poster, editorial sequence, page or spread, slide, document, template, fold, face, or physical viewing intent
+    when_any: [fixed_media, editorial_sequence]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [fixed_medium_contract, editorial_sequence, page_spread_system, presentation_document_template_system, fold_face_relationship, physical_design_constraints]
+    sources: [SRC-FIXED-EDITORIAL, SRC-COMPOSITION-CANON, SRC-GESTALT-EVIDENCE, SRC-TYPE-DETAIL, SRC-TYPE-EMPIRICAL, SRC-IMAGE-CRAFT, SRC-IMAGE-INTEGRITY, SRC-PRODUCTION-PRINT, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: packaging-graphics-and-sku-systems
+    status: draft
+    intervention: external-verification
+    path: references/packaging-graphics-and-sku-systems.md
+    route_label: package or label face mapping, face-local hierarchy or framing, assembled pack communication, SKU system, shelf or packaging-thumbnail transformation
+    when_any: [packaging_graphics, packaging_sku_system]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [dieline_graphic_mapping, packaging_panel_communication, packaging_sku_system, packaging_context_proof]
+    sources: [SRC-PACKAGING-GRAPHICS, SRC-BRAND-CANON, SRC-TYPE-DETAIL, SRC-IMAGE-CRAFT, SRC-PRODUCTION-PRINT, SRC-SOURCE-EVIDENCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: physical-wayfinding-and-signage-systems
+    status: draft
+    intervention: external-verification
+    path: references/physical-wayfinding-and-signage-systems.md
+    route_label: physical route, destination hierarchy, decision-point schedule, sign family, route-integrated map intent, or on-site wayfinding evaluation
+    when_any: [physical_wayfinding, signage_system]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [physical_route_model, destination_hierarchy_structure, decision_point_system, signage_family_system, wayfinding_route_proof]
+    sources: [SRC-WAYFINDING-SYSTEMS, SRC-CARTOGRAPHY, SRC-TYPE-DETAIL, SRC-DATA-ACCESS-LOCALE, SRC-BRAND-CANON, SRC-PRODUCTION-PRINT, SRC-SOURCE-EVIDENCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: motion-and-sequence
+    status: draft
+    intervention: external-verification
+    path: references/motion-and-sequence.md
+    route_label: animation, kinetic type, temporal data, authored state sequence or storyboard, timing, continuity, interruption, or reduced equivalent
+    when_any: [motion, sequence]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [motion_thesis, temporal_hierarchy, continuity_spine, kinetic_readability, reduced_equivalent]
+    sources: [SRC-MOTION-CRAFT, SRC-MOTION-ACCESS, SRC-MOTION-TECH, SRC-IMAGE-CRAFT, SRC-IMAGE-INTEGRITY, SRC-PEOPLE-PRIVACY, SRC-TYPE-EMPIRICAL, SRC-DATA-ACCESS-LOCALE, SRC-PRODUCTION-DIGITAL, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: media-production-and-handoff
+    status: draft
+    intervention: external-verification
+    path: references/media-production-and-handoff.md
+    route_label: open production source or derivative, technical export, preflight, format semantics, provider acceptance, or handoff
+    when_any: [production, handoff]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [artifact_contract, authority_derivative_graph, format_validation, render_contract, production_preflight, handoff_record]
+    sources: [SRC-COLOUR-MANAGEMENT, SRC-FIXED-EDITORIAL, SRC-CRITIQUE-EMPIRICAL, SRC-UI-EVALUATION, SRC-PRODUCTION-PRINT, SRC-PRODUCTION-DIGITAL, SRC-PRODUCTION-ACCESS, SRC-SOURCE-EVIDENCE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: critique-and-validation
+    status: draft
+    intervention: focus
+    path: references/critique-and-validation.md
+    route_label: multi-domain causal audit, before/control/after validation, or challenged cross-domain exception
+    when_any: [deep_critique, rule_exception]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [causal_critique, finding_record, repair_priority, validation_rationale]
+    sources: [SRC-CRITIQUE-CANON, SRC-CRITIQUE-EMPIRICAL, SRC-PROFESSIONAL-SCOPE, SRC-SOURCE-EVIDENCE, SRC-PRODUCTION-PRINT, SRC-PRODUCTION-ACCESS, SRC-UI-EVALUATION, SRC-DESIGN-EVALUATION-EMPIRICAL, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: culture-and-representation
+    status: draft
+    intervention: external-verification
+    path: references/culture-and-representation.md
+    route_label: living culture, community-held or sacred material, stereotype, political symbol, contested place, or representation authority
+    when_any: [culture_risk]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [authority_boundary, representation_risk, cultural_protocol, contested_place_context]
+    sources: [SRC-CULTURE-AUTHORITY, SRC-PROFESSIONAL-SCOPE, SRC-FOUNDATION-GRAPHIC, SRC-STYLE-HISTORY, SRC-IMAGE-INTEGRITY, SRC-IMAGE-METADATA-ACCESS, SRC-SYNTHETIC-PROVENANCE, SRC-ASSET-RIGHTS, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: people-privacy-and-media-integrity
+    status: draft
+    intervention: external-verification
+    path: references/people-privacy-and-media-integrity.md
+    route_label: people, minors, bystanders, privacy, releases, documentary or synthetic mode, disclosure, or metadata risk
+    when_any: [privacy_risk, synthetic_evidence]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [participant_agency, consent_privacy, documentary_integrity, synthetic_evidence_boundary, metadata_privacy]
+    sources: [SRC-PEOPLE-PRIVACY, SRC-IMAGE-INTEGRITY, SRC-IMAGE-METADATA-ACCESS, SRC-SYNTHETIC-PROVENANCE, SRC-ASSET-RIGHTS, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: sustainability-claims
+    status: draft
+    intervention: external-verification
+    path: references/sustainability-claims.md
+    route_label: environmental wording, comparison, seal, number, colour, image, or whole-impression claim
+    when_any: [sustainability_claim]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [environmental_claim_scope, lifecycle_boundary, substantiation_record, qualification_expiry]
+    sources: [SRC-SUSTAINABILITY-CLAIMS, SRC-SOURCE-EVIDENCE, SRC-PROFESSIONAL-SCOPE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: source-verification-and-evidence
+    status: draft
+    intervention: external-verification
+    path: references/source-verification-and-evidence.md
+    route_label: material claim, source, citation, independence, currentness, contradiction, or correction audit
+    when_any: [source_audit]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [claim_registry, source_registry, evidence_relation, current_verification, correction_history]
+    sources: [SRC-SOURCE-EVIDENCE, SRC-PROFESSIONAL-SCOPE, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: asset-rights-and-attribution
+    status: draft
+    intervention: external-verification
+    path: references/asset-rights-and-attribution.md
+    route_label: asset origin, license, font, release, territory, duration, modification, credit, or attribution survival
+    when_any: [rights_provenance, license_attribution]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [asset_registry, license_boundary, rights_layers, attribution_record, attribution_survival]
+    sources: [SRC-ASSET-RIGHTS, SRC-PEOPLE-PRIVACY, SRC-CULTURE-AUTHORITY, SRC-IMAGE-METADATA-ACCESS, SRC-SYNTHETIC-PROVENANCE, SRC-PRODUCTION-DIGITAL, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: style-direction
+    status: draft
+    intervention: focus
+    path: references/style-direction.md
+    route_label: named period, movement, vernacular, revival, cross-medium direction, or open unnamed style grammar
+    when_any: [named_style, cross_medium_style, style_system]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [style_interpretation, style_dna, anti_cliche_counterweight, medium_translation, style_proof]
+    sources: [SRC-STYLE-HISTORY, SRC-FOUNDATION-GRAPHIC, SRC-CULTURE-AUTHORITY, SRC-ASSET-RIGHTS, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+
+  - id: generic-signatures-and-subject-specificity
+    status: draft
+    intervention: teaching
+    path: references/generic-signatures-and-subject-specificity.md
+    route_label: interchangeability, generic-cliche diagnosis, or open subject-specificity judgment
+    when_any: [generic_cliche]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [generic_cliche_test, specificity_judgment, subject_counter_move]
+    sources: [SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+  - id: coordination-with-sibling-skills
+    status: draft
+    intervention: focus
+    path: references/coordination-with-sibling-skills.md
+    route_label: actual design-intent or evidence or wording exchange with an active-applicable partner
+    when_any: [partner_coordination]
+    unless: []
+    requires: []
+    conflicts: []
+    owns: [partner_exchange, cross_owner_status_preservation]
+    sources: [SRC-DESIGN-BOUNDARY-COORDINATION, SRC-PACKAGE-LOCAL-SYNTHESIS]
+    evidence: []
+
+# C10 and C19 were removed as duplicate load examples; retain the ID gaps.
+planned_common_loads:
+  - {id: C01, modules: [composition-and-layout, typography-and-typesetting, editorial-and-fixed-media-design]}
+  - {id: C02, modules: [typography-and-typesetting, web-and-responsive-design, style-direction]}
+  - {id: C03, modules: [font-technology-and-script-safety]}
+  - {id: C04, modules: [composition-and-layout, editorial-and-fixed-media-design, critique-and-validation]}
+  - {id: C05, modules: [composition-and-layout, typography-and-typesetting, editorial-and-fixed-media-design, critique-and-validation]}
+  - {id: C06, modules: [brief-framing-and-criteria, concept-development-and-selection]}
+  - {id: C07, modules: [style-direction, web-and-responsive-design, typography-and-typesetting, composition-and-layout]}
+  - {id: C08, modules: [style-direction, ui-workflow-and-interaction-design, web-and-responsive-design]}
+  - {id: C09, modules: [ui-workflow-and-interaction-design, web-and-responsive-design]}
+  - {id: C11, modules: [colour-and-reproduction]}
+  - {id: C12, modules: [imagery-and-art-direction, people-privacy-and-media-integrity, web-and-responsive-design]}
+  - {id: C13, modules: [brand-and-visual-systems]}
+  - {id: C14, modules: [information-design-and-data-visualization, web-and-responsive-design, typography-and-typesetting]}
+  - {id: C15, modules: [cartography-and-spatial-data, culture-and-representation, source-verification-and-evidence]}
+  - {id: C16, modules: [diagrams-and-relational-information]}
+  - {id: C17, modules: [motion-and-sequence, typography-and-typesetting]}
+  - {id: C18, modules: [media-production-and-handoff, editorial-and-fixed-media-design, colour-and-reproduction]}
+  - {id: C20, modules: [people-privacy-and-media-integrity, imagery-and-art-direction, source-verification-and-evidence]}
+  - {id: C21, modules: [sustainability-claims, source-verification-and-evidence, colour-and-reproduction, imagery-and-art-direction]}
+  - {id: C22, modules: [asset-rights-and-attribution, source-verification-and-evidence, media-production-and-handoff]}
+  - {id: D28-EH1, modules: [typography-and-typesetting, web-and-responsive-design, style-direction, critique-and-validation]}
+  - {id: D28-CI1, modules: [brand-and-visual-systems, composition-and-layout, typography-and-typesetting, font-technology-and-script-safety]}
+  - {id: D28-CI2, modules: [brand-and-visual-systems, composition-and-layout, typography-and-typesetting, editorial-and-fixed-media-design]}
+  - {id: D28-CI3, modules: [brief-framing-and-criteria, brand-and-visual-systems, source-verification-and-evidence, media-production-and-handoff]}
+  - {id: D28-MK1, modules: [logo-and-identity-mark-design]}
+  - {id: D28-IN1, modules: [instructional-and-explanatory-design, diagrams-and-relational-information]}
+  - {id: D28-AD1, modules: [brand-and-visual-systems, advertising-and-campaign-art-direction, imagery-and-art-direction]}
+  - {id: D28-PK1, modules: [packaging-graphics-and-sku-systems, typography-and-typesetting]}
+  - {id: D28-WF1, modules: [physical-wayfinding-and-signage-systems, cartography-and-spatial-data]}
+  - {id: D28-BO1, modules: [ui-workflow-and-interaction-design, web-and-responsive-design]}

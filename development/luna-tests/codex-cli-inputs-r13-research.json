@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "baseline": {
+    "file": "codex-cli-inputs-r13.json",
+    "sha256": "152f1cb5f2f02c362fb39a750a045caaa074e84eed579427c04db8d61af13892"
+  },
+  "scope": "Only Research core changed. Exact cases and application wrapper retained. Qualify25 first, then07/10/15; discovery01 may carry unchanged metadata. Use R13 receipt.",
+  "prompt_root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation",
+  "prompts": {
+    "prepared-research-r13-07.md": "b82266291ae962925ebad588ace477caa0fd29be618ad93efcd9b6f5ed228b49",
+    "prepared-research-r13-10.md": "a53fec77ec1687abd9714a371d6cb88167d637a5c6b61eb4bece9bd06f2f64b2",
+    "prepared-research-r13-15.md": "6c5f269ccb03547d14d738533c17e4d290ff288473ebb374ce973178869b66cc",
+    "prepared-research-r13-25.md": "d4ec39fe88fc0c7254f81cb4b7e40846f04e0e9e96cc4d9346e5f3fcaba56dc3"
+  }
+}

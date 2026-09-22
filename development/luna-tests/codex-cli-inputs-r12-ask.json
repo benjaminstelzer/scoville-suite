@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "baseline": {
+    "file": "codex-cli-inputs-r12.json",
+    "sha256": "5c306de12cb74bf7d40cd0db26b637d4efa560a264b717ac240848babfdf1fd3"
+  },
+  "scope": "One selected case25 per Ask template. Existing prompts match current built representative cores and original cases. Use the Ask receipt from baseline; dispatch is separate. Only unrelated Research Deep reference changed; these prompt and package bytes are unchanged.",
+  "prompt_root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation",
+  "prompts": {
+    "prepared-ask-claude-r3-25.md": "305f4129c2b5d64cc6ced869077a9cab49d1575eb6505a337a6eea1e1679ee2b",
+    "prepared-ask-paired-r3-25.md": "62261d442b90bba6975b5aedca12f353493813c884b6eb46ae9a6b56dc7c9f0c",
+    "prepared-ask-single-r3-25.md": "427aef339e89fabee3a8db10381ceaea9b6cddff55e939e92c59a9a6191fed00"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "decision": "ADR-0008",
+  "total": 64,
+  "selection": "User-reduced coverage: Code maximum 20; halve the 88 non-Code cases to 44 before execution. Preserve original IDs and hidden keys; run in listed order.",
+  "sets": {
+    "code": [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "15",
+      "16",
+      "20",
+      "21",
+      "23",
+      "24",
+      "25"
+    ],
+    "ask-claude": [
+      "25"
+    ],
+    "ask-paired": [
+      "25"
+    ],
+    "ask-single": [
+      "25"
+    ],
+    "brainstorm": [
+      "01",
+      "06",
+      "12",
+      "18",
+      "25"
+    ],
+    "design": [
+      "09",
+      "12",
+      "04",
+      "24",
+      "06",
+      "25"
+    ],
+    "handoff": [
+      "01",
+      "06",
+      "09",
+      "15",
+      "25"
+    ],
+    "plan": [
+      "01",
+      "07",
+      "13",
+      "19",
+      "25"
+    ],
+    "research": [
+      "01",
+      "07",
+      "10",
+      "15",
+      "25"
+    ],
+    "scribe": [
+      "01",
+      "04",
+      "07",
+      "15",
+      "25"
+    ],
+    "ui": [
+      "01",
+      "04",
+      "08",
+      "17",
+      "25"
+    ],
+    "workflow": [
+      "01",
+      "06",
+      "17",
+      "20",
+      "25"
+    ]
+  },
+  "design_modes": {
+    "Generate": [
+      "09",
+      "12"
+    ],
+    "Critique": [
+      "04",
+      "24"
+    ],
+    "Repair": [
+      "06",
+      "25"
+    ]
+  }
+}
