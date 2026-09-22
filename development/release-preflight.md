@@ -111,8 +111,13 @@ bundle the changed shared source. Local packages were built under
 `skills/public/rollover-fix-2026-09-22/`; only the three affected Workflow files
 were installed into Codex, with previous files retained in
 `state/2026-09-22-rollover-fix/` and installed hashes checked against the build.
-G30 received a safe-boundary recovery instruction using its existing chain.
-No DIVI5 guard or project files were changed by this task.
+G30 applied recovery at the accepted W-021/step-3 boundary. Its fresh helper
+result had no archive blockers; exact-ID `verify_archive` passed for G27
+`01a0c725-88d5-70e3-84e7-bdf9632feceb`, G28
+`01a0c7a6-b32f-79b3-a856-0108aa9b0f24` and G29
+`01a0c7d4-a40d-77a3-ae21-29e4dc9a1491`. G30 then resumed rollover to G31.
+This is live recovery evidence, not merely a fixture result. No DIVI5 guard
+or project files were changed by this task.
 
 Earlier Workflow Luna results do not qualify the changed rollover instructions.
 Before publication, rerun the affected rollover cases plus a missing-list,
