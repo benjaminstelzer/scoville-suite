@@ -17,6 +17,13 @@ export different line endings despite a clean Git status. A regression test
 reproduced that failure and passes with the fix. Portable-source verification
 also passes. Both frozen test builds still pass current-source package checks.
 
+An isolated rebuild from r3 needs a Git checkout for receipt provenance.
+After creating temporary local repositories, both builders completed. Comparison
+with the frozen builds found six Scoville and eight Ask files differing only
+in CRLF/LF line endings. Source export is exact, but package byte reproducibility
+is still open. Fix the package reader and reassess affected evidence before
+publication. Do not overwrite the frozen test builds.
+
 ## Workflow qualification
 
 SOL Medium runs the five fixed cases with Luna Medium. Initial cases 01 and 06
