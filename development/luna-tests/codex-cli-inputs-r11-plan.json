@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "baseline": {
+    "file": "codex-cli-inputs-r11.json",
+    "sha256": "2d3c34adc85713d69e0eb3f744c9cc6c3cfed7baf1e3edbefd1de43d9d52bcb3"
+  },
+  "scope": "Selected Plan cases only. Existing R3 application prompts match current built core and original cases; discovery01 uses qualified v6. Historical filenames retain exact bytes. Use R11 receipt; no other cases.",
+  "prompt_root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation",
+  "prompts": {
+    "prepared-plan-r10-v6-01.md": "a42030ec4973b87c6788335d1ee98fd6a51bc141c87875b0515afea9115b096f",
+    "prepared-plan-r3-07.md": "d364f76ab56f2847cea8949762b56a33880ffe3250cfaaa8cf5ab4aac6286d02",
+    "prepared-plan-r3-13.md": "9d90ae23a8e755a9389266220388fc3d51eac1075e6815f0ce10426318ddf486",
+    "prepared-plan-r3-19.md": "1945674bcee73e20527c21973b8fec31b081e5b87d6482eb99741eaa281248a0",
+    "prepared-plan-r3-25.md": "4c25b1283c695eeefa5774872fbf73d39f80f6e53cc4d7f05d086812d9129f80"
+  }
+}

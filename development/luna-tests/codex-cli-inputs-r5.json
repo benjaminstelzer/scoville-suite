@@ -1,0 +1,405 @@
+{
+  "schema_version": 1,
+  "status": "luna-cli-frozen-inputs-r5",
+  "revision": "r5",
+  "predecessor": {
+    "file": "codex-cli-inputs-r4.json",
+    "sha256": "da7c09f7e691d067455e7e3e7ff69cd8471efde42277f4984c30d3e2852e2641",
+    "meaning": "Current-operation acceptance boundary clarified; cases/keys unchanged."
+  },
+  "coordinator": {
+    "model": "gpt-5.6-sol",
+    "reasoning": "medium"
+  },
+  "subject": {
+    "model": "gpt-5.6-luna",
+    "reasoning": "medium",
+    "transport": "Codex CLI"
+  },
+  "case_count": 113,
+  "test_root": "E:/Dropbox/AI Projects/skills/private/scoville-suite/development/luna-tests",
+  "test_sha256": {
+    "ask-claude-cases.md": "37d75e318398138a464ba9623f4b877f384782bab73198f3c2ce18ccca7674da",
+    "ask-claude-expected.md": "e289506d6ccfab17a0ac0aad6b0c6e516185ccc143a7de6501cc71a8ea4e20a1",
+    "ask-paired-cases.md": "4be8714678f0679ddff2e33aea2e49b36e1c9f57a36e9f990f5bfc43c97a0ef9",
+    "ask-paired-expected.md": "4992a7f14c13e241febd0f7e1f30e628d8f947695d97580db017654499a51211",
+    "ask-single-cases.md": "54a8b3adbc0938ac2c6aeaf8e7bbd5551591a01ade86a5caeed22ae4393fe869",
+    "ask-single-expected.md": "d911e9ba7208e5c4683f52d9d33d13a7530fef89e51f93b51daf6118663c431e",
+    "brainstorm-cases.md": "9a0a1dee740247c5ec1a42631e286333117f53014cb25e0389d0e29206075034",
+    "brainstorm-expected.md": "8b27251361e7fcad303ead0c3eade57596dfa3c2835e7b0744ea2b979b0fc226",
+    "code-cases.md": "b31291f3a417b7b5b2ee044611d83fee0687092df64a1d5ca3e56753ebf74845",
+    "code-expected.md": "d041476c91992ee7430402375de502359581c99c251c24396113e0282f7e2515",
+    "design-cases.md": "7590aed654d2bbfaa85b2b34bbe3de9f6e34f0e0cf9e6ea52569b2c119f3f510",
+    "design-expected.md": "d752b74b07fe07648fd87e330e7aced67b3deaabea121688603871aa30892226",
+    "handoff-cases.md": "1f378aa3180ba930604826467f10c76245175b9c1edda5cb781084a21aa1adc7",
+    "handoff-expected.md": "1b975564951306cfb0932fd26af791a07b578580f6ce5a24d0c97b4ae1a39681",
+    "plan-cases.md": "ddefdebe4e68fea445ca7bc9054b1e0a205965f7141f3a2273d3ebe07286a7b0",
+    "plan-expected.md": "44ef372a3e7b262d49267a91447ba49593b67d00e1391595055c0d49d842c5b9",
+    "research-cases.md": "3418c8a89882f49a4c5e0a85e34338f76c182f52b82d992cb1e93ea494b38fde",
+    "research-expected.md": "809f80b056e67291c2fd0758c96fea2c5c8d1859f846513f24b9dc6ddafdf395",
+    "scribe-cases.md": "ecde1dc729c152d5a6cab8a0d5b9c5683ada1876feceddb6dbee17b412cb5064",
+    "scribe-expected.md": "c3cf94106cfb922aca5d5812fff73ed5982d50b07c195267784b5c7f5b72f23a",
+    "ui-cases.md": "00964e297c463132ee73c54f89d072318b7fa51453c03b64f95033cabb2c9950",
+    "ui-expected.md": "9f2bdeeee2c855553acf9a458934cac78956a5d40dc2be0371877d0ee4827d2f",
+    "workflow-cases.md": "6e1ebe2b016337f98a8ad97fceb7bfb7d2b0b2a58c27fac35b530f16148fe12c",
+    "workflow-expected.md": "e4fbcd2df20b66e5265cd26f3fd17d53e96f8d67cb18d2bb064e6daba5ce0347"
+  },
+  "builds": [
+    {
+      "root": "E:/Dropbox/AI Projects/skills/public",
+      "receipt": "E:/Dropbox/AI Projects/skills/public/build-receipt.json",
+      "receipt_sha256": "f1a51a40f5e354a4d06be60612cbf94757264869d8f41ac07c7c3e30002f7f1b",
+      "members": [
+        {
+          "name": "scoville-brainstorm",
+          "repository": "benjaminstelzer/scoville-brainstorm",
+          "distribution": "standalone",
+          "package_path": "scoville-brainstorm",
+          "visibility": "public",
+          "files": {
+            ".gitattributes": "d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c",
+            "CHANGELOG.md": "ca5015daedeb8575e98b13dfe51cfa4683c1f9700e742cc5e8cac2aa3eb78c49",
+            "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "README.md": "d8b7c4a135e434fd6f4e0cc39dd8dc4852b719ead5b122d31aceb71e53009dea",
+            "scoville-brainstorm/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "scoville-brainstorm/LICENSES/ADHD-MIT.txt": "3f08d24b5561fc516b262351cb8e0302d30e7d9139f01b4a637e4bf3b5ab0938",
+            "scoville-brainstorm/SKILL.md": "dcea55dc01ea2a23fc3101e49aa537f1c54d2e777db15401a2a88c48ddee8e4f",
+            "scoville-brainstorm/THIRD_PARTY_NOTICES.md": "21e292299cf6da733c4c5f8b4fd542ca5fdf90602d80a43ee6a57bd165cfd737",
+            "scoville-brainstorm/agents/openai.yaml": "9be1795122dc285e9c9524d56d0c1ce7a9c83bcccd93c0909478c4eb7bf602a2",
+            "scoville-brainstorm/references/research-composition.md": "9af6bd978283587a4dac49629d60d828229d37171363dddfbe55f2464d3c2c36"
+          }
+        },
+        {
+          "name": "scoville-code-anti-ai-slop",
+          "repository": "benjaminstelzer/scoville-code-anti-ai-slop",
+          "distribution": "standalone",
+          "package_path": "scoville-code-anti-ai-slop",
+          "visibility": "public",
+          "files": {
+            ".gitattributes": "ec2d2af19590bc0beffea8e7f6534683ff656843b651728bfb61742576742a62",
+            "CHANGELOG.md": "bcacf61a1e0e72d95930e9f8f9cd2933e5294ed109652ef7889093cb67c0962d",
+            "LICENSE": "4c287d6d39f7514a28f93c2683f6a222dd6293cfcf868e89e1f20f07d7befa67",
+            "README.md": "ddcac304f5f8c856dc1eb1935d190492589d67e57a3b9f898f8b5380cccb4c90",
+            "scoville-code-anti-ai-slop/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "scoville-code-anti-ai-slop/SKILL.md": "9553fcfd3f65847f3f37dc403e975f5e9f41238dc3e815c470afa23ae516cc65",
+            "scoville-code-anti-ai-slop/agents/openai.yaml": "e7cb75f38cfc5a8643b541fd52fd142c38a874589e52d2baee4e166199dc0d58",
+            "scoville-code-anti-ai-slop/references/change-workflow.md": "02f8596179382087e07f24db41c5b900cf0d4573b13fea318c6ae4bb539683e1",
+            "scoville-code-anti-ai-slop/references/planning-and-decisions.md": "7755c74881d61a44eb3ed931d0e6aa63ed1270044dbfec009243757e51fe44ee",
+            "scoville-code-anti-ai-slop/references/validation.md": "789bd70b575f3b8cafc637c7b62f55c34ea1e0b87703339b5b13d1a73c1b5769"
+          }
+        },
+        {
+          "name": "scoville-design-anti-ai-slop",
+          "repository": "benjaminstelzer/scoville-design-anti-ai-slop",
+          "distribution": "standalone",
+          "package_path": "scoville-design-anti-ai-slop",
+          "visibility": "public",
+          "files": {
+            ".gitattributes": "9fda1f44a6ef0bd2c2eb195ac9812bb582c8bb3ecd4b878240578c08164d3064",
+            "CHANGELOG.md": "ed3c3ba3c3cb589bfe7a2def3bdf3aa887908cb18b855f382ddbd715192aa265",
+            "LICENSE": "4cbb4950227dd6b4753fd20ec90307d71f6f4cf827e1e8e8d74f6bf1e80c2098",
+            "README.md": "cc85fc0155fa521fde6ace05f8184ae92775879b81c435ae8bb25feb84a1366e",
+            "scoville-design-anti-ai-slop/LICENSE": "4cbb4950227dd6b4753fd20ec90307d71f6f4cf827e1e8e8d74f6bf1e80c2098",
+            "scoville-design-anti-ai-slop/SKILL.md": "cf43e31b4e8bd023b0e2eef516db2fafae95c0b9c4378d59d8e73a261c0cb814",
+            "scoville-design-anti-ai-slop/agents/openai.yaml": "db3bb716b514da8aa0623898bd5261d9c801874cd5d333d582591974c5148d48",
+            "scoville-design-anti-ai-slop/examples/icon-treatment/comparison.png": "49ebd499f645d3d15603f714dc07cf9fab2ffdabba0291ae13a33d5cfb0ac69f",
+            "scoville-design-anti-ai-slop/examples/icon-treatment/comparison.svg": "9ac833a07ff571ef2de146011f730bebedaad02f21fd06bc507281eb0dc1fbfc",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/README.md": "76dd5f5f15a93f3f9396316a5832648873d2fc79b9d6db7b3c350770bf4d9bbd",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/decoration-control.png": "1067a35e95f500a2101ac48770ef8d2cf2e52615852e6ef76e3cc3bc7fb8ee50",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/decoration-control.svg": "feb7cb8425572c6d6c962bd536335c491325bbcd06d44db96065fe52e8ed2260",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/intentional-asymmetry.png": "c0b5ece9a21b81a8af545fd9e3a75b922f51e7e0c1bf3068f1bbe8e7d0379d52",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/intentional-asymmetry.svg": "494b6af68adb5939a20ee3c7910b0f409a43639141590f4253e5b5385bd3dbaa",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/longest-content-fit.png": "eb953e64d54c2f8b456ee2bfe1028e3aac09a7ce6431437c4485fb1ac06b68bf",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/longest-content-fit.svg": "e54878b3a321416a0fbfd70d250be3942e9e213c57718f000e8cfe02ab54752c",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/manifest.json": "d64b451abe60ed13334f7f3ee4fa164d70d43219368b5a4f36431324db00e26b",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/optical-correction.png": "6f322b03f93fcdd7af5134fc3a3cf8c4da0c8981714e8ffb2a8bf35e76044afc",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/optical-correction.svg": "45927074c3dd490fe7678d4473c9baea8cbf93c39cf566aec1725e271fb51c00",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/repeated-card-span.png": "8c9413c68c32ae9db24c82f18d6dc4abe00e12b80606692b43211272299180ff",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/repeated-card-span.svg": "dd8285f113deac0778ed7608eb6f3edd0b877d9a500adc67f21e8f42995254aa",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/type-role-map.png": "f9cf0e78e670fe1d502bd63b3a0890c230d8ba37648e0c125579a1205ec53349",
+            "scoville-design-anti-ai-slop/examples/spatial-proof/type-role-map.svg": "6ffa43d30d04ace4771622dd9260dcd0d073948a454f68f0ec75f2c50470975c",
+            "scoville-design-anti-ai-slop/modules.yaml": "db66c4f361fd8cb7d5fd37fdad7f279d6baf310ab82e4c96f88c885522f3bbe4",
+            "scoville-design-anti-ai-slop/references/advertising-and-campaign-art-direction.md": "e90a88cff8db8176aeeb92121663276fcb4d1bc08432a671fda190f651f45cc7",
+            "scoville-design-anti-ai-slop/references/asset-rights-and-attribution.md": "d020e7e4093857f602130e97bc9d0d5ace228747857bf075bfe9474b35587851",
+            "scoville-design-anti-ai-slop/references/brand-and-visual-systems.md": "0e48f43d0fc85094fe1c66f6f3d7bc245f5b8ad25a531feea81940856d4b1099",
+            "scoville-design-anti-ai-slop/references/brief-framing-and-criteria.md": "f0b962c1f269a44bf5ceb768c8112fcfb297f8edda0e8ab28f9212ab07ba79a4",
+            "scoville-design-anti-ai-slop/references/cartography-and-spatial-data.md": "d7413a652a2d92d713afca54624d9c4b5cafc2c336f9f2e7d90b73aae9f850da",
+            "scoville-design-anti-ai-slop/references/colour-and-reproduction.md": "bfe8bef7fd8e35f299d021b6e097c2a0870db788ebf237a962d87fcf672087de",
+            "scoville-design-anti-ai-slop/references/composition-and-layout.md": "dc2548156cd125c0638fc509cdf36d3da47804abfbd83ea6f6577a73d36224e6",
+            "scoville-design-anti-ai-slop/references/concept-development-and-selection.md": "f83cb3591ada94fc7ae50908e17dd4d544590ab0d99b2722264734c10adf4442",
+            "scoville-design-anti-ai-slop/references/coordination-with-sibling-skills.md": "b43f830d8dfba41a2667618c6c2a595206bb02a3a18058b5391e3c3bffd91c2b",
+            "scoville-design-anti-ai-slop/references/critique-and-validation.md": "c18f865a6f07d3ca6065ec65eeac44cf5afd8b9b268c40e7001696ca7dad4865",
+            "scoville-design-anti-ai-slop/references/culture-and-representation.md": "52d4ed0ec137c7fff2619058518141224f862a808a59ba01fe7a1c47edbe51c1",
+            "scoville-design-anti-ai-slop/references/diagrams-and-relational-information.md": "a75d22c136847f9f09a3c9ea4e5db362f880cc497a884890765b87119dc2f5ea",
+            "scoville-design-anti-ai-slop/references/direct-expert-index.md": "c8fffe3da93c7817b98f357b00e0acab87afc9cdffef92bcfa4bbed57b2cc5eb",
+            "scoville-design-anti-ai-slop/references/editorial-and-fixed-media-design.md": "27cbd8beeba7c23babdd8b6fa2eae508a76afb0446c2e66169b7685ed4bd2bd3",
+            "scoville-design-anti-ai-slop/references/font-technology-and-script-safety.md": "4d576ec8f88bdb69c8cb2401bd0b1d400cf278c09d0f91542e3748e2f9433ee6",
+            "scoville-design-anti-ai-slop/references/generic-signatures-and-subject-specificity.md": "5f9d9867c4b8da95bb2569f245e04a264d643fdd0354ff86c31a925f160ab3a5",
+            "scoville-design-anti-ai-slop/references/imagery-and-art-direction.md": "3ace5315d7babe1a37afaa8057ed53156726bbce7eb25cc21b6419ab41b6965f",
+            "scoville-design-anti-ai-slop/references/information-design-and-data-visualization.md": "42852f536d66caf55e2aebbfef2a57c46e8d9a5b39619edfabafd1494545bcac",
+            "scoville-design-anti-ai-slop/references/instructional-and-explanatory-design.md": "4056a9c8f0843e47675335d8a91c93b536cf122ee6ba2c12b0f21c6c1bd7a9a6",
+            "scoville-design-anti-ai-slop/references/logo-and-identity-mark-design.md": "0692da5b7a547b5590b5a535c6de11ffa2dc8bfce320450002b790a9f68d1e7c",
+            "scoville-design-anti-ai-slop/references/media-production-and-handoff.md": "48ef0c1561c871e34fc9fbf6713d90d35c1bb0947b0021b59a5a744fc216f084",
+            "scoville-design-anti-ai-slop/references/motion-and-sequence.md": "6f7c852fd424bbcbd49cb6d6d4698e24590ba29ed8cfe94afe51635b7f65870f",
+            "scoville-design-anti-ai-slop/references/packaging-graphics-and-sku-systems.md": "d90334fbfe4a1f8f163d56ab86f9e245cd423dbeed488b3b7bbc4bf73b858620",
+            "scoville-design-anti-ai-slop/references/people-privacy-and-media-integrity.md": "b9f9e2c09eca61b85c2f821cee2da7745324adc15300f8de2abc1ceccf638087",
+            "scoville-design-anti-ai-slop/references/physical-wayfinding-and-signage-systems.md": "40fe4ffe680e6f1d3c0cd4a4ca1d00661bd5db1fd8623d3721d4a08ff9794a26",
+            "scoville-design-anti-ai-slop/references/source-index.md": "3aa667dcf320a0fa40c069ef7d9b7cc522b8b75c1e571a73f539bfc966cc80bf",
+            "scoville-design-anti-ai-slop/references/source-verification-and-evidence.md": "ca5b03e0788c0774e5f83c75c511b4bae9f858d1f350f77097573e1bde3949fb",
+            "scoville-design-anti-ai-slop/references/style-direction.md": "1e91389c6fb3e63f5dd821def525950ba78abf75eddf66a8ebdf893f5046432e",
+            "scoville-design-anti-ai-slop/references/sustainability-claims.md": "dc90906f61244645f25a0c529ad720ab3044afad7514f1b65ab7bdf4167b3bdf",
+            "scoville-design-anti-ai-slop/references/typography-and-typesetting.md": "51dc0cd6083b6f0114926e13c7dbd916e16c37059c6c41ae858b37b4e800f894",
+            "scoville-design-anti-ai-slop/references/ui-workflow-and-interaction-design.md": "054b9d956b45806873acc46d7c7f25d470891859bc2f16e8f046257e6ed9651b",
+            "scoville-design-anti-ai-slop/references/web-and-responsive-design.md": "23a34cf9e6b0749763d3f128da9ae18052006971cfa163cdf7f8f2ba6c4d5278",
+            "scoville-design-anti-ai-slop/scripts/inventory-svg-layout.js": "69943ec034e5c8473ace69068d3ba22357a5af639b63cf13b5409fe19476053d",
+            "scoville-design-anti-ai-slop/scripts/measure-layout.js": "fdb65757731b5564161201766ba699395290a179d6b47183ae264dd6a2e2089d",
+            "scoville-design-anti-ai-slop/scripts/read-source.py": "40e0d5c202fefb526ea39d8c1b8e410093d32325d5de5e73453854850664d131"
+          }
+        },
+        {
+          "name": "scoville-handoff",
+          "repository": "benjaminstelzer/scoville-handoff",
+          "distribution": "standalone",
+          "package_path": "scoville-handoff",
+          "visibility": "public",
+          "files": {
+            ".gitattributes": "3f84c504ac06b75b91d8f22d9b65bd0ce462dce2772cca47bac1495420b46013",
+            "CHANGELOG.md": "419f2b9f92cfde2cb9c6a3de6252428cf99b28d04bff717f8bbebc47c4c673f5",
+            "LICENSE": "4c287d6d39f7514a28f93c2683f6a222dd6293cfcf868e89e1f20f07d7befa67",
+            "README.md": "6a69dad29fbf0727b1a837876a341ed54fe6fb4bb38afa30bf5e17e5ae07d977",
+            "scoville-handoff/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "scoville-handoff/SKILL.md": "377825a25f679e4d0a1f778753ad150cd30b070fa7aee49dc5d223210d31dcee",
+            "scoville-handoff/agents/openai.yaml": "d0ff80322bcd1536b04d329363e8778a268db19406171ad5865ac7311beefa13",
+            "scoville-handoff/assets/continuation-prompt.md": "fd21bf5993ef065d5bb1892c371b698d18db6092ea4613c09956869c8ce441f1"
+          }
+        },
+        {
+          "name": "scoville-plan",
+          "repository": "benjaminstelzer/scoville-plan",
+          "distribution": "standalone",
+          "package_path": "scoville-plan",
+          "visibility": "public",
+          "files": {
+            ".gitattributes": "5cdacb394af7a4e26687db22e63b0c688a8ff87a321ff769b2cebaa236ffb1d7",
+            "CHANGELOG.md": "730721fc0a41197ceb9e69705efd1e0b386155aab9a5a32242de490984eeba4f",
+            "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "README.md": "ccafe90b98ea72511f6793c3c047a0e1c81c28e50b6d0af05bc344c3df74d7f0",
+            "scoville-plan/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "scoville-plan/SKILL.md": "776054648a321c323c92cb0bce54eee709fec67dfe3e30feba042820af3d68a2",
+            "scoville-plan/agents/openai.yaml": "1a45925407a75b6d5e466918cb6071de3efa595a245a8f54823f427ff04aed41",
+            "scoville-plan/references/native-decision-batches.md": "a8ea074ac1d0f68dfb6e49c4158f44128308a357d346d9ee0062210697829367",
+            "scoville-plan/references/native-decision-format.md": "a1ec2c4dfc5b2ec8c118d79ba129aaddee6cd1a8fb404b689cae145e863e0796",
+            "scoville-plan/references/native-editing.md": "992336c05276367ac089592a4affc998ab367f3fe8b30bc47c5e722ff8412825",
+            "scoville-plan/references/native-plan-format.md": "9b70f5ca54cb0a4deeacb2761d30647c5ad761727e157ce3443761e3ed17d8bf",
+            "scoville-plan/references/native-project-lifecycle.md": "3bb8169a032ac69b784c9c817d60794fe800341897d8ce72870a5676cbacad82",
+            "scoville-plan/references/native-work-items.md": "c6cc981eae4aa23d5ac73de13a63ce146dc6093e37922408a0d67dfee8e0327d",
+            "scoville-plan/references/planning-granularity.md": "46f1d7605ef3c87ad05a19b50d39103e8890e1efc9fa88c35ef0e2f0bb13004b",
+            "scoville-plan/references/profile-validation.md": "a863ac93878d72a9848211cde4090e3515118e9346e1a601e329ee8dac01e418",
+            "scoville-plan/references/read-only.md": "117d9c3aff9127f451d14d07a55c4c17db9f657b18ccef27469323bdb9983caa",
+            "scoville-plan/scripts/compute_decision_batch.py": "6f5265617a8add19405dde613e874482dba475211e8010352beb5d6d37c407a4",
+            "scoville-plan/scripts/select_context.py": "6b791b966ac15d314ace6250f8a57d328a7d8ff0a59fb448d4e71b5ba1d4d2cd",
+            "scoville-plan/scripts/validate_profile.py": "afc27596581b46a667833267f0d65dab9d87990a53ad04c2f0f0c58af5c90a62"
+          }
+        },
+        {
+          "name": "scoville-research",
+          "repository": "benjaminstelzer/scoville-research",
+          "distribution": "standalone",
+          "package_path": "scoville-research",
+          "visibility": "public",
+          "files": {
+            "CHANGELOG.md": "cc28bb716ff41703dc27396db5401b8ccf4ded698e72075a3d404b0cb6106b3b",
+            "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "README.md": "88995353eb09077602d48ff36f367bbde5c5db72ba11e43b8fb738f1f0bac9d6",
+            "scoville-research/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "scoville-research/SKILL.md": "a48c5a22b501e69bd2918935733bf0390bc9256080a193e37e955cc409bacde1",
+            "scoville-research/agents/openai.yaml": "eefd8edc0a58fa260d46b33dbedc4172633f761f11f3a3a5fa17ce0d06547263",
+            "scoville-research/references/academic-research.md": "ecce8b9ec574f4159d8b9c0e5e7767aec6912e4e0aeb8d480c721c969ba9636c",
+            "scoville-research/references/brainstorm-composition.md": "82cbb98133eb3c774f07aed5af7d3312709e484d45a7f84890305404b909eece",
+            "scoville-research/references/deep-research.md": "3f958335b366412deae9ccd58dd2fe33bd704fbfd34aa81d3b1c7ec0462b96b2",
+            "scoville-research/references/development-research.md": "5494847ac95cb950b034b142a6b968e5716fbdb136e64e7140bbd20c4ae815cc",
+            "scoville-research/scripts/validate_research_artifacts.py": "787d6282a102236b50ddcb84002716a0e9de73ef73eadfbdafe343639d9700aa"
+          }
+        },
+        {
+          "name": "scoville-scribe-anti-ai-slop",
+          "repository": "benjaminstelzer/scoville-scribe-anti-ai-slop",
+          "distribution": "standalone",
+          "package_path": "scoville-scribe-anti-ai-slop",
+          "visibility": "public",
+          "files": {
+            ".gitattributes": "ec2d2af19590bc0beffea8e7f6534683ff656843b651728bfb61742576742a62",
+            "CHANGELOG.md": "89c9477942af2046b8083c21ec110fc9d20b365737a89ee0aaa92cc1dde505ad",
+            "LICENSE": "4c287d6d39f7514a28f93c2683f6a222dd6293cfcf868e89e1f20f07d7befa67",
+            "README.md": "4044db2a03df32d56153822ebae6c356fababc7605cd32fc535addee5c81cb3a",
+            "scoville-scribe-anti-ai-slop/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "scoville-scribe-anti-ai-slop/SKILL.md": "16682b1fbb28d3875d305b38888a43da0c0468bc3b72f77fb59e613d2a2a9b7a",
+            "scoville-scribe-anti-ai-slop/agents/openai.yaml": "9d771eb8e6df2e857ac62c753d3a74d7730870f71e505e9f06b1dad8783f1a2a",
+            "scoville-scribe-anti-ai-slop/references/fidelity-modes.md": "f42dada421fbe76a07ee8d078c9d835f2cdb078f080cb5e450355cb036b3efbc",
+            "scoville-scribe-anti-ai-slop/references/interface-text.md": "d7773d3fda0240d369cb745f588371d227916bed407e392cbff3f75f49df3c74",
+            "scoville-scribe-anti-ai-slop/references/prose-patterns.md": "a938c957ebe06994653fae9645355fcf615625775bf68f5d1c0bd84441a825fb"
+          }
+        },
+        {
+          "name": "scoville-ui-anti-ai-slop",
+          "repository": "benjaminstelzer/scoville-ui-anti-ai-slop",
+          "distribution": "standalone",
+          "package_path": "scoville-ui-anti-ai-slop",
+          "visibility": "public",
+          "files": {
+            ".gitattributes": "1ff091feba4119c30bf0a3844db48898d8d819c3f69afb4d2d2e4750a8c23d43",
+            "CHANGELOG.md": "50305061b8b9488957b52131e3619e91d6828c74e17529592d3e78eed43413ed",
+            "LICENSE": "4c287d6d39f7514a28f93c2683f6a222dd6293cfcf868e89e1f20f07d7befa67",
+            "README.md": "0f979b4f382cf2f6d7baffde577769897c7ce10e7d29e4a8efc604816d9453fa",
+            "scoville-ui-anti-ai-slop/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "scoville-ui-anti-ai-slop/SKILL.md": "c619a5c61e1782a4634b8e1f02696a543f48d6d9f7e82df6a3c8f54858b87064",
+            "scoville-ui-anti-ai-slop/agents/openai.yaml": "a0dd584027c1428c781db5017219383aad4a435a2e240bfc98573e064ee01cbc",
+            "scoville-ui-anti-ai-slop/references/framework-alignment.md": "f180d79b3b64df7b8f41fbee5b479b28031827105de6a1e955943a6c23876521",
+            "scoville-ui-anti-ai-slop/references/ui-quality.md": "4eb7b5fbacebc4a09c81dd6f73f28490e9a0fcd7199fd1089426b43c7b2febe4",
+            "scoville-ui-anti-ai-slop/references/validation.md": "3b2092cb4c99b0a31999111f1d0de928c743705bb1048a19043a9fb0b2aaeabb"
+          }
+        }
+      ]
+    },
+    {
+      "root": "E:/Dropbox/AI Projects/skills/public",
+      "receipt": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/ask-luna-candidate/build-receipt.json",
+      "receipt_sha256": "c135f30a5403a6e7aa3b9b31db4ea275c3b48cf57b70b2a4c229d3b5b9483243",
+      "members": [
+        {
+          "name": "ask-astra-for-review-for-codex",
+          "repository": "benjaminstelzer/ask-astra-for-review-for-codex",
+          "distribution": "standalone",
+          "package_path": "ask-astra-for-review-for-codex",
+          "visibility": "public",
+          "files": {
+            "CHANGELOG.md": "183ffa1e9d44aaea76965579e76d16e8811b4d54968c31ed0feddd9d6f101a48",
+            "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "README.md": "91c92def73f300ea50f77e717cce0b38d5665e02f046b7087a17145458aa2704",
+            "ask-astra-for-review-for-codex/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "ask-astra-for-review-for-codex/SKILL.md": "1d72744d0fa28f4e500e94349fd7d6f0046d2f0e32e3a519ec1bd88b74df6014",
+            "ask-astra-for-review-for-codex/agents/openai.yaml": "02a21d640418aa4efb29b9ad5718937336a4a77aa1685e522d364d545ce543ba",
+            "ask-astra-for-review-for-codex/config.default.json": "af436981e1618c0b0daa84729197e98867ab70c745b6eafe9f258d3d5978fe09",
+            "ask-astra-for-review-for-codex/references/astra-second-opinion.md": "b5cd2770fba203a41d57c80d29ed67ec4ce149fdd82386ef674b3045fb058d99",
+            "ask-astra-for-review-for-codex/scripts/task_lifecycle.md": "abc107d06cc38a641c05a965fcd0f3fc182b1ece5cb15925d94ad5782cb642d4",
+            "ask-astra-for-review-for-codex/scripts/task_lifecycle.py": "7239175373b987a1cbe3ae1e0ee93f56e18327bc5e04087964020794a25a64ea"
+          }
+        },
+        {
+          "name": "ask-sol-for-review-for-codex",
+          "repository": "benjaminstelzer/ask-sol-for-review-for-codex",
+          "distribution": "standalone",
+          "package_path": "ask-sol-for-review-for-codex",
+          "visibility": "public",
+          "files": {
+            "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "README.md": "6a40d539aa35002dc0a0530901ba5f8141748576858db7e98507b1be5dfcdfc4",
+            "ask-sol-for-review-for-codex/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "ask-sol-for-review-for-codex/SKILL.md": "771f6960ec10d87014d3cd9f1ce46c8f42213fb08744cf30ba5aa1fe72feb8cd",
+            "ask-sol-for-review-for-codex/agents/openai.yaml": "f5bb2a8e57fc718c1dd59f7002d749db4e7e9d632427ca0e844a5c5ed67c8d9c",
+            "ask-sol-for-review-for-codex/config.default.json": "ad5ac57c589382e71a372d586bf4c65755e3a195028253477267024a310a5db2",
+            "ask-sol-for-review-for-codex/references/sol-second-opinion.md": "7a82c067c9855c7ac67c5984c1720aecff246b24ab1f621b0177220453f79b2e",
+            "ask-sol-for-review-for-codex/scripts/task_lifecycle.md": "abc107d06cc38a641c05a965fcd0f3fc182b1ece5cb15925d94ad5782cb642d4",
+            "ask-sol-for-review-for-codex/scripts/task_lifecycle.py": "7239175373b987a1cbe3ae1e0ee93f56e18327bc5e04087964020794a25a64ea"
+          }
+        },
+        {
+          "name": "ask-claude-and-astra-for-codex",
+          "repository": "benjaminstelzer/ask-claude-and-astra-for-codex",
+          "distribution": "standalone",
+          "package_path": "ask-claude-and-astra-for-codex",
+          "visibility": "public",
+          "files": {
+            "CHANGELOG.md": "0f1020f354dab3c4604c6d6ca090a38d53d70ef41ccf0bf8652ee7f4c4724720",
+            "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "README.md": "cc8707d6114365ebf83140d17a6ebf3cbcfe4161dc9ffbd1f70356a3524aebf3",
+            "ask-claude-and-astra-for-codex/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "ask-claude-and-astra-for-codex/SKILL.md": "8f0e22e38b3d278079e45cc028106d91ebb18a2a70e5b36436cd05c1d47345bb",
+            "ask-claude-and-astra-for-codex/agents/openai.yaml": "1bfa745119665513af1bdd49dd0016623ad72a5012c3f9d825d0162ace8f0523",
+            "ask-claude-and-astra-for-codex/config.default.json": "8d1ab44ec70acf4e003c56485f3b33868f7a44caf0b667f5c2497b3b094f3b0b",
+            "ask-claude-and-astra-for-codex/references/astra-second-opinion.md": "223d777c2febff531f1ecff621d1f6b61a8e5b94e96da9a35e32a115dcf81e12",
+            "ask-claude-and-astra-for-codex/scripts/ask_claude.py": "d540bc3fb1f44556599fbd46c3e8d49ab539d4608fb45ed8828c72fcf2a935a7",
+            "ask-claude-and-astra-for-codex/scripts/task_lifecycle.md": "abc107d06cc38a641c05a965fcd0f3fc182b1ece5cb15925d94ad5782cb642d4",
+            "ask-claude-and-astra-for-codex/scripts/task_lifecycle.py": "7239175373b987a1cbe3ae1e0ee93f56e18327bc5e04087964020794a25a64ea"
+          }
+        },
+        {
+          "name": "ask-claude-and-sol-for-codex",
+          "repository": "benjaminstelzer/ask-claude-and-sol-for-codex",
+          "distribution": "standalone",
+          "package_path": "ask-claude-and-sol-for-codex",
+          "visibility": "public",
+          "files": {
+            "CHANGELOG.md": "44615e2e7bc9638459a3accfd30ba2c892886ea934b3adcf3287847c820c28ee",
+            "LICENSE": "4c287d6d39f7514a28f93c2683f6a222dd6293cfcf868e89e1f20f07d7befa67",
+            "README.md": "032418843223fa6fe669a93dd1f0f2b1b7c37a380914b1a197ab9587b7be9f7a",
+            "ask-claude-and-sol-for-codex/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "ask-claude-and-sol-for-codex/SKILL.md": "cac434268858acafd6271b7c327766dc02421b9b23e0afa48c9a147fedfb9381",
+            "ask-claude-and-sol-for-codex/agents/openai.yaml": "353ad3d1b728c3c3d017b1feda218f7672159b90151b47d3157c7859051008ac",
+            "ask-claude-and-sol-for-codex/config.default.json": "596eb061d8ccd0c7e97f3faf3ba483c4daac592f672cb83c98b9d6d91daeaf67",
+            "ask-claude-and-sol-for-codex/references/sol-second-opinion.md": "e6b8f24f00b3b1625765f4a7f888b493b34287de08d536d883fdf1f709775587",
+            "ask-claude-and-sol-for-codex/scripts/ask_claude.py": "dedfa6deaf32007a3aa3f7f8bdbb8f150afbe7da44e4c63a41d69c754589d45e",
+            "ask-claude-and-sol-for-codex/scripts/task_lifecycle.md": "abc107d06cc38a641c05a965fcd0f3fc182b1ece5cb15925d94ad5782cb642d4",
+            "ask-claude-and-sol-for-codex/scripts/task_lifecycle.py": "7239175373b987a1cbe3ae1e0ee93f56e18327bc5e04087964020794a25a64ea"
+          }
+        },
+        {
+          "name": "ask-claude-for-codex",
+          "repository": "benjaminstelzer/ask-claude-for-codex",
+          "distribution": "standalone",
+          "package_path": "ask-claude-for-codex",
+          "visibility": "public",
+          "files": {
+            "CHANGELOG.md": "7be0b6853ba298fb45742b1fabf174e4a5d3565379555832dc683f8d9410609e",
+            "LICENSE": "4c287d6d39f7514a28f93c2683f6a222dd6293cfcf868e89e1f20f07d7befa67",
+            "README.md": "8dc100ad1de3ad116c602629f0e8e6525a8511cee07cc1a4dc7a3e36637a9b15",
+            "ask-claude-for-codex/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "ask-claude-for-codex/SKILL.md": "c789465081b259161c75e498b9761ed960e8bbe4559ae9d9dbfacd9088a65b36",
+            "ask-claude-for-codex/agents/openai.yaml": "7bd60a3ed8b008ed8ca3513491eb4d2b3098a6c63b544c85ec4ba34bba2e3cd9",
+            "ask-claude-for-codex/config.default.json": "7fe3c529bc43d48dcebea1bb9d74ae8b784f6fb4d941b60b29a9895bd83d40b0",
+            "ask-claude-for-codex/scripts/ask_claude.py": "4acd63b5fd7c990974f83b0b5a793ffb353f31a712fcf830347ce585d2607c33",
+            "ask-claude-for-codex/scripts/task_lifecycle.py": "7239175373b987a1cbe3ae1e0ee93f56e18327bc5e04087964020794a25a64ea"
+          }
+        }
+      ]
+    },
+    {
+      "root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/workflow-luna-final",
+      "receipt": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/workflow-luna-final/build-receipt.json",
+      "receipt_sha256": "8aeb810872e5910878a2591194a0d5f00bfba7f222f9410cc491e0c23f5e3f64",
+      "members": [
+        {
+          "name": "scoville-workflow-for-codex",
+          "repository": "benjaminstelzer/scoville-suite",
+          "distribution": "suite",
+          "package_path": "scoville-suite/packages/scoville-workflow-for-codex",
+          "visibility": "private",
+          "files": {
+            ".gitattributes": "92653bae4ac2bf92088a9b4f10278de727b7ed1554f0e640d9b21270ffaa3080",
+            "CHANGELOG.md": "082f34ff2bc52a69dd1abe0b98e7b59fe7b46b587a386488635c063eb6e8edd2",
+            "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "README.md": "0eaca833365b80363fa539b8078c6552d02e6cf6a2ef3b76a61aa6bcf04bf988",
+            "scoville-workflow-for-codex/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+            "scoville-workflow-for-codex/SKILL.md": "3179aeec1603e7b6be0bf651730b50183585f211cd0ff0196c60ba00b30c21c4",
+            "scoville-workflow-for-codex/agents/openai.yaml": "3c6008b62643c308e1c5398e8108b5f1dad48fd3736c3b3a81a7b94c02cd4609",
+            "scoville-workflow-for-codex/assets/workflow.toml": "9575972ed91a4f791b64e203cfe2278a99d82e8ba29496b0fc33c143245109fe",
+            "scoville-workflow-for-codex/references/agents-contract.md": "2325b31ca1b636c6a58841ddf342989482e2a544d40b7c2e3c8e4593b4c234d9",
+            "scoville-workflow-for-codex/references/agents-setup.md": "7692121a7ef68771c0ebd8efe5c5fc325a334791f178c06f070d4cd9fda7ed78",
+            "scoville-workflow-for-codex/references/operations.md": "e71bbf7a74b4e76ffedf3ac88b254a683624ae83a75397489d0ec2d4bebdfd94",
+            "scoville-workflow-for-codex/scripts/build_dispatch_prompt.py": "3ba37082a545ffc2c1e7e63b83b5c2d4ba8623deab8e3e9870f1be27ce63b093",
+            "scoville-workflow-for-codex/scripts/check_context_checkpoint.py": "e931a865e49b1b4e114ce8e5434f58b4cdcb067c12a50edd77196fb53bd3acc7",
+            "scoville-workflow-for-codex/scripts/inspect_native_context.py": "5063a34eba120a51ab04695c1ef883cd35d00940d890f8843ef0af8c83b7a8a6",
+            "scoville-workflow-for-codex/scripts/manage_agents_contract.py": "41b15cc154502ffd6300eb6304a34f885db9cb82d155f0b2a2f80630396a218a",
+            "scoville-workflow-for-codex/scripts/manage_workflow_guard.py": "9b4ae9cf686e5ae0288033a8466f28dcd1422cce7953e922173a46f6a53d4960",
+            "scoville-workflow-for-codex/scripts/rollover_readiness.md": "880dd015c5cd5b61bc31aaff598069995bea0c88eddf57bfc97b755ab74e9e14",
+            "scoville-workflow-for-codex/scripts/task_lifecycle.md": "abc107d06cc38a641c05a965fcd0f3fc182b1ece5cb15925d94ad5782cb642d4",
+            "scoville-workflow-for-codex/scripts/task_lifecycle.py": "7239175373b987a1cbe3ae1e0ee93f56e18327bc5e04087964020794a25a64ea"
+          }
+        }
+      ]
+    }
+  ],
+  "selection_file": "selected-cases.json",
+  "selection_decision": "ADR-0007",
+  "corpus_case_count": 300
+}

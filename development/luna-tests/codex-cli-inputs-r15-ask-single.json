@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "luna-cli-frozen-input-r15-ask-single25",
+  "scope": "One authorized rerun of ask-single case25 with the manifest-verified shipped default supplied because the qualified runner cannot serve package-root files. R14 failed-closed evidence remains historical. No other case is authorized.",
+  "baseline": {
+    "file": "codex-cli-inputs-r13-ask.json",
+    "sha256": "e94b3dc9211b768301ef1064cd469910f92f281639ffb5b05c9cc604e559fd42"
+  },
+  "prompt": {
+    "file": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation/prepared-ask-single-r15-25.md",
+    "sha256": "4939b8496ddebe83111a92635994c47b92cab4a3d6d1a406ec8851e941527d6b"
+  },
+  "package": {
+    "root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/ask-r14-delivery-recovery/ask-sol-for-review-for-codex/ask-sol-for-review-for-codex",
+    "core_sha256": "771f6960ec10d87014d3cd9f1ce46c8f42213fb08744cf30ba5aa1fe72feb8cd",
+    "config_default_sha256": "ad5ac57c589382e71a372d586bf4c65755e3a195028253477267024a310a5db2",
+    "personal_config_present": false
+  },
+  "receipt": {
+    "path": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/ask-r14-delivery-recovery/build-receipt.json",
+    "sha256": "081a6e651d612a65b2eff800fd09bcff697893d0491651355c66462cbcf6074c",
+    "member": "ask-sol-for-review-for-codex"
+  },
+  "subject": {
+    "model": "gpt-5.6-luna",
+    "reasoning": "medium",
+    "transport": "Codex CLI"
+  }
+}

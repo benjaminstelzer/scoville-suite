@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "luna-cli-frozen-input-workflow-projection-01",
+  "scope": "One authorized W-019 comprehension case for bounded completed-result projection recovery. No W-018 or 64-case rerun is authorized.",
+  "prompt": {
+    "path": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation/prepared-workflow-projection-01.md",
+    "sha256": "c5e05917b03efe4713281f6e9e0409766eeb62afa0d32cb7fbbdeffb03d79d9f"
+  },
+  "corpus": {
+    "workflow-projection-cases.md": "c55808331d7c940d183b8b5d09239f28e7683185cdb92b5ea60410407c670dd6",
+    "workflow-projection-expected.md": "f38194c8720bbf59b0e10b61624318692144cdf909f5f5a85da8177e61c0ac85"
+  },
+  "package": {
+    "root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/workflow-projection-recovery-final/scoville-suite/packages/scoville-workflow-for-codex/scoville-workflow-for-codex",
+    "receipt": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/workflow-projection-recovery-final/build-receipt.json",
+    "receipt_sha256": "2c69a6233dfb80a2c973c3d4d52684c8d8f2bf9030a4fb32a95f4e166a95cab1",
+    "member": "scoville-workflow-for-codex",
+    "core_sha256": "3179aeec1603e7b6be0bf651730b50183585f211cd0ff0196c60ba00b30c21c4",
+    "operations_sha256": "c7f04c689f587a34f90dc01f9978f78a3170d052950161d15b4dcaff734cf811"
+  },
+  "subject": {
+    "model": "gpt-5.6-luna",
+    "reasoning": "medium",
+    "transport": "Codex CLI",
+    "codex_sha256": "bc45017e8239dc150258f69309ced9df6bbcdf5b8e4f346decf780ac0999e226",
+    "catalog_sha256": "0a2bca132452338774a9c243e195095ad0b6400b17b2586306a69e8dcfade5f0"
+  }
+}

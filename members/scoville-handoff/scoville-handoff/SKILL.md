@@ -1,0 +1,91 @@
+---
+name: scoville-handoff
+description: Transfer active work to another agent or session as one compact, factual, copy-ready continuation prompt with fixed Receiver Instructions, Objective, State, and Resume Steps. Use only when the user explicitly asks for Scoville Handoff, a compact/context/session handoff, a handoff to a new session, "Übergabe an neue Session", or an equivalent transfer. Preserve objective, decisions, state, ownership, evidence, blockers, hazards, and next safe action. Do not use for summarizing, shortening, wrapping up, ordinary context reduction, low context, or session ending. Read only named task sources and optional version control; run no task or dummy command.
+compatibility: "Any Agent Skills host that can read the named task sources. Optional read-only version-control inspection (git). No scripts, no network, no subagents. Developed for Codex and Claude Code; other hosts untested."
+---
+
+# Scoville Handoff
+
+Create the fixed portable artifact only for an explicit transfer.
+
+## Dispatch
+
+- `yes`: explicit agent/session transfer; empty, completed, or not-started work
+  stays `yes`.
+- `no`: no receiver transfer. Perform the task; emit no handoff.
+- `ambiguous`: future reuse without a receiver. Ask one question; read nothing
+  and emit no handoff.
+
+## Transfer machine
+
+For `yes`: `READ -> CAPTURE -> RENDER -> CHECK -> SEND`.
+
+1. **READ:** Read only named task sources and optional read-only version control.
+   RENDER separately requires the named continuation template.
+   Mark each result complete, partial, or failed under its exact source path.
+   Finish a truncated read through the missing range or continuation cursor.
+   Retry a failed range once only for a plausibly transient error. Stop recovery
+   on no progress or repeated failure. Preserve partial facts and name unread
+   ranges. Do not render or send while permitted missing-range recovery remains
+   available; do not delegate that read to the receiver. Render partial facts
+   only after recovery stops or an explicit read limit prevents it.
+   Explicit user read limits take precedence. Record recovery and gaps
+   beside the affected source. No unrelated read, stat, list, probe, edit,
+   external effect, dummy command, or task command is authorized.
+2. **CAPTURE:** Ledger non-secret continuation facts from each usable result,
+   never calling a partial source wholly unavailable. The mandatory set is the
+   goal, deliverable, acceptance, scope and authority, canonical owners,
+   user-owned changes, accepted decisions, active work and running handles,
+   observed evidence and its limits, blockers, hazards, and next safe action.
+   Keep supporting IDs, paths, commits, URLs, commands, errors, quoted decisions,
+   assumptions, unknowns, and time-sensitive details exactly where needed to
+   preserve that set. Omit unrelated history and repetition, not required facts.
+   Never substitute a source name or reread instruction for known material facts.
+   The handoff request is
+   not itself a decision. Use `unknown` or `none known` instead of inference.
+   Omit secret values; retain a needed variable name and mark its value
+   redacted. Runtime CWD, temporary workspace, and host state are not task facts
+   unless the user or a named source supplies them.
+   Under a tight output limit, remove repetition and irrelevant history first,
+   then shorten explanation. Never drop authority, ownership, hazards, evidence
+   limits, or the safe first step. If the mandatory set still cannot fit, report
+   the size conflict and request a larger limit instead of claiming completeness.
+   An explicit lossless request preserves every in-scope non-secret fact, not
+   merely the mandatory set. Conflicting source revisions or material unread
+   ranges remain explicit blockers for receiver verification.
+3. **RENDER:** Copy [the continuation template](assets/continuation-prompt.md) with all H2s and fixed Receiver bullets, then replace its placeholders with captured facts. Under
+   `State`, label every applicable fact; name each source once beside its facts;
+   repeat a fact only for a hazard or first step; omit only empty labels. Render
+   fully even with sparse facts. Use `Status: not_started` only when a source
+   says work has not started; missing status is `unknown`, not `not_started`.
+   Use `none known` for absent known facts, not as proof of absence.
+   Step 1 resolves the first blocker, else
+   recovers in-flight work, else takes the next safe action. Keep the template's
+   Markdown fence so the returned artifact stays copy-ready. Do not run builds,
+   tests, probes, dummy commands, or other task commands to fill a missing fact;
+   render it as `unknown` or `none known` instead.
+
+4. **CHECK:** Compare with the ledger: include the complete mandatory set and
+   its exact identifiers and source attribution, every required Objective field,
+   fixed Receiver bullet, and first safe step. For a lossless request, check all
+   in-scope non-secret facts instead. Steps
+   are concrete and end in an observable completion criterion. Active or
+   incompletely accepted work names its decisive next check. Completed work with
+   current evidence names only a state and contradiction reconciliation; never
+   invent a new task or repeat current evidence merely to fill Step 3. No placeholder,
+   secret, invention, or capture-only tool detail remains. Do not run builds,
+   tests, probes, dummy commands, or other task commands during this check;
+   unresolved facts remain `unknown` or `none known`. Failure returns to CAPTURE.
+5. **SEND:** Return exactly the fenced artifact, with nothing outside it. If an
+   explicit size limit prevents safe transfer, return only the concise size
+   conflict and requested limit change instead of an incomplete artifact.
+
+Handoff owns the snapshot.
+
+Finding another Skill in this family does not make it installed, active, applicable, or required. If that Skill is absent or inactive, ignore it. Do not require, install, simulate, or reimplement it. If it is active and applicable, let it handle only its stated concern while this Skill continues its own authorized work. An opt-out applies only to the Skill the user excluded, not to independently authorized work.
+
+Family owners, in suite order:
+
+{{ include: family.owners }}
+
+Preserve active sibling state in the snapshot.

@@ -1,0 +1,1220 @@
+{
+  "schema_version": 1,
+  "name": "scoville-suite",
+  "featured_member": "scoville-workflow-for-codex",
+  "members": [
+    {
+      "name": "scoville-brainstorm",
+      "development": {
+        "source": "members/scoville-brainstorm",
+        "tests": "members/scoville-brainstorm/development/tests",
+        "notes": "members/scoville-brainstorm/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-brainstorm",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "2426f32040ed9bbc373de99654487f9cbf7b076c",
+      "readme": [
+        "development/readme/scoville-brainstorm/scoville-brainstorm-ad58d0b30b5f9f27.md",
+        "development/readme/scoville-brainstorm/why-scoville-82aa5466596390dc.md",
+        "development/readme/scoville-brainstorm/how-to-use-d4c256021ecb1f84.md",
+        "development/readme/scoville-brainstorm/compatibility-683ee66978d90896.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-brainstorm/what-it-enforces-5df48c8e9c9c595d.md",
+        "development/readme/scoville-brainstorm/how-it-works-9797f2518c63289c.md",
+        "development/readme/scoville-brainstorm/how-it-was-developed-c11d1829ec325609.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-brainstorm/current-codex-lifecycle-limitation-2c6953ecd61e10a5.md",
+        "development/readme/scoville-brainstorm/sources-09f6a9181053b027.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-brainstorm/scoville-brainstorm/agents/openai.yaml",
+          "target": "scoville-brainstorm/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-brainstorm/scoville-brainstorm/LICENSE",
+          "target": "scoville-brainstorm/LICENSE"
+        },
+        {
+          "source": "members/scoville-brainstorm/scoville-brainstorm/LICENSES/ADHD-MIT.txt",
+          "target": "scoville-brainstorm/LICENSES/ADHD-MIT.txt"
+        },
+        {
+          "source": "members/scoville-brainstorm/scoville-brainstorm/references/research-composition.md",
+          "target": "scoville-brainstorm/references/research-composition.md"
+        },
+        {
+          "source": "members/scoville-brainstorm/scoville-brainstorm/SKILL.md",
+          "target": "scoville-brainstorm/SKILL.md"
+        },
+        {
+          "source": "members/scoville-brainstorm/scoville-brainstorm/THIRD_PARTY_NOTICES.md",
+          "target": "scoville-brainstorm/THIRD_PARTY_NOTICES.md"
+        },
+        {
+          "source": "members/scoville-brainstorm/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-brainstorm/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-brainstorm/.gitattributes",
+          "target": ".gitattributes"
+        }
+      ],
+      "family": {
+        "label": "Brainstorm",
+        "owner": "deliberate divergence before selection.",
+        "summary": "explores materially different mechanisms before selection.",
+        "neighbors": [
+          {
+            "member": "scoville-research",
+            "description": "source-backed landscape evidence and prior-art synthesis."
+          },
+          {
+            "member": "scoville-code-anti-ai-slop",
+            "description": "implementation scope, engineering risk, and validation after selection."
+          },
+          {
+            "member": "scoville-design-anti-ai-slop",
+            "description": "visual concept and art direction after selection."
+          }
+        ],
+        "order": 0
+      },
+      "variables": {
+        "skill_name": "scoville-brainstorm",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+      }
+    },
+    {
+      "name": "scoville-code-anti-ai-slop",
+      "development": {
+        "source": "members/scoville-code-anti-ai-slop",
+        "tests": "members/scoville-code-anti-ai-slop/development/tests",
+        "notes": "members/scoville-code-anti-ai-slop/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-code-anti-ai-slop",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "6c8ade8889bb0eee12fb51ba46a6abc1b4ee9dac",
+      "readme": [
+        "development/readme/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop-cef182d83828c761.md",
+        "development/readme/scoville-code-anti-ai-slop/why-scoville-b4b97094d903f380.md",
+        "development/readme/scoville-code-anti-ai-slop/how-to-use-125dc57117695bb7.md",
+        "development/readme/scoville-code-anti-ai-slop/compatibility-4055f96f435388ed.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-code-anti-ai-slop/what-it-enforces-6e900466e9f616b6.md",
+        "development/readme/scoville-code-anti-ai-slop/how-it-works-974cc5ba4216d30f.md",
+        "development/readme/scoville-code-anti-ai-slop/how-it-was-developed-67bdcb6a7fc1ded7.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-code-anti-ai-slop/sources-e6cae9c6a5fee685.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop/agents/openai.yaml",
+          "target": "scoville-code-anti-ai-slop/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop/LICENSE",
+          "target": "scoville-code-anti-ai-slop/LICENSE"
+        },
+        {
+          "source": "members/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop/references/change-workflow.md",
+          "target": "scoville-code-anti-ai-slop/references/change-workflow.md"
+        },
+        {
+          "source": "members/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop/references/planning-and-decisions.md",
+          "target": "scoville-code-anti-ai-slop/references/planning-and-decisions.md"
+        },
+        {
+          "source": "members/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop/references/validation.md",
+          "target": "scoville-code-anti-ai-slop/references/validation.md"
+        },
+        {
+          "source": "members/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop/SKILL.md",
+          "target": "scoville-code-anti-ai-slop/SKILL.md"
+        },
+        {
+          "source": "members/scoville-code-anti-ai-slop/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-code-anti-ai-slop/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-code-anti-ai-slop/.gitattributes",
+          "target": ".gitattributes"
+        }
+      ],
+      "family": {
+        "label": "Code",
+        "owner": "engineering scope, implementation, risk, and validation.",
+        "summary": "owns engineering scope, implementation, risk, and validation.",
+        "order": 2
+      },
+      "variables": {
+        "skill_name": "scoville-code-anti-ai-slop",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+      }
+    },
+    {
+      "name": "scoville-design-anti-ai-slop",
+      "development": {
+        "source": "members/scoville-design-anti-ai-slop",
+        "tests": "members/scoville-design-anti-ai-slop/development/tests",
+        "notes": "members/scoville-design-anti-ai-slop/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-design-anti-ai-slop",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "f7bbc70649ac73371f619b4c0275f1998d39c741",
+      "readme": [
+        "development/readme/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop-b22b6abd031ca908.md",
+        "development/readme/scoville-design-anti-ai-slop/why-scoville-2fe3ca191291bdde.md",
+        "development/readme/scoville-design-anti-ai-slop/how-to-use-f9617d675ac0f7a6.md",
+        "development/readme/scoville-design-anti-ai-slop/compatibility-d3b748a2878f57c6.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-design-anti-ai-slop/what-it-enforces-fe92f6a08ecd0d0b.md",
+        "development/readme/scoville-design-anti-ai-slop/how-it-works-47d04d56f00c20f2.md",
+        "development/readme/scoville-design-anti-ai-slop/how-it-was-developed-81cef36f90854416.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-design-anti-ai-slop/sources-779c639a4cfa86d0.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/agents/openai.yaml",
+          "target": "scoville-design-anti-ai-slop/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/icon-treatment/comparison.png",
+          "target": "scoville-design-anti-ai-slop/examples/icon-treatment/comparison.png"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/icon-treatment/comparison.svg",
+          "target": "scoville-design-anti-ai-slop/examples/icon-treatment/comparison.svg"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/decoration-control.png",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/decoration-control.png"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/decoration-control.svg",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/decoration-control.svg"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/intentional-asymmetry.png",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/intentional-asymmetry.png"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/intentional-asymmetry.svg",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/intentional-asymmetry.svg"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/longest-content-fit.png",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/longest-content-fit.png"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/longest-content-fit.svg",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/longest-content-fit.svg"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/manifest.json",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/manifest.json"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/optical-correction.png",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/optical-correction.png"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/optical-correction.svg",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/optical-correction.svg"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/README.md",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/README.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/repeated-card-span.png",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/repeated-card-span.png"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/repeated-card-span.svg",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/repeated-card-span.svg"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/type-role-map.png",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/type-role-map.png"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/examples/spatial-proof/type-role-map.svg",
+          "target": "scoville-design-anti-ai-slop/examples/spatial-proof/type-role-map.svg"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/LICENSE",
+          "target": "scoville-design-anti-ai-slop/LICENSE"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/modules.yaml",
+          "target": "scoville-design-anti-ai-slop/modules.yaml"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/advertising-and-campaign-art-direction.md",
+          "target": "scoville-design-anti-ai-slop/references/advertising-and-campaign-art-direction.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/asset-rights-and-attribution.md",
+          "target": "scoville-design-anti-ai-slop/references/asset-rights-and-attribution.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/brand-and-visual-systems.md",
+          "target": "scoville-design-anti-ai-slop/references/brand-and-visual-systems.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/brief-framing-and-criteria.md",
+          "target": "scoville-design-anti-ai-slop/references/brief-framing-and-criteria.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/cartography-and-spatial-data.md",
+          "target": "scoville-design-anti-ai-slop/references/cartography-and-spatial-data.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/colour-and-reproduction.md",
+          "target": "scoville-design-anti-ai-slop/references/colour-and-reproduction.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/composition-and-layout.md",
+          "target": "scoville-design-anti-ai-slop/references/composition-and-layout.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/concept-development-and-selection.md",
+          "target": "scoville-design-anti-ai-slop/references/concept-development-and-selection.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/coordination-with-sibling-skills.md",
+          "target": "scoville-design-anti-ai-slop/references/coordination-with-sibling-skills.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/critique-and-validation.md",
+          "target": "scoville-design-anti-ai-slop/references/critique-and-validation.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/culture-and-representation.md",
+          "target": "scoville-design-anti-ai-slop/references/culture-and-representation.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/diagrams-and-relational-information.md",
+          "target": "scoville-design-anti-ai-slop/references/diagrams-and-relational-information.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/direct-expert-index.md",
+          "target": "scoville-design-anti-ai-slop/references/direct-expert-index.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/editorial-and-fixed-media-design.md",
+          "target": "scoville-design-anti-ai-slop/references/editorial-and-fixed-media-design.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/font-technology-and-script-safety.md",
+          "target": "scoville-design-anti-ai-slop/references/font-technology-and-script-safety.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/generic-signatures-and-subject-specificity.md",
+          "target": "scoville-design-anti-ai-slop/references/generic-signatures-and-subject-specificity.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/imagery-and-art-direction.md",
+          "target": "scoville-design-anti-ai-slop/references/imagery-and-art-direction.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/information-design-and-data-visualization.md",
+          "target": "scoville-design-anti-ai-slop/references/information-design-and-data-visualization.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/instructional-and-explanatory-design.md",
+          "target": "scoville-design-anti-ai-slop/references/instructional-and-explanatory-design.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/logo-and-identity-mark-design.md",
+          "target": "scoville-design-anti-ai-slop/references/logo-and-identity-mark-design.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/media-production-and-handoff.md",
+          "target": "scoville-design-anti-ai-slop/references/media-production-and-handoff.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/motion-and-sequence.md",
+          "target": "scoville-design-anti-ai-slop/references/motion-and-sequence.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/packaging-graphics-and-sku-systems.md",
+          "target": "scoville-design-anti-ai-slop/references/packaging-graphics-and-sku-systems.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/people-privacy-and-media-integrity.md",
+          "target": "scoville-design-anti-ai-slop/references/people-privacy-and-media-integrity.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/physical-wayfinding-and-signage-systems.md",
+          "target": "scoville-design-anti-ai-slop/references/physical-wayfinding-and-signage-systems.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/source-index.md",
+          "target": "scoville-design-anti-ai-slop/references/source-index.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/source-verification-and-evidence.md",
+          "target": "scoville-design-anti-ai-slop/references/source-verification-and-evidence.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/style-direction.md",
+          "target": "scoville-design-anti-ai-slop/references/style-direction.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/sustainability-claims.md",
+          "target": "scoville-design-anti-ai-slop/references/sustainability-claims.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/typography-and-typesetting.md",
+          "target": "scoville-design-anti-ai-slop/references/typography-and-typesetting.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/ui-workflow-and-interaction-design.md",
+          "target": "scoville-design-anti-ai-slop/references/ui-workflow-and-interaction-design.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/web-and-responsive-design.md",
+          "target": "scoville-design-anti-ai-slop/references/web-and-responsive-design.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/scripts/inventory-svg-layout.js",
+          "target": "scoville-design-anti-ai-slop/scripts/inventory-svg-layout.js"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/scripts/measure-layout.js",
+          "target": "scoville-design-anti-ai-slop/scripts/measure-layout.js"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/scripts/read-source.py",
+          "target": "scoville-design-anti-ai-slop/scripts/read-source.py"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/SKILL.md",
+          "target": "scoville-design-anti-ai-slop/SKILL.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-design-anti-ai-slop/.gitattributes",
+          "target": ".gitattributes"
+        }
+      ],
+      "family": {
+        "label": "Design",
+        "owner": "visual definition, art direction, critique, and repair.",
+        "summary": "owns visual definition, art direction, design systems, critique, and repair.",
+        "order": 3
+      },
+      "variables": {
+        "skill_name": "scoville-design-anti-ai-slop",
+        "codex_skills_guide": "https://developers.openai.com/codex/skills/"
+      }
+    },
+    {
+      "name": "scoville-handoff",
+      "development": {
+        "source": "members/scoville-handoff",
+        "tests": "members/scoville-handoff/development/tests",
+        "notes": "members/scoville-handoff/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-handoff",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "1e365c1566565cc6399b891e04b11c75c1dc10bb",
+      "readme": [
+        "development/readme/scoville-handoff/scoville-handoff-695add0aaada8430.md",
+        "development/readme/scoville-handoff/why-scoville-326c1d3bd2b75706.md",
+        "development/readme/scoville-handoff/how-to-use-447dd0adec136ecb.md",
+        "development/readme/scoville-handoff/compatibility-f77ff2edbfe28893.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-handoff/what-it-enforces-8db6958eadfde9fa.md",
+        "development/readme/scoville-handoff/how-it-works-8a45621a2247944c.md",
+        "development/readme/scoville-handoff/how-it-was-developed-e5c56003f2ebb574.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-handoff/sources-5fb5df96e3197496.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-handoff/scoville-handoff/agents/openai.yaml",
+          "target": "scoville-handoff/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-handoff/scoville-handoff/assets/continuation-prompt.md",
+          "target": "scoville-handoff/assets/continuation-prompt.md"
+        },
+        {
+          "source": "members/scoville-handoff/scoville-handoff/LICENSE",
+          "target": "scoville-handoff/LICENSE"
+        },
+        {
+          "source": "members/scoville-handoff/scoville-handoff/SKILL.md",
+          "target": "scoville-handoff/SKILL.md"
+        },
+        {
+          "source": "members/scoville-handoff/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-handoff/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-handoff/.gitattributes",
+          "target": ".gitattributes"
+        }
+      ],
+      "family": {
+        "label": "Handoff",
+        "owner": "active-work transfer.",
+        "summary": "transfers active work to another agent or session.",
+        "order": 8
+      },
+      "variables": {
+        "skill_name": "scoville-handoff",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+      }
+    },
+    {
+      "name": "scoville-plan",
+      "development": {
+        "source": "members/scoville-plan",
+        "tests": "members/scoville-plan/development/tests",
+        "notes": "members/scoville-plan/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-plan",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "629ec7a5a3e3af0637ecefbc82048ec8e93df4aa",
+      "readme": [
+        "development/readme/scoville-plan/scoville-plan-76f360bc7d6a54d8.md",
+        "development/readme/scoville-plan/why-scoville-24b60fda50ff27f1.md",
+        "development/readme/scoville-plan/companion-app-13c3a512429e3f5e.md",
+        "development/readme/scoville-plan/how-to-use-e443eae0dce20d29.md",
+        "development/readme/scoville-plan/compatibility-16ef3bbbbcff0431.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-plan/what-it-enforces-de4684ca46cd2a63.md",
+        "development/readme/scoville-plan/how-it-works-8d4848459723891f.md",
+        "development/readme/scoville-plan/how-it-was-developed-d1c63401e08fbed3.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-plan/sources-54320e2169a6275e.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-plan/scoville-plan/agents/openai.yaml",
+          "target": "scoville-plan/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/LICENSE",
+          "target": "scoville-plan/LICENSE"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/native-decision-batches.md",
+          "target": "scoville-plan/references/native-decision-batches.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/native-decision-format.md",
+          "target": "scoville-plan/references/native-decision-format.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/native-editing.md",
+          "target": "scoville-plan/references/native-editing.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/native-plan-format.md",
+          "target": "scoville-plan/references/native-plan-format.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/native-project-lifecycle.md",
+          "target": "scoville-plan/references/native-project-lifecycle.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/native-work-items.md",
+          "target": "scoville-plan/references/native-work-items.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/planning-granularity.md",
+          "target": "scoville-plan/references/planning-granularity.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/profile-validation.md",
+          "target": "scoville-plan/references/profile-validation.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/read-only.md",
+          "target": "scoville-plan/references/read-only.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/scripts/compute_decision_batch.py",
+          "target": "scoville-plan/scripts/compute_decision_batch.py"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/scripts/select_context.py",
+          "target": "scoville-plan/scripts/select_context.py"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/scripts/validate_profile.py",
+          "target": "scoville-plan/scripts/validate_profile.py"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/SKILL.md",
+          "target": "scoville-plan/SKILL.md"
+        },
+        {
+          "source": "members/scoville-plan/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-plan/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-plan/.gitattributes",
+          "target": ".gitattributes"
+        }
+      ],
+      "family": {
+        "label": "Plan",
+        "owner": "durable Plans, Work Items, Decisions, and lifecycle state.",
+        "summary": "owns durable Plans, Work Items, Decisions, and lifecycle state.",
+        "neighbors": [
+          {
+            "member": "scoville-code-anti-ai-slop",
+            "description": "implementation scope, risk, and validation outside Plan records."
+          },
+          {
+            "member": "scoville-scribe-anti-ai-slop",
+            "description": "non-Plan wording artifacts; it never owns native Plan records."
+          },
+          {
+            "member": "scoville-handoff",
+            "description": "active-work transfer snapshots."
+          },
+          {
+            "member": "scoville-workflow-for-codex",
+            "description": "dispatch of accepted Steps when explicitly active.",
+            "optional": true
+          }
+        ],
+        "order": 7
+      },
+      "variables": {
+        "skill_name": "scoville-plan",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+      }
+    },
+    {
+      "name": "scoville-research",
+      "development": {
+        "source": "members/scoville-research",
+        "tests": "members/scoville-research/development/tests",
+        "notes": "members/scoville-research/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-research",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "796a78353f2823e67e3c4bbe744e27f223c158c8",
+      "readme": [
+        "development/readme/scoville-research/scoville-research-1e738a829176c931.md",
+        "development/readme/scoville-research/why-scoville-c965dca173674e20.md",
+        "development/readme/scoville-research/how-to-use-f49d2e404f6acff1.md",
+        "development/readme/scoville-research/compatibility-5f11b43b7bb31c2a.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-research/what-it-enforces-160c65527ef697d7.md",
+        "development/readme/scoville-research/how-it-works-054b3a586dc06f89.md",
+        "development/readme/scoville-research/how-it-was-developed-803c183793312c7e.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-research/current-codex-lifecycle-limitation-a12016992dd3517d.md",
+        "development/readme/scoville-research/sources-3a130a4e8d05e726.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-research/scoville-research/agents/openai.yaml",
+          "target": "scoville-research/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-research/scoville-research/LICENSE",
+          "target": "scoville-research/LICENSE"
+        },
+        {
+          "source": "members/scoville-research/scoville-research/references/academic-research.md",
+          "target": "scoville-research/references/academic-research.md"
+        },
+        {
+          "source": "members/scoville-research/scoville-research/references/brainstorm-composition.md",
+          "target": "scoville-research/references/brainstorm-composition.md"
+        },
+        {
+          "source": "members/scoville-research/scoville-research/references/deep-research.md",
+          "target": "scoville-research/references/deep-research.md"
+        },
+        {
+          "source": "members/scoville-research/scoville-research/references/development-research.md",
+          "target": "scoville-research/references/development-research.md"
+        },
+        {
+          "source": "members/scoville-research/scoville-research/scripts/validate_research_artifacts.py",
+          "target": "scoville-research/scripts/validate_research_artifacts.py"
+        },
+        {
+          "source": "members/scoville-research/scoville-research/SKILL.md",
+          "target": "scoville-research/SKILL.md"
+        },
+        {
+          "source": "members/scoville-research/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-research/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        }
+      ],
+      "family": {
+        "label": "Research",
+        "owner": "source-backed research and synthesis.",
+        "summary": "turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.",
+        "neighbors": [
+          {
+            "member": "scoville-brainstorm",
+            "description": "divergent mechanism generation and shortlist ownership."
+          },
+          {
+            "member": "scoville-code-anti-ai-slop",
+            "description": "implementation scope, engineering risk, and validation."
+          },
+          {
+            "member": "scoville-plan",
+            "description": "durable Plans, Work Items, Decisions, and lifecycle state."
+          }
+        ],
+        "order": 1
+      },
+      "variables": {
+        "skill_name": "scoville-research",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+      }
+    },
+    {
+      "name": "scoville-scribe-anti-ai-slop",
+      "development": {
+        "source": "members/scoville-scribe-anti-ai-slop",
+        "tests": "members/scoville-scribe-anti-ai-slop/development/tests",
+        "notes": "members/scoville-scribe-anti-ai-slop/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-scribe-anti-ai-slop",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "2d47c6ffd0a1a79d167963500dd391c1a90b86a5",
+      "readme": [
+        "development/readme/scoville-scribe-anti-ai-slop/scoville-scribe-anti-ai-slop-f6acb87bcbbdcdaf.md",
+        "development/readme/scoville-scribe-anti-ai-slop/why-scoville-c284ffa4e958a537.md",
+        "development/readme/scoville-scribe-anti-ai-slop/how-to-use-e0d3e6b61fe03dcd.md",
+        "development/readme/scoville-scribe-anti-ai-slop/compatibility-11964753f4f757b3.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-scribe-anti-ai-slop/what-it-enforces-d608647ac2e002ba.md",
+        "development/readme/scoville-scribe-anti-ai-slop/how-it-works-9ffc61b40588ee1d.md",
+        "development/readme/scoville-scribe-anti-ai-slop/how-it-was-developed-fdf7bd44ccd908b6.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-scribe-anti-ai-slop/sources-63661eaf80463d0a.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/scoville-scribe-anti-ai-slop/agents/openai.yaml",
+          "target": "scoville-scribe-anti-ai-slop/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/scoville-scribe-anti-ai-slop/LICENSE",
+          "target": "scoville-scribe-anti-ai-slop/LICENSE"
+        },
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/scoville-scribe-anti-ai-slop/references/fidelity-modes.md",
+          "target": "scoville-scribe-anti-ai-slop/references/fidelity-modes.md"
+        },
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/scoville-scribe-anti-ai-slop/references/interface-text.md",
+          "target": "scoville-scribe-anti-ai-slop/references/interface-text.md"
+        },
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/scoville-scribe-anti-ai-slop/references/prose-patterns.md",
+          "target": "scoville-scribe-anti-ai-slop/references/prose-patterns.md"
+        },
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/scoville-scribe-anti-ai-slop/SKILL.md",
+          "target": "scoville-scribe-anti-ai-slop/SKILL.md"
+        },
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-scribe-anti-ai-slop/.gitattributes",
+          "target": ".gitattributes"
+        }
+      ],
+      "family": {
+        "label": "Scribe",
+        "owner": "wording, terminology, meaning, and source fidelity.",
+        "summary": "owns wording, terminology, factual meaning, and source fidelity.",
+        "neighbors": [
+          {
+            "member": "scoville-plan",
+            "description": "native Plans, Work Items, Decisions, and their wording."
+          },
+          {
+            "member": "scoville-code-anti-ai-slop",
+            "description": "engineering scope, behavior, risk, and validation."
+          },
+          {
+            "member": "scoville-design-anti-ai-slop",
+            "description": "visual definition and art direction."
+          },
+          {
+            "member": "scoville-ui-anti-ai-slop",
+            "description": "interface mechanics, states, accessibility, and rendered proof."
+          }
+        ],
+        "order": 6
+      },
+      "variables": {
+        "skill_name": "scoville-scribe-anti-ai-slop",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+      }
+    },
+    {
+      "name": "scoville-ui-anti-ai-slop",
+      "development": {
+        "source": "members/scoville-ui-anti-ai-slop",
+        "tests": "members/scoville-ui-anti-ai-slop/development/tests",
+        "notes": "members/scoville-ui-anti-ai-slop/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-ui-anti-ai-slop",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "52eaa9e04c408fb5934d2f296d2892bd345ecf85",
+      "readme": [
+        "development/readme/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop-95859a72eee019f7.md",
+        "development/readme/scoville-ui-anti-ai-slop/why-scoville-4f4a2efabae2b10b.md",
+        "development/readme/scoville-ui-anti-ai-slop/how-to-use-bcdc624359633615.md",
+        "development/readme/scoville-ui-anti-ai-slop/source-first-checks-and-consistency-audits-f991a16c323da3d6.md",
+        "development/readme/scoville-ui-anti-ai-slop/compatibility-221fa1eaa338cb20.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-ui-anti-ai-slop/what-it-enforces-6a2ff8fd79a9c34e.md",
+        "development/readme/scoville-ui-anti-ai-slop/how-it-works-98781da386f5d326.md",
+        "development/readme/scoville-ui-anti-ai-slop/how-it-was-developed-6867be24d9ccf783.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-ui-anti-ai-slop/status-edcb7f59875f85ff.md",
+        "development/readme/scoville-ui-anti-ai-slop/sources-38aee36f3f1cb84e.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/agents/openai.yaml",
+          "target": "scoville-ui-anti-ai-slop/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/LICENSE",
+          "target": "scoville-ui-anti-ai-slop/LICENSE"
+        },
+        {
+          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/references/framework-alignment.md",
+          "target": "scoville-ui-anti-ai-slop/references/framework-alignment.md"
+        },
+        {
+          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/references/ui-quality.md",
+          "target": "scoville-ui-anti-ai-slop/references/ui-quality.md"
+        },
+        {
+          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/references/validation.md",
+          "target": "scoville-ui-anti-ai-slop/references/validation.md"
+        },
+        {
+          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/SKILL.md",
+          "target": "scoville-ui-anti-ai-slop/SKILL.md"
+        },
+        {
+          "source": "members/scoville-ui-anti-ai-slop/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-ui-anti-ai-slop/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-ui-anti-ai-slop/.gitattributes",
+          "target": ".gitattributes"
+        }
+      ],
+      "family": {
+        "label": "UI",
+        "owner": "framework UI implementation, accessibility mechanics, and rendered proof.",
+        "summary": "owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.",
+        "neighbors": [
+          {
+            "description": "supported plugin-owned WordPress `wp-admin` surfaces.",
+            "member": "scoville-wordpress-ui-backend-anti-ai-slop"
+          },
+          {
+            "member": "scoville-code-anti-ai-slop",
+            "description": "engineering scope, implementation risk, and validation."
+          },
+          {
+            "member": "scoville-design-anti-ai-slop",
+            "description": "visual definition, art direction, critique, and repair."
+          },
+          {
+            "member": "scoville-scribe-anti-ai-slop",
+            "description": "wording, terminology, meaning, and source fidelity."
+          }
+        ],
+        "order": 4
+      },
+      "variables": {
+        "skill_name": "scoville-ui-anti-ai-slop",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+      }
+    },
+    {
+      "name": "scoville-workflow-for-codex",
+      "variables": {
+        "release_notice": "**Beta.** Available for real-project testing. Host-level behavior remains under qualification."
+      },
+      "development": {
+        "source": "members/scoville-workflow-for-codex",
+        "tests": "members/scoville-workflow-for-codex/development/tests",
+        "notes": "members/scoville-workflow-for-codex/development/README.md"
+      },
+      "shared_helpers": [
+        {
+          "source": "runtime/task_lifecycle.py",
+          "target": "scoville-workflow-for-codex/scripts/task_lifecycle.py"
+        },
+        {
+          "source": "runtime/task_lifecycle.md",
+          "target": "scoville-workflow-for-codex/scripts/task_lifecycle.md"
+        },
+        {
+          "source": "runtime/rollover_readiness.md",
+          "target": "scoville-workflow-for-codex/scripts/rollover_readiness.md"
+        }
+      ],
+      "repository": "benjaminstelzer/scoville-suite",
+      "distribution": "suite",
+      "history_repository": "benjaminstelzer/scoville-workflow-codex",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "c232a71217a73f7f655ffab8ebae27e1f8968946",
+      "readme": [
+        "development/readme/scoville-workflow-codex/scoville-workflow-codex-862d4c01f5da4a2b.md",
+        "development/readme/scoville-workflow-codex/why-scoville-83dcd8422548b19d.md",
+        "development/readme/scoville-workflow-codex/how-to-use-4164a3d2b4f92e64.md",
+        "development/readme/scoville-workflow-codex/compatibility-3248926e0f8a0db5.md",
+        "development/readme/scoville-workflow-codex/routing-f9eb9fa1040600ee.md",
+        "development/readme/scoville-workflow-codex/install-94174f7bf19c6c42.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-workflow-codex/what-it-enforces-9a65ea1bfbe79ea1.md",
+        "development/readme/scoville-workflow-codex/how-it-works-ac77fa06081f8f96.md",
+        "development/readme/scoville-workflow-codex/how-it-was-developed-fbda3adf3a695160.md",
+        "development/readme/scoville-workflow-codex/status-ad6145793ea51516.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-workflow-codex/sources-951f28c7804eae66.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/dispatch_transport.js",
+          "target": "scoville-workflow-for-codex/scripts/dispatch_transport.js"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/agents/openai.yaml",
+          "target": "scoville-workflow-for-codex/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/assets/workflow.toml",
+          "target": "scoville-workflow-for-codex/assets/workflow.toml"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/LICENSE",
+          "target": "scoville-workflow-for-codex/LICENSE"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/agents-contract.md",
+          "target": "scoville-workflow-for-codex/references/agents-contract.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/agents-setup.md",
+          "target": "scoville-workflow-for-codex/references/agents-setup.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md",
+          "target": "scoville-workflow-for-codex/references/operations.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/build_dispatch_prompt.py",
+          "target": "scoville-workflow-for-codex/scripts/build_dispatch_prompt.py"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/check_context_checkpoint.py",
+          "target": "scoville-workflow-for-codex/scripts/check_context_checkpoint.py"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/inspect_native_context.py",
+          "target": "scoville-workflow-for-codex/scripts/inspect_native_context.py"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/manage_agents_contract.py",
+          "target": "scoville-workflow-for-codex/scripts/manage_agents_contract.py"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/manage_workflow_guard.py",
+          "target": "scoville-workflow-for-codex/scripts/manage_workflow_guard.py"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/SKILL.md",
+          "target": "scoville-workflow-for-codex/SKILL.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/.gitattributes",
+          "target": ".gitattributes"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-activation.md",
+          "target": "scoville-workflow-for-codex/references/operations-activation.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-selection.md",
+          "target": "scoville-workflow-for-codex/references/operations-selection.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-dispatch.md",
+          "target": "scoville-workflow-for-codex/references/operations-dispatch.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-scope.md",
+          "target": "scoville-workflow-for-codex/references/operations-scope.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-wait.md",
+          "target": "scoville-workflow-for-codex/references/operations-wait.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-results.md",
+          "target": "scoville-workflow-for-codex/references/operations-results.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-compaction.md",
+          "target": "scoville-workflow-for-codex/references/operations-compaction.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-checkpoint.md",
+          "target": "scoville-workflow-for-codex/references/operations-checkpoint.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-review.md",
+          "target": "scoville-workflow-for-codex/references/operations-review.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-accepted.md",
+          "target": "scoville-workflow-for-codex/references/operations-accepted.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-rollover.md",
+          "target": "scoville-workflow-for-codex/references/operations-rollover.md"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-stop.md",
+          "target": "scoville-workflow-for-codex/references/operations-stop.md"
+        }
+      ],
+      "family": {
+        "label": "Workflow Codex",
+        "owner": "explicit Plan execution through native Codex project tasks.",
+        "summary": "coordinates explicit Plan execution through native Codex project tasks.",
+        "order": 9
+      }
+    },
+    {
+      "name": "scoville-wordpress-ui-backend-anti-ai-slop",
+      "development": {
+        "source": "members/scoville-wordpress-ui-backend-anti-ai-slop",
+        "tests": "development/luna-tests/wordpress-sol-results.md",
+        "notes": "members/scoville-wordpress-ui-backend-anti-ai-slop/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop",
+      "visibility": "public",
+      "public_distribution": true,
+      "import_commit": "583288b7f89bbdee011f3bc302bc210c1d989c71",
+      "history_repository": "benjaminstelzer/wordpress-backend-ui-skill",
+      "readme": [
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/intro.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/why-scoville.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/how-to-use.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/compatibility.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/what-it-enforces.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/how-it-works.md",
+        "shared:scoville-family.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/status.md",
+        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/sources.md",
+        {"source": "shared:member-development.md", "audience": "suite"},
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/LICENSE",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/LICENSE"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/SKILL.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/SKILL.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/agents/openai.yaml",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/classic-patterns.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/classic-patterns.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/examples.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/examples.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/fallback-composition.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/fallback-composition.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/internationalization.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/internationalization.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/responsive.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/responsive.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/routing.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/routing.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/sources.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/sources.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/spacing.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/spacing.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/ui-guidance.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/ui-guidance.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/validation.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/validation.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/version-compatibility.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/version-compatibility.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/wpds-tokens.md",
+          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/wpds-tokens.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/.gitattributes",
+          "target": ".gitattributes"
+        }
+      ],
+      "family": {
+        "label": "WordPress UI Backend",
+        "owner": "WordPress plugin-owned wp-admin implementation and UI acceptance.",
+        "summary": "owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.",
+        "order": 5,
+        "neighbors": [
+          {
+            "member": "scoville-code-anti-ai-slop",
+            "description": "engineering scope and validation outside UI acceptance."
+          },
+          {
+            "member": "scoville-design-anti-ai-slop",
+            "description": "independently requested visual concept or art direction."
+          }
+        ]
+      },
+      "variables": {
+        "skill_name": "scoville-wordpress-ui-backend-anti-ai-slop",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+      }
+    }
+  ],
+  "readme": [
+    "development/readme/suite-intro.md",
+    "shared:suite-descriptions.md",
+    "development/readme/suite-development.md",
+    "shared:suite-development-links.md"
+  ],
+  "repository": "benjaminstelzer/scoville-suite"
+}

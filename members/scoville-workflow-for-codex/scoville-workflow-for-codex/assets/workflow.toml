@@ -1,0 +1,52 @@
+# User-editable native Codex model choices and context thresholds.
+schema_version = 1
+
+[context]
+# Coordinator: at or above; workers: strictly above. Percent of context window.
+coordinator_percent = 33
+worker_percent = 66
+
+[coordinator]
+model = "gpt-5.6-sol"
+reasoning = "medium"
+title = "SCW COORD"
+
+[execute.ultra_low]
+model = "gpt-5.6-luna"
+reasoning = "medium"
+
+[review.ultra_low]
+model = "gpt-5.6-terra"
+reasoning = "medium"
+
+[execute.low]
+model = "gpt-5.6-terra"
+reasoning = "medium"
+
+[review.low]
+model = "gpt-5.6-sol"
+reasoning = "medium"
+
+[execute.medium]
+model = "gpt-5.6-sol"
+reasoning = "medium"
+
+[review.medium]
+model = "gpt-5.6-sol"
+reasoning = "high"
+
+[execute.high]
+model = "gpt-5.6-sol"
+reasoning = "high"
+
+[review.high]
+model = "gpt-6-astra"
+reasoning = "low"
+
+[execute.ultra_high]
+model = "gpt-6-astra"
+reasoning = "low"
+
+[review.ultra_high]
+model = "gpt-6-astra"
+reasoning = "medium"
