@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.33 - 2026-09-20
+
+- Reduce unrelated routing choices while leaving Plan-record wording with Plan.
+
 ## v1.0.32 - 2026-09-20
 
 - Leave native Plan records entirely under Plan's writing rules whenever Plan

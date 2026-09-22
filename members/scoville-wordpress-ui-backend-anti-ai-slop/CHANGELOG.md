@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.3.0 - 2026-09-22
+
+- Join Scoville Suite as `scoville-wordpress-ui-backend-anti-ai-slop`.
+  Replace the old `wordpress-backend-ui` installation rather than keeping both.
+- Keep WordPress implementation and acceptance with this specialist. Other
+  Scoville Skills remain optional and own only their respective concerns.
+
+## v1.2.9 - 2026-09-20
+
+- Keep supported plugin-owned wp-admin UI under one specialist process and
+  clarify routing and internationalization examples.
+
 ## v1.2.8 - 2026-09-20
 
 - Define the numeric WordPress `Flex` gap conversion and the conditions for
