@@ -8,6 +8,9 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
+import contextlib
+import io
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -218,6 +221,50 @@ class FailureAndCommandTests(unittest.TestCase):
         for model, effort in (("gpt-5.6-terra", "high"), ("unknown", "medium")):
             with self.assertRaises(runner.ProtocolError):
                 runner.base_command(Path("codex.exe"), Path("catalog.json"), model, effort)
+
+
+class TurnBudgetTests(unittest.TestCase):
+    def arguments(self, root):
+        args = []
+        for name in ('case-id', 'prompt', 'package-root', 'receipt', 'receipt-member', 'catalog', 'codex', 'output'):
+            args.extend(('--' + name, str(root / name)))
+        args.extend(('--model', 'gpt-5.6-luna', '--effort', 'medium'))
+        for name in ('prompt', 'receipt', 'catalog', 'codex'):
+            args.extend(('--expected-' + name + '-sha256', 'a' * 64))
+        return args
+
+    def test_default_eight_and_explicit_bounds(self):
+        args = self.arguments(Path.cwd())
+        self.assertEqual(8, runner.parse_args(args).max_turns)
+        for value in (1, 4, 8):
+            self.assertEqual(value, runner.parse_args(args + ['--max-turns', str(value)]).max_turns)
+        for value in (0, 9):
+            with self.subTest(value=value), contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                runner.parse_args(args + ['--max-turns', str(value)])
+
+    def test_final_after_four_reads_and_exhaustion(self):
+        # Exercise the real loop; only process/native I/O and package serving are stubbed.
+        for budget, expected_exit, expected_turns in ((8, 0, 5), (4, 1, 4)):
+            with self.subTest(budget=budget), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                (root / 'prompt').write_bytes(b'Case')
+                calls = []
+                def execute(command, prompt, workspace, timeout, thread_id):
+                    calls.append(thread_id)
+                    answer = f'READ references/{len(calls)}.md' if len(calls) <= 4 else 'Final answer'
+                    return dict(stdout=event_stream(answer), stderr=b'', returncode=0,
+                                timed_out=False, close_error=None, stream_error=None, worker_pid=1)
+                with patch.object(runner, 'verify_hash', return_value='a' * 64), \
+                     patch.object(runner, 'load_receipt', return_value={'SKILL.md': 'a' * 64}), \
+                     patch.object(runner, 'validate_requested_file', return_value=(b'reference', 'a' * 64)), \
+                     patch.object(runner, 'execute_turn', side_effect=execute), \
+                     patch.object(runner, 'validate_native_identity', return_value={}), \
+                     contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(expected_exit, runner.main(self.arguments(root) + ['--max-turns', str(budget)]))
+                result = json.loads((root / 'output/summary.json').read_text(encoding='utf-8'))
+                self.assertEqual(expected_turns, result['turn_count'])
+                self.assertEqual([None] + [THREAD_ID] * (expected_turns - 1), calls)
+                self.assertEqual(None if budget == 8 else 'turn_limit_without_final_answer', result['protocol_failure'])
 
 
 class ProcessLifetimeIntegrationTests(unittest.TestCase):

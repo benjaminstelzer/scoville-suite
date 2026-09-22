@@ -405,10 +405,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     for name in ("prompt", "receipt", "catalog", "codex"):
         parser.add_argument("--expected-" + name + "-sha256", required=True, type=expected_hash)
     parser.add_argument("--timeout-seconds", type=float, default=90)
-    parser.add_argument("--max-turns", type=int, default=4)
+    parser.add_argument("--max-turns", type=int, default=8)
     args = parser.parse_args(argv)
-    if not 1 <= args.max_turns <= 4 or args.timeout_seconds <= 0:
-        parser.error("--max-turns must be 1..4 and --timeout-seconds must be positive")
+    if not 1 <= args.max_turns <= 8 or args.timeout_seconds <= 0:
+        parser.error("--max-turns must be 1..8 and --timeout-seconds must be positive")
     for name in ("prompt", "package_root", "receipt", "catalog", "codex", "output"):
         setattr(args, name, Path(getattr(args, name)).resolve())
     return args

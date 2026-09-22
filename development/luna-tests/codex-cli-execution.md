@@ -2,8 +2,17 @@
 
 ## Scope and qualification
 
+On 2026-09-22 the user authorized raising the per-case turn budget after
+reference reads exhausted four turns. Default and maximum are now eight;
+`--max-turns 4` remains supported for reproducing earlier runs. Each turn keeps
+its 90-second deadline and unchanged isolation, hash and protocol checks.
+Runner SHA256: `ce08138d98d846bcd5d29a6324469ef8bab3b80e9ae5fbab2d400b3a39fc2009`.
+All 18 offline tests pass, including fifth-turn completion and bounded
+exhaustion. Live qualification is recorded in `workflow-archive-results.md`.
+Hashes and four-turn commands below describe retained earlier baselines.
+
 W-023 adds an explicitly authorized Terra-Medium context-fix test path only;
-see [workflow-context-execution.md](workflow-context-execution.md). Current
+see [workflow-context-execution.md](workflow-context-execution.md). Previous
 runner SHA256 is `0c963cb437f1626edfca2f704da7192064049d4c34187f17380bccc14a4ea6eb`.
 It adds explicit READ path resolution to continuation prompts. All 16 offline
 checks pass. Plan-07-r2 qualified the continuation in two live Luna Medium
@@ -208,7 +217,7 @@ the prompt to Codex. That byte is helper-specific, not part of the CLI prompt.
 
 ## 4. Serve requested text
 
-Allow at most four turns, with a 90-second deadline per turn and no automatic
+Allow at most the frozen `--max-turns` budget (default eight), with a 90-second deadline per turn and no automatic
 retry. Only a response consisting entirely of `READ <relative-path>` lines
 requests files. Validate every path using `gemini-transport-v3.md`, verify the
 original bytes against the frozen receipt, and deliver only requested UTF-8
@@ -216,7 +225,7 @@ text. Never run a requested script. Normalize CRLF only in delivered text.
 
 Save each supplied path and hash. Append the transport's exact continuation
 instruction, then resume the exact original thread. A new conversation is not
-a valid continuation. Stop if turn four still has no final answer.
+a valid continuation. Stop when the frozen budget has no final answer.
 
 ## 5. Validate transport before grading
 
