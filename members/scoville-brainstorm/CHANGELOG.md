@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.1.14 - 2026-09-22
+
+- Compare candidate mechanisms with existing approaches before assigning
+  originality labels. Similar candidates alone do not establish prior art.
+
+## v1.1.13 - 2026-09-20
+
+- Clarify profile selection, parallel reads, Research composition, JSON
+  validation, and local routing boundaries.
+
 ## v1.1.12 - 2026-09-20
 
 - Define observed spawn counts, combined Research routing, mechanism diversity,

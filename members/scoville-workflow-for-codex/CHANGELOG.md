@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.4.0 - 2026-09-22
+
+- Ship as `scoville-workflow-for-codex`, a Codex-only Beta inside Scoville Suite.
+- Configure context handover thresholds and generate SCW task titles through
+  bundled helpers.
+- Generate dispatch payloads once and load coordinator rules by phase, with
+  retained recovery state for interrupted dispatches.
+- Allow exact active-successor evidence to resolve a missing normal-list entry.
+  Archive only verified predecessors after guard transfer and turn completion.
+- Recover outstanding predecessor chains in order. Verify each archival reply
+  and retain its receipt before continuing. Failed or unverified replies stop
+  the chain without archiving the current coordinator.
+
 ## v0.3.6 - 2026-09-21
 
 - Make `low` fail closed: every owner, helper, target, boundary, and mechanical

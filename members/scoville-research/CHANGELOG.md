@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.1.11 - 2026-09-22
+
+- Combine Development and Academic routing when scholarly evidence affects
+  implementation claims, including work limited to abstracts.
+- Allow bounded reports to finish with explicit uncertainty. Block completion
+  when a required check, access condition or external job remains unmet.
+
+## v1.1.10 - 2026-09-20
+
+- Separate chat Deep research from saved packages and align validation for
+  resumable and final packages.
+
 ## v1.1.9 - 2026-09-20
 
 - Keep Deep research rigorous without requiring saved documents. Create and

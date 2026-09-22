@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.2.9 - 2026-09-22
+
+- Keep Critique read-only. Recommendations do not authorize a repair.
+- Load coordination rules only for a partner confirmed active and applicable.
+- Route WordPress plugin administration work to the renamed
+  `scoville-wordpress-ui-backend-anti-ai-slop` Skill.
+
 ## v1.2.8 - 2026-09-20
 
 - Clarify that discovering another family Skill does not activate it, while

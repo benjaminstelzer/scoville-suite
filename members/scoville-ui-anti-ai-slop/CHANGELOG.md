@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.2.9 - 2026-09-22
+
+- Route supported WordPress plugin administration surfaces to
+  `scoville-wordpress-ui-backend-anti-ai-slop`, the renamed specialist.
+
+## v1.2.8 - 2026-09-20
+
+- Clarify the WordPress specialist boundary and load UI references only for
+  questions that remain open.
+
 ## v1.2.7 - 2026-09-20
 
 - Make source-only, evidence-only, composed, and page-consistency routing
