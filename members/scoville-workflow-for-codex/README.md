@@ -2,13 +2,26 @@
 
 **Beta.** Available for real-project testing. Host-level behavior remains under qualification.
 
-A plan needs someone to keep it moving. It does not need that someone to do
-every job as well.
+A long implementation task can leave one agent planning, coding, reviewing its
+own changes and remembering every earlier decision. The conversation grows,
+unfinished work becomes harder to track, and a confident summary can hide the
+gap between what was requested and what was actually checked.
 
 Scoville Workflow coordinates a repository-owned Scoville Plan through normal
 Codex project tasks. Workers implement, fresh reviewers check material changes,
 and one coordinator updates the Plan and commits accepted work. The suite's
 specialist Skills keep their own activation rules and responsibilities.
+
+The coordinator gives each worker a bounded assignment and selects its model
+and reasoning effort from the task's risk. The repository Plan holds progress
+and decisions, so continuation does not depend on retelling the conversation.
+A fresh reviewer checks changes without being the agent that wrote them.
+Context handoffs let long work continue in a new task, while explicit write
+ownership keeps coordination and implementation from competing in the checkout.
+
+That separation costs tokens and time. Extra tasks need instructions, reviews
+repeat some inspection, and handoffs add coordination. Workflow is intended for
+sustained Plan execution. A small direct fix usually does not need this machinery.
 
 Workflow is available only as part of Scoville Suite, not from a separate
 repository. It requires Codex desktop and native task controls. Other suite

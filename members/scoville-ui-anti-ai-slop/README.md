@@ -9,6 +9,11 @@ design system the product already uses. It covers components, interaction
 states, responsive behavior and accessibility, then asks for evidence from the
 actual rendered interface.
 
+The agent must connect implementation choices to the existing components and
+check the affected states and layouts, rather than treating a successful build
+as visual proof. Browser checks and corrections take additional time and tokens.
+Without access to the rendered interface, that part of the result stays unverified.
+
 When Scoville Design is active, UI implements its design decisions. Otherwise
 it can develop a bounded direction for a new interface. Backend-only work and
 wording alone do not activate it.

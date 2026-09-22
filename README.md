@@ -16,13 +16,26 @@ their own compatibility limits.
 
 **Beta.** Available for real-project testing. Host-level behavior remains under qualification.
 
-A plan needs someone to keep it moving. It does not need that someone to do
-every job as well.
+A long implementation task can leave one agent planning, coding, reviewing its
+own changes and remembering every earlier decision. The conversation grows,
+unfinished work becomes harder to track, and a confident summary can hide the
+gap between what was requested and what was actually checked.
 
 Scoville Workflow coordinates a repository-owned Scoville Plan through normal
 Codex project tasks. Workers implement, fresh reviewers check material changes,
 and one coordinator updates the Plan and commits accepted work. The suite's
 specialist Skills keep their own activation rules and responsibilities.
+
+The coordinator gives each worker a bounded assignment and selects its model
+and reasoning effort from the task's risk. The repository Plan holds progress
+and decisions, so continuation does not depend on retelling the conversation.
+A fresh reviewer checks changes without being the agent that wrote them.
+Context handoffs let long work continue in a new task, while explicit write
+ownership keeps coordination and implementation from competing in the checkout.
+
+That separation costs tokens and time. Extra tasks need instructions, reviews
+repeat some inspection, and handoffs add coordination. Workflow is intended for
+sustained Plan execution. A small direct fix usually does not need this machinery.
 
 Workflow is available only as part of Scoville Suite, not from a separate
 repository. It requires Codex desktop and native task controls. Other suite
@@ -110,6 +123,10 @@ busywork or a confident completion message for the behavior you asked for.
 It also limits unnecessary work. Once the changed behavior and its material
 risks have decisive evidence, more searching and testing need a concrete reason.
 
+Reading the relevant code and checking the result can use more tokens and time
+than producing an immediate patch. The rules keep that cost tied to the actual
+change, rather than requiring a full audit for every edit.
+
 Use it for implementation, diagnosis, review and removal of code or engineering
 artifacts. It can investigate without editing. Small changes should stay small,
 while migrations, security boundaries and irreversible work need closer checks.
@@ -125,7 +142,9 @@ Scoville Plan keeps Plans, Work Items and Decisions in the repository. Use it
 when work spans dependent outcomes, needs explicit decisions or must survive
 interruption. It preserves the existing planning owner and keeps completion
 tied to an observed result, rather than the presence of a file or a checked box.
-Small reversible changes usually need no durable Plan.
+The agent records the active work, relevant decisions, evidence and next action
+where the next session can find them. Updating these records takes time and
+tokens. Small reversible changes usually need no durable Plan.
 
 ## Scoville Scribe Anti-AI-Slop
 
@@ -137,6 +156,11 @@ Scoville Scribe drafts, edits, summarizes, localizes and audits requested text.
 It preserves meaning, evidence, attribution, terms and behavior while removing
 filler and unclear wording. Explanations must introduce their concepts,
 identify what they refer to and give the reader enough information to act.
+
+The agent checks the revision against the source's claims and qualifications,
+then asks whether the reader can follow the explanation without supplying
+missing knowledge. That comparison adds reading and revision work, especially
+for source-sensitive text. It does not make unsupported claims true.
 
 Use it for articles, reports, help, interface text and exact-source work.
 Ordinary answers and status updates do not activate it merely because they
@@ -154,6 +178,11 @@ design system the product already uses. It covers components, interaction
 states, responsive behavior and accessibility, then asks for evidence from the
 actual rendered interface.
 
+The agent must connect implementation choices to the existing components and
+check the affected states and layouts, rather than treating a successful build
+as visual proof. Browser checks and corrections take additional time and tokens.
+Without access to the rendered interface, that part of the result stays unverified.
+
 When Scoville Design is active, UI implements its design decisions. Otherwise
 it can develop a bounded direction for a new interface. Backend-only work and
 wording alone do not activate it.
@@ -168,6 +197,12 @@ Scoville WordPress UI Backend implements and audits plugin-owned `wp-admin`
 interfaces through the WordPress layer that actually owns them. It covers
 Classic PHP pages, Core Components and supported mixed runtimes, with explicit
 rules for spacing, responsive behavior, states, accessibility and i18n.
+
+The agent first identifies the supported WordPress runtime, then uses its
+components and spacing rules instead of inventing a second UI system. It checks
+the rendered page, including vertical flow and smaller screens. This needs more
+inspection and validation than styling from a screenshot, and meaningful visual
+checks need a running WordPress environment.
 
 It owns implementation and UI acceptance for those surfaces. Scoville UI does
 not run a second acceptance process. Frontends, the editor canvas and extensions
@@ -185,6 +220,11 @@ It helps create a direction, develop it into an artifact, inspect the result and
 repair specific problems. A critique should explain what is wrong and why,
 while preserving the parts that work.
 
+The agent has to explain how typography, composition and visual references serve
+the brief, then inspect the artifact and make targeted corrections. This adds
+critique and revision time, and generated variants can add token or image costs.
+More iterations are not useful when they no longer resolve a concrete problem.
+
 Use it for graphic, editorial, brand, advertising, packaging, wayfinding, web,
 interface, information and motion design. It also handles style interpretation.
 Mechanical edits to a settled design, conversion or rendering alone, backend
@@ -201,6 +241,11 @@ preserves the objective, decisions, permissions, file ownership, observed
 results and next safe action. A test that is still running stays unresolved.
 Changes belonging to the user remain identifiable.
 
+The agent reads the named task sources and separates the objective, current
+state and resume steps into a fixed structure. Preparing it costs a little
+extra reading and tokens. It cannot recover facts that were never recorded or
+turn an unfinished check into a result.
+
 Request it when you want to transfer work to another agent or session. Ordinary
 summaries, low context and ending a conversation do not activate it.
 
@@ -216,6 +261,11 @@ academic literature and longer investigations that need saved records. It
 keeps contradictions and gaps visible and stops when another search would no
 longer change the decision.
 
+The agent must inspect what a source actually supports, compare conflicting
+evidence and keep each conclusion within those limits. Searching and reading
+several sources costs more time and tokens than a quick answer. Access gaps and
+inconclusive evidence remain visible instead of being filled with certainty.
+
 Use it for questions that need several sources examined together. A summary of
 one known page or paper, ordinary repository inspection, brainstorming,
 implementation or wording work belongs with the corresponding task.
@@ -230,6 +280,11 @@ Scoville Brainstorm explores alternatives by how they work. It compares them
 against the fixed constraints and existing approaches, challenges their weak
 assumptions and returns a shortlist you can make a decision from. It stops
 before choosing or implementing a direction.
+
+The agent develops candidate mechanisms separately before comparing them, so
+the first plausible idea does not define every alternative. Exploration and
+comparison add tokens and time, and a shortlist still needs a decision and
+validation. A claim of originality is limited to what was actually examined.
 
 Use it for architecture, product, workflow or research questions that need
 materially different approaches, including competing explanations for an unknown

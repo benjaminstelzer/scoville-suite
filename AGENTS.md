@@ -20,6 +20,10 @@ files are generated previews. Build them from the fragments, never edit both.
 Each member's first README fragment owns its title and description. The suite
 uses `suite.descriptions` and manifest `featured_member` to place Workflow first.
 Keep those fragments self-contained with absolute links and no include tags.
+Skill descriptions explain the problem, the solution and how the rules produce
+it. Briefly name relevant costs or limits, including extra tokens and process
+overhead where applicable. Keep benefits central. Do not invent measured gains
+or force four headings onto every description.
 Shared helper sources must have one canonical owner and explicit manifest
 destinations. Every exported Skill includes its own runtime dependencies.
 Never import a sibling installed Skill as a helper library.
