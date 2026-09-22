@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.34 - 2026-09-22
+
+- Use Scoville Suite for development sources and rebuilding. Standalone
+  downloads now contain the installation package without development files.
+  Installed Skill behavior is unchanged.
+
 ## v1.0.33 - 2026-09-20
 
 - Reduce unrelated routing choices while leaving Plan-record wording with Plan.
