@@ -14,7 +14,7 @@ here; load specialists only for an open decision or a needed method.
 | Mode | Work |
 | --- | --- |
 | Generate | Develop the requested concept and artifact from supplied facts. |
-| Critique | Inspect and report read-only; do not redesign to satisfy a generation routine. |
+| Critique | Inspect and report read-only. Recommend corrections, but do not perform or prescribe repair as the next action without authorization. |
 | Repair | Change only the authorised artifact, scope and shared consumers. Inherit valid settled decisions. |
 
 Design owns concept, art direction, visual hierarchy, typography, composition,
