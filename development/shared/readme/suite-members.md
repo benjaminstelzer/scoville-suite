@@ -1,0 +1,3 @@
+## Skills
+
+{{ include: suite.members }}

@@ -4,7 +4,7 @@
 
 The workspace sibling `shared/` is the authoring source. Before release run
 `python ../shared/build/sync_suite_sources.py --root .` from each suite, then
-repeat with `--check`. This generates only declared build dependencies under
+repeat with `--check`. This copies shared build/runtime sources and their tests under
 `development/shared/`, with file hashes in `sources.json`. Unexpected files
 block synchronization rather than being deleted.
 
@@ -17,6 +17,11 @@ Both suite repositories retain their member/template sources and development
 files. Release assembly also places every installable Skill under `packages/`.
 Individual distribution repositories contain only their package and user-facing
 root files. Workflow has no separate distribution repository.
+
+Suite-specific tests run from `development/tests`. Shared cross-suite tests
+retain their authoring-workspace layout requirement: `shared/`, `scoville-suite/`
+and `ask-suite-for-codex/` as siblings. The bundled copy retains those test sources
+for development, but installing a Skill requires none of them.
 
 Members default to `distribution: standalone`. `distribution: suite` targets
 the suite repository and stages its package at `<suite>/packages/<member>`.
