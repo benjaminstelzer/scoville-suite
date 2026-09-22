@@ -143,7 +143,11 @@ Plan 07 passes SOL and independent author review against the fixed key. It
 preserves the partial profile and stops before initialization or writes.
 Its two native turns confirm Luna Medium and clean process/protocol completion.
 Four packaged references were supplied before the final answer, qualifying the
-new continuation prompt. Plan 13, 19 and 25 remain pending.
+new continuation prompt. Plan 13, 19 and 25 also pass SOL and independent author
+review. They preserve narrow execution-annotation changes, explicit successor
+priority and unresolved Decisions without inventing completion or queue writes.
+Independent native checks confirm all eight turns as Luna Medium, with no
+process, stderr, timeout or stream failures.
 
 ## Plan Viewer
 
