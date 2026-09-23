@@ -18,6 +18,7 @@ OPERATIONS = PACKAGE / "references" / "operations.md"
 NATIVE_FIXTURES = Path(__file__).resolve().parent / "fixtures" / "native-rollout-cases.json"
 PROMPT_BUILDER = PACKAGE / "scripts" / "build_dispatch_prompt.py"
 MODEL_RESOLVER = PACKAGE / "scripts" / "resolve_model_pair.py"
+DISPATCH_PREFLIGHT = PACKAGE / "scripts" / "inspect_dispatch_preflight.py"
 NATIVE_INSPECTOR = PACKAGE / "scripts" / "inspect_native_context.py"
 ROLLOVER_READINESS = ROOT.parents[1].parent / "shared" / "runtime" / "rollover_readiness.md"
 AGENTS_CONTRACT = PACKAGE / "references" / "agents-contract.md"
@@ -30,6 +31,9 @@ SUPPORTED_EFFORTS = {"low", "medium", "high", "xhigh"}
 _resolver_spec = importlib.util.spec_from_file_location("workflow_model_resolver", MODEL_RESOLVER)
 model_resolver = importlib.util.module_from_spec(_resolver_spec)
 _resolver_spec.loader.exec_module(model_resolver)
+_preflight_spec = importlib.util.spec_from_file_location("workflow_dispatch_preflight", DISPATCH_PREFLIGHT)
+dispatch_preflight = importlib.util.module_from_spec(_preflight_spec)
+_preflight_spec.loader.exec_module(dispatch_preflight)
 
 
 def contract_text(path: Path) -> str:
@@ -465,6 +469,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 "build_dispatch_prompt.py",
                 "check_context_checkpoint.py",
                 "dispatch_transport.js",
+                "inspect_dispatch_preflight.py",
                 "inspect_native_context.py",
                 "manage_agents_contract.py",
                 "manage_workflow_guard.py",
@@ -1959,6 +1964,75 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 path.write_text(altered, encoding="utf-8")
                 with self.assertRaisesRegex(ValueError, diagnostic):
                     model_resolver.load_config(path)
+
+    def test_dispatch_preflight_rechecks_guard_after_bounded_selection(self):
+        contract = {"installed": True}
+        guard = {"ok": True, "authorized": True, "workflow_id": "wf", "revision": 7, "generation": 2}
+        selection = {"plan": {}, "work_item": {}, "direct_dependencies": [], "decisions": []}
+        calls = []
+
+        def runner(command):
+            calls.append(command)
+            return [contract, guard, selection, guard][len(calls) - 1]
+
+        result = dispatch_preflight.inspect(Path("workspace"), Path("plan"), Path("selector.py"),
+                                             "wf", 7, 2, "W-001", runner)
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["selection"], selection)
+        self.assertEqual([Path(call[1]).name for call in calls],
+                         ["manage_agents_contract.py", "manage_workflow_guard.py",
+                          "selector.py", "manage_workflow_guard.py"])
+        self.assertEqual(calls[2][-2:], ["--work-item", "W-001"])
+
+        calls.clear()
+
+        def changed_runner(command):
+            calls.append(command)
+            return [contract, guard, selection, {**guard, "revision": 8}][len(calls) - 1]
+
+        with self.assertRaisesRegex(ValueError, "not authorized at the expected revision"):
+            dispatch_preflight.inspect(Path("workspace"), Path("plan"), Path("selector.py"),
+                                       "wf", 7, 2, runner=changed_runner)
+
+        calls.clear()
+
+        def malformed_runner(command):
+            calls.append(command)
+            return [contract, guard, {"plan": {}}][len(calls) - 1]
+
+        with self.assertRaisesRegex(ValueError, "four required semantic areas"):
+            dispatch_preflight.inspect(Path("workspace"), Path("plan"), Path("selector.py"),
+                                       "wf", 7, 2, runner=malformed_runner)
+        self.assertEqual(len(calls), 3)
+
+        calls.clear()
+
+        def missing_contract(command):
+            calls.append(command)
+            return {"installed": False}
+
+        with self.assertRaisesRegex(ValueError, "project contract is not installed"):
+            dispatch_preflight.inspect(Path("workspace"), Path("plan"), Path("selector.py"),
+                                       "wf", 7, 2, runner=missing_contract)
+        self.assertEqual(len(calls), 1)
+
+    def test_dispatch_preflight_preserves_real_selector_diagnostic(self):
+        selector = ROOT.parent / "scoville-plan" / "scoville-plan" / "scripts" / "select_context.py"
+        with tempfile.TemporaryDirectory(prefix="workflow-preflight-selector-") as directory:
+            missing = Path(directory) / "missing-plan"
+            with self.assertRaises(dispatch_preflight.HelperFailure) as failure:
+                dispatch_preflight.call_json([
+                    sys.executable, str(selector), "--root", str(missing), "--format", "json",
+                ])
+        self.assertEqual(failure.exception.payload["diagnostics"][0]["code"], "ROOT_MISSING")
+        self.assertEqual(failure.exception.payload["diagnostics"][0]["message"],
+                         "root must be an existing directory")
+
+    def test_child_prompt_stops_on_checkpoint_helper_failure(self):
+        source = PROMPT_BUILDER.read_text(encoding="utf-8")
+        self.assertIn("If the helper cannot run, return a schema-valid blocked result", source)
+        self.assertIn("A helper result with telemetry=unavailable permits bounded work", source)
+        self.assertNotIn("an unavailable helper alone does not block work", source)
 
     def test_explicit_resume_intent_skips_only_the_initial_choice(self):
         operations = flat(OPERATIONS)

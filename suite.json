@@ -405,6 +405,10 @@
           "target": "scoville-design-anti-ai-slop/references/style-direction.md"
         },
         {
+          "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/source-reader-without-python.md",
+          "target": "scoville-design-anti-ai-slop/references/source-reader-without-python.md"
+        },
+        {
           "source": "members/scoville-design-anti-ai-slop/scoville-design-anti-ai-slop/references/sustainability-claims.md",
           "target": "scoville-design-anti-ai-slop/references/sustainability-claims.md"
         },
@@ -601,6 +605,10 @@
           "target": "scoville-plan/references/native-project-lifecycle.md"
         },
         {
+          "source": "members/scoville-plan/scoville-plan/references/decision-batch-without-python.md",
+          "target": "scoville-plan/references/decision-batch-without-python.md"
+        },
+        {
           "source": "members/scoville-plan/scoville-plan/references/native-work-items.md",
           "target": "scoville-plan/references/native-work-items.md"
         },
@@ -613,8 +621,16 @@
           "target": "scoville-plan/references/profile-validation.md"
         },
         {
+          "source": "members/scoville-plan/scoville-plan/references/profile-without-python.md",
+          "target": "scoville-plan/references/profile-without-python.md"
+        },
+        {
           "source": "members/scoville-plan/scoville-plan/references/read-only.md",
           "target": "scoville-plan/references/read-only.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/select-context-without-python.md",
+          "target": "scoville-plan/references/select-context-without-python.md"
         },
         {
           "source": "members/scoville-plan/scoville-plan/scripts/compute_decision_batch.py",
@@ -735,6 +751,10 @@
         {
           "source": "members/scoville-research/scoville-research/references/development-research.md",
           "target": "scoville-research/references/development-research.md"
+        },
+        {
+          "source": "members/scoville-research/scoville-research/references/saved-package-without-python.md",
+          "target": "scoville-research/references/saved-package-without-python.md"
         },
         {
           "source": "members/scoville-research/scoville-research/scripts/validate_research_artifacts.py",
@@ -1076,6 +1096,10 @@
         {
           "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/inspect_native_context.py",
           "target": "scoville-workflow-for-codex/scripts/inspect_native_context.py"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/inspect_dispatch_preflight.py",
+          "target": "scoville-workflow-for-codex/scripts/inspect_dispatch_preflight.py"
         },
         {
           "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/manage_agents_contract.py",

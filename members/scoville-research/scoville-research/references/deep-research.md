@@ -34,6 +34,13 @@ was supplied, ask for an allowed project-owned or temporary path before writing.
 The Core owns this narrow write authority. Every new durable Deep run uses the
 v2 package below:
 
+Before creating a saved package, require a usable JSON parser and a byte-exact
+SHA-256 primitive. Python and the bundled validator are optional. If Python is
+unavailable, load [saved-package-without-python.md](saved-package-without-python.md)
+for the hash and structural inspection. If no byte-exact hash or JSON parser is
+available, stop the saved package and report that boundary; chat-only Deep
+research can still proceed.
+
 ```text
 <output-path>/
 |-- brief.md
@@ -71,13 +78,14 @@ Create one JSON object before retrieval begins:
 {"schema":"scoville-research-run.v2","skill_sha256":"<64 lowercase hex characters>","created":"2026-08-19T12:00:00Z","updated":"2026-08-19T12:00:00Z","phase":"brief","status":"in-progress","last_completed_query":null,"external_jobs":[]}
 ```
 
-Obtain `skill_sha256` from the exact package that will execute the run:
+With Python, obtain `skill_sha256` from the exact package that will execute the run:
 
 ```text
 python <skill-dir>/scripts/validate_research_artifacts.py --print-skill-sha256
 ```
 
-The hash covers every portable Skill file through a stable relative-path manifest. On resume, validate before changing an artifact. A `skill_drift` failure means the executing Skill bytes differ from the run owner; do not continue until the user chooses the old package or a deliberate new v2 run.
+If Python is unavailable, use the byte procedure in
+[saved-package-without-python.md](saved-package-without-python.md).
 
 Allowed phases: `brief`, `discovery`, `inspection`, `contradiction`, `gap`, `synthesis`, `validation`, `complete`, `blocked`. Allowed statuses: `in-progress`, `complete`, `blocked`. The `complete` status and phase occur together, as do `blocked` status and phase. Update the RFC 3339 timestamp, phase, status, and `last_completed_query` only after the corresponding durable write succeeds.
 
@@ -178,7 +186,7 @@ Cite source IDs inline as `[S001]`. Every cited ID must exist in `sources.jsonl`
 
 ## Validate the package
 
-For a saved package only, when Python 3 and the bundled script are available, run:
+For a saved package, run the bundled validator when Python 3 is available:
 
 ```text
 python <skill-dir>/scripts/validate_research_artifacts.py <research-directory> --format json
@@ -187,3 +195,7 @@ python <skill-dir>/scripts/validate_research_artifacts.py <research-directory> -
 A new package succeeds with `package_version: 2` and `legacy: false`. An unchanged v1 package without `run.json` or `evidence.jsonl` may still succeed with `package_version: 1` and `legacy: true`; validation never migrates it. Mixed and unknown schemas fail instead of falling back.
 
 Exit `0` with `valid: true` proves only required files, JSON or JSONL shape, stable IDs, run-state consistency, exact Skill-byte continuity, cross-references, report headings, and citation identifiers. It performs no network request and proves neither link health, source truth, source independence, semantic claim support, completeness, nor research quality. Fix structural errors, then perform the semantic evidence check yourself.
+
+Without Python, follow [saved-package-without-python.md](saved-package-without-python.md)
+on the final unchanged files before marking `run.json` complete. Report manual
+structural inspection separately from validator output.

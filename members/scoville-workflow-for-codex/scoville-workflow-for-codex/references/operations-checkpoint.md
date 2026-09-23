@@ -7,8 +7,9 @@ Post-compaction and inherited-handoff progress gates: [compaction](operations-co
 Only at a natural internal boundary with material work remaining, the child
 invokes the prompt-embedded `scripts/check_context_checkpoint.py --role <role>`
 once. `action=context_handoff` requires the normal role handoff result;
-`action=continue` permits continued work. If the helper cannot run, telemetry
-is unavailable and work continues without a manual telemetry search.
+`action=continue` permits continued work. If the helper cannot run, stop this
+checkpoint and report the failure; do not search telemetry manually. A helper
+result with `telemetry=unavailable` still permits bounded work.
 This read-only helper reads the latest `token_count` event in its own active native rollout,
 identified by exact `CODEX_THREAD_ID`. The sample is fresh only when its event
 ordinal is later than both the current turn's latest `turn_context` event and

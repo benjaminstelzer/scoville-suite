@@ -9,6 +9,8 @@ from pathlib import Path
 
 
 SCRIPT = Path(__file__).parents[2] / "scoville-research" / "scripts" / "validate_research_artifacts.py"
+SKILL = SCRIPT.parents[1] / "SKILL.md"
+COMPATIBILITY = SCRIPT.parents[4] / "development" / "readme" / "scoville-research" / "compatibility-5f11b43b7bb31c2a.md"
 SPEC = importlib.util.spec_from_file_location("validate_research_artifacts", SCRIPT)
 MODULE = importlib.util.module_from_spec(SPEC)
 assert SPEC and SPEC.loader
@@ -17,6 +19,22 @@ SPEC.loader.exec_module(MODULE)
 
 
 class ValidateResearchArtifactsTests(unittest.TestCase):
+    def test_python_requirement_is_scoped_to_saved_deep_package(self) -> None:
+        skill = SKILL.read_text(encoding="utf-8")
+        compatibility = COMPATIBILITY.read_text(encoding="utf-8").split("\n\n", 1)[1].strip()
+        self.assertIn(f'compatibility: "{compatibility}"', skill)
+        self.assertIn("Saved Deep packages need a writable workspace, a JSON parser and byte-exact SHA-256", compatibility)
+        self.assertIn("Chat-only Deep needs neither workspace nor hash tools", compatibility)
+        deep = " ".join((SKILL.parent / "references" / "deep-research.md").read_text(encoding="utf-8").split())
+        fallback = " ".join((SKILL.parent / "references" / "saved-package-without-python.md").read_text(encoding="utf-8").split())
+        self.assertIn("Before creating a saved package, require a usable JSON parser", deep)
+        self.assertIn("load [saved-package-without-python.md]", deep)
+        self.assertIn("relative path as UTF-8, one NUL byte, the file's raw bytes, one NUL byte", fallback)
+        self.assertIn("For a saved package, run the bundled validator when Python 3 is available", deep)
+        self.assertIn("manual structural inspection", deep)
+        self.assertIn("every query source ID, evidence source ID, claim evidence ID", fallback)
+        self.assertIn("also complete its structural validation before marking the run complete", deep)
+
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)

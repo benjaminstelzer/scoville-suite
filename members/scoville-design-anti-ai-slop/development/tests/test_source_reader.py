@@ -9,6 +9,9 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 READER = ROOT / 'scoville-design-anti-ai-slop/scripts/read-source.py'
+SKILL = ROOT / 'scoville-design-anti-ai-slop/SKILL.md'
+NO_PYTHON = ROOT / 'scoville-design-anti-ai-slop/references/source-reader-without-python.md'
+COMPATIBILITY = ROOT.parent.parent / 'development/readme/scoville-design-anti-ai-slop/compatibility-d3b748a2878f57c6.md'
 spec = importlib.util.spec_from_file_location(
     'reader_coverage', ROOT / 'development/scripts/read_coverage.py')
 coverage = importlib.util.module_from_spec(spec)
@@ -16,6 +19,24 @@ spec.loader.exec_module(coverage)
 
 
 class SourceReaderTests(unittest.TestCase):
+    def test_no_python_coverage_and_browser_helper_requirements_are_explicit(self):
+        skill = SKILL.read_text(encoding='utf-8')
+        self.assertIn('If Python is unavailable, load [source-reader-without-python.md]', skill)
+        guide = ' '.join(NO_PYTHON.read_text(encoding='utf-8').split())
+        for required in (
+            'Read the requested source',
+            'numbered, bounded ranges',
+            'intact line numbers actually received',
+            'Reread every missing or cut-through interval',
+            'mark dependent coverage unverified',
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, guide)
+        self.assertIn('If the task proceeds without a partner,', skill)
+        compatibility = COMPATIBILITY.read_text(encoding='utf-8').split('\n\n', 1)[1].split('\n\n', 1)[0].strip()
+        self.assertIn(f'compatibility: "{compatibility}"', skill)
+        self.assertIn('Optional layout JavaScript runs in an existing browser document', compatibility)
+
     def run_reader(self, path, *args):
         return subprocess.run([sys.executable, '-B', str(READER), str(path), *args],
                               capture_output=True, encoding='utf-8')

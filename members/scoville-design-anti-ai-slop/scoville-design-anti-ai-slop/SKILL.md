@@ -1,7 +1,7 @@
 ---
 name: scoville-design-anti-ai-slop
 description: Develop, critique, or repair visual concepts and artifacts through art direction, typography, composition, visual systems, and information graphics. Use when visual definition or judgment is the task. For framework UI implementation use scoville-ui-anti-ai-slop, and for WordPress plugin-owned wp-admin pages use scoville-wordpress-ui-backend-anti-ai-slop. Excludes mechanical edits, rendering-only work, backend work, and prose.
-compatibility: "Any Agent Skills host that can read references/ and examples/. Visual inspection needs an image or screenshot viewer provided by the host; without one, render checks stay unverified. Optional scripts/read-source.py needs Python 3. Web access only for standards, licence or living-community checks. Developed for Codex and Claude Code; other hosts untested."
+compatibility: "Any Agent Skills host that can read references/ and examples/. Visual inspection needs an image or screenshot viewer provided by the host; without one, render checks stay unverified. Optional scripts/read-source.py needs Python 3; the source-coverage procedure works without it. Optional layout JavaScript runs in an existing browser document. Web access only for standards, licence or living-community checks. Developed for Codex and Claude Code; other hosts untested."
 ---
 
 # Scoville Design Anti-AI-Slop
@@ -29,8 +29,8 @@ responsiveness and runtime proof. Load Coordination only for an actual exchange
 with a partner confirmed active and applicable in the current task (including
 Scribe for wording fidelity). A framework conflict or named owner does not
 establish such a partner; unknown availability does not pass this gate. Never
-require or simulate another Skill. Without a confirmed partner, handle authorised
-work directly within the same ownership floors.
+require or simulate another Skill. If the task proceeds without a partner,
+handle authorised work directly within the same ownership floors.
 
 Finding another Skill in this family does not make it installed, active, applicable, or required. If that Skill is absent or inactive, ignore it. Do not require, install, simulate, or reimplement it. If it is active and applicable, let it handle only its stated concern while this Skill continues its own authorized work. An opt-out applies only to the Skill the user excluded, not to independently authorized work.
 
@@ -183,6 +183,9 @@ Its header contains recovery details when transport fails. If coverage cannot
 be recovered, carry the dependent concern unverified. Headings do not unload
 context; split phases only for actual task/capacity needs. User/provider limits
 and authorisation remain binding.
+
+If Python is unavailable, load [source-reader-without-python.md](references/source-reader-without-python.md)
+only when source coverage is needed.
 
 ## Proof ceiling
 

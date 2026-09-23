@@ -1,7 +1,7 @@
 ---
 name: scoville-research
 description: Conduct source-backed web research for current multi-source questions, technology and implementation discovery, or literature synthesis, with GitHub-first Development routing, scholarly-source routing, contradiction checks, and optional durable deep-research artifacts. Use for explicit research, landscape, state-of-the-art, evidence-review, or implementation-option requests that need more than a simple lookup. Do not use for one known page or paper summary, ordinary repository inspection, pure brainstorming, planning, implementation, or wording work.
-compatibility: "Any Agent Skills host that can read references/. Requires web search and fetching actual source pages. Only an explicitly requested saved Deep package needs a writable workspace and Python 3 for scripts/validate_research_artifacts.py. Deep research without saved artifacts needs neither. Subagents are optional and capacity-bound: without a documented close control, report open targets and skip lanes that do not fit. Developed for Codex and Claude Code; other hosts untested."
+compatibility: "Any Agent Skills host with references/ access and web search/page fetching. Saved Deep packages need a writable workspace, a JSON parser and byte-exact SHA-256. Python 3 runs the optional validator; a documented manual check works without it. Chat-only Deep needs neither workspace nor hash tools. Optional subagents need capacity and close control. Developed for Codex and Claude Code; other hosts untested."
 ---
 
 # Scoville Research

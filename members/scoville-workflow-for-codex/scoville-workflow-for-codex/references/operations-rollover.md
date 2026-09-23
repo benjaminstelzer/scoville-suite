@@ -18,8 +18,8 @@ below before selecting any next unit; `action=continue` permits selection.
 before proceeding, without substituting a threshold or treating it as missing
 telemetry. `assets/workflow.toml` owns both thresholds under `[context]`.
 An absent checkpoint result is not unavailable telemetry: run the command.
-If the command cannot run, use the exact-own-rollout procedure below once and
-retain its result or concrete unavailable diagnostic before continuing.
+If the command cannot run, stop this boundary and report the failure. Do not
+reconstruct its result from the rollout manually.
 Do not substitute a worker's telemetry, cumulative usage, a remembered sample,
 or a host compaction for this checkpoint. Compaction keeps the same coordinator
 identity and does not satisfy rollover. After resuming at an accepted boundary,
