@@ -81,9 +81,18 @@ A `changes_requested` result does not automatically create a repair executor or
 second reviewer. Partition every finding by correction owner. Apply all
 permitted coordinator-owned Plan corrections first and run the Plan validator,
 including for mixed Plan and project findings. Send only executor-owned
-corrections to one fresh repair executor in the same exact `workspace_root`
-using the original executor's launched model and reasoning pair. Pass the
-complete `reviewer_result` verbatim plus one `repair_assignment` whose sorted
+corrections to one fresh repair executor in the same exact `workspace_root`.
+Count only a new executor-owned correction as a repair attempt. Before creating
+it, resolve its pair through `scripts/resolve_model_pair.py`: repair 1 uses the
+original executor's launched pair, repair 2 moves one WORK row above that pair,
+and repair 3 moves two rows above it, capped at `ultra_high`. Pass the original
+launched pair each time, not the previous repair's pair. If that pair is outside
+the current WORK table when escalation is required, stop with the helper
+diagnostic rather than risk a weaker assignment. Repair escalation does not
+change the unit's route class or reviewer route. Each newly created reviewer
+resolves its pair from the current configuration; a running reviewer retains
+its launched pair. Pass the complete `reviewer_result` verbatim plus one
+`repair_assignment` whose sorted
 unique zero-based indices select only the unresolved executor-owned findings.
 Create and activate the repair through the pending-writer parking sequence.
 Send the required repair-phase announcement immediately before sending that

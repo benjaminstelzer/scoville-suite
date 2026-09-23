@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.8 - 2026-09-23
+
+- Resolve WORK and REVIEW pairs from the configurable route table and raise the second and third repair attempts along its WORK rows.
+
 ## v1.0.7 - 2026-09-23
 
 - Route new high-class Workflow work to SOL 6 XHigh with Astra 6 High review, and raise ultra-high work and review to Astra 6 High and XHigh.

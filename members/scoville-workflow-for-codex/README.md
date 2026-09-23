@@ -180,7 +180,10 @@ A Step's `[route: CLASS]` is its planned minimum. For every fresh execution
 unit, the coordinator chooses the highest applicable class and raises the
 effective dispatch route above an insufficient annotation, even when the task
 has not changed since planning. It never dispatches below the retained
-annotation. Repairs and context rollover retain their launched pair. Many files or a large known test suite alone do
+annotation. New repair attempts move up the WORK rows: the first retains the
+executor pair, the second moves one row, and the third moves two rows, capped
+at `ultra_high`. Review routing stays fixed. Context rollover retains its
+launched pair. Many files or a large known test suite alone do
 not raise the class. Route, model, and reasoning are separate values; the final
 route selects the configured pair before a Step-level execution override is
 applied.

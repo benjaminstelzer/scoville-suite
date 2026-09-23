@@ -20,15 +20,23 @@ saved_project_id, environment: { type: "local" } }`. A top-level `projectId` is
 invalid. Never fork a prior task, select a new worktree or reconstruct shared
 workspace state.
 
-Before each new route-based executor or reviewer creation, read
-`assets/workflow.toml`. Require `schema_version = 1`, exactly one coordinator
-triple, and exactly the five documented classes under both `execute` and
-`review`, with only model and reasoning in each pair. Unknown or missing values
-and unsupported model/reasoning pairs block creation; never substitute a
-shipped value. Use the selected `execute.CLASS` pair after any valid Step
-override for an executor and the selected `review.CLASS` pair for a reviewer.
-Repair and rollover successors inherit the recorded launched pair and do not
-reread a changed route default.
+Before each new executor, reviewer, or repair creation, call
+`scripts/resolve_model_pair.py` with the effective route and role. Supply the
+executor's strict Step override as `--override-model` and/or
+`--override-reasoning` when present. For a repair, supply `--repair-number` and
+the original executor's recorded launched pair instead of a route. Use only a
+`valid:true` result's `model` and `thinking` in `create_thread`; on helper
+failure, record the diagnostic and create no task. Validate the returned pair
+against model/reasoning combinations currently exposed by the host; never
+substitute an unsupported value. The helper reads `assets/workflow.toml` on
+each call. A context-rollover successor retains its own launched pair without
+calling this helper or consuming a repair attempt.
+
+```text
+python <workflow-skill-directory>/scripts/resolve_model_pair.py --role executor --route <effective-class> [--override-model <model>] [--override-reasoning <effort>]
+python <workflow-skill-directory>/scripts/resolve_model_pair.py --role reviewer --route <effective-class>
+python <workflow-skill-directory>/scripts/resolve_model_pair.py --role repair --original-model <executor-launched-model> --original-reasoning <executor-launched-thinking> --repair-number <1|2|3>
+```
 
 The additional `[context]` table requires exactly `coordinator_percent` and
 `worker_percent`, integer percentages from 1 through 99. Missing or invalid
