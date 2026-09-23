@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.10 - 2026-09-24
+
+- Keep High risk classification for concrete planning or risk review of high-impact operations, even when execution is deferred.
+- Make Workflow operation routing and helper use explicit for the coordinator.
+
 ## v1.0.9 - 2026-09-23
 
 - Resolve WORK and REVIEW pairs from the configurable route table and raise the second and third repair attempts along its WORK rows.
