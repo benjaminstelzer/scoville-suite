@@ -36,8 +36,8 @@ model = "gpt-6-sol"
 reasoning = "xhigh"
 
 [execute.high]
-model = "gpt-6-astra"
-reasoning = "low"
+model = "gpt-6-sol"
+reasoning = "xhigh"
 
 [review.high]
 model = "gpt-6-astra"
@@ -45,8 +45,8 @@ reasoning = "medium"
 
 [execute.ultra_high]
 model = "gpt-6-astra"
-reasoning = "medium"
+reasoning = "high"
 
 [review.ultra_high]
 model = "gpt-6-astra"
-reasoning = "high"
+reasoning = "xhigh"
