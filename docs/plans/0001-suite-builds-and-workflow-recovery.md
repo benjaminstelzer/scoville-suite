@@ -4,7 +4,7 @@ id: PLAN-0001
 status: active
 created: 2026-09-21
 updated: 2026-09-23
-current_item: W-025
+current_item: W-035
 ---
 
 # Suite-Builds und zuverlässige Workflow-Übergaben
@@ -446,6 +446,22 @@ Steps:
 3. Committe und pushe die geprüfte Suite-Quelle und Distribution, erstelle den neuen GitHub-Release mit verifizierten Assets und entferne erst danach den abgedeckten älteren Release und Release-Versionstag.
 4. Führe den Live-Publikationsaudit aus und dokumentiere Commit, Tag, Release-URL, Assets, Topics sowie verbleibende Release- und Taganzahl.
 Evidence: [Suite v1.0.1 Code v1.0.35 und Workflow v0.4.1 aus dem sauberen Commit 78c1913609f8ceffaa4f474ceb47cf56503a593e gebaut, Receipt 7c8e72769eeafe2b8194e5032826bc86e01726edfb6acd40cd9d93bf5c9a6330 verifizierte 189 Dateien in zehn Paketen, 65 Workflow- und 23 Suite-Tests sowie README- Quellen- Paket- Struktur- Frontmatter- Kompatibilitäts- und Planprüfungen bestanden, Luna-Medium-Workflow-Fall 17 und der bytegleiche Code-Fall 23 bestanden unter SOL-Medium-Bewertung, Codex Code Codex Workflow und Claude Code lokal bytegleich installiert, Vorherige lokale Pakete unter Z:/Projekts/AI/state/2026-09-23-scoville-suite-v1.0.1-backup gesichert, GitHub main und der annotierte Tag v1.0.1 zeigten beim Release auf 78c1913609f8ceffaa4f474ceb47cf56503a593e, https://github.com/benjaminstelzer/scoville-suite/releases/tag/v1.0.1 stabil veröffentlicht, Suite-ZIP Prüfsumme SHA256SUMS und elf Viewer-v1.3.2-Assets nach erneutem Download bytegleich geprüft, Finaler Publikationsaudit bestand mit einem Release und einem Release-Versionstag, Topics sind agent-skills claude-code codex developer-tools workflow-automation, v1.0.0 erst nach bestandenem Pre-Cleanup-Audit und verifiziertem Nachfolger entfernt]
+
+### W-035 Nachträglich angefordert: Code-Einzelpaket v1.0.35 veröffentlichen
+
+Status: in_progress
+Depends on: [W-034]
+Blocked by: []
+Decisions: []
+Outcome: Das aus der Suite gebaute Scoville-Code-Paket ist bytegleich im eigenständigen Repository und als dessen einziger aktueller Release v1.0.35 veröffentlicht.
+Acceptance: Ein sauberer Suite-Build liefert das Paket; der vollständige Distributionsbaum ersetzt nur das eigenständige Code-Ziel unter Erhalt seiner Historie; Struktur- Frontmatter- Kompatibilitäts- Paket- und Live-Publikationsprüfungen bestehen; GitHub main und der annotierte Tag zeigen auf den geprüften Commit; genau ein Release und ein Release-Versionstag verbleiben.
+Steps:
+1. Baue `scoville-code-anti-ai-slop` aus der sauberen Suite-Quelle in ein frisches externes Verzeichnis und vergleiche Paket- Changelog- README- und Laufzeitdateien mit dem Einzelziel.
+2. Sichere das Einzelziel und ersetze seinen Distributionsbaum mechanisch aus dem verifizierten Build; prüfe Struktur Frontmatter Kompatibilität Paketbytes und Git-Diff.
+3. Committe und pushe den geprüften Einzelbaum; erstelle den annotierten Tag und den stabilen Release v1.0.35 und entferne v1.0.34 erst nach verifiziertem Nachfolger.
+4. Vergleiche Remote-Baum Release-Text Tag und verbleibende Release- und Taganzahl; dokumentiere den Live-Nachweis.
+Evidence: []
+Next action: Frischen sauberen Code-Build erzeugen und den vollständigen Einzelbaum gegen GitHub v1.0.34 vergleichen.
 
 ### W-030 Einheitliche Skill-READMEs und gemeinsame Beschreibungsblöcke veröffentlichen
 
