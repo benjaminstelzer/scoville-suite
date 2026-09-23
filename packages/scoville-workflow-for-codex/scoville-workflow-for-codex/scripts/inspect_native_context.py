@@ -9,6 +9,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from build_dispatch_prompt import (
+    PromptError, build_prompt, validate_plan_context, validate_prompt_arguments,
+    validate_role_input,
+)
+
 
 class InspectionError(Exception):
     pass
@@ -103,6 +108,138 @@ def message_text(payload: dict[str, Any]) -> str | None:
             return None
         parts.append(text)
     return "".join(parts)
+
+
+def delegated_input(event: dict[str, Any]) -> str | None:
+    payload = event_payload(event)
+    if (
+        event.get("type") != "response_item"
+        or payload.get("type") != "function_call_output"
+        or payload.get("name") not in {"create_thread", "send_message_to_thread"}
+    ):
+        return None
+    output = payload.get("output")
+    if not isinstance(output, str):
+        raise InspectionError("the native assignment envelope is not text")
+    match = re.fullmatch(
+        r"<codex_delegation>\s*"
+        r"<source_thread_id>[^<>]+</source_thread_id>\s*"
+        r"<input>(.*)</input>\s*"
+        r"</codex_delegation>",
+        output,
+        flags=re.DOTALL,
+    )
+    if match is None:
+        raise InspectionError("the native assignment envelope is malformed")
+    return match.group(1)
+
+
+def parse_builder_assignment(assignment: str) -> dict[str, Any]:
+    if not assignment.endswith("\n"):
+        raise InspectionError("the builder assignment has no terminal newline")
+    lines = assignment[:-1].split("\n")
+    fixed_names = (
+        "scoville_role",
+        "dispatch_contract",
+        "unit",
+        "workspace_root",
+        "guard_path",
+        "guard_workflow_id",
+        "guard_generation",
+        "guard_revision",
+        "guard_dispatch_key",
+        "guard_task_id",
+        "guard_helper",
+    )
+    if len(lines) < len(fixed_names) or any(
+        not lines[index].startswith(name + "=")
+        for index, name in enumerate(fixed_names)
+    ):
+        raise InspectionError("the builder assignment header is malformed")
+    fields = {
+        name: lines[index].split("=", 1)[1]
+        for index, name in enumerate(fixed_names)
+    }
+    try:
+        inputs_index = len(lines) - 1 - lines[::-1].index("[Inputs]")
+    except ValueError as error:
+        raise InspectionError("the builder assignment inputs are missing") from error
+    input_lines = lines[inputs_index + 1:]
+    if not input_lines or any("=" not in line for line in input_lines):
+        raise InspectionError("the builder assignment inputs are malformed")
+    inputs: dict[str, object] = {}
+    for line in input_lines:
+        name, raw = line.split("=", 1)
+        if name in inputs:
+            raise InspectionError("the builder assignment has duplicate inputs")
+        try:
+            inputs[name] = json.loads(raw)
+        except json.JSONDecodeError as error:
+            raise InspectionError("the builder assignment input is not JSON") from error
+    plan_context = inputs.pop("plan_context", None)
+    try:
+        generation = int(fields["guard_generation"])
+        revision = int(fields["guard_revision"])
+    except ValueError as error:
+        raise InspectionError("the builder assignment guard version is invalid") from error
+    task_id = fields["guard_task_id"]
+    parsed = {
+        "role": fields["scoville_role"],
+        "unit": fields["unit"],
+        "workspace_root": fields["workspace_root"],
+        "return_to_thread_id": "",
+        "delivery_reference": "",
+        "guard_workflow_id": fields["guard_workflow_id"],
+        "guard_generation": generation,
+        "guard_revision": revision,
+        "guard_dispatch_key": fields["guard_dispatch_key"],
+        "guard_task_id": None if task_id == "read_only" else task_id,
+        "plan_context": plan_context,
+        "role_input": inputs,
+    }
+    try:
+        validate_prompt_arguments(
+            parsed["role"], parsed["workspace_root"], "placeholder",
+            "placeholder", parsed["guard_workflow_id"],
+            parsed["guard_generation"], parsed["guard_revision"],
+            parsed["guard_dispatch_key"], parsed["guard_task_id"],
+        )
+        parsed["plan_context"] = validate_plan_context(plan_context, parsed["unit"])
+        parsed["role_input"] = validate_role_input(parsed["role"], inputs)
+    except PromptError as error:
+        raise InspectionError(error.message) from error
+    return parsed
+
+
+def require_builder_assignment(
+    events: list[dict[str, Any]],
+    start_ordinal: int,
+    current_ordinal: int,
+    role: str,
+    reference: str,
+    return_to_thread_id: str,
+) -> None:
+    assignments = [
+        value
+        for event in events
+        if start_ordinal < event["ordinal"] < current_ordinal
+        for value in [delegated_input(event)]
+        if value is not None
+    ]
+    if len(assignments) != 1:
+        raise InspectionError("the current turn has no unique native assignment")
+    assignment = assignments[0]
+    parsed = parse_builder_assignment(assignment)
+    if parsed["role"] != role:
+        raise InspectionError("the current assignment has a conflicting role")
+    parsed["return_to_thread_id"] = return_to_thread_id
+    parsed["delivery_reference"] = reference
+    expected = build_prompt(
+        native_context_inspector=str(Path(__file__).resolve()),
+        **parsed,
+    )
+    if assignment != expected:
+        raise InspectionError("the current assignment is not a complete builder dispatch")
 
 
 def native_turn_id(payload: dict[str, Any]) -> str | None:
@@ -391,6 +528,15 @@ def inspect(
     if len(starts) != 1:
         raise InspectionError("the current turn has no unique task start")
     start = starts[0]
+    if event_payload(session_meta[0]).get("thread_source") == "agent_created_thread":
+        require_builder_assignment(
+            events,
+            start["ordinal"],
+            events[-1]["ordinal"] + 1,
+            role,
+            reference,
+            return_to_thread_id,
+        )
     turn_contexts = [
         event for event in contexts
         if event_payload(event).get("turn_id") == turn_id
