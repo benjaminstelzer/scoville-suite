@@ -1,11 +1,12 @@
 ---
 format_version: 1
 id: ADR-0008
-status: accepted
+status: superseded
 created: 2026-09-21
 accepted: 2026-09-21
 scope: suite/evaluation-coverage
 supersedes: ADR-0007
+superseded_by: ADR-0011
 ---
 
 # Testumfang auf 64 Fälle begrenzen
