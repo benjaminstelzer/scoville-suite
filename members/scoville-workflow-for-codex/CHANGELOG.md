@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.7 - 2026-09-24
+
+- Clarify operation routing and required helper use for the coordinator.
+
 ## v0.4.6 - 2026-09-23
 
 - Resolve task pairs from the configured routes and raise the second and third repair attempts along the WORK rows.
