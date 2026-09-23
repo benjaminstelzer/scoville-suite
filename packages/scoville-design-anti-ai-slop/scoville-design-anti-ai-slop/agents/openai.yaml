@@ -1,0 +1,6 @@
+interface:
+  display_name: "Scoville Design Anti-AI-Slop"
+  short_description: "Design and diagnose visual artifacts"
+  default_prompt: "Use $scoville-design-anti-ai-slop to design, critique read-only, or repair this visual work within the brief and verify only the applicable evidence."
+policy:
+  allow_implicit_invocation: true
