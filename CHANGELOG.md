@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.2 - 2026-09-23
+
+- Route new Workflow tasks through Luna 6, SOL 6, and Astra 6; remove Terra from the default routing table.
+
 ## v1.0.1 - 2026-09-23
 
 - Stop Workflow workers before project access unless their native task carries
