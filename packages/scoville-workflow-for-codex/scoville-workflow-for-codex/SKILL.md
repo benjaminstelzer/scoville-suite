@@ -233,8 +233,9 @@ class whose criteria apply. If a Step begins with `[route: CLASS]`, treat that
 class as the planned minimum: raise the effective dispatch route when the
 annotation was too low or incomplete, even when no fact changed after planning,
 and never dispatch below it. Do not reclassify a repair or context-rollover
-continuation; those roles retain the original launched pair under the operations
-contract.
+continuation. New repair attempts follow the WORK-row escalation in
+[review](references/operations-review.md); context-rollover successors retain
+their own launched pair.
 
 - `ultra_low`: simple bounded local change with trivial verification.
 - `low`: nontrivial local implementation judgment or verification, with one
@@ -269,9 +270,9 @@ the work needs no nontrivial local implementation or verification judgment.
 Many files, generated metadata, or a known large test suite alone do not raise
 the route. Route class, model, and reasoning level are separate decisions; a
 model's `medium` reasoning setting does not make a `low` route equivalent to a
-`medium` route. Map the final class through
-[workflow.toml](assets/workflow.toml). Resolve the executor model and reasoning
-independently: the selected Step's strict
+`medium` route. Resolve the final class through the operations-owned
+`scripts/resolve_model_pair.py`, which reads [workflow.toml](assets/workflow.toml).
+Resolve the executor model and reasoning independently: the selected Step's strict
 `[execute: ...]` annotation overrides the matching route-default property.
 An explicitly chosen pair for a still-`todo` Work Item without Steps must be
 retained by adding one behavior-complete annotated Step; do not add a field.

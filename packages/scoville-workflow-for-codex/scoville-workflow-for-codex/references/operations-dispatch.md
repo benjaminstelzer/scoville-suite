@@ -29,8 +29,9 @@ classes in the entrypoint from `ultra_high` down to `ultra_low`, and choose the
 highest class whose criteria apply. Raise the effective route above an
 annotation that was initially too low or incomplete; no later fact change is
 required. Never dispatch below the annotation. Do not reclassify a repair or
-context-rollover continuation; retain its original launched pair as required by
-their role contracts. Before mapping a fresh unit to `low` or `ultra_low`, apply
+context-rollover continuation. New repair attempts use the WORK-row escalation
+in [review](operations-review.md); context-rollover successors retain their
+own launched pair. Before mapping a fresh unit to `low` or `ultra_low`, apply
 the entrypoint's complete fail-closed eligibility check. Every required fact must
 be positively established from the selected context and bounded preflight. One
 false or unknown fact selects at least `medium`; an action verb, authored route,
@@ -47,14 +48,14 @@ harness boundary, integration diagnosis, or broader checks whose results need
 interpretation. File count, generated metadata, or a known large test suite
 alone does not raise the class. `high` requires consequential changes to state,
 authorization, or integration contracts, not mere involvement with those
-systems. Route, model, and reasoning are separate: map
-the final route through the configuration before applying any execution
-override.
+systems. Route, model, and reasoning are separate: choose the final route,
+then pass it with any strict execution override to
+`scripts/resolve_model_pair.py`. Use its returned pair unchanged.
 Use `ultra_low` only when none of `medium`, `high`, or `ultra_high` applies and
 no nontrivial local implementation or verification judgment is needed.
-Resolve each Step's effective executor pair property-wise from its Step
-execution annotation and then the route default; use the route default for an
-item without Steps. Parse only the strict native form and never infer an
+Parse each Step's execution annotation property-wise and pass only its specified
+model or reasoning values as helper overrides; an item without Steps has none.
+Parse only the strict native form and never infer an
 override from Goal, Decision, or action prose. Validate the effective pair against model and
 reasoning combinations currently exposed by the host before dispatch. A
 malformed or unsupported effective pair blocks that unit without fallback or

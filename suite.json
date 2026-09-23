@@ -1086,6 +1086,10 @@
           "target": "scoville-workflow-for-codex/scripts/manage_workflow_guard.py"
         },
         {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/resolve_model_pair.py",
+          "target": "scoville-workflow-for-codex/scripts/resolve_model_pair.py"
+        },
+        {
           "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/SKILL.md",
           "target": "scoville-workflow-for-codex/SKILL.md"
         },

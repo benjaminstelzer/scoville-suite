@@ -1,6 +1,7 @@
 from pathlib import Path
 import hashlib
 import html
+import importlib.util
 import json
 import os
 import subprocess
@@ -16,6 +17,7 @@ SKILL = PACKAGE / "SKILL.md"
 OPERATIONS = PACKAGE / "references" / "operations.md"
 NATIVE_FIXTURES = Path(__file__).resolve().parent / "fixtures" / "native-rollout-cases.json"
 PROMPT_BUILDER = PACKAGE / "scripts" / "build_dispatch_prompt.py"
+MODEL_RESOLVER = PACKAGE / "scripts" / "resolve_model_pair.py"
 NATIVE_INSPECTOR = PACKAGE / "scripts" / "inspect_native_context.py"
 ROLLOVER_READINESS = ROOT.parents[1].parent / "shared" / "runtime" / "rollover_readiness.md"
 AGENTS_CONTRACT = PACKAGE / "references" / "agents-contract.md"
@@ -24,6 +26,10 @@ GUARD_HELPER = PACKAGE / "scripts" / "manage_workflow_guard.py"
 ROUTE_CLASSES = {"ultra_low", "low", "medium", "high", "ultra_high"}
 SUPPORTED_MODELS = {"gpt-6-luna", "gpt-6-sol", "gpt-6-astra"}
 SUPPORTED_EFFORTS = {"low", "medium", "high", "xhigh"}
+
+_resolver_spec = importlib.util.spec_from_file_location("workflow_model_resolver", MODEL_RESOLVER)
+model_resolver = importlib.util.module_from_spec(_resolver_spec)
+_resolver_spec.loader.exec_module(model_resolver)
 
 
 def contract_text(path: Path) -> str:
@@ -61,7 +67,7 @@ def level_two_headings(path: Path) -> list[str]:
     ]
 
 
-def model_create_call(config, role, route=None, override=None, launched=None):
+def model_create_call(config, role, route=None, override=None, launched=None, repair_number=1):
     if role == "coordinator":
         selected = config["coordinator"]
         return {
@@ -69,19 +75,21 @@ def model_create_call(config, role, route=None, override=None, launched=None):
             "model": selected["model"],
             "thinking": selected["reasoning"],
         }
-    if role in {"repair", "rollover"}:
+    if role == "rollover":
         if launched is None:
             raise ValueError("launched pair required")
         return {"model": launched["model"], "thinking": launched["thinking"]}
-    if route not in ROUTE_CLASSES:
-        raise ValueError("unsupported route")
-    table = "execute" if role == "executor" else "review"
-    selected = dict(config[table][route])
-    if role == "executor" and override:
-        selected.update(override)
-    if selected["model"] not in SUPPORTED_MODELS or selected["reasoning"] not in SUPPORTED_EFFORTS:
+    pair = model_resolver.resolve(
+        config, role, route,
+        override_model=(override or {}).get("model"),
+        override_reasoning=(override or {}).get("reasoning"),
+        original_model=(launched or {}).get("model"),
+        original_reasoning=(launched or {}).get("thinking"),
+        repair_number=repair_number if role == "repair" else None,
+    )
+    if pair["model"] not in SUPPORTED_MODELS:
         raise ValueError("unsupported pair")
-    return {"model": selected["model"], "thinking": selected["reasoning"]}
+    return {"model": pair["model"], "thinking": pair["thinking"]}
 
 
 def validate_event_stream(fixture):
@@ -460,6 +468,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 "inspect_native_context.py",
                 "manage_agents_contract.py",
                 "manage_workflow_guard.py",
+                "resolve_model_pair.py",
             ],
             sorted(path.name for path in (PACKAGE / "scripts").iterdir() if path.is_file()),
         )
@@ -1908,6 +1917,49 @@ class NativeWorkflowContractTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             model_create_call(changed, "executor", "medium", {"model": "unsupported"})
 
+    def test_model_resolver_escalates_new_repairs_without_changing_review(self):
+        config = model_resolver.load_config(PACKAGE / "assets" / "workflow.toml")
+        routes = model_resolver.ROUTES
+        for base_index, route in enumerate(routes):
+            original = model_create_call(config, "executor", route)
+            reviewer = model_create_call(config, "reviewer", route)
+            for repair_number in (1, 2, 3):
+                with self.subTest(route=route, repair_number=repair_number):
+                    target = routes[min(base_index + repair_number - 1, len(routes) - 1)]
+                    expected = original if repair_number == 1 else model_create_call(config, "executor", target)
+                    self.assertEqual(
+                        model_create_call(config, "repair", launched=original, repair_number=repair_number),
+                        expected,
+                    )
+                    self.assertEqual(model_create_call(config, "reviewer", route), reviewer)
+
+        custom = {**config, "execute": {key: dict(value) for key, value in config["execute"].items()}}
+        custom["execute"]["ultra_high"] = {"model": "gpt-6-astra", "reasoning": "xhigh"}
+        medium = model_create_call(custom, "executor", "medium")
+        self.assertEqual(
+            model_create_call(custom, "repair", launched=medium, repair_number=3),
+            {"model": "gpt-6-astra", "thinking": "xhigh"},
+        )
+        override = model_create_call(config, "executor", "medium", {"model": "gpt-6-astra", "reasoning": "low"})
+        self.assertEqual(model_create_call(config, "repair", launched=override), override)
+        with self.assertRaisesRegex(ValueError, "outside the WORK route table"):
+            model_create_call(config, "repair", launched=override, repair_number=2)
+        with self.assertRaisesRegex(ValueError, "invalid original pair or repair number"):
+            model_create_call(config, "repair", launched=medium, repair_number=4)
+
+    def test_model_resolver_rejects_malformed_user_config(self):
+        source = (PACKAGE / "assets" / "workflow.toml").read_text(encoding="utf-8")
+        for altered, diagnostic in (
+            (source.replace('schema_version = 1', 'schema_version = true', 1), "schema_version"),
+            (source.replace('reasoning = "low"', 'reasoning = []', 1), "invalid execute.ultra_low values"),
+            (source.replace('reasoning = "low"', 'reasoning = { bad = true }', 1), "invalid execute.ultra_low values"),
+        ):
+            with self.subTest(diagnostic=diagnostic), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "workflow.toml"
+                path.write_text(altered, encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, diagnostic):
+                    model_resolver.load_config(path)
+
     def test_explicit_resume_intent_skips_only_the_initial_choice(self):
         operations = flat(OPERATIONS)
         self.assertIn("continuation_intent=resume_active_plan", operations)
@@ -2885,7 +2937,8 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("Do not repeat project inspection, tests, acceptance work, or a review", operations)
         self.assertIn("first attempt plus at most three repair executors", operations)
         self.assertIn("after the third repair executor, create no fourth repair", operations)
-        self.assertIn("original executor's launched model and reasoning pair", operations)
+        self.assertIn("repair 2 moves one WORK row above", operations)
+        self.assertIn("repair 3 moves two rows above", operations)
         self.assertEqual(
             markdown_table(OPERATIONS, "### Review correction scenarios"),
             {
