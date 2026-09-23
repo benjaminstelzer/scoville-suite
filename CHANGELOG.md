@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.4 - 2026-09-23
+
+- Recognize a verified parking prompt and the complete writer assignment when Codex delivers both in one native turn, while blocking duplicate or conflicting assignments.
+
 ## v1.0.3 - 2026-09-23
 
 - Keep Workflow's dispatch binding stable when the writer moves from pending to active, while retaining the separate target and guard checks.

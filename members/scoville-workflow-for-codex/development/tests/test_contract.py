@@ -1293,7 +1293,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                     "type": "response_item",
                     "payload": {
                         "type": "function_call_output",
-                        "name": "send_message_to_thread",
+                        "name": "create_thread" if prompt.startswith("scoville_role=reviewer\n") else "send_message_to_thread",
                         "output": (
                             "<codex_delegation>\n"
                             "  <source_thread_id>coordinator-test-id</source_thread_id>\n"
@@ -1342,6 +1342,50 @@ class NativeWorkflowContractTests(unittest.TestCase):
             )
             self.assertEqual(0, continued.returncode, continued.stdout)
             self.assertEqual("continue_role", json.loads(continued.stdout)["action"])
+
+            if role in {"executor", "repair"}:
+                header = dict(line.split("=", 1) for line in prompt.stdout.splitlines()[:10])
+                parking = (
+                    f"scoville_role={role}\n"
+                    f"unit={unit}\n"
+                    f"workspace_root={header['workspace_root']}\n"
+                    f"workflow_id={header['guard_workflow_id']}\n"
+                    f"dispatch_key={header['guard_dispatch_key']}\n"
+                    "Perform no project read or write and await the actual assignment."
+                )
+                same_turn = assignment_events(prompt.stdout)
+                same_turn[3]["ordinal"] = 4
+                same_turn[4]["ordinal"] = 5
+                parked = dict(same_turn[3])
+                parked["ordinal"] = 3
+                parked["payload"] = dict(same_turn[3]["payload"])
+                parked["payload"]["name"] = "create_thread"
+                parked["payload"]["output"] = parked["payload"]["output"].replace(
+                    prompt.stdout, parking
+                )
+                same_turn.insert(3, parked)
+                accepted = self.run_native_inspector(
+                    same_turn, role=role, reference=reference
+                )
+                self.assertEqual(0, accepted.returncode, accepted.stdout)
+                self.assertEqual("continue_role", json.loads(accepted.stdout)["action"])
+                duplicate = [dict(event) for event in same_turn]
+                duplicate.insert(5, dict(same_turn[4]))
+                for ordinal, event in enumerate(duplicate):
+                    event["ordinal"] = ordinal
+                rejected = self.run_native_inspector(
+                    duplicate, role=role, reference=reference
+                )
+                self.assertEqual(1, rejected.returncode)
+                self.assertIn("no unique native assignment", json.loads(rejected.stdout)["diagnostic"])
+                same_turn[3]["payload"]["output"] = same_turn[3]["payload"]["output"].replace(
+                    parking, parking + " Extra work."
+                )
+                rejected = self.run_native_inspector(
+                    same_turn, role=role, reference=reference
+                )
+                self.assertEqual(1, rejected.returncode)
+                self.assertIn("conflicting parking", json.loads(rejected.stdout)["diagnostic"])
 
             for transported in (
                 html.escape(prompt.stdout, quote=False),

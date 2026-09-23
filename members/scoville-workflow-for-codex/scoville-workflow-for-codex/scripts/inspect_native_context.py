@@ -221,15 +221,21 @@ def require_builder_assignment(
     return_to_thread_id: str,
 ) -> None:
     assignments = [
-        value
+        (event["ordinal"], event_payload(event).get("name"), value)
         for event in events
         if start_ordinal < event["ordinal"] < current_ordinal
         for value in [delegated_input(event)]
         if value is not None
     ]
-    if len(assignments) != 1:
+    complete = [item for item in assignments if "dispatch_contract=scoville-workflow-v1" in item[2]]
+    parking = (
+        [item for item in assignments if "dispatch_contract=scoville-workflow-v1" not in item[2]
+         and item[1] == "create_thread"]
+        if role != "reviewer" else []
+    )
+    if len(complete) != 1 or len(parking) > 1 or len(assignments) != len(complete) + len(parking):
         raise InspectionError("the current turn has no unique native assignment")
-    native_assignment = assignments[0]
+    native_assignment = complete[0][2]
     candidates = [native_assignment]
     decoded = html.unescape(native_assignment)
     if decoded != native_assignment and html.escape(decoded, quote=False) == native_assignment:
@@ -242,8 +248,22 @@ def require_builder_assignment(
             continue
         if parsed["role"] != role:
             raise InspectionError("the current assignment has a conflicting role")
+        expected_call = "create_thread" if role == "reviewer" else "send_message_to_thread"
+        if complete[0][1] != expected_call or (parking and parking[0][0] >= complete[0][0]):
+            raise InspectionError("the current turn has a conflicting assignment order")
         parsed["return_to_thread_id"] = return_to_thread_id
         parsed["delivery_reference"] = reference
+        if parking:
+            expected_parking = (
+                f"scoville_role={parsed['role']}\n"
+                f"unit={parsed['unit']}\n"
+                f"workspace_root={parsed['workspace_root']}\n"
+                f"workflow_id={parsed['guard_workflow_id']}\n"
+                f"dispatch_key={parsed['guard_dispatch_key']}\n"
+                "Perform no project read or write and await the actual assignment."
+            )
+            if parking[0][2] != expected_parking:
+                raise InspectionError("the current turn contains a conflicting parking assignment")
         expected = build_prompt(
             native_context_inspector=str(Path(__file__).resolve()),
             **parsed,
