@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.6 - 2026-09-23
+
+- Route new Workflow work through SOL 6 and Astra 6 with the updated reasoning levels for every class.
+
 ## v1.0.5 - 2026-09-23
 
 - Route new low-class Workflow execution to Luna 6 High and its review to SOL 6 Low.

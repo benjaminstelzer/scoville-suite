@@ -12,36 +12,36 @@ reasoning = "medium"
 title = "SCW COORD"
 
 [execute.ultra_low]
-model = "gpt-6-luna"
-reasoning = "medium"
-
-[review.ultra_low]
-model = "gpt-6-luna"
-reasoning = "high"
-
-[execute.low]
-model = "gpt-6-luna"
-reasoning = "high"
-
-[review.low]
 model = "gpt-6-sol"
 reasoning = "low"
 
-[execute.medium]
+[review.ultra_low]
 model = "gpt-6-sol"
 reasoning = "medium"
 
+[execute.low]
+model = "gpt-6-sol"
+reasoning = "medium"
+
+[review.low]
+model = "gpt-6-sol"
+reasoning = "high"
+
+[execute.medium]
+model = "gpt-6-sol"
+reasoning = "high"
+
 [review.medium]
 model = "gpt-6-sol"
-reasoning = "high"
+reasoning = "xhigh"
 
 [execute.high]
-model = "gpt-6-sol"
-reasoning = "high"
+model = "gpt-6-astra"
+reasoning = "low"
 
 [review.high]
-model = "gpt-6-sol"
-reasoning = "xhigh"
+model = "gpt-6-astra"
+reasoning = "medium"
 
 [execute.ultra_high]
 model = "gpt-6-astra"

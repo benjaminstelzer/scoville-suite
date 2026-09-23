@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.4 - 2026-09-23
+
+- Update route defaults for new workers and reviewers from SOL 6 Low through Astra 6 High.
+
 ## v0.4.3 - 2026-09-23
 
 - Route new low-class execution to Luna 6 High and its review to SOL 6 Low.
