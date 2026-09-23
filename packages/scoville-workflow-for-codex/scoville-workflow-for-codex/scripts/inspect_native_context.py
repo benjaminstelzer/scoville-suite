@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import os
 import re
@@ -228,18 +229,28 @@ def require_builder_assignment(
     ]
     if len(assignments) != 1:
         raise InspectionError("the current turn has no unique native assignment")
-    assignment = assignments[0]
-    parsed = parse_builder_assignment(assignment)
-    if parsed["role"] != role:
-        raise InspectionError("the current assignment has a conflicting role")
-    parsed["return_to_thread_id"] = return_to_thread_id
-    parsed["delivery_reference"] = reference
-    expected = build_prompt(
-        native_context_inspector=str(Path(__file__).resolve()),
-        **parsed,
-    )
-    if assignment != expected:
-        raise InspectionError("the current assignment is not a complete builder dispatch")
+    native_assignment = assignments[0]
+    candidates = [native_assignment]
+    decoded = html.unescape(native_assignment)
+    if decoded != native_assignment and html.escape(decoded, quote=False) == native_assignment:
+        candidates.append(decoded)
+    for candidate in candidates:
+        assignment = candidate if candidate.endswith("\n") else candidate + "\n"
+        try:
+            parsed = parse_builder_assignment(assignment)
+        except InspectionError:
+            continue
+        if parsed["role"] != role:
+            raise InspectionError("the current assignment has a conflicting role")
+        parsed["return_to_thread_id"] = return_to_thread_id
+        parsed["delivery_reference"] = reference
+        expected = build_prompt(
+            native_context_inspector=str(Path(__file__).resolve()),
+            **parsed,
+        )
+        if assignment == expected:
+            return
+    raise InspectionError("the current assignment is not a complete builder dispatch")
 
 
 def native_turn_id(payload: dict[str, Any]) -> str | None:

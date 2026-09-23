@@ -1,5 +1,6 @@
 from pathlib import Path
 import hashlib
+import html
 import json
 import os
 import subprocess
@@ -1341,6 +1342,27 @@ class NativeWorkflowContractTests(unittest.TestCase):
             )
             self.assertEqual(0, continued.returncode, continued.stdout)
             self.assertEqual("continue_role", json.loads(continued.stdout)["action"])
+
+            for transported in (
+                html.escape(prompt.stdout, quote=False),
+                prompt.stdout.removesuffix("\n"),
+                html.escape(prompt.stdout, quote=False).removesuffix("\n"),
+            ):
+                accepted = self.run_native_inspector(
+                    assignment_events(transported), role=role, reference=reference
+                )
+                self.assertEqual(0, accepted.returncode, accepted.stdout)
+                self.assertEqual("continue_role", json.loads(accepted.stdout)["action"])
+
+            if role in {"executor", "repair"}:
+                noncanonical_entity = html.escape(prompt.stdout, quote=False).replace(
+                    "&lt;executor|repair&gt;", "&#60;executor|repair&gt;", 1
+                )
+                blocked = self.run_native_inspector(
+                    assignment_events(noncanonical_entity), role=role, reference=reference
+                )
+                self.assertEqual(1, blocked.returncode)
+                self.assertEqual("return_blocked", json.loads(blocked.stdout)["action"])
 
             wrong_role = "reviewer" if role != "reviewer" else "executor"
             blocked = self.run_native_inspector(
