@@ -4,7 +4,7 @@ id: PLAN-0001
 status: active
 created: 2026-09-21
 updated: 2026-09-23
-current_item: W-035
+current_item: W-025
 ---
 
 # Suite-Builds und zuverlässige Workflow-Übergaben
@@ -449,7 +449,7 @@ Evidence: [Suite v1.0.1 Code v1.0.35 und Workflow v0.4.1 aus dem sauberen Commit
 
 ### W-035 Nachträglich angefordert: Code-Einzelpaket v1.0.35 veröffentlichen
 
-Status: in_progress
+Status: done
 Depends on: [W-034]
 Blocked by: []
 Decisions: []
@@ -460,12 +460,11 @@ Steps:
 2. Sichere das Einzelziel und ersetze seinen Distributionsbaum mechanisch aus dem verifizierten Build; prüfe Struktur Frontmatter Kompatibilität Paketbytes und Git-Diff.
 3. Committe und pushe den geprüften Einzelbaum; erstelle den annotierten Tag und den stabilen Release v1.0.35 und entferne v1.0.34 erst nach verifiziertem Nachfolger.
 4. Vergleiche Remote-Baum Release-Text Tag und verbleibende Release- und Taganzahl; dokumentiere den Live-Nachweis.
-Evidence: []
-Next action: Frischen sauberen Code-Build erzeugen und den vollständigen Einzelbaum gegen GitHub v1.0.34 vergleichen.
+Evidence: [Build-Receipt eef0059d aus Suite-Quellcommit aef8eb6 ergab zehn bytegeprüfte Paketdateien, Struktur Frontmatter Kompatibilität Suite-Paketprüfung und fünf Buildtests bestanden, GitHub main und der annotierte Tag v1.0.35 zeigen auf d292c045, Release und beide Assets wurden live verifiziert, v1.0.34 wurde danach entfernt und genau ein Release sowie ein Release-Versionstag verbleiben]
 
 ### W-036 Deferred after W-035: Mehrere geänderte Skill-Ziele vollständig veröffentlichen
 
-Status: todo
+Status: done
 Depends on: [W-035]
 Blocked by: []
 Decisions: []
@@ -476,8 +475,7 @@ Steps:
 2. Ergänze den kleinsten eindeutigen Vertrag und fokussierte Fälle für alle geänderten Ziele ohne unveränderte Skills oder nicht autorisierte Repositories einzubeziehen.
 3. Validiere Skill-Struktur Frontmatter Referenzrouting und Publikationstests; installiere die geprüfte Version lokal und veröffentliche den GitHub-Skill nach seinem eigenen Release-Vertrag.
 4. Verifiziere Remote-Baum annotierten Tag Release-Text und genau einen aktuellen Release sowie Release-Versionstag und dokumentiere den Live-Nachweis.
-Evidence: []
-Next action: Nach W-035 den kanonischen Publikationsvertrag und seine Zielauswahl gegen den beobachteten Suite-Fehler prüfen.
+Evidence: [Commit 4a0ace0 inventarisiert alle in Reichweite liegenden Ziele und überspringt unveränderte sowie fremde Repositories, 51 Entwicklungs- und 31 Pakettests sowie Struktur Frontmatter Kompatibilität und U+2014-Prüfung bestanden, 17 getrackte Paketdateien wurden lokal bytegleich installiert, Privater Release v1.0.0 und annotierter Tag zeigen auf 4a0ace0, Genau ein Release und ein Release-Versionstag verbleiben]
 
 ### W-030 Einheitliche Skill-READMEs und gemeinsame Beschreibungsblöcke veröffentlichen
 
