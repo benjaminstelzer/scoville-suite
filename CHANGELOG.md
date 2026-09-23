@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.7 - 2026-09-23
+
+- Route new high-class Workflow work to SOL 6 XHigh with Astra 6 Medium review, and raise ultra-high work and review to Astra 6 High and XHigh.
+
 ## v1.0.6 - 2026-09-23
 
 - Route new Workflow work through SOL 6 and Astra 6 with the updated reasoning levels for every class.
