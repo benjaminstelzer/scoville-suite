@@ -3,6 +3,7 @@
 ## v0.4.2 - 2026-09-23
 
 - Use Luna 6, SOL 6, and Astra 6 for new coordinators, workers, and reviewers according to the configured route. Remove Terra from the defaults.
+- Verify builder assignments after the native task envelope escapes HTML characters or removes the final newline.
 
 ## v0.4.1 - 2026-09-23
 
