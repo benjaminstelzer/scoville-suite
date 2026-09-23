@@ -4,7 +4,7 @@ id: PLAN-0001
 status: active
 created: 2026-09-21
 updated: 2026-09-23
-current_item: W-034
+current_item: W-025
 ---
 
 # Suite-Builds und zuverlässige Workflow-Übergaben
@@ -434,7 +434,7 @@ Evidence: [Wiedergefundenes PLAN-0003 belegt PEP 8 Google C++ Style Guide Micros
 
 ### W-034 Workflow-Bugfix und Greenfield-Leitlinie lokal und auf GitHub veröffentlichen
 
-Status: in_progress
+Status: done
 Depends on: [W-032, W-033]
 Blocked by: []
 Decisions: [ADR-0009]
@@ -445,8 +445,7 @@ Steps:
 2. Sichere und aktualisiere die lokalen Codex- und kompatiblen Claude-Pakete für Workflow und Code aus dem verifizierten Build; vergleiche installierte Laufzeitdateien bytegenau und bewahre persönliche Konfiguration.
 3. Committe und pushe die geprüfte Suite-Quelle und Distribution, erstelle den neuen GitHub-Release mit verifizierten Assets und entferne erst danach den abgedeckten älteren Release und Release-Versionstag.
 4. Führe den Live-Publikationsaudit aus und dokumentiere Commit, Tag, Release-URL, Assets, Topics sowie verbleibende Release- und Taganzahl.
-Evidence: [Suite v1.0.1 Code v1.0.35 und Workflow v0.4.1 vorbereitet, 65 Workflow-Tests bestanden, Luna Medium Code 23 bestand in r1; Workflow 17 verfehlte dort die Host-Bindung, der kanonische Wait-Vertrag wurde präzisiert und Workflow 17 bestand in r2 mit korrekter Task- Host- Referenz- und Cursor-Bindung, SOL Medium und unabhängige Autorenprüfung bestätigten Protokoll und Semantik; r2-Receipt 4e173a9f2920189fb9202106fb281756c140cf22a8e146e99dad5552f8b5d1f6 verifiziert 189 Dateien in zehn Paketen, Code-Paketdateien zwischen r1 und r2 bytegleich; source_dirty:true ist kein Publikationsnachweis]
-Next action: Vollständigen Quelldiff Frontmatter Kompatibilitätsblöcke und öffentliche Texte prüfen, die Source-Änderungen committen und `origin/main` normal mergen, ohne die entfernte `packages/`-Historie zu verlieren.
+Evidence: [Suite v1.0.1 Code v1.0.35 und Workflow v0.4.1 aus dem sauberen Commit 78c1913609f8ceffaa4f474ceb47cf56503a593e gebaut, Receipt 7c8e72769eeafe2b8194e5032826bc86e01726edfb6acd40cd9d93bf5c9a6330 verifizierte 189 Dateien in zehn Paketen, 65 Workflow- und 23 Suite-Tests sowie README- Quellen- Paket- Struktur- Frontmatter- Kompatibilitäts- und Planprüfungen bestanden, Luna-Medium-Workflow-Fall 17 und der bytegleiche Code-Fall 23 bestanden unter SOL-Medium-Bewertung, Codex Code Codex Workflow und Claude Code lokal bytegleich installiert, Vorherige lokale Pakete unter Z:/Projekts/AI/state/2026-09-23-scoville-suite-v1.0.1-backup gesichert, GitHub main und der annotierte Tag v1.0.1 zeigten beim Release auf 78c1913609f8ceffaa4f474ceb47cf56503a593e, https://github.com/benjaminstelzer/scoville-suite/releases/tag/v1.0.1 stabil veröffentlicht, Suite-ZIP Prüfsumme SHA256SUMS und elf Viewer-v1.3.2-Assets nach erneutem Download bytegleich geprüft, Finaler Publikationsaudit bestand mit einem Release und einem Release-Versionstag, Topics sind agent-skills claude-code codex developer-tools workflow-automation, v1.0.0 erst nach bestandenem Pre-Cleanup-Audit und verifiziertem Nachfolger entfernt]
 
 ### W-030 Einheitliche Skill-READMEs und gemeinsame Beschreibungsblöcke veröffentlichen
 
