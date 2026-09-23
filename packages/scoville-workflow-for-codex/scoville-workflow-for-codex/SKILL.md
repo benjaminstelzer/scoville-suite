@@ -295,3 +295,7 @@ deterministic Scoville Plan selector, separate bounded semantic reads, requested
 scope, compatible-Step bundles, same-workspace task creation, sparse handoffs,
 waits, user decisions, result schemas, fail-soft context telemetry, review and
 repair, Plan transitions, optional commit, visible completion, and Stop.
+For a worker context boundary, its phase table links the exact
+[checkpoint](references/operations-checkpoint.md) and
+[compaction](references/operations-compaction.md) references; use those paths
+instead of deriving a filename from the topic.
