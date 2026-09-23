@@ -21,8 +21,8 @@ AGENTS_CONTRACT = PACKAGE / "references" / "agents-contract.md"
 AGENTS_HELPER = PACKAGE / "scripts" / "manage_agents_contract.py"
 GUARD_HELPER = PACKAGE / "scripts" / "manage_workflow_guard.py"
 ROUTE_CLASSES = {"ultra_low", "low", "medium", "high", "ultra_high"}
-SUPPORTED_MODELS = {"gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol", "gpt-6-astra"}
-SUPPORTED_EFFORTS = {"low", "medium", "high"}
+SUPPORTED_MODELS = {"gpt-6-luna", "gpt-6-sol", "gpt-6-astra"}
+SUPPORTED_EFFORTS = {"low", "medium", "high", "xhigh"}
 
 
 def contract_text(path: Path) -> str:
@@ -1793,7 +1793,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertEqual(
             config["coordinator"],
             {
-                "model": "gpt-5.6-sol",
+                "model": "gpt-6-sol",
                 "reasoning": "medium",
                 "title": "SCW COORD",
             },
@@ -1815,7 +1815,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
             "execute": {route: dict(pair) for route, pair in config["execute"].items()},
             "review": {route: dict(pair) for route, pair in config["review"].items()},
         }
-        cycle_models = ["gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol", "gpt-6-astra", "gpt-5.6-terra"]
+        cycle_models = ["gpt-6-luna", "gpt-6-sol", "gpt-6-sol", "gpt-6-astra", "gpt-6-luna"]
         cycle_efforts = ["low", "medium", "high", "low", "high"]
         for index, route in enumerate(sorted(ROUTE_CLASSES)):
             changed["execute"][route] = {"model": cycle_models[index], "reasoning": cycle_efforts[index]}
@@ -1832,10 +1832,10 @@ class NativeWorkflowContractTests(unittest.TestCase):
         default = model_create_call(changed, "executor", "medium")
         model_only = model_create_call(changed, "executor", "medium", {"model": "gpt-6-astra"})
         reasoning_only = model_create_call(changed, "executor", "medium", {"reasoning": "high"})
-        both = model_create_call(changed, "executor", "medium", {"model": "gpt-5.6-luna", "reasoning": "low"})
+        both = model_create_call(changed, "executor", "medium", {"model": "gpt-6-luna", "reasoning": "low"})
         self.assertEqual(model_only, {"model": "gpt-6-astra", "thinking": default["thinking"]})
         self.assertEqual(reasoning_only, {"model": default["model"], "thinking": "high"})
-        self.assertEqual(both, {"model": "gpt-5.6-luna", "thinking": "low"})
+        self.assertEqual(both, {"model": "gpt-6-luna", "thinking": "low"})
         self.assertEqual(model_create_call(changed, "reviewer", "medium"), {"model": changed["review"]["medium"]["model"], "thinking": changed["review"]["medium"]["reasoning"]})
         self.assertEqual(model_create_call(changed, "repair", launched=both), both)
         self.assertEqual(model_create_call(changed, "rollover", launched=both), both)
@@ -1887,33 +1887,33 @@ class NativeWorkflowContractTests(unittest.TestCase):
             {
                 "`coordinator`": (
                     "Workflow coordination",
-                    "`gpt-5.6-sol` / `medium`",
+                    "`gpt-6-sol` / `medium`",
                     "Not applicable",
                 ),
                 "`ultra_low`": (
                     "Simple bounded local change with trivial verification",
-                    "`gpt-5.6-luna` / `medium`",
-                    "`gpt-5.6-terra` / `medium`",
+                    "`gpt-6-luna` / `medium`",
+                    "`gpt-6-luna` / `high`",
                 ),
                 "`low`": (
                     "Nontrivial local judgment with one known owner, understood helpers, and established checks",
-                    "`gpt-5.6-terra` / `medium`",
-                    "`gpt-5.6-sol` / `medium`",
+                    "`gpt-6-sol` / `low`",
+                    "`gpt-6-sol` / `medium`",
                 ),
                 "`medium`": (
                     "Unresolved helpers, diagnostic discovery, interacting owners, harness boundaries, or interpreted checks",
-                    "`gpt-5.6-sol` / `medium`",
-                    "`gpt-5.6-sol` / `high`",
+                    "`gpt-6-sol` / `medium`",
+                    "`gpt-6-sol` / `high`",
                 ),
                 "`high`": (
                     "Consequential changes to state, authorization, or integration contracts",
-                    "`gpt-5.6-sol` / `high`",
-                    "`gpt-6-astra` / `low`",
+                    "`gpt-6-sol` / `high`",
+                    "`gpt-6-sol` / `xhigh`",
                 ),
                 "`ultra_high`": (
                     "Unusually consequential or complex work beyond `high`",
-                    "`gpt-6-astra` / `low`",
                     "`gpt-6-astra` / `medium`",
+                    "`gpt-6-astra` / `high`",
                 ),
             },
         )

@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.2 - 2026-09-23
+
+- Use Luna 6, SOL 6, and Astra 6 for new coordinators, workers, and reviewers according to the configured route. Remove Terra from the defaults.
+
 ## v0.4.1 - 2026-09-23
 
 - Stop agent-created workers before project access when their native task does
