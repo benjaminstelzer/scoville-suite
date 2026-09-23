@@ -20,12 +20,12 @@ model = "gpt-6-luna"
 reasoning = "high"
 
 [execute.low]
-model = "gpt-6-sol"
-reasoning = "low"
+model = "gpt-6-luna"
+reasoning = "high"
 
 [review.low]
 model = "gpt-6-sol"
-reasoning = "medium"
+reasoning = "low"
 
 [execute.medium]
 model = "gpt-6-sol"

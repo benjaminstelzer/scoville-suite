@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.5 - 2026-09-23
+
+- Route new low-class Workflow execution to Luna 6 High and its review to SOL 6 Low.
+
 ## v1.0.4 - 2026-09-23
 
 - Recognize a verified parking prompt and the complete writer assignment when Codex delivers both in one native turn, while blocking duplicate or conflicting assignments.
