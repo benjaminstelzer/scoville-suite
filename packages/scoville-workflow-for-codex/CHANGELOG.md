@@ -2,7 +2,7 @@
 
 ## v0.4.5 - 2026-09-23
 
-- Route new high-class execution to SOL 6 XHigh with Astra 6 Medium review, and raise ultra-high execution and review to Astra 6 High and XHigh.
+- Route new high-class execution to SOL 6 XHigh with Astra 6 High review, and raise ultra-high execution and review to Astra 6 High and XHigh.
 
 ## v0.4.4 - 2026-09-23
 
