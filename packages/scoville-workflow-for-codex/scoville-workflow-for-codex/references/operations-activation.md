@@ -179,6 +179,12 @@ any preceding or appended non-helper output. Apply this at reviewer creation and
 at executor or repair assignment to an activated parking task. Routing
 configuration selects the native task call and never appears in the child
 prompt.
+The prompt builder writes `dispatch_contract=scoville-workflow-v1` as its second
+line. The child's first native-context gate requires that marker, the complete
+role sections, the Plan prohibition, matching delivery identities and embedded
+`plan_context` in the one native assignment envelope. A missing, abbreviated or
+handwritten assignment returns blocked before project access, even without a
+compaction event.
 The executor must not run the Plan selector or prompt builder, load Scoville
 Plan, or read Plan or Decision files. Embedded `plan_context` is the complete
 planning input and those canonical records remain read-only. Every child may
