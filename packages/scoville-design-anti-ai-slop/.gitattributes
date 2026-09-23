@@ -1,0 +1,20 @@
+.gitattributes text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.py text eol=lf
+*.ps1 text eol=lf
+*.html text eol=lf
+*.svg text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.txt text eol=lf
+.gitignore text eol=lf
+LICENSE text eol=lf
+# Preserve the exact bytes of this historical frozen receipt.
+development/docs/evaluation/plan-0006-focused-freeze.json -text
+# Preserve the recorded bytes of the practical-guidance measurement receipts.
+development/docs/evaluation/plan-0007-baseline-tokens.json -text whitespace=cr-at-eol
+development/docs/evaluation/plan-0007-final-tokens.json -text whitespace=cr-at-eol
+development/docs/evaluation/plan-0008-measurements.json -text whitespace=cr-at-eol
