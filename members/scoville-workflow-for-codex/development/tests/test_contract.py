@@ -16,6 +16,7 @@ OPERATIONS = PACKAGE / "references" / "operations.md"
 NATIVE_FIXTURES = Path(__file__).resolve().parent / "fixtures" / "native-rollout-cases.json"
 PROMPT_BUILDER = PACKAGE / "scripts" / "build_dispatch_prompt.py"
 NATIVE_INSPECTOR = PACKAGE / "scripts" / "inspect_native_context.py"
+ROLLOVER_READINESS = ROOT.parents[1].parent / "shared" / "runtime" / "rollover_readiness.md"
 AGENTS_CONTRACT = PACKAGE / "references" / "agents-contract.md"
 AGENTS_HELPER = PACKAGE / "scripts" / "manage_agents_contract.py"
 GUARD_HELPER = PACKAGE / "scripts" / "manage_workflow_guard.py"
@@ -1263,6 +1264,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
             self.assertNotIn("permission_inheritance_mismatch", completed.stdout)
             self.assertIn("Do not load or use Scoville Plan", completed.stdout)
             self.assertIn("Do not run select_context.py or build_dispatch_prompt.py", completed.stdout)
+            self.assertTrue(completed.stdout.startswith(f"scoville_role={role}\ndispatch_contract=scoville-workflow-v1\n"))
 
         for role in ("executor", "repair"):
             self.assertIn('tests, executable scripts, build, deployment, runtime, configuration', prompts[role])
@@ -1270,6 +1272,141 @@ class NativeWorkflowContractTests(unittest.TestCase):
             self.assertIn('each value is the JSON string "yes" or "no"', prompts[role])
             self.assertIn("For completed, summary names completed effects, changed paths, decisive checks", prompts[role])
         self.assertNotIn("Set code_changed", prompts["reviewer"])
+
+    def test_native_gate_rejects_abbreviated_agent_assignment_before_project_access(self):
+        def assignment_events(prompt):
+            return [
+                {
+                    "ordinal": 0,
+                    "type": "session_meta",
+                    "payload": {
+                        "session_id": "test-thread",
+                        "source": "vscode",
+                        "thread_source": "agent_created_thread",
+                    },
+                },
+                {"ordinal": 1, "type": "event_msg", "payload": {"type": "task_started", "turn_id": "turn-1"}},
+                {"ordinal": 2, "type": "turn_context", "payload": {"turn_id": "turn-1"}},
+                {
+                    "ordinal": 3,
+                    "type": "response_item",
+                    "payload": {
+                        "type": "function_call_output",
+                        "name": "send_message_to_thread",
+                        "output": (
+                            "<codex_delegation>\n"
+                            "  <source_thread_id>coordinator-test-id</source_thread_id>\n"
+                            "  <input>" + prompt + "</input>\n"
+                            "</codex_delegation>"
+                        ),
+                    },
+                },
+                {"ordinal": 4, "type": "turn_context", "payload": {"turn_id": "turn-1"}},
+            ]
+
+        abbreviated = assignment_events("Autorisierte Ausführung. Verändere keine Plan-Datei.")
+        rejected = self.run_native_inspector(abbreviated)
+        self.assertEqual(1, rejected.returncode)
+        self.assertEqual("return_blocked", json.loads(rejected.stdout)["action"])
+        self.assertIn("assignment", json.loads(rejected.stdout)["diagnostic"])
+
+        unit = "W-003/step-2"
+        context = self.dispatch_context(unit, ["2. Change only the selected behavior."])
+        context["plan"]["goal"] += "\nLiteral envelope example: <input>inside</input>. Unicode separator: \u2028."
+        role_inputs = {
+            "executor": {},
+            "reviewer": {
+                "executor_result": {
+                    "status": "completed",
+                    "summary": "done",
+                    "review": {"code_changed": "yes", "critical_docs_changed": "no"},
+                    "findings": [],
+                }
+            },
+            "repair": {
+                "reviewer_result": {
+                    "status": "changes_requested",
+                    "summary": "repair",
+                    "findings": ["fix"],
+                },
+                "repair_assignment": {"finding_indices": [0]},
+            },
+        }
+        for role, role_input in role_inputs.items():
+            prompt = self.run_prompt_builder(context, unit, role=role, role_input=role_input)
+            self.assertEqual(0, prompt.returncode, prompt.stdout)
+            reference = f"delivery-{role}-{unit.replace('/', '-')}"
+            continued = self.run_native_inspector(
+                assignment_events(prompt.stdout), role=role, reference=reference
+            )
+            self.assertEqual(0, continued.returncode, continued.stdout)
+            self.assertEqual("continue_role", json.loads(continued.stdout)["action"])
+
+            wrong_role = "reviewer" if role != "reviewer" else "executor"
+            blocked = self.run_native_inspector(
+                assignment_events(prompt.stdout), role=wrong_role, reference=reference
+            )
+            self.assertEqual(1, blocked.returncode)
+            self.assertIn("conflicting role", json.loads(blocked.stdout)["diagnostic"])
+
+            for missing in (
+                "dispatch_contract=scoville-workflow-v1\n",
+                "Do not load or use Scoville Plan",
+                "Perform the authorized role work now.",
+            ):
+                incomplete = assignment_events(prompt.stdout.replace(missing, "", 1))
+                blocked = self.run_native_inspector(
+                    incomplete, role=role, reference=reference
+                )
+                self.assertEqual(1, blocked.returncode)
+                self.assertEqual("return_blocked", json.loads(blocked.stdout)["action"])
+                self.assertIn("assignment", json.loads(blocked.stdout)["diagnostic"])
+
+            wrong_identity = assignment_events(
+                prompt.stdout.replace(reference, reference + "-WRONG")
+            )
+            blocked = self.run_native_inspector(
+                wrong_identity, role=role, reference=reference
+            )
+            self.assertEqual(1, blocked.returncode)
+            self.assertEqual("return_blocked", json.loads(blocked.stdout)["action"])
+
+            if role in {"reviewer", "repair"}:
+                required_input = "executor_result=" if role == "reviewer" else "repair_assignment="
+                incomplete_prompt = "\n".join(
+                    line for line in prompt.stdout.split("\n")
+                    if not line.startswith(required_input)
+                )
+                blocked = self.run_native_inspector(
+                    assignment_events(incomplete_prompt), role=role, reference=reference
+                )
+                self.assertEqual(1, blocked.returncode)
+                self.assertEqual("return_blocked", json.loads(blocked.stdout)["action"])
+
+            if role == "repair":
+                invalid_assignment = prompt.stdout.replace(
+                    'repair_assignment={"finding_indices":[0]}',
+                    'repair_assignment={"finding_indices":[99]}',
+                )
+                blocked = self.run_native_inspector(
+                    assignment_events(invalid_assignment), role=role, reference=reference
+                )
+                self.assertEqual(1, blocked.returncode)
+                self.assertEqual("return_blocked", json.loads(blocked.stdout)["action"])
+
+        malformed = assignment_events(prompt.stdout)
+        malformed[3]["payload"]["output"] = "<input>" + prompt.stdout + "</input>"
+        blocked = self.run_native_inspector(
+            malformed, role="repair", reference="delivery-repair-W-003-step-2"
+        )
+        self.assertEqual(1, blocked.returncode)
+        self.assertIn("envelope is malformed", json.loads(blocked.stdout)["diagnostic"])
+
+        direct = assignment_events("handwritten direct prompt")
+        direct[0]["payload"].pop("thread_source")
+        continued = self.run_native_inspector(direct)
+        self.assertEqual(0, continued.returncode, continued.stdout)
+        self.assertEqual("continue_role", json.loads(continued.stdout)["action"])
 
     def test_native_context_inspector_freezes_after_delivery_or_final(self):
         result = '{"status":"context_handoff","summary":"completed effects; remaining work","review":null,"findings":[]}'
@@ -1744,7 +1881,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("property-wise", operations)
         self.assertIn("malformed or unsupported effective pair blocks that unit", operations)
 
-        readme_routes = markdown_table(ROOT / "README.md", "## Routing")
+        readme_routes = markdown_table(ROOT / "README.md", "### Routing")
         self.assertEqual(
             readme_routes,
             {
@@ -2014,7 +2151,11 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("inspect the actual final changed result", operations)
         self.assertIn("Every executor and repair prompt includes these definitions", operations)
         self.assertIn("A second invalid result is a blocker", operations)
-        self.assertIn("call `wait_threads` for exactly that child with a timeout no greater than 60 seconds", operations)
+        self.assertIn("call `wait_threads` for exactly that child with a timeout", operations)
+        self.assertIn("targets: [{threadId: exact_child_id, hostId: exact_host_id,", operations)
+        self.assertIn("afterCursor: latest_cursor", operations)
+        self.assertIn("timeoutMs: 60000", operations)
+        self.assertIn("Omit `afterCursor` only before the first cursor exists", operations)
         self.assertIn("Never use `read_thread` as this wait loop", operations)
         self.assertIn("Do not read an active child conversation", operations)
         self.assertIn("send_message_to_thread", operations)
@@ -2911,6 +3052,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
 
     def test_coordinator_rollover_is_exact_at_accepted_units(self):
         operations = flat(OPERATIONS)
+        readiness = flat(ROLLOVER_READINESS)
         self.assertIn("input_tokens * 100 >= model_context_window * coordinator_percent", operations)
         self.assertIn("one Step, one authorized compatible Step bundle, or one Step-less Work Item", operations)
         self.assertIn("Missing, stale, malformed, or contradictory telemetry is never estimated and continues in the same coordinator", operations)
@@ -2925,10 +3067,10 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("The successor sends no activation acknowledgement", operations)
         self.assertIn("performs no further action", operations)
         self.assertIn("without moving itself between sidebar sections", operations)
-        self.assertIn("`threads` to contain that same task ID and host ID", operations)
-        self.assertIn("`pinnedThreads` not to contain it", operations)
-        self.assertIn("`codex:thread:<hostId>:<taskId>`", operations)
-        self.assertIn("every `sections[].itemKeys` list", operations)
+        self.assertIn("exact ID/host in `listing.threads` OR `exact_successor.status:active`", readiness)
+        self.assertIn("Both paths require complete placement lists", readiness)
+        self.assertIn("no successor pin or section entry", readiness)
+        self.assertIn("Missing or non-active exact status cannot replace a missing list entry", readiness)
         self.assertIn("waits for the exact predecessor activation turn to complete", operations)
         self.assertIn("calls of at most 60 seconds", operations)
         self.assertIn("the predecessor remains in that same turn", operations)
@@ -2952,13 +3094,13 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 "Guard is `rollover_validated` and predecessor is awake": (
                     "Predecessor transfers the guard and sends same-key activation; it never self-archives",
                 ),
-                "Activated visible successor sees predecessor turn completion": (
-                    "Successor alone archives that exact predecessor and requires same-ID `archived: true` before selection or dispatch",
+                "Activated successor is listed or exact-read active and sees predecessor turn completion": (
+                    "After the helper permits archival, successor alone archives that exact predecessor and requires same-ID `archived: true` before selection or dispatch",
                 ),
                 "Transfer succeeded but activation delivery failed": (
                     "Keep both tasks unarchived; predecessor visibly reports the blocker without Plan or project writes and reconciles only the same-key activation",
                 ),
-                "Successor list visibility is unproven but exact reachability and predecessor completion are proven under the active guard": (
+                "Successor is neither listed nor exact-read active but reachability and predecessor completion are proven under the active guard": (
                     "Continue guarded selection; retain predecessor open; create no replacement coordinator",
                 ),
                 "Successor exact reachability or predecessor completion is unproven": (

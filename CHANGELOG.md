@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.1 - 2026-09-23
+
+- Stop Workflow workers before project access unless their native task carries
+  the complete builder-generated dispatch contract for the assigned role and
+  execution unit.
+- Let established codebases keep their local conventions. For Greenfield work,
+  start with the smallest coherent responsibility-based layout without
+  prescribing an architecture or directory tree.
+
 ## v1.0.0 - 2026-09-22
 
 - Install the Scoville Skills together from one suite or use individual

@@ -3,8 +3,8 @@ format_version: 1
 id: PLAN-0001
 status: active
 created: 2026-09-21
-updated: 2026-09-22
-current_item: W-025
+updated: 2026-09-23
+current_item: W-034
 ---
 
 # Suite-Builds und zuverlässige Workflow-Übergaben
@@ -403,6 +403,50 @@ Steps:
 5. Veröffentliche E:/Dropbox/AI Projects/projects/BenjaminStelzer/README.md mit Scoville oben und Ask darunter; prüfe finale Installationslinks, Topics, Releases und Tags. Historische Belege bleiben unverändert.
 Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus, development/release-preflight.md belegt Workflow und WordPress sowie Handoff/UI; Code-Nachtest besteht; Design-Nachtest und Plan-Gate laufen, Isolierte r4-Builds liefern 238 bytegleiche Paketdateien; 38 gemeinsame Tests bestehen; Viewer-Dateien entsprechen elf CI-Artefakten, RELEASE-HISTORY: Entscheidung zum Nachtragen sieben belegter veröffentlichter Versionen angefragt; keine Remote-Mutation]
 Next action: Veröffentlichten Release-Abschluss aus temp/2026-09-22-suite-release/prepared-final prüfen und knapp im kanonischen Nachweis festhalten; die README-Korrektur hat jetzt Vorrang.
+
+### W-032 Workflow-Worker gegen unvollständige Dispatches absichern
+
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: []
+Outcome: Ein Workflow-Worker greift nur nach einer vollständig vom kanonischen Prompt-Builder erzeugten Zuweisung auf das Projekt zu und lädt insbesondere Scoville Plan nicht selbst.
+Acceptance: Der ursprüngliche handgeschriebene W-025/step-2-Dispatch reproduziert den neuen Abbruch vor Projektzugriff; vollständige Executor-, Reviewer- und Repair-Prompts passieren das native Kontext-Gate; Tests decken fehlende Plan-Sperre und fehlende Builder-Kennung ab; die fokussierten Workflow-Tests bestehen; ein frischer Astra-Medium-Review meldet keine offenen handlungsrelevanten Befunde.
+Steps:
+1. Ergänze `members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/build_dispatch_prompt.py` und `scripts/inspect_native_context.py` um eine vom Builder erzeugte Dispatch-Kennung und die fail-closed Prüfung der aktuellen nativen Zuweisung vor jedem Projektzugriff.
+2. Ergänze die Regression in `members/scoville-workflow-for-codex/development/tests/test_contract.py` und präzisiere den kanonischen Dispatch-Vertrag nur soweit das neue Gate dies erfordert; führe die fokussierten Workflow-Tests aus.
+3. Lasse den vollständigen Patch von einer frischen Astra-Task mit Medium-Reasoning schreibgeschützt prüfen und behebe bestätigte Befunde mit erneutem fokussiertem Nachweis.
+Evidence: [Archivierter W-025/step-2-Rollout 01a0cb1e-c668-71e1-8629-e41303386bc5 liefert mit dem neuen Gate return_blocked, Builder-Prompts für Executor Reviewer und Repair passieren das Gate in der fokussierten Regression, Fehlende Kennung Plan-Sperre Pflichtinputs Rollenbindung und vollständige Vertragsbytes blockieren in der fokussierten Regression, Zwei fokussierte Workflow-Tests bestanden, Astra Medium 01a0ccc6-1083-79f2-9337-2937cde6e531 meldete nach Korrektur seiner Befunde keine offene handlungsrelevante Abweichung]
+
+### W-033 Kompakten Fixplan für moderne Greenfield-Grundpraxis erstellen
+
+Status: done
+Depends on: [W-032]
+Blocked by: []
+Decisions: []
+Outcome: Ein quellenbasierter Fixplan beschreibt wenige moderne Greenfield-Basics für Scoville Code, ohne Nutzern einen Stil, eine Architektur oder einen universellen Ordnerbaum aufzudrängen.
+Acceptance: Eine aktuelle Primärquellen-Recherche trennt belastbare sprachübergreifende Grundpraxis von sprach- oder frameworkabhängigen Entscheidungen. Der Fixplan beschränkt sich auf die wichtigsten Defaults wie klar verantwortete Module statt übergroßer Dateien, fokussierte Funktionen, sichtbare Abhängigkeitsrichtung, Konfigurations- und Fehlergrenzen sowie ein kleines automatisiertes Format-, Lint- und Testfundament. Er erhält den Vorrang bestehender Projektkonventionen, nennt konkrete Zielstellen und Tests und wird von einer frischen Astra-Task mit Medium-Reasoning ohne offene handlungsrelevante Befunde geprüft.
+Steps:
+1. Recherchiere aktuelle Primärquellen zu wartbarer Greenfield-Struktur, Modul- und Funktionsgrenzen, Abhängigkeitsrichtung, Konfiguration, Fehlerbehandlung, Tests und automatisiertem Qualitäts-Tooling; suche gezielt nach Grenzen pauschaler Architektur- und Größenregeln.
+2. Erstelle einen kompakten Fixplan mit konkreten Zielstellen und fokussierten Tests für Scoville Code; formuliere nur wenige sprachübergreifende Defaults und bewahre lokale Konventionen sowie Nutzerentscheidungen als Vorrang.
+3. Lasse den vollständigen Fixplan von einer frischen Astra-Task mit Medium-Reasoning schreibgeschützt prüfen und überarbeite bestätigte Befunde.
+Evidence: [Wiedergefundenes PLAN-0003 belegt PEP 8 Google C++ Style Guide Microsoft Architectural Principles DORA und Checkstyle als Recherchebasis, Kanonischer Owner README-Fragment und drei fokussierte Fälle aus der abgeschlossenen Umsetzung übernommen; 32 eindeutige Fälle und acht scoped IDs geprüft, Astra Medium 01a0cb3b-f513-74a0-b2b0-506d947f8884 schloss seinen einzigen P2 ohne Restbefund, Frischer Astra-Medium-Review 01a0ccde-1aa8-7d43-8b89-01aeb2e0505e meldet im kanonischen Suite-Diff keine handlungsrelevanten Befunde]
+
+### W-034 Workflow-Bugfix und Greenfield-Leitlinie lokal und auf GitHub veröffentlichen
+
+Status: in_progress
+Depends on: [W-032, W-033]
+Blocked by: []
+Decisions: [ADR-0009]
+Outcome: Die geprüften Workflow- und Code-Pakete sind lokal installiert und als neuer aktueller Scoville-Suite-Bugfix-Release veröffentlicht.
+Acceptance: Suite-Version und Changelogs beschreiben den beobachtbaren Workflow-Bugfix und die kompakte Existing-Code-/Greenfield-Leitlinie; ein isolierter öffentlicher Build entspricht den installierten lokalen und veröffentlichten Paketprojektionen; Release-Gates, Struktur-, Frontmatter-, Kompatibilitäts- und Publikationsprüfungen bestehen; GitHub enthält genau einen aktuellen Suite-Release und einen Release-Versionstag, ältere Release-Daten sind erst nach verifiziertem Nachfolger entfernt.
+Steps:
+1. Aktualisiere Suite- und betroffene Mitgliedsversionen, Changelogs und englische Release-Texte an ihren kanonischen Quellen; baue und prüfe die vollständige öffentliche Suite in einem frischen externen Verzeichnis.
+2. Sichere und aktualisiere die lokalen Codex- und kompatiblen Claude-Pakete für Workflow und Code aus dem verifizierten Build; vergleiche installierte Laufzeitdateien bytegenau und bewahre persönliche Konfiguration.
+3. Committe und pushe die geprüfte Suite-Quelle und Distribution, erstelle den neuen GitHub-Release mit verifizierten Assets und entferne erst danach den abgedeckten älteren Release und Release-Versionstag.
+4. Führe den Live-Publikationsaudit aus und dokumentiere Commit, Tag, Release-URL, Assets, Topics sowie verbleibende Release- und Taganzahl.
+Evidence: [Suite v1.0.1 Code v1.0.35 und Workflow v0.4.1 vorbereitet, 65 Workflow-Tests bestanden, Luna Medium Code 23 bestand in r1; Workflow 17 verfehlte dort die Host-Bindung, der kanonische Wait-Vertrag wurde präzisiert und Workflow 17 bestand in r2 mit korrekter Task- Host- Referenz- und Cursor-Bindung, SOL Medium und unabhängige Autorenprüfung bestätigten Protokoll und Semantik; r2-Receipt 4e173a9f2920189fb9202106fb281756c140cf22a8e146e99dad5552f8b5d1f6 verifiziert 189 Dateien in zehn Paketen, Code-Paketdateien zwischen r1 und r2 bytegleich; source_dirty:true ist kein Publikationsnachweis]
+Next action: Vollständigen Quelldiff Frontmatter Kompatibilitätsblöcke und öffentliche Texte prüfen, die Source-Änderungen committen und `origin/main` normal mergen, ohne die entfernte `packages/`-Historie zu verlieren.
 
 ### W-030 Einheitliche Skill-READMEs und gemeinsame Beschreibungsblöcke veröffentlichen
 
