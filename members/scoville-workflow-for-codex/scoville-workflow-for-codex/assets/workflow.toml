@@ -41,7 +41,7 @@ reasoning = "xhigh"
 
 [review.high]
 model = "gpt-6-astra"
-reasoning = "medium"
+reasoning = "high"
 
 [execute.ultra_high]
 model = "gpt-6-astra"

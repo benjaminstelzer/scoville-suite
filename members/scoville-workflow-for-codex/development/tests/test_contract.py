@@ -1974,7 +1974,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 "`high`": (
                     "Consequential changes to state, authorization, or integration contracts",
                     "`gpt-6-sol` / `xhigh`",
-                    "`gpt-6-astra` / `medium`",
+                    "`gpt-6-astra` / `high`",
                 ),
                 "`ultra_high`": (
                     "Unusually consequential or complex work beyond `high`",
