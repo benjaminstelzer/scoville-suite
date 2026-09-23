@@ -33,6 +33,8 @@ class ValidateResearchArtifactsTests(unittest.TestCase):
         self.assertIn("For a saved package, run the bundled validator when Python 3 is available", deep)
         self.assertIn("manual structural inspection", deep)
         self.assertIn("every query source ID, evidence source ID, claim evidence ID", fallback)
+        self.assertIn("neither `run.json` nor `evidence.jsonl` exists", fallback)
+        self.assertIn("claim `support` or `contradict` value must name a", fallback)
         self.assertIn("also complete its structural validation before marking the run complete", deep)
 
     def setUp(self) -> None:

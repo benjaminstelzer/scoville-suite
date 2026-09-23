@@ -48,7 +48,7 @@ Evidence, bounded graph state, queued or paused return state, and complete
 relevant Work Items separately when the operation requires them. Keep those
 reads bounded and never widen the selector response. If Python 3 is unavailable,
 load [select-context-without-python.md](select-context-without-python.md) only
-for manual unit selection; do not install a runtime. If Python is available but
+for current-or-named recovery or manual unit selection; do not install a runtime. If Python is available but
 the helper fails, report its diagnostic and do not invent partial context.
 
 ## Read the smallest canonical state

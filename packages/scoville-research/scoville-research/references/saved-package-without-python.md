@@ -1,8 +1,9 @@
 # Saved Deep package without Python
 
-Load this reference only when a saved Deep package is requested and Python 3
-is unavailable. Use a host JSON parser and byte-exact SHA-256 primitive. If
-either is absent, stop the saved package; chat-only Deep can still proceed.
+Load this reference only when a saved Deep package must be created or inspected
+and Python 3 is unavailable. Use a host JSON parser. A new v2 package also
+needs a byte-exact SHA-256 primitive. If a required capability is absent, stop
+the saved-package operation; chat-only Deep can still proceed.
 
 ## Skill hash
 
@@ -17,7 +18,30 @@ while hashing. On resume, recompute and compare before changing an artifact.
 A mismatch means the executing Skill differs from the run owner. Use the old
 package or start a deliberate new v2 run only after the user chooses.
 
-## Manual structural inspection
+## Choose the package version
+
+If neither `run.json` nor `evidence.jsonl` exists, treat the package as legacy
+v1 and inspect it read-only. Never add either file or migrate it in place. If
+`evidence.jsonl` exists without `run.json`, or `run.json` has an unknown schema,
+report a mixed or unsupported package and stop. With a valid v2 `run.json`,
+follow the v2 inspection below.
+
+For v1, require readable UTF-8 `brief.md`, `queries.jsonl`, `sources.jsonl`,
+`claims.jsonl` and a nonempty `REPORT.md`. Parse each nonblank JSONL line as
+one object. Check the brief headings in order; check the default report
+heading order when that form is used, as specified by
+[deep-research.md](deep-research.md). Require unique `Q`, `S` and `C` IDs with
+at least three digits; check required fields and allowed values against that
+reference, with no v2-only optional source or claim fields. Every query
+`source_ids` value and every claim `support` or `contradict` value must name a
+source ID, not an evidence ID. Reject overlap, snippet support, and support
+from a source marked contradiction, rejected, dead or blocked. Enforce claim
+status rules, require contradiction and gap queries, and resolve every report
+citation to a source. Every used or contradicting source must be cited. Record
+the inspected files and gaps as manual legacy inspection. Do not require a
+run-state hash, evidence ledger or external-job state from v1.
+
+## Manual v2 structural inspection
 
 Inspect the complete package on its final unchanged bytes, not just changed
 rows. Record `manual structural inspection`, never validator output. Check

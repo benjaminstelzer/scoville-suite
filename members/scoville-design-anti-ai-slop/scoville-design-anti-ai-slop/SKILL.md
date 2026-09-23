@@ -178,14 +178,15 @@ Verify received coverage before applying a selected source: numbered lines,
 total, received and missing intervals. Recover missing or cut-through lines,
 including intact adjacent lines; reconcile each file separately. Keep conflicting
 returns and source order. An end marker is not proof of a complete middle.
-Use the optional [source reader](scripts/read-source.py) or an equivalent.
-Its header contains recovery details when transport fails. If coverage cannot
+When Python 3 is available, use the bundled [source reader](scripts/read-source.py)
+for source coverage. Its header contains recovery details when transport fails.
+If Python is unavailable, load
+[source-reader-without-python.md](references/source-reader-without-python.md)
+only when source coverage is needed. If the helper fails with Python available,
+report the diagnostic; do not substitute the no-Python route. If coverage cannot
 be recovered, carry the dependent concern unverified. Headings do not unload
 context; split phases only for actual task/capacity needs. User/provider limits
 and authorisation remain binding.
-
-If Python is unavailable, load [source-reader-without-python.md](references/source-reader-without-python.md)
-only when source coverage is needed.
 
 ## Proof ceiling
 

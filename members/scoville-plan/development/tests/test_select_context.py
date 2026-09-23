@@ -131,6 +131,9 @@ class SelectContextTests(unittest.TestCase):
         fallback = READ_ONLY.parent / "select-context-without-python.md"
         guide = " ".join(fallback.read_text(encoding="utf-8").split())
         for required in (
+            "For current-or-named Work Item recovery",
+            "otherwise use the active Plan's `current_item`",
+            "complete selected Work Item block, including Steps, Evidence",
             "Use the `W-NNN` ID in the requested unit",
             "not `current_item`",
             "existing Step or an ascending adjacent range of at least two Steps",

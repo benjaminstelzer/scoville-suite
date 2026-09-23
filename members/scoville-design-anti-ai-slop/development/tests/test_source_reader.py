@@ -21,7 +21,8 @@ spec.loader.exec_module(coverage)
 class SourceReaderTests(unittest.TestCase):
     def test_no_python_coverage_and_browser_helper_requirements_are_explicit(self):
         skill = SKILL.read_text(encoding='utf-8')
-        self.assertIn('If Python is unavailable, load [source-reader-without-python.md]', skill)
+        self.assertIn('When Python 3 is available, use the bundled [source reader]', skill)
+        self.assertIn('[source-reader-without-python.md](references/source-reader-without-python.md)', skill)
         guide = ' '.join(NO_PYTHON.read_text(encoding='utf-8').split())
         for required in (
             'Read the requested source',
