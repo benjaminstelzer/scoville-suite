@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.3 - 2026-09-23
+
+- Route new low-class execution to Luna 6 High and its review to SOL 6 Low.
+
 ## v0.4.2 - 2026-09-23
 
 - Use Luna 6, SOL 6, and Astra 6 for new coordinators, workers, and reviewers according to the configured route. Remove Terra from the defaults.

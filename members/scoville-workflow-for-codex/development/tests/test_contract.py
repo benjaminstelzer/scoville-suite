@@ -1963,8 +1963,8 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 ),
                 "`low`": (
                     "Nontrivial local judgment with one known owner, understood helpers, and established checks",
+                    "`gpt-6-luna` / `high`",
                     "`gpt-6-sol` / `low`",
-                    "`gpt-6-sol` / `medium`",
                 ),
                 "`medium`": (
                     "Unresolved helpers, diagnostic discovery, interacting owners, harness boundaries, or interpreted checks",
