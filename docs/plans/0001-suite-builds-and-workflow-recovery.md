@@ -463,6 +463,22 @@ Steps:
 Evidence: []
 Next action: Frischen sauberen Code-Build erzeugen und den vollständigen Einzelbaum gegen GitHub v1.0.34 vergleichen.
 
+### W-036 Deferred after W-035: Mehrere geänderte Skill-Ziele vollständig veröffentlichen
+
+Status: todo
+Depends on: [W-035]
+Blocked by: []
+Decisions: []
+Outcome: Der Benjamin-GitHub-Skill behandelt eine angeforderte Skill-Neuveröffentlichung als vollständige Zielmenge aller nachweislich geänderten Skills statt nur eines Suite- oder Beispielziels.
+Acceptance: Suite-Releases vergleichen den verifizierten Build mit jedem deklarierten Veröffentlichungsziel und veröffentlichen alle geänderten Einzel-Skills sowie die Suite-Ziele; gemeinsame Publikationsanfragen außerhalb einer Suite inventarisieren und veröffentlichen ebenfalls jedes geänderte Skill-Ziel; unveränderte Ziele erhalten keinen neuen Release; Berechtigung Sichtbarkeit Historie Release-Retention und zielbezogene Prüfungen bleiben pro Repository erhalten; fokussierte Tests und ein geprüfter Release des GitHub-Skills bestehen.
+Steps:
+1. Prüfe `benjaminstelzer-github/references/suite-build-publication.md` und `release-and-publication.md` sowie die vorhandenen Publikationstests auf die Zielmengenauswahl bei Suite- und Mehrfach-Skill-Anfragen.
+2. Ergänze den kleinsten eindeutigen Vertrag und fokussierte Fälle für alle geänderten Ziele ohne unveränderte Skills oder nicht autorisierte Repositories einzubeziehen.
+3. Validiere Skill-Struktur Frontmatter Referenzrouting und Publikationstests; installiere die geprüfte Version lokal und veröffentliche den GitHub-Skill nach seinem eigenen Release-Vertrag.
+4. Verifiziere Remote-Baum annotierten Tag Release-Text und genau einen aktuellen Release sowie Release-Versionstag und dokumentiere den Live-Nachweis.
+Evidence: []
+Next action: Nach W-035 den kanonischen Publikationsvertrag und seine Zielauswahl gegen den beobachteten Suite-Fehler prüfen.
+
 ### W-030 Einheitliche Skill-READMEs und gemeinsame Beschreibungsblöcke veröffentlichen
 
 Status: done
