@@ -47,12 +47,24 @@ leaves its final coordinator visible. A coordinator must not finish its turn
 merely because a child is running. After successful activation and assignment
 dispatch, retain the exact child ID, host ID, latest cursor, and single-use
 delivery reference. Then call `wait_threads` for exactly that child with a
-timeout no greater than 60 seconds. On an unchanged timeout, emit no commentary
-and call `wait_threads` again with the returned cursor. Continue until the
-expected turn completes, needs attention, new user input interrupts the wait,
-or the wait tool itself fails. A status request reports one fresh snapshot and
-then resumes this loop. A changed scope, Stop, or required user decision follows
-its own control path instead. Never use `read_thread` as this wait loop.
+timeout no greater than 60 seconds:
+
+```text
+wait_threads({
+  targets: [{threadId: exact_child_id, hostId: exact_host_id,
+             afterCursor: latest_cursor}],
+  timeoutMs: 60000
+})
+```
+
+Omit `afterCursor` only before the first cursor exists. On an unchanged timeout,
+emit no commentary and call `wait_threads` again with the returned cursor while
+retaining the same exact child ID, host ID, and delivery reference. Continue
+until the expected turn completes, needs attention, new user input interrupts
+the wait, or the wait tool itself fails. A status request reports one fresh
+snapshot and then resumes this loop. A changed scope, Stop, or required user
+decision follows its own control path instead. Never use `read_thread` as this
+wait loop.
 
 Every child constructs its final role JSON, sends exactly one
 `workflow_result_delivery=<reference>` message containing those exact JSON

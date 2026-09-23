@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.4.1 - 2026-09-23
+
+- Stop agent-created workers before project access when their native task does
+  not contain the complete builder-generated dispatch contract. The gate now
+  checks the role, execution unit, Plan lockout, required inputs, delivery
+  identity and exact reconstructed prompt bytes.
+
 ## v0.4.0 - 2026-09-22
 
 - Ship as `scoville-workflow-for-codex`, a Codex-only Beta inside Scoville Suite.

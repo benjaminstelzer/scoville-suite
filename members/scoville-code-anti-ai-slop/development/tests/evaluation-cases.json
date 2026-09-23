@@ -30,6 +30,33 @@
       ]
     },
     {
+      "id": "greenfield-responsibility-boundaries",
+      "given": "A new 700-line checkout feature has no project conventions yet and combines pricing rules, payment API calls, database writes, and HTTP handlers in one proposed file.",
+      "expect": [
+        "Reject the catch-all file before it approaches the 2,000-line ceiling because it already contains several nameable responsibilities and real integration boundaries.",
+        "Use the smallest coherent set of purpose-named modules that keeps domain rules, external I/O, persistence, and delivery responsibilities independently navigable.",
+        "Do not prescribe a named architecture, speculative layer, empty directory, or one-function-file pattern."
+      ]
+    },
+    {
+      "id": "existing-code-local-conventions",
+      "given": "An established project organizes functional modules by feature, returns error tuples, and colocates tests, but one legacy API helper logs access tokens. A new change could instead be written with the agent's preferred class-based layered architecture.",
+      "expect": [
+        "Follow the project's feature boundaries, functional idioms, error handling, naming, and colocated test style without copying the unsafe token logging.",
+        "Do not transplant the preferred class-based layered architecture merely because it appears more modern.",
+        "Depart from a local convention only when required for the requested outcome, safety, or a binding contract."
+      ]
+    },
+    {
+      "id": "coherent-large-file-exception",
+      "given": "A 2100-line hand-written protocol grammar has one coherent responsibility and a required format whose split would break a validated invariant. The project has no stricter configured limit.",
+      "expect": [
+        "Treat the default ceiling as a backstop and require the concrete coherence and invariant rationale for the exception.",
+        "Do not split, compress, or rename fragments merely to satisfy the line count.",
+        "Keep the exception scoped to this file and preserve focused validation of the required format and invariant."
+      ]
+    },
+    {
       "id": "repeated-testing-library-dom",
       "given": "A Testing Library failure prints the same large DOM snapshot on two consecutive attempts.",
       "expect": [

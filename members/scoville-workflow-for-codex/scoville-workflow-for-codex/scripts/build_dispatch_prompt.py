@@ -68,15 +68,7 @@ def diagnostic(error: PromptError) -> str:
     return compact({"schema_version": 1, "valid": None, "diagnostics": [{"code": error.code, "message": error.message}]}) + "\n"
 
 
-def read_role_input(role: str) -> dict[str, object]:
-    raw = sys.stdin.read()
-    if not raw.strip():
-        payload: object = {}
-    else:
-        try:
-            payload = json.loads(raw)
-        except json.JSONDecodeError as error:
-            raise PromptError("ROLE_INPUT_INVALID", "stdin must contain one JSON object") from error
+def validate_role_input(role: str, payload: object) -> dict[str, object]:
     if not isinstance(payload, dict):
         raise PromptError("ROLE_INPUT_INVALID", "stdin must contain one JSON object")
     unknown = set(payload) - ROLE_INPUT_KEYS[role]
@@ -103,6 +95,66 @@ def read_role_input(role: str) -> dict[str, object]:
         ):
             raise PromptError("REPAIR_ASSIGNMENT_INVALID", "repair finding_indices must select existing unique reviewer findings")
     return payload
+
+
+def read_role_input(role: str) -> dict[str, object]:
+    raw = sys.stdin.read()
+    if not raw.strip():
+        payload: object = {}
+    else:
+        try:
+            payload = json.loads(raw)
+        except json.JSONDecodeError as error:
+            raise PromptError("ROLE_INPUT_INVALID", "stdin must contain one JSON object") from error
+    return validate_role_input(role, payload)
+
+
+def validate_plan_context(payload: object, unit: str) -> dict[str, object]:
+    if not isinstance(payload, dict) or list(payload) != TOP_LEVEL_KEYS:
+        raise PromptError("SELECTOR_SHAPE_INVALID", "selector success must contain the four ordered semantic areas")
+    work_item = payload.get("work_item")
+    if not isinstance(work_item, dict) or work_item.get("unit") != unit:
+        raise PromptError("SELECTOR_UNIT_INVALID", "selector did not return the exact requested unit")
+    if "evidence" in {str(key).lower() for key in work_item}:
+        raise PromptError("SELECTOR_EVIDENCE_FORBIDDEN", "dispatch unit must not contain Work Item Evidence")
+    if not isinstance(payload.get("decisions"), list):
+        raise PromptError("SELECTOR_DECISIONS_INVALID", "selector decisions must be a list")
+    return payload
+
+
+def validate_prompt_arguments(
+    role: str,
+    workspace_root: str,
+    return_to_thread_id: str,
+    delivery_reference: str,
+    guard_workflow_id: str,
+    guard_generation: int,
+    guard_revision: int,
+    guard_dispatch_key: str,
+    guard_task_id: str | None,
+) -> None:
+    if role not in ROLE_INPUT_KEYS:
+        raise PromptError("ROLE_INVALID", "prompt role is unsupported", exit_code=2)
+    if not Path(workspace_root).is_absolute():
+        raise PromptError("WORKSPACE_ROOT_INVALID", "--workspace-root must be absolute", exit_code=2)
+    checks = (
+        (return_to_thread_id, 128, "RETURN_THREAD_ID_INVALID", "--return-to-thread-id has an invalid shape"),
+        (delivery_reference, 128, "DELIVERY_REFERENCE_INVALID", "--delivery-reference has an invalid shape"),
+        (guard_workflow_id, 160, "GUARD_WORKFLOW_ID_INVALID", "--guard-workflow-id has an invalid shape"),
+        (guard_dispatch_key, 160, "GUARD_DISPATCH_KEY_INVALID", "--guard-dispatch-key has an invalid shape"),
+    )
+    for value, maximum, code, message in checks:
+        if not isinstance(value, str) or not re.fullmatch(rf"[A-Za-z0-9._:-]{{1,{maximum}}}", value):
+            raise PromptError(code, message, exit_code=2)
+    if type(guard_generation) is not int or guard_generation < 0:
+        raise PromptError("GUARD_GENERATION_INVALID", "--guard-generation must be non-negative", exit_code=2)
+    if type(guard_revision) is not int or guard_revision < 0:
+        raise PromptError("GUARD_REVISION_INVALID", "--guard-revision must be non-negative", exit_code=2)
+    if role in {"executor", "repair"}:
+        if not isinstance(guard_task_id, str) or not re.fullmatch(r"[A-Za-z0-9._:-]{1,160}", guard_task_id):
+            raise PromptError("GUARD_TASK_ID_INVALID", "--guard-task-id is required for executor and repair", exit_code=2)
+    elif guard_task_id is not None:
+        raise PromptError("GUARD_TASK_ID_INVALID", "--guard-task-id is not permitted for reviewer", exit_code=2)
 
 
 def select_unit(selector_value: str, plan_root: str, unit: str) -> dict[str, object]:
@@ -136,16 +188,7 @@ def select_unit(selector_value: str, plan_root: str, unit: str) -> dict[str, obj
         raise PromptError("SELECTOR_OUTPUT_INVALID", "selector did not return one JSON object") from error
     if completed.returncode != 0:
         raise PromptError("SELECTOR_FAILED", compact(payload))
-    if not isinstance(payload, dict) or list(payload) != TOP_LEVEL_KEYS:
-        raise PromptError("SELECTOR_SHAPE_INVALID", "selector success must contain the four ordered semantic areas")
-    work_item = payload.get("work_item")
-    if not isinstance(work_item, dict) or work_item.get("unit") != unit:
-        raise PromptError("SELECTOR_UNIT_INVALID", "selector did not return the exact requested unit")
-    if "evidence" in {str(key).lower() for key in work_item}:
-        raise PromptError("SELECTOR_EVIDENCE_FORBIDDEN", "dispatch unit must not contain Work Item Evidence")
-    if not isinstance(payload.get("decisions"), list):
-        raise PromptError("SELECTOR_DECISIONS_INVALID", "selector decisions must be a list")
-    return payload
+    return validate_plan_context(payload, unit)
 
 
 def result_contract(role: str) -> list[str]:
@@ -214,6 +257,7 @@ def build_prompt(
 ) -> str:
     lines = [
         f"scoville_role={role}",
+        "dispatch_contract=scoville-workflow-v1",
         f"unit={unit}",
         f"workspace_root={workspace_root}",
         "guard_path=.scoville-workflow/guard.json",
@@ -271,25 +315,12 @@ def main(argv: list[str] | None = None) -> int:
     try:
         args = parser().parse_args(argv)
         workspace_root = Path(args.workspace_root)
-        if not workspace_root.is_absolute():
-            raise PromptError("WORKSPACE_ROOT_INVALID", "--workspace-root must be absolute", exit_code=2)
-        if not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", args.return_to_thread_id):
-            raise PromptError("RETURN_THREAD_ID_INVALID", "--return-to-thread-id has an invalid shape", exit_code=2)
-        if not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", args.delivery_reference):
-            raise PromptError("DELIVERY_REFERENCE_INVALID", "--delivery-reference has an invalid shape", exit_code=2)
-        if not re.fullmatch(r"[A-Za-z0-9._:-]{1,160}", args.guard_workflow_id):
-            raise PromptError("GUARD_WORKFLOW_ID_INVALID", "--guard-workflow-id has an invalid shape", exit_code=2)
-        if args.guard_generation < 0:
-            raise PromptError("GUARD_GENERATION_INVALID", "--guard-generation must be non-negative", exit_code=2)
-        if args.guard_revision < 0:
-            raise PromptError("GUARD_REVISION_INVALID", "--guard-revision must be non-negative", exit_code=2)
-        if not re.fullmatch(r"[A-Za-z0-9._:-]{1,160}", args.guard_dispatch_key):
-            raise PromptError("GUARD_DISPATCH_KEY_INVALID", "--guard-dispatch-key has an invalid shape", exit_code=2)
-        if args.role in {"executor", "repair"}:
-            if not isinstance(args.guard_task_id, str) or not re.fullmatch(r"[A-Za-z0-9._:-]{1,160}", args.guard_task_id):
-                raise PromptError("GUARD_TASK_ID_INVALID", "--guard-task-id is required for executor and repair", exit_code=2)
-        elif args.guard_task_id is not None:
-            raise PromptError("GUARD_TASK_ID_INVALID", "--guard-task-id is not permitted for reviewer", exit_code=2)
+        validate_prompt_arguments(
+            args.role, str(workspace_root), args.return_to_thread_id,
+            args.delivery_reference, args.guard_workflow_id,
+            args.guard_generation, args.guard_revision,
+            args.guard_dispatch_key, args.guard_task_id,
+        )
         role_input = read_role_input(args.role)
         plan_context = select_unit(args.selector, args.plan_root, args.unit)
         binding_input = {key: value for key, value in vars(args).items()

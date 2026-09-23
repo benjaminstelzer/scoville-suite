@@ -1,4 +1,4 @@
-## Routing
+### Routing
 
 The coordinator classifies each fresh dispatch unit and maps its effective route
 to one executor pair. The reviewer pair is used only when the material-change
