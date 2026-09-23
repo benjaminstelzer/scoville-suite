@@ -56,6 +56,8 @@ Read this core and the row's references completely before the action. At a
 phase change, load only newly required references. Follow each phase's explicit
 links before crossing into that operation; never interpret “above/below” as
 permission to skip another owner's gates.
+Request only reference paths explicitly linked here or in a loaded phase;
+do not construct another reference name from the phase or topic.
 
 Reuse a reference only while its complete contents remain available and its
 source is unchanged. A read marker or hash alone is not the contents. After
@@ -73,8 +75,8 @@ guard and delivery evidence still need their operation-specific fresh checks.
 | Wait or report exact child status | [wait](operations-wait.md) |
 | Recover or validate completed result | [wait](operations-wait.md), [results](operations-results.md) |
 | Review, repair, archive or resume terminal-child cleanup | [results](operations-results.md), [review](operations-review.md) |
-| Child compaction or context handoff | [compaction](operations-compaction.md), [checkpoint](operations-checkpoint.md), [review](operations-review.md) |
+| Child compaction or context handoff, including worker-percent checkpoint | [compaction](operations-compaction.md), [checkpoint](operations-checkpoint.md), [review](operations-review.md) |
 | Accept, commit or finish scope | [review](operations-review.md), [accepted](operations-accepted.md), [scope](operations-scope.md), [rollover](operations-rollover.md) |
-| Coordinator boundary or rollover start/validation/activation | [rollover](operations-rollover.md), [activation](operations-activation.md), [wait](operations-wait.md) |
+| Coordinator boundary or rollover start/validation/activation, including coordinator-percent checkpoint | [rollover](operations-rollover.md), [activation](operations-activation.md), [wait](operations-wait.md) |
 | Stop or cancellation | [stop](operations-stop.md), [wait](operations-wait.md), [review](operations-review.md) |
 | Failure or interrupted operation | Reload the interrupted phase; apply its failure branch before any new phase. Unknown dispatch uses activation's transport recovery; ambiguous results use results; interrupted rollover uses rollover. |
