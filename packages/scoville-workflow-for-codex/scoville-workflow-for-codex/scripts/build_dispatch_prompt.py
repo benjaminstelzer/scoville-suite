@@ -324,7 +324,7 @@ def main(argv: list[str] | None = None) -> int:
         role_input = read_role_input(args.role)
         plan_context = select_unit(args.selector, args.plan_root, args.unit)
         binding_input = {key: value for key, value in vars(args).items()
-                         if key not in {"transport_json", "binding_only"}}
+                         if key not in {"transport_json", "binding_only", "transport_target"}}
         binding_input.update(plan_context=plan_context, role_input=role_input,
                              builder_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                              selector_sha256=hashlib.sha256(Path(args.selector).read_bytes()).hexdigest())

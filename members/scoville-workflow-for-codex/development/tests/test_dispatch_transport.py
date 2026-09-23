@@ -22,15 +22,14 @@ class DispatchTransportTests(unittest.TestCase):
                 "--workspace-root", str(ROOT), "--return-to-thread-id", "coordinator",
                 "--delivery-reference", "test-reference", "--guard-workflow-id", "test-workflow",
                 "--guard-generation", "1", "--guard-revision", "7",
-                "--guard-dispatch-key", "test-dispatch", "--guard-task-id", "test-writer",
-                "--transport-target", "test-writer"]
+                "--guard-dispatch-key", "test-dispatch", "--guard-task-id", "test-writer"]
             env = {**os.environ, "FAKE_PLAN_CONTEXT": json.dumps(context)}
             def run(extra, input="{}", environment=env):
                 p = subprocess.run(command + extra, input=input, env=environment,
                     text=True, encoding="utf-8", capture_output=True)
                 self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
                 return p.stdout
-            envelope = json.loads(run(["--transport-json"]))
+            envelope = json.loads(run(["--transport-json", "--transport-target", "test-writer"]))
             self.assertEqual(envelope["prompt"], run([]))
             self.assertEqual(envelope["receipt"]["sha256"],
                 hashlib.sha256(envelope["prompt"].encode()).hexdigest())
