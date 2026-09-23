@@ -1958,23 +1958,23 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 ),
                 "`ultra_low`": (
                     "Simple bounded local change with trivial verification",
-                    "`gpt-6-luna` / `medium`",
-                    "`gpt-6-luna` / `high`",
+                    "`gpt-6-sol` / `low`",
+                    "`gpt-6-sol` / `medium`",
                 ),
                 "`low`": (
                     "Nontrivial local judgment with one known owner, understood helpers, and established checks",
-                    "`gpt-6-luna` / `high`",
-                    "`gpt-6-sol` / `low`",
-                ),
-                "`medium`": (
-                    "Unresolved helpers, diagnostic discovery, interacting owners, harness boundaries, or interpreted checks",
                     "`gpt-6-sol` / `medium`",
                     "`gpt-6-sol` / `high`",
                 ),
-                "`high`": (
-                    "Consequential changes to state, authorization, or integration contracts",
+                "`medium`": (
+                    "Unresolved helpers, diagnostic discovery, interacting owners, harness boundaries, or interpreted checks",
                     "`gpt-6-sol` / `high`",
                     "`gpt-6-sol` / `xhigh`",
+                ),
+                "`high`": (
+                    "Consequential changes to state, authorization, or integration contracts",
+                    "`gpt-6-astra` / `low`",
+                    "`gpt-6-astra` / `medium`",
                 ),
                 "`ultra_high`": (
                     "Unusually consequential or complex work beyond `high`",
