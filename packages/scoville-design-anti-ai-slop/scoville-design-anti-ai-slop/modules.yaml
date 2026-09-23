@@ -3,6 +3,7 @@ package_schema: successor-v2
 distribution_files:
   - LICENSE
   - references/direct-expert-index.md
+  - references/source-reader-without-python.md
   - scripts/measure-layout.js
   - scripts/inventory-svg-layout.js
   - scripts/read-source.py

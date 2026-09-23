@@ -7,12 +7,26 @@ Form the selected unit using [dispatch](operations-dispatch.md). Create/activate
 After Scoville Plan resolves the canonical `plan_root`, derive
 `<plan-skill-directory>/scripts/select_context.py` from the exact loaded
 Scoville Plan Skill. Require that helper and an already available Python 3
-interpreter. For coordinator recovery, preflight, and unit formation, select
+interpreter. For coordinator recovery and unit formation, select
 the current item or one explicitly selected item with:
 
 ```text
 python <plan-skill-directory>/scripts/select_context.py --root <plan_root> [--work-item W-001] --format json
 ```
+
+When coordinator preflight also requires project-contract and guard checks, use
+one bundled call:
+
+```text
+python <workflow-skill-directory>/scripts/inspect_dispatch_preflight.py --workspace <workspace_root> --plan-root <plan_root> --selector <plan-skill-directory>/scripts/select_context.py --workflow-id <workflow_id> --expected-revision <revision> --expected-generation <generation> [--work-item W-001]
+```
+
+It checks the installed project contract, verifies coordinator Plan capability,
+returns the same four selected semantic areas under `selection`, then verifies
+the unchanged guard revision. Accept only
+`valid:true`; on failure, stop this preflight and use its diagnostic. It does
+not perform structural Plan validation or authorize dispatch. Run the complete
+Plan validator separately when a Plan write requires it.
 
 Accept only exit `0` with exactly these four top-level semantic areas:
 

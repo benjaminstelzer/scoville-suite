@@ -11,6 +11,9 @@ from pathlib import Path
 
 REPOSITORY = Path(__file__).resolve().parent.parent
 SCRIPT = REPOSITORY.parent / "scoville-plan" / "scripts" / "select_context.py"
+SKILL = REPOSITORY.parent / "scoville-plan" / "SKILL.md"
+READ_ONLY = REPOSITORY.parent / "scoville-plan" / "references" / "read-only.md"
+COMPATIBILITY = REPOSITORY.parent.parent.parent / "development" / "readme" / "scoville-plan" / "compatibility-16ef3bbbbcff0431.md"
 
 
 DECISION = """---
@@ -123,6 +126,30 @@ Next action: Stay absent.
 
 
 class SelectContextTests(unittest.TestCase):
+    def test_no_python_dispatch_recipe_and_runtime_requirements_are_complete(self) -> None:
+        self.assertIn("load [select-context-without-python.md]", READ_ONLY.read_text(encoding="utf-8"))
+        fallback = READ_ONLY.parent / "select-context-without-python.md"
+        guide = " ".join(fallback.read_text(encoding="utf-8").split())
+        for required in (
+            "Use the `W-NNN` ID in the requested unit",
+            "not `current_item`",
+            "existing Step or an ascending adjacent range of at least two Steps",
+            "Without Steps, require `W-NNN` alone",
+            "the requested unit ID",
+            "Status, Depends on, Blocked by, Decisions, Outcome and Acceptance",
+            "direct dependency IDs with their Status lines",
+            "every complete Decision referenced",
+            "also include Next action",
+            "Exclude Evidence, unselected Steps and Work Item-wide Next action",
+            "stop without supplying a partial dispatch context",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, guide)
+        compatibility = COMPATIBILITY.read_text(encoding="utf-8").split("\n\n", 1)[1].strip()
+        self.assertIn(f'compatibility: "{compatibility}"', SKILL.read_text(encoding="utf-8"))
+        self.assertIn("Decision-batch helper need Python 3", compatibility)
+        self.assertIn("byte-exact SHA-256 alternative", compatibility)
+
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory(prefix="scoville-selector-")
         self.root = Path(self.temp.name) / "project"

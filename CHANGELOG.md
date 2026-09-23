@@ -1,8 +1,13 @@
 # Changelog
 
-## v1.0.8 - 2026-09-23
+## v1.0.9 - 2026-09-23
 
 - Resolve WORK and REVIEW pairs from the configurable route table and raise the second and third repair attempts along its WORK rows.
+- Bundle project-contract and coordinator-guard verification with bounded Work Item selection in one preflight helper.
+- Require Python 3.11+ during suite installation; Workflow stops an affected operation when a required helper cannot run.
+- Document Plan's no-Python dispatch-unit selection and Decision-batch hashing routes.
+- Clarify Design's no-Python source coverage and optional browser helpers.
+- Add a no-Python hash and structural-check route for saved Research packages.
 
 ## v1.0.7 - 2026-09-23
 

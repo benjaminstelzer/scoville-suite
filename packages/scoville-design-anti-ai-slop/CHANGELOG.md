@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.10 - 2026-09-23
+
+- Make the no-Python source-coverage recovery procedure explicit and list the
+  optional in-browser layout helpers in compatibility requirements.
+- Preserve standalone Design work when no partner is active.
+
 ## v1.2.9 - 2026-09-22
 
 - Keep Critique read-only. Recommendations do not authorize a repair.

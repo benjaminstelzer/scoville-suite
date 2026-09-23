@@ -58,7 +58,7 @@ keeping contradictions and gaps visible instead of replacing them with certainty
 
 ## Compatibility
 
-Any Agent Skills host that can read references/. Requires web search and fetching actual source pages. Deep mode also needs a writable workspace and Python 3 for scripts/validate_research_artifacts.py. Subagents are optional and depend on available capacity. Developed for Codex and Claude Code; other hosts untested.
+Any Agent Skills host with references/ access and web search/page fetching. Saved Deep packages need a writable workspace, a JSON parser and byte-exact SHA-256. Python 3 runs the optional validator; a documented manual check works without it. Chat-only Deep needs neither workspace nor hash tools. Optional subagents need capacity and close control. Developed for Codex and Claude Code; other hosts untested.
 
 Codex currently offers no way to close subagents and free their slots. This limits
 additional parallel work within a session.

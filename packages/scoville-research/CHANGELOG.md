@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.12 - 2026-09-23
+
+- Keep saved Deep packages usable without Python through an exact Skill-byte
+  hash procedure and a manual structural check; require a JSON parser and
+  byte-exact SHA-256 for that route.
+
 ## v1.1.11 - 2026-09-22
 
 - Combine Development and Academic routing when scholarly evidence affects

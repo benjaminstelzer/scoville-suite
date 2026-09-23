@@ -6,6 +6,10 @@ compatibility: "Codex desktop with saved local projects, native task creation in
 
 # Scoville Workflow Codex
 
+Python 3.11+ and the bundled helpers are required. If Python or a required
+helper cannot run, stop the affected operation and report its diagnostic. Never
+rebuild helper output by reading raw files or composing native task payloads by hand.
+
 Reproduce the Scoville Workflow with normal native Codex project tasks. Uses
 native Codex tasks only; no CLI runtime. The coordinator maintains the durable
 Plan, selects bounded dispatch units and routing, and owns accepted Plan

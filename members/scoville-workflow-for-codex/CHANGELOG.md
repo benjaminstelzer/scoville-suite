@@ -3,6 +3,8 @@
 ## v0.4.6 - 2026-09-23
 
 - Resolve task pairs from the configured routes and raise the second and third repair attempts along the WORK rows.
+- Bundle project-contract and coordinator-guard verification with bounded Work Item selection in one read-only preflight call.
+- Stop an affected operation when Python or a required helper cannot run instead of reconstructing its result manually.
 
 ## v0.4.5 - 2026-09-23
 
