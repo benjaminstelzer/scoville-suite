@@ -2,7 +2,7 @@
 
 Requires Codex desktop, a saved local project, native task creation, waiting,
 messaging and archival controls, access to the task's own `CODEX_THREAD_ID`,
-and a supported Scoville Plan profile. Python 3.11+ runs the deterministic helpers.
+and Scoville Plan v1.8.0 or a compatible source_text selector. Python 3.11+ runs the deterministic helpers.
 There is no CLI or Claude Code execution path.
 
 Tasks must share the existing checkout. If the host cannot provide that,

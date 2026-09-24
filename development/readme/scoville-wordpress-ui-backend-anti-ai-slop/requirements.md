@@ -17,4 +17,4 @@
   then view and operate the affected interface. A screenshot or build alone
   cannot prove the complete result.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop/blob/main/scoville-wordpress-ui-backend-anti-ai-slop/SKILL.md).
+- The complete contract is in [SKILL.md]({{ var: contract_url }}).

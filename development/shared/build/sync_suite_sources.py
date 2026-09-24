@@ -13,7 +13,7 @@ def snapshot(root, source):
              'build/verify_package_set.py', 'build/fragments.md',
              'instruction-writing.md', 'luna-release-gate.md'}
     # Retain shared development sources and tests, not only runtime consumers.
-    for folder in ('build', 'readme', 'runtime', 'tests'):
+    for folder in ('build', 'readme', 'runtime', 'prompting', 'tests'):
         paths.update(p.relative_to(source).as_posix() for p in (source / folder).rglob('*')
                      if p.is_file() and '__pycache__' not in p.parts
                      and p.suffix not in ('.pyc', '.pyo'))
@@ -21,6 +21,9 @@ def snapshot(root, source):
     for member in config['members']:
         entries.extend(member['readme'])
         paths.update(item['source'] for item in member.get('shared_helpers', []))
+        paths.update(item['source'].removeprefix('shared:')
+                     for item in member.get('files', [])
+                     if item['source'].startswith('shared:'))
     for reference in readme_references(entries, 'suite'):
         if reference.startswith('shared:'):
             paths.add('readme/' + reference.removeprefix('shared:'))

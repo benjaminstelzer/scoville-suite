@@ -27,8 +27,8 @@ class PhaseRouteTests(unittest.TestCase):
                         mapping = {h["target"]: suite.parent / "shared" / h["source"] for h in member["shared_helpers"]}
                         target = mapping.get(PACKAGE.name + "/scripts/" + target.name, target)
                     self.assertTrue(target.is_file(), link)
-        self.assertEqual(len(headings), 12)
-        self.assertEqual(len(set(headings)), 12)
+        self.assertEqual(len(headings), 15)
+        self.assertEqual(len(set(headings)), len(headings))
         self.assertNotIn("completely before the first Plan", (PACKAGE / "SKILL.md").read_text(encoding="utf-8"))
         self.assertIn("After\ncompaction or context loss", core)
         self.assertIn("A read marker or hash alone is not the contents", core)

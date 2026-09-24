@@ -16,4 +16,4 @@
 - **Transfer does not advance the task.** Handoff reads the named state but does
   not edit, test, publish, or otherwise improve it on the way out.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-handoff/blob/main/scoville-handoff/SKILL.md).
+- The complete contract is in [SKILL.md]({{ var: contract_url }}).

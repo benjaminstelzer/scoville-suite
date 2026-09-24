@@ -50,3 +50,5 @@ reasoning = "high"
 [review.ultra_high]
 model = "gpt-6-astra"
 reasoning = "xhigh"
+
+{{ include: prompting.defaults }}

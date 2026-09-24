@@ -16,4 +16,4 @@
 - **A hard decision stop.** The result gives benefits, risks, and cheapest
   falsifiers, then waits for human selection.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-brainstorm/blob/main/scoville-brainstorm/SKILL.md).
+- The complete contract is in [SKILL.md]({{ var: contract_url }}).

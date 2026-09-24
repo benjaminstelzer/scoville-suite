@@ -14,10 +14,11 @@ spec.loader.exec_module(builder)
 class ReadmeTemplateTests(unittest.TestCase):
     def test_workflow_beta_notice_can_be_removed_without_runtime_changes(self):
         root = SHARED.parent / 'scoville-suite'
-        member = next(m for m in builder.load(root)['members'] if m['name'] == 'scoville-workflow-for-codex')
-        beta = builder.payload(root, member)
+        config = builder.load(root, 'codex')
+        member = next(m for m in config['members'] if m['name'] == 'scoville-workflow-for-codex')
+        beta = builder.payload(root, member, config)
         stable = dict(member, variables=dict(member['variables'], release_notice=''))
-        candidate = builder.payload(root, stable)
+        candidate = builder.payload(root, stable, config)
         self.assertIn(b'**Beta.**', beta['README.md'])
         self.assertNotIn(b'**Beta.**', candidate['README.md'])
         self.assertEqual({p: b for p, b in beta.items() if p != 'README.md'},
@@ -97,7 +98,7 @@ class ReadmeTemplateTests(unittest.TestCase):
 
     def test_suite_descriptions_reuse_member_sources_and_feature_workflow(self):
         root = SHARED.parent / 'scoville-suite'
-        result = builder.expand_fragments(root, '{{ include: suite.descriptions }}')
+        result = builder.expand_fragments(root, '{{ include: suite.descriptions }}', config=builder.load(root, 'codex'))
         self.assertTrue(result.startswith('## Scoville Workflow for Codex\n'))
         for member in builder.load(root)['members']:
             source = builder.readme_source(root, member['readme'][0]).read_text(encoding='utf-8').strip()

@@ -22,4 +22,4 @@
 - **A decision stop.** Research ends when the decision-relevant evidence is
   sufficient or the remaining gap is explicit.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-research/blob/main/scoville-research/SKILL.md).
+- The complete contract is in [SKILL.md]({{ var: contract_url }}).

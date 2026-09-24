@@ -22,7 +22,7 @@
       "id": "durable-default-path",
       "given": "Create a durable Deep research package. No output path is given.",
       "expect": [
-        "Use research/<lowercase-kebab-topic>/ in the workspace.",
+        "Ask for an allowed project-owned or temporary output path before writing; do not create a default research directory.",
         "Do not treat report permission as permission to install or edit the investigated software."
       ]
     },

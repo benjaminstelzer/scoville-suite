@@ -1,6 +1,6 @@
 # Research and Brainstorm composition
 
-Load this reference only when the user explicitly requests a combined Scoville Research and Scoville Brainstorm run and both Skills are independently available and applicable. This protocol does not install, activate, or require either sibling for standalone work.
+Load this reference only when the user explicitly requests a combined Scoville Research and Scoville Brainstorm run {{ package: standalone }}and both Skills are independently available and applicable.{{ /package }}{{ package: suite }}and both concerns apply.{{ /package }} {{ package: standalone }}This protocol does not install, activate, or require either sibling for standalone work.{{ /package }}{{ package: suite }}Their installed status is supplied by the suite; this protocol preserves the explicit combined-task boundary.{{ /package }}
 
 When the requested schema asks for the mode, return the canonical value `explicit_combined`.
 

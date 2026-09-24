@@ -18,19 +18,20 @@ class LifecycleBuildTests(unittest.TestCase):
     def test_isolated_exported_consumers_and_receipt(self):
         for suite, expected in [('scoville-suite', 1), ('ask-suite-for-codex', 5)]:
             root = SHARED.parent / suite
-            members = [m for m in builder.load(root)['members'] if m.get('shared_helpers')]
+            profile = 'codex' if suite == 'scoville-suite' else None
+            members = [m for m in builder.load(root, profile)['members'] if any(h['source'] == 'runtime/task_lifecycle.py' for h in m.get('shared_helpers', []))]
             self.assertEqual(expected, len(members))
             with tempfile.TemporaryDirectory() as temp:
                 output = Path(temp) / 'build'
-                receipt = builder.build(root, output, False, [m['name'] for m in members])
+                receipt = builder.build(root, output, False, [] if profile else [m['name'] for m in members], profile)
                 for member in members:
                     name = member['name']
-                    relative = f'scoville-suite/packages/{name}' if name == 'scoville-workflow-for-codex' else name
+                    relative = f'scoville-suite-for-codex/packages/{name}' if name == 'scoville-workflow-for-codex' else name
                     script = output / relative / name / 'scripts/task_lifecycle.py'
                     built = next(m for m in receipt['members'] if m['name'] == name)
                     self.assertEqual(relative, built['package_path'])
                     if name == 'scoville-workflow-for-codex':
-                        self.assertEqual('benjaminstelzer/scoville-suite', built['repository'])
+                        self.assertEqual('benjaminstelzer/scoville-suite-for-codex', built['repository'])
                         self.assertEqual('suite', built['distribution'])
                         self.assertFalse((output / name).exists())
                     self.assertEqual((SHARED / 'runtime/task_lifecycle.py').read_bytes(), script.read_bytes())
@@ -57,10 +58,10 @@ class LifecycleBuildTests(unittest.TestCase):
 
     def test_duplicate_mapping_cannot_shadow_shared_owner(self):
         root = SHARED.parent / 'scoville-suite'
-        member = copy.deepcopy(next(m for m in builder.load(root)['members'] if m.get('shared_helpers')))
+        member = copy.deepcopy(next(m for m in builder.load(root, 'codex')['members'] if any(h['source'] == 'runtime/task_lifecycle.py' for h in m.get('shared_helpers', []))))
         member['shared_helpers'].append(member['shared_helpers'][0])
         with self.assertRaisesRegex(ValueError, 'duplicate shared output'):
-            builder.payload(root, member)
+            builder.payload(root, member, builder.load(root, 'codex'))
 
 
 if __name__ == '__main__':

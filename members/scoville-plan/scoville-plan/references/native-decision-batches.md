@@ -4,8 +4,8 @@ Load this reference only for one explicitly authorized multi-Decision
 accept-or-reject transition in `format_version: 1`.
 
 Every affected Decision stores the same SHA-256 `transition_batch` and ordered
-complete `transition_batch_members`. Prefer the bundled read-only helper when
-its script and Python 3 are available. After reading every member's stable
+complete `transition_batch_members`. {{ profile: general }}Prefer the bundled read-only helper when
+its script and Python 3 are available.{{ /profile }}{{ profile: codex }}Use the required bundled Python read-only helper.{{ /profile }} After reading every member's stable
 pre-mutation state, invoke it exactly once for that batch attempt:
 
 ```text
@@ -28,10 +28,11 @@ ADR-0001:accept:<pre-mutation-sha256>
 ADR-0002:reject:<pre-mutation-sha256>
 ```
 
-If Python 3 is unavailable, load
+{{ profile: general }}If Python 3 is unavailable, load
 [decision-batch-without-python.md](decision-batch-without-python.md) for the
 byte-exact alternative. If Python is available but the helper fails, stop the
-batch and report its diagnostic.
+batch and report its diagnostic.{{ /profile }}{{ profile: codex }}If Python or the helper is unavailable or fails, stop the batch and report
+its diagnostic.{{ /profile }}
 
 Member IDs are unique, each member lists itself, and every member carries the
 same identifier and exact member order. Preserve this metadata on later

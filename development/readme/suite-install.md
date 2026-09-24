@@ -1,26 +1,32 @@
 ## Install the suite
 
-Use one request in your agent host:
+Use this request in your agent host:
 
 ```text
-Install all Scoville Skills compatible with this host for all my projects from
-https://github.com/benjaminstelzer/scoville-suite/tree/main/packages
+Install and enable every Skill in this suite for all my projects, using only
+this repository's own packages:
+{{ include: suite.repository }}/tree/main/packages
 Each packages/<name>/<name>/ directory contains one installable Skill.
-Inspect each Skill's compatibility first. Workflow requires Codex desktop.
-Require Python 3.11 or newer for this suite. Check the installed interpreter
-before copying Skills. If it is missing, install a supported Python through the
-platform's normal package manager or official installer, then verify its version.
-If installation is blocked by host permissions, stop and report the blocker.
-Preserve personal configuration and unrelated installed Skills. Do not install
-members/, development/, or another copy from the individual repositories.
-Report installed locations, skipped incompatibilities and discovery results.
+Require every member declared by suite.json. Do not fetch Skills from individual
+repositories or replace a missing package with another distribution.
+If any member is missing or incompatible with this host, report the blocker;
+do not skip it or claim a complete suite installation.
+{{ profile: general }}Use Python helpers when available. Load their manual procedures only when
+Python is absent; an old interpreter or helper error does not permit that route.
+{{ /profile }}{{ profile: codex }}Codex and Python 3.11 or newer are required. Verify the interpreter before
+copying Skills. If missing, install supported Python through the normal package
+manager or official installer and verify the version. Report blocked host
+permissions instead of continuing with an incomplete installation.
+{{ /profile }}Preserve personal configuration and unrelated installed Skills. Install only
+the inner package directories, not members/ or development/. Report locations,
+the complete installed member set and discovery results.
 ```
 
-The suite supplies all its Skills from one repository. Your host still sees
-separate Skills, so you can enable or disable them individually. Workflow is
-suite-only. The specialist Skills are also available from their individual repositories.
+All included Skills must remain enabled. Their task scope and invocation rules
+still apply; Workflow requires an explicit invocation. Choose standalone Skill
+packages instead if you want only selected Skills. Do not mix standalone and
+suite copies of the same Skill.
 
-If your host cannot fetch or install them, copy each compatible inner Skill
-directory to its documented Skills location. See the
-[Codex Skills guide](https://developers.openai.com/codex/skills/) or
-[Claude Code Skills guide](https://code.claude.com/docs/en/skills).
+If the host cannot install directly from GitHub, download this suite repository
+and copy all its inner package directories to the host's documented Skills
+location. This uses the same complete suite packages and requirements.

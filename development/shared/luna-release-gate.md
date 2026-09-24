@@ -5,8 +5,11 @@ Codex CLI. The coordinator's model is not a test acceptance input.
 
 Before publishing either suite or its members:
 
-1. Build the release packages under `E:/Dropbox/AI Projects/skills/public`.
-   Preserve existing checkouts and changes. Workflow uses the suite package
+1. Build release packages only under `E:/Dropbox/AI Projects/skills/temp/release`.
+   Keep exactly one current release build. Replace obsolete candidates only
+   after their readers finish; never create dated or numbered sibling builds.
+   Preserve existing checkouts and changes. Synchronize verified suite exports
+   to `skills/public/scoville-suite` and `skills/public/scoville-suite-for-codex`. Workflow uses the suite package
    path, not an individual repository. Until release approval, test its same
    relative path in private staging.
 2. ADR-0011 selects five cases for each of ten Scoville Skills and one

@@ -68,7 +68,7 @@ reference before changing the record.
   in the strict native format. For a still-`todo` item without Steps, add one
   behavior-complete annotated Step when the choice must be retained. Apply the
   narrow started-item exception only through `Preserve authored history` above.
-- When work has several ordered actions, use consecutive numbered Steps in the
+- When work has several behavior-complete units, use consecutive numbered Steps in the
   exact execution order. Name every known repository-relative file in its
   action Step. If ownership is unknown, perform bounded read-only discovery
   before start when practical and refine the `todo` item with the observed path.

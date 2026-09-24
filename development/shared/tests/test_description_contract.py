@@ -33,7 +33,7 @@ class DescriptionContractTests(unittest.TestCase):
 
     def test_workflow_chart_and_both_thresholds_survive(self):
         root=SHARED.parent/'scoville-suite'
-        workflow=next(m for m in builder.load(root)['members'] if m['name']=='scoville-workflow-for-codex')
+        workflow=next(m for m in builder.load(root, 'codex')['members'] if m['name']=='scoville-workflow-for-codex')
         text=builder.readme(root,workflow).decode()
         self.assertIn('```mermaid\nflowchart TD',text)
         self.assertIn('at or above 33%',text)

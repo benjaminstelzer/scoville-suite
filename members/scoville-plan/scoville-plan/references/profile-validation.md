@@ -1,14 +1,15 @@
 # Read-only profile validation
 
 Use the bundled validator only to inspect a complete supported Scoville Plan
-`format_version: 1` profile. It is an optional structural check, not a planning
+`format_version: 1` profile. {{ profile: general }}It is an optional structural check, not a planning
 CLI, writer, repair tool, lifecycle authority, or requirement for using this
-Skill.
+Skill.{{ /profile }}{{ profile: codex }}It is a required structural check for the operations below. It does not
+write or repair records and supplies no lifecycle authority.{{ /profile }}
 
 ## When to run it
 
-Run the validator when its script and a Python 3 interpreter are already
-available:
+{{ profile: general }}Run the validator when its script and a Python 3 interpreter are already
+available:{{ /profile }}{{ profile: codex }}Run the required validator with Python 3.11+:{{ /profile }}
 
 - after changing any canonical Plan, Work Item, Decision, or project index;
 - when the user requests a complete native-profile audit; or
@@ -84,7 +85,8 @@ Changing a relevant file or dependency invalidates affected evidence. Before
 completion, validate the final state again. Never reuse an old successful
 result for changed bytes.
 
-If Python is unavailable, load
+{{ profile: general }}If Python is unavailable, load
 [profile-without-python.md](profile-without-python.md). Do not install a runtime
 merely to run the optional check. If Python is available but the bundled script
-is missing or fails, report the limitation without claiming structural success.
+is missing or fails, report the limitation without claiming structural success.{{ /profile }}{{ profile: codex }}Python 3.11+ and the bundled validator are required. If either is unavailable
+or validation fails, report the diagnostic without claiming structural success.{{ /profile }}

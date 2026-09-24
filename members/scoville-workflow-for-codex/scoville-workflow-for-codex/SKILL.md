@@ -6,6 +6,8 @@ compatibility: "Codex desktop with saved local projects, native task creation in
 
 # Scoville Workflow Codex
 
+{{ include: family.contract }}
+
 Python 3.11+ and the bundled helpers are required. If Python or a required
 helper cannot run, stop the affected operation and report its diagnostic. Never
 rebuild helper output by reading raw files or composing native task payloads by hand.
@@ -18,6 +20,14 @@ acceptance work itself.
 
 Run `python <skill-directory>/scripts/manage_agents_contract.py check --workspace <exact-workspace-root>` before the role gate.
 If it reports `installed: false`, load `references/agents-setup.md`, follow only that setup flow, and end; if it reports `installed: true`, do not load setup or the contract source and continue below.
+
+Additional instructions for every coordinator, worker and reviewer use this
+Skill's [prompting] configuration in `assets/workflow.toml`, independently of
+Plan's settings. Use the bundled `scripts/resolve_prompt_profile.py` for the
+actual recipient model; the dispatch builder applies it automatically. Apply
+its common rules and selected profile to additional prose only. Pass canonical
+Plan source_text unchanged. Never assume conversation history. Coordinator
+creation and rollover use the same helper and retain their fixed contracts.
 
 ## First operation: role gate
 
@@ -107,6 +117,7 @@ workflow, workspace, and Plan reference or unresolved objective. A successful
 acquire authorizes no project writer. Generate `initial_coordinator_title` with
 the bundled lifecycle helper's `task_title`: family `workflow`, role `coordinator`,
 `coordinator_title` from `coordinator.title`, exact `workflow_id`, `generation:1`.
+The title is `SCW COORD G<N> [<workflow_id>]`: keep the full workflow ID last.
 Use that exact title for creation and every
 provisional or unknown-result reconciliation, so an older visible completed
 coordinator cannot match the new launch.
@@ -224,70 +235,14 @@ selection; each child chooses applicable Skills under normal trigger rules.
 
 ## Dispatch routing
 
-Use the Plan hierarchy. A Work Item without Steps is one dispatch unit. A Step
-is the default unit; adjacent Steps may share one unit only through the guarded
-compatibility procedure in [operations.md](references/operations.md). Never
-invent subdivisions, combine Work Items, or split activities that share one
-behavior and Acceptance boundary.
-
-For every fresh execution unit, classify the complete execution and verification
-scope from actual consequence and reasoning demand, not file or activity count.
-Check the classes from `ultra_high` down to `ultra_low` and choose the highest
-class whose criteria apply. If a Step begins with `[route: CLASS]`, treat that
-class as the planned minimum: raise the effective dispatch route when the
-annotation was too low or incomplete, even when no fact changed after planning,
-and never dispatch below it. Do not reclassify a repair or context-rollover
-continuation. New repair attempts follow the WORK-row escalation in
-[review](references/operations-review.md); context-rollover successors retain
-their own launched pair.
-
-- `ultra_low`: simple bounded local change with trivial verification.
-- `low`: nontrivial local implementation judgment or verification, with one
-  known behavior owner, understood helper contracts, established verification
-  commands, and no diagnosis across component or test-harness boundaries.
-- `medium`: an unresolved helper contract or required local diagnostic
-  discovery, interacting behavior owners, helper or mock availability across a
-  harness boundary, integration diagnosis, or broader checks whose results
-  require interpretation.
-- `high`: consequential changes to state, authorization, or integration
-  contracts, rather than mere involvement with those systems.
-- `ultra_high`: unusually consequential or complex work beyond `high`.
-
-`low` is allowed only when every low criterion is positively established from
-the selected Plan context and bounded preflight. The targets and single behavior
-owner must already be known; helper, mock, harness, and generator contracts must
-be understood; verification commands and expected results must be exact and
-mechanical; and execution must require no search, inventory, diagnosis, or result
-interpretation across files, components, languages, runtimes, or harnesses. If
-any one of these facts is false or unknown, use at least `medium`.
-
-Use at least `medium` when execution must locate or classify affected targets,
-decide ownership among duplicated or mirrored definitions, preserve a contract
-across languages or components, discover how helpers or tests work, coordinate
-generated artifacts with their source, or interpret broad validation results.
-A simple verb such as add, rename, comment, document, or test is not evidence for
-`low`; classify the mechanism and verification needed to complete it.
-
-Use `ultra_low` only when none of `medium`, `high`, or `ultra_high` applies and
-the work needs no nontrivial local implementation or verification judgment.
-
-Many files, generated metadata, or a known large test suite alone do not raise
-the route. Route class, model, and reasoning level are separate decisions; a
-model's `medium` reasoning setting does not make a `low` route equivalent to a
-`medium` route. Resolve the final class through the operations-owned
-`scripts/resolve_model_pair.py`, which reads [workflow.toml](assets/workflow.toml).
-Resolve the executor model and reasoning independently: the selected Step's strict
-`[execute: ...]` annotation overrides the matching route-default property.
-An explicitly chosen pair for a still-`todo` Work Item without Steps must be
-retained by adding one behavior-complete annotated Step; do not add a field.
-Validate the resulting pair against current host support and block the unit
-rather than substitute when either property or their combination is
-unavailable. This override changes neither route risk nor review requirements.
-When the operations contract requires review, use the configured reviewer pair
-for the same class; point overrides never affect coordinator or reviewer
-routing. Do not probe unused models.
+[operations-dispatch.md](references/operations-dispatch.md) owns the complete
+route eligibility, model and reasoning rules. Read that contract before fresh
+dispatch classification. Writing depth never changes route or authority.
 
 ## Coordinator runtime reference
+
+Read `references/operations.md` first, then only the packaged paths it links.
+Do not invent reference or helper filenames.
 
 [operations.md](references/operations.md) owns every coordinator operation after
 the role, launcher, boundary, and route are established. Follow it for the

@@ -14,4 +14,4 @@
 
 - The canonical Plan owns progress. Workflow does not add a persistent Codex goal or another continuation loop alongside its coordinator.
 
-- For delivery recovery, permission boundaries and failure handling, see [Native Codex operations](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md).
+- For delivery recovery, permission boundaries and failure handling, see [Native Codex operations](https://github.com/benjaminstelzer/scoville-suite-for-codex/blob/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md).

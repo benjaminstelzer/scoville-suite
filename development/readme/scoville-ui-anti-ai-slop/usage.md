@@ -1,21 +1,12 @@
 ## How to use
 
-Name Scoville UI for interface design, implementation, or audit work:
-
 ```text
-Use Scoville UI to implement this settled settings-screen design through the product's existing component system. Cover loading, empty, error, and success states, then verify the rendered result responsively.
+Use Scoville UI to implement this settings screen with the existing component system. Cover its states and verify the rendered interactions.
 ```
 
 ```text
-Use Scoville UI to audit the current checkout for hierarchy, accessibility, keyboard use, responsive behavior, and recovery from errors. Do not change files.
+Audit the checkout interface for keyboard use, responsive behavior, accessibility and error recovery. Report findings without changing files.
 ```
-
-```text
-Use Scoville Design with Scoville UI. Design owns the workflow, hierarchy, typography, spacing, and design-system decision. UI implements that record through the existing framework and proves component states and interactions.
-```
-
-Explicit `$scoville-ui-anti-ai-slop` invocation also works on hosts that
-support named Skill invocation.
 
 ### Source-first checks and consistency audits
 

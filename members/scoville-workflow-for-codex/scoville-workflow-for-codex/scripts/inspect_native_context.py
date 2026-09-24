@@ -178,6 +178,12 @@ def parse_builder_assignment(assignment: str) -> dict[str, Any]:
         except json.JSONDecodeError as error:
             raise InspectionError("the builder assignment input is not JSON") from error
     plan_context = inputs.pop("plan_context", None)
+    prompting = inputs.pop("prompting", None)
+    if prompting is not None and (not isinstance(prompting, dict)
+            or set(prompting) != {"profile", "instructions"}
+            or prompting["profile"] not in {"low", "medium", "high"}
+            or not isinstance(prompting["instructions"], str) or not prompting["instructions"].strip()):
+        raise InspectionError("the builder writing profile is malformed")
     try:
         generation = int(fields["guard_generation"])
         revision = int(fields["guard_revision"])
@@ -197,6 +203,7 @@ def parse_builder_assignment(assignment: str) -> dict[str, Any]:
         "guard_task_id": None if task_id == "read_only" else task_id,
         "plan_context": plan_context,
         "role_input": inputs,
+        "prompting": prompting,
     }
     try:
         validate_prompt_arguments(
@@ -703,11 +710,10 @@ def inspect(
     if terminal is None:
         return {"schema_version": 1, "state": "continue", "action": "continue_role"}
     validate_role_result(terminal, role)
-    action = "return_only" if delivery_texts or failed_delivery_texts else "deliver_then_return"
     return {
         "schema_version": 1,
         "state": "replay",
-        "action": action,
+        "action": "return_only",
         "result_text": terminal,
     }
 

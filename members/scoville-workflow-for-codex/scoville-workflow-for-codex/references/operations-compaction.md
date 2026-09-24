@@ -33,14 +33,11 @@ Apply the helper action literally:
 1. **`continue_role`:** no own terminal result was emitted or delivered in the
    inspected interval. Continue the unchanged role. An inherited
    `context_handoff` remains only continuation input.
-2. **`deliver_then_return`:** one schema-valid own final result was emitted but
-   not delivered. Deliver its exact `result_text` once with the current
-   reference, then return identical bytes and perform no other action.
-3. **`return_only`:** one schema-valid own result has a settled single delivery
-   attempt, either successful or definitely failed, with an optional identical
-   final response. Return its exact `result_text` without another delivery and
-   perform no other action.
-4. **`return_blocked`:** native evidence is unavailable, ambiguous,
+2. **`return_only`:** one schema-valid own final result was emitted, or an
+   already-dispatched legacy callback settled successfully or with a definite
+   failure. Return its exact `result_text` as the final response without a
+   callback or any other work.
+3. **`return_blocked`:** native evidence is unavailable, ambiguous,
    contradictory, duplicated, malformed, or the helper cannot run. Perform no
    project action and return an ordinary schema-valid `blocked` result naming
    only this gate failure.
@@ -82,7 +79,7 @@ repair accounting.
 | Inspected interval | Child action | Coordinator effect |
 | --- | --- | --- |
 | Exact own result delivered before compaction but final response absent | Return the delivered JSON bytes without a second delivery | Accept only after exact turn completion and byte recovery |
-| Exact own final result before compaction but delivery absent | Deliver then return the same JSON bytes and perform no work | Accept only after exact turn completion and byte recovery |
+| Exact own final result before compaction but delivery absent | Return the same JSON bytes without a callback or further work | Accept only after exact turn completion and byte recovery |
 | Complete interval with no own terminal result | Continue the unchanged role | Normal result handling |
 | Missing duplicate malformed or contradictory evidence | Return `blocked` without project action | Archive exact failure and record a blocker |
 | Same predecessor is delivered twice | Repeat the same terminal result | Reconcile the existing successor; create no duplicate |

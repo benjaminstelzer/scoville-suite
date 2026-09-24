@@ -1,7 +1,7 @@
 ---
 name: scoville-research
 description: Conduct source-backed web research for current multi-source questions, technology and implementation discovery, or literature synthesis, with GitHub-first Development routing, scholarly-source routing, contradiction checks, and optional durable deep-research artifacts. Use for explicit research, landscape, state-of-the-art, evidence-review, or implementation-option requests that need more than a simple lookup. Do not use for one known page or paper summary, ordinary repository inspection, pure brainstorming, planning, implementation, or wording work.
-compatibility: "Any Agent Skills host with references/ access and web search/page fetching. Saved Deep packages need a writable workspace, a JSON parser and byte-exact SHA-256. Python 3 runs the optional validator; a documented manual check works without it. Chat-only Deep needs neither workspace nor hash tools. Optional subagents need capacity and close control. Developed for Codex and Claude Code; other hosts untested."
+compatibility: "{{ profile: general }}Any Agent Skills host with references/ access and web search/page fetching. Saved Deep packages need a writable workspace, a JSON parser and byte-exact SHA-256. Python 3 runs the optional validator; a documented manual check works without it. Chat-only Deep needs neither workspace nor hash tools. Optional subagents need capacity and close control. Developed for Codex and Claude Code; other hosts untested.{{ /profile }}{{ profile: codex }}Codex with references/ access, web search/page fetching and Python 3.11+. Saved Deep packages require a writable workspace and the bundled validator for JSON, exact SHA-256 hashing and structural checks. Chat-only Deep needs neither a workspace nor hash tools. Optional subagents require capacity and close control.{{ /profile }}"
 ---
 
 # Scoville Research
@@ -14,9 +14,9 @@ On explicit opt-out, load no references, perform no Skill-directed research, and
 
 Research owns question framing, source routing, retrieval strategy, claim-to-evidence traceability, contradiction handling, stopping, and source-backed synthesis. It does not own the user's eventual choice or the implementation that may follow.
 
-Finding another Skill in this family does not make it installed, active, applicable, or required. If that Skill is absent or inactive, ignore it. Do not require, install, simulate, or reimplement it. If it is active and applicable, let it handle only its stated concern while this Skill continues its own authorized work. An opt-out applies only to the Skill the user excluded, not to independently authorized work.
+{{ include: family.contract }}
 
-Relevant neighboring owners:
+{{ package: standalone }}Relevant neighboring owners:{{ /package }}
 
 {{ include: family.neighbors }}
 
@@ -31,7 +31,9 @@ material, message, publish, or run a proof of concept without separate authority
 
 ## Route the request
 
-Choose the smallest route that can answer the question:
+Choose the smallest route that can answer the question. Load only references
+authorized by that route; a link inside one reference does not activate another
+procedure. Check each linked procedure's stated prerequisites before loading it:
 
 | Route | Use | Load |
 | --- | --- | --- |
@@ -43,7 +45,7 @@ Choose the smallest route that can answer the question:
 
 Select domains by the evidence needed, not only the task label. When scholarly evidence affects an implementation survey's claims, load both Development and Academic, even if only abstracts are accessible. A passing mention of a paper adds no route. Deep adds rigor to every selected domain; it replaces none and adds saved state only when requested.
 
-When the user explicitly requests a combined Scoville Research and Scoville Brainstorm run and both Skills are independently available and applicable, load [brainstorm-composition.md](references/brainstorm-composition.md). Treat it as an explicit composition protocol, not a new research route or an automatic sibling activation.
+When the user explicitly requests a combined Scoville Research and Scoville Brainstorm run {{ package: standalone }}and both Skills are independently available and applicable,{{ /package }}{{ package: suite }}and both concerns apply,{{ /package }} load [brainstorm-composition.md](references/brainstorm-composition.md). Treat it as an explicit composition protocol, not a new research route or an automatic sibling activation.
 
 Do not turn a request for several invented mechanisms into research merely because prior art may help; that is Brainstorm. A research request alone does not authorize implementation of the researched option. Implementation needs its own authorization, which may already be present in the user's request; do not ask for the same authorization again.
 

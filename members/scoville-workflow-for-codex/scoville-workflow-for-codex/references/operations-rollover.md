@@ -52,7 +52,9 @@ Perform this sequence once:
    contract, current guard, no writer authorization, and workspace drift.
 2. Call `begin-rollover` with the expected guard revision and generation, exact
    accepted unit, one predecessor-and-unit transition key, and one unique
-   successor title from `task_title` using the next generation.
+   successor title from `task_title` using current guard generation plus two
+   for the displayed generation. The first successor is `G2`; guard generation
+   still advances from 0 to 1.
 3. Create one successor with only `scoville_role=coordinator`,
    `coordinator_start=rollover_parking`, exact workspace, retained
    `workspace_mode`, saved-project identity, workflow ID, transition key,
@@ -77,10 +79,10 @@ Perform this sequence once:
    predecessor visible with the exact blocker.
 6. The successor verifies those values, the Plan profile, Git or non-Git state,
    accepted boundary, and next eligible unit without Plan or project writes. It
-   calls `validate-successor` with the exact transition key, sends one
-   identity-bound validation acknowledgement to the predecessor through
-   `send_message_to_thread`, and ends. If that delivery fails, it still ends
-   with its validation receipt. After authoritative completion, the predecessor
+   calls `validate-successor` with the exact transition key and returns its
+   validation receipt as its final response. Send no callback message. The
+   predecessor receives the receipt through its exact-successor `wait_threads`
+   call. After authoritative completion, the predecessor
    reconciles the same successor identity, transition key, revision, generation,
    and `rollover_validated` guard state; it never creates another successor.
 7. After the completed validation turn and exact validated guard check, the
@@ -156,10 +158,21 @@ same transition key; an unknown create outcome never creates a second successor.
 | Mid-unit phase or failed transition | Do not roll over |
 | Provisional or unknown successor creation | Reconcile; do not recreate or archive |
 | Ready successor not yet validated or transferred | Both remain read-only for handoff; predecessor stays visible |
-| Ready successor completed validation checks | Successor validates and ends; predecessor confirms its exact completed turn and reconciles the same validated guard even if acknowledgement delivery failed |
+| Ready successor completed validation checks | Successor returns its validation receipt; predecessor confirms its exact completed turn and reconciles the same validated guard |
 | Guard is `rollover_validated` and predecessor is awake | Predecessor transfers the guard and sends same-key activation; it never self-archives |
 | Activated successor is listed or exact-read active and sees predecessor turn completion | After the helper permits archival, successor alone archives that exact predecessor and requires same-ID `archived: true` before selection or dispatch |
 | Transfer succeeded but activation delivery failed | Keep both tasks unarchived; predecessor visibly reports the blocker without Plan or project writes and reconciles only the same-key activation |
 | Successor is neither listed nor exact-read active but reachability and predecessor completion are proven under the active guard | Continue guarded selection; retain predecessor open; create no replacement coordinator |
 | Successor exact reachability or predecessor completion is unproven | Archive neither task; preserve the guard and report the exact blocker |
 | Scope complete, Plan complete, or Stop | Create no successor |
+
+## Coordinator writing depth
+
+Before composing successor validation and activation instructions, run this
+Workflow's `scripts/resolve_prompt_profile.py --config <workflow-skill-directory>/assets/workflow.toml --model <actual-successor-model>`.
+Add `--profile` only for an explicit user depth applicable to that successor.
+Apply the returned common rules and profile to additional prose. Preserve every
+required identity, state, permission boundary and exact canonical reference.
+Give explicit reading instructions for accessible sources; supply necessary
+content directly when a source is inaccessible. Never assume predecessor chat
+history or replace the existing rollover handshake with a narrative summary.

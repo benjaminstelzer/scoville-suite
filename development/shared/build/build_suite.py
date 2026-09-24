@@ -31,8 +31,38 @@ def within(root: Path, relative: str) -> Path:
     return resolved
 
 
-def load(root: Path) -> dict:
+def load(root: Path, profile: str | None = None, layout: str | None = None) -> dict:
     data = json.loads((root / 'suite.json').read_text(encoding='utf-8'))
+    profiles = data.pop('profiles', {})
+    if profiles:
+        default_profile = data.pop('default_profile')
+        selected = profile or default_profile
+        if selected not in profiles:
+            raise ValueError('unknown build profile: ' + str(selected))
+        settings = profiles[selected]
+        if set(settings) - {'name', 'repository', 'readme'}:
+            raise ValueError('unsupported profile setting')
+        data.update(settings)
+        data['profile'] = selected
+        def included(entry):
+            choices = entry.pop('profiles', list(profiles))
+            if not isinstance(choices, list) or not choices or set(choices) - profiles.keys():
+                raise ValueError('invalid profile selection')
+            return selected in choices
+        all_names = {m['name'] for m in data['members']}
+        data['members'] = [m for m in data['members'] if included(m)]
+        names = {m['name'] for m in data['members']}
+        if data.get('featured_member') not in names:
+            data.pop('featured_member', None)
+        for member in data['members']:
+            member['files'] = [item for item in member['files'] if included(item)]
+            if member.get('distribution') == 'suite':
+                member['repository'] = data['repository']
+            neighbors = member.get('family', {}).get('neighbors', [])
+            member.get('family', {})['neighbors'] = [entry for entry in neighbors
+                if not (entry.get('optional') and entry.get('member') in all_names and entry.get('member') not in names)]
+    elif profile is not None and profile != data.get('profile'):
+        raise ValueError('unknown build profile: ' + profile)
     if data['schema_version'] != 1:
         raise ValueError('unsupported suite manifest')
     if type(data.get('member_previews', True)) is not bool:
@@ -54,12 +84,55 @@ def load(root: Path) -> dict:
             raise ValueError('invalid distribution policy')
         if member['public_distribution'] and member['visibility'] != 'public':
             raise ValueError('private member cannot enter public builds')
+    selected_layout = layout or data.get('layout', 'suite' if data.get('profile') == 'codex' else 'standalone')
+    if data.get('profile') == 'codex' and selected_layout != 'suite':
+        raise ValueError('Codex edition is suite-only')
+    if selected_layout not in {'standalone', 'suite'}:
+        raise ValueError('unknown package layout')
+    if 'layout' in data and selected_layout != data['layout']:
+        raise ValueError('exported sources retain their package layout')
+    data['layout'] = selected_layout
+    if selected_layout == 'suite':
+        for member in data['members']:
+            member['distribution'] = 'suite'
+            member['repository'] = data['repository']
+    for member in data['members']:
+        prefix = 'packages/' + member['name'] + '/' if member.get('distribution') == 'suite' else ''
+        member.setdefault('variables', {})['contract_url'] = (
+            'https://github.com/' + member['repository'] + '/blob/main/' + prefix + member['name'] + '/SKILL.md')
     return data
+
+
+def select_text(text: str, kind: str, selected: str | None, allowed: set[str]) -> str:
+    pattern = r'\{\{ ' + kind + r': ([a-z]+) \}\}(.*?)\{\{ /' + kind + r' \}\}'
+    def replace(match):
+        if match[1] not in allowed or '{{ ' + kind + ':' in match[2] or selected not in allowed:
+            raise ValueError('invalid or unselected ' + kind + ' block')
+        return match[2] if match[1] == selected else ''
+    result = re.sub(pattern, replace, text, flags=re.S)
+    if '{{ ' + kind + ':' in result or '{{ /' + kind in result:
+        raise ValueError('unknown or unclosed ' + kind + ' block')
+    return result
+
+
+def profile_text(text: str, profile: str | None) -> str:
+    return select_text(text, 'profile', profile, {'general', 'codex'})
+
+
+def variant_text(text: str, config: dict) -> str:
+    return select_text(profile_text(text, config.get('profile')), 'package',
+                       config.get('layout', 'standalone'), {'standalone', 'suite'})
 
 
 def readme_source(root: Path, reference: str) -> Path:
     if reference.startswith('shared:'):
         return within(shared_root() / 'readme', reference.removeprefix('shared:'))
+    return within(root, reference)
+
+
+def file_source(root: Path, reference: str) -> Path:
+    if reference.startswith('shared:'):
+        return within(shared_root(), reference.removeprefix('shared:'))
     return within(root, reference)
 
 
@@ -103,21 +176,25 @@ def development_links(root: Path, config: dict, member: dict) -> str:
     return ' | '.join(links)
 
 
-def readme(root: Path, member: dict, audience: str = 'release') -> bytes:
+def readme(root: Path, member: dict, audience: str = 'release', config: dict | None = None) -> bytes:
+    config = config if config is not None else load(root)
     references = readme_references(member['readme'], audience)
-    text = ''.join(readme_source(root, p).read_text(encoding='utf-8').rstrip() + '\n\n' for p in references)
-    text = expand_variables(text, member)
+    if config.get('layout') == 'suite':
+        references = [p for p in references if p != 'shared:family.md']
+    text = ''.join(expand_fragments(root, expand_variables(readme_source(root, p).read_text(encoding='utf-8'), member), member, audience=audience, config=config).rstrip() + '\n\n' for p in references)
     if 'description_fragments' in member:
         expected = ['How it works', 'What it enforces', 'What it costs',
                     'How it was developed', 'Compatibility', 'Install',
                     'How to use', 'Sources', 'Family', 'License']
+        if config.get('layout') == 'suite':
+            expected.remove('Family')
         actual = re.findall(r'^## (.+)$', text, re.M)
         # Shared family and license headings are expanded from their files above.
         if actual != expected:
             raise ValueError(f'noncanonical README sections for {member["name"]}: {actual}')
         if member['readme'][:4] != member['description_fragments']:
             raise ValueError('description_fragments must be the first four README entries')
-    return expand_fragments(root, text, member, audience=audience).encode('utf-8')
+    return text.encode('utf-8')
 
 
 def expand_variables(text: str, member: dict) -> str:
@@ -133,9 +210,10 @@ def expand_variables(text: str, member: dict) -> str:
     return result
 
 
-def expand_fragments(root: Path, text: str, member: dict | None = None, *, audience: str = 'release') -> str:
+def expand_fragments(root: Path, text: str, member: dict | None = None, *, audience: str = 'release', config: dict | None = None) -> str:
     """Resolve build-only family projections; packages contain plain Markdown."""
-    config = load(root)
+    config = config if config is not None else load(root)
+    text = variant_text(text, config)
     members = config['members']
     ranks = [m.get('family', {}).get('order') for m in members]
     if any(rank is not None for rank in ranks):
@@ -147,6 +225,14 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
 
     def replace(match):
         key = match[1].strip()
+        if key == 'family.contract':
+            return variant_text(within(shared_root(), 'runtime/skill_composition.md').read_text(encoding='utf-8'), config).strip()
+        if key.startswith('family.') and config.get('layout') == 'suite':
+            if key not in {'family.catalog', 'family.owners', 'family.neighbors', 'family.links', 'family.install'}:
+                raise ValueError('unknown build fragment: ' + key)
+            return ''
+        if key == 'prompting.defaults':
+            return within(shared_root(), 'prompting/models.toml').read_text(encoding='utf-8').strip()
         if key == 'member.development':
             if member is None:
                 raise ValueError('member.development requires a member')
@@ -201,7 +287,8 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                 references = item.get('description_fragments', item.get('readme', [])[:1])
                 if not references:
                     raise ValueError(f'missing description: {item["name"]}')
-                description = '\n\n'.join(readme_source(root, ref).read_text(encoding='utf-8').strip() for ref in references)
+                description = '\n\n'.join(variant_text(readme_source(root, ref).read_text(encoding='utf-8'), config).strip() for ref in references)
+                description = expand_variables(description, item)
                 heading, separator, body = description.partition('\n')
                 if not heading.startswith('# ') or not separator or not body.strip():
                     raise ValueError(f'expected title and description: {item["name"]}')
@@ -210,7 +297,7 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                     raise ValueError(f'description must use absolute links and no includes: {item["name"]}')
                 lines = []
                 fenced = False
-                for line in expand_variables(description, item).splitlines():
+                for line in description.splitlines():
                     if line.startswith('```'):
                         fenced = not fenced
                     if not fenced and re.match(r'^#{1,5} ', line):
@@ -245,16 +332,18 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
     return result
 
 
-def render_readmes(root: Path, write: bool) -> list[str]:
-    config = load(root)
-    rendered = {f'members/{m["name"]}/README.md': readme(root, m, 'suite') for m in config['members']} if config.get('member_previews', True) else {}
-    rendered['README.md'] = expand_fragments(root, ''.join(readme_source(root, p).read_text(encoding='utf-8').rstrip() + '\n\n' for p in config['readme'])).encode('utf-8')
+def render_readmes(root: Path, write: bool, config: dict | None = None, destination: Path | None = None) -> list[str]:
+    config = config if config is not None else load(root)
+    destination = destination or root
+    rendered = {f'members/{m["name"]}/README.md': readme(root, m, 'suite', config) for m in config['members']} if config.get('member_previews', True) else {}
+    rendered['README.md'] = ''.join(expand_fragments(root, readme_source(root, p).read_text(encoding='utf-8'), config=config).rstrip() + '\n\n' for p in config['readme']).encode('utf-8')
     changed = []
     for relative, content in rendered.items():
-        target = within(root, relative)
+        target = within(destination, relative)
         if not target.exists() or target.read_bytes().replace(b'\r\n', b'\n') != content:
             changed.append(relative)
             if write:
+                target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(content)
     return changed
 
@@ -267,8 +356,8 @@ def package_bytes(path: Path) -> bytes:
     return data
 
 
-def payload(root: Path, member: dict) -> dict[str, bytes]:
-    result = {'README.md': readme(root, member)}
+def payload(root: Path, member: dict, config: dict | None = None) -> dict[str, bytes]:
+    result = {'README.md': readme(root, member, config=config)}
     for item in member['files']:
         target = item['target']
         within(root, target)
@@ -278,11 +367,11 @@ def payload(root: Path, member: dict) -> dict[str, bytes]:
             raise ValueError(f'development or local file in package: {target}')
         if target.split('/')[0] != member['name'] and target not in {'LICENSE', 'LICENSE.md', 'LICENSE.txt', 'CHANGELOG.md', '.gitattributes'}:
             raise ValueError(f'non-distribution file: {target}')
-        result[target] = package_bytes(within(root, item['source']))
+        result[target] = package_bytes(file_source(root, item['source']))
         if item.get('template'):
             result[target] = expand_variables(result[target].decode('utf-8'), member).encode('utf-8')
-        if target.endswith('.md') and b'{{' in result[target]:
-            result[target] = expand_fragments(root, result[target].decode('utf-8'), member).encode('utf-8')
+        if target.endswith(('.md', '.toml')) and b'{{' in result[target]:
+            result[target] = expand_fragments(root, result[target].decode('utf-8'), member, config=config).encode('utf-8')
     for item in member.get('shared_helpers', []):
         target = item['target']
         if target in result:
@@ -290,7 +379,7 @@ def payload(root: Path, member: dict) -> dict[str, bytes]:
         if not target.startswith(member['name'] + '/scripts/'):
             raise ValueError('shared helper must be bundled in the member scripts directory')
         within(root, target)
-        result[target] = package_bytes(within(shared_root(), item['source']))
+        result[target] = package_bytes(file_source(root, 'shared:' + item['source']))
     if member['name'] + '/SKILL.md' not in result:
         raise ValueError('missing entrypoint')
     validate_package_links(result)
@@ -326,13 +415,13 @@ def validate_package_links(files: dict[str, bytes]) -> None:
                 raise ValueError(f'missing package link target: {source}: {destination}')
 
 
-def render_sources(root: Path, write: bool) -> list[str]:
+def render_sources(root: Path, write: bool, config: dict | None = None) -> list[str]:
     """Maintain declared template previews only, never runtime-helper copies."""
     changed = []
-    config = load(root)
+    config = config if config is not None else load(root)
     if not config.get('member_previews', True):
         for member in config['members']:
-            payload(root, member)
+            payload(root, member, config)
         return changed
     for member in config['members']:
         for item in member['files']:
@@ -340,7 +429,7 @@ def render_sources(root: Path, write: bool) -> list[str]:
                 continue
             content = expand_variables(within(root, item['source']).read_text(encoding='utf-8'), member).encode('utf-8')
             if item['target'].endswith('.md'):
-                content = expand_fragments(root, content.decode('utf-8'), member).encode('utf-8')
+                content = expand_fragments(root, content.decode('utf-8'), member, config=config).encode('utf-8')
             relative = f'members/{member["name"]}/{item["target"]}'
             target = within(root, relative)
             if not target.exists() or target.read_bytes().replace(b'\r\n', b'\n') != content:
@@ -351,22 +440,26 @@ def render_sources(root: Path, write: bool) -> list[str]:
     return changed
 
 
-def build(root: Path, output: Path, public: bool, selected: list[str]) -> dict:
+def build(root: Path, output: Path, public: bool, selected: list[str], profile: str | None = None, layout: str | None = None, refresh: bool = False) -> dict:
     root, output = root.resolve(), output.resolve()
     if output == root or output.is_relative_to(root) or root.is_relative_to(output):
         raise ValueError('output must be outside the suite source tree')
-    if output.exists():
+    if output.exists() and not refresh:
         raise ValueError('output must not exist; never overwrite a checkout')
-    config = load(root)
+    config = load(root, profile, layout)
     known = {m['name'] for m in config['members']}
     if set(selected) - known:
         raise ValueError('unknown selected member')
+    if config.get('layout') == 'suite' and selected and set(selected) != known:
+        raise ValueError('suite packages require the complete member set')
     members = [m for m in config['members'] if not selected or m['name'] in selected]
     if public and selected and any(not m['public_distribution'] for m in members):
         raise ValueError('selected member is not approved for public distribution')
+    if public and config.get('layout') == 'suite' and any(not m['public_distribution'] for m in members):
+        raise ValueError('complete suite contains a member not approved for public distribution')
     if public:
         members = [m for m in members if m['public_distribution']]
-    prepared = [(m, payload(root, m)) for m in members]
+    prepared = [(m, payload(root, m, config)) for m in members]
     revision = subprocess.run(['git', '-C', str(root), 'rev-parse', '--verify', 'HEAD'], capture_output=True, text=True)
     dirty = subprocess.run(['git', '-C', str(root), 'status', '--porcelain'], capture_output=True, text=True, check=True)
     shared_sources = {'build/build_suite.py': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
@@ -375,13 +468,40 @@ def build(root: Path, output: Path, public: bool, selected: list[str]) -> dict:
             if reference.startswith('shared:'):
                 key = 'readme/' + reference.removeprefix('shared:')
                 shared_sources[key] = hashlib.sha256(readme_source(root, reference).read_bytes()).hexdigest()
+        for item in member.get('files', []):
+            if item['source'].startswith('shared:'):
+                key = item['source'].removeprefix('shared:')
+                shared_sources[key] = hashlib.sha256(file_source(root, item['source']).read_bytes()).hexdigest()
+            elif b'{{ include: prompting.defaults }}' in file_source(root, item['source']).read_bytes():
+                key = 'prompting/models.toml'
+                shared_sources[key] = hashlib.sha256(within(shared_root(), key).read_bytes()).hexdigest()
         for helper in member.get('shared_helpers', []):
             shared_sources[helper['source']] = hashlib.sha256(within(shared_root(), helper['source']).read_bytes()).hexdigest()
-    receipt = {'schema_version': 1, 'suite': config['name'], 'source_commit': revision.stdout.strip() if revision.returncode == 0 else None,
+    shared_sources['runtime/skill_composition.md'] = hashlib.sha256(within(shared_root(), 'runtime/skill_composition.md').read_bytes()).hexdigest()
+    receipt = {'layout': config.get('layout'), 'profile': config.get('profile'), 'schema_version': 1, 'suite': config['name'], 'source_commit': revision.stdout.strip() if revision.returncode == 0 else None,
                'manifest_sha256': hashlib.sha256((root / 'suite.json').read_bytes()).hexdigest(),
                'shared_sources': shared_sources,
                'source_dirty': bool(dirty.stdout), 'public_only': public, 'members': []}
-    output.mkdir(parents=True, exist_ok=False)
+    if output.exists():
+        receipt_path = within(output, 'build-receipt.json')
+        old = json.loads(receipt_path.read_text(encoding='utf-8'))
+        if (old.get('suite'), old.get('profile'), old.get('layout')) != (config['name'], config.get('profile'), config.get('layout')):
+            raise ValueError('refresh requires the same suite/profile/layout')
+        expected_paths = {'build-receipt.json'} | {
+            package_path(config, member) + '/' + relative
+            for member, files in prepared for relative in files}
+        actual_paths = {p.relative_to(output).as_posix() for p in output.rglob('*') if p.is_file()}
+        if actual_paths != expected_paths:
+            raise ValueError('refresh inventory changed; reconcile obsolete staging files first')
+        old_hashes = {m['package_path'] + '/' + name: digest
+                      for m in old['members'] for name, digest in m['files'].items()}
+        if set(old_hashes) != expected_paths - {'build-receipt.json'}:
+            raise ValueError('refresh receipt inventory mismatch')
+        for relative, digest in old_hashes.items():
+            if hashlib.sha256(within(output, relative).read_bytes()).hexdigest() != digest:
+                raise ValueError('refresh refuses changed staging file: ' + relative)
+    else:
+        output.mkdir(parents=True, exist_ok=False)
     for member, files in prepared:
         hashes = {}
         for relative, content in sorted(files.items()):
@@ -399,9 +519,9 @@ def build(root: Path, output: Path, public: bool, selected: list[str]) -> dict:
 
 def verify_shared_helpers(root: Path, output: Path) -> list[str]:
     """Compare generated copies with their current canonical sources, read-only."""
-    config = load(root)
-    members = {m['name']: m for m in config['members']}
     receipt = json.loads((output / 'build-receipt.json').read_text(encoding='utf-8'))
+    config = load(root, receipt.get('profile'), receipt.get('layout'))
+    members = {m['name']: m for m in config['members']}
     errors = []
     for built in receipt['members']:
         member = members[built['name']]
@@ -415,13 +535,13 @@ def verify_shared_helpers(root: Path, output: Path) -> list[str]:
 
 def verify_packages(root: Path, output: Path) -> list[str]:
     """Detect edited packages and stale projections against current suite sources."""
-    config = load(root)
-    members = {m['name']: m for m in config['members']}
     receipt = json.loads((output / 'build-receipt.json').read_text(encoding='utf-8'))
+    config = load(root, receipt.get('profile'), receipt.get('layout'))
+    members = {m['name']: m for m in config['members']}
     errors = []
     for built in receipt['members']:
         member = members[built['name']]
-        expected = payload(root, member)
+        expected = payload(root, member, config)
         folder = within(output, package_path(config, member))
         actual = {p.relative_to(folder).as_posix(): p.read_bytes()
                   for p in folder.rglob('*') if p.is_file()}
@@ -441,18 +561,27 @@ def main(default_root: Path | None = None) -> int:
     modes.add_argument('--check-packages', action='store_true')
     modes.add_argument('--check-sources', action='store_true')
     modes.add_argument('--write-sources', action='store_true')
+    parser.add_argument('--refresh', action='store_true', help='Refresh an intact staging build with the same inventory; never delete files')
     parser.add_argument('--public-only', action='store_true')
+    parser.add_argument('--profile')
+    parser.add_argument('--layout', choices=['standalone', 'suite'])
     parser.add_argument('--member', action='append', default=[])
     args = parser.parse_args()
     if args.root is None:
         parser.error('--root is required when running the shared builder directly')
     try:
         if args.check_sources or args.write_sources:
-            changed = render_sources(args.root, args.write_sources)
+            config = load(args.root, args.profile, args.layout)
+            if (args.profile or args.layout) and (config.get('profile'), config.get('layout')) != (load(args.root).get('profile'), load(args.root).get('layout')):
+                raise ValueError('source previews use the default profile only')
+            changed = render_sources(args.root, args.write_sources, config)
             print(json.dumps({'changed': changed, 'written': args.write_sources}))
             return int(bool(changed) and args.check_sources)
         if args.check_readmes or args.write_readmes:
-            changed = render_readmes(args.root, args.write_readmes)
+            config = load(args.root, args.profile, args.layout)
+            if (args.profile or args.layout) and args.output is None and (config.get('profile'), config.get('layout')) != (load(args.root).get('profile'), load(args.root).get('layout')):
+                raise ValueError('non-default README profiles require --output')
+            changed = render_readmes(args.root, args.write_readmes, config, args.output)
             print(json.dumps({'changed': changed, 'written': args.write_readmes}))
             return int(bool(changed) and args.check_readmes)
         if args.output is None:
@@ -462,7 +591,7 @@ def main(default_root: Path | None = None) -> int:
             errors = check(args.root, args.output)
             print(json.dumps({'valid': not errors, 'errors': errors}))
             return int(bool(errors))
-        result = build(args.root, args.output, args.public_only, args.member)
+        result = build(args.root, args.output, args.public_only, args.member, args.profile, args.layout, args.refresh)
     except (ValueError, OSError, KeyError, subprocess.CalledProcessError) as error:
         parser.exit(1, f'BUILD FAILED: {error}\n')
     print(json.dumps({k: v for k, v in result.items() if k != 'members'} | {'members': [m['name'] for m in result['members']]}))

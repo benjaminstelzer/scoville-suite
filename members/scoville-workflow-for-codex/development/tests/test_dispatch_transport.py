@@ -20,7 +20,7 @@ class DispatchTransportTests(unittest.TestCase):
                 "--selector", str(selector), "--plan-root", str(ROOT),
                 "--unit", "W-003/step-2", "--role", "executor",
                 "--workspace-root", str(ROOT), "--return-to-thread-id", "coordinator",
-                "--delivery-reference", "test-reference", "--guard-workflow-id", "test-workflow",
+                "--recipient-model", "gpt-6-sol", "--delivery-reference", "test-reference", "--guard-workflow-id", "test-workflow",
                 "--guard-generation", "1", "--guard-revision", "7",
                 "--guard-dispatch-key", "test-dispatch", "--guard-task-id", "test-writer"]
             env = {**os.environ, "FAKE_PLAN_CONTEXT": json.dumps(context)}
@@ -39,6 +39,13 @@ class DispatchTransportTests(unittest.TestCase):
             other = {**env, "FAKE_PLAN_CONTEXT": json.dumps(changed)}
             self.assertNotEqual(envelope["binding"],
                 json.loads(run(["--binding-only"], environment=other))["binding"])
+            profile_file = contract.PACKAGE / "references/prompting/medium.md"
+            original_profile = profile_file.read_bytes()
+            try:
+                profile_file.write_bytes(original_profile + b"\nKeep the requested result explicit.\n")
+                self.assertNotEqual(envelope["binding"], json.loads(run(["--binding-only"]))["binding"])
+            finally:
+                profile_file.write_bytes(original_profile)
             p = subprocess.run(["node", str(Path(__file__).with_name("test_dispatch_transport.cjs")),
                 str(PROMPT_BUILDER.with_name("dispatch_transport.js")),
                 str(ROOT.parents[2] / "shared/runtime/task_lifecycle.py"), sys.executable],

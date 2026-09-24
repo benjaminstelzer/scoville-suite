@@ -21,8 +21,9 @@ proposed-state inspection, and honest reporting.
 2. Read the index and resolved Plan frontmatter and require `format_version: 1`
    in each. Read the current and affected complete Work Item blocks, the title,
    Goal and Non-goals needed to interpret the work, referenced Decisions, and
-   every `proposed` Decision found through a frontmatter inventory. Load other
-   records only for the selected operation's relation or evidence checks.
+   relevant `proposed` Decisions found through a frontmatter inventory. Keep
+   other proposal IDs discoverable; read their bodies only for a full audit.
+   Load other records only for the selected operation's relation or evidence checks.
 3. Inventory all valid records only when allocating an ID, validating the
    complete profile, or checking a cross-record relation.
 4. Capture the exact bytes and SHA-256 of every affected existing file. Re-read
@@ -45,8 +46,8 @@ Preserve the full captured bytes for unchanged-content comparisons. Verify
 proposed and written structure completely when required; do not replace this
 with a grep result, a zero-length diff, or an old validator result.
 
-For a manual structural check when Python is unavailable, load
-[profile-without-python.md](profile-without-python.md). Use full reads for
+{{ profile: general }}For a manual structural check when Python is unavailable, load
+[profile-without-python.md](profile-without-python.md). {{ /profile }}Use full reads for
 full-content audits and relevant malformed-state diagnosis. If extraction
 boundaries or output completeness are uncertain, widen the read; never
 interpret truncated output as absence.
@@ -106,13 +107,14 @@ authority.
 After writing, reread changed frontmatter and the complete affected Work Item
 or Decision blocks, inspect the complete scoped diff, and compare full resulting
 bytes with the prepared result so unexpected edits outside those blocks are
-not hidden. When Python is available, run the bundled read-only validator
+not hidden. {{ profile: general }}When Python is available, run the bundled read-only validator{{ /profile }}{{ profile: codex }}Run the required bundled Python read-only validator{{ /profile }}
 on that final unchanged state as described in
 [profile-validation.md](profile-validation.md). A complete successful run owns
 its reported structural invariants for those exact bytes, so do not repeat the
-same full structure matrix manually. Without Python, load
+same full structure matrix manually. {{ profile: general }}Without Python, load
 [profile-without-python.md](profile-without-python.md); never make an
-executable a dependency of this Skill. In both cases,
+executable a dependency of this Skill. In both cases,{{ /profile }}{{ profile: codex }}Missing or unsupported Python and validator failures block the affected
+operation. Always{{ /profile }}
 manually review authorization, meaning, Acceptance and Evidence sufficiency,
 preserved history and user changes, prepared versus written bytes, uncovered
 graph or lifecycle invariants, and changed prose under the compact-record rules.

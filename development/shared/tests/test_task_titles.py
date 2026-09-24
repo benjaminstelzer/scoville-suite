@@ -15,7 +15,7 @@ class TitleTests(unittest.TestCase):
             self.assertEqual(f'SCW PLAN-0001 W-013/step-3 {label} RUN [#2]', lc.run(request)['title'])
         title = lc.task_title(dict(family='workflow', role='coordinator', coordinator_title='SCW COORD',
                                    workflow_id='workflow-id', generation=3))['title']
-        self.assertEqual('SCW COORD [workflow-id] G3', title)
+        self.assertEqual('SCW COORD G3 [workflow-id]', title)
 
     def test_ask_provider_labels(self):
         for adviser in ['ASTRA', 'SOL', 'CLAUDE']:
