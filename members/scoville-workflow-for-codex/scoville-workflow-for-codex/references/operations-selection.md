@@ -51,7 +51,7 @@ forward order. Reject a same-number or reversed range before dispatch. The
 unit projection retains exact Plan frontmatter, Goal, Non-goals, Work Item
 identity and live control fields, Outcome, Acceptance, only the selected Step
 text, direct-dependency status lines, and every Work Item-referenced Decision.
-It contains no Work Item Evidence, unselected Step, or Work Item-wide `Next
+For Step units it contains no Work Item Evidence, unselected Step, or Work Item-wide `Next
 action`; the selected Step is the executable action. A whole-item unit without
 Steps retains `Next action`. The coordinator never filters Decisions; correct
 an irrelevant Decision link only while its Work Item is mutable.
@@ -70,7 +70,7 @@ Invoke the prompt builder with the exact loaded helper paths and workflow
 workspace:
 
 ```text
-python <workflow-skill-directory>/scripts/build_dispatch_prompt.py --selector <plan-skill-directory>/scripts/select_context.py --plan-root <plan_root> --unit <exact-unit> --role <executor|reviewer|repair> --workspace-root <workspace_root> --return-to-thread-id <coordinator_self_id> --delivery-reference <unique-reference> --guard-workflow-id <workflow_id> --guard-generation <generation> --guard-revision <revision> --guard-dispatch-key <dispatch-key> [--guard-task-id <activated-writer-threadId>]
+python <workflow-skill-directory>/scripts/build_dispatch_prompt.py --selector <plan-skill-directory>/scripts/select_context.py --plan-root <plan_root> --unit <exact-unit> --role <executor|reviewer|repair> --recipient-model <actual-recipient-model> [--prompt-profile <explicit-user-profile>] --workspace-root <workspace_root> --return-to-thread-id <coordinator_self_id> --delivery-reference <unique-reference> --guard-workflow-id <workflow_id> --guard-generation <generation> --guard-revision <revision> --guard-dispatch-key <dispatch-key> [--guard-task-id <activated-writer-threadId>]
 ```
 
 Supply the role-input object on stdin when required. Accept only exit `0`.
@@ -93,7 +93,9 @@ diagnostic. Do not dump the source or infer the missing facts.
 
 Keep other native semantics as separate bounded reads:
 
-- inventory Decision frontmatter and load every `proposed` Decision;
+- inventory Decision IDs and status; read proposal bodies only when relevant
+  to this work or during a full audit. Unresolved dependent choices still block
+  only the affected work;
 - read a direct dependency's complete block only when its Evidence changes the
   selected item's preflight;
 - extract ordered Work Item headings plus title, `Status`, `Depends on`,
@@ -113,12 +115,35 @@ validation.
 | State | Coordinator input | Required result |
 | --- | --- | --- |
 | Coordinator current or named Work Item | Selector success | Exactly the four semantic areas for unit formation |
-| Work Item without Steps | Prompt-helper success for `W-NNN` | Whole-item unit fields all referenced Decisions and no Evidence |
+| Work Item without Steps | Prompt-helper success for `W-NNN` | Complete unchanged whole-item source_text including Evidence and all referenced Decisions |
 | Work Item with Steps | Prompt-helper success for exact Step or adjacent range | Only selected Step text all referenced Decisions and no Evidence |
 | Reviewer or repair | Prompt-helper success plus validated role input | Same exact unit plus only the required prior result object |
-| Unrelated proposed Decision | Separate Decision-frontmatter inventory | Load and surface that proposal separately |
+| Unrelated proposed Decision | Separate Decision-frontmatter inventory | Keep ID/status discoverable; read contents only if relevant or during a full audit |
 | Relevant dependency Evidence | Separate complete dependency block | Use only for that preflight |
 | Queued successor | Separate bounded graph and title view | Resolve authored order without Work Item bodies |
 | Paused return target | Separate complete named blocks | Preserve the recorded return state |
 | One-MiB Plan with small selected item | Selector success | Same selected facts without unrelated bodies |
 | Missing helper malformed boundary or budget overflow | Structured selector diagnostic or invocation diagnostic | Record one blocker with no raw fallback |
+
+## Writing depth and additional context
+
+The builder reads this Workflow's `assets/workflow.toml` [prompting] settings
+and the bundled common rules plus selected profile after model resolution.
+An explicit user depth applies only to its stated recipients. It never changes
+model routing, role permissions, or `work_item.source_text`. That field is the
+unchanged selected canonical source, including Evidence for a whole item without
+Steps. An older selector without source_text returns SELECTOR_INCOMPATIBLE;
+update Plan and Workflow as the released compatible pair.
+
+Before authoring supplemental context or any other additional recipient prose,
+run `scripts/resolve_prompt_profile.py --config <workflow-skill-directory>/assets/workflow.toml --model <actual-recipient-model>` and apply its returned rules.
+Use `--profile` only for an explicit applicable user request. The builder's
+later embedding does not replace this writing step.
+
+Supply necessary extra facts or accessible sources with explicit reading
+instructions in the role input's separate `supplemental_context` object. Copy
+necessary content from sources the role may not read, including canonical
+Plan/Decision files. Never rely on the coordinator's conversation history.
+Keep only relevant context; do not append entire Evidence histories or rewrite
+the helper's prompt. The builder binds resolved profile text and supplemental
+context into its existing digest before transport.

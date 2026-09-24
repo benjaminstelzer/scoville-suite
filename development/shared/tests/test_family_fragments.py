@@ -13,17 +13,12 @@ spec.loader.exec_module(builder)
 
 
 class FamilyFragmentsTests(unittest.TestCase):
-    def test_suite_only_install_projection_uses_suite_package(self):
-        with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
-            config = builder.load(ROOT)
-            workflow = next(m for m in config['members'] if m.get('distribution') == 'suite')
-            workflow['visibility'] = 'public'
-            workflow['public_distribution'] = True
-            (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
-            result = builder.expand_fragments(root, '{{ include: family.install }}')
-            self.assertIn('https://github.com/benjaminstelzer/scoville-suite/tree/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex', result)
-            self.assertNotIn('https://github.com/benjaminstelzer/scoville-workflow-for-codex', result)
+    def test_suite_omits_family_projections(self):
+        config = builder.load(ROOT, 'codex')
+        for key in ('family.install', 'family.links', 'family.owners', 'family.catalog'):
+            self.assertEqual('', builder.expand_fragments(ROOT, '{{ include: ' + key + ' }}', config=config))
+        workflow = next(m for m in config['members'] if m['name'] == 'scoville-workflow-for-codex')
+        self.assertEqual('benjaminstelzer/scoville-suite-for-codex', workflow['repository'])
 
     def test_new_member_updates_every_full_projection_but_not_subsets(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -41,7 +36,7 @@ class FamilyFragmentsTests(unittest.TestCase):
                 readme = builder.readme(root, member).decode()
                 self.assertIn(f'https://github.com/benjaminstelzer/{name}', readme)
                 self.assertIn('[Test member]', readme)
-                self.assertIn('[Workflow Codex](https://github.com/benjaminstelzer/scoville-suite)', readme)
+                self.assertNotIn('[Workflow Codex]', readme)
                 source = root / f'members/{member["name"]}/{member["name"]}/SKILL.md'
                 raw = source.read_text(encoding='utf-8')
                 rendered = builder.expand_fragments(root, raw, member)
@@ -58,7 +53,7 @@ class FamilyFragmentsTests(unittest.TestCase):
             builder.expand_fragments(ROOT, '{{ include: family.typo }}')
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            config = builder.load(ROOT)
+            config = builder.load(ROOT, 'codex')
             config['members'][0]['family']['order'] = config['members'][1]['family']['order']
             (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'unique nonnegative integer'):

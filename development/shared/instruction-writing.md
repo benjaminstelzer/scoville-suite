@@ -1,7 +1,9 @@
 # Instruction writing
 
-Keep all AI-consumed project content short, precise and understandable by Codex
-Luna without hidden context. This includes AGENTS.md, Skills, plans, references,
+Keep AI-consumed project content short, precise and free of hidden context.
+[prompting/common.md](prompting/common.md) owns shared writing requirements.
+Plan writing and additional Workflow instructions use its selected low, medium
+or high depth profile. Other instructions remain understandable by Codex Luna. This includes AGENTS.md, Skills, plans, references,
 prompts, schemas, examples, errors and tool output.
 
 - Use the shortest wording that preserves the required behavior.

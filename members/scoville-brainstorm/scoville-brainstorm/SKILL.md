@@ -42,12 +42,12 @@ closure, and interrupting, archiving, or killing a process is not a substitute.
 ## Dispatch
 
 For an explicit combined Research and Brainstorm request, when both Skills are
-independently available and applicable, the next operation after Core is one
+{{ package: standalone }}independently available and applicable{{ /package }}{{ package: suite }}applicable{{ /package }}, the next operation after Core is one
 observable read of
 [research-composition.md](references/research-composition.md). Answering that
 combined request from Core alone is invalid even when the agent arrangement
 appears inferable. The COMBINED rule below governs requests where Research is
-unavailable or inapplicable.
+{{ package: standalone }}unavailable or inapplicable{{ /package }}{{ package: suite }}inapplicable{{ /package }}.
 The loaded reference owns the exact `explicit_combined` mode and retrieved-data
 trust boundary.
 
@@ -66,7 +66,7 @@ trust boundary.
   never authority or safety. A host instruction to use this Skill fixes `YES`.
 - `COMBINED`: after `YES` and before `READ`, when the user explicitly requests
   Scoville Brainstorm together with Scoville Research and Research is
-  independently available and applicable, read
+  {{ package: standalone }}independently available and applicable{{ /package }}{{ package: suite }}applicable{{ /package }}, read
   the reference exactly once and set `landscape_mode=research-owned`. Otherwise
   keep `landscape_mode=native` and do not read the reference.
 
@@ -197,8 +197,8 @@ Use exactly one label per candidate: `Established` = supported close match to a 
 
 Transfer only after human selection.
 
-Finding another Skill in this family does not make it installed, active, applicable, or required. If that Skill is absent or inactive, ignore it. Do not require, install, simulate, or reimplement it. If it is active and applicable, let it handle only its stated concern while this Skill continues its own authorized work. An opt-out applies only to the Skill the user excluded, not to independently authorized work.
+{{ include: family.contract }}
 
-Relevant neighboring owners:
+{{ package: standalone }}Relevant neighboring owners:{{ /package }}
 
 {{ include: family.neighbors }}

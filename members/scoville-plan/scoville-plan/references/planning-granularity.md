@@ -25,8 +25,8 @@ and releasing one behavior normally belong to the same Work Item.
 
 ## Write the execution sequence
 
-Use numbered Steps when order affects correctness or when several file changes
-must be coordinated. Keep the concept in Goal and Outcome; Steps contain only
+Use numbered Steps for ordered behavior-complete units. Coordinate related
+file changes within their unit; file count does not create Step boundaries. Keep the concept in Goal and Outcome; Steps contain only
 the ordered work needed to realize it. For authored prose, follow an explicit target language first. Otherwise keep
 the existing Plan's language, including for added Steps or Work Items. For a new
 Plan, use the user's request language. Keep required labels and technical
@@ -34,7 +34,7 @@ identifiers unchanged.
 
 1. Place prerequisites and canonical-owner changes before dependent consumers.
 2. Name each known repository-relative file in the Step that changes it.
-3. Keep one action slice per Step so a lower-reasoning worker can stop and resume safely.
+3. Keep one behavior-complete unit per Step. Use the selected recipient profile for detail, with full context at every profile. Ordered intermediate actions stay within that Step line.
 4. Put proof in Acceptance and observed results in Evidence, not in duplicate Steps.
 
 Do not add a Step solely to locate an owner or file that is already known. Keep
@@ -71,7 +71,7 @@ item starts a new small batch rather than jumping ahead to an older batch.
 
 ## Workflow-ready subplan points
 
-When Scoville Workflow is available, shape optional Steps so the Workflow can
+Shape optional Steps so a dispatcher can
 later dispatch them without re-decomposing the Work Item. This planning aid does
 not activate the Workflow, require it, or authorize execution.
 

@@ -7,7 +7,8 @@ in Markdown sources. See `development/shared/build/fragments.md` before changing
 Never install template sources directly; install the built package.
 
 Apply [shared writing rules](development/shared/instruction-writing.md) to all AI-consumed
-content, including AGENTS.md. Write briefly and precisely for Luna.
+content, including AGENTS.md. Write briefly and precisely. Plan writing and additional Workflow instructions
+use the selected shared writing profile; other instructions remain clear for Luna.
 
 `suite.json` owns distribution membership, visibility, exact package files and
 README composition. `members/` contains canonical member sources and their
@@ -33,9 +34,12 @@ Development links belong in the shared suite-only README block. Maintain each
 member's `development` paths in `suite.json`. Release READMEs must not depend on
 excluded files. See `development/shared/build/fragments.md` for audience and link checks.
 
-Run `python development/build_suite.py --output <new-external-directory>` for
-local packages, adding `--public-only` for public staging. Build output is not
-publication authority. Do not overwrite a checkout or change target visibility.
+Build release packages with `python development/build_suite.py` under the sole
+`E:/Dropbox/AI Projects/skills/temp/release/` tree, selecting `--profile`,
+`--layout` and `--public-only`. Use `--refresh` only after existing readers
+finish; changed inventory requires reconciliation first. Synchronize verified
+outputs to regular Skill directories, removing obsolete generated files while
+preserving sources and Git history. Build output is not publication authority.
 Scoville Workflow is authorized for suite-only Beta publication by ADR-0009.
 It remains Codex-only. Publication still requires the release gates.
 

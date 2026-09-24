@@ -8,14 +8,15 @@ import re
 import subprocess
 import sys
 import os
+import importlib.util
 from pathlib import Path
 
 
 TOP_LEVEL_KEYS = ["plan", "work_item", "direct_dependencies", "decisions"]
 ROLE_INPUT_KEYS = {
-    "executor": {"context_handoff"},
-    "reviewer": {"executor_result", "context_handoff"},
-    "repair": {"reviewer_result", "repair_assignment", "context_handoff"},
+    "executor": {"context_handoff", "supplemental_context"},
+    "reviewer": {"executor_result", "context_handoff", "supplemental_context"},
+    "repair": {"reviewer_result", "repair_assignment", "context_handoff", "supplemental_context"},
 }
 
 
@@ -46,6 +47,8 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--guard-revision", required=True, type=int, help="Expected guard revision for this assignment.")
     result.add_argument("--guard-dispatch-key", required=True, help="Pending writer or read-only dispatch identity.")
     result.add_argument("--guard-task-id", help="Exact activated writer task ID; required for executor and repair.")
+    result.add_argument("--recipient-model", required=True, help="Exact model of this recipient.")
+    result.add_argument("--prompt-profile", choices=("low", "medium", "high"), help="Explicit user instruction depth for this recipient, when supplied.")
     output = result.add_mutually_exclusive_group()
     output.add_argument("--transport-json", action="store_true", help="Envelope for execution-memory transport; do not print to chat.")
     output.add_argument("--binding-only", action="store_true", help="Fresh input digest without prompt generation.")
@@ -115,8 +118,8 @@ def validate_plan_context(payload: object, unit: str) -> dict[str, object]:
     work_item = payload.get("work_item")
     if not isinstance(work_item, dict) or work_item.get("unit") != unit:
         raise PromptError("SELECTOR_UNIT_INVALID", "selector did not return the exact requested unit")
-    if "evidence" in {str(key).lower() for key in work_item}:
-        raise PromptError("SELECTOR_EVIDENCE_FORBIDDEN", "dispatch unit must not contain Work Item Evidence")
+    if not isinstance(work_item.get("source_text"), str) or not work_item["source_text"]:
+        raise PromptError("SELECTOR_INCOMPATIBLE", "selector must provide source_text; update Scoville Plan with this Workflow release")
     if not isinstance(payload.get("decisions"), list):
         raise PromptError("SELECTOR_DECISIONS_INVALID", "selector decisions must be a list")
     return payload
@@ -223,7 +226,7 @@ def context_safety_contract(
     return [
         "First run the read-only gate below, before project access. Repeat it after host compaction. Use the shell tool for this command. Section 6 restricts only final delivery, not gate or work tool calls.",
         f"Run `python {json.dumps(inspector)} --role {role} --delivery-reference {delivery_reference} --return-to-thread-id {return_to_thread_id}`. It selects only the active rollout bound to your exact CODEX_THREAD_ID; never inspect another task or select by recency.",
-        "IF its action is continue_role, continue this unchanged role. IF its action is deliver_then_return, deliver result_text once under the current reference and return the identical result_text. IF its action is return_only, return result_text without another delivery. IF it returns return_blocked or cannot run, perform no project action and return a schema-valid blocked result naming only this gate failure.",
+        "IF its action is continue_role, continue this unchanged role. IF its action is return_only, return the identical result_text as your final response without a message to another task or further work. IF it returns return_blocked or cannot run, perform no project action and return a schema-valid blocked result naming only this gate failure.",
         "A supplied context_handoff is inherited continuation input. It is never your own terminal result and never satisfies this gate.",
         f'At a natural internal boundary with material work remaining, run `python "{Path(__file__).with_name("check_context_checkpoint.py").resolve()}" --role {role}` once. It reads only your exact native rollout and calculates the role threshold; do not search rollout files or calculate occupancy yourself.',
         "The helper reads assets/workflow.toml context.worker_percent from its installed Skill on each call. If action is context_handoff, return context_handoff in the normal role schema. If action is continue, continue this unit. If action is blocked, return a schema-valid blocked result with its configuration diagnostic; do not substitute a threshold. If the helper cannot run, return a schema-valid blocked result naming that failure; do not inspect telemetry manually. A helper result with telemetry=unavailable permits bounded work without a successor. Do not poll this helper. This checkpoint does not replace the post-compaction terminal gate above.",
@@ -235,8 +238,8 @@ def result_delivery_contract(return_to_thread_id: str, delivery_reference: str) 
         f"return_to_thread_id={return_to_thread_id}",
         f"delivery_reference={delivery_reference}",
         "Apply this section only after work ends or the gate requests delivery. Until then, use the tools needed for the gate and authorized work. Do not deliver merely because the gate has not yet been run.",
-        f"After constructing your final role JSON, call send_message_to_thread exactly once through functions.exec. Its complete JavaScript must have this exact shape with no other code: `const r=await tools.mcp__codex_app__send_message_to_thread({{\"threadId\":\"{return_to_thread_id}\",\"prompt\":\"...\"}});for(const c of(r.content??[])){{if(c.type===\"text\")text(c.text);}}`. Replace only the JSON prompt string. The object contains only threadId and prompt; both are inline JSON strings, never variables, concatenation, or templates. Put `workflow_result_delivery={delivery_reference}` on the first decoded prompt line and the exact JSON bytes on the second line. This delivery is the only authorized message to another task. The only exception is a native-context action of return_only, whose single delivery attempt already settled successfully or with a definite failure.",
-        "After the delivery call, perform no project, Plan, Decision, Git, write, delegation, review, publication, selector, or raw-Plan action. If the call succeeds, return the identical JSON bytes as your own final response. If it definitively fails or is rejected, do not retry; still return the identical JSON bytes so the coordinator's exact-child wait can recover them. If the call remains waitingOnApproval, wait for that same call to resolve before returning.",
+        "Return the validated final role JSON directly as your own final response. Do not call send_message_to_thread or send a callback to another task. The coordinator retrieves your exact completed turn through wait_threads and independently checks its identity and result schema. The return_to_thread_id and delivery_reference bind this assignment; they do not authorize a message.",
+        "After final-result emission, perform no project, Plan, Decision, Git, write, delegation, review, publication, selector, or raw-Plan action. After compaction, use only the native-context gate and return its identical terminal result_text.",
     ]
 
 
@@ -254,6 +257,7 @@ def build_prompt(
     guard_task_id: str | None,
     plan_context: dict[str, object],
     role_input: dict[str, object],
+    prompting: dict[str, str] | None = None,
 ) -> str:
     lines = [
         f"scoville_role={role}",
@@ -278,7 +282,7 @@ def build_prompt(
     lines.extend([
         "[2 Role and authority]",
         "Verify that the exact current working directory equals workspace_root before project access; on mismatch return needs_user_decision and use no other workspace.",
-        "Do not load or use Scoville Plan, the Scoville Workflow Codex launcher Skill, or Scoville Handoff. Do not run select_context.py or build_dispatch_prompt.py and do not read or edit canonical Plan or Decision files; plan_context below is the complete planning input.",
+        "Do not load or use Scoville Plan, the Scoville Workflow Codex launcher Skill, or Scoville Handoff. Do not run select_context.py or build_dispatch_prompt.py and do not read or edit canonical Plan or Decision files; plan_context and supplemental_context below are the complete planning input.",
         "Follow repository instructions and applicable Skills under their normal trigger rules. Do not delegate or split the unit by activity.",
         "Never stage, commit, push, or rewrite Git history.",
         "Never reset, stash, discard, or revert unrelated or user work. Preserve every existing change and commit.",
@@ -297,6 +301,9 @@ def build_prompt(
     if role == "repair":
         lines.append("Correct only the reviewer findings selected by repair_assignment.finding_indices. Preserve the complete reviewer_result as review context; do not repeat accepted unit effects or attempt coordinator-owned Plan corrections.")
     lines.append("[4 Work]")
+    if prompting is not None:
+        lines.append("Additional instructions use the " + prompting["profile"] + " writing profile. The canonical source_text is immutable.")
+        lines.append("Apply the common and profile instructions in the prompting input below.")
     lines.append("Perform the authorized role work now. Do not infer omitted work from prior Steps or chat history. If the host denies required project, tool, or network access, stop and return a schema-valid blocked result that names the denied operation and observed error.")
     lines.append("[5 Result]")
     lines.extend(result_contract(role))
@@ -304,7 +311,9 @@ def build_prompt(
     lines.extend(result_delivery_contract(return_to_thread_id, delivery_reference))
     lines.append("[Inputs]")
     lines.append("plan_context=" + compact(plan_context))
-    for key in ("executor_result", "reviewer_result", "repair_assignment", "context_handoff"):
+    if prompting is not None:
+        lines.append("prompting=" + compact(prompting))
+    for key in ("executor_result", "reviewer_result", "repair_assignment", "context_handoff", "supplemental_context"):
         if key in role_input:
             lines.append(key + "=" + compact(role_input[key]))
     return "\n".join(lines) + "\n"
@@ -323,9 +332,18 @@ def main(argv: list[str] | None = None) -> int:
         )
         role_input = read_role_input(args.role)
         plan_context = select_unit(args.selector, args.plan_root, args.unit)
+        helper = Path(__file__).with_name("resolve_prompt_profile.py")
+        spec = importlib.util.spec_from_file_location("workflow_prompt_profile", helper)
+        module = importlib.util.module_from_spec(spec)
+        try:
+            spec.loader.exec_module(module)
+            prompting = module.instructions(Path(__file__).resolve().parents[1] / "assets/workflow.toml",
+                                            model=args.recipient_model, explicit=args.prompt_profile)
+        except (OSError, ValueError) as error:
+            raise PromptError("PROMPT_PROFILE_INVALID", str(error)) from error
         binding_input = {key: value for key, value in vars(args).items()
                          if key not in {"transport_json", "binding_only", "transport_target"}}
-        binding_input.update(plan_context=plan_context, role_input=role_input,
+        binding_input.update(plan_context=plan_context, role_input=role_input, prompting=prompting,
                              builder_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                              selector_sha256=hashlib.sha256(Path(args.selector).read_bytes()).hexdigest())
         binding = hashlib.sha256(compact(binding_input).encode("utf-8")).hexdigest()
@@ -352,6 +370,7 @@ def main(argv: list[str] | None = None) -> int:
             args.guard_task_id,
             plan_context,
             role_input,
+            prompting,
         )
     except PromptError as error:
         sys.stdout.write(diagnostic(error))

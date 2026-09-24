@@ -142,16 +142,16 @@ class SelectContextTests(unittest.TestCase):
             "Status, Depends on, Blocked by, Decisions, Outcome and Acceptance",
             "direct dependency IDs with their Status lines",
             "every complete Decision referenced",
-            "also include Next action",
-            "Exclude Evidence, unselected Steps and Work Item-wide Next action",
+            "retain Evidence and Next action",
+            "Exclude unselected Steps and Work Item-wide Next action",
             "stop without supplying a partial dispatch context",
         ):
             with self.subTest(required=required):
                 self.assertIn(required, guide)
         compatibility = COMPATIBILITY.read_text(encoding="utf-8").split("\n\n", 1)[1].strip()
         self.assertIn(f'compatibility: "{compatibility}"', SKILL.read_text(encoding="utf-8"))
-        self.assertIn("Decision-batch helper need Python 3", compatibility)
-        self.assertIn("byte-exact SHA-256 alternative", compatibility)
+        self.assertIn("Decision-batch helpers need Python 3", compatibility)
+        self.assertIn("Manual alternatives load only without Python", compatibility)
 
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory(prefix="scoville-selector-")
@@ -232,6 +232,7 @@ class SelectContextTests(unittest.TestCase):
         item = payload["work_item"]
         self.assertEqual("W-003/step-2", item["unit"])
         self.assertEqual(["2. Change only the selected behavior."], item["steps"])
+        self.assertEqual("2. Change only the selected behavior.\n", item["source_text"])
         self.assertNotIn("Evidence", item)
         self.assertNotIn("Inspect the producer", completed.stdout)
         self.assertNotIn("Verify the exact output", completed.stdout)
@@ -252,7 +253,7 @@ class SelectContextTests(unittest.TestCase):
         self.assertNotIn("Verify the exact output", completed.stdout)
         self.assertNotIn("old reviewer attempt", completed.stdout)
 
-    def test_work_item_without_steps_is_one_unit_without_evidence(self) -> None:
+    def test_work_item_without_steps_preserves_full_source(self) -> None:
         completed = self.run_cli("--unit", "W-002")
         self.assertEqual(0, completed.returncode, completed.stdout)
         item = json.loads(completed.stdout)["work_item"]
@@ -260,7 +261,7 @@ class SelectContextTests(unittest.TestCase):
         self.assertEqual([], item["steps"])
         self.assertEqual("Next action: Resume later.", item["next_action"])
         self.assertNotIn("Evidence", item)
-        self.assertNotIn("Evidence", completed.stdout)
+        self.assertIn("Evidence: []\nNext action: Resume later.\n", item["source_text"])
 
     def test_invalid_unit_selection_fails_closed(self) -> None:
         cases = (

@@ -66,13 +66,14 @@ snapshot and then resumes this loop. A changed scope, Stop, or required user
 decision follows its own control path instead. Never use `read_thread` as this
 wait loop.
 
-Every child constructs its final role JSON, sends exactly one
-`workflow_result_delivery=<reference>` message containing those exact JSON
-bytes to `coordinator_self_id`, and then returns the same bytes as its own final
-response. Delivery may fail when the coordinator already has an active waiting
-turn. The exact final response observed through `wait_threads` is therefore the
-normal completion source; a successfully delivered copy is an additional
-byte-for-byte check, not the only wake path.
+Every child returns its validated role JSON directly as its final response.
+The exact final response observed through `wait_threads` is the completion
+source. Send no result callback: task messaging can require a separate host
+approval and is unnecessary for this exact-child wait.
+
+For an already-dispatched child whose prompt required
+`workflow_result_delivery=<reference>`, retain the existing callback checks
+below. Never ask a new child to send that copy.
 
 The host may hold an authorized cross-task message call in
 `waitingOnApproval`. Treat that exact call as pending delivery, not as failure
@@ -108,9 +109,27 @@ action:
 
 When a child reports an actual host permission or access failure, handle it
 before the ordinary result branch. Archive that child, keep the coordinator and
-guard visible, state the observed failure and applicable Codex configuration
-change, then ask whether to apply it. Do not request approval inside the child,
-alter configuration without that answer, or retry automatically.
+guard visible, and state the failed operation and host error. Identify a
+configuration correction only when evidence supports it. Check existing user
+authorization before asking for a change; never ask again for the same approved
+scope. If the host requires a user-controlled permission setting, name that
+remaining action explicitly. Do not request approval inside the child or retry
+a denied operation automatically. An explicit user instruction to preserve or
+resume the existing task overrides archival; retain its identity and guard.
+
+Distinguish command sandbox restrictions from app/MCP tool approval. Full
+filesystem access does not prove permission to call `send_message_to_thread`.
+`approval_policy=never` can reject an approval-gated tool instead of approving
+it. Report the exact failed tool and host reason; do not prescribe `never` as
+an automatic-approval fix. `create_thread` currently exposes no permission
+override. A child's effective permissions must not be inferred from its parent
+or from prompt text. Compare its actual session permission profile, sandbox and
+approval policy with the intended settings; config.toml defaults alone do not
+prove inheritance. Correcting only approval_policy can leave the restricted
+sandbox in place. After a supported user-controlled correction, resume the
+retained task and verify the affected operation before reporting recovery.
+Do not edit app databases, patch Codex, relay a denied
+call through another task, or create replacements to bypass the host decision.
 
 Delivery supplies result-ready bytes only; it never supplies completion,
 cursor, archival, or transition authority. A mismatched source, unknown

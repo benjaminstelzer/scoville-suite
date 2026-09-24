@@ -12,7 +12,19 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-PACKAGE = ROOT / "scoville-workflow-for-codex"
+# Exercise the actual package, including bundled shared helpers and defaults.
+SUITE_ROOT = ROOT.parents[1]
+_build_spec = importlib.util.spec_from_file_location("workflow_test_build", SUITE_ROOT / "development/build_suite.py")
+_builder = importlib.util.module_from_spec(_build_spec)
+_build_spec.loader.exec_module(_builder)
+_test_package = tempfile.TemporaryDirectory(prefix="workflow-tests-", ignore_cleanup_errors=True)
+PACKAGE = Path(_test_package.name) / "scoville-workflow-for-codex"
+_config = _builder.load(SUITE_ROOT, 'codex')
+_member = next(m for m in _config['members'] if m['name'] == PACKAGE.name)
+for _name, _data in _builder.payload(SUITE_ROOT, _member, _config).items():
+    _target = Path(_test_package.name) / _name
+    _target.parent.mkdir(parents=True, exist_ok=True)
+    _target.write_bytes(_data)
 SKILL = PACKAGE / "SKILL.md"
 OPERATIONS = PACKAGE / "references" / "operations.md"
 NATIVE_FIXTURES = Path(__file__).resolve().parent / "fixtures" / "native-rollout-cases.json"
@@ -474,6 +486,10 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 "manage_agents_contract.py",
                 "manage_workflow_guard.py",
                 "resolve_model_pair.py",
+                "resolve_prompt_profile.py",
+                "rollover_readiness.md",
+                "task_lifecycle.md",
+                "task_lifecycle.py",
             ],
             sorted(path.name for path in (PACKAGE / "scripts").iterdir() if path.is_file()),
         )
@@ -495,6 +511,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                     sys.executable,
                     "-B",
                     str(PROMPT_BUILDER),
+                    "--recipient-model", "gpt-6-sol",
                     "--selector",
                     str(selector),
                     "--plan-root",
@@ -972,8 +989,8 @@ class NativeWorkflowContractTests(unittest.TestCase):
         operations = flat(OPERATIONS)
         self.assertEqual(2, builder.count("Before delivery, parse the finished JSON"))
         self.assertIn("exactly the required keys, allowed status, field types, and limits", builder)
-        self.assertIn("Before the delivery attempt, the child parses its finished JSON", operations)
-        self.assertIn("A definite delivery failure is never retried", operations)
+        self.assertIn("Before its final response, the child parses its finished JSON", operations)
+        self.assertIn("It sends no callback message", operations)
         self.assertIn("The coordinator still performs its independent", operations)
         self.assertIn("Never stage `.scoville-workflow/guard.json`", operations)
 
@@ -1094,6 +1111,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
             "outcome": "Outcome: Exact behavior.",
             "acceptance": "Acceptance: Focused proof passes.",
             "steps": steps,
+            "source_text": "\n".join(steps) + "\n" if steps else "### W-003 Exact unit\nEvidence: []\nNext action: Perform the selected unit.\n",
         }
         if not steps:
             work_item["next_action"] = "Next action: Perform the selected unit."
@@ -1119,7 +1137,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("ADR-0001", executor.stdout)
         self.assertNotIn("Evidence:", executor.stdout)
         self.assertIn("return_to_thread_id=coordinator-test-id", executor.stdout)
-        self.assertIn("send_message_to_thread exactly once", executor.stdout)
+        self.assertIn("Do not call send_message_to_thread", executor.stdout)
         self.assertIn("guard_revision=7", executor.stdout)
         self.assertIn("guard_task_id=executor-test-id", executor.stdout)
         self.assertIn("--capability source", executor.stdout)
@@ -1130,7 +1148,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertEqual(0, whole.returncode, whole.stdout)
         self.assertIn("unit=W-003", whole.stdout)
         self.assertIn('"steps":[]', whole.stdout)
-        self.assertNotIn("Evidence:", whole.stdout)
+        self.assertIn("Evidence:", whole.stdout)
 
     def test_reviewer_prompt_contains_only_same_unit_plus_executor_result(self):
         unit = "W-003/step-2"
@@ -1187,20 +1205,22 @@ class NativeWorkflowContractTests(unittest.TestCase):
         context = self.dispatch_context(unit, ["2. Change only the selected behavior."])
         completed = self.run_prompt_builder(context, unit)
         self.assertEqual(0, completed.returncode, completed.stdout)
-        self.assertIn("workflow_result_delivery=delivery-executor-W-003-step-2", completed.stdout)
-        self.assertIn("exact JSON bytes on the second line", completed.stdout)
-        self.assertIn("If it definitively fails or is rejected, do not retry", completed.stdout)
-        self.assertIn("still return the identical JSON bytes", completed.stdout)
-        self.assertIn("If the call remains waitingOnApproval", completed.stdout)
-        self.assertIn("already settled successfully or with a definite failure", completed.stdout)
+        self.assertIn("delivery_reference=delivery-executor-W-003-step-2", completed.stdout)
+        self.assertIn("Return the validated final role JSON directly as your own final response", completed.stdout)
+        self.assertIn("Do not call send_message_to_thread", completed.stdout)
+        self.assertIn("exact completed turn through wait_threads", completed.stdout)
+        self.assertNotIn("tools.mcp__codex_app__send_message_to_thread(", completed.stdout)
+        self.assertNotIn("workflow_result_delivery=", completed.stdout)
 
         invalid = subprocess.run(
             [
                 sys.executable,
                 "-B",
                 str(PROMPT_BUILDER),
+                    "--recipient-model", "gpt-6-sol",
                 "--selector",
                 str(PROMPT_BUILDER),
+                    "--recipient-model", "gpt-6-sol",
                 "--plan-root",
                 str(ROOT),
                 "--unit",
@@ -1268,7 +1288,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
             self.assertLess(completed.stdout.index("First run the read-only gate"), completed.stdout.index("[4 Work]"))
             self.assertIn("IF its action is return_only", completed.stdout)
             self.assertIn("--return-to-thread-id coordinator-test-id", completed.stdout)
-            self.assertIn("exact shape with no other code: `const r=await tools.mcp__codex_app__send_message_to_thread", completed.stdout)
+            self.assertNotIn("tools.mcp__codex_app__send_message_to_thread(", completed.stdout)
             self.assertIn("A supplied context_handoff is inherited continuation input", completed.stdout)
             self.assertIn("check_context_checkpoint.py", completed.stdout)
             self.assertIn("--role " + role, completed.stdout)
@@ -1498,7 +1518,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
 
         final_only = self.run_native_inspector(self.compacted_rollout(final=result))
         self.assertEqual(0, final_only.returncode, final_only.stdout)
-        self.assertEqual("deliver_then_return", json.loads(final_only.stdout)["action"])
+        self.assertEqual("return_only", json.loads(final_only.stdout)["action"])
 
         both = self.run_native_inspector(self.compacted_rollout(delivery=result, final=result))
         self.assertEqual(0, both.returncode, both.stdout)
@@ -1560,7 +1580,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertEqual(1, failed.returncode)
         self.assertEqual("return_blocked", json.loads(failed.stdout)["action"])
 
-        for delivered_result, expected_action in ((None, "deliver_then_return"), (result, "return_only")):
+        for delivered_result, expected_action in ((None, "return_only"), (result, "return_only")):
             repeated = self.compacted_rollout(delivery=delivered_result, final=result)
             latest = repeated[-1]["ordinal"]
             repeated.extend([
@@ -1599,7 +1619,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         ])
         replay = self.run_native_inspector(delayed_final)
         self.assertEqual(0, replay.returncode, replay.stdout)
-        self.assertEqual("deliver_then_return", json.loads(replay.stdout)["action"])
+        self.assertEqual("return_only", json.loads(replay.stdout)["action"])
 
         wrong_thread = self.compacted_rollout(final=result)
         next(
@@ -1786,7 +1806,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
             ],
             level_two_headings(SKILL),
         )
-        self.assertLess(len(skill_source.encode("utf-8")), 18_000)
+        self.assertLess(len((ROOT / "scoville-workflow-for-codex/SKILL.md").read_bytes()), 18_000)
         self.assertIn("Each phase reference is the sole owner of its operation", skill)
         for duplicated_contract in (
             "last_token_usage.input_tokens",
@@ -1861,7 +1881,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         config_path = PACKAGE / "assets" / "workflow.toml"
         with config_path.open("rb") as stream:
             config = tomllib.load(stream)
-        self.assertEqual(set(config), {"schema_version", "coordinator", "execute", "review", "context"})
+        self.assertEqual(set(config), {"schema_version", "coordinator", "execute", "review", "context", "prompting"})
         self.assertEqual(config["schema_version"], 1)
         self.assertEqual(set(config["execute"]), ROUTE_CLASSES)
         self.assertEqual(set(config["review"]), ROUTE_CLASSES)
@@ -2043,7 +2063,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("genuine unresolved scope, authorization, blocker, or lifecycle decision", operations)
 
     def test_point_execution_overrides_preserve_risk_and_reviewer_routing(self):
-        skill = flat(SKILL)
+        skill = flat(OPERATIONS)
         operations = flat(OPERATIONS)
         self.assertIn("treat that class as the planned minimum", skill)
         self.assertIn("Check the classes from `ultra_high` down to `ultra_low`", skill)
@@ -2060,12 +2080,12 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("preserve a contract across languages or components", skill)
         self.assertIn("A simple verb such as add, rename, comment, document, or test is not evidence for `low`", skill)
         self.assertIn("Route class, model, and reasoning level are separate decisions", skill)
-        self.assertIn("no later fact change is required", operations)
-        self.assertIn("complete fail-closed eligibility check", operations)
-        self.assertIn("One false or unknown fact selects at least `medium`", operations)
-        self.assertIn("Keep this check transient", operations)
+        self.assertIn("even when no fact changed after planning", operations)
+        self.assertIn("every low criterion is positively established", operations)
+        self.assertIn("If any one of these facts is false or unknown, use at least `medium`", operations)
+        self.assertIn("Keep classification transient", operations)
         self.assertIn("consequential changes to state, authorization, or integration contracts", operations)
-        self.assertIn("File count, generated metadata, or a known large test suite alone does not raise the class", operations)
+        self.assertIn("Many files, generated metadata, or a known large test suite alone do not raise the route", operations)
         self.assertIn("selected Step's strict `[execute: ...]` annotation", skill)
         self.assertIn("overrides the matching route-default property", skill)
         self.assertIn("block the unit rather than substitute", skill)
@@ -2133,7 +2153,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 "`W-001/steps-3-2`": ("Reject before dispatch",),
             },
         )
-        self.assertIn("It contains no Work Item Evidence, unselected Step, or Work Item-wide `Next action`", operations)
+        self.assertIn("For Step units it contains no Work Item Evidence, unselected Step, or Work Item-wide `Next action`", operations)
         self.assertIn("A whole-item unit without Steps retains `Next action`", operations)
         self.assertIn("coordinator never filters Decisions", operations)
         self.assertIn("Send the retained reviewer prompt unchanged at creation", operations)
@@ -2175,7 +2195,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 ),
                 "Work Item without Steps": (
                     "Prompt-helper success for `W-NNN`",
-                    "Whole-item unit fields all referenced Decisions and no Evidence",
+                    "Complete unchanged whole-item source_text including Evidence and all referenced Decisions",
                 ),
                 "Work Item with Steps": (
                     "Prompt-helper success for exact Step or adjacent range",
@@ -2187,7 +2207,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 ),
                 "Unrelated proposed Decision": (
                     "Separate Decision-frontmatter inventory",
-                    "Load and surface that proposal separately",
+                    "Keep ID/status discoverable; read contents only if relevant or during a full audit",
                 ),
                 "Relevant dependency Evidence": (
                     "Separate complete dependency block",
@@ -2880,7 +2900,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                     "Accept only after exact turn completion and byte recovery",
                 ),
                 "Exact own final result before compaction but delivery absent": (
-                    "Deliver then return the same JSON bytes and perform no work",
+                    "Return the same JSON bytes without a callback or further work",
                     "Accept only after exact turn completion and byte recovery",
                 ),
                 "Complete interval with no own terminal result": (
@@ -2928,7 +2948,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("Do not retry, relay, recreate either task, poll, or send progress narration", operations)
         self.assertIn("When delivery succeeded, require the recovered candidate bytes to equal the delivered JSON byte-for-byte", operations)
         self.assertIn("When delivery failed or never arrived", operations)
-        self.assertIn("either successful or definitely failed", operations)
+        self.assertIn("legacy callback settled successfully or with a definite failure", operations)
         self.assertIn("A real `wait_threads` tool error stops the workflow visibly", operations)
         self.assertIn("`needs_user_decision` retains the exact child open", operations)
         self.assertEqual(
@@ -3254,7 +3274,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("validate-successor", operations)
         self.assertIn("transfer-coordinator", operations)
         self.assertIn("activate-coordinator", operations)
-        self.assertIn("identity-bound validation acknowledgement", operations)
+        self.assertIn("returns its validation receipt as its final response", operations)
         self.assertIn("explicit activation message naming", operations)
         self.assertIn("exact predecessor task ID", operations)
         self.assertIn("The successor sends no activation acknowledgement", operations)
@@ -3282,7 +3302,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
                 "Provisional or unknown successor creation": ("Reconcile; do not recreate or archive",),
                 "Ready successor not yet validated or transferred": ("Both remain read-only for handoff; predecessor stays visible",),
                 "Ready successor completed validation checks": (
-                    "Successor validates and ends; predecessor confirms its exact completed turn and reconciles the same validated guard even if acknowledgement delivery failed",
+                    "Successor returns its validation receipt; predecessor confirms its exact completed turn and reconciles the same validated guard",
                 ),
                 "Guard is `rollover_validated` and predecessor is awake": (
                     "Predecessor transfers the guard and sends same-key activation; it never self-archives",

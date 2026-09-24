@@ -124,8 +124,9 @@ starting at `1.` with no blank lines inside the block. Steps express order only;
 they have no IDs, status, dependencies, blockers, evidence, checkboxes, or
 completion semantics. `Next action` is the sole current move.
 
-Use Steps whenever execution requires two or more ordered actions. Write them in
-the exact order a worker should perform them. Each Step starts with a concrete
+Use Steps for two or more behavior-complete units that need an execution order.
+Keep necessary intermediate actions inside their unit, on the same Step line;
+more explanation never creates extra dispatch units. Each Step starts with a concrete
 verb and names its target. Cite every known repository-relative file in the Step
 that changes or checks it, for example:
 
@@ -165,8 +166,9 @@ Prefer a short direct sentence where sufficient. One physical line may contain
 several sentences when necessary criteria would otherwise be lost. Steps add
 subordinate order, not another description of the outcome. Evidence records the
 observed result and a precise reference when needed, not an execution diary.
-The concept and sequence together must let a lower-reasoning worker execute and
-a reviewer trace every Step to the result and Acceptance without chat context.
+Use the selected writing profile for instruction depth. At every profile, the
+concept and sequence must let the worker execute and the reviewer trace each
+Step to its result and Acceptance without conversation history.
 
 ## State invariants
 

@@ -34,12 +34,15 @@ was supplied, ask for an allowed project-owned or temporary path before writing.
 The Core owns this narrow write authority. Every new durable Deep run uses the
 v2 package below:
 
-Before creating a saved package, require a usable JSON parser and a byte-exact
+{{ profile: general }}Before creating a saved package, require a usable JSON parser and a byte-exact
 SHA-256 primitive. Python and the bundled validator are optional. If Python is
 unavailable, load [saved-package-without-python.md](saved-package-without-python.md)
 for the hash and structural inspection. If no byte-exact hash or JSON parser is
 available, stop the saved package and report that boundary; chat-only Deep
-research can still proceed.
+research can still proceed.{{ /profile }}{{ profile: codex }}Before creating a saved package, require Python 3.11+ and the bundled
+validator for JSON parsing, exact SHA-256 hashing and structural validation.
+If Python or the helper is unavailable or fails, stop the saved-package
+operation and report the diagnostic. Chat-only Deep research can still proceed.{{ /profile }}
 
 ```text
 <output-path>/
@@ -78,14 +81,14 @@ Create one JSON object before retrieval begins:
 {"schema":"scoville-research-run.v2","skill_sha256":"<64 lowercase hex characters>","created":"2026-08-19T12:00:00Z","updated":"2026-08-19T12:00:00Z","phase":"brief","status":"in-progress","last_completed_query":null,"external_jobs":[]}
 ```
 
-With Python, obtain `skill_sha256` from the exact package that will execute the run:
+{{ profile: general }}With Python, obtain `skill_sha256`{{ /profile }}{{ profile: codex }}Obtain `skill_sha256`{{ /profile }} from the exact package that will execute the run:
 
 ```text
 python <skill-dir>/scripts/validate_research_artifacts.py --print-skill-sha256
 ```
 
-If Python is unavailable, use the byte procedure in
-[saved-package-without-python.md](saved-package-without-python.md).
+{{ profile: general }}If Python is unavailable, use the byte procedure in
+[saved-package-without-python.md](saved-package-without-python.md).{{ /profile }}
 
 Allowed phases: `brief`, `discovery`, `inspection`, `contradiction`, `gap`, `synthesis`, `validation`, `complete`, `blocked`. Allowed statuses: `in-progress`, `complete`, `blocked`. The `complete` status and phase occur together, as do `blocked` status and phase. Update the RFC 3339 timestamp, phase, status, and `last_completed_query` only after the corresponding durable write succeeds.
 
@@ -186,7 +189,7 @@ Cite source IDs inline as `[S001]`. Every cited ID must exist in `sources.jsonl`
 
 ## Validate the package
 
-For a saved package, run the bundled validator when Python 3 is available:
+{{ profile: general }}For a saved package, run the bundled validator when Python 3 is available:{{ /profile }}{{ profile: codex }}For a saved package, run the required bundled Python validator:{{ /profile }}
 
 ```text
 python <skill-dir>/scripts/validate_research_artifacts.py <research-directory> --format json
@@ -196,6 +199,7 @@ A new package succeeds with `package_version: 2` and `legacy: false`. An unchang
 
 Exit `0` with `valid: true` proves only required files, JSON or JSONL shape, stable IDs, run-state consistency, exact Skill-byte continuity, cross-references, report headings, and citation identifiers. It performs no network request and proves neither link health, source truth, source independence, semantic claim support, completeness, nor research quality. Fix structural errors, then perform the semantic evidence check yourself.
 
-Without Python, follow [saved-package-without-python.md](saved-package-without-python.md)
+{{ profile: general }}Without Python, follow [saved-package-without-python.md](saved-package-without-python.md)
 on the final unchanged files before marking `run.json` complete. Report manual
-structural inspection separately from validator output.
+structural inspection separately from validator output.{{ /profile }}{{ profile: codex }}If Python or the validator is unavailable or fails, report the diagnostic;
+do not mark the saved run complete without successful structural validation.{{ /profile }}

@@ -4,11 +4,10 @@ Completion and delivery gates: [wait](operations-wait.md). Before archival or an
 
 ## Result contract
 
-Every executor and reviewer knows before starting that its regular output is one
-compact JSON object. Before its own final response it attempts exactly one send
-of the same bytes to the coordinator under the supplied delivery reference. A
-definite delivery failure is never retried and never suppresses the identical
-final response. A still-pending `waitingOnApproval` call must resolve first.
+Every executor, repair and reviewer returns one compact JSON object as its
+final response. It sends no callback message. The coordinator retrieves the
+exact completed turn through `wait_threads`; the recorded delivery reference
+continues to bind the assignment and result.
 Host-required progress commentary is at most one short factual sentence and
 never repeats the Plan or work log.
 
@@ -26,9 +25,9 @@ never repeats the Plan or work log.
 - `pass` requires an empty findings list.
 - No truncation.
 
-Before the delivery attempt, the child parses its finished JSON and verifies
+Before its final response, the child parses its finished JSON and verifies
 one complete object against every role key, status, type, and limit above. It
-corrects any failure before sending. The coordinator still performs its
+corrects any failure before returning. The coordinator still performs its
 independent validation after wait completion.
 
 `code_changed` is `yes` for changes to source, tests, executable scripts,

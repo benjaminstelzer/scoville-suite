@@ -19,4 +19,4 @@
 - **Complete handoff.** The final report names changed behavior, relevant
   validation, unresolved failures, and relevant repository state.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop/blob/main/scoville-code-anti-ai-slop/SKILL.md).
+- The complete contract is in [SKILL.md]({{ var: contract_url }}).

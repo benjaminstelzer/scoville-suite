@@ -11,4 +11,4 @@
 
 - When Workflow is active, Steps expose the scope and boundaries needed for dispatch. The coordinator chooses the route. Plan can retain an explicit executor choice, but does not quietly turn a small-looking edit into low-risk work.
 
-- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-plan/blob/main/scoville-plan/SKILL.md).
+- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md]({{ var: contract_url }}).

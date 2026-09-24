@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Put coordinator generation before the final workflow ID in task titles; the first successor is G2.
+- Return worker results and rollover validation receipts through exact-task waits without callback messages.
+- Distinguish host messaging approval failures from filesystem permissions; preserve denied handoffs for explicit recovery.
+- Verify effective task permissions during recovery and retain existing user authorization instead of asking for it again.
+
+## v0.5.0 - 2026-09-24
+
+- Apply configurable writing depth to additional coordinator, worker and reviewer instructions while preserving canonical plan text.
+- Bind profile rules and separate supplemental context into dispatch verification.
+- Require Scoville Plan v1.8.0 or a selector with the same source_text contract; report incompatible selectors before dispatch.
+
 ## v0.4.7 - 2026-09-24
 
 - Clarify operation routing and required helper use for the coordinator.

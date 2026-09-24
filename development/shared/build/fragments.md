@@ -36,6 +36,17 @@ files/variables and paths escaping the template directory fail the build.
 Exported READMEs contain expanded text, not references to this source directory.
 Build receipts record each consumed member README template's SHA-256.
 
+Package `files` entries also accept `shared:<relative-path>`, rooted at the
+canonical shared directory. Existing `shared_helpers` entries use the same
+resolver and retain their scripts-only destination constraint. Snapshots and
+receipts include consumed shared files. Installed packages never import them
+from another Skill or a development checkout.
+
+`{{ include: prompting.defaults }}` expands `prompting/models.toml` inside
+Markdown or TOML package sources. Plan installs these defaults as its own
+`assets/prompting.toml`; Workflow embeds them in its own `assets/workflow.toml`.
+Installed configuration edits remain independent.
+
 For suite-only README sections use
 `{"source": "shared:member-development.md", "audience": "suite"}` in the
 member's `readme` list. Strings apply to both targets. Member previews render
@@ -100,3 +111,53 @@ For a shared output containing several suites, use
 This read-only check requires the exact combined file/directory inventory and
 SHA-256 values. Keep each original receipt; never overwrite one with another.
 It does not prove source freshness, model-test success or release authority.
+
+## Distribution profiles
+
+Scoville uses `--profile general` (default) or `--profile codex`. `suite.json`
+contains two flat profile objects with name, repository and optional README
+sources. Member and file entries may declare `profiles: ["general"]` or
+`profiles: ["codex"]`; omission selects both. The resolved manifest owns every
+projection. Optional neighbors and the featured member disappear when excluded.
+Unknown profiles fail. Visibility checks still apply to the selected members.
+
+Keep short text alternatives beside their owner using flat blocks:
+`{{ profile: general }}portable text{{ /profile }}` and
+`{{ profile: codex }}required-helper text{{ /profile }}`. Empty alternatives may
+be omitted. Unknown, nested or incomplete blocks fail; no expression language
+or runtime conditionals are supported. Built packages contain plain text.
+
+Default README previews remain in the source tree. Other profile previews
+require `--write-readmes --profile codex --output <new-preview-directory>`.
+Package verification selects the profile recorded in its build receipt.
+
+`export_suite.py --profile <profile>` requires inspected committed sources and
+a current shared snapshot. It replaces tracked generated packages, filters
+excluded members and file sources, and writes an effective `suite.json` plus
+matching README previews. Runtime source profile blocks are resolved; shared
+build tools remain unchanged. The exported tree rebuilds its selected profile
+without the authoring workspace. Export never grants publication authority.
+
+## Installation layout
+
+`--layout standalone` builds independent general Skills with family guidance.
+`--layout suite` builds every selected-profile member inside its suite's own
+`packages/` tree. Codex is suite-only. A suite build rejects member subsets and
+unapproved public members; it never silently produces a partial suite.
+Exports always retain `layout: suite` and rebuild only that edition/layout.
+
+`{{ package: standalone }}...{{ /package }}` and
+`{{ package: suite }}...{{ /package }}` select installation-contract prose.
+These flat blocks are independent of the general/codex Python profile.
+`family.contract` expands canonical `runtime/skill_composition.md`;
+other family projections are absent from suite packages. README requirements
+come from `readme/skill-installation-contract.md` and
+`readme/suite-requirements.md`. Suite installation uses only its own packages;
+missing members are errors, never permission to fetch individual repositories.
+
+Local release staging uses exactly `E:/Dropbox/AI Projects/skills/temp/release`.
+Do not keep dated/numbered candidate builds in the regular Skill directories.
+Synchronize every generated Skill distribution from this verified build,
+including the fixed public suite targets. Remove obsolete generated files;
+preserve source repositories and Git history. Regular Skill directories contain
+only their current verified output, never build candidates or stale copies.

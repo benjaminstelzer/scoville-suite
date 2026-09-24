@@ -1,6 +1,6 @@
 # Research composition
 
-This reference applies only to an explicit combined Scoville Research and Scoville Brainstorm run. It never activates, installs, requires, or simulates Research for standalone Brainstorm.
+This reference applies only to an explicit combined Scoville Research and Scoville Brainstorm run. {{ package: standalone }}It never activates, installs, requires, or simulates Research for standalone Brainstorm.{{ /package }}{{ package: suite }}The suite supplies Research; the explicit combined request determines whether this route applies.{{ /package }}
 
 ## Owners
 
@@ -32,5 +32,5 @@ once, then performs the single Research-owned landscape pass. It reports the
 solo capacity limit and claims neither isolation nor independent criticism.
 
 Outside this explicit mode, preserve Brainstorm's native landscape lane and
-full standalone behavior, including the Core solo fallback. Neither Skill
-gains an automatic dependency.
+full standalone behavior, including the Core solo fallback. {{ package: standalone }}Neither Skill
+gains an automatic dependency.{{ /package }}{{ package: suite }}The suite provides both Skills; this reference adds no automatic combined task.{{ /package }}

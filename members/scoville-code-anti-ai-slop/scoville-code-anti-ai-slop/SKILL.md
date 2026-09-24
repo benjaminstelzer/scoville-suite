@@ -24,16 +24,17 @@ Reuse project terms, owners, plan/decision mechanisms, test phases, and version-
 control cadence. Code owns engineering scope, canonical code, integrity, risk,
 and proportionate proof.
 
-Finding another Skill in this family does not make it installed, active, applicable, or required. If that Skill is absent or inactive, ignore it. Do not require, install, simulate, or reimplement it. If it is active and applicable, let it handle only its stated concern while this Skill continues its own authorized work. An opt-out applies only to the Skill the user excluded, not to independently authorized work.
+{{ include: family.contract }}
 
-Family owners, in suite order:
+{{ package: standalone }}Family owners, in suite order:{{ /package }}
 
 {{ include: family.owners }}
 
 Fixed labels alone trigger no sibling.
 
-Without Plan, use repository record owner and Code guardrails; invent no record
-system.
+{{ package: standalone }}Without Plan, use repository record owner and Code guardrails; invent no record
+system.{{ /package }}{{ package: suite }}Use Scoville Plan for applicable native planning records; invent no parallel
+record system.{{ /package }}
 
 ## Outcome and mode
 

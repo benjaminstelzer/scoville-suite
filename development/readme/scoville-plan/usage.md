@@ -1,21 +1,19 @@
 ## How to use
 
-Name Scoville Plan when the work needs durable repository state:
-
 ```text
-Use Scoville Plan to create a repository-owned implementation Plan for migrating the billing schema, updating consumers, and rolling out safely. Preserve any existing planning owner and do not implement the work.
+Use Scoville Plan to create an implementation plan for migrating the billing schema, including dependencies and acceptance criteria.
 ```
 
 ```text
-Use Scoville Plan to resume the active Plan. Reconcile the current Work Item with observed repository state, update evidence and the next action, then continue only the authorized work.
+Create a detailed repository-owned implementation plan for the billing migration so workers can execute each point without this conversation.
 ```
 
-```text
-Use Scoville Plan to audit the existing Plan and Decision records for lifecycle, dependency, blocker, and completion-evidence defects. Do not change files.
-```
-
-Explicit `$scoville-plan` invocation also works on hosts that support named
-Skill invocation.
+Configure writing depth in this Skill's `assets/prompting.toml`. `profile` accepts
+`auto`, `low`, `medium` or `high`. Explicit instructions take precedence within
+their stated scope. Auto uses the target model, or the existing task class when
+no model is known. Unknown models and missing selection inputs use medium.
+Edit exact model assignments locally; Workflow has independent settings.
+The resolver needs Python 3.11+. {{ profile: general }}Only missing Python enables the manual route.{{ /profile }}{{ profile: codex }}Python and the bundled helper are required; errors block the affected operation.{{ /profile }}
 
 ### Companion app
 

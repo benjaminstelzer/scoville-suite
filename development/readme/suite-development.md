@@ -16,20 +16,22 @@ member's `development` metadata in `suite.json`.
 Regenerate previews with `python development/build_suite.py --write-readmes`.
 Use `--check-readmes` to detect stale previews.
 
-Build to a new directory outside this repository:
+Build this exported edition to a new directory outside the repository:
 
 ```text
 python development/build_suite.py --output <new-output-directory> --public-only
 ```
 
-Omit `--public-only` only for private local staging. Each output directory
-contains the member package, README, license and changelog where supplied.
-Development files stay in the suite. The build receipt records file hashes,
-target visibility and the source revision. An uncommitted source produces a
-local development build, not a release candidate.
+The exported manifest fixes the edition and complete suite layout. All member
+packages are bundled under the suite's `packages/` directory. An isolated build
+needs no sibling source checkout or individual Skill repository.
 
-Standalone members use their individual repositories. Workflow is suite-only
-and is staged under `scoville-suite/packages/scoville-workflow-for-codex/`.
-Its installable Skill is the nested `scoville-workflow-for-codex/` directory.
-Publication requires a separate authorized publication step with the
-GitHub Skill. Never push a private suite tree to a public member repository.
+The complete private authoring source also supports `--profile general|codex`
+and `--layout standalone|suite`. Standalone projections retain family guidance;
+suite projections require the full member set. Export always produces a complete
+suite with its selected profile and layout. An exported single-profile source
+does not offer the other profile.
+
+The build receipt records the selected profile, layout, package inventory,
+source revision and hashes. Uncommitted sources produce development builds.
+Publication requires inspected committed sources and the release checks.

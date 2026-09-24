@@ -2,7 +2,7 @@
 
 Use within the selected mode and focus. WordPress owns the comparison targets
 through [spacing.md](spacing.md). Keep Classic source patterns, WPDS tokens and
-Skill fallback composition separate. This reference also works without Scoville UI.
+Skill fallback composition separate. {{ package: standalone }}This reference also works without Scoville UI.{{ /package }}{{ package: suite }}This reference owns WordPress UI validation without a second Scoville UI process.{{ /package }}
 
 ## Source first, then measurement, then sight
 
