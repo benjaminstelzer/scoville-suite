@@ -108,7 +108,7 @@ Evidence: [2026-09-25: Vorhandenes Ergebnisformat geprüft; 18 Runner-Tests best
 
 Status: paused
 Depends on: []
-Blocked by: [CI-PLATFORMS]
+Blocked by: []
 Decisions: []
 Outcome: Die in F-17 bestätigten Interpreter-, Pfad- und Streamprobleme sind behoben, ohne das Planformat zu ändern.
 Acceptance: CLI-Aufrufe mit Leerzeichen im Skill-/Projektpfad und CJK/Umlauten funktionieren unter geeigneten Interpretern. stdin/stdout verwenden nachvollziehbar UTF-8, ungültige Daten liefern klare Fehler. Die GitHub-Actions-Matrix windows-latest, macos-latest und ubuntu-latest prüft Python 3.11 und die bei Umsetzung aktuelle stabile Version. Ausstehende Plattformläufe bleiben offene Abnahme. Ein zu alter Interpreter liefert eine Versionsdiagnose; ein Windows-Store-Alias wird nicht als funktionsfähiger Interpreter behandelt. Eine Suche der aktiven Befehlsbeispiele plus Sichtprüfung bestätigt gequotete Pfadargumente und Bezug zur einmaligen Interpreterauswahl.
@@ -116,8 +116,8 @@ Steps:
 1. Korrigiere die CLI-Grenzen in ../shared/runtime/task_lifecycle.py und den betroffenen Plan-/Workflow-Helpern. Verwende vorhandene Streamkonfiguration oder eine kleine gemeinsame Funktion nur bei tatsächlicher Mehrfachnutzung.
 2. Ersetze uneindeutige Interpreter-/Pfadbeispiele an ihren kanonischen Fragmenten und Referenzen durch eine einmal erklärte Auswahl und korrekt gequotete Aufrufe. Prüfe echte Versionsausgabe statt Dateiname: Windows-Store-Alias ohne nutzbaren Interpreter überspringen; vorhandenes Python 3.9/3.10 bei einem 3.11+-Helper als zu alt melden. Keine feste Python-Version aller macOS-Installationen behaupten.
 3. Prüfe betroffene gebaute Pakete und die relevanten Verbraucher von shared. Ergänze die genannte GitHub-Actions-Matrix im vorhandenen Testaufbau; Veröffentlichung oder Push ist durch diesen Planpunkt nicht automatisch erlaubt. CRLF-Vertragsänderungen gehören ausschließlich zu W-009.
-Evidence: [Linux Python 3.12: Plan 82 bestanden; Ask 20 mit einem Windows-Skip; Workflow 89 bestanden und ein Test wegen fehlendem Node nicht ausgefuehrt, 2026-09-25: Python 3.11 lokal zusätzlich geprüft; Plan 78 und Ask 20 Tests bestanden., 2026-09-25: Ask 20 und Workflow 90 sowie Plan 78 Tests bestanden; sieben Titeltests inklusive UTF-8/cp1252 und ungültiger Eingabe bestanden., Befehlsbeispiele auf unquotierte Platzhalter geprüft; README-Prüfung und beide Git-Diffprüfungen fehlerfrei. CI-Matrix für drei Systeme und Python 3.11/aktuell vorbereitet; Läufe offen., Aktueller Workflow: 14 Tests Windows 3.11 und Linux 3.12 bestanden; Python 3.9/3.10 liefern Versionsdiagnose; Store-Alias Exit 9009 erkannt; Details im Pruefbericht]
-Next action: Drei-Plattform-CI einschliesslich macOS ausfuehren, sobald die externe Ausfuehrung verfuegbar und autorisiert ist. Keine Veroeffentlichung erfolgt.
+Evidence: [Linux Python 3.12: Plan 82 bestanden; Ask 20 mit einem Windows-Skip; Workflow 89 bestanden und ein Test wegen fehlendem Node nicht ausgefuehrt, 2026-09-25: Python 3.11 lokal zusätzlich geprüft; Plan 78 und Ask 20 Tests bestanden., 2026-09-25: Ask 20 und Workflow 90 sowie Plan 78 Tests bestanden; sieben Titeltests inklusive UTF-8/cp1252 und ungültiger Eingabe bestanden., Befehlsbeispiele auf unquotierte Platzhalter geprüft; README-Prüfung und beide Git-Diffprüfungen fehlerfrei. CI-Matrix für drei Systeme und Python 3.11/aktuell vorbereitet; Läufe offen., Aktueller Workflow: 14 Tests Windows 3.11 und Linux 3.12 bestanden; Python 3.9/3.10 liefern Versionsdiagnose; Store-Alias Exit 9009 erkannt; Details im Pruefbericht, 2026-09-25: GitHub-Lauf 36178096054 auf d6096a4 bestand alle sechs Jobs für Windows Ubuntu und macOS mit Python 3.11 und aktuell.]
+Next action: Bei einer späteren Aktivierung W-002 als current_item fortsetzen und mit dem vorhandenen Matrixnachweis abschließen.
 
 ### W-008 Plan wird ein deutlich einfacheres System für geordnete Arbeit
 
