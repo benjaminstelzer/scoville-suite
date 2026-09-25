@@ -1,6 +1,6 @@
 ---
 name: scoville-plan
-description: Create, maintain, resume, audit, and hand off project Plans, Work Items, and Decision records stored in the repository. Edit their Markdown and YAML directly. Owns their concise writing and wording audits under its own writing rules. Use when a task invokes Scoville Plan, requests repository-owned planning or decision records, must survive interruption or compaction, works in a format-version-1 project, receives a new instruction while an active Plan is running, or asks to add, remove, reorder, or clean up Plan points. Apply Plan-record maintenance directly and never create a Work Item whose only outcome is maintaining the Plan. Do not use for a pure informational question that requires no retained action, a small contained task that needs no durable plan, or an explicit opt-out.
+description: Maintain, resume, audit and hand off repository Plans, Work Items and Decisions, including their wording. Use for Scoville Plan requests, repository-owned planning or Decisions, durable work across interruption or compaction, format-version-1 projects, messages during active planned work, and adding, removing, reordering or cleaning up Plan points. Exclude pure informational questions with no retained action, small contained tasks needing no durable Plan, and explicit opt-out.
 compatibility: "{{ profile: general }}Any Agent Skills host with repository read/write access. Direct Markdown/YAML planning; no service or network required. The writing-profile helper needs Python 3.11+; selector, validator and Decision-batch helpers need Python 3. Manual alternatives load only without Python; helper errors remain errors. Developed for Codex and Claude Code; other hosts untested.{{ /profile }}{{ profile: codex }}Codex with repository read/write access and Python 3.11+. Direct Markdown/YAML planning; no service or network required. Bundled writing-profile, selector, validator and Decision-batch helpers are required for their operations. Missing dependencies or helper errors block the affected operation.{{ /profile }}"
 ---
 
@@ -48,39 +48,9 @@ not meet that condition; check the environment before choosing the route.
 
 {{ include: family.neighbors }}
 
-{{ profile: general }}Steps can serve as later execution units.{{ /profile }}{{ profile: codex }}Scoville Workflow can use Steps as dispatch units. Its explicit invocation
-rule still applies; writing a Plan does not start Workflow.{{ /profile }} Group each
-Step around one coherent outcome slice with comparable consequence and
-reasoning demand. Evaluate the complete expected execution and verification
-scope. Treat a bounded change needing no nontrivial local implementation or
-verification judgment as `ultra_low`; nontrivial local judgment with one known behavior owner,
-understood helpers, established checks, and no component or harness-boundary
-diagnosis as `low`; unresolved helper contracts, required local diagnostic
-discovery, interacting owners, harness-boundary helpers, integration diagnosis,
-or interpreted broader checks as at least `medium`; consequential
-changes to state, authorization, or integration contracts as `high`; and work
-beyond that consequence or complexity as `ultra_high`. Use these boundaries to
-separate Steps, but do not write the class. Treat every unknown low-eligibility
-fact as at least a `medium` boundary while shaping the Steps; never assume a
-single owner, known helper, mechanical check, or local scope when the Plan does
-not establish it. File count, generated metadata, and
-known test volume alone do not raise it. Separate a trivial text edit from a complex structural change;
-do not split code, UI, browser work, or other activities that share the same
-outcome, risk, authorization, and Acceptance boundary. A user-selected executor
-model or reasoning effort may be recorded only through the strict Step
-annotation in the native format. Plan does not assign a route class. Preserve an
-existing route prefix and record one only when the user explicitly supplies it;
-the Workflow coordinator owns the current route, model, and reasoning choice at
-dispatch.
-
-Plan owns wording and fidelity of its native records. An explicit target
-language takes precedence. Otherwise preserve the language of an existing Plan,
-including new or edited Work Items in it. Use the user's request language for a
-new Plan. Preserve an existing Decision's language; write a new Decision in its
-Plan's language, or the user's request language when no Plan supplies one. Keep
-required field names, section labels, IDs, and other format literals unchanged.
-{{ package: standalone }}When Plan is available and applicable, load it if needed and use its own writing
-rules for these records. {{ /package }}{{ package: suite }}Use Plan's writing rules for these records. {{ /package }}Plan also owns permitted edits, format, and lifecycle unless opted out.
+Plan owns native record wording, permitted edits, format and lifecycle.
+Step decomposition follows G; Plan records explicit executor choices but never
+chooses a dispatch route or starts Workflow. Language rules belong to P and D.
 
 ## Choose planning and route references
 
@@ -105,7 +75,8 @@ inside a Work Item uses the Work Item route even though its file is a Plan.
 | --- | --- |
 | Read direction or list records; no write | R |
 | Initialize a wholly absent profile | G, P, L, E |
-| Create or restructure Plan | G, P, L, E |
+| Create or restructure Plan | G, P, L, E; W when editing Work Items |
+| Delete an unstarted Plan | P, L, E |
 | Queue additive work received during active work | G, P, W, E |
 | Directly insert, refine, move, select, block, advance, or remove Work Item | P, W, E |
 | Record explicit human choice or possible material Decision | D, P, E |
@@ -114,7 +85,7 @@ inside a Work Item uses the Work Item route even though its file is a Plan.
 | Activate, complete, or cancel Plan | P, L, W only if current work changes, E |
 | Audit Plan structure or lifecycle | P; add G only for decomposition judgment |
 | Audit Decision structure or lifecycle | D |
-| Audit record wording | P for Plans or Work Items; D for Decisions |
+| Audit record wording | P for Plans or Work Items; D for Decisions; E writing section only |
 | Rewrite Plan Goal or Non-goals | P, L, E |
 | Rewrite Work Item wording | P, W, E |
 | Rewrite Decision wording | D, P, E |
@@ -138,7 +109,7 @@ route permits intent-preserving repair.
 | Input or state | Required treatment |
 | --- | --- |
 | Goal, Non-goals, blocker, dependency, acceptance result, evidence, or lifecycle choice | Never invent. Implementation, ordinary documentation, source, silence, and current behavior are evidence, not authorization. |
-| Activation, cancellation, changed scope, weaker Acceptance, ambiguous successor, or adoption of a possible material choice | If the required explicit choice has not already been authorized, ask before changing durable state. |
+| Activation, cancellation, Plan deletion, changed scope, weaker Acceptance, ambiguous successor, or adoption of a possible material choice | If the required explicit choice has not already been authorized, ask before changing durable state. |
 | User selects a direction, asks to preserve it in project rules, or applicable project instruction clearly records the human-selected direction | Create and accept its Decision without re-asking. |
 | Analysis reveals a possible material Decision about scope, architecture, public behavior, stored data, security, dependencies, reversibility, Acceptance, migration, or rollout | Create `proposed`; report recommendation, alternatives, tradeoffs, and effect; ask to accept, reject, or revise. Do not pre-accept. |
 
@@ -170,215 +141,20 @@ evidence. A captured structural-validation result supports only structural
 judgment and reporting, never acceptance evidence or mutation authority. Keep
 failed or partial work `in_progress`, `paused`, or explicitly blocked.
 
-## Apply Plan maintenance without recursion
+## Handle active work
 
-A request to add, remove, reorder, rewrite, or clean up Plan records is a direct
-Plan-maintenance operation, not additive project work. Apply the permitted
-record mutation through its normal route. Never create or queue a Work Item
-whose Outcome is to maintain, update, or clean up the Plan.
+For a message received during active work, use W's message classification before
+changing execution or native state. Direct Plan maintenance goes through its
+normal route and never creates a Work Item for maintaining the Plan itself.
+For item pre-flight, progress and succession use W; final Plan completion uses L.
 
-When the user asks to add a Plan point for substantive future work, create or
-refine only the Work Item that represents that substantive outcome. Do not add
-a wrapper item such as "add the Plan point" or "update the Plan." A request
-that only removes or reorganizes records creates no replacement Work Item.
+## Write and verify
 
-Classify this direct-maintenance case before the mid-task rules below. Preserve
-all ordinary lifecycle, history, dependency, Decision, and validation limits;
-the recursion guard does not authorize deleting or rewriting a started or
-terminal Work Item.
-
-## Handle messages received during active work
-
-When a supported active Plan owns running work and the user sends a message
-before that work finishes, classify each part before changing execution or
-native state:
-
-- An explicit stop, pause, cancellation, or immediate redirect stops the live
-  work at once. Apply only the lifecycle change the user actually authorized.
-  When the user explicitly requires a later return to paused work, preserve
-  that return in its live `Next action` through the Work Item route.
-- A correction that invalidates or materially changes current execution stops
-  that execution before more work is performed. Reconcile its effect through
-  the ordinary Work Item or Decision routes. Do not rewrite started authored
-  fields or infer cancellation from the need to stop.
-- An additive request is work to perform after the current task. A plain
-  imperative such as "do X" is additive unless the user makes it immediate or
-  it corrects current execution. Persist it through the deferred-work operation
-  without pausing, cancelling, or replacing the current item, and without
-  beginning the deferred work.
-- A pure informational or status question that requires no retained action
-  receives the requested response and creates no Work Item. Continue the
-  current work unless another part of the message changes it.
-
-Classify mixed messages by part. Handle an interrupting correction first and
-queue any independent additive part, so neither intent hides the other. For
-additive work, make only the planning mutation needed to persist the queue,
-verify that mutation, identify the affected Work Item to the user, and resume
-the unchanged current work. Never acknowledge work as queued before its native
-record is durable. Keep queue and explicit successor provenance visible in the
-native Work Item titles defined by the deferred-work route, never only in chat.
-
-This queue behavior requires a complete supported active native Plan. If the
-request would exceed its Goal, violate its Non-goals, or require an unresolved
-scope or lifecycle choice, keep the current work unchanged and ask only for
-that choice while independent work continues. Do not claim a durable queue,
-initialize a profile, or broaden the Plan implicitly. An explicit stop or
-immediate redirect still governs live execution.
-
-## Keep behavior-complete work
-
-- Before starting the next `todo` Work Item in the active Plan, run a pre-flight
-  for that item against the current repository state and evidence from its
-  completed dependencies or other directly relevant completed Work Items in
-  that Plan. For this pre-flight, do not scan completed or historical Plans or
-  reread the entire active Plan without a concrete relevance reason. Check
-  whether that evidence changed the item's premises, signatures, data models,
-  contracts, paths, or validation assumptions. If so, refine that still-`todo`
-  item through its normal route before execution. Never run stale instructions
-  or rewrite started history.
-- Split independently resumable outcomes when Acceptance, dependencies,
-  ownership, or rollout timing differs. Put subordinate order in optional
-  Steps. Put testing, review, documentation, and release checks in Acceptance
-  or Evidence unless independently requested as resumable outcomes.
-- For later Scoville Workflow use, one Step is one subplan dispatch point by
-  default. An explicitly invoked Workflow with its own accepted Decision may
-  bundle adjacent Steps only when they share one outcome, owner, authorization,
-  route, workspace, and Acceptance boundary. A changed Decision, external
-  effect, materially higher risk, different route, or independently resumable
-  result forces a new dispatch. A bundle adds no Plan field and changes no
-  authored order or Acceptance ownership. Do not assign a routing class while
-  planning. Preserve an existing `[route: ...]` prefix, or record one when the
-  user explicitly supplies it; the Workflow treats it as a minimum and owns the
-  final dispatch route. Record an explicit
-  user-selected executor model or reasoning effort only through the optional
-  Step execution annotation defined by P and W. When a still-`todo` Work Item
-  has no Steps, add one behavior-complete annotated Step only if an explicit
-  point choice must be retained. Without Steps, the whole Work Item remains one
-  default-routed dispatch unit.
-- Keep at most one Work Item `in_progress`, equal to `current_item`. This limits
-  concurrency, not total Plan items.
-- Change authored content or order only while `todo`. After start, preserve the
-  starting approach and change only live state allowed by the route, except
-  that W permits an explicit user choice to replace only the execution
-  annotation of one named unperformed Step while preserving its action, route,
-  and completed or running history.
-- `Next action` is the first unperformed concrete action. After implementation,
-  advance to the first unobserved test, build, browser check, review, or
-  evaluator-owned verification.
-- Select current work only when dependencies are done and the successor is
-  explicit. Use `complete_and_advance` only when completion and the exact
-  replacement start form one valid prepared result.
-- When final real work finishes, complete its Work Item and Plan and set the
-  index idle. Never invent a successor to keep the Plan active.
-
-## Mutate narrowly and verify
-
-### Write compact worker-ready records
-
-Select writing depth per Step, or per whole item without Steps. Run the bundled
-`scripts/resolve_prompt_profile.py --config <skill-directory>/assets/prompting.toml`
-with `--model <exact-recipient-model>` when known. Only without a target model,
-pass `--task-class` if a class already exists. If neither is known, omit both
-options: `auto` resolves to `medium`. Do not search for a model, create an
-assessment or block writing to fill these optional inputs. An explicit
-user low/medium/high request uses `--profile` within its stated scope. The
-helper returns the common rules and only the selected profile. Apply those
-rules to the authored point; never assume conversation history. Each installed
-Skill owns its settings. An unknown model uses medium, even for a high task class.
-{{ profile: general }}Python 3.11+ is required for this helper. Python 3.10 or older is present but
-unsupported: report the version error and do not use a manual route. Only when
-no Python executable is available, load
-[prompt-profile-without-python.md](references/prompt-profile-without-python.md).
-A helper or configuration error is a diagnostic, never permission to use that route.{{ /profile }}{{ profile: codex }}Python 3.11+ and this helper are required. Missing or unsupported Python,
-helper failures and configuration errors block the affected operation; report the diagnostic.{{ /profile }}
-Added explanation does not create extra Steps or worker dispatches.
-
-Before drafting or refining a Plan, Work Item, or Decision:
-
-1. Resolve and apply the writing profile through the helper contract above.
-2. Keep only facts needed to choose, execute, review, resume, or verify the work.
-3. Assign each fact once to its owning field or section.
-4. Put prerequisites before dependent actions and checks after the behavior they prove.
-5. Remove any sentence that changes no choice, action, order, constraint, check, or recovery fact.
-
-Before any Goal write, classify every fact in the complete proposed Goal, not
-only the changed sentences. Goal owns only the current target, its boundary,
-and genuinely plan-wide constraints. Route exclusions to Non-goals, material
-choices to Decisions, point-specific scope, order, checks, model, or reasoning
-to the affected Work Item or Step, observed results to Evidence, the next move
-to Next action, and repository policy to its canonical project instruction;
-omit irrelevant prose. Operational messages that change none of the Goal-owned
-semantics leave its bytes unchanged. Moving existing Goal facts to other fields requires separate authorization.
-Before that normalization, check that every affected future dispatch can still
-reach each needed requirement through its selected Work Item, a referenced
-Decision, or a repository contract demonstrably loaded for that dispatch. Do
-not create a second requirement registry, truncate selector output, or use a
-size limit as a substitute for ownership.
-
-State the concept first in Goal, Outcome, or Decision. Use compact bullets for
-equal-rank facts and numbered Steps for execution order. Each Step names one
-concrete action, its target, and the necessary result. When a repository-relative
-file is already known, cite it directly in the Step that changes or checks it.
-When the owner is unknown, prefer bounded read-only discovery before starting
-the item, then refine its `todo` Steps with the observed path. If discovery must
-happen after start, keep its ownership criterion in the immutable Step and put
-the observed path in Evidence and the next concrete action. Never invent a path.
-
-Write each future Step from the mechanism the worker must perform, not only the
-small final edit it may produce. Name required search or inventory, every known
-language or component boundary, mirrored contract or interacting owner, helper,
-mock, harness, generator, and any validation whose result needs interpretation.
-If one of these facts is unknown, say what must be discovered instead of hiding
-it behind a simple verb. For example, write “inventory the PHP and JavaScript
-mirrors, identify each owner, update their reciprocal contract comments, and run
-the parity checks,” rather than only “add reciprocal comments.” Plan still does
-not assign the route; this wording gives the coordinator the facts needed to
-choose it safely.
-
-Write for the selected recipient profile with no hidden conversation context. The
-worker and reviewer must be able to identify the result, scope, applicable
-choices, exact order, targets, blockers, and proof without reconstructing omitted
-intent. Split a dense compound instruction instead of compressing it into an
-ambiguous sentence. Do not repeat rationale to make a record look complete.
-
-Preserve constraints, alternatives, tradeoffs, uncertainty, exact identifiers,
-Acceptance, and Evidence. Brevity never authorizes immutable-history changes,
-weaker proof, or invented verification. Keep already concise text. Use no fixed
-word or sentence count as a quality substitute. The structural validator does
-not perform this semantic check.
-
-### Apply and check edits
-
-Before writing, confirm root, format, active Plan, current Work Item, affected
-bytes, outcome, and required acceptance evidence. Use context-bound patches;
-preserve unrelated work. Prepare and inspect the full multi-file result before
-applying any member.
-
-After writing:
-
-1. reread changed frontmatter and complete affected Work Item or Decision blocks;
-2. inspect the scoped diff and check changed prose against the compact-record rules;
-{{ profile: general }}3. when Python is available, run the optional validator through V on the final
-   unchanged multi-file state. Its successful result owns only the structural
-   invariants it reports for those exact bytes; any relevant later change
-   invalidates that evidence. If Python is unavailable, load V's manual
-   structural procedure and report its actual checks. A validator failure with
-   Python available remains a diagnostic, not a manual pass;{{ /profile }}{{ profile: codex }}3. run the required validator through V on the final unchanged multi-file state.
-   Its successful result owns only the structural invariants it reports for
-   those exact bytes; any relevant later change invalidates that evidence.
-   A validator failure blocks structural acceptance; report its diagnostic;{{ /profile }}
-4. manually check authorization, meaning, compact-record precision, Acceptance
-   and Evidence sufficiency, preserved history and user changes, prepared versus
-   written bytes, and every invariant the validator does not cover. Do not repeat
-   the validator's complete structure matrix when its evidence is still valid;
-5. record only acceptance evidence observed for the mutation.
-
-Use E's scoped-read rules: complete byte and structural checks need not print
-unchanged history. Widen reads when the operation or a diagnostic requires it.
-
-During mutation, also stop on concurrent changes, ambiguous lifecycle authority,
-or a partial multi-file transition.
-Do not overwrite a problem into apparent validity.
+For any write, E owns the writing-profile selection, compact-record rules,
+exact-byte guards, prepared multi-file result and post-write checks. Load V
+when validating the final state. Wording-only audits use E's writing section
+without authorizing a mutation. No-op reads and Skill upgrades require no
+migration, reformatting or changes to existing project records.
 
 ## Report durable state
 

@@ -3,6 +3,81 @@
   "skill": "scoville-plan",
   "cases": [
     {
+      "id": "rewrite-cancelled-before-execution",
+      "given": "The user explicitly asks to change Acceptance and Steps in a Plan confirmed never executed. Either the Plan is cancelled with todo items, or a draft Plan contains an item cancelled before execution.",
+      "expect": [
+        "Use the narrow L exception to change only requested authored content.",
+        "Preserve IDs, references, order, Evidence and all lifecycle fields; cancelled items retain no Next action and empty blockers.",
+        "Do not require deletion, new IDs, activation or a status transition."
+      ]
+    },
+    {
+      "id": "reject-cancelled-rewrite-after-execution",
+      "given": "The user asks to rewrite Acceptance and Steps of a cancelled item whose Evidence records performed work, or whose start history is unclear.",
+      "expect": [
+        "Do not apply the unstarted-Plan exception or alter authored history.",
+        "Preserve the started record; clarify uncertain start history before using the exception."
+      ]
+    },
+    {
+      "id": "delete-unstarted-draft",
+      "given": "The user asks to delete a draft Plan with only todo items, no execution evidence and no incoming references. Another Plan is active.",
+      "expect": [
+        "Delete only the requested Plan after validating the prepared remaining profile.",
+        "Do not require cancelled status, cancellation evidence or a replacement Plan.",
+        "Preserve the active Plan, index and all Decisions."
+      ]
+    },
+    {
+      "id": "delete-unstarted-active-plan",
+      "given": "The user asks to delete the sole active Plan. All items are todo and execution has not begun.",
+      "expect": [
+        "Prepare deletion and active_plan: null together, validate the remaining profile and apply through the native editing route.",
+        "Retain the index and canonical directories even when no Plans remain.",
+        "Require neither cancellation nor a placeholder; activation alone is not execution."
+      ]
+    },
+    {
+      "id": "rewrite-unstarted-plan",
+      "given": "The user asks to revise the Goal, Acceptance, Steps and item order of a draft Plan whose execution has not begun.",
+      "expect": [
+        "Apply the authorized changes through the Plan and Work Item edit routes while preserving retained IDs and valid dependencies.",
+        "Do not require cancellation or creation of a replacement Plan."
+      ]
+    },
+    {
+      "id": "retain-started-plan-despite-draft-label",
+      "given": "The user asks to delete a Plan marked draft with todo items, but its Evidence records implementation already performed.",
+      "expect": [
+        "Treat actual execution as started despite stale metadata and retain the Plan.",
+        "Explain that abandoning started work uses cancellation; do not infer cancellation authority from the deletion request."
+      ]
+    },
+    {
+      "id": "retain-started-plan-history",
+      "given": "The user asks to delete a Plan containing an in_progress, paused or done item.",
+      "expect": [
+        "Preserve the Plan and started history; do not reset items to todo to allow deletion.",
+        "Keep normal permitted editing of unstarted items available."
+      ]
+    },
+    {
+      "id": "cancelled-item-start-history",
+      "given": "The user asks to delete a Plan whose only item is cancelled. Its Evidence either explicitly says cancelled before execution, records performed work, or leaves start history unclear.",
+      "expect": [
+        "Permit authorized deletion when Evidence confirms execution never started, without a new cancellation record.",
+        "Retain the Plan when execution is recorded; clarify only unresolved start history before deletion."
+      ]
+    },
+    {
+      "id": "delete-plan-retained-reference",
+      "given": "An unstarted Plan is requested for deletion, but a retained accepted Decision contains a reference that would become invalid.",
+      "expect": [
+        "Identify the reference and resolve its treatment before deletion without silently rewriting retained history.",
+        "Do not delete the Decision as a side effect or invent authorization to alter it."
+      ]
+    },
+    {
       "id": "existing-owner-no-parallel-plan",
       "given": "A repository already has an authoritative project plan and asks for an additional implementation outcome.",
       "expect": [
@@ -321,11 +396,12 @@
     },
     {
       "id": "validator-unavailable-preserves-manual-fallback",
-      "given": "A canonical profile was changed but Python or the bundled script is unavailable.",
+      "given": "A canonical profile was changed. Compare general without Python, general with Python but missing or failing validator, and codex without a suitable runtime or helper.",
       "expect": [
-        "Do not install Python or another dependency merely to validate the profile.",
-        "Perform the routed manual structural and graph inspection required by native-editing.md.",
-        "Report manual inspection honestly and never claim validator output or executable guarantees."
+        "Only general without Python uses the routed manual structural and graph inspection; do not install a runtime merely for it.",
+        "General with Python and a missing or failing helper reports the diagnostic without manual fallback or structural success.",
+        "Codex requires Python 3.11+ and its helper; a missing or failing dependency blocks the affected operation.",
+        "Report observed inspection accurately; never invent validator evidence."
       ]
     },
     {
@@ -353,7 +429,7 @@
         "Read required direction, current and affected blocks, relevant relations, and unresolved proposals without dumping unrelated history.",
         "Keep full pre-write byte comparison and full post-write equality with the prepared result, returning hashes or comparison results instead of file bodies.",
         "Run the complete optional structural validator when available; compact model output does not narrow its coverage.",
-        "Without the validator, inspect required invariants manually and expand reads wherever a graph view cannot establish validity."
+        "Only in general without Python inspect required invariants manually and expand reads wherever needed. Missing or failing helpers with Python available never authorize fallback; codex requires the validator."
       ]
     },
     {
@@ -379,7 +455,7 @@
       "given": "A Plan has one clear concept and three ordered changes in known files src/cache/migrate.py, src/cache/reader.py, and tests/test_cache_migration.py, but its draft repeats rationale and says only to update relevant files.",
       "expect": [
         "State the concept once in Goal and Outcome, and remove prose that changes no action, constraint, check, or recovery fact.",
-        "Write consecutive 1., 2., 3. Steps in dependency-safe execution order and cite each known repository-relative file in its action Step.",
+        "Group related migration, reader and test changes by observable result and Acceptance boundary rather than by file count. Use consecutive numbered Steps only for distinct ordered units and cite known targets within their unit.",
         "Keep Acceptance decisive and non-duplicative so a lower-reasoning worker can execute and a reviewer can trace every Step without chat context."
       ]
     },

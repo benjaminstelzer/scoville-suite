@@ -14,6 +14,11 @@ progress transitions.
 
 ## Preserve authored history
 
+For an explicit authored-content rewrite in a confirmed wholly unstarted Plan,
+load L's [unstarted-Plan exception](native-project-lifecycle.md#rewrite-or-delete-an-unstarted-plan).
+That exception can permit edits to cancelled records without a status transition;
+it does not permit reopening terminal work or rewriting executed history.
+
 - Edit, move, or physically remove only a `todo` Work Item in a `draft` or
   `active` Plan. Once an item leaves `todo`, retain its ID, title, dependencies,
   Decisions, Outcome, Acceptance, Steps, and document position.
@@ -29,6 +34,56 @@ annotation of one named unperformed Step. Preserve that Step's action and route
 text, all other authored content, and every completed or running dispatch. This
 exception never permits adding, removing, moving, or rewriting a Step.
 
+## Handle messages received during active work
+
+When a supported active Plan owns running work and the user sends a message
+before that work finishes, classify each part before changing execution or
+native state:
+
+- An explicit stop, pause, cancellation, or immediate redirect stops the live
+  work at once. Apply only the lifecycle change the user actually authorized.
+  When the user explicitly requires a later return to paused work, preserve
+  that return in its live `Next action` through the Work Item route.
+- A correction that invalidates or materially changes current execution stops
+  that execution before more work is performed. Reconcile its effect through
+  the ordinary Work Item or Decision routes. Do not rewrite started authored
+  fields or infer cancellation from the need to stop.
+- An additive request is work to perform after the current task. A plain
+  imperative such as "do X" is additive unless the user makes it immediate or
+  it corrects current execution. Persist it through the deferred-work operation
+  without pausing, cancelling, or replacing the current item, and without
+  beginning the deferred work.
+- A pure informational or status question that requires no retained action
+  receives the requested response and creates no Work Item. Continue the
+  current work unless another part of the message changes it.
+
+Classify mixed messages by part. Handle an interrupting correction first and
+queue any independent additive part, so neither intent hides the other. For
+additive work, make only the planning mutation needed to persist the queue,
+verify that mutation, identify the affected Work Item to the user, and resume
+the unchanged current work. Never acknowledge work as queued before its native
+record is durable. Keep queue and explicit successor provenance visible in the
+native Work Item titles defined by the deferred-work route, never only in chat.
+
+This queue behavior requires a complete supported active native Plan. If the
+request would exceed its Goal, violate its Non-goals, or require an unresolved
+scope or lifecycle choice, keep the current work unchanged and ask only for
+that choice while independent work continues. Do not claim a durable queue,
+initialize a profile, or broaden the Plan implicitly. An explicit stop or
+immediate redirect still governs live execution.
+
+## Pre-flight the next item
+
+- Before starting the next `todo` Work Item in the active Plan, run a pre-flight
+  for that item against the current repository state and evidence from its
+  completed dependencies or other directly relevant completed Work Items in
+  that Plan. For this pre-flight, do not scan completed or historical Plans or
+  reread the entire active Plan without a concrete relevance reason. Check
+  whether that evidence changed the item's premises, signatures, data models,
+  contracts, paths, or validation assumptions. If so, refine that still-`todo`
+  item through its normal route before execution. Never run stale instructions
+  or rewrite started history.
+
 ## Apply direct Plan maintenance
 
 When the user asks to add, refine, reorder, remove, or clean up Work Items,
@@ -42,6 +97,10 @@ the history, dependency, current-selection, and lifecycle rules in this
 reference before changing the record.
 
 ## Refine todo work
+
+When creating or changing outcome boundaries or Steps, read
+[planning-granularity.md](planning-granularity.md) for decomposition and dispatch
+boundaries. P owns syntax; E owns record-writing depth and fidelity.
 
 - Insert one `todo` block at the end, before an anchor, or after an anchor.
   Allocate the highest Work Item ID plus one and validate the complete Plan.

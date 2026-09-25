@@ -16,7 +16,7 @@ spec.loader.exec_module(builder)
 
 class LifecycleBuildTests(unittest.TestCase):
     def test_isolated_exported_consumers_and_receipt(self):
-        for suite, expected in [('scoville-suite', 1), ('ask-suite-for-codex', 5)]:
+        for suite, expected in [('scoville-suite', 2)]:
             root = SHARED.parent / suite
             profile = 'codex' if suite == 'scoville-suite' else None
             members = [m for m in builder.load(root, profile)['members'] if any(h['source'] == 'runtime/task_lifecycle.py' for h in m.get('shared_helpers', []))]
@@ -26,11 +26,11 @@ class LifecycleBuildTests(unittest.TestCase):
                 receipt = builder.build(root, output, False, [] if profile else [m['name'] for m in members], profile)
                 for member in members:
                     name = member['name']
-                    relative = f'scoville-suite-for-codex/packages/{name}' if name == 'scoville-workflow-for-codex' else name
+                    relative = f'scoville-suite-for-codex/packages/{name}' if profile == 'codex' else name
                     script = output / relative / name / 'scripts/task_lifecycle.py'
                     built = next(m for m in receipt['members'] if m['name'] == name)
                     self.assertEqual(relative, built['package_path'])
-                    if name == 'scoville-workflow-for-codex':
+                    if profile == 'codex':
                         self.assertEqual('benjaminstelzer/scoville-suite-for-codex', built['repository'])
                         self.assertEqual('suite', built['distribution'])
                         self.assertFalse((output / name).exists())

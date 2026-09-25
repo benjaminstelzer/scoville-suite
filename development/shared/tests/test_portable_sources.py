@@ -16,7 +16,7 @@ class PortableSourcesTests(unittest.TestCase):
         spec = importlib.util.spec_from_file_location('canonical', SHARED / 'build/build_suite.py')
         canonical = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(canonical)
-        for name in ('scoville-suite', 'ask-suite-for-codex'):
+        for name in ('scoville-suite',):
             source = SHARED.parent / name
             with self.subTest(suite=name), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary) / name
@@ -29,8 +29,11 @@ class PortableSourcesTests(unittest.TestCase):
                 spec = importlib.util.spec_from_file_location('isolated', root / 'development/shared/build/build_suite.py')
                 isolated = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(isolated)
-                for member in canonical.load(source)['members']:
-                    self.assertEqual(canonical.payload(source, member), isolated.payload(root, member))
+                for profile in ('general', 'codex'):
+                    config = canonical.load(source, profile)
+                    isolated_config = isolated.load(root, profile)
+                    for member in config['members']:
+                        self.assertEqual(canonical.payload(source, member, config), isolated.payload(root, member, isolated_config))
                 target = root / 'development/shared/readme/license.md'
                 target.write_text('drift', encoding='utf-8')
                 self.assertIn('readme/license.md', sync(root, SHARED, check=True))

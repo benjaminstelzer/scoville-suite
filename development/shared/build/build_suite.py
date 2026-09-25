@@ -44,6 +44,11 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
             raise ValueError('unsupported profile setting')
         data.update(settings)
         data['profile'] = selected
+        data['catalog'] = [
+            {'name': m['name'], 'repository': m['repository'],
+             'availability': m.get('availability', '')}
+            for m in data['members'] if selected in m.get('catalog_profiles', [])
+            and selected not in m.get('profiles', list(profiles)) and m['public_distribution']]
         def included(entry):
             choices = entry.pop('profiles', list(profiles))
             if not isinstance(choices, list) or not choices or set(choices) - profiles.keys():
@@ -85,8 +90,12 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
         if member['public_distribution'] and member['visibility'] != 'public':
             raise ValueError('private member cannot enter public builds')
     selected_layout = layout or data.get('layout', 'suite' if data.get('profile') == 'codex' else 'standalone')
-    if data.get('profile') == 'codex' and selected_layout != 'suite':
-        raise ValueError('Codex edition is suite-only')
+    if data.get('profile') == 'codex' and selected_layout == 'standalone':
+        data['members'] = [m for m in data['members'] if 'codex' in m.get('standalone_profiles', [])]
+        if not data['members']:
+            raise ValueError('Codex edition is suite-only without explicitly standalone members')
+        if data.get('featured_member') not in {m['name'] for m in data['members']}:
+            data.pop('featured_member', None)
     if selected_layout not in {'standalone', 'suite'}:
         raise ValueError('unknown package layout')
     if 'layout' in data and selected_layout != data['layout']:
@@ -233,6 +242,14 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             return ''
         if key == 'prompting.defaults':
             return within(shared_root(), 'prompting/models.toml').read_text(encoding='utf-8').strip()
+        if key == 'member.defaults':
+            if member is None:
+                raise ValueError('member.defaults requires a member')
+            target = member['name'] + '/config.default.json'
+            sources = [item['source'] for item in member['files'] if item['target'] == target]
+            if len(sources) != 1:
+                raise ValueError('member.defaults requires one canonical config.default.json')
+            return within(root, sources[0]).read_text(encoding='utf-8').strip()
         if key == 'member.development':
             if member is None:
                 raise ValueError('member.development requires a member')
@@ -244,6 +261,19 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                 raise ValueError('suite.development is only valid in the suite README')
             return '\n'.join(f'- **{item["name"]}**: {development_links(root, config, item)}'
                              for item in members)
+        if key == 'suite.catalog':
+            if member is not None:
+                raise ValueError('suite.catalog is only valid in the suite README')
+            entries = config.get('catalog', [])
+            if not entries:
+                return ''
+            return '## Additional Scoville Skills\n\n' + '\n\n'.join(
+                f'### {item["name"]}\n\n{item["availability"]}. Available separately; not included in this edition.\n\n'
+                f'Ask your Codex host:\n\n```text\nInstall this Skill for all my projects from this exact package directory:\n'
+                f'https://github.com/{item["repository"]}/tree/main/{item["name"]}\n'
+                'Preserve personal settings and unrelated Skills. Report the installed location\n'
+                'and whether the host discovers the Skill.\n```'
+                for item in entries)
         if key == 'suite.repository':
             repository = config.get('repository')
             if repository != 'benjaminstelzer/' + config['name']:

@@ -17,7 +17,7 @@ import export_suite
 
 class DistributionProfilesTests(unittest.TestCase):
     def test_membership_fallbacks_invocations_and_repeatability(self):
-        for profile, layout, count in [('general', 'standalone', 5), ('general', 'suite', 5), ('codex', 'suite', 6)]:
+        for profile, layout, count in [('general', 'standalone', 4), ('general', 'suite', 4), ('codex', 'suite', 6)]:
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
                 config = builder.load(ROOT, profile, layout)
                 self.assertEqual(count, len(config['members']))
@@ -85,8 +85,12 @@ class DistributionProfilesTests(unittest.TestCase):
     def test_profile_errors_fail_closed(self):
         with self.assertRaisesRegex(ValueError, 'unknown build profile'):
             builder.load(ROOT, 'typo')
-        with self.assertRaisesRegex(ValueError, 'suite-only'):
-            builder.load(ROOT, 'codex', 'standalone')
+        self.assertEqual(['scoville-ask-for-codex'],
+                         [m['name'] for m in builder.load(ROOT, 'codex', 'standalone')['members']])
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaises(ValueError):
+                builder.build(ROOT, Path(temp) / 'workflow', True,
+                              ['scoville-workflow-for-codex'], 'codex', 'standalone')
         with tempfile.TemporaryDirectory() as temp:
             with self.assertRaisesRegex(ValueError, 'complete member set'):
                 builder.build(ROOT, Path(temp) / 'partial', True, ['scoville-plan'], 'general', 'suite')

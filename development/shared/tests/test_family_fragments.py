@@ -62,7 +62,7 @@ class FamilyFragmentsTests(unittest.TestCase):
     def test_ask_index_grows_without_scoville_metadata(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            config = builder.load(SHARED.parent / 'ask-suite-for-codex')
+            config = {'schema_version': 1, 'name': 'fixture-suite', 'member_previews': False, 'members': []}
             config['members'].append({'name': 'ask-test', 'repository': 'benjaminstelzer/ask-test',
                                       'visibility': 'public', 'public_distribution': True})
             (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')

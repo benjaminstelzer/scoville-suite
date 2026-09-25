@@ -128,14 +128,14 @@ Use Steps for two or more behavior-complete units that need an execution order.
 Keep necessary intermediate actions inside their unit, on the same Step line;
 more explanation never creates extra dispatch units. Each Step starts with a concrete
 verb and names its target. Cite every known repository-relative file in the Step
-that changes or checks it, for example:
+that changes or checks it, for example, this single Step within a migration sequence:
 
 ```text
-Steps:
-1. Update `src/cache/migrate.py` to stage schema-2 output before publication.
-2. Update `src/cache/reader.py` to call the staged migration after validation.
-3. Add interruption coverage in `tests/test_cache_migration.py`.
+1. Update `src/cache/migrate.py` and `src/cache/reader.py` together to stage schema-2 output before publication and read it after validation; verify interrupted migration in `tests/test_cache_migration.py`.
 ```
+
+This line illustrates a unit within a sequence. A separately accepted rollout
+result belongs to its own Work Item, not another Step in this item.
 
 Do not write vague Steps such as "make the changes" or "update the relevant
 files." Resolve an unknown canonical target through bounded read-only discovery

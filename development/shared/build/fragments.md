@@ -18,9 +18,7 @@ files. Release assembly also places every installable Skill under `packages/`.
 Individual distribution repositories contain only their package and user-facing
 root files. Workflow has no separate distribution repository.
 
-Suite-specific tests run from `development/tests`. Shared cross-suite tests
-retain their authoring-workspace layout requirement: `shared/`, `scoville-suite/`
-and `ask-suite-for-codex/` as siblings. The bundled copy retains those test sources
+Suite-specific tests run from `development/tests`. Shared tests use `shared/` and `scoville-suite/` as siblings, covering both build profiles and the standalone Codex Ask package. The bundled copy retains those test sources
 for development, but installing a Skill requires none of them.
 
 Members default to `distribution: standalone`. `distribution: suite` targets
@@ -142,7 +140,7 @@ without the authoring workspace. Export never grants publication authority.
 
 `--layout standalone` builds independent general Skills with family guidance.
 `--layout suite` builds every selected-profile member inside its suite's own
-`packages/` tree. Codex is suite-only. A suite build rejects member subsets and
+`packages/` tree. Codex defaults to suite layout. `standalone_profiles: ["codex"]` permits the Ask standalone projection; other Codex members remain suite-only. `catalog_profiles` lists editions whose README advertises an excluded member without bundling its sources. `availability` supplies its host label; `suite.catalog` renders that installation catalog. A suite build rejects member subsets and
 unapproved public members; it never silently produces a partial suite.
 Exports always retain `layout: suite` and rebuild only that edition/layout.
 

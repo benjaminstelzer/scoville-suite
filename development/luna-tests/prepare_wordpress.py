@@ -8,7 +8,7 @@ import sys
 from run_codex_cli_case import load_receipt, verify_hash
 
 HERE = Path(__file__).resolve().parent
-MEMBER = 'scoville-wordpress-ui-backend-anti-ai-slop'
+MEMBER = 'scoville-ui'
 
 
 def digest(path):
@@ -21,11 +21,13 @@ def main():
         parser.add_argument('--' + key, required=True, type=Path)
     args = parser.parse_args()
     receipt = args.build / 'build-receipt.json'
-    package = args.build / MEMBER / MEMBER
+    build_receipt = json.loads(receipt.read_text(encoding='utf-8'))
+    member = next(m for m in build_receipt['members'] if m['name'] == MEMBER)
+    package = args.build / member['package_path'] / MEMBER
     load_receipt(receipt, MEMBER, package)
     verify_hash(args.catalog, '0a2bca132452338774a9c243e195095ad0b6400b17b2586306a69e8dcfade5f0', 'catalog')
     verify_hash(args.codex, 'bc45017e8239dc150258f69309ced9df6bbcdf5b8e4f346decf780ac0999e226', 'codex')
-    verify_hash(HERE / 'run_codex_cli_case.py', '4cb9ea0f660c3bfee33f3d555a7549998e78c89a1e8ec2ddad85038488725519', 'runner')
+    verify_hash(HERE / 'run_codex_cli_case.py', 'ce08138d98d846bcd5d29a6324469ef8bab3b80e9ae5fbab2d400b3a39fc2009', 'runner')
     args.output.mkdir(parents=True, exist_ok=False)
     cases_path = HERE / 'wordpress-cases.md'
     key_path = HERE / 'wordpress-expected.md'
@@ -34,8 +36,8 @@ def main():
         raise ValueError('Expected exactly five cases')
     core = (package / 'SKILL.md').read_text(encoding='utf-8')
     discovery = []
-    for name in (MEMBER, 'scoville-ui-anti-ai-slop'):
-        root = args.build / name / name
+    for name in (MEMBER,):
+        root = package
         load_receipt(receipt, name, root)
         text = (root / 'SKILL.md').read_text(encoding='utf-8')
         discovery.append(text.split('---', 2)[1])

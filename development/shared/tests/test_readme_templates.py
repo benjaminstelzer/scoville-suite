@@ -25,14 +25,15 @@ class ReadmeTemplateTests(unittest.TestCase):
                          {p: b for p, b in candidate.items() if p != 'README.md'})
 
     def test_development_blocks_are_suite_only_for_every_member(self):
-        for name in ('scoville-suite', 'ask-suite-for-codex'):
+        for profile in ('general', 'codex'):
+            name = 'scoville-suite'
             root = SHARED.parent / name
-            config = builder.load(root)
-            index = builder.expand_fragments(root, '{{ include: suite.development }}')
+            config = builder.load(root, profile)
+            index = builder.expand_fragments(root, '{{ include: suite.development }}', config=config)
             for member in config['members']:
                 with self.subTest(suite=name, member=member['name']):
-                    release = builder.readme(root, member).decode()
-                    preview = builder.readme(root, member, 'suite').decode()
+                    release = builder.readme(root, member, config=config).decode()
+                    preview = builder.readme(root, member, 'suite', config=config).decode()
                     self.assertNotIn('## Development\n', release)
                     self.assertIn('## How it was developed\n', preview)
                     self.assertIn(member['name'], index)
@@ -41,7 +42,7 @@ class ReadmeTemplateTests(unittest.TestCase):
                         self.assertIn('/main/' + path, preview)
                         self.assertIn('/main/' + path, index)
                     self.assertNotIn('{{', preview)
-                    builder.payload(root, member)
+                    builder.payload(root, member, config)
 
     def test_audience_typos_and_unscoped_development_fail(self):
         with self.assertRaisesRegex(ValueError, 'invalid README fragment'):
@@ -59,14 +60,14 @@ class ReadmeTemplateTests(unittest.TestCase):
             builder.readme(root, member, 'suite')
 
     def test_new_member_joins_developer_index_from_manifest(self):
-        root = SHARED.parent / 'ask-suite-for-codex'
+        root = SHARED.parent / 'scoville-suite'
         config = builder.load(root)
-        added = dict(config['members'][0], name='new-ask-variant')
+        added = dict(config['members'][0], name='new-ask-variant', family=dict(config['members'][0]['family'], order=99))
         config['members'].append(added)
         with patch.object(builder, 'load', return_value=config):
-            index = builder.expand_fragments(root, '{{ include: suite.development }}')
+            index = builder.expand_fragments(root, '{{ include: suite.development }}', config=config)
         self.assertEqual(1, index.count('**new-ask-variant**'))
-        self.assertIn('members/single', index.split('**new-ask-variant**')[1])
+        self.assertIn(added['development']['source'], index.split('**new-ask-variant**')[1])
 
     def test_package_links_use_output_inventory_not_source_tree(self):
         files = {'README.md': b'[Skill](skill/SKILL.md)\n[Notes][n]\n[n]: <skill/references/with%20space.md>\n',
@@ -149,17 +150,18 @@ class ReadmeTemplateTests(unittest.TestCase):
             self.assertNotIn('/tree/main/', section)
 
     def test_shared_sources_are_confined_and_missing_templates_fail(self):
-        root = SHARED.parent / 'ask-suite-for-codex'
+        root = SHARED.parent / 'scoville-suite'
         self.assertEqual(SHARED / 'readme/license.md', builder.readme_source(root, 'shared:license.md'))
         with self.assertRaises(ValueError):
             builder.readme_source(root, 'shared:../runtime/task_lifecycle.py')
         with self.assertRaises(FileNotFoundError):
             builder.readme(root, {'readme': ['shared:missing-template.md']})
 
-    def test_both_suites_render_shared_license_without_placeholders(self):
-        for name in ('scoville-suite', 'ask-suite-for-codex'):
-            root = SHARED.parent / name
-            members = [m for m in builder.load(root)['members'] if 'shared:license.md' in m['readme']]
+    def test_both_profiles_render_shared_license_without_placeholders(self):
+        for profile in ('general', 'codex'):
+            root = SHARED.parent / 'scoville-suite'
+            config = builder.load(root, profile)
+            members = [m for m in config['members'] if 'shared:license.md' in m['readme']]
             self.assertTrue(members)
             for member in members:
                 result = builder.readme(root, member).decode()
@@ -167,30 +169,29 @@ class ReadmeTemplateTests(unittest.TestCase):
                 self.assertNotIn('{{', result)
 
     def test_shared_install_requires_member_variables(self):
-        root = SHARED.parent / 'ask-suite-for-codex'
+        root = SHARED.parent / 'scoville-suite'
         member = dict(builder.load(root)['members'][0])
         member['readme'] = ['shared:ask-native-install.md']
         member['variables'] = {}
         with self.assertRaisesRegex(ValueError, 'missing or invalid variant variable: skill_name'):
             builder.readme(root, member)
 
-    def test_native_install_keeps_probe_and_personal_config(self):
-        root = SHARED.parent / 'ask-suite-for-codex'
-        for member in builder.load(root)['members']:
-            if member['name'] == 'ask-claude-for-codex':
-                continue
-            result = builder.readme(root, member).decode()
-            self.assertIn('archive the probe', result)
-            self.assertIn('ask before overwriting conflicting files', result)
-            if member['name'].startswith(('ask-astra-', 'ask-sol-')):
-                self.assertIn('`config.json` settings during updates', result)
+    def test_native_install_keeps_python_check_and_personal_config(self):
+        root = SHARED.parent / 'scoville-suite'
+        config = builder.load(root, 'codex', 'standalone')
+        member = config['members'][0]
+        result = builder.readme(root, member, config=config).decode()
+        self.assertIn('verify the interpreter', result)
+        self.assertIn('ask before', result)
+        self.assertIn('overwriting conflicting files', result)
+        self.assertIn('`config.json` settings during updates', result)
 
     def test_receipt_tracks_shared_template_and_source_drift_is_detected(self):
-        root = SHARED.parent / 'ask-suite-for-codex'
-        member = 'ask-claude-for-codex'
+        root = SHARED.parent / 'scoville-suite'
+        member = 'scoville-ask-for-codex'
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / 'packages'
-            builder.build(root, output, True, [member])
+            builder.build(root, output, True, [member], 'codex', 'standalone')
             receipt = json.loads((output / 'build-receipt.json').read_text())
             self.assertIn('readme/license.md', receipt['shared_sources'])
             changed = Path(temporary) / 'license.md'
