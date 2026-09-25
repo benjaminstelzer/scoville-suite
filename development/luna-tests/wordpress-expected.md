@@ -13,7 +13,7 @@ Implement only affected workflow region. Region-owned hybrid boundary and stable
 Explicit Multisite/Network Admin with Core/JS region ownership. Correct complete translatable phrases with count/plural as needed, literal consistent slug domain, JS translation binding, error relationships and accessible feedback. Readiness not mandatory catalogs or delivered translations. No RTL proof for specified LTR scope. Preserve Classic markup, no React migration. Token use conditional on actual 7.1 loading and a valid 7.0 fallback or capability gate. Source and rendered claims separated, affected expansion/keyboard/reflow verification only.
 
 ## wp-04
-A Scoville UI, not WordPress specialist or mandatory Design. B Scoville Design for independently requested concept work, no WordPress implementation/acceptance process yet. Neither request authorizes implementation of B or invented verification.
+A uses the general UI Skill, not the WordPress specialist. B is independent visual-concept work without WordPress implementation or acceptance. Neither request authorizes implementation of B or invented verification.
 
 ## wp-05
 WordPress specialist excluded for all three. SlotFill follows Block Editor, metabox follows post-editor/metabox host, landing page follows frontend/theme owner. No generic plugin-page shell or spacing prescriptions, no global admin CSS or imposed WPDS. Do not treat all plugin-authored UI as a plugin-owned admin page.

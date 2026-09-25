@@ -4,7 +4,7 @@ Run five distinct cases from `wordpress-cases.md`. The author freezes
 `wordpress-expected.md` before execution. SOL Medium coordinates and grades,
 LUNA Medium answers. The author independently verifies the results.
 Cases 01-03 use the built core and requested references. Cases 04-05 test
-discovery with built WordPress, UI and Design frontmatter only.
+discovery with built WordPress and UI frontmatter only.
 
 ## Repeat
 

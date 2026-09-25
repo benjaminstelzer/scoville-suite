@@ -31,12 +31,9 @@ Evidence for one category does not prove another. A passing build cannot prove
 that text is visible; one screenshot cannot prove keyboard operation; an
 automated audit cannot prove that a task is understandable.
 
-For composed work, derive claims from the active Design record's `validation
-target` and preserve its `current evidence status`. Verify implementation and
-framework behavior without re-scoring the settled design decision. If a real
-constraint prevents the intended effect, report the exact component/platform
-limit and affected concern so Design can revise that decision; do not silently
-substitute a different layout or visual system.
+For a supplied product decision, use its validation target and preserve
+its evidence status. Report any implementation constraint to its owner; do not
+silently substitute a different layout or visual system.
 
 ## Derive the test surface
 

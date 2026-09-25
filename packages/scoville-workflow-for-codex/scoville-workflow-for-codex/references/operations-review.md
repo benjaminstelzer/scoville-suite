@@ -31,9 +31,11 @@ never override an observed qualifying change or an explicit review requirement.
 A conflict or unclear classification requires review. For a qualifying result,
 send the required review-phase announcement, then start one fresh reviewer with
 the same unit identity, exact `workspace_root`,
-and the complete validated `executor_result`. Add no separate handoff, Evidence,
-prior Step, or coordinator prose; the result itself names changed paths and
-decisive checks. For a non-qualifying
+and the complete validated `executor_result`. Add no free-form appended prose
+or complete Evidence histories. Supply necessary additional facts only through
+the validated `supplemental_context` input before binding, including needed
+content from sources the reviewer may not read. Preserve canonical source_text
+and executor_result unchanged; the result names changed paths and decisive checks. For a non-qualifying
 result, create no reviewer or repair and record the observed threshold result in
 Work Item Evidence before lifecycle advancement. A reviewer `context_handoff`
 creates its same-review successor only after the inherited-continuation progress

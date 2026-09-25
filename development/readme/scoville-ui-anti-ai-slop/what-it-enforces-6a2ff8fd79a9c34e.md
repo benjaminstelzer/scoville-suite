@@ -1,8 +1,7 @@
 ## What it enforces
 
 - **The product keeps its visual owner.** The incumbent design system comes
-  first. Within it, an active Design record owns design judgment while UI owns
-  implementation. Without Design, UI uses its bounded fallback.
+  first. UI implements approved product decisions; without a visual owner, it uses a bounded local direction.
 - **The task has a hierarchy.** Primary decisions, supporting information, and
   secondary actions remain distinguishable.
 - **Real states exist.** Loading, empty, error, disabled, success, focus,

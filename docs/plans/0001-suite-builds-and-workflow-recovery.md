@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0001
-status: active
+status: draft
 created: 2026-09-21
 updated: 2026-09-23
-current_item: W-025
 ---
 
 # Suite-Builds und zuverlässige Workflow-Übergaben
@@ -28,13 +27,13 @@ Status: done
 Depends on: []
 Blocked by: []
 Decisions: []
-Outcome: Kostenblöcke nennen tatsächlichen Mehraufwand. Brainstorm zeigt Agentenrollen und Informationsfluss verständlich.
-Acceptance: Gemeinsame Vorlage und alle betroffenen README-Quellen sind korrigiert; Builds übernehmen dieselben Beschreibungen. Research und Brainstorm verwenden denselben kurzen Codex-Kapazitätshinweis. Tests und Remote-Dateivergleiche bestehen; Laufzeitdateien und Releases bleiben unverändert.
+Outcome: Kostenblöcke nennen tatsächlichen Mehraufwand. Ablaufdarstellungen zeigen Agentenrollen und Informationsfluss verständlich.
+Acceptance: Gemeinsame Vorlage und alle betroffenen README-Quellen sind korrigiert; Builds übernehmen dieselben Beschreibungen. Tests und Remote-Dateivergleiche bestehen; Laufzeitdateien und Releases bleiben unverändert.
 Steps:
 1. Korrigiere Kostenfragmente beider Suites und eigenständige Projekt-READMEs sowie die gemeinsame Vorlage und GitHub-Publikationsregel. Entferne unpassende Disclaimer; bewahre relevante Sicherheits- und Testgrenzen an ihrem passenden Ort.
-2. Ersetze das Brainstorm-Diagramm in development/readme/scoville-brainstorm/mechanism.md durch belegte Agentenrollen und Übergaben. Generiere den gemeinsamen Kapazitätshinweis aus ../shared/readme/codex-subagent-limit.md.
+2. Ersetze das damalige Ablaufdiagramm durch belegte Agentenrollen und Übergaben. Generiere den gemeinsamen Kapazitätshinweis aus ../shared/readme/codex-subagent-limit.md.
 3. Regeneriere READMEs und Pakete; prüfe Tests und unveränderte Laufzeitdateien. Committe und pushe die betroffenen Quellen und Distributionen; verifiziere Remote-Commits und Dateibäume.
-Evidence: [Kostenquellen und Brainstorm-Diagramm korrigiert; gemeinsamer Codex-Hinweis generiert, 40 Shared-Tests plus 5 Scoville-Tests plus 8 Ask-Tests und 4 Publikationsregeltests bestanden; 15 Paketverträge geprüft, 21 Repositories gepusht und Remote-Commit sowie Dateibaum verifiziert; Paketlaufzeitdateien und Releases unverändert]
+Evidence: [Kostenquellen und Ablaufdarstellungen korrigiert; gemeinsamer Codex-Hinweis generiert, 40 Shared-Tests plus 5 Scoville-Tests plus 8 Ask-Tests und 4 Publikationsregeltests bestanden; damalige Paketverträge und Remote-Dateibäume verifiziert; Paketlaufzeitdateien und Releases unverändert]
 
 ### W-001 Zwei Suite-Quellen mit reproduzierbaren Einzelpaketen
 
@@ -49,7 +48,7 @@ Steps:
 2. Ergänze `development/build_suite.py` und ein Suite-Manifest um geprüfte Paketgrenzen sowie gemeinsame und mitgliedsspezifische README-Bausteine; erzeuge die Ask-Variante ohne gegenseitige Laufzeitabhängigkeit.
 3. Passe den benjaminstelzer-github-Skill und dessen Strukturprüfungen an Suite-Quellen und generierte Distributions-Repos an; erhalte bisherige Installationspfade und Sichtbarkeiten.
 4. Prüfe Builds und betroffene Mitgliedstests am neuen Root und konsolidiere erst danach die alten lokalen Checkouts ohne Verlust ihrer Historie oder Änderungen.
-Evidence: [374 Quelldateien bytegleich übernommen und 13 Git-Bundles geprüft, README-Bausteine in beiden Suites zusammengesetzt, 8 Buildtests und 263 ausführbare Mitgliedstests bestanden, 46 GitHub-Skill-Tests und beide Distributionsabgleiche bestanden, Scribe-Routingfehler unverändert auch im Original reproduziert, Originalcheckouts vollständig unter Z:/Projekts/AI/state/suite-source-archives-2026-09-21 erhalten]
+Evidence: [374 Quelldateien bytegleich übernommen und 13 Git-Bundles geprüft, README-Bausteine in beiden Suites zusammengesetzt, 8 Buildtests und 263 ausführbare Mitgliedstests bestanden, 46 GitHub-Skill-Tests und beide Distributionsabgleiche bestanden, Originalcheckouts vollständig unter Z:/Projekts/AI/state/suite-source-archives-2026-09-21 erhalten]
 
 ### W-002 Gemeinsame Helper mit eigenständigen Skill-Paketen
 
@@ -121,7 +120,7 @@ Steps:
 1. Inventarisiere familienbezogene Elemente in Skills und README-Bausteinen beider Suites sowie deren Build- und GitHub-Prüfungen. Unterscheide vollständige Mitgliederlisten von absichtlich begrenzten Rollenverweisen und historischen Belegen.
 2. Ergänze die kanonische Mitgliedsdefinition in suite.json und den Builder unter ../shared/build/build_suite.py um geordnete Familienbausteine und explizite Teilmengen. Ersetze manuell gepflegte Kopien einschließlich Family owners durch generierte Inhalte.
 3. Prüfe Erweiterung und Drift mit einem Testmitglied sowie Paketgrenzen und bestehenden Rollenunterschieden. Dokumentiere den einzigen Pflegeweg knapp in den Projektregeln.
-Evidence: [suite.json besitzt Familienmetadaten und explizite Nachbarteilmengen; shared/build/build_suite.py expandiert alle Listen vor Export, 15 Shared-Tests und je 4 Suite-Buildtests sowie 32 Design-Tests bestanden, Testmitglied erweitert vollständige Scoville- und Ask-Listen; Teilmengen bleiben begrenzt; manipulierte Paketkopie wird erkannt, Öffentliche Builds beider Suites gegen aktuelle Quellen und GitHub-Paketprüfung erfolgreich; Workflow nicht exportiert, README-Checks ohne Drift; historische Mitgliederunterlagen unverändert, quick_validate scheitert am vorhandenen compatibility-Feld und bei Plan zusätzlich am Windows-Decoding; keine Gesamtvalidierung behauptet]
+Evidence: [suite.json besitzt Familienmetadaten und explizite Nachbarteilmengen; shared/build/build_suite.py expandiert alle Listen vor Export, 15 Shared-Tests und je 4 Suite-Buildtests sowie 32 damalige Mitgliedstests bestanden, Testmitglied erweitert vollständige Scoville- und Ask-Listen; Teilmengen bleiben begrenzt; manipulierte Paketkopie wird erkannt, Öffentliche Builds beider Suites gegen aktuelle Quellen und GitHub-Paketprüfung erfolgreich; Workflow nicht exportiert, README-Checks ohne Drift; historische Mitgliederunterlagen unverändert, quick_validate scheitert am vorhandenen compatibility-Feld und bei Plan zusätzlich am Windows-Decoding; keine Gesamtvalidierung behauptet]
 
 ### W-004 Einheitliche SCW- und ASK-Titel für neue Tasks
 
@@ -221,7 +220,7 @@ Steps:
 1. Prüfe suite.json sowie development/readme und die README-Zusammensetzung in ../shared/build/build_suite.py; bestimme pro Mitglied den vorhandenen kanonischen Beschreibungsbaustein und trenne Beschreibung von Installations- und Entwicklungstext.
 2. Ergänze eine manifestgesteuerte Suite-Projektion dieser Beschreibungen und verwende sie in der Suite-README-Quelle; pflege jeden Beschreibungstext nur einmal und erhalte gültige Links im jeweiligen Ausgabepfad.
 3. Prüfe Vollständigkeit, Reihenfolge, Beschreibungsänderung, zusätzliches Testmitglied und fehlenden Baustein sowie private Ausgabegrenzen; regeneriere die README-Vorschauen und prüfe sie gegen die Quellen.
-Evidence: [suite.descriptions übernimmt erste Mitgliedsfragmente; featured_member setzt Workflow zuerst; alle neun Beschreibungen in README geprüft, 28 Shared-Tests und 4 Suite-Tests bestanden; README-Check ohne Drift; öffentlicher Build scoville-descriptions-public gegen Quellen validiert, Tests prüfen Reihenfolge und neue Beschreibung sowie Quelländerung und fehlenden Inhalt; relative Links und Verwendung in Einzelpaketen werden abgewiesen, Workflow-Sonderrolle gemäß ADR-0001 dokumentiert; Scribe-Plan-Ausnahme an aktuellen Skill-Vertrag angeglichen; keine Veröffentlichung]
+Evidence: [suite.descriptions übernimmt erste Mitgliedsfragmente; featured_member setzt Workflow zuerst; damalige Beschreibungen in README geprüft, 28 Shared-Tests und 4 Suite-Tests bestanden; README-Check ohne Drift; öffentlicher Build scoville-descriptions-public gegen Quellen validiert, Tests prüfen Reihenfolge und neue Beschreibung sowie Quelländerung und fehlenden Inhalt; relative Links und Verwendung in Einzelpaketen werden abgewiesen, Workflow-Sonderrolle gemäß ADR-0001 dokumentiert; keine Veröffentlichung]
 
 ### W-016 Deferred after W-015: Workflow ausschließlich mit der Suite ausliefern
 
@@ -249,7 +248,7 @@ Steps:
 1. Inventarisiere nach W-013 alle Mitglieder aus beiden suite.json-Dateien und prüfe deren Skill-Anweisungen, Referenzen, Vorlagen und Skripte auf wiederkehrende Mechanik und verallgemeinerbare Textelemente; berücksichtige vorhandene gemeinsame Quellen.
 2. Vergleiche insbesondere Risikoeinstufungen von Plan und Workflow sowie weitere wiederholte Regeln aller Skills; trenne identische Bedeutung von nur ähnlicher Formulierung und erhalte skill-spezifische Zuständigkeiten und Grenzen.
 3. Halte priorisierte Empfehlungen in der zugehörigen Suite-Entwicklungsdokumentation fest; benenne je gemeinsamem Baustein eine Quelle unter ../shared, Verbraucher und deterministische Build-Einbindung in eigenständige Pakete; trenne mechanische Helper von Textbausteinen und fachlicher Bewertung.
-Evidence: [development/shared-candidates.md enthält Abdeckung aller neun Scoville-Mitglieder und fünf Ask-Varianten aus drei Basen, 102 exportierte Markdown-/Python-/JavaScript-Quellen auf Duplikate geprüft; relevante Verträge und Adapter semantisch verglichen, Kandidaten nennen gemeinsame Owner und Build-Einbindung sowie Nutzen und Risiken; Plan-/Workflow-Routing von Code-Risiko getrennt, Vollständige Claude-Runner und universelle Beleg-/Handoff-Verträge begründet ausgeschlossen; keine Kandidaten implementiert]
+Evidence: [Der damalige Bestandsaudit prüfte exportierte Markdown- und Programmquellen auf gemeinsame Owner und Build-Einbindung, Plan-/Workflow-Routing blieb von Code-Risiko getrennt. Keine Kandidaten wurden allein aufgrund des Audits implementiert, Die veraltete Sammelakte wurde bei der späteren Portfolioverkleinerung entfernt]
 
 ### W-014 Prioritized after W-006: Luna-Verständnistest als Veröffentlichungssperre
 
@@ -265,7 +264,7 @@ Steps:
 3. Erstelle als auftraggebender Agent je Testobjekt 25 geordnete Fälle von einfachen Positiv-/Negativfällen bis zu mehrdeutigen Grenz-, Konflikt- und Fehlerfällen; schreibe Soll-Ergebnisse mit Begründung aus den Skill-Regeln und eindeutigen Prüfkriterien getrennt von den Testprompts. Halte Aufgaben, Soll-Ergebnisse und Testanleitung unter development fest; verwende keine nachträglich an Modellantworten angepassten Soll-Ergebnisse.
 4. [execute: model=gpt-5.6-sol; reasoning=medium] Führe als Koordinator die vorbereiteten Tests ausschließlich mit gpt-5.6-luna und reasoning=medium aus; bestätige zuerst deren tatsächliche Verfügbarkeit und starte andernfalls keinen Ersatzmodell-Test. Lade je Fall das Paket aus dem erfassten Release-Pfad und prüfe seine Hashes; gib LUNA nötigen Aufgabenkontext ohne Soll-Ergebnisse oder frühere Antworten. Simuliere externe Aktionen ohne echte Provideraufrufe oder Zustandsänderungen. Erfasse Antworten und bewerte sie gegen die vorgegebenen Kriterien; protokolliere Abweichungen statt Erfolge zu erfinden.
 5. Prüfe als auftraggebender Agent SOLs Ergebnisbericht gegen die Testbelege; behebe belegte Skill-Fehler ausschließlich im jeweiligen Quell-Owner und baue betroffene Release-Pakete im public-Ziel neu. Lasse SOL betroffene Fälle sowie relevante Regressionen erneut mit LUNA Medium gegen diesen neuen Stand prüfen. Halte die knappe Ergebnismatrix bei der Suite und Rohdaten unter dem Workspace-temp-Ziel; Änderungen an getesteten Artefakten entwerten betroffene Testbelege. Veröffentliche später nur hashidentische geprüfte Pakete. Gib Veröffentlichung erst bei vollständigem fehlerfreiem Nachweis frei; dieser Testpunkt veröffentlicht selbst nichts.
-Evidence: [development/luna-tests enthält zwölf Fall-/Soll-Dateipaare mit 300 Fällen, Alle 24 Testdateien enthalten geprüft genau die geordneten IDs 01 bis 25, development/luna-tests/author-review.md dokumentiert Autorenprüfung aller zwölf Testsätze gegen gebaute Verträge und korrigierte Testvoraussetzungen, development/luna-tests/results.md: Pilot code-01 bestanden und vom Autor bestätigt; native Laufzeit gpt-5.6-luna / medium geprüft, development/luna-tests/evaluation-manifest.json fixiert geprüfte Paket- und Testhashes, Nutzer ersetzt LUNA durch Gemini Flash Medium gemäß ADR-0002; W-017 übernimmt den Testumfang; ursprüngliche Befunde bleiben erhalten]
+Evidence: [Die damals vorbereiteten Fall- und Soll-Dateien wurden nach der Portfolioverkleinerung auf die verbleibenden Testsets reduziert, development/luna-tests/author-review.md dokumentiert deren Autorenprüfung, Frühere Gesamtzahlen und Paketbelege gelten nicht für den aktuellen Bestand]
 
 ### W-017 Gemini-Verständnistest als Veröffentlichungssperre
 
@@ -295,7 +294,7 @@ Steps:
 2. Stelle ../shared/luna-release-gate.md und den GitHub-Veröffentlichungsweg auf ADR-0003 um. Erfasse aktuelle public-Pakete und den privaten Workflow-Suite-Pfad mit neuen Hashbelegen; bewahre alle früheren Manifeste und Läufe.
 3. Führe unter SOL Medium zuerst einen begrenzten CLI-Piloten und danach die festen 300 Fälle aus development/luna-tests mit frischem Kontext je Fall aus; halte Soll-Dateien und frühere Antworten vom Tester fern. Liefere erforderliche Pakettexte kontrolliert; simuliere Projektaktionen ohne Tools.
 4. Prüfe als Autor Antworten und native Laufzeitbelege; korrigiere nachgewiesene Fehler im Quell-Owner, baue betroffene Pakete neu und wiederhole betroffene Fälle sowie Regressionen. Halte Ergebnisse bei der Suite und Rohdaten unter Workspace-temp.
-Evidence: [Nutzer verlangt Rückkehr zu Codex CLI mit LUNA; SOL Medium bleibt Koordinator, development/luna-tests/codex-cli-preflight.md: lokaler Request mit festem Katalog bestätigt tools leer und LUNA Medium; kein Backend-Nachweis, Veröffentlichungssperre und GitHub-Vertrag verwenden ADR-0003; Gemini-Belege bleiben historisch, Nutzer verlangt nach qualifiziertem Testweg eine detaillierte exakt wiederverwendbare Anleitung samt geprüftem Starter im Suite-Development, 64 ausgewählte Fälle gemäß ADR-0008 durch SOL und Autor bestätigt; development/luna-tests/codex-cli-results.md und codex-cli-execution.md, Astra high auf Nutzerwunsch ohne neue Modelltests; nur theoretische Prüfung und keine Veröffentlichung]
+Evidence: [Nutzer verlangt Rückkehr zu Codex CLI mit LUNA. SOL Medium bleibt Koordinator, development/luna-tests/codex-cli-preflight.md bestätigt den damaligen isolierten Transport, development/luna-tests/codex-cli-execution.md bewahrt die wiederverwendbare Anleitung, Frühere Gesamtresultate gelten nicht als aktueller Releasebeleg. Nur theoretische Prüfung und keine Veröffentlichung]
 
 ### W-019 Deferred after W-018: Reine Ergebnisprojektion automatisch abfangen
 
@@ -401,7 +400,7 @@ Steps:
 3. Prüfe die Live-Releases und Tags aller autorisierten Ziele. Wende die GitHub-Verträge references/release-and-publication.md und references/suite-build-publication.md an. Prüfe Plan-Viewer-Assets gegen Buildmatrix, README, Herkunft und SHA-256.
 4. Veröffentliche die beiden Suites und 14 Einzelpakete ohne separates Workflow-Repo. Bewahre Historien, benenne das WordPress-Ziel wie autorisiert um und prüfe komplette Remote-Bestände. Verifiziere neue Releases und Asset-Nachfolger vor dem Entfernen abgedeckter älterer Releases und Release-Versionstags.
 5. Veröffentliche E:/Dropbox/AI Projects/projects/BenjaminStelzer/README.md mit Scoville oben und Ask darunter; prüfe finale Installationslinks, Topics, Releases und Tags. Historische Belege bleiben unverändert.
-Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus, development/release-preflight.md belegt Workflow und WordPress sowie Handoff/UI; Code-Nachtest besteht; Design-Nachtest und Plan-Gate laufen, Isolierte r4-Builds liefern 238 bytegleiche Paketdateien; 38 gemeinsame Tests bestehen; Viewer-Dateien entsprechen elf CI-Artefakten, RELEASE-HISTORY: Entscheidung zum Nachtragen sieben belegter veröffentlichter Versionen angefragt; keine Remote-Mutation]
+Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus, development/release-preflight.md belegt Workflow und WordPress sowie Handoff/UI; Code-Nachtest besteht; ein damaliger Mitgliedsnachtest und Plan-Gate laufen, Isolierte r4-Builds liefern 238 bytegleiche Paketdateien; 38 gemeinsame Tests bestehen; Viewer-Dateien entsprechen elf CI-Artefakten, RELEASE-HISTORY: Entscheidung zum Nachtragen sieben belegter veröffentlichter Versionen angefragt; keine Remote-Mutation]
 Next action: Veröffentlichten Release-Abschluss aus temp/2026-09-22-suite-release/prepared-final prüfen und knapp im kanonischen Nachweis festhalten; die README-Korrektur hat jetzt Vorrang.
 
 ### W-032 Workflow-Worker gegen unvollständige Dispatches absichern
@@ -430,7 +429,7 @@ Steps:
 1. Recherchiere aktuelle Primärquellen zu wartbarer Greenfield-Struktur, Modul- und Funktionsgrenzen, Abhängigkeitsrichtung, Konfiguration, Fehlerbehandlung, Tests und automatisiertem Qualitäts-Tooling; suche gezielt nach Grenzen pauschaler Architektur- und Größenregeln.
 2. Erstelle einen kompakten Fixplan mit konkreten Zielstellen und fokussierten Tests für Scoville Code; formuliere nur wenige sprachübergreifende Defaults und bewahre lokale Konventionen sowie Nutzerentscheidungen als Vorrang.
 3. Lasse den vollständigen Fixplan von einer frischen Astra-Task mit Medium-Reasoning schreibgeschützt prüfen und überarbeite bestätigte Befunde.
-Evidence: [Wiedergefundenes PLAN-0003 belegt PEP 8 Google C++ Style Guide Microsoft Architectural Principles DORA und Checkstyle als Recherchebasis, Kanonischer Owner README-Fragment und drei fokussierte Fälle aus der abgeschlossenen Umsetzung übernommen; 32 eindeutige Fälle und acht scoped IDs geprüft, Astra Medium 01a0cb3b-f513-74a0-b2b0-506d947f8884 schloss seinen einzigen P2 ohne Restbefund, Frischer Astra-Medium-Review 01a0ccde-1aa8-7d43-8b89-01aeb2e0505e meldet im kanonischen Suite-Diff keine handlungsrelevanten Befunde]
+Evidence: [Der wiedergefundene Code-Plan belegt PEP 8, Google C++ Style Guide, Microsoft Architectural Principles, DORA und Checkstyle als Quellenbasis. Kanonischer Owner, README-Fragment und drei fokussierte Fälle wurden aus der abgeschlossenen Umsetzung übernommen; 32 eindeutige Fälle und acht scoped IDs geprüft, zwei frische Astra-Medium-Reviews meldeten nach Korrektur keine handlungsrelevanten Restbefunde.]
 
 ### W-034 Workflow-Bugfix und Greenfield-Leitlinie lokal und auf GitHub veröffentlichen
 
@@ -534,7 +533,7 @@ Steps:
 1. Prüfe die bereits festgestellten Textbefunde in development/readme/scoville-plan/ und development/readme/scoville-workflow-codex/. Kürze interne Regelwiederholungen und aktualisiere die Workflow-Beschreibung auf Pflichtkern und Phasenreferenzen ohne stärkere Testbehauptungen.
 2. Prüfe die aktiven Fragmente aus beiden suite.json-Dateien sowie die aktuellen Suite-Einstiege und Entwicklungsbeschreibungen. Kläre Ask-Auswahl und Hostgrenzen aus den Quellen; erhalte gute trockene Formulierungen ohne erzwungene Witze. Historische Importtexte bleiben unverändert.
 3. Regeneriere README-Vorschauen und isolierte Pakete. Prüfe Textfakten und Zielgruppen sowie Buildtests und unveränderte Laufzeitdateien; veröffentliche nichts.
-Evidence: [development/readme-style-audit.md dokumentiert Stilprüfung und Quellenkorrekturen, 26 README- und Buildtests bestanden; 15 Pakete verifiziert; 223 Nicht-README-Dateien unverändert, Keine Installation oder Veröffentlichung]
+Evidence: [development/readme-style-audit.md dokumentiert Stilprüfung und Quellenkorrekturen, 26 README- und Buildtests bestanden; die damals betroffenen Pakete wurden verifiziert; keine Installation oder Veröffentlichung]
 
 ### W-028 Lokale Skills aktualisieren und DIVI5 sicher fortsetzen
 

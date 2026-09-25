@@ -1,6 +1,6 @@
 ---
 name: scoville-wordpress-ui-backend-anti-ai-slop
-description: Implement or audit WordPress 7 plugin-owned wp-admin pages with platform components, spacing, vertical flow, responsive behavior, accessibility, and PHP/JavaScript internationalization. Use for plugin settings, tools, workflows, dashboards, data views, and explicit Network Admin pages. This Skill owns UI implementation and UI acceptance for supported plugin-owned wp-admin surfaces; do not also activate scoville-ui-anti-ai-slop for the same surface. Use scoville-design-anti-ai-slop only when visual concept or art direction is independently requested. Excludes site frontends, themes, the editor canvas, SlotFills, metaboxes, Dashboard widgets, profile fields, Core-screen extensions, and UI owned by another plugin.
+description: Implement or audit WordPress 7 plugin-owned wp-admin pages with platform components, spacing, vertical flow, responsive behavior, accessibility, and PHP/JavaScript internationalization. Use for plugin settings, tools, workflows, dashboards, data views, and explicit Network Admin pages. This Skill owns UI implementation and UI acceptance for supported plugin-owned wp-admin surfaces; do not also activate scoville-ui-anti-ai-slop for the same surface. Excludes site frontends, themes, the editor canvas, SlotFills, metaboxes, Dashboard widgets, profile fields, Core-screen extensions, and UI owned by another plugin.
 compatibility: "Agent Skills host with reference access. Implementation needs the plugin's PHP/JavaScript toolchain for WordPress 7. Rendered proof needs running wp-admin, DOM geometry inspection and viewed images; interactions need browser control. Source-only or screenshot-only tasks report evidence limits. Developed for Codex and Claude Code; other hosts untested."
 ---
 
@@ -9,15 +9,11 @@ compatibility: "Agent Skills host with reference access. Implementation needs th
 Build plugin administration interfaces that belong in WordPress instead of
 placing a second design system inside `wp-admin`.
 
-This Skill is complete on its own. For a supported plugin-owned `wp-admin`
+{{ package: standalone }}This Skill is complete on its own.{{ /package }}{{ package: suite }}This Skill owns the WordPress-specific UI concern within the suite.{{ /package }} For a supported plugin-owned `wp-admin`
 surface it is the specialist owner of UI implementation and UI acceptance.
-Scoville UI does not start a second process for that surface. An independently
-requested visual concept or art-direction task may belong to Scoville Design;
-WordPress implementation and acceptance remain here.
+Scoville UI does not start a second process for that surface. WordPress implementation and acceptance remain here.
 
-Finding another family Skill does not make it available or applicable. Use each
-only for its own concern when active and available. Never require or simulate
-an absent sibling. An opt-out applies only to the excluded Skill.
+{{ include: family.contract }}
 
 {{ include: family.owners }}
 

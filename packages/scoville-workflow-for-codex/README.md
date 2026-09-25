@@ -63,7 +63,7 @@ flowchart TD
 
 - The canonical Plan owns progress. Workflow does not add a persistent Codex goal or another continuation loop alongside its coordinator.
 
-- For delivery recovery, permission boundaries and failure handling, see [Native Codex operations](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md).
+- For delivery recovery, permission boundaries and failure handling, see [Native Codex operations](https://github.com/benjaminstelzer/scoville-suite-for-codex/blob/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md).
 
 ## What it costs
 
@@ -82,7 +82,7 @@ flowchart TD
 
 Requires Codex desktop, a saved local project, native task creation, waiting,
 messaging and archival controls, access to the task's own `CODEX_THREAD_ID`,
-and a supported Scoville Plan profile. Python 3.11+ runs the deterministic helpers.
+and Scoville Plan v1.8.0 or a compatible source_text selector. Python 3.11+ runs the deterministic helpers.
 There is no CLI or Claude Code execution path.
 
 Tasks must share the existing checkout. If the host cannot provide that,
@@ -94,29 +94,23 @@ Native approval can hold a cross-task message pending. Workflow waits without
 polling or duplicate delivery. A definite result-delivery failure still leaves
 the child's validated final result available to the coordinator's recovery path.
 
+This package requires every Skill included in this suite to be installed and
+enabled. Partial installation is not supported. Skills keep their own task
+scope and invocation rules; Workflow still requires an explicit request.
+
 ## Install
 
-### Install this Skill
-
-In a local Codex session, ask:
-
-```text
-Install this Agent Skill for all my projects from this exact package directory:
-https://github.com/benjaminstelzer/scoville-suite/tree/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex
-Preserve existing customizations and ask before overwriting conflicting files.
-Report the installed location and whether Codex discovers the Skill.
-As the final installation check, create one no-tool normal project task and verify that its approval policy, access to the project root, and network access match this calling task. Archive the probe. If they differ, do not mark the Skill ready; report the exact mismatch and ask whether to apply the needed Codex configuration change.
-```
-
-The agent needs source access and permission to write to the
-personal Skills location. The installable package is the nested
-`scoville-workflow-for-codex/` directory, not the repository root. Manual fallback:
-[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills).
+Install and enable the complete
+[Scoville Suite for Codex](https://github.com/benjaminstelzer/scoville-suite-for-codex/tree/main/packages).
+Workflow is suite-only. Every Skill must come from this repository's own
+`packages/<name>/<name>/` directory. Do not substitute individual-repository
+packages or continue with missing members. The suite requires Codex and
+Python 3.11 or newer; preserve personal configuration when updating.
 
 ### Install the complete Scoville suite
 
 Get the complete suite from the
-[Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
+[Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite-for-codex).
 Install its released Skill packages, not development templates.
 
 ## How to use
@@ -147,44 +141,23 @@ SCW PLAN-0001 W-001/step-1 REVIEW RUN [#1]
 SCW PLAN-0001 W-001/step-1 REPAIR RUN [#2]
 ```
 
-### Routing
+### Configuration
 
-The coordinator classifies each fresh dispatch unit and maps its effective route
-to one executor pair. The reviewer pair is used only when the material-change
-review gate requires review.
-
-| Route | Typical task | Executor | Reviewer |
-| --- | --- | --- | --- |
-| `coordinator` | Workflow coordination | `gpt-6-sol` / `medium` | Not applicable |
-| `ultra_low` | Simple bounded local change with trivial verification | `gpt-6-sol` / `low` | `gpt-6-sol` / `medium` |
-| `low` | Nontrivial local judgment with one known owner, understood helpers, and established checks | `gpt-6-sol` / `medium` | `gpt-6-sol` / `high` |
-| `medium` | Unresolved helpers, diagnostic discovery, interacting owners, harness boundaries, or interpreted checks | `gpt-6-sol` / `high` | `gpt-6-sol` / `xhigh` |
-| `high` | Consequential changes to state, authorization, or integration contracts | `gpt-6-sol` / `xhigh` | `gpt-6-astra` / `high` |
-| `ultra_high` | Unusually consequential or complex work beyond `high` | `gpt-6-astra` / `high` | `gpt-6-astra` / `xhigh` |
-
-`low` is fail closed. The coordinator must positively know the target, single
-owner, helper contracts, and exact mechanical checks, with no required discovery,
-cross-language or component contract work, harness uncertainty, or interpreted
-validation. One false or unknown fact raises the unit to at least `medium`.
-
-Change these assignments in
-[`scoville-workflow-for-codex/assets/workflow.toml`](scoville-workflow-for-codex/assets/workflow.toml).
-The `[coordinator]`, `[execute.CLASS]`, and `[review.CLASS]` sections own model
+Configure model pairs in this Skill's `assets/workflow.toml`:
+`[coordinator]`, `[execute.CLASS]` and `[review.CLASS]` own the respective
 assignments. `[context]` sets coordinator and worker rollover thresholds.
-The file also contains the coordinator title. Other protocol limits remain in
-the operations contract. Update this table when the published defaults change.
+Route classification, Step overrides and repair escalation follow the
+[dispatch rules](scoville-workflow-for-codex/references/operations-dispatch.md).
+Writing depth does not lower a task's route or rewrite a Plan point.
 
-A Step's `[route: CLASS]` is its planned minimum. For every fresh execution
-unit, the coordinator chooses the highest applicable class and raises the
-effective dispatch route above an insufficient annotation, even when the task
-has not changed since planning. It never dispatches below the retained
-annotation. New repair attempts move up the WORK rows: the first retains the
-executor pair, the second moves one row, and the third moves two rows, capped
-at `ultra_high`. Review routing stays fixed. Context rollover retains its
-launched pair. Many files or a large known test suite alone do
-not raise the class. Route, model, and reasoning are separate values; the final
-route selects the configured pair before a Step-level execution override is
-applied.
+### Writing depth
+
+Configure additional instruction depth in `[prompting]` inside this Skill's
+`assets/workflow.toml`. `profile` accepts `auto`, `low`, `medium` or `high`.
+Explicit user depth takes precedence for its stated recipients. Auto uses the
+actual recipient model; unknown IDs use medium. Edit exact model assignments
+locally. Plan's configuration is independent. Canonical Plan points are passed
+unchanged at every depth. The helper requires Python 3.11+.
 
 ## Sources
 
@@ -192,19 +165,6 @@ applied.
   portable package and progressive disclosure model.
 - [OpenAI coding-agent best practices](https://developers.openai.com/codex/learn/best-practices)
   for explicit outcomes, constraints, planning, and completion evidence.
-
-## Family
-
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 

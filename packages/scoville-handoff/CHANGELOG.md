@@ -27,8 +27,6 @@
 
 - Copy the continuation record from a packaged template instead of embedding a
   nested fenced template in the core instructions.
-- State the complete eight-Skill ownership boundary in suite order while
-  keeping every sibling optional and independently activated.
 
 ## v2.0.8 - 2026-09-05
 

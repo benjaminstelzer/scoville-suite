@@ -1,7 +1,7 @@
 # WordPress suite cases
 
 Use only the built package. Cases 01-03 apply the complete Skill. Cases 04-05
-are discovery-only and receive WordPress, UI and Design frontmatter only.
+are discovery-only and receive WordPress and UI frontmatter only.
 
 ## wp-01
 A plugin owns a single-site Classic PHP settings page on WordPress 7.0. The user asks for a source-only spacing audit, with no code changes. The supplied source uses native .wrap, .form-table and p.submit, unchanged Core CSS and no tokens. A reviewer calls the native margins defective because they differ from a proposed 16px fallback scale and wants React plus custom --wpds-* values. No browser is available. State the mode, scope, ownership, whether the recommendation is justified, the next useful action and what cannot be concluded.

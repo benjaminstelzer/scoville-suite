@@ -45,7 +45,7 @@ def task_title(request):
     family, role = request.get('family'), request.get('role')
     if family == 'workflow':
         if role == 'coordinator':
-            title = f'{label("coordinator_title", 32)} [{label("workflow_id", 64)}] G{number("generation")}'
+            title = f'{label("coordinator_title", 32)} G{number("generation")} [{label("workflow_id", 64)}]'
         else:
             roles = {'executor': 'WORK', 'reviewer': 'REVIEW', 'repair': 'REPAIR'}
             require(role in roles, 'invalid workflow title role')

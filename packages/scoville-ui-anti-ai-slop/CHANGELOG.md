@@ -23,9 +23,8 @@
 ## v1.2.6 - 2026-09-19
 
 - Keep framework UI implementation, accessibility mechanics, interaction, and
-  rendered proof here, while visual concept work and WordPress plugin-owned
-  wp-admin pages route to their dedicated Skills.
-- State the complete eight-Skill ownership boundary in suite order.
+  rendered proof here. Visual concept work remains outside this Skill, while
+  WordPress plugin-owned wp-admin pages route to their specialist.
 
 ## v1.2.2 - 2026-09-11
 
@@ -51,16 +50,15 @@
 
 ## v1.1.0 - 2026-09-04
 
-- Let an active Scoville Design Skill own visual direction, hierarchy,
+- Let an approved product decision own visual direction and hierarchy,
   typography, spacing judgment, and art direction.
 - Keep framework implementation, component states, semantics, focus and input
   behavior, announcements, responsive mechanics, accessibility, and rendered
   proof with Scoville UI.
 - Preserve the incumbent product design system above a new proposal.
-- Keep a bounded standalone Greenfield fallback when Design is absent,
-  inactive, inapplicable, or explicitly excluded.
-- Added a Design-to-UI handoff and a constraint loop that returns only the
-  affected decision instead of silently redesigning the interface.
+- Keep a bounded Greenfield direction when no visual owner exists.
+- Return an unresolved visual decision to its owner instead of silently
+  redesigning the interface.
 
 ## v1.0.11 - 2026-08-11
 
@@ -85,14 +83,12 @@
   realistic density, content length, hierarchy, and interaction state.
 - Keep primary populated states separate from error and recovery evidence.
 
-## 2026-08-06: Cross-input validation and narrower Scribe routing
+## 2026-08-06: Cross-input validation
 
 - Require a relevant cross-input handoff check when focus, selection, capture,
   composition, or shared state can change behavior between input methods.
 - Do not treat separate clean-start pointer, keyboard, or touch passes as proof
   of a stateful transition.
-- Activate Scribe only when interface wording or meaning must be created,
-  changed, localized, audited, or reconciled with behavior.
 
 ## 2026-08-03: Initial release
 

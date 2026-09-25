@@ -426,6 +426,8 @@ def project_unit(
         "outcome": f"Outcome: {single_field(selected.block, 'Outcome', relative_path)}",
         "acceptance": f"Acceptance: {single_field(selected.block, 'Acceptance', relative_path)}",
         "steps": [steps[number - 1] for number in selected_numbers],
+        "source_text": ("\n".join(steps[number - 1] for number in selected_numbers) + "\n"
+                        if steps else selected.block.rstrip("\n") + "\n"),
     }
     if not steps:
         projection["next_action"] = f"Next action: {single_field(selected.block, 'Next action', relative_path)}"

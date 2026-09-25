@@ -60,24 +60,26 @@ DOM geometry inspection and viewed images. Interactions need browser control.
 Source-only or screenshot-only tasks report evidence limits. Developed for
 Codex and Claude Code. Other hosts are untested.
 
+This Skill works on its own. Other Scoville Skills are optional and handle
+only their own concerns when available and applicable.
+
 ## Install
 
 ### Install this Skill
 
-In a local Codex or Claude Code session, ask:
+This standalone package works independently. Ask your compatible agent host:
 
 ```text
-Install this Agent Skill for all my projects from this exact package directory:
+Install this Skill for all my projects from this exact package directory:
 https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop/tree/main/scoville-wordpress-ui-backend-anti-ai-slop
-Preserve existing customizations and ask before overwriting conflicting files.
-Report the installed location and whether the host discovers the Skill.
+Preserve personal settings and unrelated Skills. Report the installed location
+and whether the host discovers the Skill.
 ```
 
-The agent needs source access and permission to write to its personal Skills
-location. Manual fallback: [Codex Skills guide](https://learn.chatgpt.com/docs/build-skills)
-or [Claude Code Skills guide](https://code.claude.com/docs/en/skills).
-
-Install only the linked package for the focused option.
+The host needs permission to write to its Skills directory. See the
+[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
+[Claude Code Skills guide](https://code.claude.com/docs/en/skills)
+for host-specific locations.
 
 ### Install the complete Scoville suite
 
@@ -120,14 +122,9 @@ plugin-page shell or spacing rules.
 
 - [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
 - [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
 - [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
 - [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 

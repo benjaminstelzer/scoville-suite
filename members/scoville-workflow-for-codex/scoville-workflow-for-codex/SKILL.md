@@ -29,6 +29,20 @@ its common rules and selected profile to additional prose only. Pass canonical
 Plan source_text unchanged. Never assume conversation history. Coordinator
 creation and rollover use the same helper and retain their fixed contracts.
 
+## Complete coordinator startup
+
+Before every coordinator creation or coordinator startup message, including
+initial parking, initial claim, rollover parking, validation and activation,
+pipe `{"prompt":"<the phase-defined coordinator prompt>"}` to
+`python <skill-directory>/scripts/coordinator_contract.py build`.
+Require exit 0 and pass its returned `prompt` unchanged through the lifecycle
+helper to the native task tool. Capture the full JSON in execution memory;
+print only a receipt, never reconstruct or truncate the prompt.
+The builder supplies the exact `skill_path` and the complete normal coordinator
+contract. A path alone is insufficient. Every start uses this same builder.
+Only normal `create_thread` project tasks are supported. Never substitute
+`collaboration.spawn_agent`, `followup_task`, a fork or a CLI worker.
+
 ## First operation: role gate
 
 After the successful project-contract check and before commentary, further
@@ -122,7 +136,7 @@ Use that exact title for creation and every
 provisional or unknown-result reconciliation, so an older visible completed
 coordinator cannot match the new launch.
 
-Create the coordinator with only this parking prompt:
+Use this parking input for the coordinator-contract builder:
 
 ```text
 scoville_role=coordinator
@@ -146,7 +160,7 @@ or ask the coordinator to obtain approval inside its task.
 
 After the parking turn completes, call `reconcile-coordinator` as the exact
 launcher with the current workflow, revision, generation, and ready task ID.
-Only after it succeeds, send that same task this activation prompt from scratch
+Only after it succeeds, build and send that same task this activation input from scratch
 in the exact field order:
 
 ```text
@@ -218,13 +232,12 @@ follow only the parking, validation, transfer, activation, predecessor-turn
 wait, and successor-owned predecessor archival order there. Never ask the
 initial continuation question and never edit the guard file directly.
 
-Load Scoville Plan before canonical Plan or Decision access. Read
-[operations.md](references/operations.md)'s short invariant core and phase table
-before the first coordinator operation. Load only the complete references for
-the current phase, including rollover validation before Plan selection.
-Each phase reference is the sole owner of its operation. Do not restate those contracts in the launcher or in this
-entrypoint. Scoville Code may be loaded only for a concrete risk or acceptance
-judgment. Load no execution Skill merely to coordinate.
+Read the complete supplied coordinator runtime contract before project access.
+If it is missing, remain read-only and report the invalid startup. The guard
+verifies its exact native creation envelope before coordinator capability.
+Load Scoville Plan before canonical Plan or Decision access. Scoville Code may
+be loaded only for a concrete risk or acceptance judgment. Load no execution
+Skill merely to coordinate.
 
 The coordinator may write only canonical planning records, run their structural
 validation, and create one accepted simple local commit through the operations
@@ -241,16 +254,9 @@ dispatch classification. Writing depth never changes route or authority.
 
 ## Coordinator runtime reference
 
-Read `references/operations.md` first, then only the packaged paths it links.
-Do not invent reference or helper filenames.
-
-[operations.md](references/operations.md) owns every coordinator operation after
-the role, launcher, boundary, and route are established. Follow it for the
-deterministic Scoville Plan selector, separate bounded semantic reads, requested
-scope, compatible-Step bundles, same-workspace task creation, sparse handoffs,
-waits, user decisions, result schemas, fail-soft context telemetry, review and
-repair, Plan transitions, optional commit, visible completion, and Stop.
-For a worker context boundary, its phase table links the exact
-[checkpoint](references/operations-checkpoint.md) and
-[compaction](references/operations-compaction.md) references; use those paths
-instead of deriving a filename from the topic.
+[operations.md](references/operations.md) owns contract delivery and conditional
+routing. `coordinator_contract.py` supplies the normal loop completely, including
+selection, dispatch, waiting, result handling, review, acceptance and Stop.
+The linked phase files are its canonical source fragments. The coordinator
+need not discover or choose them. Only actual rollover and worker context
+recovery require their conditional references.

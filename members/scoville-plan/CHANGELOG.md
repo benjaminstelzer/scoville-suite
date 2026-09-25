@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.8.0 - 2026-09-24
+
+- Add independently configurable low, medium and high writing depth per plan point, with medium for unknown models.
+- Preserve exact selected source text for Workflow dispatch and load unrelated proposal bodies only during a full audit.
+- Keep manual selection outside the normal Python route. The new profile helper requires Python 3.11+.
+
 ## v1.7.7 - 2026-09-23
 
 - Document the no-Python dispatch-unit selection procedure for exact Step
@@ -106,9 +112,8 @@
 - Check each next `todo` Work Item against the current repository and completed
   predecessor evidence before it starts. Refine stale premises, signatures,
   data models, contracts, paths, or validation assumptions before execution.
-- State the complete eight-Skill ownership boundary in suite order and keep the
-  private workflow helper optional rather than treating it as an installation
-  dependency.
+- Keep the private workflow helper optional rather than treating it as an
+  installation dependency.
 
 ## v1.4.1 - 2026-09-15
 
@@ -161,8 +166,6 @@
   and Decisions.
 - Preserve facts, uncertainty, verification criteria, and immutable history
   when shortening records.
-- Keep native record wording with Plan when Scribe is installed unless the user
-  explicitly requests Scribe.
 
 ## v1.3.0 - 2026-09-07
 

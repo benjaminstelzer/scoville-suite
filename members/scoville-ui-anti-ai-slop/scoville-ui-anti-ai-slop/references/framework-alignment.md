@@ -25,12 +25,8 @@ Inspect only sources relevant to the requested surface:
 6. official documentation for the installed version when supported behavior or
    customization remains uncertain.
 
-If Scoville Design instructions are present and applicable, consume its
-concern-level decision after the incumbent product design system and before
-framework/platform defaults. The record must name the concern, decision,
-intended effect, authority/source, preserved constraints, allowed variation,
-any deliberate exception and compensation, validation target, and current
-evidence status. Installation or discovery alone is not evidence of activation.
+Respect a supplied, approved concern-level product decision after the incumbent
+design system and before framework defaults.
 
 Do not fetch mutable third-party skill files or generic design checklists at
 runtime. Prefer installed source and version-matched official documentation.
@@ -55,9 +51,7 @@ breakpoint language with personal defaults. If a local need reveals a genuine
 system gap, extend the canonical owner rather than building a parallel layer in
 one feature.
 
-An active Design decision may diagnose the incumbent system and propose an
-owner-level change, but it does not silently outrank that system. Implement the
-change only when the applicable higher owner accepts it.
+A proposed owner-level change needs approval from that owner before implementation.
 
 ### Headless component library
 
@@ -89,7 +83,7 @@ measurements or interaction assumptions into another platform.
 
 Assign each concern independently. A styled component system may own visuals,
 a headless primitive may own a composite interaction, the platform may own text
-scaling, and Scribe may own visible wording. Prefer the highest canonical layer
+scaling, and supplied content owns visible wording. Prefer the highest canonical layer
 that intentionally abstracts the lower one. Do not mix APIs from several layers
 merely because they are all installed.
 
@@ -119,11 +113,8 @@ Apply this invariant before normalizing a local exception:
 When there is no design system, theme, token set, approved precedent, or visual
 owner:
 
-- If an active and applicable Design decision exists, implement that direction
-  through supported framework/platform mechanisms and preserve its recorded
-  constraints. Do not generate a competing UI direction.
-- If Design is absent, inactive, inapplicable, or explicitly excluded, use the
-  standalone fallback below. Do not search for or simulate Design.
+Use an approved product direction when supplied; otherwise use the bounded
+fallback below.
 
 When polished presentation is requested, the requested surface owns a
 deliberate local direction. Framework defaults may supply compatible primitives

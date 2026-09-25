@@ -21,7 +21,6 @@ this audit. PLAN-0001 retains W-009 as its current paused item.
 | W-005/W-012 Ask variants | Three template bases generate five packages. Astra high and SOL xhigh are manifest-owned and present in public packages; the user waived additional tests for Astra's default change. |
 | W-010/W-013/W-015/W-016 family/README/distribution | Manifest-driven fragments, description sources and suite-only Workflow destination; inspected tests cover member addition, missing fragments, drift and private exclusion. |
 | W-011 deferred archival | archive-recovery.md and canonical helper preserve a contiguous chain and exact receipts. This does not fix incomplete host listings or prove live archival while visibility is blocked. |
-| W-006 shared candidates | shared-candidates.md covers nine Scoville members and five Ask variants, ownership/build integration, inputs/outputs, risks and rejected generalizations. Recommendations only. |
 | W-018 selected comprehension gate | codex-cli-results.md closes the 64 cases selected by ADR-0008, with SOL and author acceptance and actual revision provenance. Not live integration proof. |
 | W-019 projection recovery | result-projection-recovery.md records exact source/delivery comparison, bounded contract recovery, two focused checks and Luna projection-01. Real review findings remain changes_requested. |
 | W-020 ten-run audit | divi5-workflow-ten-runs.md covers ten accepted units, ten coordinators and 23 children, exact identities, payloads, reconciled counters, thresholds, errors and recommendations. No live mutations. |

@@ -49,7 +49,7 @@
     },
     {
       "id": "optional-family-composition",
-      "given": "An active task uses Plan for durable records and names Code, UI, and Scribe concerns before an explicit transfer.",
+      "given": "An active task uses Plan for durable records and names Code and UI concerns before an explicit transfer.",
       "expect": [
         "Treat Handoff as the portable snapshot and Plan as the durable record owner.",
         "Preserve the named state of each optional sibling without requiring or simulating it.",
