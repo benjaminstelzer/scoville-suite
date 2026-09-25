@@ -112,4 +112,3 @@ When structured output was requested, use the canonical values above for all
 six fields and for each prohibited-recommendation identifier. Otherwise use
 these facts to establish ownership and report only those needed to explain the
 scoped result. Do not add a full classification report to every finding.
-
