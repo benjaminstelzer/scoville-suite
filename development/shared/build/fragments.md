@@ -153,7 +153,7 @@ come from `readme/skill-installation-contract.md` and
 `readme/suite-requirements.md`. Suite installation uses only its own packages;
 missing members are errors, never permission to fetch individual repositories.
 
-Local release staging uses exactly `E:/Dropbox/AI Projects/skills/temp/release`.
+Local release staging uses exactly `<workspace-root>/skills/temp/release`.
 Do not keep dated/numbered candidate builds in the regular Skill directories.
 Synchronize every generated Skill distribution from this verified build,
 including the fixed public suite targets. Remove obsolete generated files;

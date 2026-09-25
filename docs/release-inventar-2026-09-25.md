@@ -41,7 +41,7 @@ Live-GitHub bestätigt weiterhin zehn alte Scoville-Pakete sowie diese fünf Ask
 
 ## Private Quellen
 
-Gemeinsamer aktueller Quellort: E:/Dropbox/AI Projects/skills/private/benjaminstelzer/.
+Gemeinsamer aktueller Quellort: `<workspace-root>/skills/private/benjaminstelzer/`.
 
 | Unter skills/private/benjaminstelzer | Paket-ID | Git-Zustand | GitHub-Ziel |
 | --- | --- | --- | --- |
@@ -64,7 +64,7 @@ Die frühere Annahme von drei existierenden Git-Repositories ist falsch. W-004 m
 
 ## Nachweise und Veröffentlichungssperren
 
-- PLAN-0011/W-001: HOST-POLICY bleibt offen. Kein erneuter oder alternativer Versuch der abgewiesenen Rechnermaßnahmen.
+- PLAN-0011/W-001: Der Benutzer-Cache zeigt auf `%LOCALAPPDATA%\pycache` und die Viewer-Ausgaben tragen das Dropbox-Ignore-Attribut. Die Löschung der sieben benannten Cacheordner bleibt durch HOST-POLICY blockiert; eine neue Codex-Sitzung muss die geerbte Variable noch bestätigen.
 - PLAN-0011/W-002: tatsächliche GitHub-Matrix auf Windows/macOS/Ubuntu mit Python 3.11 und aktueller Version fehlt.
 - PLAN-0011/W-026 belegt native Workflow-Abnahme mit den im Prüfbericht genannten Grenzen. W-025 belegt Plan-Vergleiche und fokussierte Prüfungen. Kein Beleg allgemeiner Kosten- oder Laufzeitersparnis.
 - Frühere UI- und Ask-Nachweise bleiben historische Evidenz. Ihre Anwendbarkeit auf den finalen Kandidaten wird anhand betroffener Quellen geprüft; neue Paketnamen und Projektionen benötigen neue Build- und Migrationstests.
@@ -96,7 +96,7 @@ Skill Creator quick_validate lehnt das bestehende compatibility-Frontmatter weit
 
 ## W-004: Private Quellen zusammengeführt
 
-Alle drei Verzeichnisse liegen jetzt unter E:/Dropbox/AI Projects/skills/private/benjaminstelzer/. Vorher/nachher wurden sämtliche Dateien einschließlich .git verglichen: GitHub 223, Imitate Me 48, Skillwriter 4 Dateien unverändert. Die GitHub- und Imitate-Me-Commits entsprechen der Tabelle oben; beide Arbeitsbäume bleiben sauber. Skillwriter hatte und hat noch keine Git-Historie.
+Alle drei Verzeichnisse liegen jetzt unter `<workspace-root>/skills/private/benjaminstelzer/`. Vorher/nachher wurden sämtliche Dateien einschließlich .git verglichen: GitHub 223, Imitate Me 48, Skillwriter 4 Dateien unverändert. Die GitHub- und Imitate-Me-Commits entsprechen der Tabelle oben; beide Arbeitsbäume bleiben sauber. Skillwriter hatte und hat noch keine Git-Historie.
 
 Die Prüfung von Skripten und Konfigurationen in Suite, Shared und privaten Quellen sowie Workspace-Dateien ergab keine aktiven absoluten Verbraucher der alten Quellpfade. Gespeicherte Codex-Projekte verweisen ebenfalls auf keinen der drei alten Ordner. Historische Pläne und Inventurbelege bleiben als solche erhalten.
 
@@ -150,14 +150,14 @@ Nach Nutzerkorrektur besteht der Migrationsprompt nur noch aus zwei Anweisungen 
 
 Der Viewer steht in package.json, package-lock.json, src-tauri/tauri.conf.json, Cargo.toml und seinem eigenen Cargo.lock-Paketeintrag auf 1.3.3. Der neue Suite-Workflow .github/workflows/plan-viewer.yml baut Windows x64, Linux x64 sowie macOS ARM64 und x64 aus members/scoville-plan/development/viewer. Die Standalone-Kopie unter members/scoville-plan/.github/workflows/plan-viewer.yml verwendet denselben Vertrag mit ihrem relativen development/viewer-Pfad.
 
-Beide Workflows verwenden Node 22 und Rust stable. Sie erzeugen Windows-EXE/MSI/Setup, Linux-Binary/AppImage/DEB/RPM sowie macOS-App-ZIP/DMG und führen alle elf Downloads in einem SHA256SUMS.txt zusammen. Die Version wird aus den drei primären Versionsquellen gelesen und auf Übereinstimmung geprüft. YAML-Struktur, vier Matrixziele, Pfade und Checksummenjob wurden lokal statisch geprüft. npm ci, npm run check und npm run build bestehen für den Viewer. Rust ist lokal nicht verfügbar, deshalb stehen cargo test, die nativen Builds und die tatsächliche GitHub-Matrix noch aus.
+Beide Workflows verwenden Node 22 und Rust stable. Sie erzeugen Windows-EXE/MSI/Setup, Linux-Binary/AppImage/DEB/RPM sowie macOS-App-ZIP/DMG und führen alle elf Downloads in einem SHA256SUMS.txt zusammen. Die Version wird aus den drei primären Versionsquellen gelesen und auf Übereinstimmung geprüft. YAML-Struktur, vier Matrixziele, Pfade und Checksummenjob wurden lokal statisch geprüft. npm ci, npm run check und npm run build bestehen für den Viewer. Alle nativen Viewer-Builds entstehen in der GitHub-Matrix; deren tatsächlicher Lauf steht aus.
 
 Kandidaten: Suite v2.0.0, Code v2.0.0, Plan v1.9.0, UI v2.0.0, Workflow v0.6.0, Ask v1.0.0, Viewer v1.3.3 und unverändert Handoff v2.0.17. Die Changelogs nennen diese Stände. Vor dem Kandidatenbau wurden zwei irreführende Formulierungen korrigiert: Ask verändert keine Sidebar-Platzierung und Setup bietet regulär low bis xhigh, während weitere Plan-Werte nur manuell und bei Modellunterstützung gelten.
 
-Frische Entwicklungsbuilds liegen unter `E:/Dropbox/AI Projects/skills/temp/release/plan-0012-w008-candidate/`. General enthält 4 Mitglieder mit 63 Paketdateien. Codex enthält 7 Mitglieder mit 111 Paketdateien. Beide `build-receipt.json` bestehen die unabhängige Receipt-Prüfung und den Quellenvergleich des Builders. Alle Paket- und README-Texte sind UTF-8 ohne BOM und LF-only. Der Installationsblock enthält je Profil genau einmal die richtige direkte Repository-URL und keine URL des anderen Profils. Die Receipts tragen wahrheitsgemäß `source_dirty: true` und sind deshalb Entwicklungsnachweise statt veröffentlichbarer Exporte.
+Frische Entwicklungsbuilds liegen unter `<workspace-root>/skills/temp/release/plan-0012-w008-candidate/`. General enthält 4 Mitglieder mit 63 Paketdateien. Codex enthält 7 Mitglieder mit 111 Paketdateien. Alle vier `build-receipt.json` bestehen die unabhängige Receipt-Prüfung und den Quellenvergleich des Builders. Sie nennen `10cd737b62c12536310124bc243248fd98b15285` und `source_dirty: false`. Alle Paket- und README-Texte sind UTF-8 ohne BOM und LF-only. Der Installationsblock enthält je Profil genau einmal die richtige direkte Repository-URL und keine URL des anderen Profils.
 
 Auch die eigenständigen Ziele sind frisch gebaut: General-Standalone enthält Code, Handoff, Plan und UI; Codex-Standalone enthält Ask. Damit liegen vier getrennte Buildlayouts mit gültigen Receipts und Quellenvergleich vor. Der gemeinsame Builder schreibt nun auch `build-receipt.json` ausdrücklich mit LF. Ein Windows-Regressionsfall prüft beide reproduzierbaren Receipts. Alle vier vollständigen Stagingbäume sind UTF-8 ohne BOM und LF-only. Die sieben generierten `packages/`-Verzeichnisse im Quellrepository sind bytegleich mit der jeweils zuständigen General- oder Codex-Projektion.
 
-Nach LF-Normalisierung der kanonischen Textquellen bestehen 26 Suite-, 53 Shared-, 68 Plan-, 16 Workflow-, 22 Ask- und 2 Setup-Tests. `git diff --check` ist fehlerfrei. Beide Viewer-Workflows lassen sich als YAML lesen und enthalten genau die vier Ziel-IDs `linux-x64`, `windows-x64`, `macos-arm64` und `macos-x64`, dynamische Versionsprüfung und einen gemeinsamen Checksummenjob. Cargo und rustc sind lokal nicht vorhanden. Die nativen Viewer-Tests und Plattformartefakte müssen daher aus einem sauberen Commit über die GitHub-Matrix entstehen.
+Nach LF-Normalisierung der kanonischen Textquellen bestehen 26 Suite-, 53 Shared-, 68 Plan-, 16 Workflow-, 22 Ask- und 2 Setup-Tests. `git diff --check` ist fehlerfrei. Beide Viewer-Workflows lassen sich als YAML lesen und enthalten genau die vier Ziel-IDs `linux-x64`, `windows-x64`, `macos-arm64` und `macos-x64`, dynamische Versionsprüfung und einen gemeinsamen Checksummenjob. Die nativen Viewer-Tests und Plattformartefakte müssen aus einem sauberen Commit über die GitHub-Matrix entstehen.
 
 Der noch nicht gestartete W-010-Prüfschritt wurde an die ausdrückliche Nutzerkorrektur angepasst: Die persönlichen Einstellungen der entfernten Altinstallationen müssen ebenfalls entfernt sein. Kein Konfigurationserhalt und keine Sicherung als Abnahmebedingung.

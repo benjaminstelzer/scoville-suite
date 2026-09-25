@@ -7,7 +7,7 @@ is a local adapter inside UI. The Codex suite also contains Workflow and ASK.
 ASK additionally has its Codex-only standalone package and a catalog entry in
 the general README; that entry does not add a general runtime member.
 
-Use only `E:/Dropbox/AI Projects/skills/temp/release/` for staging. Its
+Use only `<workspace-root>/skills/temp/release/` for staging. Its
 `standalone`, `general` and `codex` directories hold development projections.
 Final committed exports belong under `exports/general` and `exports/codex` in
 the same root. Wait for current readers before refreshing any staging directory.

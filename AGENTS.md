@@ -43,7 +43,7 @@ member's `development` paths in `suite.json`. Release READMEs must not depend on
 excluded files. See `development/shared/build/fragments.md` for audience and link checks.
 
 Build release packages with `python development/build_suite.py` under the sole
-`E:/Dropbox/AI Projects/skills/temp/release/` tree, selecting `--profile`,
+`<workspace-root>/skills/temp/release/` tree, selecting `--profile`,
 `--layout` and `--public-only`. Use `--refresh` only after existing readers
 finish; changed inventory requires reconciliation first. Synchronize verified
 outputs to regular Skill directories, removing obsolete generated files while
