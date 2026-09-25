@@ -1,4 +1,4 @@
-# ASK paired expected results
+# Ask paired expected results
 
 Evaluator-only. Source: built ask-claude-and-sol-for-codex/SKILL.md,
 especially Dispatch in parallel, Continue the pair, Optional Claude deadline
@@ -11,7 +11,7 @@ Difficulty: 01-05 discovery; 06-12 setup; 13-17 delivery/failure;
 03. Generic two-opinion request does not select this Skill. Resolve provider choice.
 04. Claude+Astra paired owner, not Claude+SOL substitution.
 05. Eligible: consultation is not restricted to code.
-06. Claude claude-fable-5-1/high, USD 10 ceiling, persistence enabled and customizations disabled; SOL gpt-5.6-sol/xhigh in a fresh normal project task. Labels: ASK Cache review CLAUDE RUN [#1] and ASK Cache review SOL RUN [#1]. Claude label is for CLI output, not native task creation.
+06. Claude claude-fable-5-1/high, USD 10 ceiling, persistence enabled and customizations disabled; SOL gpt-5.6-sol/xhigh in a fresh normal project task. Legacy labels: `ASK Cache review CLAUDE RUN [#1]` and `ASK Cache review SOL RUN [#1]`. Claude label is for CLI output, not native task creation.
 07. Explicit choices win independently: SOL medium; Claude opus/max. Do not copy one lane's settings to the other.
 08. Prepare one body first. Create SOL without awaiting its answer, then immediately pipe the same body to Claude; SOL additionally receives its fixed role and verified return destination. Retain both handles.
 09. Exclude caller draft/analysis and either adviser's answer from the other prompt. Use the prepared question and relevant raw evidence; do not bias the still-running lane.

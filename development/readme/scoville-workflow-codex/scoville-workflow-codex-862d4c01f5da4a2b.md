@@ -1,7 +1,5 @@
 # Scoville Workflow for Codex
 
-{{ var: release_notice }}
-
 Scoville Workflow supports structured, AI-assisted software development. It is
 built for extending and maintaining projects over time, including larger
 codebases. Fast vibe coding and throwaway prototyping are not its intended use.

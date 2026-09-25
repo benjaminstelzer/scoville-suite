@@ -26,15 +26,14 @@ and proportionate proof.
 
 {{ include: family.contract }}
 
-{{ package: standalone }}Family owners, in suite order:{{ /package }}
+
 
 {{ include: family.owners }}
 
 Mentioning another Skill or using one of its labels does not activate it.
 
-{{ package: standalone }}Without Plan, use repository record owner and Code guardrails; invent no record
-system.{{ /package }}{{ package: suite }}Use Scoville Plan for applicable native planning records; invent no parallel
-record system.{{ /package }}
+Use Scoville Plan for applicable native planning records; invent no parallel
+record system.
 
 ## Outcome and mode
 

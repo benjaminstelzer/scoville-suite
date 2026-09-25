@@ -34,7 +34,7 @@ to resume without quietly advancing or completing the work.
 - **Transfer does not advance the task.** Handoff reads the named state but does
   not edit, test, publish, or otherwise improve it on the way out.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-handoff/blob/main/scoville-handoff/SKILL.md).
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
 
 ## What it costs
 
@@ -60,21 +60,19 @@ subagents.
 Developed for Codex and Claude Code. Other hosts are untested. The model
 requirement does not establish successful tests across those model families.
 
-This Skill works on its own. Other Scoville Skills are optional and handle
-only their own concerns when available and applicable.
+This package requires every Skill included in this suite to be installed and
+enabled. Partial installation is not supported. Skills keep their own task
+scope and invocation rules; Workflow still requires an explicit request.
 
 ## Install
 
 ### Install this Skill
 
-This standalone package works independently. Ask your compatible agent host:
-
-```text
-Install this Skill for all my projects from this exact package directory:
-https://github.com/benjaminstelzer/scoville-handoff/tree/main/scoville-handoff
-Preserve personal settings and unrelated Skills. Report the installed location
-and whether the host discovers the Skill.
-```
+Install this Skill as part of the complete suite from
+[the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
+Every member must be installed and enabled. Do not fetch or substitute packages
+from individual Skill repositories. If any member is missing or incompatible,
+report the incomplete installation rather than claiming the suite is ready.
 
 The host needs permission to write to its Skills directory. See the
 [Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
@@ -109,13 +107,6 @@ Create a compact handoff for another agent. Preserve the objective, decisions, c
   portable package contract.
 - [OWASP LLM06: Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)
   for keeping consequential authority explicit across agent boundaries.
-
-## Family
-
-- [Code](https://github.com/benjaminstelzer/scoville-code) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [UI](https://github.com/benjaminstelzer/scoville-ui) owns UI implementation, information structure, accessibility and rendered evidence, with a conditional WordPress adapter.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
 
 ## License
 

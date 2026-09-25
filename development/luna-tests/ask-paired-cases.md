@@ -1,4 +1,4 @@
-# ASK paired cases
+# Ask paired cases
 
 Representative: built ask-claude-and-sol-for-codex. Fresh context per case;
 answer key hidden. Cases 01-05 use discovery metadata only. Other cases allow

@@ -5,7 +5,7 @@
     "sha256": "2d3c34adc85713d69e0eb3f744c9cc6c3cfed7baf1e3edbefd1de43d9d52bcb3"
   },
   "scope": "Selected Workflow prompts match the private suite package and original cases. Discovery01 uses qualified v6. Use the private Workflow receipt from baseline; never public staging. Dispatch is separate.",
-  "prompt_root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation",
+  "prompt_root": "<workspace-root>/temp/2026-09-21-suite-luna-evaluation",
   "prompts": {
     "prepared-workflow-r10-v6-01.md": "4ab5e0264a6517ccf498c7cf197f3c637a4808f9516eb88ac274d8d463a60816",
     "prepared-workflow-r3-06.md": "126056c325878e8e8dba2aace24c5d10a7cb858767ec9a79e427ffefbf554ddc",

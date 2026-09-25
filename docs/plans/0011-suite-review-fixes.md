@@ -1,7 +1,7 @@
 ---
 format_version: 1
 id: PLAN-0011
-status: draft
+status: completed
 created: 2026-09-25
 updated: 2026-09-25
 ---
@@ -25,9 +25,9 @@ Die Suite behebt die bestätigten Reviewprobleme und wird deutlich einfacher ver
 
 ### W-001 Dropbox-Arbeitsumgebung erzeugt keine synchronisierten Caches
 
-Status: paused
+Status: cancelled
 Depends on: []
-Blocked by: [HOST-POLICY]
+Blocked by: []
 Decisions: []
 Outcome: Die in F-28 freigegebenen Rechnermaßnahmen vermeiden Python-, Node- und Rust-Buildlast im Dropbox-Quellbaum.
 Acceptance: Bestehender externer Cachepfad bleibt erhalten. Ein neuer Prozess mit aktualisierter Umgebung und eine neue Sitzung bestätigen den Cacheort. Nur freigegebene Cacheverzeichnisse wurden entfernt; Ignore-Attribute bleiben auch nach dem jeweiligen Build wirksam. Dokumentation nennt tatsächliche Ergebnisse und Neustartbedarf.
@@ -35,8 +35,7 @@ Steps:
 1. Prüfe die vorhandene Benutzer- und Prozessvariable PYTHONPYCACHEPREFIX sowie die tatsächlichen Cachepfade in members/ und ../shared/. Setze den freigegebenen externen Benutzerpfad nur nach den Freigabegrenzen und Betriebssystembefehlen im Abschnitt „Ausführungsgrundlage für W-001“ der verlinkten Reviewauswertung. Bestehendes externes Ziel erhalten; bei bestehendem Ziel innerhalb Dropbox vor Änderung fragen. Andere Systemeinstellungen und Ordner sind ausgeschlossen.
 2. Prüfe die aufgelösten Löschziele und entferne ausschließlich die benannten __pycache__-Ordner. Richte die freigegebenen Ignore-Attribute für members/scoville-plan/development/viewer/node_modules und src-tauri/target ein; prüfe ihre Haltbarkeit bei Neuerstellung.
 3. Ergänze die kanonische Entwicklungsdokumentation um plattformspezifische Einrichtung und Python -B. Nutze die vorhandene Root-.gitignore; zusätzliche Member-Dateien nur für echte Distributionsanforderungen.
-Evidence: [2026-09-25: Sieben Cacheordner gefunden; System-/Cachebefehl vor Ausführung mit blocked by policy abgewiesen., 2026-09-25: Benutzervariable auf %LOCALAPPDATA%\pycache gesetzt; neuer Kindprozess meldet denselben externen sys.pycache_prefix., 2026-09-25: Viewer node_modules behielt com.dropbox.ignored=1 nach npm ci; src-tauri/target trägt denselben Wert., 2026-09-25: Einzeln geprüfte Löschung eines der sieben Cacheordner erneut mit blocked by policy abgewiesen; alle sieben bleiben bestehen., 2026-09-25: README-Quelle und generierte Suite-README dokumentieren Plattformwerte Python -B Ignore-Attribute und Neustartbedarf., 2026-09-25: Nutzer bestätigt alle Viewer-Plattformbuilds in GitHub; lokaler Cargo-Build im Dropbox-Baum entfällt.]
-Next action: Nach Freigabe durch Host-Policy ausschließlich die sieben benannten Cacheordner entfernen; danach geerbte Variable in einer neuen Codex-Sitzung bestätigen.
+Evidence: [2026-09-25: Sieben Cacheordner gefunden; System-/Cachebefehl vor Ausführung mit blocked by policy abgewiesen., 2026-09-25: Benutzervariable auf %LOCALAPPDATA%\pycache gesetzt; neuer Kindprozess meldet denselben externen sys.pycache_prefix., 2026-09-25: Viewer node_modules behielt com.dropbox.ignored=1 nach npm ci; src-tauri/target trägt denselben Wert., 2026-09-25: Einzeln geprüfte Löschung eines der sieben Cacheordner erneut mit blocked by policy abgewiesen; alle sieben bleiben bestehen., 2026-09-25: README-Quelle und generierte Suite-README dokumentieren Plattformwerte Python -B Ignore-Attribute und Neustartbedarf., 2026-09-25: Nutzer bestätigt alle Viewer-Plattformbuilds in GitHub; lokaler Cargo-Build im Dropbox-Baum entfällt., 2026-09-25: Nutzer streicht W-001 ausdrücklich als Releaseblocker.]
 
 ### W-006 Handoff-Vorlage bleibt eindeutig und vollständig kopierbar
 
@@ -106,7 +105,7 @@ Evidence: [2026-09-25: Vorhandenes Ergebnisformat geprüft; 18 Runner-Tests best
 
 ### W-002 Helper verarbeiten Unicode und Pfade portabel
 
-Status: paused
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: []
@@ -116,8 +115,7 @@ Steps:
 1. Korrigiere die CLI-Grenzen in ../shared/runtime/task_lifecycle.py und den betroffenen Plan-/Workflow-Helpern. Verwende vorhandene Streamkonfiguration oder eine kleine gemeinsame Funktion nur bei tatsächlicher Mehrfachnutzung.
 2. Ersetze uneindeutige Interpreter-/Pfadbeispiele an ihren kanonischen Fragmenten und Referenzen durch eine einmal erklärte Auswahl und korrekt gequotete Aufrufe. Prüfe echte Versionsausgabe statt Dateiname: Windows-Store-Alias ohne nutzbaren Interpreter überspringen; vorhandenes Python 3.9/3.10 bei einem 3.11+-Helper als zu alt melden. Keine feste Python-Version aller macOS-Installationen behaupten.
 3. Prüfe betroffene gebaute Pakete und die relevanten Verbraucher von shared. Ergänze die genannte GitHub-Actions-Matrix im vorhandenen Testaufbau; Veröffentlichung oder Push ist durch diesen Planpunkt nicht automatisch erlaubt. CRLF-Vertragsänderungen gehören ausschließlich zu W-009.
-Evidence: [Linux Python 3.12: Plan 82 bestanden; Ask 20 mit einem Windows-Skip; Workflow 89 bestanden und ein Test wegen fehlendem Node nicht ausgefuehrt, 2026-09-25: Python 3.11 lokal zusätzlich geprüft; Plan 78 und Ask 20 Tests bestanden., 2026-09-25: Ask 20 und Workflow 90 sowie Plan 78 Tests bestanden; sieben Titeltests inklusive UTF-8/cp1252 und ungültiger Eingabe bestanden., Befehlsbeispiele auf unquotierte Platzhalter geprüft; README-Prüfung und beide Git-Diffprüfungen fehlerfrei. CI-Matrix für drei Systeme und Python 3.11/aktuell vorbereitet; Läufe offen., Aktueller Workflow: 14 Tests Windows 3.11 und Linux 3.12 bestanden; Python 3.9/3.10 liefern Versionsdiagnose; Store-Alias Exit 9009 erkannt; Details im Pruefbericht, 2026-09-25: GitHub-Lauf 36178096054 auf d6096a4 bestand alle sechs Jobs für Windows Ubuntu und macOS mit Python 3.11 und aktuell.]
-Next action: Bei einer späteren Aktivierung W-002 als current_item fortsetzen und mit dem vorhandenen Matrixnachweis abschließen.
+Evidence: [Linux Python 3.12: Plan 82 bestanden; Ask 20 mit einem Windows-Skip; Workflow 89 bestanden und ein Test wegen fehlendem Node nicht ausgefuehrt, 2026-09-25: Python 3.11 lokal zusätzlich geprüft; Plan 78 und Ask 20 Tests bestanden., 2026-09-25: Ask 20 und Workflow 90 sowie Plan 78 Tests bestanden; sieben Titeltests inklusive UTF-8/cp1252 und ungültiger Eingabe bestanden., Befehlsbeispiele auf unquotierte Platzhalter geprüft; README-Prüfung und beide Git-Diffprüfungen fehlerfrei. CI-Matrix für drei Systeme und Python 3.11/aktuell vorbereitet; Läufe offen., Aktueller Workflow: 14 Tests Windows 3.11 und Linux 3.12 bestanden; Python 3.9/3.10 liefern Versionsdiagnose; Store-Alias Exit 9009 erkannt; Details im Pruefbericht, 2026-09-25: GitHub-Lauf 36178096054 auf d6096a4 bestand alle sechs Jobs für Windows Ubuntu und macOS mit Python 3.11 und aktuell., 2026-09-25: GitHub-Lauf 36179075576 auf 3946a41 bestand erneut alle sechs Jobs für Windows Ubuntu und macOS mit Python 3.11 und aktueller 3.x.]
 
 ### W-008 Plan wird ein deutlich einfacheres System für geordnete Arbeit
 
@@ -313,7 +311,7 @@ Acceptance: Keine Legacy-Erkennung, Warnung, Ladeebene oder automatische Migrati
 Steps:
 1. Ermittle ausschließlich die alten persönlichen Ask-Konfigurationsdateien und ihre aktiven Verweise über members/scoville-ask-for-codex/scoville-ask-for-codex/references/configuration.md und scripts/ask.py. Prüfe Zielpfade und Inhalt vor Entfernung. Berichte dem Nutzer vor dem Löschen die exakten Pfade und vom Default abweichende nicht geheime Werte einschließlich des bekannten 50-USD-Budgets; keine Zugangsdaten ausgeben. Bestehende Policy-Sperren nicht umgehen.
 2. Entferne die bestätigten Legacy-Dateien und aktive Erhaltungs-/Migrationsanweisungen. Übernimm alte Werte wie das 50-USD-Budget nicht ungefragt in .scoville/config.json und baue keinen Warnmechanismus ein.
-Evidence: [Altdatei C:/Users/benja/.codex/skills/ask-claude-for-codex/config.json nach Wertbericht entfernt; Abwesenheit geprüft, Windows Python 3.14: Default-/Override-Test bestanden; Lesen erzeugt keine Datei]
+Evidence: [Altdatei <codex-home>/skills/ask-claude-for-codex/config.json nach Wertbericht entfernt; Abwesenheit geprüft, Windows Python 3.14: Default-/Override-Test bestanden; Lesen erzeugt keine Datei]
 
 ### W-022 Tests und Laufzeitaufrufe funktionieren ohne lokale Sonderumgebung
 

@@ -2,7 +2,7 @@
 
 Observed 2026-09-21. Local candidates only, not publication approval.
 
-- `E:/Dropbox/AI Projects/skills/public`: 13 package directories and 187 files
+- `<workspace-root>/skills/public`: 13 package directories and 187 files
   match the union of both suite receipts exactly by relative file inventory
   and SHA-256. No extra package-root directory was found.
 - Scoville receipt: `skills/public/build-receipt.json` relative to workspace.

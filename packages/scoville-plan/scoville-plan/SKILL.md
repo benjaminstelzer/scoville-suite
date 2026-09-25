@@ -6,21 +6,11 @@ compatibility: "Any Agent Skills host with repository read/write access. Direct 
 
 # Scoville Plan
 
-Maintain native `format_version: 1` Plans, Work Items and Decisions through
-direct Markdown/YAML edits. Preserve setup, recovery, proposals, lifecycles,
-blockers, evidence and narrow repair. A record does not prove work.
-
-Use a Plan for dependent outcomes, material sequencing, durable continuation or
-a binding project workflow. A small reversible task needs no new Plan unless
-the project requires one. On explicit opt-out, load no references, change no
-planning records and make no Skill-derived claims; report any conflicting
-higher-priority project requirement.
-
-## Ownership
-
-Follow system/safety and explicit user instructions, then repository rules,
-then the supported native profile; these defaults fill gaps. Use the existing
-planning owner, never a parallel Plan. Runtime plans are disposable mirrors.
+Maintain native `format_version: 1` Plans, Work Items and Decisions by editing
+Markdown/YAML directly. Use the repository's planning owner. A small reversible
+task needs no new Plan unless required locally. On explicit opt-out, read no
+references or records under this Skill and make no Skill-derived changes or
+claims; report a conflicting repository requirement.
 
 All Skills included in this suite must be installed and enabled. Use the
 applicable owner without checking sibling availability. Load only instructions
@@ -30,100 +20,78 @@ needed for the task. Explicit invocation gates and user exclusions still apply.
 
 
 
-Plan owns record wording, permitted edits, format and lifecycle. P and D own
-language rules; G owns decomposition. Record explicit executor choices but
-never choose a dispatch route or start Workflow merely by writing a Plan.
+Plan owns its records' wording and lifecycle. It does not start Workflow or
+choose dispatch routes. Run one editor at a time; do not change affected files
+or model settings concurrently. Reads and Skill upgrades require no migration.
 
-The bundled selector and validator only read. Never use a planning CLI or
-infer locking, atomic writes or semantic proof from their output. The selector
-returns the exact current/named Work Item or dispatch unit under R. Relevant
-Evidence, proposals, graph checks and recovery remain separate bounded reads.
+## Authority and evidence
 
-## Load the operation's references
+1. Follow system/safety and explicit user instructions, repository rules, then
+   the supported native profile. Runtime plans are disposable mirrors.
+2. Preserve actual scope, choices, dependencies and history. Source, silence,
+   current behavior and structural validation are not authorization or proof
+   that work occurred. Apply historical stops only to their recorded scope.
+3. Ask only for a missing material choice: activation, cancellation, deletion,
+   changed scope, weaker Acceptance, ambiguous succession or Decision transition.
+   Already authorized directions need no repeated approval.
+4. Record explicit human choices as accepted Decisions. Unresolved material
+   choices become proposals; report alternatives, tradeoffs and effect, and
+   ask only before dependent work. Link affected mutable Work Items.
+5. At work start inventory Decision frontmatter and read relevant proposals
+   (all proposals for a full audit). Preserve unresolved choices at handoff.
+6. Mark done only after observing every Acceptance criterion and retaining its
+   evidence. Failed or partial work remains unfinished. Report observed checks
+   separately from unverified behavior.
+7. Stop affected execution on an explicit stop or invalidating correction.
+   Answer informational questions and continue. Append additive work through
+   edit.md. Direct Plan maintenance never creates a Work Item about maintenance.
+8. Keep required facts once in their owning field, in the existing record's
+   language unless the user chooses another. New records use the request or
+   owning Plan's language. Keep format labels and identifiers unchanged.
 
-`R` [read-only](references/read-only.md); `G`
-[granularity](references/planning-granularity.md); `P`
-[Plan format](references/native-plan-format.md); `L`
-[project lifecycle](references/native-project-lifecycle.md); `E`
-[editing](references/native-editing.md); `W`
-[Work Items](references/native-work-items.md); `D`
-[Decision format](references/native-decision-format.md); `B`
-[Decision batches](references/native-decision-batches.md); `V`
-[validation](references/profile-validation.md).
+## Work Item template
 
-Classify by operation and edited record. A Work Item edit uses W even though
-its file is a Plan. Load only the applicable route:
+```text
+### W-001 Observable outcome
 
-| Operation | Load |
+Status: todo
+Depends on: []
+Blocked by: []
+Decisions: []
+Outcome: One independently resumable result.
+Acceptance: Observable checks and their required results.
+Steps:
+1. Perform one coherent unit at the known repository-relative paths and verify its result.
+Evidence: []
+Next action: The first unfinished action or unobserved check.
+```
+
+Omit Steps when no ordered units are needed. Steps add no separate lifecycle.
+Use [granularity](references/planning-granularity.md) only when outcome or Step
+boundaries need judgment, not for a routine insertion with known boundaries.
+
+## Load only the current route
+
+| Operation | Additional reference |
 | --- | --- |
-| Read direction or list records | R |
-| Initialize absent profile; create or restructure Plan | G, P, L, E; W when editing Work Items |
-| Delete an unstarted Plan; rewrite Goal or Non-goals | P, L, E |
-| Insert, refine, move, select, block, advance, remove or rewrite Work Item | P, W, E; G when changing outcome boundaries or Steps |
-| Queue additions during active work | G, P, W, E |
-| Create, rewrite or transition a Decision | D, P, E; B for an authorized accept-or-reject batch |
-| Activate, complete or cancel Plan | P, L, E; W if current work changes |
-| Audit structure/lifecycle | P for Plans; D for Decisions; G only for decomposition judgment |
-| Audit wording | P for Plan/Work Item or D for Decision; E writing section only |
-| Validate writes or diagnose the complete profile | V; add only references needed for a reported diagnostic |
+| Insert, refine, order, select, progress, block, complete or cancel Work Items; ordinary recovery | [edit.md](references/edit.md) |
+| Read direction, list records, select dispatch units | [read-only.md](references/read-only.md) |
+| Create/restructure, activate, finish, cancel or delete Plan; change Goal | [native-project-lifecycle.md](references/native-project-lifecycle.md) and edit.md |
+| Create, audit or transition Decisions | [native-decision-format.md](references/native-decision-format.md) and edit.md |
+| Audit wording | edit.md; Decision reference for Decision sections |
+| Validate or diagnose structure | edit.md; operation reference only if a diagnostic needs it |
 
-Read-only work preloads no format guides. If profile existence is unknown,
-list the root before reading canonical paths. Use an existing complete supported
-profile. If PROJECT_INDEX.md, docs/plans and docs/decisions are all absent,
-initialize on an explicit durable Plan request or report absence without creating
-records. Preserve partial, foreign, unsupported or invalid state and stop the
-affected operation unless the route permits intent-preserving repair.
+An unknown profile requires listing the root first. PROJECT_INDEX.md,
+docs/plans and docs/decisions must form a complete supported profile. Initialize
+only when all three are absent and a durable Plan was requested. Preserve
+partial, foreign, unsupported or ambiguous state; repair only a representation
+defect that changes no intent.
 
-Use the bundled selector and validator when Python is available; they are
-optional dependencies of the general Skill. Check availability before loading
-the needed `*-without-python.md` manual route. Helper errors with Python
-available remain errors, never a manual pass.
-Current/named selection follows R; validation follows V.
-
-## Preserve authority
-
-Record actual scope, choices, blockers, dependencies, evidence and acceptance.
-Source code, current behavior, documentation and silence do not authorize a
-lifecycle or material choice. Ask only when the necessary choice is still missing.
-
-- Explicit human direction to record a choice authorizes its accepted Decision
-  without asking again. A proposal request creates `proposed`.
-- An unresolved material choice about scope, architecture, public behavior,
-  stored data, security, dependencies, reversibility, Acceptance, migration or
-  rollout becomes `proposed`. Report recommendation, alternatives, tradeoffs
-  and effect; request accept, reject or revise. Never pre-accept it.
-- Activation, cancellation, deletion, scope changes, weaker Acceptance,
-  ambiguous succession and Decision transitions need the explicit authority
-  required by their route. Use B for an authorized accept-or-reject batch.
-- Link each new Decision to every affected mutable Work Item. Do not rewrite
-  started history to add the link.
-
-At work start inventory Decision frontmatter. Read and report ID, title,
-recommendation and effect for relevant proposals, or all proposals in a full
-audit. Ask when execution depends on a choice or the user requests decisions;
-a status question alone needs no decision answer. Stop only dependent work.
-Retain unresolved proposals on handoff and do not repeat unchanged questions
-unless new evidence matters.
-
-Apply historical stops to their actual subject and scope, not unrelated work.
-Preserve applicable limits; ask about unresolved material scope before the
-dependent action. Age or silence does not revoke a stop.
-
-## Execute, edit and report
-
-Use W to classify messages during active work and for pre-flight, progress,
-queueing and succession. Direct Plan maintenance never creates a Work Item
-whose outcome is maintaining the Plan. Use L for final completion and idle state.
-
-E owns compact writing and the read/edit/check sequence. Prepare a consistent
-multi-file result only when multiple files change. Validate the final state
-through V. A wording audit grants no write authority. Reads and Skill upgrades
-require no record migration or reformatting.
-
-Mark work done only after observed Acceptance and retained evidence. Structural
-validation proves only the inspected format invariants. Keep partial or failed
-work in progress, paused or explicitly blocked.
-
-Report the Plan outcome, changed canonical records, active/blocked work,
-observed checks, unresolved choices and next action. Distinguish structural
-validation from behavioral acceptance.
+After every completed write operation, validate the complete resulting profile
+using the command and diagnostic handling in edit.md.
+With Python 3.10+ available, use the bundled validator and selector. Only
+without Python load [profile-without-python.md](references/profile-without-python.md)
+for manual validation and [select-context-without-python.md](references/select-context-without-python.md)
+for manual selection. Missing scripts or helper errors never enable fallback.
+Report outcome, active or blocked work, actual evidence, unresolved choices and
+the next action. These direct edits provide no locks or atomic transactions.

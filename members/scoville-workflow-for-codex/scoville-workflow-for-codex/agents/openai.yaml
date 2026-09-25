@@ -1,6 +1,0 @@
-interface:
-  display_name: "Scoville Workflow Codex"
-  short_description: "Launch one native coordinator, then stop"
-  default_prompt: "Use $scoville-workflow-for-codex in this saved project. Verify its project contract first; if setup is missing, ask and end after the setup decision. Otherwise create one native coordinator, confirm the start, and end the launcher."
-policy:
-  allow_implicit_invocation: false

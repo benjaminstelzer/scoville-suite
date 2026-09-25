@@ -129,7 +129,7 @@
       "expect": [
         "Recover the explicit return obligation from paused W-001's native Next action and distinguish it from an ordinary indefinite pause.",
         "After observing W-004 Acceptance, complete W-004 through ordinary completion while selecting W-001, then guarded-resume W-001 and restore ACTION as its concrete Next action.",
-        "Do not use complete_and_advance for the paused target or bypass a blocker, invalid dependency, missing target, or conflicting return instruction."
+        "Do not start a paused target as todo or bypass a blocker, invalid dependency, missing target, or conflicting return instruction."
       ]
     },
     {
@@ -199,25 +199,25 @@
       "id": "deferred-boundary-survives-restart",
       "given": "W-001 is running before ordinary future W-002. Additive X was inserted as a Deferred after W-001 todo item before W-002. After a fresh session starts, compatible additive Y arrives.",
       "expect": [
-        "Recover X as W-001's deferred segment from its visible title prefix and authored position without using chat history or an allocation watermark.",
-        "Batch Y into X when all compatibility rules hold; otherwise insert Y after X and before unmarked W-002.",
-        "Preserve W-001, current_item, stable arrival order, and every unrelated W-002 field."
+        "Read historical X and preserve its existing position and prefix.",
+        "Append Y at the end because it cannot merge backward across separate W-002; create no new prefix.",
+        "Preserve current_item and all started fields."
       ]
     },
     {
       "id": "explicit-successor-survives-restart",
       "given": "A todo Work Item is visibly titled Prioritized after W-001 before a fresh session begins. While W-001 runs, a plain additive request arrives.",
       "expect": [
-        "Recover the explicit successor priority from the title and do not displace it with the default after-current insertion rule.",
-        "Ask for the priority choice; if the user preserves it, anchor the deferred request after that prioritized item.",
-        "Never infer an explicit priority for an unmarked item or retain two priority prefixes for the same anchor."
+        "Read and preserve the historical prioritized successor.",
+        "Append the new request in arrival order without displacing that priority or asking again.",
+        "Create no new title prefix; ask only if an explicit new priority conflicts."
       ]
     },
     {
       "id": "deferred-successor-blocked-or-decision-dependent",
       "given": "Current Acceptance is observed and the exact queued successor has satisfied dependencies but retains an external blocker or depends on an unresolved proposed Decision.",
       "expect": [
-        "Do not use complete_and_advance or start the queued Work Item.",
+        "Do not start the blocked queued Work Item.",
         "Use ordinary completion only when valid to select the queued successor without starting it, preserving its blocker or proposal.",
         "Do not clear the blocker, accept the Decision, invent Evidence, skip the item, or complete the Plan."
       ]
@@ -226,9 +226,9 @@
       "id": "deferred-later-prerequisite-or-no-successor",
       "given": "A deferred request has a genuine unfinished prerequisite that must appear later than current work, or current completion has no unambiguous eligible replacement.",
       "expect": [
-        "Place the deferred Work Item at the earliest dependency-valid position after its prerequisite and report that it cannot be immediate next work.",
-        "Keep the current item non-terminal when no exact eligible replacement can be selected and request the required choice.",
-        "Do not invent dependencies, reorder immutable work, fabricate readiness, or force terminal Plan completion."
+        "Append new work after existing items and its real prerequisite; only an explicit priority can choose another valid position.",
+        "If completion has no unambiguous eligible successor, keep current work nonterminal and ask.",
+        "Do not invent dependencies or rewrite started work."
       ]
     },
     {
@@ -314,11 +314,11 @@
     },
     {
       "id": "read-only-surfaces-proposals",
-      "given": "A supported profile has one active Work Item and two unrelated proposed Decisions. The user asks for current direction without requesting writes.",
+      "given": "A supported profile has one active Work Item and two proposed Decisions, one relevant and one unrelated. The user asks for current direction without requesting a full audit or writes.",
       "expect": [
         "Use the read-only route without loading native write-format references.",
-        "Read the current Work Item and inventory Decision frontmatter, then read and report both proposals with ID, title, recommended choice, and practical effect.",
-        "Do not demand accept, reject, or revise choices for this status-only request; preserve visibility of both proposals and allow unrelated work to continue.",
+        "Use the selector for current context and inventory Decision frontmatter. Read and report the relevant proposal with ID, title, recommendation and effect; a full audit reads all proposals.",
+        "Do not demand accept, reject or revise for a status-only request. Preserve unresolved proposals for later handling.",
         "Ask before later requested work that depends on a proposal, or when the user asks to handle Decisions; never infer acceptance from silence."
       ]
     },
@@ -380,18 +380,18 @@
       "id": "validator-routes-unambiguous-format-correction",
       "given": "The validator exits 1 and reports one Work Item field-order defect whose correction changes no authored content or lifecycle fact.",
       "expect": [
-        "Load the validation guide first and then only native-plan-format.md plus native-editing.md for the reported correction.",
-        "Apply the bounded native field-order edit after the ordinary byte guards, then rerun the read-only validator.",
-        "Do not load unrelated Decision, batch, or project-lifecycle guidance."
+        "Use SKILL.md and edit.md with the file/field diagnostic; no additional format guide with Python.",
+        "Correct only field order without changing meaning, then run the validator again.",
+        "Do not load unrelated Decision or Plan lifecycle guidance."
       ]
     },
     {
       "id": "validator-routes-ambiguous-lifecycle-conflict",
       "given": "The validator exits 1 because current_item and the in-progress Work Item disagree after a partial lifecycle change.",
       "expect": [
-        "Report the exact conflicting records and load only the relevant Work Item, project-lifecycle, and native-editing guidance.",
-        "Ask which lifecycle result is intended instead of selecting a current item, pausing work, or inventing Evidence.",
-        "Do not mutate files merely to obtain exit 0."
+        "Report the conflicting records and use edit.md plus lifecycle guidance only when needed.",
+        "Ask which lifecycle result is intended, preserving evidence and current state.",
+        "Do not mutate merely to obtain exit 0."
       ]
     },
     {
@@ -427,7 +427,7 @@
       "given": "A valid version-1 Plan contains 160 Work Items and a small current progress edit. Completed historical bodies are irrelevant to that edit.",
       "expect": [
         "Read required direction, current and affected blocks, relevant relations, and unresolved proposals without dumping unrelated history.",
-        "Keep full pre-write byte comparison and full post-write equality with the prepared result, returning hashes or comparison results instead of file bodies.",
+        "Preserve unrelated history using context-bound edits and inspect the scoped result. No routine saved byte receipt is required; stop on concurrent or partial writes.",
         "Run the complete optional structural validator when available; compact model output does not narrow its coverage.",
         "Only in general without Python inspect required invariants manually and expand reads wherever needed. Missing or failing helpers with Python available never authorize fallback; codex requires the validator."
       ]
@@ -571,9 +571,9 @@
       "id": "workflow-coordinator-owns-route",
       "given": "A new Workflow-ready Plan Step appears small, but its eventual execution may cross behavior-owner, harness, or integration boundaries that are not yet known.",
       "expect": [
-        "Use the Workflow class boundaries to separate work that would need different routes, without assigning low, medium, high, or another class in Plan.",
-        "Preserve an existing or explicitly user-supplied route as a planned minimum rather than the final dispatch choice.",
-        "Leave current route, executor model, and reasoning selection to the Workflow coordinator at dispatch."
+        "Describe required discovery, known owners and verification in concrete Steps. Separate materially different risk without importing class definitions.",
+        "Preserve existing or explicit route/execute annotations.",
+        "Workflow owns route criteria and current executor settings; writing a Plan does not start it."
       ]
     },
     {
@@ -583,6 +583,71 @@
         "Plan owns record writing without requiring or loading another wording owner.",
         "Keep mixed-task prose in its own route. Retain Plan's Core and edit references for native-record format and lifecycle checks.",
         "If Plan is absent or inactive, do not impose its rules or require its installation."
+      ]
+    },
+    {
+      "id": "append-two-arrivals",
+      "given": "W-001 runs; W-002 is future work. Two independent additions X then Y arrive.",
+      "expect": [
+        "Append W-003 X then W-004 Y after W-002 with no new prefixes.",
+        "Preserve current selection and all earlier records; validate each completed write."
+      ]
+    },
+    {
+      "id": "explicit-priority-without-prefix",
+      "given": "The user explicitly prioritizes new X immediately after current W-001 ahead of todo W-002; X has no dependencies.",
+      "expect": [
+        "Insert X in the explicitly selected valid position with its new ID and ordinary title.",
+        "Preserve existing historical priorities unless the user explicitly replaced them."
+      ]
+    },
+    {
+      "id": "single-decision-transitions",
+      "given": "Two existing proposals are explicitly accepted together; unrelated historical batch metadata exists.",
+      "expect": [
+        "Accept each proposal individually and validate after each completed operation.",
+        "Create no new batch fields; preserve and validate unrelated historical batch metadata."
+      ]
+    },
+    {
+      "id": "general-without-python",
+      "given": "General profile; Python is absent; user requests Work Item progress.",
+      "expect": [
+        "Load profile-without-python.md for complete manual structural inspection.",
+        "No dependency installation or pretend validator pass."
+      ]
+    },
+    {
+      "id": "codex-requires-validator",
+      "given": "Codex profile; Python or validator is unavailable.",
+      "expect": [
+        "Stop the affected operation and report the missing dependency.",
+        "Do not substitute manual validation."
+      ]
+    },
+    {
+      "id": "started-fields-immutable",
+      "given": "A started Work Item needs a new implementation approach, but no explicit annotation change was requested.",
+      "expect": [
+        "Preserve title, dependencies, Decisions, Outcome, Acceptance, Steps and position.",
+        "Use Evidence and Next action for observed discovery and remaining work; request a material missing choice if needed."
+      ]
+    },
+    {
+      "id": "never-reactivate-terminal-plan",
+      "given": "The user asks to activate a cancelled Plan that previously executed and still contains paused or todo items.",
+      "expect": [
+        "Do not reactivate the terminal Plan; activation requires a target draft Plan.",
+        "Retain history and ask for a valid continuation direction; a structurally valid target state is not transition authority."
+      ]
+    },
+    {
+      "id": "return-and-historical-priority-conflict",
+      "given": "Current W-003 has a paused return to W-001 and a distinct Prioritized after W-003 successor W-004. Current Acceptance can be observed.",
+      "expect": [
+        "Compare both obligations before completion.",
+        "Keep W-003 nonterminal and both targets unchanged; ask which target should follow.",
+        "Observed Acceptance can be recorded but grants no successor choice."
       ]
     }
   ]

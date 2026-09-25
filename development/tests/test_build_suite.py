@@ -2,6 +2,8 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import re
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -13,6 +15,24 @@ spec.loader.exec_module(builder)
 
 
 class BuildTests(unittest.TestCase):
+    def test_public_source_text_has_no_machine_specific_paths(self):
+        private_root = re.compile(
+            r'(?i)(?:[a-z]:[/\\](?:users|dropbox|projekts)(?:[/\\]|$)|/(?:users|home)/[^/\s]+/)'
+        )
+        tracked = subprocess.run(
+            ['git', 'ls-files', '-z'], cwd=ROOT, check=True, capture_output=True
+        ).stdout.split(b'\0')
+        for relative in tracked:
+            if not relative:
+                continue
+            path = ROOT / relative.decode('utf-8')
+            try:
+                text = path.read_text(encoding='utf-8')
+            except UnicodeDecodeError:
+                continue
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertIsNone(private_root.search(text))
+
     def test_reproducible_public_packages_and_exact_inventory(self):
         with tempfile.TemporaryDirectory() as temp:
             a = builder.build(ROOT, Path(temp) / 'a', True, [])
@@ -63,6 +83,66 @@ class BuildTests(unittest.TestCase):
 
     def test_readmes_match_sources(self):
         self.assertEqual([], builder.render_readmes(ROOT, False))
+
+    def test_suite_readmes_separate_new_install_and_complete_upgrade(self):
+        legacy = {
+            'scoville-brainstorm', 'scoville-code-anti-ai-slop',
+            'scoville-design-anti-ai-slop', 'scoville-handoff', 'scoville-plan',
+            'scoville-research', 'scoville-scribe-anti-ai-slop',
+            'scoville-ui-anti-ai-slop',
+            'scoville-wordpress-ui-backend-anti-ai-slop',
+            'scoville-workflow-for-codex', 'scoville-workflow-codex',
+            'ask-astra-for-review-for-codex', 'ask-sol-for-review-for-codex',
+            'ask-claude-for-codex', 'ask-claude-and-astra-for-codex',
+            'ask-claude-and-sol-for-codex',
+        }
+        repositories = {
+            'general': 'https://github.com/benjaminstelzer/scoville-suite',
+            'codex': 'https://github.com/benjaminstelzer/scoville-suite-for-codex',
+        }
+        for profile, repository in repositories.items():
+            with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
+                destination = Path(temp)
+                config = builder.load(ROOT, profile, 'suite')
+                builder.render_readmes(ROOT, True, config, destination)
+                text = (destination / 'README.md').read_text(encoding='utf-8')
+                new_marker = '### New installation'
+                upgrade_marker = '### Upgrade from an earlier Scoville or Ask suite'
+                self.assertLess(text.index(new_marker), text.index(upgrade_marker))
+                new_install = text.split(new_marker, 1)[1].split(upgrade_marker, 1)[0]
+                upgrade = text.split(upgrade_marker, 1)[1].split('\n## ', 1)[0]
+                self.assertIn(repository, new_install)
+                self.assertNotIn('Uninstall these Skills', new_install)
+                self.assertIn(repository, upgrade)
+                inventory = upgrade.split(
+                    'Uninstall these Skills completely, including their settings, when present:\n', 1
+                )[1].split('\nSkip absent entries', 1)[0]
+                actual = {item.strip().rstrip('.') for item in inventory.replace('\n', ' ').split(',')}
+                self.assertEqual(legacy, actual)
+                self.assertIn('leave unrelated Skills untouched', upgrade)
+                self.assertIn('keep no backup or settings migration', upgrade)
+                for readme in destination.rglob('README.md'):
+                    rendered = readme.read_text(encoding='utf-8')
+                    self.assertNotRegex(rendered, r'(?<![A-Za-z])[A-Za-z]:[\\/]')
+                    self.assertNotIn('/Users/', rendered)
+                    self.assertNotIn('/home/', rendered)
+
+    def test_suite_overview_links_each_member_how_to_use(self):
+        for profile, expected_count in (('general', 4), ('codex', 7)):
+            with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
+                destination = Path(temp)
+                config = builder.load(ROOT, profile, 'suite')
+                builder.render_readmes(ROOT, True, config, destination)
+                overview = (destination / 'README.md').read_text(encoding='utf-8')
+                self.assertEqual(expected_count, overview.count('/README.md#how-to-use)'))
+                for member in config['members']:
+                    name = member['name']
+                    self.assertIn(f'(members/{name}/README.md#how-to-use)', overview)
+                    full_readme = destination / 'members' / name / 'README.md'
+                    self.assertTrue(full_readme.is_file())
+                    self.assertIn('\n## How to use\n', full_readme.read_text(encoding='utf-8'))
+                workflow_link = '(members/scoville-workflow-for-codex/README.md#how-to-use)'
+                self.assertEqual(profile == 'codex', workflow_link in overview)
 
     def test_family_contract_preserves_exclusions_and_explicit_activation(self):
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),

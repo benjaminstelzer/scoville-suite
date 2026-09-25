@@ -1,14 +1,14 @@
-# ASK single expected results
+# Ask single expected results
 
-Evaluator-only. Sources: built ASK SOL core, native reviewer role and lifecycle
+Evaluator-only. Sources: built Ask SOL core, native reviewer role and lifecycle
 helper contract. Grade exact identity and authorization, not call-name trivia.
 
-01. Activate ASK SOL single adviser.
-02. Do not substitute ASK SOL for the Astra-only Skill.
+01. Activate Ask SOL single adviser.
+02. Do not substitute Ask SOL for the Astra-only Skill.
 03. Generic model request does not activate this specific Skill. Resolve intended adviser.
 04. Paired Skill, not the single-adviser route.
 05. Eligible. Neither code nor a Skill review is required.
-06. gpt-5.6-sol with xhigh; exact title ASK Cache review SOL RUN [#1]. Delivery retries neither increment logical attempt nor rename the task.
+06. gpt-5.6-sol with xhigh; exact legacy title `ASK Cache review SOL RUN [#1]`. Delivery retries neither increment logical attempt nor rename the task.
 07. Explicit user request wins: medium. Precedence is user, applicable project instructions, personal config, shipped config.
 08. Report unavailable settings. No silent model/effort substitution, CLI or own-opinion fallback.
 09. Stop dispatch with project_task_unavailable. Never guess destination from recency.

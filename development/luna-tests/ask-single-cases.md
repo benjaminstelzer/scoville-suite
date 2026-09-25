@@ -1,4 +1,4 @@
-# ASK single cases
+# Ask single cases
 
 Representative: built ask-sol-for-review-for-codex. One fresh context per case,
 answer key hidden. Cases 01-05 use discovery metadata only. Others use the

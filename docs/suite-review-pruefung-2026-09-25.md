@@ -45,7 +45,7 @@ Empfehlung: unbekannte Minor-Version in Beispiel und Ergebnismatrix ausdrücklic
 
 ### F-04: Native Adviser ohne technische Schreibsperre — bestätigt mit Einschränkung, P1
 
-`../shared/runtime/task_lifecycle.py::create` erzeugt lokale Tasks; `references/adviser.md` im ASK-Paket erklärt bereits ausdrücklich, dass keine Sandbox entsteht. Der aktuelle Host bietet den vorgeschlagenen Sandboxparameter nicht an. Read-only ist hier ein Verhaltensvertrag.
+`../shared/runtime/task_lifecycle.py::create` erzeugt lokale Tasks; `references/adviser.md` im Ask-Paket erklärt bereits ausdrücklich, dass keine Sandbox entsteht. Der aktuelle Host bietet den vorgeschlagenen Sandboxparameter nicht an. Read-only ist hier ein Verhaltensvertrag.
 
 Empfehlung: Grenze im Einstieg/README klar benennen; keine neue Hash-Schnappschussmaschine als vermeintlichen Ersatz. Vorher/Nachher-Diffs verhindern keine Schreibvorgänge, können parallele Nutzeränderungen nicht dem Adviser zuordnen und erkennen zurückgenommene Zwischenänderungen nicht. Bei zwingender Isolation einen tatsächlich beschränkten Ausführungspfad verlangen. Optionaler Änderungsbericht darf nur eine Beobachtung heißen. Keine Scheinsicherheit und kein automatisches Zurücksetzen.
 
@@ -63,13 +63,13 @@ Fix: konfigurierbarer Default von 1800 Sekunden, stabiler Fehlercode `claude_tim
 
 ### F-07: Lokale Pfade und Retention — bestätigt, P1
 
-Die genannten Pfade existieren, unter anderem in Code `development/astra-acceptance-2026-09-12.md`, Plan `development/skillwriter-implementation.md` und ASK `development/test-evidence.md`. Ob jede Datei öffentlich ist oder ein Release sie bindend verlinkt, wurde nicht extern geprüft.
+Die genannten Pfade existieren, unter anderem in Code `development/astra-acceptance-2026-09-12.md`, Plan `development/skillwriter-implementation.md` und Ask `development/test-evidence.md`. Ob jede Datei öffentlich ist oder ein Release sie bindend verlinkt, wurde nicht extern geprüft.
 
 Empfehlung: knappe kanonische Entscheidungen, Pläne und Ergebniszusammenfassungen behalten; rohe Reviewpakete und Transkripte gemäß Retention entfernen. Nicht sämtliche Development-Dokumente ohne Release-Link löschen: Projektwissen ist kein Rohprotokoll. Private Maschinenpfade in veränderlichen Berichten durch brauchbare relative Verweise ersetzen. Terminale Plan-/ADR-Historie nicht beiläufig umschreiben. Veröffentlichungsausgabe mit Ausnahmeliste prüfen, keine pauschale Nulltrefferregel für legitime Pfadbeispiele.
 
 ### F-08: Installation und Reponamen — teilweise bestätigt, Entscheidung bereits vorhanden, P1
 
-ASK-README behauptet noch „Partial installation is not supported“, während `suite.json` und die bestandenen Buildtests Standalone erlauben. ADR-0042 hat die Einzelinstallation bereits angenommen. Dafür ist keine neue Nutzerentscheidung nötig.
+Ask-README behauptet noch „Partial installation is not supported“, während `suite.json` und die bestandenen Buildtests Standalone erlauben. ADR-0042 hat die Einzelinstallation bereits angenommen. Dafür ist keine neue Nutzerentscheidung nötig.
 
 Fix am kanonischen README-Fragment/Builder. Zwei Repos sind wegen general/codex in ADR-0013 beabsichtigt; nicht blind vereinheitlichen. `members/` bezeichnet Quellen, `packages/` installierbare Pakete. Links gegen ihre jeweilige Distribution prüfen. Reiner Claude-CLI-Pfad benötigt keinen nativen Modellkatalog, bleibt aber eine Nutzung des Codex-Skills und ist nicht offline.
 
@@ -79,7 +79,7 @@ Die alten UI-Quellordner sind im aktuellen Arbeitsbaum bereits weg; Git zeigt ih
 
 Die fehlenden Greenfield-/Änderungsnachweise im bestehenden Plan fortsetzen, keine zweite Merge-Aufgabe anlegen. ADR-0044 begrenzte den früheren Lauf ausdrücklich; die alte Zeitfreigabe ist kein unbegrenztes Budget. Vorhandene `development/luna-tests/ui-cases.md` und WordPress-Fälle nutzen. Eine zusätzliche JSON-Datei oder exakt zwölf Fälle sind keine eigenständige Qualitätsgarantie.
 
-### F-10: ASK-Altsource — bestätigt, P1
+### F-10: Ask-Altsource — bestätigt, P1
 
 `../ask-suite-for-codex` existiert weiterhin. `members/scoville-ask-for-codex/development/test-evidence.md` dokumentiert Backup und ausstehende Entfernung. Die 437-Dateien-Angabe wurde hier nicht erneut byteweise geprüft.
 
@@ -93,7 +93,7 @@ Fix nur für verbleibende Unklarheit: tatsächlich benutzten Repo-Ort als belegt
 
 ### F-12: Frontmatter und Hostaussagen — bestätigt, P2
 
-ASK und Workflow haben kein compatibility-Feld. Workflow-README nennt Antigravity, obwohl die Ausführung Codex-spezifisch ist. Gleiche Frontmatter-Schlüssel für alle Skills sind keine belegte Anforderung; vorhandene quick_validate-Versionen lehnen compatibility bei anderen Membern gerade ab.
+Ask und Workflow haben kein compatibility-Feld. Workflow-README nennt Antigravity, obwohl die Ausführung Codex-spezifisch ist. Gleiche Frontmatter-Schlüssel für alle Skills sind keine belegte Anforderung; vorhandene quick_validate-Versionen lehnen compatibility bei anderen Membern gerade ab.
 
 Empfehlung: Aussagen pro Skill sachlich richtig machen, unterstützte und tatsächlich getestete Hosts trennen. Metadaten nur gemäß geklärtem Paketformat ergänzen. Nicht Antigravity pauschal überall hinzufügen oder einen Validator für einen grünen Check verbiegen.
 
@@ -159,11 +159,11 @@ Empfehlung: Mindestversion und tatsächlich getestete Laufzeit getrennt nennen; 
 
 Empfehlung: erst bestehenden Greenfield-Fall praktisch prüfen. Keine zehn ähnlichen Zusatzfragen. Nur eine tatsächlich beobachtete Lücke ergänzen, ohne eine visuelle Richtung durch pauschale Dekorationsverbote zu ersetzen. Besitzer bleibt PLAN-0006.
 
-### F-23: ASK-Präfix und Wegfall der Sidebar-Platzierung — ausdrücklich entschieden
+### F-23: Ask-Präfix und Wegfall der Sidebar-Platzierung — ausdrücklich entschieden
 
 Das alte Verhalten war durch ADR-0042 festgelegt. Der Nutzer korrigiert erst die Reihenfolge zu `ASK <Titel der aufrufenden Aufgabe>` und streicht anschließend die automatische Sidebar-Platzierung zur Komplexitätsreduktion. ADR-0055 enthält den aktuellen Beschluss; ADR-0042 und die Zwischenentscheidung ADR-0054 bleiben als ersetzte Historie erhalten.
 
-W-015 entfernt die Platzierungsoperation samt Aufrufern und Dokumentation vollständig, ohne Opt-in-Einstellung. ASK steht vorne, ohne Adviser-ID, Modellname oder ASK-TASK-Suffix. Bestehende Aufgaben werden nicht umbenannt oder umsortiert. Task-IDs bleiben Identität; die normale Hostsortierung bestimmt die Position.
+W-015 entfernt die Platzierungsoperation samt Aufrufern und Dokumentation vollständig, ohne Opt-in-Einstellung. Ask steht vorne, ohne Adviser-ID, Modellname oder Ask-TAsk-Suffix. Bestehende Aufgaben werden nicht umbenannt oder umsortiert. Task-IDs bleiben Identität; die normale Hostsortierung bestimmt die Position.
 
 ### F-24: Git-Zugriff über Bash — Fähigkeit fehlt, vorgeschlagene Freigabe nicht sicher read-only
 
@@ -185,15 +185,15 @@ Empfehlung: informative Ausgabe pro Member und pro häufiger Route, kein harter 
 
 ### F-27: Persönliche Modellkonfiguration — bestätigt, Ort vom Nutzer entschieden, P1
 
-Workflow lädt nur `assets/workflow.toml`; ASK hat bereits `config.default.json` plus `config.json` im Skill-Ordner. Persönliche Datei neben Defaults zu haben beweist allerdings noch nicht, dass ein Installer sie bewahrt.
+Workflow lädt nur `assets/workflow.toml`; Ask hat bereits `config.default.json` plus `config.json` im Skill-Ordner. Persönliche Datei neben Defaults zu haben beweist allerdings noch nicht, dass ein Installer sie bewahrt.
 
-Entscheidung: je Skill im Installationsordner. Empfehlung: ASK behält `config.json`; Workflow bekommt `assets/workflow.local.toml`; falls Plan-Profile bleiben, `assets/prompting.local.toml`. Rangfolge Anfrage/Step, Projekt, persönliche Datei, Defaults. Distributionen liefern keine persönliche Datei aus; Updates erhalten sie ausdrücklich und scheitern sichtbar bei inkompatibler Konfiguration.
+Entscheidung: je Skill im Installationsordner. Empfehlung: Ask behält `config.json`; Workflow bekommt `assets/workflow.local.toml`; falls Plan-Profile bleiben, `assets/prompting.local.toml`. Rangfolge Anfrage/Step, Projekt, persönliche Datei, Defaults. Distributionen liefern keine persönliche Datei aus; Updates erhalten sie ausdrücklich und scheitern sichtbar bei inkompatibler Konfiguration.
 
 Reparatur 2/3 sucht das ursprüngliche Paar heute in der aktuellen Tabelle; Fehler reproduziert. Nur das Startpaar zu speichern würde den Spezialfall nicht lösen. Der Nutzer verzichtet dafür ausdrücklich auf zusätzliche Technik: Konfiguration zwischen Läufen ändern, während eines laufenden Auftrags unverändert lassen. Kein eingefrorener Reparaturfahrplan, kein Snapshot und keine zusätzliche Versionsbindung. Ein tatsächlich trotzdem geänderter ungültiger Zustand darf den vorhandenen klaren Fehler liefern. Modelle und gewünschtes Reasoning aus Konfiguration laden; gültige API-Werte und historische Testnachweise sind keine verbotenen persönlichen Defaults. Alte Berichte nicht umschreiben, nur um eine globale grep-Regel zu erfüllen.
 
 ### F-28: Dropbox — bestätigt, bereits autorisiert, P1
 
-Cacheordner existieren in ASK, Workflow und im echten Geschwisterordner `../shared/`. Viewer node_modules/target sind derzeit nicht vorhanden. Die Root-.gitignore deckt Python-/Node-/Rust-Ausgaben bereits ab; fehlende Member-.gitignore allein ist kein Git-Fehler im Monorepo.
+Cacheordner existieren in Ask, Workflow und im echten Geschwisterordner `../shared/`. Viewer node_modules/target sind derzeit nicht vorhanden. Die Root-.gitignore deckt Python-/Node-/Rust-Ausgaben bereits ab; fehlende Member-.gitignore allein ist kein Git-Fehler im Monorepo.
 
 Bei Umsetzung die freigegebenen Rechnermaßnahmen ausführen: bestehendes PYTHONPYCACHEPREFIX prüfen, außerhalb Dropbox erhalten oder passende Benutzervariable setzen, nur benannte Cacheordner löschen, Viewer-Ausgaben vor ihrer Erzeugung ausnehmen, Dokumentation und -B-Befehle ergänzen. Nicht versehentlich nur `<suite>/shared` prüfen, denn der kanonische Besitzer liegt daneben. Dauerhafte Benutzer-Umgebungsvariablen werden von einem Kind eines schon laufenden Prozesses nicht automatisch neu eingelesen; Prüfung mit frisch übernommener Umgebung und nach Neustart unterscheiden. Ignore-Attribut nach npm ci prüfen, da Ordner neu erstellt werden können. Kein absoluter maschinenabhängiger Cargo-Pfad in versionierter Konfiguration.
 
@@ -205,19 +205,19 @@ Kein Befund wurde hier als aktiver P0-Vorfall reproduziert. Zuerst konkrete Ausf
 | --- | --- | --- |
 | Übergabe-/Plan-Hashes und unnötige Komplexität | Modellbelege und Paralleländerungsabsicherung entfernen; einfachen Einzelbetrieb dokumentieren | angenommen: ADR-0045 und ADR-0052 |
 | Persönliche Konfiguration | im jeweiligen Skill-Ordner, vom Update ausdrücklich bewahrt; Änderungen zwischen Läufen | angenommen: ADR-0046 |
-| Gemeinsame Projektdatei | `.scoville/config.json` mit vorhandenen ASK-/Workflow-Strukturen; Skillwerte sind Defaults | Vorschlag ADR-0051 |
-| ASK-Webzugriff | standardmäßig aus; keine zusätzliche Hash-Sandboxsimulation | Vorschlag ADR-0047 |
+| Gemeinsame Projektdatei | `.scoville/config.json` mit vorhandenen Ask-/Workflow-Strukturen; Skillwerte sind Defaults | Vorschlag ADR-0051 |
+| Ask-Webzugriff | standardmäßig aus; keine zusätzliche Hash-Sandboxsimulation | Vorschlag ADR-0047 |
 | Plan-Schreibprofile und alter Interpreter | direkt Plan ohne Modellprofilresolver; general-Vorabfix nur bei getrenntem Bedarf | Vorschlag ADR-0048 |
 | Evidence und Zeilenenden | gequotete Evidence und CRLF-Lesen, mit dokumentierter Grenze für alte Leser | Vorschlag ADR-0049 |
 | Workflow-Neuschnitt | schlanke Schleife mit einfachem Arbeitsstand; bestehende Formate vorerst bewahren | Vorschlag ADR-0050 unter angenommenem ADR-0052 |
 | WP-Support | 7.0/7.1 präzisieren, 6.x/neuere Minors erst nach gezieltem Nachweis hinzufügen | bestehenden Umfang behalten |
-| ASK-Titel/Sidebar | ASK vor dem Aufrufertitel; automatische Platzierung vollständig entfernen | angenommen: ADR-0055; W-015 |
+| Ask-Titel/Sidebar | Ask vor dem Aufrufertitel; automatische Platzierung vollständig entfernen | angenommen: ADR-0055; W-015 |
 | Git-Bash/Größenlimits | kein Bash-Opt-in ohne Bedarf; Größen nur informativ | vorerst nicht als Pflichtfeature planen |
 | Development-Retention | kurze kanonische Records behalten; Rohdaten und private Pfade gezielt bereinigen | bestehende Retentionsregel anwenden |
 
-Für eine einheitliche Projektwahl empfiehlt ADR-0051 genau eine optionale Datei `.scoville/config.json` in der ausgewählten Projektwurzel. Ihre ASK-/Workflow-Bereiche verwenden bestehende Konfigurationsformen. Der Nutzer verlangt Projektkonfiguration; der konkrete Dateipfad und die gemeinsame Ladefunktion sind der hier vorgeschlagene Weg. Keine automatische Dateierzeugung, keine Elternsuche und keine Laufzeitüberwachung.
+Für eine einheitliche Projektwahl empfiehlt ADR-0051 genau eine optionale Datei `.scoville/config.json` in der ausgewählten Projektwurzel. Ihre Ask-/Workflow-Bereiche verwenden bestehende Konfigurationsformen. Der Nutzer verlangt Projektkonfiguration; der konkrete Dateipfad und die gemeinsame Ladefunktion sind der hier vorgeschlagene Weg. Keine automatische Dateierzeugung, keine Elternsuche und keine Laufzeitüberwachung.
 
-Vom Nutzer gewählte Reihenfolge steht mit stabilen IDs direkt in PLAN-0011: W-001, W-006, W-003, W-012, danach der neue ASK-Punkt W-015, W-014 (kleine Runner-Vorbereitung), W-002, W-008, W-009, W-005, W-010, W-011, W-004, W-007, W-013. Der aus W-014 getrennte informative Größenbericht W-016 folgt zuletzt. Die Ausgangsmessungen bleiben unmittelbar vor dem jeweiligen Umbau. W-005 hängt von W-002 ab, W-009 von W-008, W-010 von W-002/W-008/W-009/W-005. Die Reihenfolge erteilt keine Annahme der noch vorgeschlagenen Decisions. Vor Aktivierung offene Varianten auswählen; unabhängige noch unbegonnene Arbeit nur durch ausdrückliche Planpflege vorziehen.
+Vom Nutzer gewählte Reihenfolge steht mit stabilen IDs direkt in PLAN-0011: W-001, W-006, W-003, W-012, danach der neue Ask-Punkt W-015, W-014 (kleine Runner-Vorbereitung), W-002, W-008, W-009, W-005, W-010, W-011, W-004, W-007, W-013. Der aus W-014 getrennte informative Größenbericht W-016 folgt zuletzt. Die Ausgangsmessungen bleiben unmittelbar vor dem jeweiligen Umbau. W-005 hängt von W-002 ab, W-009 von W-008, W-010 von W-002/W-008/W-009/W-005. Die Reihenfolge erteilt keine Annahme der noch vorgeschlagenen Decisions. Vor Aktivierung offene Varianten auswählen; unabhängige noch unbegonnene Arbeit nur durch ausdrückliche Planpflege vorziehen.
 
 Die neuen Vorschläge sind noch nicht angenommen. Der Fixplan ist ein Draft; diese Aufgabe hat die aktive Planroute nicht verändert. Die im geprüften Stand ausstehende UI-Abnahme besitzt PLAN-0006; einen gesondert beauftragten späteren Abschluss anhand seiner eigenen Decisions prüfen. Weder frühere Ergebnisse noch fremde uncommittete Änderungen werden durch dieses Review ersetzt.
 
@@ -229,7 +229,7 @@ Astra bestätigte die Einzelbehandlung aller 28 Punkte und meldete drei P2-Planu
 
 - Die empfohlene Reihenfolge steht jetzt als H3-Reihenfolge mit unveränderten IDs im Plan. Vorhermessung und kleine Fallauswahl stehen vor den Umbauten in W-008/W-010/W-011; W-014 bleibt keine Großtest-Voraussetzung.
 - ADR-0048 empfiehlt direkt die Entfernung des Plan-Modellprofilresolvers. Ein alter-Python-Fallback ist nur eine bei eigenem Bedarf wählbare Alternative. Verbleibende Codex-Validator-/Selector-Laufzeiten bleiben separat erhalten.
-- ADR-0051 erhält ASK project_config ausdrücklich über der Projektdatei und unter overrides. W-005 prüft den Konfliktfall; bestehende Adviser-/Preset-Merge-Semantik bleibt erhalten.
+- ADR-0051 erhält Ask project_config ausdrücklich über der Projektdatei und unter overrides. W-005 prüft den Konfliktfall; bestehende Adviser-/Preset-Merge-Semantik bleibt erhalten.
 
 Das Review ist Quellenprüfung, kein Nachweis künftiger Token-/Zeitersparnis. Die drei Korrekturen wurden vom Verfasser gegen die genannten Quellen geprüft; die native Strukturvalidierung bestand danach ohne Fehler oder Warnungen.
 
@@ -242,7 +242,7 @@ Quelle: vom Nutzer bereitgestelltes `review-plan-0011.md`, 2026-09-25. Der exter
 | Nr. | Ergebnis und Behandlung |
 | --- | --- |
 | 1 | Übernommen: F-01 hat in W-008 und ADR-0048 einen ausdrücklichen general/Python-3.10-Nachweis ohne Writing-Profile-Helper. Kein unnötiger Zwischenumbau. |
-| 2 | Zunächst kein sachlich fehlender Befund: F-23 war bewusst gegen ADR-0042 abgegrenzt. Danach entschied der Nutzer neu. W-015/ADR-0055 setzen ASK-Präfix und vollständigen Wegfall der Sidebar-Platzierung um. |
+| 2 | Zunächst kein sachlich fehlender Befund: F-23 war bewusst gegen ADR-0042 abgegrenzt. Danach entschied der Nutzer neu. W-015/ADR-0055 setzen Ask-Präfix und vollständigen Wegfall der Sidebar-Platzierung um. |
 | 3 | Übernommen: zwölfteilige Umfangstabelle in ADR-0050; W-010 liest sie ausdrücklich und gleicht jede Zeile ab. Keine doppelte Volltabelle im Plan. |
 | 4 | Gleicher Ordner allein ist keine fachliche Abhängigkeit. Der Nutzer wählte danach ausdrücklich die Reihenfolge: W-005 nach W-002; W-009 nach W-008; W-010 nach W-002/W-008/W-009/W-005. Im Plan gespeichert. |
 | 5 | Angepasst übernommen: gezielte Suche plus Einordnung der Treffer für Modellpflichten/Defaults und Befehlsbeispiele. Keine blinde Nulltrefferregel: Adviser-IDs sind keine Modell-IDs; API-Werte, historische Evidenz und echte Vertragsfixtures dürfen bleiben. Referenzumfang vor/nachher wird genannt. |
@@ -283,7 +283,7 @@ Die Detailurteile stehen oben beim jeweiligen F-Punkt. Diese Tabelle ordnet ihre
 | F-20 | Übernommen mit erhaltenen semantischen Ladegrenzen | W-011 |
 | F-21 | Supportausweitung abgelehnt; vorhandene Grenze erklären | W-012; Non-goal |
 | F-22 | Vorhandene Regeln verständlich machen, nur belegte Lücken ergänzen | W-011 |
-| F-23 | Neue Nutzerwahl: ASK vorne, Platzierung vollständig entfernen | W-015; ADR-0055 |
+| F-23 | Neue Nutzerwahl: Ask vorne, Platzierung vollständig entfernen | W-015; ADR-0055 |
 | F-24 | Pauschale Bash-Git-Freigabe nicht übernommen | Non-goal |
 | F-25 | Geändert: vorhandenen Runner vorbereiten und gezielte Vergleiche je Umbau | W-014 plus W-008/W-010/W-011 |
 | F-26 | Geändert: informative Messung ohne harte KB-Grenzen | W-016 |
@@ -658,7 +658,7 @@ hatte den übergeordneten Ordner gewählt; nach Auswahl von viewer-profile war
 die Anzeige korrekt. Damit ist die manuelle Abnahme erfolgt.
 
 W-021: Die einzige über die bekannten Ask-Skillpfade gefundene persönliche
-Altdatei C:/Users/benja/.codex/skills/ask-claude-for-codex/config.json wurde nach
+Altdatei <codex-home>/skills/ask-claude-for-codex/config.json wurde nach
 Bericht von Fable/medium und 50 USD Budget entfernt. Test-Path meldet False.
 Keine Werte wurden übernommen. Die aktive Erhaltungsanweisung entfällt.
 Der bestehende Default-/Override-Test besteht unter Windows/Python 3.14:
@@ -707,7 +707,7 @@ verwenden die Codex-Suite und keine widersprechende Standalone-Aussage.
 ## W-024: Erzeugte Pakete und Zeilenenden
 
 General- und Codex-Suite wurden unter
-E:/Dropbox/AI Projects/skills/temp/release/plan-0011-review-fixes gebaut.
+<workspace-root>/skills/temp/release/plan-0011-review-fixes gebaut.
 Die tatsächlichen packages/-Kopien verwenden für allgemeine Mitglieder das
 General-Profil und für Codex-only-Mitglieder das Codex-Profil. Dadurch bleibt
 Plan in der allgemeinen Kopie ohne Python verwendbar. Der native Testkandidat

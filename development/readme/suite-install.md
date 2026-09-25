@@ -1,19 +1,28 @@
 ## Install the suite
 
+### New installation
+
+Use this request in your agent host:
+
+```text
+Python 3.10 or newer is optional. Install and enable the complete suite for all my projects directly from {{ include: suite.repository }}.
+```
+
+### Upgrade from an earlier Scoville or Ask suite
+
 Use this request in your agent host:
 
 ```text
 Uninstall these Skills completely, including their settings, when present:
-scoville-code-anti-ai-slop, scoville-handoff, scoville-plan,
+scoville-brainstorm, scoville-code-anti-ai-slop,
+scoville-design-anti-ai-slop, scoville-handoff, scoville-plan,
+scoville-research, scoville-scribe-anti-ai-slop,
 scoville-ui-anti-ai-slop, scoville-wordpress-ui-backend-anti-ai-slop,
-scoville-brainstorm, scoville-research, scoville-design-anti-ai-slop,
-scoville-scribe-anti-ai-slop.
-{{ profile: codex }}For Codex, include:
 scoville-workflow-for-codex, scoville-workflow-codex,
 ask-astra-for-review-for-codex, ask-sol-for-review-for-codex,
 ask-claude-for-codex, ask-claude-and-astra-for-codex,
 ask-claude-and-sol-for-codex.
-{{ /profile }}Skip absent entries, leave unrelated Skills untouched, keep no backup or settings migration, {{ profile: general }}treat Python 3.10 or newer as optional, {{ /profile }}{{ profile: codex }}use Codex's integrated Python 3.11 or newer, {{ /profile }}then install and enable the complete suite for all my projects directly from {{ include: suite.repository }}.
+Skip absent entries, leave unrelated Skills untouched, and keep no backup or settings migration. Python 3.10 or newer is optional. Then install and enable the complete suite for all my projects directly from {{ include: suite.repository }}.
 ```
 
 All included Skills must remain enabled. Their task scope and invocation rules

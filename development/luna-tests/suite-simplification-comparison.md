@@ -231,3 +231,101 @@ Inputtokens als die Ausgangsfassung, läuft aber nicht schneller. Verschiedene
 Cacheanteile und eine einzelne Probe erlauben keine allgemeine Kostenprognose.
 Die früheren Fehler bei selbst angeforderten Referenzen bleiben bestehen und
 werden durch diesen Test nicht nachträglich zu Erfolgen.
+
+
+## PLAN-0013: Ausgangsmessung am 25. September 2026
+
+Vier getrennte hypothetische Verständnis- und Lesevergleiche ohne Projektaktionen.
+Quellen und gebautes General-Paket vor Änderung gesichert unter
+`<workspace-root>/temp/2026-09-25-plan-0013/`. Das vorhandene Paket bestand
+`build_suite.py --check-packages`. Fälle, Schlüssel, Befehle und Rohdaten liegen
+in `cases.json`, `expected.md`, `baseline-commands.json` und `baseline-*`.
+
+Identische Bedingungen für die Nachmessung: gpt-5.6-luna / medium, Windows CLI,
+8 Turns höchstens, 90 Sekunden pro Turn. Aktuelle CLI SHA256
+`0122378c15dc0c3c0af0d6addf2dd278125c19676b41fadaa520f89d2c9e0079`,
+Katalog `40613815a90ec48dd1ccef6cdf9ef3e0c94c8594812eccc1bd69afadea02ef14`.
+Die alte festgeschriebene CLI fehlt. Die aktuelle bestand vor Backend-Aufrufen
+mit dem bestehenden lokalen Preflight-Verfahren: genau Luna/medium, keine
+Tools und kein Auth-Header, beendeter Prozessbaum. Das ist neue lokale
+Qualifikation, keine übernommene Host- oder Backend-Garantie.
+
+Bytes zählen einmal SKILL.md und jede tatsächlich gelieferte Referenz als
+UTF-8/LF. Wiederholte Lieferungen würden erneut zählen; der unveränderte Runner
+lehnt doppelte READ-Anfragen ab. Read-Anfragen sind angeforderte Zeilen, keine
+Tool-Aufrufe. Alle beobachteten Eventströme enthalten null Modell-Tool-Aufrufe.
+CLI-Turns stehen getrennt. Tokenwerte bleiben unverändert je Turn in Rohdaten;
+Gesamtkosten und vergleichbare Gesamtdauer sind nicht verfügbar.
+
+| Fall | Gelieferte Dateien nach SKILL.md | Bytes | READ-Anfragen | Tools | Turns | Ergebnis |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| Einfügen | G / P / W / E / V | 44844 | 5 | 0 | 3 | Protokoll PASS; separate Aufgabe und unveränderter aktueller Punkt; Position gegenüber W-002 nicht eindeutig erklärt |
+| Fortschreiben | keine | 7376 | 4 | 0 | 1 | FAIL unmanifested_request; Leerzeichen am READ-Pfad |
+| Abschluss | keine | 7376 | 6 | 0 | 1 | FAIL unmanifested_request; Leerzeichen am READ-Pfad |
+| Wiederaufnahme | R / P / L / W / E | 44392 | 5 | 0 | 2 | Protokoll PASS; Rückkehr und historische Priorität erhalten; vorgeschriebener Selector und abschließender Validator nicht genannt |
+
+R=`references/read-only.md`, G=`references/planning-granularity.md`,
+P=`references/native-plan-format.md`, L=`references/native-project-lifecycle.md`,
+W=`references/native-work-items.md`, E=`references/native-editing.md`,
+V=`references/profile-validation.md`. Keine Variante belegt tatsächliche Edits.
+Die früh abgebrochenen Fälle belegen keine geringere erforderliche Lesemenge.
+
+Task-IDs in Fallreihenfolge: `01a0da4f-0ae2-78f0-82f5-239cd16267a3`,
+`01a0da50-4e7d-75b0-9605-bf33e4983623`,
+`01a0da50-b607-77a0-8045-38332b8a7af2`,
+`01a0da50-cf43-7690-8a8b-682513d153a9`.
+
+
+### PLAN-0013: Verhaltensregressionen vor dem Review
+
+73 Python-Tests bestehen auf Windows unter Python 3.11.15 und 3.14.3.
+`valid-profile` und `record-writing/before` sowie `record-writing/after` liefern
+jeweils valid:true. Negative historische Batch-Tests bleiben unverändert.
+Validator und Selector sind bytegleich zum gesicherten Ausgang.
+
+Ein frischer Luna-Medium-Subagent führte fünf isolierte Fälle mit tatsächlichen
+Edits aus. Rohbericht: `<workspace-root>/temp/2026-09-25-plan-0013/model-edits/results.md`;
+unabhängige Endzustandsvergleiche: `model-edit-observer.json`. Angefragtes Modell:
+gpt-6-luna / medium; Subagent `/root/plan_model_edits`. Diese Ausführung ist vom
+CLI-Lesevergleich mit gpt-5.6-luna getrennt und kein vergleichbarer Kostenlauf.
+
+- Reihenfolge: W-003 und W-004 am Ende; ausdrücklich priorisiertes W-005 nach W-001. Keine neuen Präfixe, alte W-001/W-002-Blöcke unverändert.
+- Rückkehr: tatsächliches `python check.py` meldet PASS; W-003 done und W-001 wieder aktiv. Historisches W-002-Prioritätspräfix erhalten. Ein Zwischenzustand ließ current_item noch auf done W-003 stehen; der Validator erkannte ihn. Nach Korrektur war der Endzustand gültig. Kein fehlerfreier Erstlauf behauptet.
+- Decisions: Zwei einzelne akzeptierte Übergänge ohne neue Batch-Felder, jeweils validiert. Der bestehende Batch blieb bytegleich.
+- General ohne Python: Nur die beauftragte Next action geändert, manuell geprüft, kein Python-Aufruf im Modellfall.
+- Codex ohne Python: Die verlangte Änderung blieb aus; das Modell meldete die erforderliche Runtime als fehlend. Unveränderte Dateien unabhängig bestätigt.
+
+Der allgemeine Skill-Creator-Check scheitert am vorhandenen `compatibility`-Feld;
+der Repository-Builder akzeptiert es. Das ist keine erfolgreiche zusätzliche
+Paketkonformitätsprüfung. Der Nutzer hat Viewer-Tests ausdrücklich ausgenommen
+(ADR-0078); Rust wurde nicht installiert und Viewer-Kompatibilität nicht als
+geprüft ausgegeben.
+
+
+### PLAN-0013: Reviewkorrekturen und Ende ohne W-007
+
+Astra-Review `01a0da62-677e-74b0-9641-f493f836d259`, angefragt gpt-6-astra/medium,
+frischer Kontext. Das Ergebnis traf unmittelbar vor dem bestätigten Stop ein.
+Tatsächliches Modell/Effort war dem Reviewer nicht bestätigt. Er meldete eine
+verlorene draft-Aktivierungsgrenze, beschädigte Unicode-Zeichen und fehlenden
+entscheidungswirksamen Nachweis historischer Priorität. Der Nutzer beauftragte
+die Berücksichtigung trotz Abbruch von W-007; W-008/W-009 bewahren die Korrekturen.
+
+- Aktivierung verlangt wieder einen draft Plan. Completed/cancelled bleiben terminal; die enge ungestartete Ausnahme erlaubt keine Reaktivierung.
+- Der Windows-Standard cp1252 hatte bei Python-Textreads UTF-8-Zeichen fehlkonvertiert. Die Planquelle war beschädigt, nicht die UTF-8-Leselogik des Viewers. Goal/Non-goals sowie ursprüngliche Titel, Abhängigkeiten, Outcome, Acceptance und Steps von W-001 bis W-006 stimmen nach Reparatur mit activation-before überein. edit.md verlangt explizites UTF-8 und korrekt gekoppelte PowerShell-/Python-Streams. Umlaut-Roundtrip, LF und fehlendes BOM wurden tatsächlich geprüft.
+- Frischer Luna-Medium-Fall unter `priority-edits`: W-003 mit historischer Priorität wird vor dem im Dokument früher stehenden W-002 ausgewählt. Fremder W-002-Block blieb unverändert; finaler Validator und Selector bestehen. Modellseitige Patch-/Pfadfehler wurden erkannt und korrigiert; kein fehlerfreier Erstlauf behauptet.
+- Derselbe Lauf löste den separaten Rückkehr-/Prioritätskonflikt zunächst falsch durch Rückkehr auf. Das Ergebnis bleibt als Fehllauf erhalten. Die Lifecycle-Regel verlangt jetzt vor Abschluss den Vergleich aller einschlägigen Rückkehr- und Prioritätsziele.
+- Frischer Nachtest `conflict-recheck`: Check meldet PASS; W-003 bleibt in_progress/current und fragt zwischen W-001 und W-004. Beide Ziele und der unbeteiligte W-002-Block bleiben unverändert. Validator, Selector und unabhängiger Endzustandsvergleich bestehen.
+
+Rohdaten unter `<workspace-root>/temp/2026-09-25-plan-0013/`: `astra-review-result.md`,
+`priority-edits/results.md`, `priority-observer.json`, `conflict-recheck/results.md`,
+`conflict-observer.json`. Die Modellfälle verwenden angefragt gpt-6-luna/medium
+als frische Subagents `/root/historical_priority` und `/root/successor_recheck`.
+Nach Aktivierungs- und Encodingkorrektur bestanden 74 Tests unter Windows mit
+Python 3.11.15 und 3.14.3; nach der letzten Konfliktpräzisierung wurden die fünf
+betroffenen Routing-/Quellverträge unter beiden Versionen erneut geprüft.
+
+W-007 wurde auf Nutzeranweisung abgebrochen. Keine Nachmessung, kein abschließender
+Releasepaketbau und kein echter Workflow-Lauf. Entsprechend keine Abnahme einer
+Token-/Kosten-/Laufzeitverbesserung oder abschließender Paketgleichheit. Viewer-
+Tests bleiben gemäß ADR-0078 ausgenommen. Keine Veröffentlichung oder Installation.

@@ -1,4 +1,4 @@
-# ASK Claude-only cases
+# Ask Claude-only cases
 
 Fresh contexts, expected answers hidden. Cases 01-05 use discovery metadata
 only. Others use the built ask-claude-for-codex package and ask for permitted

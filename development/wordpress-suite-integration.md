@@ -20,7 +20,7 @@ records remain historical, not a second active planning owner.
 
 ## Checks
 
-Build: `E:/Dropbox/AI Projects/temp/2026-09-22-wordpress-suite/build-r1`.
+Build: `<workspace-root>/temp/2026-09-22-wordpress-suite/build-r1`.
 Contains ten packages and 189 files, including the suite-only Workflow.
 Source-package comparison and exact inventory/hash verification pass.
 
@@ -61,7 +61,7 @@ remote README was compared with the local bytes. It places Scoville Family
 above Ask Family and WordPress under Scoville, without a WordPress section.
 
 The subsequent user-requested release draft at
-`E:/Dropbox/AI Projects/projects/BenjaminStelzer/README.md` already contains
+`<workspace-root>/projects/BenjaminStelzer/README.md` already contains
 the final WordPress, Scoville Suite, Ask Suite and Ask SOL URLs. That draft is
 not pushed. Their future reachability remains a release check under W-025.
 Current package and README sources likewise use final URLs. Historical links

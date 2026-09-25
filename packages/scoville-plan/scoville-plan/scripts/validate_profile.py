@@ -296,68 +296,39 @@ class Validator:
                 incomplete=True,
             )
             return False
-        current = Path(self.root.anchor)
-        parts = self.root.parts[1:] if self.root.anchor else self.root.parts
-        final_info: os.stat_result | None = None
-        if not parts:
-            try:
-                final_info = os.lstat(self.root)
-            except FileNotFoundError:
-                self.add(
-                    "ROOT_MISSING",
-                    ".",
-                    "The requested project root does not exist.",
-                    "Pass an existing directory containing the native profile.",
-                    observed=os.fspath(self.root),
-                    incomplete=True,
-                )
-                return False
-            except OSError as error:
-                self.add(
-                    "FILE_UNREADABLE",
-                    os.fspath(self.root),
-                    "The project root could not be inspected.",
-                    "Resolve the filesystem access failure before validating; do not infer a structural verdict.",
-                    observed=str(error),
-                    incomplete=True,
-                )
-                return False
-        for part in parts:
-            current /= part
-            try:
-                info = os.lstat(current)
-            except FileNotFoundError:
-                self.add(
-                    "ROOT_MISSING",
-                    ".",
-                    "The requested project root does not exist.",
-                    "Pass an existing directory containing the native profile.",
-                    observed=os.fspath(self.root),
-                    incomplete=True,
-                )
-                return False
-            except OSError as error:
-                self.add(
-                    "FILE_UNREADABLE",
-                    os.fspath(current),
-                    "A project-root component could not be inspected.",
-                    "Resolve the filesystem access failure before validating; do not infer a structural verdict.",
-                    observed=str(error),
-                    incomplete=True,
-                )
-                return False
-            final_info = info
-            if self._is_redirect_stat(info):
-                self.add(
-                    "PATH_REDIRECTED",
-                    os.fspath(current),
-                    "The project root passes through a symlink, junction, or reparse point.",
-                    "Use the physical project root directly; the validator does not follow redirected canonical paths.",
-                    observed=os.fspath(current),
-                    incomplete=True,
-                )
-                return False
-        if final_info is None or not stat.S_ISDIR(final_info.st_mode):
+        try:
+            root_info = os.lstat(self.root)
+        except FileNotFoundError:
+            self.add(
+                "ROOT_MISSING",
+                ".",
+                "The requested project root does not exist.",
+                "Pass an existing directory containing the native profile.",
+                observed=os.fspath(self.root),
+                incomplete=True,
+            )
+            return False
+        except OSError as error:
+            self.add(
+                "FILE_UNREADABLE",
+                os.fspath(self.root),
+                "The project root could not be inspected.",
+                "Resolve the filesystem access failure before validating; do not infer a structural verdict.",
+                observed=str(error),
+                incomplete=True,
+            )
+            return False
+        if self._is_redirect_stat(root_info):
+            self.add(
+                "PATH_REDIRECTED",
+                os.fspath(self.root),
+                "The project root is a symlink, junction, or reparse point.",
+                "Use the physical project root directly; the validator does not follow a redirected project root.",
+                observed=os.fspath(self.root),
+                incomplete=True,
+            )
+            return False
+        if not stat.S_ISDIR(root_info.st_mode):
             self.add(
                 "ROOT_NOT_DIRECTORY",
                 ".",
@@ -367,6 +338,7 @@ class Validator:
                 incomplete=True,
             )
             return False
+        self.root = self.root.resolve(strict=True)
         return True
 
     def _check_canonical_path(self, path: Path) -> bool:

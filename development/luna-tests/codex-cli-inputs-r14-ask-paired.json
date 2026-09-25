@@ -6,7 +6,7 @@
     "sha256": "e94b3dc9211b768301ef1064cd469910f92f281639ffb5b05c9cc604e559fd42"
   },
   "scope": "One authorized rerun of ask-paired case25 after the delivery-recovery clarification. R13 evidence remains historical. No other case is authorized.",
-  "prompt_root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation",
+  "prompt_root": "<workspace-root>/temp/2026-09-21-suite-luna-evaluation",
   "prompts": {
     "prepared-ask-paired-r14-25.md": "57ab9341b387683bb664e30b2616e1b23eb95068c75ab646ed641f8636403fd9"
   },
@@ -17,11 +17,11 @@
   },
   "receipts": {
     "historical_r13": {
-      "path": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/ask-luna-candidate/build-receipt.json",
+      "path": "<workspace-root>/temp/2026-09-21-suite-migration/ask-luna-candidate/build-receipt.json",
       "sha256": "c135f30a5403a6e7aa3b9b31db4ea275c3b48cf57b70b2a4c229d3b5b9483243"
     },
     "r14": {
-      "path": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/ask-r14-delivery-recovery/build-receipt.json",
+      "path": "<workspace-root>/temp/2026-09-21-suite-migration/ask-r14-delivery-recovery/build-receipt.json",
       "sha256": "081a6e651d612a65b2eff800fd09bcff697893d0491651355c66462cbcf6074c"
     }
   },

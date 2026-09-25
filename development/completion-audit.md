@@ -16,7 +16,7 @@ this audit. PLAN-0001 retains W-009 as its current paused item.
 | W-002 standalone helpers | Shared lifecycle source and manifest destinations; isolated-build coverage executes all six consumers with Python -I and tests drift. No installed sibling is needed. |
 | W-003 visibility recovery | Exact identity, generation and predecessor completion govern continuation; visibility governs archival separately. Retained regression evidence and source inspection support this distinction. |
 | W-007 gate/start messages | Original missing gate call and delivery-rule misinterpretation recorded in Plan Evidence; corrected prompt separates work tools from final delivery. Earlier installed fix is distinct from later uninstalled changes. |
-| W-004 SCW/ASK RUN names | One formatter owns create arguments and retained title. Inspected tests cover roles, attempts, invalid input and legacy exact-ID continuity. Existing live names intentionally remain unchanged. |
+| W-004 SCW/Ask RUN names | One formatter owns create arguments and retained title. Inspected tests cover roles, attempts, invalid input and legacy exact-ID continuity. Existing live names intentionally remain unchanged. |
 | W-008 rename/alias | New private package name and source are canonical. workflow-rename.md documents that $scw works only after core loading; native alias discovery and new-name live launch remain unverified, as explicitly allowed by Acceptance. |
 | W-005/W-012 Ask variants | Three template bases generate five packages. Astra high and SOL xhigh are manifest-owned and present in public packages; the user waived additional tests for Astra's default change. |
 | W-010/W-013/W-015/W-016 family/README/distribution | Manifest-driven fragments, description sources and suite-only Workflow destination; inspected tests cover member addition, missing fragments, drift and private exclusion. |
@@ -30,12 +30,12 @@ this audit. PLAN-0001 retains W-009 as its current paused item.
 Observed at this completion boundary, without new model tests:
 
 - `python -B ../shared/build/verify_package_set.py --root
-  "E:/Dropbox/AI Projects/skills/public" --receipt
-  "E:/Dropbox/AI Projects/skills/public/build-receipt.json" --receipt
-  "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/ask-astra-high/build-receipt.json"`
+  "<workspace-root>/skills/public" --receipt
+  "<workspace-root>/skills/public/build-receipt.json" --receipt
+  "<workspace-root>/temp/2026-09-21-suite-migration/ask-astra-high/build-receipt.json"`
   returned valid:true, 13 packages, 188 files, no errors.
 - `python -B development/build_suite.py --check-packages --output
-  "E:/Dropbox/AI Projects/temp/2026-09-21-suite-migration/workflow-projection-recovery-final"`
+  "<workspace-root>/temp/2026-09-21-suite-migration/workflow-projection-recovery-final"`
   returned valid:true, no errors. An initial invocation incorrectly passed the
   path directly after the flag and failed argument parsing; it checked nothing.
 - Final native Plan validation after W-020 completion: 20 Work Items, eight

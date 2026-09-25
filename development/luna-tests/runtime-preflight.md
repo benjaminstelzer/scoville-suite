@@ -3,7 +3,7 @@
 SOL preflight observed its own runtime on 2026-09-21:
 
 - Task: `01a0c3a5-3a12-7fc2-9d19-ca42956a1486`.
-- Exact rollout: `C:/Users/benja/.codex/sessions/2026/09/21/rollout-2026-09-21T13-06-20-01a0c3a5-3a12-7fc2-9d19-ca42956a1486.jsonl`.
+- Exact rollout: `<codex-home>/sessions/2026/09/21/rollout-2026-09-21T13-06-20-01a0c3a5-3a12-7fc2-9d19-ca42956a1486.jsonl`.
 - `session_meta.payload.id` matched its runtime `CODEX_THREAD_ID`.
 - Native `turn_context.model` was `gpt-5.6-sol`; `effort` was `medium`.
 
