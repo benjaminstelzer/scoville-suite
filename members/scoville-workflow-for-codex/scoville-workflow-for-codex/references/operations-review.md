@@ -31,11 +31,12 @@ never override an observed qualifying change or an explicit review requirement.
 A conflict or unclear classification requires review. For a qualifying result,
 send the required review-phase announcement, then start one fresh reviewer with
 the same unit identity, exact `workspace_root`,
-and the complete validated `executor_result`. Add no free-form appended prose
+and the complete helper-produced `executor_result` object. Add no free-form appended prose
 or complete Evidence histories. Supply necessary additional facts only through
 the validated `supplemental_context` input before binding, including needed
 content from sources the reviewer may not read. Preserve canonical source_text
-and executor_result unchanged; the result names changed paths and decisive checks. For a non-qualifying
+and the helper-produced executor_result without semantic changes; the result
+names changed paths and decisive checks. For a non-qualifying
 result, create no reviewer or repair and record the observed threshold result in
 Work Item Evidence before lifecycle advancement. A reviewer `context_handoff`
 creates its same-review successor only after the inherited-continuation progress
@@ -67,7 +68,7 @@ safely retained result is never archived by this recovery.
 `pass`, `changes_requested`, and `context_handoff` are terminal for that task. A
 failed native task is also terminal after its failure is captured. Never archive
 before a valid final handoff is safely available, except for the explicit
-coordinator-owned no-JSON or format-exhaustion failure path above.
+coordinator-owned invalid-result or format-exhaustion failure path above.
 
 ### Archival verification scenarios
 
@@ -93,7 +94,8 @@ the current WORK table when escalation is required, stop with the helper
 diagnostic rather than risk a weaker assignment. Repair escalation does not
 change the unit's route class or reviewer route. Each newly created reviewer
 resolves its pair from the current configuration; a running reviewer retains
-its launched pair. Pass the complete `reviewer_result` verbatim plus one
+its launched pair. Pass the complete helper-produced `reviewer_result` object
+without semantic changes plus one
 `repair_assignment` whose sorted
 unique zero-based indices select only the unresolved executor-owned findings.
 Create and activate the repair through the pending-writer parking sequence.

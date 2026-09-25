@@ -14,6 +14,7 @@ from build_dispatch_prompt import (
     PromptError, build_prompt, validate_plan_context, validate_prompt_arguments,
     validate_role_input,
 )
+from parse_role_result import RoleResultError, parse_role_result
 
 
 class InspectionError(Exception):
@@ -234,9 +235,9 @@ def require_builder_assignment(
         for value in [delegated_input(event)]
         if value is not None
     ]
-    complete = [item for item in assignments if "dispatch_contract=scoville-workflow-v1" in item[2]]
+    complete = [item for item in assignments if "dispatch_contract=SCOVILLE_DISPATCH_V1" in item[2]]
     parking = (
-        [item for item in assignments if "dispatch_contract=scoville-workflow-v1" not in item[2]
+        [item for item in assignments if "dispatch_contract=SCOVILLE_DISPATCH_V1" not in item[2]
          and item[1] == "create_thread"]
         if role != "reviewer" else []
     )
@@ -255,7 +256,21 @@ def require_builder_assignment(
             continue
         if parsed["role"] != role:
             raise InspectionError("the current assignment has a conflicting role")
-        expected_call = "create_thread" if role == "reviewer" else "send_message_to_thread"
+        supplemental = parsed["role_input"].get("supplemental_context", {})
+        same_task_continuation = supplemental.get("continuation") == "continue_same_task"
+        prior_completed_turn = any(
+            event.get("type") == "event_msg"
+            and payload_type(event) == "task_complete"
+            and event["ordinal"] < start_ordinal
+            for event in events
+        )
+        if role == "reviewer" and same_task_continuation and not prior_completed_turn:
+            raise InspectionError("the reviewer continuation has no completed prior turn")
+        expected_call = (
+            "create_thread"
+            if role == "reviewer" and not same_task_continuation
+            else "send_message_to_thread"
+        )
         if complete[0][1] != expected_call or (parking and parking[0][0] >= complete[0][0]):
             raise InspectionError("the current turn has a conflicting assignment order")
         parsed["return_to_thread_id"] = return_to_thread_id
@@ -335,39 +350,9 @@ def final_message_catalog(events: list[dict[str, Any]]) -> dict[str, tuple[str, 
 
 def validate_role_result(raw: str, role: str) -> dict[str, Any]:
     try:
-        value = json.loads(raw)
-    except json.JSONDecodeError as error:
-        raise InspectionError("the terminal result is not valid JSON") from error
-    if not isinstance(value, dict):
-        raise InspectionError("the terminal result is not an object")
-    expected = {"status", "summary", "findings"}
-    statuses = {"pass", "changes_requested", "blocked", "needs_user_decision", "context_handoff"}
-    if role in {"executor", "repair"}:
-        expected.add("review")
-        statuses = {"completed", "blocked", "needs_user_decision", "context_handoff"}
-    if set(value) != expected or value.get("status") not in statuses:
-        raise InspectionError("the terminal result does not match its role schema")
-    if not isinstance(value.get("summary"), str) or len(value["summary"]) > 800:
-        raise InspectionError("the terminal summary is invalid")
-    findings = value.get("findings")
-    if not isinstance(findings, list) or len(findings) > 8 or any(
-        not isinstance(item, str) or len(item) > 400 for item in findings
-    ):
-        raise InspectionError("the terminal findings are invalid")
-    if len(value["summary"]) + sum(len(item) for item in findings) > 4000:
-        raise InspectionError("the terminal result exceeds the prose limit")
-    if role == "reviewer" and value["status"] == "pass" and findings:
-        raise InspectionError("a passing review contains findings")
-    if role in {"executor", "repair"}:
-        review = value.get("review")
-        if value["status"] == "completed":
-            if not isinstance(review, dict) or set(review) != {"code_changed", "critical_docs_changed"}:
-                raise InspectionError("the completed result has an invalid review object")
-            if any(item not in {"yes", "no"} for item in review.values()):
-                raise InspectionError("the completed result has an invalid review value")
-        elif review is not None:
-            raise InspectionError("a non-completed result has a review object")
-    return value
+        return parse_role_result(raw, role)
+    except RoleResultError as error:
+        raise InspectionError(f"the terminal result is invalid: {error.code}") from error
 
 
 def extract_delivery_prompt(prompt: object, reference: str) -> str | None:

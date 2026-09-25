@@ -58,6 +58,12 @@ phases and task lifecycle directly from their canonical sources, omitting only
 labelled scenario examples. These files remain source owners, not optional
 reading choices for a running coordinator.
 
+Guard state proves ownership and writer activation, but does not uniquely
+distinguish selection, review, acceptance, Stop or recovery. Never select a
+phase subset from guard state or a model-supplied phase label. Supply the
+complete normal contract. Add the conditional rollover or worker-recovery
+reference only when its trigger is observed.
+
 The native creation envelope carries the complete contract, exact Skill path
 and content digest. Read it before project access. Do not use
 `collaboration.spawn_agent`, `followup_task` or forks for workflow roles.

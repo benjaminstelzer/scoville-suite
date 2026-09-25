@@ -39,3 +39,43 @@ class PhaseRouteTests(unittest.TestCase):
         self.assertIn("After compaction or context loss", core)
         self.assertIn("A read marker or hash alone is not the contents", " ".join(core.split()))
         self.assertIn("coordinator_contract.py", core)
+
+    def test_ambiguous_guard_state_keeps_the_complete_normal_contract(self):
+        module = contract_module(PACKAGE)
+        compiled = module.runtime_contract(PACKAGE)
+        core = (PACKAGE / "references" / "operations.md").read_text(encoding="utf-8")
+        for phase in module.PHASES:
+            source = PACKAGE / "references" / f"operations-{phase}.md"
+            for heading in re.findall(r"^## (.+)$", source.read_text(encoding="utf-8"), re.M):
+                self.assertIn("## " + heading, compiled)
+        self.assertNotIn("--phase", (PACKAGE / "scripts" / "coordinator_contract.py").read_text(encoding="utf-8"))
+        self.assertIn("does not uniquely distinguish selection, review, acceptance, Stop or recovery", " ".join(core.split()))
+
+    def test_scenario_stripping_keeps_normative_followup(self):
+        module = contract_module(PACKAGE)
+        compiled = module.runtime_contract(PACKAGE)
+        self.assertIsNone(re.search(r"^### .*scenarios", compiled, re.M | re.I))
+        for required in (
+            "at most three repair executors",
+            "record the exact unresolved findings",
+            "continuation_intent=resume_active_plan",
+            "dispatch_contract=SCOVILLE_DISPATCH_V1",
+        ):
+            self.assertIn(required, compiled)
+
+    def test_entrypoint_sections_are_projected_once_independent_of_order(self):
+        module = contract_module(PACKAGE)
+        compiled = module.runtime_contract(PACKAGE)
+        self.assertEqual(1, compiled.count("## Complete coordinator startup"))
+        self.assertEqual(1, compiled.count("## Coordinator boundary"))
+        self.assertNotIn("## First operation: role gate", compiled)
+        self.assertNotIn("## Prompt writing", compiled)
+
+    def test_rollover_reachability_precedes_predecessor_wait_and_readiness(self):
+        source = " ".join((PACKAGE / "references" / "operations-rollover.md").read_text(encoding="utf-8").split())
+        reachability = source.index("Read its own exact task ID and host")
+        predecessor_wait = source.index("Only after that read succeeds, wait for the exact predecessor")
+        readiness = source.index("With both proofs retained, call `list_threads`")
+        self.assertLess(reachability, predecessor_wait)
+        self.assertLess(predecessor_wait, readiness)
+        self.assertIn("Guard ownership never proves host reachability or native status", source)

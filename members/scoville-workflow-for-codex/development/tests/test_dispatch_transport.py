@@ -39,6 +39,46 @@ class DispatchTransportTests(unittest.TestCase):
             other = {**env, "FAKE_PLAN_CONTEXT": json.dumps(changed)}
             self.assertNotEqual(envelope["binding"],
                 json.loads(run(["--binding-only"], environment=other))["binding"])
+            reviewer_command = [
+                value for index, value in enumerate(command)
+                if index not in {command.index("--guard-task-id"), command.index("--guard-task-id") + 1}
+            ]
+            reviewer_command[reviewer_command.index("executor")] = "reviewer"
+            reviewer_input = {
+                "executor_result": {
+                    "status": "completed", "summary": "done",
+                    "review": {"code_changed": "yes", "critical_docs_changed": "no"},
+                    "findings": [],
+                }
+            }
+            created = subprocess.run(
+                reviewer_command + ["--transport-json", "--transport-target", "project:test-project"],
+                input=json.dumps(reviewer_input), env=env, text=True, encoding="utf-8", capture_output=True,
+            )
+            self.assertEqual(created.returncode, 0, created.stdout + created.stderr)
+            continued_input = json.loads(json.dumps(reviewer_input))
+            continued_input["supplemental_context"] = {
+                "user_decision": "Continue.", "continuation": "continue_same_task",
+            }
+            continued = subprocess.run(
+                reviewer_command + ["--transport-json", "--transport-target", "test-reviewer"],
+                input=json.dumps(continued_input), env=env, text=True, encoding="utf-8", capture_output=True,
+            )
+            self.assertEqual(continued.returncode, 0, continued.stdout + continued.stderr)
+            self.assertEqual(json.loads(continued.stdout)["receipt"]["target"], "test-reviewer")
+            for role_input, target in (
+                (reviewer_input, "test-reviewer"),
+                (continued_input, "project:test-project"),
+            ):
+                rejected = subprocess.run(
+                    reviewer_command + ["--transport-json", "--transport-target", target],
+                    input=json.dumps(role_input), env=env, text=True, encoding="utf-8", capture_output=True,
+                )
+                self.assertEqual(rejected.returncode, 2, rejected.stdout + rejected.stderr)
+                self.assertEqual(
+                    json.loads(rejected.stdout)["diagnostics"][0]["code"],
+                    "TRANSPORT_TARGET_INVALID",
+                )
             profile_file = contract.PACKAGE / "references/prompting/medium.md"
             original_profile = profile_file.read_bytes()
             try:

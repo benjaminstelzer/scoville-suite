@@ -27,7 +27,7 @@ or cumulative usage.
 
 Use `context.worker_percent` from `assets/workflow.toml`. At that percentage
 or below, continue in the same task. Strictly above it,
-return a schema-valid `context_handoff` containing only missing state and named
+return a protocol-valid `context_handoff` containing only missing state and named
 evidence in `summary`, plus only unresolved defects in `findings`. The
 coordinator archives the predecessor after retaining that handoff and creates
 exactly one successor with the same unit, role, launched model, launched reasoning, authorization,

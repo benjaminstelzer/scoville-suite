@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0006
-status: active
+status: draft
 created: 2026-09-24
 updated: 2026-09-25
-current_item: W-001
 ---
 
 # Gemeinsamer UI-Unterbau mit WordPress-Spezialisierung (zur Umsetzung freigegeben)

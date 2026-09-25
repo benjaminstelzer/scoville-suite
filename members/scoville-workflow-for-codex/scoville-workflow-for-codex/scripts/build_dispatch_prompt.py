@@ -197,23 +197,24 @@ def select_unit(selector_value: str, plan_root: str, unit: str) -> dict[str, obj
 def result_contract(role: str) -> list[str]:
     if role == "reviewer":
         return [
-            "Return one compact JSON object only with exactly status, summary, findings.",
-            "Allowed status values: pass, changes_requested, blocked, needs_user_decision, context_handoff.",
-            "For pass, findings must be empty. Summary is at most 800 characters; findings contains at most eight strings of at most 400 characters each; combined prose is at most 4000 characters.",
-            "For context_handoff, summary names completed effects, changed paths, decisive checks, unverified behavior, remaining work, and unresolved state. Findings contain only unresolved defects with location, mechanism, impact, and smallest fix. Do not copy Plan Evidence or a work log.",
-            "Before delivery, parse the finished JSON and verify that it is one complete object with exactly the required keys, allowed status, field types, and limits above; correct any failure before sending.",
+            "Return only this line format, without Markdown fences or extra lines:\nSCOVILLE_RESULT_V1\nrole=reviewer\nstatus=<value>\nsummary=<one line>\nfinding=<one line>",
+            "Omit finding when there is none. Repeat only finding, after summary, for additional findings. Use at most eight finding lines.",
+            "Status is pass, changes_requested, blocked, needs_user_decision, or context_handoff. Pass has no finding lines.",
+            "Summary is 1 to 800 characters. Each finding is 1 to 400 characters. Combined summary and findings are at most 4000 characters. Keep every value on one line.",
+            "For context_handoff, summary states completed effects, changed paths, decisive checks, unverified behavior, remaining work, and unresolved state. Findings contain only unresolved defects with location, mechanism, impact, and smallest fix. Include no Plan Evidence or work log.",
+            "Before returning, check the header, role, field order, status, counts, and limits.",
         ]
     return [
-        "Return one compact JSON object only with exactly status, summary, review, findings.",
-        "Allowed status values: completed, blocked, needs_user_decision, context_handoff.",
-        'For completed, review has exactly code_changed and critical_docs_changed; each value is the JSON string "yes" or "no". Otherwise review is null.',
-        'Set code_changed to "yes" for changes to source, tests, executable scripts, build, deployment, runtime, configuration, or generated-code artifacts; otherwise set it to "no".',
-        'Set critical_docs_changed to "yes" when changed documentation materially governs security, permissions, data handling, migrations, deployment, operations, public behavior, or required acceptance or lifecycle behavior; otherwise set it to "no".',
-        "Inspect the actual final changed result before setting either value; never infer it from the unit title, Step wording, activity name, or route class.",
-        "For completed, summary names completed effects, changed paths, decisive checks, and any unverified behavior. State none explicitly when there is no changed path or unverified behavior.",
-        "Summary is at most 800 characters; findings contains at most eight strings of at most 400 characters each; combined prose is at most 4000 characters.",
-        "For context_handoff, summary names completed effects, changed paths, decisive checks, unverified behavior, remaining work, and unresolved state. Findings contain only unresolved defects with location, mechanism, impact, and smallest fix. Do not copy Plan Evidence or a work log.",
-        "Before delivery, parse the finished JSON and verify that it is one complete object with exactly the required keys, allowed status, field types, and limits above; correct any failure before sending.",
+        f"For completed, return only this line format, without Markdown fences or extra lines:\nSCOVILLE_RESULT_V1\nrole={role}\nstatus=completed\ncode_changed=<yes or no>\ncritical_docs_changed=<yes or no>\nsummary=<one line>\nfinding=<one line>",
+        f"For blocked, needs_user_decision, or context_handoff, use:\nSCOVILLE_RESULT_V1\nrole={role}\nstatus=<value>\nsummary=<one line>\nfinding=<one line>",
+        "Omit finding when there is none. Repeat only finding, after summary, for additional findings. Use at most eight finding lines.",
+        'Set code_changed to "yes" only when the final result changes source, tests, executable scripts, build, deployment, runtime, configuration, or generated code.',
+        'Set critical_docs_changed to "yes" only when changed documentation materially governs security, permissions, data handling, migrations, deployment, operations, public behavior, acceptance, or lifecycle behavior.',
+        "Inspect the final result before setting review values. Do not infer them from labels, wording, activity, or route.",
+        "For completed and context_handoff, summary states completed effects, changed paths, decisive checks, and unverified behavior. For completed, state none when no path changed or nothing remains unverified.",
+        "Summary is 1 to 800 characters. Each finding is 1 to 400 characters. Combined summary and findings are at most 4000 characters. Keep every value on one line.",
+        "For context_handoff, summary also states remaining work and unresolved state. Findings contain only unresolved defects with location, mechanism, impact, and smallest fix. Include no Plan Evidence or work log.",
+        "Before returning, check the header, role, field order, status, counts, and limits.",
     ]
 
 
@@ -224,12 +225,10 @@ def context_safety_contract(
     return_to_thread_id: str,
 ) -> list[str]:
     return [
-        "First run the read-only gate below, before project access. Repeat it after host compaction. Use the shell tool for this command. Section 6 restricts only final delivery, not gate or work tool calls.",
-        f"Run `python {json.dumps(inspector)} --role {role} --delivery-reference {delivery_reference} --return-to-thread-id {return_to_thread_id}`. It selects only the active rollout bound to your exact CODEX_THREAD_ID; never inspect another task or select by recency.",
-        "IF its action is continue_role, continue this unchanged role. IF its action is return_only, return the identical result_text as your final response without a message to another task or further work. IF it returns return_blocked or cannot run, perform no project action and return a schema-valid blocked result naming only this gate failure.",
-        "A supplied context_handoff is inherited continuation input. It is never your own terminal result and never satisfies this gate.",
-        f'At a natural internal boundary with material work remaining, run `python "{Path(__file__).with_name("check_context_checkpoint.py").resolve()}" --role {role}` once. It reads only your exact native rollout and calculates the role threshold; do not search rollout files or calculate occupancy yourself.',
-        "The helper reads assets/workflow.toml context.worker_percent from its installed Skill on each call. If action is context_handoff, return context_handoff in the normal role schema. If action is continue, continue this unit. If action is blocked, return a schema-valid blocked result with its configuration diagnostic; do not substitute a threshold. If the helper cannot run, return a schema-valid blocked result naming that failure; do not inspect telemetry manually. A helper result with telemetry=unavailable permits bounded work without a successor. Do not poll this helper. This checkpoint does not replace the post-compaction terminal gate above.",
+        "Before project access, run the read-only native-context gate below with the shell tool. Repeat it after host compaction.",
+        f"Run `python {json.dumps(inspector)} --role {role} --delivery-reference {delivery_reference} --return-to-thread-id {return_to_thread_id}`. It selects only the rollout bound to your exact CODEX_THREAD_ID. Never select another task or use recency.",
+        "For action continue_role, continue this role. For return_only, return result_text unchanged as your final response and do nothing else. For return_blocked or helper failure, perform no project action and return a blocked result in the required line format naming only the gate failure. A supplied context_handoff is predecessor input, not your terminal result.",
+        f'At a natural boundary with material work remaining, run `python "{Path(__file__).with_name("check_context_checkpoint.py").resolve()}" --role {role}` once. If it cannot run, return a blocked result in the required line format naming that failure. Do not inspect rollout files, calculate occupancy, substitute a threshold, or poll. Return context_handoff, continue, or blocked as directed. telemetry=unavailable permits bounded work without a successor. This checkpoint never replaces the post-compaction gate.',
     ]
 
 
@@ -237,9 +236,8 @@ def result_delivery_contract(return_to_thread_id: str, delivery_reference: str) 
     return [
         f"return_to_thread_id={return_to_thread_id}",
         f"delivery_reference={delivery_reference}",
-        "Apply this section only after work ends or the gate requests delivery. Until then, use the tools needed for the gate and authorized work. Do not deliver merely because the gate has not yet been run.",
-        "Return the validated final role JSON directly as your own final response. Do not call send_message_to_thread or send a callback to another task. The coordinator retrieves your exact completed turn through wait_threads and independently checks its identity and result schema. The return_to_thread_id and delivery_reference bind this assignment; they do not authorize a message.",
-        "After final-result emission, perform no project, Plan, Decision, Git, write, delegation, review, publication, selector, or raw-Plan action. After compaction, use only the native-context gate and return its identical terminal result_text.",
+        "Use this section only after work ends or the gate requests delivery. Return the checked role result in the required line format as your own final response. Do not call send_message_to_thread or send a callback. The coordinator retrieves and validates the exact completed turn through wait_threads. These fields bind the assignment and authorize no message.",
+        "After the final result, perform no project, Plan, Decision, Git, write, delegation, review, publication, selector, or raw-Plan action. After compaction, run only the native-context gate and return its terminal result_text unchanged.",
     ]
 
 
@@ -261,7 +259,7 @@ def build_prompt(
 ) -> str:
     lines = [
         f"scoville_role={role}",
-        "dispatch_contract=scoville-workflow-v1",
+        "dispatch_contract=SCOVILLE_DISPATCH_V1",
         f"unit={unit}",
         f"workspace_root={workspace_root}",
         "guard_path=.scoville-workflow/guard.json",
@@ -281,30 +279,30 @@ def build_prompt(
     ))
     lines.extend([
         "[2 Role and authority]",
-        "Verify that the exact current working directory equals workspace_root before project access; on mismatch return needs_user_decision and use no other workspace.",
-        "Do not load or use Scoville Plan, the Scoville Workflow Codex launcher Skill, or Scoville Handoff. Do not run select_context.py or build_dispatch_prompt.py and do not read or edit canonical Plan or Decision files; plan_context and supplemental_context below are the complete planning input.",
-        "Follow repository instructions and applicable Skills under their normal trigger rules. Do not delegate or split the unit by activity.",
+        "Before project access, require the exact current directory to equal workspace_root. On mismatch, use no other workspace and return needs_user_decision.",
+        "Do not load Scoville Plan, Workflow or Handoff, run their selectors or prompt builder, or read or edit canonical Plan and Decision files. plan_context and supplemental_context are the complete planning input.",
+        "Follow repository instructions and normally applicable Skills. Do not delegate or split the unit.",
         "Never stage, commit, push, or rewrite Git history.",
-        "Never reset, stash, discard, or revert unrelated or user work. Preserve every existing change and commit.",
+        "Preserve existing and user work. Never reset, stash, discard, or revert it.",
     ])
     if role == "reviewer":
-        lines.append("Remain read-only. Run guard_helper with `verify --workspace workspace_root --workflow-id guard_workflow_id --expected-revision guard_revision --expected-generation guard_generation --role reviewer --capability read_only`; require a successful read_only result, then review only the exact unit result against plan_context, executor_result, the scoped workspace diff, and directly relevant validation evidence.")
+        lines.append("Remain read-only. Run guard_helper with `verify --workspace workspace_root --workflow-id guard_workflow_id --expected-revision guard_revision --expected-generation guard_generation --role reviewer --capability read_only`. Require success, then review only this unit against plan_context, executor_result, the scoped diff, and relevant validation evidence.")
     else:
-        lines.append("This assignment is the activation message. Require your exact runtime CODEX_THREAD_ID to equal guard_task_id. Before every project write, run guard_helper with `verify --workspace workspace_root --workflow-id guard_workflow_id --expected-revision guard_revision --expected-generation guard_generation --role <executor|repair> --capability source --unit unit --dispatch-key guard_dispatch_key`; proceed only when the response is successful and authorized is true. Pending, missing, unreadable, stale, or mismatched state blocks writes.")
+        lines.append("This is the activation message. Require runtime CODEX_THREAD_ID to equal guard_task_id. Before every project write, run guard_helper with `verify --workspace workspace_root --workflow-id guard_workflow_id --expected-revision guard_revision --expected-generation guard_generation --role <executor|repair> --capability source --unit unit --dispatch-key guard_dispatch_key`. Proceed only on successful `authorized:true`. Any other state blocks writes.")
         lines.append("Plan and Decision records remain read-only; external publication requires explicit authorization in plan_context.")
     lines.append("[3 Continuation inputs]")
     if "context_handoff" in role_input:
         lines.extend([
-            "The supplied context_handoff is predecessor continuation input, never your own terminal result. Continue the remaining role work before returning any result.",
-            "If you later return context_handoff, its summary must contain `progress_after_dispatch=<newly completed unit action>; evidence=<new observation>` for work performed after this dispatch. Copied, reworded, re-identified, or own-final-message-only predecessor content is not progress; return blocked or needs_user_decision when no new progress is possible.",
+            "context_handoff is predecessor input, not your terminal result. Continue the remaining role work before returning.",
+            "A later context_handoff summary must contain `progress_after_dispatch=<newly completed unit action>; evidence=<new observation>` from this dispatch. Copied or reworded predecessor content is not progress. Return blocked or needs_user_decision when no new progress is possible.",
         ])
     if role == "repair":
-        lines.append("Correct only the reviewer findings selected by repair_assignment.finding_indices. Preserve the complete reviewer_result as review context; do not repeat accepted unit effects or attempt coordinator-owned Plan corrections.")
+        lines.append("Correct only reviewer findings selected by repair_assignment.finding_indices. Use the complete reviewer_result as context. Do not repeat accepted effects or perform coordinator-owned Plan corrections.")
     lines.append("[4 Work]")
     if prompting is not None:
         lines.append("Additional instructions use the " + prompting["profile"] + " writing profile. The canonical source_text is immutable.")
         lines.append("Apply the common and profile instructions in the prompting input below.")
-    lines.append("Perform the authorized role work now. Do not infer omitted work from prior Steps or chat history. If the host denies required project, tool, or network access, stop and return a schema-valid blocked result that names the denied operation and observed error.")
+    lines.append("Perform this role now. Infer no omitted work from other Steps or chat history. If required project, tool, or network access is denied, return blocked with the denied operation and observed error.")
     lines.append("[5 Result]")
     lines.extend(result_contract(role))
     lines.append("[6 Delivery]")
@@ -351,11 +349,30 @@ def main(argv: list[str] | None = None) -> int:
             sys.stdout.write(compact({"binding": binding}) + "\n")
             return 0
         if args.transport_json:
-            expected_target = args.guard_task_id if args.role != "reviewer" else args.transport_target
-            if not expected_target or args.transport_target != expected_target or (
-                args.role == "reviewer" and not expected_target.startswith("project:")
-            ):
-                raise PromptError("TRANSPORT_TARGET_INVALID", "use the exact writer ID or project:<saved-project-id>", exit_code=2)
+            supplemental = role_input.get("supplemental_context", {})
+            reviewer_continuation = (
+                args.role == "reviewer"
+                and supplemental.get("continuation") == "continue_same_task"
+            )
+            if args.role != "reviewer":
+                valid_target = args.transport_target == args.guard_task_id
+            elif reviewer_continuation:
+                valid_target = bool(
+                    args.transport_target
+                    and not args.transport_target.startswith("project:")
+                    and re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", args.transport_target)
+                )
+            else:
+                valid_target = bool(
+                    args.transport_target
+                    and re.fullmatch(r"project:[A-Za-z0-9._:-]{1,128}", args.transport_target)
+                )
+            if not valid_target:
+                raise PromptError(
+                    "TRANSPORT_TARGET_INVALID",
+                    "use the exact writer or continuing-reviewer task ID, or project:<saved-project-id> for a new reviewer",
+                    exit_code=2,
+                )
         prompt = build_prompt(
             args.role,
             args.unit,

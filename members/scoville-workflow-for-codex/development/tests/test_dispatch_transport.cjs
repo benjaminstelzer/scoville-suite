@@ -79,6 +79,24 @@ function setup() {
       workflow_id:'test-workflow',generation:1,revision:7,state:'coordinator_active',writer:null}};
   },s.send);
   assert.equal(s.counts().sent,review.prompt);
+  // A retained reviewer continues through lifecycle message to its exact task.
+  const continuedReview=copy(review);
+  continuedReview.receipt.target='test-reviewer';
+  s=setup();await s.api.prepare('rc',async()=>({exit_code:0,output:JSON.stringify(continuedReview)}));
+  await s.api.send('rc',async e=>{
+    const p=spawnSync(python,['-B',lifecycle],{encoding:'utf8',input:JSON.stringify({
+      operation:'message',handle:{state:'ready',threadId:'test-reviewer',hostId:'local'},
+      prompt:e.prompt,delivery_state:'not_sent'})});
+    assert.equal(p.status,0,p.stderr);const result=JSON.parse(p.stdout);
+    return {binding:e.binding,arguments:result.arguments,guard:{ok:true,
+      workflow_id:'test-workflow',generation:1,revision:7,state:'coordinator_active',writer:null}};
+  },s.send);
+  assert.equal(s.counts().sent,continuedReview.prompt);
+  s=setup();await s.api.prepare('rc-bad',async()=>({exit_code:0,output:JSON.stringify(continuedReview)}));
+  await assert.rejects(()=>s.api.send('rc-bad',async e=>({binding:e.binding,
+    arguments:{threadId:'other-reviewer',prompt:e.prompt},guard:{ok:true,
+      workflow_id:'test-workflow',generation:1,revision:7,state:'coordinator_active',writer:null}}),s.send),
+    /review continuation target/);
   // Independent SHA vectors exercise padding boundaries and Unicode.
   for(const size of [0,1,55,56,63,64,65,1000]){
     const e=copy(envelope);e.prompt="scoville_role=executor\n"+"ä😀".repeat(size);

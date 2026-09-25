@@ -1,5 +1,9 @@
 ## What it enforces
 
+Scoville Workflow requires a frontier LLM from the Fable, Astra, SOL or Opus
+families, version 5.0 or newer. The current policy qualification uses GPT-6 SOL
+Medium. This minimum is broader than the tested setup.
+
 - **Explicit activation.** Asking for implementation or delegation alone does not start Workflow.
 - **Separate responsibilities.** The coordinator owns Plan updates, dispatch and accepted commits. Workers implement. Reviewers stay read-only.
 - **One live checkout.** Tasks use the existing working state. Workflow does not create an isolated worktree without an explicit choice.

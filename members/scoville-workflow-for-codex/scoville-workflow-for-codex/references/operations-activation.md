@@ -185,11 +185,13 @@ Run the helper in a dedicated command or capture only that process's stdout.
 Never combine it with configuration reads, diagnostics, shell transcripts, or
 another command's output. Immediately before sending any helper-built prompt,
 require byte 0 to begin the exact expected `scoville_role=<role>` line and reject
-any preceding or appended non-helper output. Supply necessary additional facts only through the helper input supplemental_context, before binding. Apply this at reviewer creation and
-at executor or repair assignment to an activated parking task. Routing
+any preceding or appended non-helper output. Supply necessary additional facts
+only through the helper input `supplemental_context`, before binding. Apply this
+at reviewer creation, at executor or repair assignment to an activated parking
+task, and at every same-task continuation. Routing
 configuration selects the native task call and never appears in the child
 prompt.
-The prompt builder writes `dispatch_contract=scoville-workflow-v1` as its second
+The prompt builder writes `dispatch_contract=SCOVILLE_DISPATCH_V1` as its second
 line. The child's first native-context gate requires that marker, the complete
 role sections, the Plan prohibition, matching delivery identities and embedded
 `plan_context` in the one native assignment envelope. A missing, abbreviated or
@@ -214,8 +216,8 @@ or hard limit, and never truncate `plan_context` or a required role-result
 object. All authorized activities in the unit belong to that one task.
 For every child turn, allocate one unique `delivery_reference` and give the
 helper the exact `coordinator_self_id` as `return_to_thread_id`. A continuation
-in an existing child receives a new reference in the compact continuation
-message. References are single-use and bound to exact workflow, unit, role,
+in an existing child receives a new reference in a fresh complete helper-built
+prompt. References are single-use and bound to exact workflow, unit, role,
 logical attempt, child ID after creation, and expected turn.
 
 
@@ -231,24 +233,27 @@ Use one dispatch key bound to workflow/unit/role/attempt/reference. Never replac
 an occupied key. This memory is temporary, not a durable delivery journal.
 
 1. `prepare(key, build)`: `build` calls the builder once with
-   `--transport-json --transport-target <writer-ID|project:saved-project-ID>`.
+   `--transport-json --transport-target <writer-ID|continuing-reviewer-ID|project:saved-project-ID>`.
    Pass its complete `{exit_code, output}` result directly; print only the
    returned receipt. Capture enough shell output for the whole JSON envelope.
    Missing/truncated helper output blocks preparation; never dispatch fragments.
-2. Complete the existing writer activation procedure. Reviewer creation needs
-   no writer activation. Preserve the lifecycle creation-unknown handle before
-   the native creation call.
+2. Complete the existing writer activation procedure. Reviewer creation and a
+   same-task reviewer continuation need no writer activation. Preserve the
+   lifecycle creation-unknown handle before a native creation call and the
+   existing ready handle before a continuation.
 3. `send(key, check, sender)`: `check(envelope)` returns
    `{binding, guard, arguments}`. Obtain `binding` with `--binding-only` using
    the current inputs and exact same role-input stdin; obtain `guard` from a
    fresh successful guard `verify --role audit --capability read_only` with the
    retained workflow/revision/generation. Feed `envelope.prompt` directly to
-   lifecycle `message` (writer) or `create` (reviewer); capture its successful
-   `arguments` without printing them. Never paste or reconstruct the prompt.
+   lifecycle `message` for a writer or same-task reviewer continuation, or to
+   lifecycle `create` for a new reviewer. Capture its successful `arguments`
+   without printing them. Never paste or reconstruct the prompt.
    Fail the callback on any failed/incomplete helper response. Perform no Plan
    or other intervening write between these checks and the native call.
 4. `sender(arguments)` calls exactly `send_message_to_thread` for a writer or
-   `create_thread` for a reviewer. It returns the actual host response unchanged.
+   same-task reviewer continuation, or `create_thread` for a new reviewer. It
+   returns the actual host response unchanged.
    The helper stores `send_unknown` **before** this call and never retries.
    Print only the returned compact receipt. A response is not delivery proof.
 5. Consume `takeReply(key)` inside execution and apply the existing exact-ID

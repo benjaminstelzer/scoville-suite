@@ -57,3 +57,7 @@ the required runtime helpers in each exported package. Suite-local tool copies
 are generated, never separate authoring sources. Record source hashes and check
 them before release. Isolated clones build from generated `development/shared/`.
 Installed Skills must not depend on either shared directory.
+
+Archive completed model-test tasks after their task IDs and results are secured
+in the owning evidence. Keep a review task open only while its requested
+review-and-fix loop is still active.

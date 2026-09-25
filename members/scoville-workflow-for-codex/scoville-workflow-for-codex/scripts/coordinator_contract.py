@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Supply and verify the complete normal coordinator contract at native startup."""
+"""Supply and verify one complete normal coordinator contract at native startup."""
 from __future__ import annotations
 
 import argparse
@@ -23,8 +23,12 @@ class ContractError(ValueError):
 
 def without_scenarios(source: str) -> str:
     """Omit only explicitly labelled example tables, never procedural sections."""
-    return re.sub(r"^### [^\n]*scenarios\n.*?(?=^#{1,3} |\Z)", "", source,
-                  flags=re.MULTILINE | re.DOTALL | re.IGNORECASE)
+    return re.sub(
+        r"^### [^\n]*scenarios[^\n]*\n\n?(?:\|[^\n]*\n)+\n?",
+        "",
+        source,
+        flags=re.MULTILINE | re.IGNORECASE,
+    )
 
 
 def absolute_links(source: str, owner: Path) -> str:
@@ -37,12 +41,21 @@ def absolute_links(source: str, owner: Path) -> str:
     return re.sub(r"\]\(([^)]+)\)", replace, source)
 
 
+def section(source: str, heading: str) -> str:
+    """Return one exact H2 section without depending on document order."""
+    match = re.search(rf"^## {re.escape(heading)}\n.*?(?=^## |\Z)", source,
+                      flags=re.MULTILINE | re.DOTALL)
+    if match is None:
+        raise ContractError("missing coordinator section: " + heading)
+    return match.group(0)
+
+
 def runtime_contract(package: Path = PACKAGE) -> str:
-    """One generated projection; the phase sources remain the sole rule owners."""
+    """Project every normal phase; guard state cannot select a unique phase subset."""
     package = package.resolve()
     skill = (package / "SKILL.md").read_text(encoding="utf-8")
-    startup = skill.split("## Complete coordinator startup\n", 1)[1].split("## First operation: role gate\n", 1)[0]
-    boundary = skill.split("## Coordinator boundary\n", 1)[1].split("## Dispatch routing\n", 1)[0]
+    startup = section(skill, "Complete coordinator startup")
+    boundary = section(skill, "Coordinator boundary")
     core = (package / "references/operations.md").read_text(encoding="utf-8")
     core = core.split("## Coordinator delivery\n", 1)[0]
     parts = ["# Coordinator contract\n\n"
@@ -50,8 +63,8 @@ def runtime_contract(package: Path = PACKAGE) -> str:
              "Read it before project access. Parking still permits no project action. "
              "Use native create_thread project tasks, never collaboration.spawn_agent, "
              "followup_task or a fork as a workflow transport.\n",
-             absolute_links("## Complete coordinator startup\n" + startup, package / "SKILL.md"),
-             absolute_links("## Coordinator boundary\n" + boundary, package / "SKILL.md"),
+             absolute_links(startup, package / "SKILL.md"),
+             absolute_links(boundary, package / "SKILL.md"),
              absolute_links(core, package / "references/operations.md")]
     for phase in PHASES:
         path = package / "references" / f"operations-{phase}.md"
