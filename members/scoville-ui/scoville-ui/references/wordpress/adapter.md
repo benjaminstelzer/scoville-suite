@@ -17,6 +17,11 @@ Classify three independent axes for the region in scope:
 2. the runtime and component owner for each affected DOM region;
 3. the supported WordPress versions and relevant public token/provider APIs.
 
+Record the plugin minimum WordPress version separately from the runtime version
+actually tested. These examples cover stable 7.0 and 7.1; they do not establish
+6.x support or support for every version at or above 7.1. Unknown minors and
+prereleases require their own evidence.
+
 React does not imply WPDS. A page can be Classic, Core Components, bundled
 experimental WPDS, or hybrid. For hybrid pages, classify portals and overlays
 at their actual render destination.

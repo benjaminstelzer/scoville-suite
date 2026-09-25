@@ -4,30 +4,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
+if sys.version_info < (3, 11):
+    raise SystemExit("Python 3.11 or newer is required for Workflow helpers")
 import tomllib
 from pathlib import Path
 
 
-ROUTES = ("ultra_low", "low", "medium", "high", "ultra_high")
-EFFORTS = {"low", "medium", "high", "xhigh"}
-
-
-def load_config(path: Path) -> dict:
-    with path.open("rb") as stream:
-        config = tomllib.load(stream)
-    if type(config.get("schema_version")) is not int or config["schema_version"] != 1:
-        raise ValueError("unsupported workflow schema_version")
-    for section in ("execute", "review"):
-        table = config.get(section)
-        if not isinstance(table, dict) or set(table) != set(ROUTES):
-            raise ValueError(f"{section} must contain exactly the five routes")
-        for route, pair in table.items():
-            if not isinstance(pair, dict) or set(pair) != {"model", "reasoning"}:
-                raise ValueError(f"invalid {section}.{route} pair")
-            if (not isinstance(pair["model"], str) or not pair["model"]
-                    or not isinstance(pair["reasoning"], str) or pair["reasoning"] not in EFFORTS):
-                raise ValueError(f"invalid {section}.{route} values")
-    return config
+from workflow_settings import ROUTES, EFFORTS, load_config
 
 
 def resolve(config: dict, role: str, route: str | None = None,
@@ -57,7 +41,7 @@ def resolve(config: dict, role: str, route: str | None = None,
     matches = [index for index, name in enumerate(ROUTES)
                if config["execute"][name] == {"model": original_model, "reasoning": original_reasoning}]
     if not matches:
-        raise ValueError("original launched pair is outside the WORK route table")
+        raise ValueError("original launched pair is not in the current execute route table; repair 2/3 cannot select a higher route. Check the original override and current configuration")
     target = ROUTES[min(max(matches) + repair_number - 1, len(ROUTES) - 1)]
     pair = config["execute"][target]
     return {"model": pair["model"], "thinking": pair["reasoning"], "route": target}
@@ -72,9 +56,10 @@ def main() -> int:
     parser.add_argument("--original-model")
     parser.add_argument("--original-reasoning")
     parser.add_argument("--repair-number", type=int)
+    parser.add_argument("--project-root", type=Path, default=Path.cwd())
     args = parser.parse_args()
     try:
-        config = load_config(Path(__file__).resolve().parents[1] / "assets" / "workflow.toml")
+        config = load_config(Path(__file__).resolve().parents[1] / "assets" / "workflow.toml", args.project_root)
         result = resolve(config, args.role, args.route, args.override_model,
                          args.override_reasoning, args.original_model,
                          args.original_reasoning, args.repair_number)
@@ -86,4 +71,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="strict")
     raise SystemExit(main())

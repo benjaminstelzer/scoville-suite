@@ -25,7 +25,7 @@ PLAN_FILE_RE = re.compile(r"([0-9]{4})-[a-z0-9]+(?:-[a-z0-9]+)*\.md\Z")
 DECISION_FILE_RE = re.compile(r"([0-9]{4})-[a-z0-9]+(?:-[a-z0-9]+)*\.md\Z")
 SCOPE_RE = re.compile(r"[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*\Z")
 BLOCKER_RE = re.compile(r"[A-Z][A-Z0-9]{1,15}-[A-Z0-9][A-Z0-9._-]{0,47}\Z")
-HASH_RE = re.compile(r"[0-9a-fA-F]{64}\Z")
+BATCH_ID_RE = re.compile(r"(?:[0-9a-fA-F]{64}|batch-[0-9]{8}-[1-9][0-9]*)\Z")
 MODEL_ID_RE = re.compile(r"[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?\Z")
 EXECUTION_REASONING = {"none", "minimal", "low", "medium", "high", "xhigh", "max", "ultra"}
 ROUTE_CLASSES = {"ultra_low", "low", "medium", "high", "ultra_high"}
@@ -276,10 +276,6 @@ class Validator:
         reparse_flag = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
         return stat.S_ISLNK(info.st_mode) or bool(attributes & reparse_flag)
 
-    @staticmethod
-    def _snapshot(info: os.stat_result) -> tuple[int, int, int, int]:
-        return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns)
-
     def _inside_root(self, path: Path) -> bool:
         try:
             root = os.path.normcase(os.fspath(self.root))
@@ -470,14 +466,12 @@ class Validator:
         descriptor: int | None = None
         try:
             descriptor = os.open(path, flags)
-            opened = os.fstat(descriptor)
             chunks: list[bytes] = []
             while True:
                 chunk = os.read(descriptor, 65536)
                 if not chunk:
                     break
                 chunks.append(chunk)
-            after_open = os.fstat(descriptor)
             data = b"".join(chunks)
         except OSError as error:
             self.add(
@@ -493,31 +487,6 @@ class Validator:
             if descriptor is not None:
                 os.close(descriptor)
 
-        try:
-            after_path = os.lstat(path)
-        except OSError as error:
-            self.add(
-                "FILE_CHANGED_DURING_READ",
-                logical,
-                "The canonical file disappeared or became uninspectable during the read.",
-                "Re-read stable project state before making any correction.",
-                observed=str(error),
-                incomplete=True,
-            )
-            return None
-
-        snapshots = {self._snapshot(before), self._snapshot(opened), self._snapshot(after_open), self._snapshot(after_path)}
-        if len(snapshots) != 1:
-            self.add(
-                "FILE_CHANGED_DURING_READ",
-                logical,
-                "The canonical file changed while it was being read.",
-                "Re-run validation against stable bytes before making any correction.",
-                observed="file metadata changed during read",
-                incomplete=True,
-            )
-            return None
-
         self.files_checked += 1
         if data.startswith(b"\xef\xbb\xbf"):
             self.add(
@@ -530,16 +499,16 @@ class Validator:
                 observed="UTF-8 BOM",
             )
             data = data[3:]
-        if b"\r" in data:
+        if b"\r" in data.replace(b"\r\n", b"") or (b"\r\n" in data and b"\n" in data.replace(b"\r\n", b"")):
             first = data.index(b"\r")
             self.add(
                 "FILE_LINE_ENDING_INVALID",
                 logical,
-                "The file contains a carriage return instead of LF-only line endings.",
+                "The file contains bare CR or mixed LF and CRLF line endings.",
                 "Convert line endings to LF without changing text content.",
                 line=data[:first].count(b"\n") + 1,
-                expected="LF",
-                observed="CR or CRLF",
+                expected="consistent LF or CRLF",
+                observed="bare CR or mixed line endings",
             )
         try:
             text = data.decode("utf-8", errors="strict")
@@ -847,6 +816,11 @@ class Validator:
         valid_shape = value.startswith("[") and value.endswith("]")
         inner = value[1:-1] if valid_shape else ""
         items = inner.split(", ") if inner else []
+        plain_evidence = field_name == "Evidence" and not value.startswith("[")
+        if plain_evidence:
+            items = [value]
+            inner = value
+            valid_shape = bool(value)
         if not valid_shape or not items or ", ".join(items) != inner or any(not item for item in items):
             self.add(
                 "WORK_LIST_INVALID",
@@ -1264,7 +1238,7 @@ class Validator:
                 invalid = (
                     len(entry) > 200
                     or entry != entry.strip()
-                    or any(character in entry for character in ",[]\r\n")
+                    or any(character in entry for character in ("\r\n" if not fields.get("Evidence", "").startswith("[") else ",[]\r\n"))
                     or any(ord(character) < 32 or ord(character) == 127 for character in entry)
                 )
                 if invalid:
@@ -1658,22 +1632,22 @@ class Validator:
             self.add(
                 "DECISION_BATCH_PAIR_REQUIRED",
                 logical,
-                "Decision batch hash and member list must occur together.",
+                "Decision batch ID and member list must occur together.",
                 "Stop as an incomplete transition; do not add or remove batch metadata without the authorized batch facts.",
                 line=parsed.key_lines.get("transition_batch") or parsed.key_lines.get("transition_batch_members"),
                 record=record,
-                observed=f"hash={transition_batch is not None}, members={member_value is not None}",
+                observed=f"id={transition_batch is not None}, members={member_value is not None}",
             )
-        if transition_batch is not None and not HASH_RE.fullmatch(transition_batch):
+        if transition_batch is not None and not BATCH_ID_RE.fullmatch(transition_batch):
             self.add(
                 "DECISION_BATCH_HASH_INVALID",
                 logical,
-                "The transition_batch value is not a 64-hex SHA-256 shape.",
-                "Restore the recorded batch identifier from all batch members; it cannot be recomputed from post-transition bytes.",
+                "The transition_batch value must be batch-YYYYMMDD-N or a historical 64-hex ID.",
+                "Use the same recorded batch identifier on every member.",
                 line=parsed.key_lines.get("transition_batch"),
                 record=record,
                 field_name="transition_batch",
-                expected="64 hexadecimal characters",
+                expected="batch-YYYYMMDD-N or historical 64-hex ID",
                 observed=transition_batch,
             )
         members = self._parse_inline_list(

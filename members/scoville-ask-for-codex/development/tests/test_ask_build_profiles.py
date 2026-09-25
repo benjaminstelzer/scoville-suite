@@ -43,7 +43,7 @@ class AskBuildProfileTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             payload = json.loads(result.stdout)
             self.assertTrue(payload["ok"])
-            self.assertEqual(payload["entries"][0]["arguments"]["title"], "Isolated task ASK-TASK")
+            self.assertEqual(payload["entries"][0]["arguments"]["title"], "Ask gpt-6-astra · Isolated task")
 
     def test_actual_codex_suite_contains_ask_as_member(self):
         with tempfile.TemporaryDirectory() as temporary:

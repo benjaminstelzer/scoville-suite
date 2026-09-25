@@ -1,10 +1,11 @@
 ---
 format_version: 1
 id: ADR-0042
-status: accepted
+status: superseded
 created: 2026-09-25
 accepted: 2026-09-25
 scope: ask/naming-and-distribution
+superseded_by: ADR-0054
 ---
 
 # Scoville Ask benennen, zuordnen und einzeln anbieten

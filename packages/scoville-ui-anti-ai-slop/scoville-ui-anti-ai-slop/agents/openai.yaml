@@ -1,4 +1,0 @@
-interface:
-  display_name: "Scoville UI Anti-AI-Slop"
-  short_description: "Implements UI through its design system"
-  default_prompt: "Use $scoville-ui-anti-ai-slop to implement and verify this interface through its framework and design system."

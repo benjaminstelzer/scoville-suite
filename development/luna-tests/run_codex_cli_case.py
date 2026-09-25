@@ -499,7 +499,7 @@ def main(argv: list[str] | None = None) -> int:
     native = None
     if failure is None and thread_id:
         try:
-            user_profile = Path(os.environ["USERPROFILE"])
+            user_profile = Path.home()
             native = validate_native_identity(user_profile / ".codex" / "sessions", thread_id, args.model, args.effort, len(turns))
         except (KeyError, ProtocolError) as error:
             failure = str(error)

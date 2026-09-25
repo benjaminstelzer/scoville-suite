@@ -1,3 +1,4 @@
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -45,8 +46,58 @@ class BuildTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     builder.build(ROOT, Path(temp) / member['name'], True, [member['name']])
 
+    def test_sizes_count_utf8_bytes_and_trace_reads_without_claiming_stale_measurements(self):
+        files = {'demo/SKILL.md': 'café'.encode(), 'demo/references/a.md': '日本語'.encode()}
+        trace = {'case_id': 'read-twice', 'served_files': [
+            {'path': 'references/a.md', 'sha256': hashlib.sha256(files['demo/references/a.md']).hexdigest()}
+        ] * 2}
+        report = builder.size_report('demo', files, [trace])
+        self.assertEqual(14, report['package_bytes'])
+        self.assertEqual(5, report['entrypoint_bytes'])
+        self.assertEqual(18, report['observed_routes'][0]['observed_reference_bytes'])
+        files['demo/references/a.md'] = b'changed'
+        stale = builder.size_report('demo', files, [trace])['observed_routes'][0]
+        self.assertIsNone(stale['observed_reference_bytes'])
+        self.assertEqual(14, stale['current_equivalent_reference_bytes'])
+        self.assertFalse(stale['matches_current_files'])
+
     def test_readmes_match_sources(self):
         self.assertEqual([], builder.render_readmes(ROOT, False))
+
+    def test_family_contract_preserves_exclusions_and_explicit_activation(self):
+        for profile, layout in [('general', 'standalone'), ('general', 'suite'),
+                                ('codex', 'suite'), ('codex', 'standalone')]:
+            config = builder.load(ROOT, profile, layout)
+            cores = {}
+            for member in config['members']:
+                name = member['name']
+                core = builder.payload(ROOT, member, config)[name + '/SKILL.md'].decode()
+                cores[name] = core
+                with self.subTest(profile=profile, layout=layout, member=name):
+                    if layout == 'standalone':
+                        self.assertIn('Honor explicit user exclusions.', core)
+                        self.assertIn('simulate or require an absent sibling', core)
+                        self.assertNotIn('installed and enabled', core)
+                    else:
+                        self.assertIn('Explicit invocation gates and user exclusions still apply.', core)
+                        self.assertIn('without checking sibling availability', core)
+                        self.assertNotIn('Other Scoville Skills are optional', core)
+            if 'scoville-workflow-for-codex' in cores:
+                self.assertIn('Ordinary implementation, planning or delegation requests do not activate it.',
+                              cores['scoville-workflow-for-codex'])
+            if 'scoville-ask-for-codex' in cores:
+                self.assertIn('Ordinary questions to the current assistant do not trigger a consultation.',
+                              cores['scoville-ask-for-codex'])
+            if 'scoville-setup' in cores:
+                self.assertIn('Do not start Ask,\nWorkflow', cores['scoville-setup'])
+
+    def test_each_suite_rejects_partial_installation_build(self):
+        for profile in ('general', 'codex'):
+            with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
+                output = Path(temp) / 'partial'
+                with self.assertRaisesRegex(ValueError, 'complete member set'):
+                    builder.build(ROOT, output, True, ['scoville-plan'], profile, 'suite')
+                self.assertFalse(output.exists())
 
     def test_single_ui_package_in_each_distribution(self):
         name = 'scoville-ui'

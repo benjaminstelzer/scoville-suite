@@ -11,7 +11,10 @@ and arguments when the host's Codex binary is not on PATH. Use the executable
 for the current host/account; never assume a different CLI catalog proves
 desktop availability.
 
-Personal `config.json` sits beside `SKILL.md`. Layers merge object fields;
+The selected project root owns `.scoville/config.json`. Its `ask` section
+overrides this Skill's defaults. Missing files or fields use those defaults.
+Reads never create a file and never search parent directories.
+Objects merge by field;
 `advisers` replaces the entire list so an explicit selection never adds unwanted
 advisers. Select named advisers with strings such as `["sol", "fable"]`, or use
 objects with `id` and per-call overrides. A matching ID inherits its configured
@@ -26,12 +29,16 @@ Shipped settings, generated from their canonical file:
 {{ include: member.defaults }}
 ```
 
-Personal settings can change only what differs, for example:
-`{"advisers":["sol","fable"],"presets":{"sol":{"effort":"medium"}}}`.
-Project settings and request overrides use the same fields. Retained follow-up
+Save only changed values, for example:
+`{"ask":{"advisers":["sol","fable"],"presets":{"sol":{"effort":"medium"}}}}`.
+Request overrides use the fields inside `ask`. Retained follow-up
 settings take precedence over new defaults unless explicitly changed.
 
-`resolve` accepts optional `project_config` and `overrides` objects. For native
+`resolve` accepts `project_root` and optional unsaved `overrides`. Pass the
+selected project's absolute root. When omitted, `cwd` supplies the root, or
+the process working directory if neither was supplied. `project_config` is
+rejected with migration guidance. Keep settings unchanged during a run.
+For native
 advisers it queries `model/list`, or accepts the unchanged freshly observed
 `catalog` from `list_models.py`; do not synthesize or edit a catalog to permit a
 model. Display the returned model/effort choices when configuration is requested.
@@ -44,15 +51,15 @@ These authorization fields record existing authority; they do not grant it.
 
 `followup` takes `handle`, `archived:false`, `delivery_state:not_sent`, a new
 `reference`, `question`, `scope`, optional adviser `overrides` and fresh `catalog`.
-`sidebar` takes `section_id`, observed `manual_sort`, complete ordered
-`thread_ids`, `caller_id` and this round's ordered `adviser_ids`.
 
 ## Migrate existing settings
 
-Keep original personal configuration files until the migrated settings validate.
+Keep original personal configuration files. Compare their values with the
+imported defaults and show differences before saving requested choices under
+`ask` in the project's `.scoville/config.json`. Do not copy them automatically.
 Map each old `astra` or `sol` object to an adviser with that ID, route `native`,
 and its unchanged model/effort. Map `claude` to route `claude-cli` and retain its
-budget, session persistence and customization flags in the top-level `claude`
+budget, session persistence and customization flags in the `ask.claude`
 object. A Claude-only flat configuration uses the same mapping. Build a single
 explicit adviser list; do not merge five old defaults into an unsolicited round.
 The old optional `command:claude` maps to the adapter's PATH lookup. A custom

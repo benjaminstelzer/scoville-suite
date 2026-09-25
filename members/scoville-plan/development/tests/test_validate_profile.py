@@ -353,11 +353,36 @@ class ValidatorTest(unittest.TestCase):
         source.rename(source.with_name("0002-validate-profile.md"))
         self.assert_code("RECORD_ID_FILENAME_MISMATCH")
 
-    def test_bom_crlf_and_invalid_utf8_are_contract_errors(self) -> None:
+    def test_plain_evidence_and_crlf_preserve_values_and_file_bytes(self) -> None:
+        entry = 'Tests A, B passed; checked [one] "two" \\ café'
+        self.replace("docs/plans/0001-validate-profile.md", "Evidence: []", "Evidence: " + entry)
+        for path in self.root.rglob("*.md"):
+            path.write_bytes(path.read_bytes().replace(b"\n", b"\r\n"))
+        completed, result = self.run_json()
+        self.assertEqual(0, completed.returncode, result)
+        validator = VALIDATOR.Validator(str(self.root))
+        validator.run()
+        self.assertEqual([entry], validator.plans["PLAN-0001"].items[0].evidence)
+
+    def test_legacy_quoted_evidence_keeps_literal_quotes(self) -> None:
+        self.replace("docs/plans/0001-validate-profile.md", "Evidence: []", 'Evidence: ["literal"]')
+        validator = VALIDATOR.Validator(str(self.root))
+        result, code = validator.run()
+        self.assertEqual(0, code, result)
+        self.assertEqual(['"literal"'], validator.plans["PLAN-0001"].items[0].evidence)
+
+    def test_plain_evidence_rejects_controls_and_overlong_values(self) -> None:
+        for value in ('bad\tvalue', 'x' * 201, ' trailing '):
+            with self.subTest(value=value):
+                self.reset_fixture()
+                self.replace("docs/plans/0001-validate-profile.md", "Evidence: []", "Evidence: " + value)
+                self.assert_code("WORK_EVIDENCE_INVALID")
+
+    def test_bom_mixed_line_endings_and_invalid_utf8_are_contract_errors(self) -> None:
         index = self.path("PROJECT_INDEX.md")
         cases = [
             (b"\xef\xbb\xbf" + index.read_bytes(), "FILE_BOM_FORBIDDEN"),
-            (index.read_bytes().replace(b"\n", b"\r\n"), "FILE_LINE_ENDING_INVALID"),
+            (index.read_bytes().replace(b"\n", b"\r\n", 1), "FILE_LINE_ENDING_INVALID"),
             (index.read_bytes() + b"\xff", "FILE_UTF8_INVALID"),
         ]
         for data, expected in cases:
@@ -402,24 +427,17 @@ class ValidatorTest(unittest.TestCase):
         self.assertIsNone(result["valid"])
         self.assertIn("FILE_UNREADABLE", self.codes(result))
 
-    def test_concurrent_metadata_change_is_an_incomplete_inspection(self) -> None:
-        validator = VALIDATOR.Validator(str(self.root))
-        real_snapshot = VALIDATOR.Validator._snapshot
-        calls = 0
-
-        def changed(info):
-            nonlocal calls
-            calls += 1
-            value = real_snapshot(info)
-            if calls == 4:
-                return value[:-1] + (value[-1] + 1,)
-            return value
-
-        with mock.patch.object(VALIDATOR.Validator, "_snapshot", side_effect=changed):
-            result, exit_code = validator.run()
-        self.assertEqual(2, exit_code)
-        self.assertIsNone(result["valid"])
-        self.assertIn("FILE_CHANGED_DURING_READ", self.codes(result))
+    def test_readable_and_historical_batch_ids(self) -> None:
+        for batch in ('batch-20260925-1', 'a' * 64):
+            with self.subTest(batch=batch):
+                self.reset_fixture()
+                self.replace('docs/decisions/0001-use-read-only-validation.md',
+                             'scope: skill/profile-validation',
+                             'scope: skill/profile-validation\ntransition_batch: ' + batch +
+                             '\ntransition_batch_members: [ADR-0001]')
+                completed, result = self.run_json()
+                self.assertEqual(completed.returncode, 0, result)
+                self.assertTrue(result['valid'])
 
     def test_reparse_point_flag_is_detected(self) -> None:
         info = SimpleNamespace(st_mode=stat.S_IFDIR, st_file_attributes=0x400)

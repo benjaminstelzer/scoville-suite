@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v2.0.0 - 2026-09-25
 
 - Merge general UI and WordPress admin guidance into `scoville-ui`.
 - Load WordPress rules only for relevant admin surfaces and share quality and validation rules.

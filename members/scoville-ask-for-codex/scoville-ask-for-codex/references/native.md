@@ -4,7 +4,8 @@ Use the bundled [lifecycle contract](../scripts/task_lifecycle.md) for creation
 results, matching deliveries and archival. The ASK `prepare` operation owns new
 creation payloads and supplies `caller_title` to the shared helper. New tasks
 use the local checkout of the verified saved project, fresh context and exactly
-`<calling task title> ASK-TASK`. No model, numbering or extra title suffix.
+`Ask <selected model ID> · <calling task title>`. Preserve the complete caller
+title. No numbering or extra suffix.
 Task IDs and per-adviser consultation references distinguish identical titles.
 
 Verify native create, wait, message and archive controls before dispatch. Retain
@@ -22,21 +23,6 @@ reference and scope after checking completeness. Do not use `read_thread` to
 retrieve an adviser's conversation. Request missing result content through the
 existing task, not a replacement. Preserve complete answers and individual
 failures before reporting the round's result.
-
-## Sidebar placement
-
-Inspect the current section and sorting mode with `list_threads`. For a pinned
-or custom section that supports manual ordering, move only the new ASK tasks
-to the caller's section using `move_thread_to_sidebar_section`, then refresh
-the complete section order. Pass that order, the caller ID and this round's
-adviser IDs to `ask.py` operation `sidebar`; use its returned arguments with
-`reorder_section`. Verify the resulting order once. Other tasks retain their
-relative order. Do not change global sorting preferences.
-
-Default task/project lists and automatic sorting have no supported targeted
-order through these controls. Report that limitation and continue the
-consultation. A successful creation or natural recency order is not proof of
-stable placement above the caller.
 
 ## Follow-ups and archival
 

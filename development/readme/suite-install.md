@@ -3,23 +3,17 @@
 Use this request in your agent host:
 
 ```text
-Install and enable every Skill in this suite for all my projects, using only
-this repository's own packages:
-{{ include: suite.repository }}/tree/main/packages
-Each packages/<name>/<name>/ directory contains one installable Skill.
-Require every member declared by suite.json. Do not fetch Skills from individual
-repositories or replace a missing package with another distribution.
-If any member is missing or incompatible with this host, report the blocker;
-do not skip it or claim a complete suite installation.
-{{ profile: general }}Use Python helpers when available. Load their manual procedures only when
-Python is absent; an old interpreter or helper error does not permit that route.
-{{ /profile }}{{ profile: codex }}Codex and Python 3.11 or newer are required. Verify the interpreter before
-copying Skills. If missing, install supported Python through the normal package
-manager or official installer and verify the version. Report blocked host
-permissions instead of continuing with an incomplete installation.
-{{ /profile }}Preserve personal configuration and unrelated installed Skills. Install only
-the inner package directories, not members/ or development/. Report locations,
-the complete installed member set and discovery results.
+Uninstall these Skills completely, including their settings, when present:
+scoville-code-anti-ai-slop, scoville-handoff, scoville-plan,
+scoville-ui-anti-ai-slop, scoville-wordpress-ui-backend-anti-ai-slop,
+scoville-brainstorm, scoville-research, scoville-design-anti-ai-slop,
+scoville-scribe-anti-ai-slop.
+{{ profile: codex }}For Codex, include:
+scoville-workflow-for-codex, scoville-workflow-codex,
+ask-astra-for-review-for-codex, ask-sol-for-review-for-codex,
+ask-claude-for-codex, ask-claude-and-astra-for-codex,
+ask-claude-and-sol-for-codex.
+{{ /profile }}Skip absent entries, leave unrelated Skills untouched, keep no backup or settings migration, {{ profile: general }}treat Python 3.10 or newer as optional, {{ /profile }}{{ profile: codex }}use Codex's integrated Python 3.11 or newer, {{ /profile }}then install and enable the complete suite for all my projects directly from {{ include: suite.repository }}.
 ```
 
 All included Skills must remain enabled. Their task scope and invocation rules

@@ -1,11 +1,13 @@
 # Changelog
 
-## Unreleased
+## v0.6.0 - 2026-09-25
 
-- Put coordinator generation before the final workflow ID in task titles; the first successor is G2.
-- Return worker results and rollover validation receipts through exact-task waits without callback messages.
-- Distinguish host messaging approval failures from filesystem permissions; preserve denied handoffs for explicit recovery.
-- Verify effective task permissions during recovery and retain existing user authorization instead of asking for it again.
+- Use the calling task as coordinator and dispatch one Plan unit at a time.
+- Keep automatic context rollover at 25 percent for coordinators and above 75 percent for child roles, with project overrides.
+- Use separate role counters in S-MNGR, S-WORK, S-REVW and S-FIXR titles.
+- Read original completed task results with preserved line breaks and stop child checkpoints after their own work and checks finish.
+- Replace guard generations and transport receipts with a local Markdown run record. Retain results before archiving completed tasks.
+- Read project configuration over imported defaults. Setup offers low, medium, high and xhigh. Manually written configuration may use the other Plan reasoning values when the selected model supports them.
 
 ## v0.5.0 - 2026-09-24
 

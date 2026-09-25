@@ -157,31 +157,29 @@ Evidence: [Neues Astra-Gesamtreview scoville-w009-astra-20260924-new-01; alte Se
 
 ### W-010 Stufe 8: Plan und allgemeine Suite veröffentlichen
 
-Status: todo
+Status: cancelled
 Depends on: [W-009]
 Blocked by: []
-Decisions: [ADR-0014, ADR-0016, ADR-0035]
+Decisions: [ADR-0014, ADR-0016, ADR-0035, ADR-0068]
 Outcome: Der korrigierte Plan und die allgemeine Suite sind nach Abschluss aller Nicht-Ask-Implementierungs- und Prüfpunkte veröffentlicht. Workflow wird ausschließlich mit der Codex-Suite in W-011 veröffentlicht; dafür entsteht kein zusätzlicher Releaseweg.
 Acceptance: Betroffene Paket-, Selector-, Prompt-, Konfigurations- und Releaseprüfungen sind bestanden. Plan erklärt seine eigene Konfiguration mit zwei gültigen Beispielen; Workflow erklärt seine eigene Konfiguration mit genau einem ausdrücklichen Aufrufbeispiel und seiner Aktivierungsgrenze. Workflow bleibt Suite-only. Veröffentlichungsnachweise nennen Version, Quellrevision, Ziel und Release-URL für Plan und allgemeine Suite. Die Workflow-Veröffentlichung folgt ausschließlich über W-011. Dokumentiere die zusammengehörigen Plan-/Workflow-Versionen. Der neue Workflow meldet einen alten inkompatiblen Selector konkret, ohne manuellen Ersatz; das gemeinsam gebaute Paar besteht den Dispatchcheck. Ein lokaler Build oder eine Releasevorbereitung genügt nicht für done. Alle READMEs der mit Skillwriter überarbeiteten Skills nennen gemäß ADR-0035 die Frontier-Modellvoraussetzung ab Version 5.0; finale Releaseprojektionen sind geprüft und tatsächliche Modellnachweise separat ausgewiesen.
 Steps:
 1. Schließe zuvor PLAN-0006 vollständig ab. Beauftrage die gültige Astra-High-Session 01a0d295-31c2-7bd0-9e98-8e1af4f3ddcc mit dem finalen gesamten Nicht-Ask-Stand einschließlich der bereinigten Mitgliedschaft und PLAN-0006; korrigiere relevante Befunde und prüfe sie nach. Prüfe die korrigierten Pakete einschließlich fehlender Gesprächshistorie, unverändertem Punkttext und getrennten Einstellungen; aktualisiere die zugehörigen Nutzungsfragmente und erfülle die bestehenden Releasegates.
 2. Veröffentliche die Korrekturen im autorisierten Releaseablauf über die vorhandenen zulässigen Ziele und dokumentiere die tatsächlichen Veröffentlichungsnachweise. Der unabhängig beauftragte Ask-Umbau ist bereits umgesetzt; keine Wiederholung dieser Implementierung.
-Evidence: []
-Next action: Nach gesonderter Aufnahme der Veröffentlichung finale Releasegates und Gesamtreview des dann aktuellen Quellenstands durchführen. Die bisherigen Skill-Updatepläne sind geschlossen; PLAN-0011 bleibt neue Arbeit.
+Evidence: [Nutzerauftrag vom 2026-09-25 ersetzt diesen Releasepunkt durch PLAN-0012 nach PLAN-0011 gemäß ADR-0068.]
 
 ### W-011 Stufe 9: Reine Codex-Suite veröffentlichen
 
-Status: todo
-Depends on: [W-009, W-010]
+Status: cancelled
+Depends on: [W-009]
 Blocked by: []
-Decisions: [ADR-0013, ADR-0014, ADR-0016, ADR-0035]
+Decisions: [ADR-0013, ADR-0014, ADR-0016, ADR-0035, ADR-0068]
 Outcome: Die Codex-Suite ohne Python-Fallbacks und mit dem gemäß ADR-0042 integrierten Scoville Ask ist veröffentlicht.
 Acceptance: Die veröffentlichten Pakete enthalten die bereits freigegebenen Plan-/Workflow-Korrekturen, eigenständige Runtime-Abhängigkeiten und keine Python-Ersatzwege. Release-Version, Quellrevision, Ziel, URL und zugehöriger Buildnachweis sind dokumentiert. Die öffentliche GitHub-Profilseite `benjaminstelzer/BenjaminStelzer` listet die Codex-only Suite genau einmal an der passenden Stelle mit überprüftem Repository-Link und kurzer englischer Beschreibung ihrer Codex-Voraussetzung. Bestehende Einträge bleiben erhalten; der veröffentlichte Profil-README wird nach dem Push geprüft. Die allgemeine Ausgabe ist durch W-010 veröffentlicht und behält ihre geprüften Build-/Exportquellen. Die unabhängig beauftragte ASK-Implementierung ist bereits geprüft und wird nicht erneut gestartet. W-011 veröffentlicht Workflow im Codex-Paket genau einmal; W-010 benötigt dafür keinen vorgezogenen oder doppelten Suite-Release. Alle READMEs der mit Skillwriter überarbeiteten Skills nennen gemäß ADR-0035 die Frontier-Modellvoraussetzung ab Version 5.0; finale Releaseprojektionen sind geprüft und tatsächliche Modellnachweise separat ausgewiesen.
 Steps:
 1. Prüfe die Codex-Releaseartefakte aus W-009 gegen Profil, Mitgliedschaft und Quellenhashes; erfülle die geltenden Veröffentlichungs- und Sichtbarkeitsgates.
 2. Veröffentliche die Codex-Suite im autorisierten Releaseablauf und ergänze oder aktualisiere anschließend ihren Eintrag im kanonischen README des GitHub-Profilrepositories `benjaminstelzer/BenjaminStelzer`. Prüfe den veröffentlichten Link und Inhalt; dokumentiere Suite-Release und Profil-Commit. Beende den Veröffentlichungsauftrag nach vollständigem Nachweis; die gemäß ADR-0043 separat beauftragte ASK-Entwicklung ist bereits abgeschlossen.
-Evidence: []
-Next action: Nach vollständigem Abschluss von W-010 die Codex-Suite veröffentlichen; eine bloße Releasevorbereitung erfüllt diese Stufe nicht.
+Evidence: [Nutzerauftrag vom 2026-09-25 ersetzt diesen Releasepunkt durch PLAN-0012 nach PLAN-0011 gemäß ADR-0068.]
 
 ### W-001 Stufe 10: Ein Scoville Ask mit konfigurierbarer Beraterauswahl
 

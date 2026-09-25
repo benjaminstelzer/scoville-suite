@@ -90,7 +90,7 @@ Keep each section focused on its distinct information. Avoid repeating the
 choice as rationale or a driver as a consequence, and omit invented alternatives
 and generic claims. Preserve causal links and material tradeoffs, but remove a
 sentence when its deletion changes no choice, review judgment, verification, or
-reconsideration trigger. At every writing profile, the reviewer must be able to compare the choice
+reconsideration trigger. The reviewer must be able to compare the choice
 and alternatives without reconstructing omitted facts.
 
 ## Links and lifecycle

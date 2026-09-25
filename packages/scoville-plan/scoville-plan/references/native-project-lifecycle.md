@@ -1,7 +1,7 @@
 # Native project and Plan lifecycle
 
 Use this reference with the Plan format and native editing safety guides for
-profile initialization, Plan creation and updates, activation, cancellation,
+profile initialization, Plan creation and updates, activation, deletion, cancellation,
 and final completion.
 
 ## Contents
@@ -9,6 +9,7 @@ and final completion.
 - Classify setup state
 - Initialize a profile
 - Create and refine Plans
+- Rewrite or delete an unstarted Plan
 - Activate a Plan
 - Complete or cancel a Plan
 
@@ -50,14 +51,51 @@ Create each later Plan as `draft` with the next highest Plan ID and at least one
 Plan update changes only title, Goal, and Non-goals, preserves ID, lifecycle,
 dates, current selection, and all Work Items, and advances `updated` only on a
 real change. Before a Goal write, classify the complete proposed Goal by its
-canonical owners as required by `SKILL.md`. Operational-only messages leave
+canonical owners as required by E's compact-record rules. Operational-only messages leave
 Goal bytes unchanged. A separately authorized normalization may move existing
 facts only when every future dispatch that needs them can still reach them
 through its Work Item, a referenced Decision, or a demonstrated loaded
 repository contract.
 
 Cancel a draft only after an explicit user choice. Completed and cancelled
-Plans are terminal retained history.
+Plans are terminal retained history, except for the narrow unstarted-Plan
+rewrite and deletion rules below.
+
+## Rewrite or delete an unstarted Plan
+
+Before execution starts, a user may request rewriting or physical deletion of
+a Plan without first setting it to `cancelled`. Rewrite through the Plan and
+Work Item edit routes; preserve IDs and valid references for retained records.
+Activation or current-item selection alone does not start execution.
+
+Check the Work Items and relevant Evidence or known execution before treating
+a Plan as unstarted.
+An `in_progress`, `paused`, or `done` item establishes prior execution. `draft`
+or all-`todo` metadata does not override evidence that work actually began.
+A `cancelled` item may have been cancelled before or after execution; use its
+Evidence to distinguish them. If start history is unclear, clarify that fact
+before using this exception. Once execution has begun, retain the Plan and its started
+history; use the existing cancellation route when abandoning it. Unstarted
+items remain editable under W.
+
+For an explicit rewrite request, confirmed non-execution of the whole Plan
+also permits changing authored fields of its `todo` or `cancelled` items,
+including when the Plan itself is `cancelled`. This narrow exception takes
+precedence over W's restriction to `todo` items in `draft` or `active` Plans.
+Preserve retained IDs, references, Evidence, record order and lifecycle fields;
+change only the requested authored content. A content rewrite does not reopen,
+activate or start anything: retain `cancelled` status, empty blockers and no
+`Next action` on cancelled items. This exception authorizes no status transition
+and never applies when execution has begun or its history is unclear.
+
+For an authorized deletion, inspect incoming references and prepare a valid
+remaining profile through E, then validate it through V. Do not silently rewrite
+retained history or delete linked Decisions. Resolve any reference that would
+become invalid before deletion. If this Plan is active, set `active_plan: null`
+in the same prepared change unless the user selected an eligible replacement
+through the activation route. Preserve the index and canonical directories even
+when no Plans remain. Require neither a cancellation record nor a placeholder
+Plan or Work Item.
 
 ## Activate a Plan
 

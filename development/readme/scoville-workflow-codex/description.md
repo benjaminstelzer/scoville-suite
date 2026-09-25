@@ -14,5 +14,5 @@ project development recoverable without making one conversation carry its histor
 {{ var: release_notice }}
 
 Workflow is suite-only and requires Codex desktop with native task controls.
-Other suite Skills should work with many Agent Skills-compatible hosts, subject
-to their requirements. Testing has been limited to Codex, Claude Code and Antigravity.
+Workflow execution has been tested in Codex. For other suite members, check
+their individual host requirements and test evidence.

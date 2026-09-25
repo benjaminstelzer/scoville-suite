@@ -22,10 +22,7 @@ ID. `ADR-9999` exhausts the space.
 
 ## Decision profile
 
-Use the required frontmatter keys in this order; add optional lifecycle keys
-only when their conditions apply. The example shows key order, including
-optional keys from different lifecycle states. It is not a valid new proposal
-to copy unchanged:
+Use the required frontmatter keys in this order. This is a valid new proposal:
 
 ```yaml
 ---
@@ -33,14 +30,14 @@ format_version: 1
 id: ADR-0001
 status: proposed
 created: 2026-08-08
-accepted: 2026-08-08
 scope: project/storage
-supersedes: ADR-0000
-superseded_by: ADR-0002
-transition_batch: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
-transition_batch_members: [ADR-0001, ADR-0002]
 ---
 ```
+
+Add optional keys after `created` in the order `accepted`, `scope`,
+`supersedes`, `superseded_by`, `transition_batch`, `transition_batch_members`,
+keeping `scope` required. Include only fields allowed by the lifecycle rules
+below; batch fields additionally follow the batch reference.
 
 `format_version`, `id`, `status`, `created`, and `scope` are required. Scope is
 a non-empty slash-separated domain label whose segments match
@@ -80,20 +77,20 @@ already happened.
 Give each section distinct compact content:
 
 - `Decision`: state the selected or recommended choice once.
-- `Problem`: state the unresolved need in one sentence.
+- `Problem`: state the unresolved need concisely.
 - `Drivers`: use one bullet per supplied or observed constraint.
 - `Considered alternatives`: use one bullet per real option in the form
   `Option: material tradeoff.`
 - `Consequences`: use separate bullets for new benefits, costs, and limits.
 - `Confirmation`: use numbered `1.`, `2.`, `3.` steps when verification order
   matters; otherwise use compact bullets. Name known commands and files directly.
-- `Revisit when`: use one sentence or one bullet per concrete trigger.
+- `Revisit when`: name concrete reconsideration triggers.
 
-Do not introduce a section with prose, restate the choice as rationale, repeat
-a driver as a consequence, or pad the record with invented alternatives or
-generic claims. Preserve causal links and material tradeoffs, but remove a
+Keep each section focused on its distinct information. Avoid repeating the
+choice as rationale or a driver as a consequence, and omit invented alternatives
+and generic claims. Preserve causal links and material tradeoffs, but remove a
 sentence when its deletion changes no choice, review judgment, verification, or
-reconsideration trigger. At every writing profile, the reviewer must be able to compare the choice
+reconsideration trigger. The reviewer must be able to compare the choice
 and alternatives without reconstructing omitted facts.
 
 ## Links and lifecycle

@@ -1,267 +1,168 @@
 # Native Work Item operations
 
-Use this reference with the Plan format and native editing safety guides for
-Work Item insertion, refinement, ordering, blockers, current selection, and
-progress transitions.
-
-## Contents
-
-- Preserve authored history
-- Refine todo work
-- Select and advance work
-- Manage blockers and next action
-- Complete or cancel work
+Use P for record syntax, E for writing and verification, and this reference for
+Work Item changes. Read G when creating or changing outcome boundaries or Steps.
 
 ## Preserve authored history
 
-For an explicit authored-content rewrite in a confirmed wholly unstarted Plan,
-load L's [unstarted-Plan exception](native-project-lifecycle.md#rewrite-or-delete-an-unstarted-plan).
-That exception can permit edits to cancelled records without a status transition;
-it does not permit reopening terminal work or rewriting executed history.
+Edit, move or remove only `todo` items in a `draft` or `active` Plan. After start,
+retain ID, title, dependencies, Decisions, Outcome, Acceptance, Steps and position.
+Only status, `Blocked by`, Evidence and `Next action` remain mutable. A paused
+item resumes to `in_progress`, never to `todo` for editing.
 
-- Edit, move, or physically remove only a `todo` Work Item in a `draft` or
-  `active` Plan. Once an item leaves `todo`, retain its ID, title, dependencies,
-  Decisions, Outcome, Acceptance, Steps, and document position.
-- Update started work only through status, `Blocked by`, Evidence, and
-  `Next action`, except for the narrow unperformed-Step execution-annotation
-  change below. A `paused` item resumes to `in_progress`; it never returns to
-  `todo` for editing.
-- Move one complete H3 block without renumbering any item. Dependencies must
-  exist, precede their dependents in authored order, and remain acyclic.
+Two narrow exceptions:
 
-After start, an explicit user choice may change only the `[execute: ...]`
-annotation of one named unperformed Step. Preserve that Step's action and route
-text, all other authored content, and every completed or running dispatch. This
-exception never permits adding, removing, moving, or rewriting a Step.
+- For an explicit rewrite of a confirmed wholly unstarted Plan, read
+  [L's exception](native-project-lifecycle.md#rewrite-or-delete-an-unstarted-plan).
+  It can permit authored edits to cancelled records, never reopening them or
+  rewriting executed history.
+- An explicit user choice may replace only the `[execute: ...]` annotation of
+  one named unperformed Step after start. Preserve its action and route, all
+  other authored content, and completed or running dispatches. Add, remove,
+  move or rewrite no Step under this exception.
 
-## Handle messages received during active work
+## Handle active messages and direct maintenance
 
-When a supported active Plan owns running work and the user sends a message
-before that work finishes, classify each part before changing execution or
-native state:
+Classify each part of a message before changing execution or records:
 
-- An explicit stop, pause, cancellation, or immediate redirect stops the live
-  work at once. Apply only the lifecycle change the user actually authorized.
-  When the user explicitly requires a later return to paused work, preserve
-  that return in its live `Next action` through the Work Item route.
-- A correction that invalidates or materially changes current execution stops
-  that execution before more work is performed. Reconcile its effect through
-  the ordinary Work Item or Decision routes. Do not rewrite started authored
-  fields or infer cancellation from the need to stop.
-- An additive request is work to perform after the current task. A plain
-  imperative such as "do X" is additive unless the user makes it immediate or
-  it corrects current execution. Persist it through the deferred-work operation
-  without pausing, cancelling, or replacing the current item, and without
-  beginning the deferred work.
-- A pure informational or status question that requires no retained action
-  receives the requested response and creates no Work Item. Continue the
-  current work unless another part of the message changes it.
+| Message | Action |
+| --- | --- |
+| Explicit stop, pause, cancellation or immediate redirect | Stop live work. Apply only the authorized lifecycle change. Preserve an explicitly requested later return as described below. |
+| Correction invalidating current execution | Stop affected execution and reconcile through the Work Item or Decision route. Do not infer cancellation or rewrite started fields. |
+| Additive request, including a plain imperative without immediate priority | Queue it after current work using the deferred operation below. Do not start it or change the current item. |
+| Information or status question without retained work | Answer and continue; create no Work Item. |
+| Direct request to add, refine, reorder, remove or clean up Plan records | Apply the normal record mutation directly. Never create a Work Item for Plan maintenance itself. |
 
-Classify mixed messages by part. Handle an interrupting correction first and
-queue any independent additive part, so neither intent hides the other. For
-additive work, make only the planning mutation needed to persist the queue,
-verify that mutation, identify the affected Work Item to the user, and resume
-the unchanged current work. Never acknowledge work as queued before its native
-record is durable. Keep queue and explicit successor provenance visible in the
-native Work Item titles defined by the deferred-work route, never only in chat.
+For mixed messages handle an interrupting correction first, then queue independent
+additions. A substantive new outcome gets exactly one Work Item; removing or
+rewriting records gets no replacement item merely to track that maintenance.
 
-This queue behavior requires a complete supported active native Plan. If the
-request would exceed its Goal, violate its Non-goals, or require an unresolved
-scope or lifecycle choice, keep the current work unchanged and ask only for
-that choice while independent work continues. Do not claim a durable queue,
-initialize a profile, or broaden the Plan implicitly. An explicit stop or
-immediate redirect still governs live execution.
+Queueing requires a complete supported active Plan and must fit its Goal and
+Non-goals. Ask only for unresolved scope or lifecycle choices, keeping independent
+current work unchanged. Do not initialize a profile or broaden scope implicitly.
+A stop still governs execution even when queueing is unavailable.
 
-## Pre-flight the next item
+## Pre-flight and refine todo work
 
-- Before starting the next `todo` Work Item in the active Plan, run a pre-flight
-  for that item against the current repository state and evidence from its
-  completed dependencies or other directly relevant completed Work Items in
-  that Plan. For this pre-flight, do not scan completed or historical Plans or
-  reread the entire active Plan without a concrete relevance reason. Check
-  whether that evidence changed the item's premises, signatures, data models,
-  contracts, paths, or validation assumptions. If so, refine that still-`todo`
-  item through its normal route before execution. Never run stale instructions
-  or rewrite started history.
+Before starting the next `todo` item, compare its premises, paths, contracts,
+data and checks with current sources and relevant completed dependencies in
+this Plan. Refine stale instructions before start. Do not scan historical Plans
+or reread the whole active Plan without a concrete relevance reason.
 
-## Apply direct Plan maintenance
-
-When the user asks to add, refine, reorder, remove, or clean up Work Items,
-perform the permitted mutation directly. The maintenance action is not a
-project outcome and must never become a queued or ordinary Work Item.
-
-If the request adds substantive future work, create or refine exactly that
-outcome once. Do not create a second item for adding or maintaining it. If the
-request only removes, reorders, or rewrites records, create no new item. Apply
-the history, dependency, current-selection, and lifecycle rules in this
-reference before changing the record.
-
-## Refine todo work
-
-When creating or changing outcome boundaries or Steps, read
-[planning-granularity.md](planning-granularity.md) for decomposition and dispatch
-boundaries. P owns syntax; E owns record-writing depth and fidelity.
-
-- Insert one `todo` block at the end, before an anchor, or after an anchor.
-  Allocate the highest Work Item ID plus one and validate the complete Plan.
+- Insert one complete H3 block at the end or beside an anchor. Allocate the
+  highest Work Item ID plus one. Move whole blocks without renumbering.
+  Dependencies must exist, precede their dependents and remain acyclic.
 - A generic update may replace title, dependencies, Decisions, Outcome,
-  Acceptance, optional Steps, Evidence, and `Next action` while preserving ID,
-  status, blockers, position, and current selection.
-- Delete only when at least one Work Item remains and no incoming dependency
-  targets it. Deleting the current item requires an explicit dependency-ready
-  `todo` or `paused` replacement in the same prepared patch.
-- Preserve subordinate implementation order in Steps. Steps never receive IDs,
-  status, checkboxes, blockers, evidence, or completion semantics.
-- When preparing for later Scoville Workflow execution, keep each Step suitable
-  for one worker dispatch. One Step remains one dispatch
-  by default. An explicitly invoked Workflow with its own accepted Decision may
-  bundle only adjacent Steps that share one outcome, owner, authorization,
-  route, workspace, and Acceptance boundary. A changed Decision, external
-  effect, materially higher risk, different route, or independently resumable
-  result forces a new dispatch. The runtime bundle adds no Plan field and
-  changes no authored order or Acceptance ownership. Plan does not assign a
-  route class. Preserve an existing `[route: CLASS]` prefix or record one when
-  the user explicitly supplies it; it is a minimum for the Workflow's dispatch
-  decision and may change only while the Work Item remains `todo`.
-  Record an explicit point choice only with an `[execute: ...]` Step annotation
-  in the strict native format. For a still-`todo` item without Steps, add one
-  behavior-complete annotated Step when the choice must be retained. Apply the
-  narrow started-item exception only through `Preserve authored history` above.
-- When work has several behavior-complete units, use consecutive numbered Steps in the
-  exact execution order. Name every known repository-relative file in its
-  action Step. If ownership is unknown, perform bounded read-only discovery
-  before start when practical and refine the `todo` item with the observed path.
-  When discovery must run after start, retain its criterion-based Step, append
-  the observed path to Evidence, and update Next action with that path. Never
-  rewrite the started Steps.
-- Keep Outcome conceptual, Steps executable, Acceptance decisive, and Next
-  action limited to the first unperformed Step or unobserved Acceptance check.
-  Do not repeat the same fact across those fields or rely on a worker to infer
-  an omitted transition.
+  Acceptance, Steps, Evidence and Next action. Preserve ID, status, blockers,
+  position and current selection.
+- Delete only if another item remains and no dependency targets the item.
+  Deleting the current item requires an explicit dependency-ready `todo` or
+  `paused` replacement in the same prepared change.
+- G owns decomposition and dispatch boundaries; P owns Step and annotation
+  syntax; E owns concrete wording and file discovery. Steps have no separate
+  lifecycle. Keep the next unperformed action or unobserved Acceptance check
+  in Next action, not a second progress system.
+- Plan does not infer routes or reasoning. Preserve an existing route prefix
+  or record an explicit user choice. Route changes require `todo`. Record an
+  explicit model or reasoning choice with `[execute: ...]`; for a `todo` item
+  without Steps, add one coherent annotated Step if needed. After start use
+  only the annotation exception above.
 
-## Queue deferred work during a current item
+One Step is one dispatch by default. An explicitly invoked Workflow may bundle
+adjacent Steps only under its accepted Decision, with the same outcome, owner,
+authorization, route, workspace and Acceptance boundary. Changed Decisions,
+external effects, higher risk, different routes or independently resumable
+results force separate dispatch. Bundling changes no Plan field, order or
+Acceptance owner.
 
-Use this operation only after the core classifies the new message as additive
-and a complete supported active Plan owns the running work. Queueing is a narrow
-planning checkpoint, not a switch to the requested implementation. Preserve
-`current_item` and every field of the current started Work Item.
+## Queue deferred work
 
-First confirm that the request fits the active Plan's Goal and Non-goals. A new
-instruction authorizes its requested work but does not silently authorize a
-broader Plan scope, weaker Acceptance, or a conflicting lifecycle choice. Ask
-only for a material missing choice and allow independent current work to
-continue.
+This is a planning checkpoint, not a change of current execution. Preserve
+`current_item` and every field of the current started item.
 
-Record queue provenance in the existing H3 title. A newly queued Work Item uses
-`Deferred after W-001: Describe the observable outcome`, replacing `W-001` with
-the exact Work Item after which it belongs. Consecutive `todo` blocks with the
-same `Deferred after W-001:` prefix are that anchor's deferred segment. Their
-authored order is stable arrival order unless the user supplies another order.
-The prefix is permanent truthful history after the item starts. It may be added,
-changed, or removed only while the affected item remains `todo` and only when
-the user-authorized order changes.
+Use existing H3 titles for durable sequencing provenance:
 
-When the user explicitly chooses a future `todo` successor, record that fact
-before acknowledging it with the title prefix `Prioritized after W-001:`.
-Allow at most one such successor for an anchor. This
-visible prefix distinguishes an explicit priority from ordinary future authored
-order after restart. It records sequencing provenance, not status, and remains
-truthful retained history after start. An unmarked Work Item is never treated as
-having an unrecorded explicit priority.
+- `Deferred after W-001: Describe the observable outcome` identifies work
+  queued after the named anchor. Consecutive `todo` blocks with this prefix
+  form its deferred segment, in arrival order unless the user chooses otherwise.
+- `Prioritized after W-001:` records an explicitly selected future `todo`
+  successor. Allow at most one per anchor. Unmarked authored order is not an
+  implicit recorded priority.
 
-Inspect the complete anchored segment and its final queued `todo` item. Apply
-the batching rules from planning-granularity.md. When compatible, refine that
-complete block in place, preserving its prefix, ID, position, status, blockers,
-and current selection. When incompatible, allocate the next Work Item ID, use
-the visible deferred prefix, and insert the new `todo` block after earlier items
-with the same anchor, ahead of unmarked lower-priority future `todo` work. A
-plain additive imperative carries this default after-current priority.
+Prefixes become immutable history after start. Change them only on `todo`
+items when the user-authorized order changes. Together with ordered H3 blocks,
+IDs, dependencies, blockers and Decisions, they are the whole durable queue:
+no extra field, hidden marker, checkbox or chat-only list.
 
-Do not override a `Prioritized after W-001:` successor, move a non-`todo` block,
-or invent a dependency to force the preferred position. Ask when the new
-default conflicts with that persisted priority. If the user preserves the
-prioritized successor, anchor the deferred work after it. If a genuine
-prerequisite must precede the new item, use that prerequisite as the deferred
-anchor, place the item at the earliest valid position after it, and report that
-it cannot be the immediate successor.
+Inspect the anchored segment and its last queued `todo` item. Apply G's batching
+criteria. Merge a compatible addition into that block while preserving its ID,
+prefix, position, status, blockers and current selection. Otherwise allocate
+the next ID and insert after earlier deferred items for that anchor, ahead of
+unmarked lower-priority future `todo` work. Do not jump back across a separate
+queued outcome to merge an older batch.
 
-The visible title prefixes, ordered H3 blocks, stable Work Item IDs,
-dependencies, blockers, Decisions, and authored fields are the complete durable
-queue. Create no chat-only queue, new field, checkbox, or hidden marker. On
-recovery, derive the exact successor and deferred segment only from those
-records. Multiple priority prefixes for one anchor or a prefix whose anchor is
-missing or does not precede it is invalid authored intent and requires human
-direction, not silent normalization.
+Do not override a prioritized successor, move started work or invent a dependency
+to force order. Ask about a conflicting explicit priority. If that priority
+remains, anchor the addition after it. If a real prerequisite must come first,
+anchor after that prerequisite at the earliest valid position and report why
+the addition cannot be immediate.
 
-An immediate redirect with an explicit return to the outgoing started item uses
-its mutable `Next action`, not its immutable title or position. When pausing
-W-001 to run W-004, preserve the first unperformed action in this form:
-`After W-004 completes, resume W-001 and perform ACTION.` Use this condition only
-when the user explicitly requested the return. An ordinary pause keeps an
-ordinary concrete Next action. Allow at most one paused return target for the
-redirected item, and treat conflicting return instructions as a choice rather
-than overwriting them.
+Persist and verify before acknowledging the queued ID, then resume unchanged
+current work. A failed write means it is not durably queued and must not start.
+On recovery, derive order from the native records. Multiple priorities for one
+anchor, a missing anchor, or an anchor placed after its prefixed item requires
+human direction, not silent normalization.
 
-On recovery, inspect paused Work Items for an explicit return condition naming
-the current redirected item. After that item satisfies Acceptance, complete it
-through ordinary completion while selecting the paused return target, then use
-the guarded resume operation and restore its Next action to the preserved first
-concrete action. Do not use `complete_and_advance`, which starts a `todo`
-replacement rather than resuming paused work. If the return target is blocked,
-dependency-invalid, missing, or ambiguous, preserve the recorded condition and
-request the required choice without starting different work automatically.
+After current Acceptance, reread the intended successor. If start-eligible,
+complete and advance. If dependencies are done but a blocker or unresolved
+Decision prevents starting, ordinary completion may select it without starting
+or clearing that obstacle. If no dependency-ready replacement exists or the
+successor is ambiguous, keep current work non-terminal and ask. Never skip
+queued work or finish the Plan with non-terminal deferred work.
 
-After the guarded write and structural inspection succeed, acknowledge the
-batched or created Work Item by ID and resume the unchanged current work. If
-persistence fails, report that the request is not durably queued and do not
-claim or begin it.
+## Preserve an explicit return after redirect
 
-After current Acceptance is observed, reread the native order and identify the
-exact intended successor. If it is start-eligible, use guarded
-`complete_and_advance`. If its dependencies are done but an external blocker or
-unresolved Decision prevents starting, ordinary completion may select it
-without starting it, preserving the blocker or proposal. If dependency order
-leaves no eligible replacement or the successor is ambiguous, keep the current
-item non-terminal and request the required choice. Never skip queued work,
-fabricate readiness, clear a blocker, invent Evidence, or complete the Plan
-while deferred non-terminal work remains.
+Only when the user requests a later return, pause the outgoing item and retain
+its first unfinished action in Next action, for example:
+`After W-004 completes, resume W-001 and perform ACTION.` Do not change the
+started item's title or position. An ordinary pause keeps an ordinary Next
+action. Allow one paused return target per redirected item; ask about conflicts.
 
-## Select and advance work
+On recovery, inspect paused items for a return naming the current redirected
+item. After its Acceptance, complete it while selecting the paused target, then
+resume that target and restore its saved concrete action. Do not use
+`complete_and_advance`, which starts `todo` work. If the return is blocked,
+dependency-invalid, missing or ambiguous, preserve it and ask; do not start
+another item automatically.
 
-- Set `current_item` only in an active Plan. Its target is `todo`,
-  `in_progress`, or `paused`, all dependencies are `done`, and no different
-  item is `in_progress`. External blockers may remain visible on the selection.
-- Start only the current `todo` item when dependencies are done and blockers
-  empty. Pause only the current `in_progress` item. Resume only the current
-  `paused` item when dependencies are done and blockers empty.
-- Keep at most one `in_progress` item, always equal to `current_item`. This is a
-  concurrency limit, not a one-Work-Item total limit.
-- `complete_and_advance` is one prepared compound result: complete the exact
-  current item, then start the explicit replacement through the ordinary start
-  rules. If either side is invalid, publish neither result.
+## Select, advance and block
 
-## Manage blockers and next action
+- Only an active Plan has `current_item`. Select a `todo`, `in_progress` or
+  `paused` item whose dependencies are done, with no other `in_progress` item.
+  External blockers may remain visible on a selected item.
+- Start only current `todo` work with done dependencies and no blockers. Pause
+  only current `in_progress` work. Resume only current `paused` work with done
+  dependencies and no blockers. At most one item is `in_progress`, always current.
+- `complete_and_advance` prepares completion of the current item and start of
+  the explicit replacement together. Apply neither if either is invalid.
+- Add an absent valid external blocker with an updated Next action. Resolve
+  only the named blocker, record observed evidence and the next concrete action.
+  A blocker is not evidence.
+- Changing Next action alone changes no other field. For non-terminal work it
+  names the first unfinished action; after implementation, the first unobserved
+  test, build, browser check, review or evaluator-owned verification.
 
-Add one absent valid external blocker together with a changed `Next action`.
-Resolve exactly the named blocker, append observed evidence, and set the next
-concrete action. A blocker is not evidence.
+## Complete or cancel
 
-`set-next-action` changes only that live field on a non-terminal item. Keep it
-equal to the first concrete action not yet performed. After implementation
-exists, advance it to the first unobserved test, build, browser check, review,
-or evaluator-owned verification.
+Complete only current `todo` or `in_progress` work in an active Plan with done
+dependencies, observed Acceptance evidence, explicitly cleared blockers and a
+named eligible replacement. Resume paused work before completion.
 
-## Complete or cancel work
+Cancellation requires an explicit choice, evidence and explicit blocker clearing.
+It applies to `todo`, `in_progress` or `paused` work in draft or active Plans;
+current work needs an eligible replacement. Cancelled work satisfies no dependency.
 
-- Complete only the current `todo` or `in_progress` item in an active Plan when
-  dependencies are done, observed acceptance evidence is supplied, every
-  blocker is explicitly cleared, and an eligible replacement current item is
-  named. A paused item must resume before completion.
-- Cancel a `todo`, `in_progress`, or `paused` item in a draft or active Plan
-  only with evidence and explicit blocker clearing. Current work requires an
-  eligible replacement. `cancelled` never satisfies a dependency.
-- Terminal work has no `Next action`, has empty blockers, and retains non-empty
-  Evidence. `done` and `cancelled` never transition again.
-- For the final real Work Item, use guarded active-Plan completion from
-  [native-project-lifecycle.md](native-project-lifecycle.md). Do not invent a
-  successor or handoff item merely to keep `current_item` populated.
+Terminal work retains non-empty Evidence, has no blockers or Next action, and
+never transitions again. For the final real item use
+[L's Plan completion](native-project-lifecycle.md#complete-or-cancel-a-plan),
+including the idle index. Invent no successor to keep the Plan active.

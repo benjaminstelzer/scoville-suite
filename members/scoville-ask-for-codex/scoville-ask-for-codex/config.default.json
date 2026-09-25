@@ -10,6 +10,8 @@
   "claude": {
     "max_budget_usd": 10,
     "session_persistence": true,
-    "customizations": false
+    "customizations": false,
+    "timeout_seconds": 3600,
+    "web_tools": false
   }
 }

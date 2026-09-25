@@ -14,6 +14,7 @@ import sys
 import ask_claude
 from list_models import list_models
 import task_lifecycle
+from ask_settings import resolve_settings
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -28,70 +29,9 @@ def text(value, name):
     return value
 
 
-def merge(base, overlay):
-    require(isinstance(overlay, dict), 'configuration layer must be an object')
-    result = copy.deepcopy(base)
-    for key, value in overlay.items():
-        result[key] = merge(result[key], value) if isinstance(value, dict) and isinstance(result.get(key), dict) else copy.deepcopy(value)
-    return result
-
-
-def merge_config_layer(base, overlay):
-    result = merge(base, overlay)
-    # A newer preset also overrides inline fields inherited from older layers.
-    # Inline advisers supplied in this same layer retain their local precedence.
-    if 'advisers' not in overlay and isinstance(overlay.get('presets'), dict):
-        advisers = result.get('advisers')
-        if isinstance(advisers, list):
-            for index, adviser in enumerate(advisers):
-                if isinstance(adviser, dict):
-                    preset = overlay['presets'].get(adviser.get('id'))
-                    if isinstance(preset, dict):
-                        advisers[index] = merge(adviser, preset)
-    return result
-
 def resolve(request):
-    config = json.loads((ROOT / 'config.default.json').read_text(encoding='utf-8'))
-    personal = ROOT / 'config.json'
-    if personal.exists():
-        config = merge_config_layer(config, json.loads(personal.read_text(encoding='utf-8')))
-    for key in ('project_config', 'overrides'):
-        config = merge_config_layer(config, request.get(key, {}))
-    require(set(config) <= {'schema_version', 'advisers', 'presets', 'claude'}, 'unknown configuration keys')
-    require(type(config.get('schema_version')) is int and config['schema_version'] == 1, 'unsupported config version')
-    advisers = config.get('advisers')
-    require(isinstance(advisers, list) and advisers, 'select at least one adviser')
-    presets = config.get('presets')
-    require(isinstance(presets, dict), 'presets must be an object')
-    expanded = []
-    for item in advisers:
-        if isinstance(item, str):
-            require(item in presets, f'unknown adviser preset: {item}')
-            item = {'id': item}
-        require(isinstance(item, dict), 'adviser must be a preset name or object')
-        preset = presets.get(item.get('id'), {})
-        require(isinstance(preset, dict) and set(preset) <= {'name', 'route', 'model', 'effort'}, 'invalid adviser preset')
-        expanded.append(merge(preset, item))
-    advisers = config['advisers'] = expanded
-    claude = config.get('claude')
-    require(isinstance(claude, dict), 'invalid Claude settings')
-    seen = set()
-    for adviser in advisers:
-        require(isinstance(adviser, dict), 'adviser must be an object')
-        require(set(adviser) <= {'id', 'name', 'route', 'model', 'effort'}, 'unknown adviser keys')
-        identifier = text(adviser.get('id'), 'adviser id')
-        require(re.fullmatch(r'[a-z0-9][a-z0-9-]*', identifier) and identifier not in seen, 'invalid or duplicate adviser id')
-        seen.add(identifier)
-        require(adviser.get('route') in {'native', 'claude-cli'}, 'unknown adviser route')
-        text(adviser.get('model'), 'model')
-        text(adviser.get('effort'), 'effort')
-        if 'name' in adviser:
-            text(adviser['name'], 'adviser name')
-    claude = config.get('claude')
-    require(set(claude) == {'max_budget_usd', 'session_persistence', 'customizations'}, 'invalid Claude settings')
-    budget = claude['max_budget_usd']
-    require(type(budget) in (int, float) and math.isfinite(budget) and budget > 0, 'Claude budget must be positive and finite')
-    require(all(type(claude[k]) is bool for k in ('session_persistence', 'customizations')), 'Claude flags must be boolean')
+    config = resolve_settings(ROOT / 'config.default.json', request)
+    advisers = config['advisers']
     catalog = None
     if any(a['route'] == 'native' for a in advisers):
         catalog = request.get('catalog')
@@ -159,16 +99,14 @@ def claude(request):
     resume = request.get('session_id')
     if resume is not None:
         text(resume, 'session_id')
-    timeout = request.get('timeout_seconds')
-    require(timeout is None or (type(timeout) in (int, float) and math.isfinite(timeout) and timeout > 0), 'invalid Claude deadline')
+    timeout = request.get('timeout_seconds', config['timeout_seconds'])
+    require(type(timeout) in (int, float) and math.isfinite(timeout) and timeout > 0, 'invalid Claude deadline')
     args = argparse.Namespace(model=adviser['model'], effort=adviser['effort'],
         max_budget_usd=config['max_budget_usd'], fresh=False, persistent=False,
         resume=resume, continue_session=False, session_name=None,
-        session_persistence_default=config['session_persistence'], customizations_enabled=config['customizations'])
+        session_persistence_default=config['session_persistence'], customizations_enabled=config['customizations'], web_tools=config['web_tools'])
     command = ask_claude.build_command(args, ask_claude.resolve_claude_command())
-    result = subprocess.run(command, cwd=cwd, input=text(request.get('prompt'), 'prompt'),
-        text=True, encoding='utf-8', capture_output=True, timeout=timeout, check=False,
-        creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0)
+    result = ask_claude.run_command(command, cwd, text(request.get('prompt'), 'prompt'), timeout)
     if result.returncode != 0:
         detail = result.stderr.strip()
         if not detail and result.stdout.strip():
@@ -184,21 +122,6 @@ def claude(request):
         'requested_model': adviser['model'], 'requested_effort': adviser['effort'],
         'reported_model': payload.get('model'), 'reported_effort': payload.get('effort'),
         'permission_denials': payload.get('permission_denials') or []}
-
-
-def sidebar(request):
-    section = request.get('section_id')
-    if not section or section in {'threads', 'chats', 'projects'} or request.get('manual_sort') is not True:
-        return {'supported': False, 'reason': 'host has no targeted order for this section and sorting mode'}
-    order = request.get('thread_ids')
-    children = request.get('adviser_ids')
-    parent = request.get('caller_id')
-    require(isinstance(order, list) and all(isinstance(i, str) and i for i in order) and len(order) == len(set(order)), 'complete unique section order required')
-    require(isinstance(children, list) and children and len(children) == len(set(children)), 'unique adviser IDs required')
-    require(parent in order and parent not in children and all(i in order for i in children), 'caller and advisers must already be in the same section')
-    remaining = [i for i in order if i not in children]
-    position = remaining.index(parent)
-    return {'supported': True, 'arguments': {'sectionId': section, 'threadIds': remaining[:position] + children + remaining[position:]}}
 
 
 def followup(request):
@@ -224,7 +147,7 @@ def followup(request):
     return {**result, 'handle': handle, 'context_mode': 'continued'}
 
 
-OPERATIONS = {'resolve': resolve, 'prepare': prepare, 'claude': claude, 'sidebar': sidebar, 'followup': followup}
+OPERATIONS = {'resolve': resolve, 'prepare': prepare, 'claude': claude, 'followup': followup}
 
 
 def main():
@@ -235,7 +158,10 @@ def main():
         print(json.dumps({'ok': True, **result}, ensure_ascii=False))
         return 0
     except (ValueError, KeyError, TypeError, OSError, RuntimeError, subprocess.TimeoutExpired) as error:
-        print(json.dumps({'ok': False, 'error': str(error)}, ensure_ascii=False))
+        failure = {'ok': False, 'error': str(error)}
+        if isinstance(error, ask_claude.ClaudeTimeout):
+            failure['code'] = 'claude_timeout'
+        print(json.dumps(failure, ensure_ascii=False))
         return 1
 
 

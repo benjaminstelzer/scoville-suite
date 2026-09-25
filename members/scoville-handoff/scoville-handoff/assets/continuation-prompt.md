@@ -1,4 +1,4 @@
-```markdown
+````markdown
 # Task Continuation Prompt
 
 ## Receiver Instructions
@@ -34,4 +34,4 @@
 3. If work or acceptance is incomplete, run the decisive check; completion
    means: ... If work is complete and its evidence is still current, reconcile
    this snapshot with current state; completion means no material mismatch.
-```
+````

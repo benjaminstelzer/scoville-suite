@@ -12,3 +12,8 @@
 - When Workflow is active, Steps expose the scope and boundaries needed for dispatch. The coordinator chooses the route. Plan can retain an explicit executor choice, but does not quietly turn a small-looking edit into low-risk work.
 
 - The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md]({{ var: contract_url }}).
+
+Run one task to completion before editing its files or changing model settings
+elsewhere. Plan assumes this single-run workflow. It does not lock files or
+promise conflict-free recovery after concurrent changes. Routine edits need
+no model-profile selection or hash receipts.

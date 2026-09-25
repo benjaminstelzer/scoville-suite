@@ -30,7 +30,12 @@ projects, not to turn a small reversible edit into paperwork.
 
 - When Workflow is active, Steps expose the scope and boundaries needed for dispatch. The coordinator chooses the route. Plan can retain an explicit executor choice, but does not quietly turn a small-looking edit into low-risk work.
 
-- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-plan/blob/main/scoville-plan/SKILL.md).
+- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md).
+
+Run one task to completion before editing its files or changing model settings
+elsewhere. Plan assumes this single-run workflow. It does not lock files or
+promise conflict-free recovery after concurrent changes. Routine edits need
+no model-profile selection or hash receipts.
 
 ## What it costs
 
@@ -46,23 +51,24 @@ projects, not to turn a small reversible edit into paperwork.
 
 ## Compatibility
 
-Any Agent Skills host with repository read/write access. Direct Markdown/YAML planning; no service or network required. The writing-profile helper needs Python 3.11+; selector, validator and Decision-batch helpers need Python 3. Manual alternatives load only without Python; helper errors remain errors. Developed for Codex and Claude Code; other hosts untested.
+Requires a frontier LLM from the Fable, Astra, SOL or Opus families, version 5.0
+or newer. This requirement is separate from the models actually tested.
 
-This Skill works on its own. Other Scoville Skills are optional and handle
-only their own concerns when available and applicable.
+Any Agent Skills host with repository read/write access. Direct Markdown/YAML planning; no service or network required. Selector and validator need Python 3.10+. Manual alternatives load only without Python; helper errors remain errors. Developed for Codex and Claude Code; other hosts untested.
+
+This package requires every Skill included in this suite to be installed and
+enabled. Partial installation is not supported. Skills keep their own task
+scope and invocation rules; Workflow still requires an explicit request.
 
 ## Install
 
 ### Install this Skill
 
-This standalone package works independently. Ask your compatible agent host:
-
-```text
-Install this Skill for all my projects from this exact package directory:
-https://github.com/benjaminstelzer/scoville-plan/tree/main/scoville-plan
-Preserve personal settings and unrelated Skills. Report the installed location
-and whether the host discovers the Skill.
-```
+Install this Skill as part of the complete suite from
+[the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
+Every member must be installed and enabled. Do not fetch or substitute packages
+from individual Skill repositories. If any member is missing or incompatible,
+report the incomplete installation rather than claiming the suite is ready.
 
 The host needs permission to write to its Skills directory. See the
 [Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
@@ -85,12 +91,36 @@ Use Scoville Plan to create an implementation plan for migrating the billing sch
 Create a detailed repository-owned implementation plan for the billing migration so workers can execute each point without this conversation.
 ```
 
-Configure writing depth in this Skill's `assets/prompting.toml`. `profile` accepts
-`auto`, `low`, `medium` or `high`. Explicit instructions take precedence within
-their stated scope. Auto uses the target model, or the existing task class when
-no model is known. Unknown models and missing selection inputs use medium.
-Edit exact model assignments locally; Workflow has independent settings.
-The resolver needs Python 3.11+. Only missing Python enables the manual route.
+State the outcome, acceptance criteria and next action directly in the Plan.
+No model-specific writing profile or profile resolver is needed.
+
+### Set reasoning for a Step
+
+Plan does not choose a model or reasoning level on its own. Without an explicit
+instruction, Workflow assesses the Step and uses the configured model pair for
+its route, falling back to the Skill defaults.
+
+You can request a reasoning level for one Step:
+
+```text
+1. [execute: reasoning=high] Check the migration and its rollback behavior.
+```
+
+To specify the model as well, put it first:
+
+```text
+1. [execute: model=gpt-6-astra; reasoning=high] Check the migration and its rollback behavior.
+```
+
+The regular levels are `low`, `medium`, `high` and `xhigh`. Setup offers and
+saves these four. The format also supports `none`, `minimal`, `max` and `ultra`
+for explicit annotations or manual entries in `.scoville/config.json`. Setup
+preserves those manual entries when you change other settings. Every selected
+pair must be supported by the actual model. An unsupported pair stops with an
+explanation, without silently choosing another level.
+
+Route classes such as `ultra_low` describe task complexity. They are separate
+from reasoning levels: an `ultra_low` task can use reasoning `low`.
 
 ### Companion app
 
@@ -112,6 +142,14 @@ application. Installed copies in read-only system folders use the platform user
 configuration directory for the same XML file. Removing a project from the
 Viewer never changes its repository.
 
+### Record compatibility
+
+Existing format-version-1 Plans need no migration. Updated readers also accept
+consistent CRLF and plain text such as `Evidence: Tests A, B passed.` No quoting
+or escaping is needed. Existing bracketed lists keep their meaning. Update the
+Skill and Viewer before using the new forms; older readers may reject them.
+Keep legacy Evidence lists and LF when working with older readers.
+
 ## Sources
 
 - [Agent Skills specification](https://agentskills.io/specification) for the
@@ -121,15 +159,6 @@ Viewer never changes its repository.
 - [Michael Nygard's architecture decision records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
   for durable decisions and rationale in reviewable project files.
 
-## Family
-
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-
 ## License
 
 MIT. See [LICENSE](LICENSE).
-

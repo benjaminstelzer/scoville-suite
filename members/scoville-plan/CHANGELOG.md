@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.9.0 - 2026-09-25
+
+- Write plans directly without model-specific writing profiles or hash-based edit guards.
+- Ship Plan Viewer v1.3.3 with plain-text Evidence and CRLF support. Keep writing legacy Evidence lists and LF for installed older Viewers.
+- Use readable Decision-batch IDs while continuing to read historical IDs.
+- Document explicit model and reasoning annotations without assigning them automatically.
+
 ## v1.8.0 - 2026-09-24
 
 - Add independently configurable low, medium and high writing depth per plan point, with medium for unknown models.

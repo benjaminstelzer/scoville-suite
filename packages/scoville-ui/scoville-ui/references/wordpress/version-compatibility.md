@@ -54,7 +54,8 @@ function plugin_slug_enqueue_summary_layout( $hook_suffix ) {
         '1.0.0'
     );
 
-    // The token is verified against the supported Core releases before shipping.
+    // Only stable 7.0/7.1 are covered here. Other minors and prereleases are
+    // unverified; the numeric fallback is not evidence of version support.
     $gap = $has_core_tokens ? 'var(--wpds-dimension-gap-lg)' : '16px';
     wp_add_inline_style(
         'plugin-slug-summary-layout',
@@ -148,6 +149,7 @@ to the Core document or unrelated plugins.
 | PHP missing layout, older supported version without tokens | Native elements preserved, no unregistered dependency, explicit tested local layout fallback. |
 | WordPress 7.0 with an unrelated or unapproved `wp-theme` registration | Ignore it for the Core 7.1 path and use the verified older-version fallback. |
 | WordPress 7.1 with the Core handle unexpectedly missing | Preserve layout with the fallback, but fail token acceptance and investigate the installation. |
+| Other minors (including 7.2), prereleases or unknown version | Unverified. The numeric fallback does not establish support or pass token acceptance; verify that version separately. |
 | Registered but not loaded, or required token missing | Fail loading/token acceptance. Investigate the real document and registration, not runtime classification. |
 | React 7.1 public provider | Public import and Core script dependency, Core stylesheet loaded, no private APIs, no second runtime. |
 | React pinned 7.0 | No public provider assumed. Preserve the tested older entry without importing that export. |

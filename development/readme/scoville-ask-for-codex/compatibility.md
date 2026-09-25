@@ -4,4 +4,9 @@
 
 The model catalog comes from the current Codex app-server through `model/list`. A listed model still needs to be accepted by the task host. Native third-party models require a suitable provider connection, such as EasyCLIProxy where configured. The Claude CLI route requires installed, authenticated Claude Code. Opus 5.5 requires version 2.1.280 or newer. See “How to Ask with Claude Code” for setup.
 
-The Python helpers are required. A missing interpreter or helper failure has no manual replacement route. Sidebar placement directly above the caller works only in host sections with targeted manual ordering.
+The Python helpers are required. A missing interpreter or helper failure has no manual replacement route. Tasks use the host’s normal sidebar sorting.
+
+Ask is also available as a standalone Skill from
+[scoville-ask-for-codex](https://github.com/benjaminstelzer/scoville-ask-for-codex).
+Its standalone package works independently. Installing the complete suite uses
+the suite packages and includes every member.

@@ -1,0 +1,30 @@
+name: Python portability
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  helpers:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        python: ['3.11', '3.x']
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: scoville-suite
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: scoville-suite
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Arrange bundled shared sources as the development sibling
+        run: python -c "import shutil; shutil.copytree('development/shared', '../shared')"
+      - run: python -B -m unittest discover -s ../shared/tests
+      - run: python -B -m unittest discover -s development/tests
+      - run: python -B -m unittest discover -s members/scoville-plan/development/tests
+      - run: python -B -m unittest discover -s members/scoville-ask-for-codex/development/tests
+      - run: python -B -m unittest discover -s members/scoville-workflow-for-codex/development/tests
+      - run: python -B -m unittest discover -s members/scoville-setup/development/tests

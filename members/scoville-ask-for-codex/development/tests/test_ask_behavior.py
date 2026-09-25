@@ -40,26 +40,41 @@ def prepare_request(advisers=ADVISERS, **extra):
 
 
 class AskBehaviorTests(unittest.TestCase):
-    def test_config_layers_preserve_precedence_between_inline_and_preset_fields(self):
+    def test_file_defaults_and_request_precedence_without_personal_layer(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             (root / "config.default.json").write_bytes((PACKAGE / "config.default.json").read_bytes())
-            (root / "config.json").write_text(json.dumps({
-                "advisers": [{"id": "sol", "effort": "medium"}]}), encoding="utf-8")
+            legacy = root / "config.json"
+            legacy.write_text('{"advisers":["sol"]}', encoding="utf-8")
+            request = {"catalog": CATALOG, "project_root": str(root)}
             with mock.patch.object(ask, "ROOT", root):
-                personal_then_project = ask.resolve({"catalog": CATALOG,
-                    "project_config": {"presets": {"sol": {"effort": "high"}}}})
-            self.assertEqual(personal_then_project["config"]["advisers"][0]["effort"], "high")
-            (root / "config.json").unlink()
-            with mock.patch.object(ask, "ROOT", root):
-                project_then_request = ask.resolve({"catalog": CATALOG,
-                    "project_config": {"advisers": [{"id": "sol", "effort": "medium"}]},
-                    "overrides": {"presets": {"sol": {"effort": "high"}}}})
-                same_layer = ask.resolve({"catalog": CATALOG,
-                    "project_config": {"advisers": [{"id": "sol", "effort": "medium"}],
-                                       "presets": {"sol": {"effort": "high"}}}})
-            self.assertEqual(project_then_request["config"]["advisers"][0]["effort"], "high")
-            self.assertEqual(same_layer["config"]["advisers"][0]["effort"], "medium")
+                self.assertEqual(ask.resolve(request)["config"]["advisers"][0]["id"], "astra")
+                self.assertFalse((root / ".scoville").exists())
+                (root / ".scoville").mkdir()
+                config = root / ".scoville/config.json"
+                saved = {"ask": {"advisers": [{"id": "sol", "effort": "medium"}]}}
+                config.write_text(json.dumps(saved), encoding="utf-8")
+                self.assertEqual(ask.resolve(request)["config"]["advisers"][0]["effort"], "medium")
+                result = ask.resolve({**request, "overrides": {"presets": {"sol": {"effort": "high"}}}})
+                self.assertEqual(result["config"]["advisers"][0]["effort"], "high")
+                self.assertEqual(json.loads(config.read_text()), saved)
+                saved["ask"]["presets"] = {"sol": {"effort": "high"}}
+                config.write_text(json.dumps(saved), encoding="utf-8")
+                self.assertEqual(ask.resolve(request)["config"]["advisers"][0]["effort"], "medium")
+                self.assertTrue(legacy.exists())
+                for bad in ['[]', '{', '{"ask":null}', '{"ask":{"claude":{"timeout_seconds":false}}}']:
+                    config.write_text(bad, encoding="utf-8")
+                    with self.assertRaises(ValueError):
+                        ask.resolve(request)
+
+    def test_native_reasoning_is_preserved_then_checked_against_model(self):
+        for level in ('none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra'):
+            catalog = {"source": "model/list", "models": [{"model": "gpt-6-astra", "efforts": [level]}]}
+            request = {"catalog": catalog, "overrides": {"presets": {"astra": {"effort": level}}}}
+            self.assertEqual(ask.resolve(request)["config"]["advisers"][0]["effort"], level)
+            with self.assertRaisesRegex(ValueError, "effort unavailable"):
+                ask.resolve({**request, "catalog": {"source": "model/list", "models": [
+                    {"model": "gpt-6-astra", "efforts": []}]}})
 
     def test_claude_defaults_and_explicit_adviser_override_are_distinct(self):
         selected = ask.resolve({"catalog": CATALOG,
@@ -116,8 +131,7 @@ for line in sys.stdin:
         for count in (1, 2, 3):
             with self.subTest(count=count):
                 selected = ADVISERS[:count]
-                result = ask.resolve({"catalog": CATALOG, "project_config": {
-                    "advisers": [ADVISERS[-1]]}, "overrides": {"advisers": selected}})
+                result = ask.resolve({"catalog": CATALOG, "overrides": {"advisers": selected}})
                 self.assertEqual(result["config"]["advisers"], selected)
                 prepared = ask.prepare(prepare_request(selected))
                 self.assertEqual([e["adviser"]["id"] for e in prepared["entries"]],
@@ -129,7 +143,7 @@ for line in sys.stdin:
         result = ask.prepare(prepare_request())
         native = [e for e in result["entries"] if e["adviser"]["route"] == "native"]
         self.assertEqual([e["arguments"]["title"] for e in native],
-                         ["Review patch ASK-TASK"] * 2)
+                         ["Ask gpt-6-astra · Review patch", "Ask gpt-6-sol · Review patch"])
         self.assertEqual([e["arguments"]["model"] for e in native],
                          ["gpt-6-astra", "gpt-6-sol"])
         self.assertEqual([e["arguments"]["thinking"] for e in native],
@@ -203,15 +217,8 @@ for line in sys.stdin:
         with self.assertRaises(ValueError):
             ask.followup({**request, "overrides": {"id": "different-adviser"}})
 
-    def test_sidebar_preserves_other_order_and_reports_unsupported_host(self):
-        result = ask.sidebar({"section_id": "custom-1", "manual_sort": True,
-            "thread_ids": ["other-a", "caller", "other-b", "ask-2", "ask-1"],
-            "caller_id": "caller", "adviser_ids": ["ask-1", "ask-2"]})
-        self.assertEqual(result["arguments"]["threadIds"],
-                         ["other-a", "ask-1", "ask-2", "caller", "other-b"])
-        unsupported = ask.sidebar({"section_id": "threads", "manual_sort": True})
-        self.assertFalse(unsupported["supported"])
-        self.assertIn("no targeted order", unsupported["reason"])
+    def test_sidebar_operation_is_unavailable(self):
+        self.assertNotIn('sidebar', ask.OPERATIONS)
 
     def test_claude_executes_only_adapter_command_and_preserves_session(self):
         cli_request = ask.prepare(prepare_request([ADVISERS[1]]))["entries"][0]["request"]
@@ -219,11 +226,11 @@ for line in sys.stdin:
             json.dumps({"result": "  Independent answer\n", "session_id": "sid-1",
                         "model": "claude-fable-5-1", "permission_denials": ["Read secret"]}), "")
         with mock.patch.object(ask.ask_claude, "resolve_claude_command", return_value=["claude"]), \
-             mock.patch.object(ask.subprocess, "run", return_value=completed) as run:
+             mock.patch.object(ask.ask_claude, "run_command", return_value=completed) as run:
             result = ask.claude(cli_request)
         command = run.call_args.args[0]
         self.assertEqual(command[command.index("--tools") + 1],
-                         "Read,Grep,Glob,WebSearch,WebFetch")
+                         "Read,Grep,Glob")
         self.assertIn("--safe-mode", command)
         self.assertNotIn("--resume", command)
         self.assertEqual(result["answer"], "  Independent answer\n")
@@ -231,10 +238,32 @@ for line in sys.stdin:
         self.assertTrue(result["continuation_available"])
         self.assertEqual(result["permission_denials"], ["Read secret"])
         with mock.patch.object(ask.ask_claude, "resolve_claude_command", return_value=["claude"]), \
-             mock.patch.object(ask.subprocess, "run", return_value=completed) as resumed:
+             mock.patch.object(ask.ask_claude, "run_command", return_value=completed) as resumed:
             next_result = ask.claude({**cli_request, "session_id": "sid-1"})
         self.assertEqual(resumed.call_args.args[0][resumed.call_args.args[0].index("--resume") + 1], "sid-1")
         self.assertEqual(next_result["context_mode"], "continued")
+
+    def test_web_tools_require_boolean_opt_in_and_reach_both_cli_flags(self):
+        for enabled in (False, True):
+            request = prepare_request([ADVISERS[1]])
+            request["overrides"]["claude"] = {"web_tools": enabled}
+            cli_request = ask.prepare(request)["entries"][0]["request"]
+            completed = subprocess.CompletedProcess(["claude"], 0,
+                json.dumps({"result": "Answer", "session_id": "sid-web"}), "")
+            with mock.patch.object(ask.ask_claude, "resolve_claude_command", return_value=["claude"]), \
+                 mock.patch.object(ask.ask_claude, "run_command", return_value=completed) as run:
+                ask.claude(cli_request)
+            command = run.call_args.args[0]
+            expected = "Read,Grep,Glob" + (",WebSearch,WebFetch" if enabled else "")
+            for flag in ("--tools", "--allowed-tools"):
+                self.assertEqual(expected, command[command.index(flag) + 1])
+            self.assertNotIn("Bash", expected)
+        for invalid in ("true", 1, None, []):
+            with self.subTest(invalid=invalid), self.assertRaisesRegex(ValueError, "boolean"):
+                ask.resolve({"catalog": CATALOG, "overrides": {"claude": {"web_tools": invalid}}})
+        config = ask.resolve({"catalog": CATALOG,
+                              "overrides": {"claude": {"web_tools": False}}})["config"]
+        self.assertFalse(config["claude"]["web_tools"])
 
     def test_claude_failures_never_return_answer(self):
         request = ask.prepare(prepare_request([ADVISERS[1]]))["entries"][0]["request"]
@@ -247,7 +276,7 @@ for line in sys.stdin:
         ]:
             with self.subTest(error=error), \
                  mock.patch.object(ask.ask_claude, "resolve_claude_command", return_value=["claude"]), \
-                 mock.patch.object(ask.subprocess, "run", return_value=completed), \
+                 mock.patch.object(ask.ask_claude, "run_command", return_value=completed), \
                  self.assertRaisesRegex(ValueError, error):
                 ask.claude(request)
 
@@ -257,7 +286,7 @@ for line in sys.stdin:
         completed = subprocess.CompletedProcess(["claude"], 1,
             json.dumps({"is_error": True, "errors": [oauth_error]}), "")
         with mock.patch.object(ask.ask_claude, "resolve_claude_command", return_value=["claude"]), \
-             mock.patch.object(ask.subprocess, "run", return_value=completed) as launch, \
+             mock.patch.object(ask.ask_claude, "run_command", return_value=completed) as launch, \
              self.assertRaisesRegex(ValueError, oauth_error):
             ask.claude(request)
         launch.assert_called_once()

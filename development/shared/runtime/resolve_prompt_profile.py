@@ -6,19 +6,20 @@ import argparse
 import json
 from pathlib import Path
 import sys
+from scoville_config import merge, section
 
 PROFILES = {'low', 'medium', 'high'}
 CLASSES = {'ultra_low': 'low', 'low': 'low', 'medium': 'medium',
            'high': 'high', 'ultra_high': 'high'}
 
 
-def read_config(path: Path) -> dict:
+def read_config(path: Path, project_root: Path | str | None = None) -> dict:
     try:
         import tomllib
     except ImportError as error:
         raise ValueError('Python 3.11 or newer is required; do not use the no-Python route') from error
     with path.open('rb') as stream:
-        data = tomllib.load(stream)
+        data = merge(tomllib.load(stream), section('workflow', project_root))
     config = data.get('prompting')
     if not isinstance(config, dict) or set(config) != {'profile', 'models'}:
         raise ValueError('prompting requires exactly profile and models')
@@ -51,8 +52,9 @@ def resolve(config: dict, *, explicit: str | None = None,
 
 
 def instructions(config_path: Path, *, explicit: str | None = None,
-                 model: str | None = None, task_class: str | None = None) -> dict:
-    profile = resolve(read_config(config_path), explicit=explicit,
+                 model: str | None = None, task_class: str | None = None,
+                 project_root: Path | str | None = None) -> dict:
+    profile = resolve(read_config(config_path, project_root), explicit=explicit,
                       model=model, task_class=task_class)
     references = Path(__file__).resolve().parent.parent / 'references' / 'prompting'
     texts = [(references / name).read_text(encoding='utf-8').strip()
@@ -63,13 +65,15 @@ def instructions(config_path: Path, *, explicit: str | None = None,
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, required=True)
+    parser.add_argument('--project-root', type=Path, default=Path.cwd())
     parser.add_argument('--profile', choices=sorted(PROFILES))
     parser.add_argument('--model')
     parser.add_argument('--task-class', choices=sorted(CLASSES))
     args = parser.parse_args()
     try:
         result = instructions(args.config, explicit=args.profile,
-                              model=args.model, task_class=args.task_class)
+                              model=args.model, task_class=args.task_class,
+                              project_root=args.project_root)
     except (ValueError, OSError) as error:
         print(json.dumps({'error': str(error)}, ensure_ascii=False), file=sys.stderr)
         return 1
@@ -78,4 +82,7 @@ def main() -> int:
 
 
 if __name__ == '__main__':
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="strict")
     raise SystemExit(main())

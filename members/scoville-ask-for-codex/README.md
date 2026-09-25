@@ -11,8 +11,13 @@ A second opinion should give you another assessment, not repeat your own reasoni
 ## What it enforces
 
 - Advisers inspect and answer. Changes remain with the calling task.
-- Native tasks use the original task title followed by ASK-TASK. Identity comes from task IDs and consultation references.
+- Native tasks use `Ask <model> · <original task title>`. Identity comes from task IDs and consultation references.
 - Invalid settings, unavailable models and failed advisers remain visible. There is no silent replacement model or route.
+
+Native advisers follow a read-only instruction, but the host does not add a
+technical write barrier when creating their task. Claude permits Read, Grep and
+Glob by default. Enable `claude.web_tools` explicitly for WebSearch and WebFetch.
+Claude model communication remains online even when these web tools are off.
 
 ## What it costs
 
@@ -32,13 +37,24 @@ A second opinion should give you another assessment, not repeat your own reasoni
 
 The model catalog comes from the current Codex app-server through `model/list`. A listed model still needs to be accepted by the task host. Native third-party models require a suitable provider connection, such as EasyCLIProxy where configured. The Claude CLI route requires installed, authenticated Claude Code. Opus 5.5 requires version 2.1.280 or newer. See “How to Ask with Claude Code” for setup.
 
-The Python helpers are required. A missing interpreter or helper failure has no manual replacement route. Sidebar placement directly above the caller works only in host sections with targeted manual ordering.
+The Python helpers are required. A missing interpreter or helper failure has no manual replacement route. Tasks use the host’s normal sidebar sorting.
 
-Python 3.11 or newer is required. Before installation, verify the interpreter.
+Ask is also available as a standalone Skill from
+[scoville-ask-for-codex](https://github.com/benjaminstelzer/scoville-ask-for-codex).
+Its standalone package works independently. Installing the complete suite uses
+the suite packages and includes every member.
+
+Python 3.11 or newer is required. Choose a working interpreter once for the
+session and use it wherever examples say `python`. Verify its actual version
+with `--version`: on Windows try `py -3`, then `python`; on macOS/Linux try
+`python3`. A Windows Store alias that opens the Store or returns no usable
+version is not an interpreter. Python 3.9/3.10 is too old for these helpers;
+macOS does not imply any particular installed Python version. Quote script
+and project paths, including paths without spaces in the current example.
 If Python is missing, use the authorized normal package manager or official
 installer and verify its version. Report installation or permission failures.
-Preserve personal `config.json` settings during updates and ask before
-overwriting conflicting files. A helper error has no manual fallback.
+Project settings use `.scoville/config.json`. Follow the selected installation
+or migration instructions. A helper error has no manual fallback.
 
 This package requires every Skill included in this suite to be installed and
 enabled. Partial installation is not supported. Skills keep their own task
@@ -79,10 +95,9 @@ Ask Fable and Claude independently how they would approach this problem, then co
 ### Configure defaults
 
 `config.default.json` beside the installed `SKILL.md` owns the shipped defaults.
-Create `config.json` beside it for personal settings. Do not edit the default
-file to keep personal choices: package updates replace defaults and preserve
-`config.json`. Explicit requests override applicable project settings, then
-personal settings, then shipped defaults.
+Save project choices under `ask` in `.scoville/config.json` at the project root.
+Missing values use the shipped defaults. Reading settings creates no file.
+Explicit requests override these values for that call without saving them.
 
 The `astra`, `sol`, `claude` and `fable` presets resolve named requests. The
 shipped `advisers` list applies when you do not name an adviser. Every preset's
@@ -101,18 +116,22 @@ model, effort and route is configurable. Current defaults:
   "claude": {
     "max_budget_usd": 10,
     "session_persistence": true,
-    "customizations": false
+    "customizations": false,
+    "timeout_seconds": 3600,
+    "web_tools": false
   }
 }
 ```
 
-For example, this personal `config.json` selects SOL and Fable by default and
+For example, this `.scoville/config.json` selects SOL and Fable by default and
 changes only SOL's effort:
 
 ```json
 {
-  "advisers": ["sol", "fable"],
-  "presets": {"sol": {"effort": "medium"}}
+  "ask": {
+    "advisers": ["sol", "fable"],
+    "presets": {"sol": {"effort": "medium"}}
+  }
 }
 ```
 
@@ -127,7 +146,7 @@ See the installed configuration reference for helper inputs and migration.
 1. Install [Claude Code](https://code.claude.com/docs/en/setup) if needed. Open a new terminal or PowerShell window; the folder does not matter.
 2. Run `claude --version`. Opus 5.5 needs **2.1.280 or newer**. For an older version, run `claude update`, then check again. Keep running Claude sessions open.
 3. Run `claude auth login` and complete sign-in in your browser. Run `claude auth status` to check that you are signed in.
-4. In Codex with this Skill installed, ask: **“Ask Claude to review this change.”** The default is **Opus 5.5, High**. Change it in your personal `config.json` or name another model or effort in the request.
+4. In Codex with this Skill installed, ask: **“Ask Claude to review this change.”** The imported defaults above determine the model and effort. Change the `ask` settings in `.scoville/config.json` or name another model or effort in the request.
 
 If ASK reports an expired OAuth session, repeat step 3 and retry. An old CLI can reject the correct model ID; repeat step 2 instead of substituting a model.
 

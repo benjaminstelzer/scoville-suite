@@ -15,7 +15,7 @@ only when the operation creates, changes, transitions, or audits a Decision.
 
 ## Files and encoding
 
-- Use UTF-8 without a byte-order mark and LF line endings.
+- Write UTF-8 without a byte-order mark and LF line endings for compatibility with installed readers. Updated readers also accept consistent CRLF; mixed endings and bare CR are invalid.
 - `PROJECT_INDEX.md` owns the format version and active Plan routing.
 - `docs/plans/` contains one Plan per Markdown file.
 - `docs/decisions/` contains one Decision per Markdown file.
@@ -128,14 +128,14 @@ Use Steps for two or more behavior-complete units that need an execution order.
 Keep necessary intermediate actions inside their unit, on the same Step line;
 more explanation never creates extra dispatch units. Each Step starts with a concrete
 verb and names its target. Cite every known repository-relative file in the Step
-that changes or checks it, for example:
+that changes or checks it, for example, this single Step within a migration sequence:
 
 ```text
-Steps:
-1. Update `src/cache/migrate.py` to stage schema-2 output before publication.
-2. Update `src/cache/reader.py` to call the staged migration after validation.
-3. Add interruption coverage in `tests/test_cache_migration.py`.
+1. Update `src/cache/migrate.py` and `src/cache/reader.py` together to stage schema-2 output before publication and read it after validation; verify interrupted migration in `tests/test_cache_migration.py`.
 ```
+
+This line illustrates a unit within a sequence. A separately accepted rollout
+result belongs to its own Work Item, not another Step in this item.
 
 Do not write vague Steps such as "make the changes" or "update the relevant
 files." Resolve an unknown canonical target through bounded read-only discovery
@@ -166,8 +166,7 @@ Prefer a short direct sentence where sufficient. One physical line may contain
 several sentences when necessary criteria would otherwise be lost. Steps add
 subordinate order, not another description of the outcome. Evidence records the
 observed result and a precise reference when needed, not an execution diary.
-Use the selected writing profile for instruction depth. At every profile, the
-concept and sequence must let the worker execute and the reviewer trace each
+The concept and sequence must let the worker execute and the reviewer trace each
 Step to its result and Acceptance without conversation history.
 
 ## State invariants
@@ -188,9 +187,25 @@ External blocker labels are unique within one Work Item and match
 `[A-Z][A-Z0-9]{1,15}-[A-Z0-9][A-Z0-9._-]{0,47}`. `ADR`, `PLAN`, and `W` are
 reserved prefixes.
 
-Evidence entries are unique, case-sensitive strings of at most 200 Unicode
-scalar values, without leading or trailing whitespace, comma, square bracket,
-line break, or ASCII control character. Shape does not prove sufficiency.
+Evidence entries are unique, case-sensitive strings of 1 to 200 Unicode
+scalar values, without leading/trailing whitespace, line breaks or ASCII
+control characters. Shape does not prove sufficiency.
+
+Write legacy lists and LF while installed older readers must remain supported:
+
+```text
+Evidence: [Tests A passed, Selector output checked]
+```
+
+Each list entry must contain neither commas nor square brackets. Commas separate
+entries. Use `Evidence: []` when there is no evidence. Keep detailed results in
+their owning artifact and cite it rather than growing an execution log.
+
+Updated readers additionally accept an ordinary one-line text value, including
+commas and brackets, unless it starts with `[` and therefore uses list syntax.
+Quotes and backslashes remain literal in both forms. Plain text is one entry.
+This reading support does not change the compatible writing rule above.
+Format version remains 1; existing records need no migration.
 
 Dates use ISO `YYYY-MM-DD`. `updated` must not precede `created`. IDs are
 case-sensitive. Canonical paths use forward slashes relative to the project

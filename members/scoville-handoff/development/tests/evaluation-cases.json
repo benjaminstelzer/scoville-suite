@@ -94,6 +94,30 @@
       "expect": [
         "Preserve the exact task directory. The incidental-host exclusion must not remove an expressly supplied task location."
       ]
+    },
+    {
+      "id": "nested-code-fences",
+      "given": "An explicit handoff must preserve task snippets containing triple and quadruple backtick fences.",
+      "expect": [
+        "Return one copy-ready outer block using at least five backticks on both outer fences.",
+        "Preserve both inner snippets without closing the outer block early."
+      ]
+    },
+    {
+      "id": "verified-repository-directory",
+      "given": "Earlier work verified the task repository at E:/Projects/task. The host CWD is Z:/unrelated. The user requests a handoff without repeating the repository path.",
+      "expect": [
+        "Use E:/Projects/task as Working directory and attribute the established task fact.",
+        "Do not use the incidental host CWD or claim the task directory is unknown."
+      ]
+    },
+    {
+      "id": "optional-state-labels",
+      "given": "A conversation-only handoff has a known status, goal, authority and next action but no external state, rejected approaches or version control.",
+      "expect": [
+        "Preserve status and all established continuation facts.",
+        "Omit inapplicable template labels without omitting relevant unknowns or required Objective fields."
+      ]
     }
   ]
 }

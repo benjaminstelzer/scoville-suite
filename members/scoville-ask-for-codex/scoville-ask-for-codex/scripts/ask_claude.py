@@ -4,26 +4,29 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import signal
+import subprocess
 import re
 import shutil
 import sys
 from pathlib import Path
 from typing import Any
 
-EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
-READ_ONLY_TOOLS = "Read,Grep,Glob,WebSearch,WebFetch"
-MODEL_PATTERN = re.compile(r"^[A-Za-z0-9._:-]+$")
+from ask_settings import EFFORT_LEVELS, MODEL_PATTERN
+
+READ_ONLY_TOOLS = "Read,Grep,Glob"
 
 
 def configure_standard_streams() -> None:
     input_reconfigure = getattr(sys.stdin, "reconfigure", None)
     if callable(input_reconfigure):
-        input_reconfigure(encoding="utf-8-sig", errors="replace")
+        input_reconfigure(encoding="utf-8-sig", errors="strict")
 
     for stream in (sys.stdout, sys.stderr):
         reconfigure = getattr(stream, "reconfigure", None)
         if callable(reconfigure):
-            reconfigure(encoding="utf-8", errors="replace")
+            reconfigure(encoding="utf-8", errors="strict")
 
 
 def resolve_claude_command() -> list[str]:
@@ -83,6 +86,7 @@ def session_mode(args: argparse.Namespace) -> str:
 
 
 def build_command(args: argparse.Namespace, claude_command: list[str]) -> list[str]:
+    allowed_tools = READ_ONLY_TOOLS + (",WebSearch,WebFetch" if args.web_tools else "")
     command = [
         *claude_command,
         "-p",
@@ -95,9 +99,9 @@ def build_command(args: argparse.Namespace, claude_command: list[str]) -> list[s
         "--permission-mode",
         "dontAsk",
         "--tools",
-        READ_ONLY_TOOLS,
+        allowed_tools,
         "--allowed-tools",
-        READ_ONLY_TOOLS,
+        allowed_tools,
         "--max-budget-usd",
         format(args.max_budget_usd, "g"),
     ]
@@ -116,3 +120,41 @@ def build_command(args: argparse.Namespace, claude_command: list[str]) -> list[s
         command.append("--safe-mode")
 
     return command
+
+
+class ClaudeTimeout(RuntimeError):
+    """The consultation exceeded its deadline; no retry is implied."""
+
+
+def run_command(command: list[str], cwd: Path, prompt: str, timeout: float):
+    """Own one CLI process family and stop it when its deadline expires."""
+    with subprocess.Popen(command, cwd=cwd, stdin=subprocess.PIPE,
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                          text=True, encoding="utf-8",
+                          start_new_session=sys.platform != "win32",
+                          creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0) as process:
+        try:
+            stdout, stderr = process.communicate(prompt, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            cleanup_error = None
+            try:
+                if sys.platform == "win32":
+                    stopped = subprocess.run(
+                        ["taskkill", "/PID", str(process.pid), "/T", "/F"],
+                        capture_output=True, text=True, timeout=10,
+                        creationflags=subprocess.CREATE_NO_WINDOW)
+                    if stopped.returncode:
+                        cleanup_error = stopped.stderr.strip() or stopped.stdout.strip()
+                else:
+                    os.killpg(process.pid, signal.SIGKILL)
+            except (OSError, subprocess.TimeoutExpired) as error:
+                cleanup_error = str(error)
+            finally:
+                if process.poll() is None:
+                    process.kill()
+                process.wait()
+            detail = f"Claude exceeded timeout_seconds={timeout:g}; no retry was started."
+            if cleanup_error:
+                detail += f" Process-family cleanup could not be confirmed: {cleanup_error}"
+            raise ClaudeTimeout(detail) from None
+    return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)

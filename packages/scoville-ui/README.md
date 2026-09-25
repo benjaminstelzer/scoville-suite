@@ -79,7 +79,7 @@ from individual Skill repositories. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 
 The host needs permission to write to its Skills directory. See the
-[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills)or the
+[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
 [Claude Code Skills guide](https://code.claude.com/docs/en/skills)
 for host-specific locations.
 

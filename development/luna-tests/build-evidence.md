@@ -22,3 +22,22 @@ against one exact output inventory without merging or overwriting receipts.
 Its focused positive/negative test passed. The public check passed for 13
 packages and 188 files including the root Scoville receipt (187 package files).
 It checks output identity only, not source freshness or publication readiness.
+
+## Informative byte sizes
+
+The existing builder adds per-file, entrypoint and complete-package byte counts
+to each member in build-receipt.json. They are informative, with no size gate or
+token estimate. Inspect current payloads without writing a build:
+
+```text
+python development/build_suite.py --size-report --profile general --member scoville-plan
+```
+
+Add `--load-trace MEMBER PATH_TO_SUMMARY` for an existing runner summary. The
+report lists the reference files actually served on that route, counting repeat
+reads. It reports observed_reference_bytes only when their recorded hashes
+match the current files. Otherwise that field is null and the separately named
+current_equivalent_reference_bytes is only a current-size comparison. Entrypoint
+size is separate: the trace does not prove how the prompt loaded the entrypoint,
+and these counts exclude host instructions, helper output and model responses.
+This adds reporting to the builder, not another runner.

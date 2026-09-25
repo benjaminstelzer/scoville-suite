@@ -203,7 +203,7 @@ def readme(root: Path, member: dict, audience: str = 'release', config: dict | N
             raise ValueError(f'noncanonical README sections for {member["name"]}: {actual}')
         if member['readme'][:4] != member['description_fragments']:
             raise ValueError('description_fragments must be the first four README entries')
-    return text.encode('utf-8')
+    return (text.rstrip() + '\n').encode('utf-8')
 
 
 def expand_variables(text: str, member: dict) -> str:
@@ -542,9 +542,36 @@ def build(root: Path, output: Path, public: bool, selected: list[str], profile: 
         receipt['members'].append({'name': member['name'], 'repository': member['repository'],
                                   'distribution': member.get('distribution', 'standalone'),
                                   'package_path': package_path(config, member),
-                                  'visibility': member['visibility'], 'files': hashes})
-    (output / 'build-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+                                  'visibility': member['visibility'], 'files': hashes,
+                                  'sizes': size_report(member['name'], files)})
+    (output / 'build-receipt.json').write_text(
+        json.dumps(receipt, indent=2) + '\n', encoding='utf-8', newline='\n')
     return receipt
+
+
+def size_report(member_name: str, files: dict[str, bytes], traces: list[dict] | None = None) -> dict:
+    """Report bytes, not token estimates or mandatory limits."""
+    sizes = {name: len(content) for name, content in sorted(files.items())}
+    routes = []
+    for trace in traces or []:
+        served = trace.get('served_files')
+        if not isinstance(served, list):
+            raise ValueError('load trace must contain served_files from an existing runner summary')
+        paths, matched = [], True
+        for entry in served:
+            path = member_name + '/' + entry['path']
+            if path not in files:
+                raise ValueError('trace references a file absent from the current package: ' + path)
+            paths.append(path)
+            matched = matched and entry.get('sha256') == hashlib.sha256(files[path]).hexdigest()
+        count = sum(sizes[path] for path in paths)
+        routes.append({'case_id': trace.get('case_id'), 'reference_reads': paths,
+                       'matches_current_files': matched,
+                       'observed_reference_bytes': count if matched else None,
+                       'current_equivalent_reference_bytes': count})
+    return {'package_bytes': sum(sizes.values()),
+            'entrypoint_bytes': sizes[member_name + '/SKILL.md'],
+            'file_bytes': sizes, 'observed_routes': routes}
 
 
 def verify_shared_helpers(root: Path, output: Path) -> list[str]:
@@ -585,6 +612,8 @@ def main(default_root: Path | None = None) -> int:
     parser.add_argument('--root', type=Path, default=default_root)
     parser.add_argument('--output', type=Path)
     modes = parser.add_mutually_exclusive_group()
+    modes.add_argument('--size-report', action='store_true', help='Report package bytes without writing a build')
+    parser.add_argument('--load-trace', nargs=2, action='append', default=[], metavar=('MEMBER', 'SUMMARY'), help='Existing runner summary for observed reference loads; use with --size-report')
     modes.add_argument('--check-readmes', action='store_true')
     modes.add_argument('--write-readmes', action='store_true')
     modes.add_argument('--check-helpers', action='store_true')
@@ -600,6 +629,23 @@ def main(default_root: Path | None = None) -> int:
     if args.root is None:
         parser.error('--root is required when running the shared builder directly')
     try:
+        if args.load_trace and not args.size_report:
+            raise ValueError('--load-trace requires --size-report')
+        if args.size_report:
+            config = load(args.root, args.profile, args.layout)
+            selected = set(args.member) or {m['name'] for m in config['members']}
+            known = {m['name'] for m in config['members']}
+            if selected - known or any(name not in selected for name, _ in args.load_trace):
+                raise ValueError('unknown or unselected size-report member')
+            reports = []
+            for member in config['members']:
+                if member['name'] not in selected:
+                    continue
+                traces = [json.loads(Path(path).read_text(encoding='utf-8'))
+                          for name, path in args.load_trace if name == member['name']]
+                reports.append({'name': member['name'], **size_report(member['name'], payload(args.root, member, config), traces)})
+            print(json.dumps({'profile': config.get('profile'), 'members': reports}))
+            return 0
         if args.check_sources or args.write_sources:
             config = load(args.root, args.profile, args.layout)
             if (args.profile or args.layout) and (config.get('profile'), config.get('layout')) != (load(args.root).get('profile'), load(args.root).get('layout')):

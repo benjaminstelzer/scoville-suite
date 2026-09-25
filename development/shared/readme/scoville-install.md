@@ -17,6 +17,6 @@ from individual Skill repositories. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 {{ /package }}
 The host needs permission to write to its Skills directory. See the
-[Codex Skills guide]({{ var: codex_skills_guide }}) {{ profile: general }}or the
+[Codex Skills guide]({{ var: codex_skills_guide }}){{ profile: general }} or the
 [Claude Code Skills guide](https://code.claude.com/docs/en/skills){{ /profile }}
 for host-specific locations.

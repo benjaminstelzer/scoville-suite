@@ -152,7 +152,7 @@ class SelectContextTests(unittest.TestCase):
         compatibility = "{{ profile: general }}" + readme_compatibility.split("{{ profile: general }}", 1)[1].strip()
         self.assertIn("Fable, Astra, SOL or Opus families, version 5.0", readme_compatibility)
         self.assertIn(f'compatibility: "{compatibility}"', SKILL.read_text(encoding="utf-8"))
-        self.assertIn("Decision-batch helpers need Python 3", compatibility)
+        self.assertIn("Selector and validator need Python 3.10+", compatibility)
         self.assertIn("Manual alternatives load only without Python", compatibility)
 
     def setUp(self) -> None:
@@ -379,9 +379,26 @@ class SelectContextTests(unittest.TestCase):
         self.assertEqual(1, completed.returncode)
         self.assertEqual("FILE_UTF8_INVALID", json.loads(completed.stdout)["diagnostics"][0]["code"])
 
-    def test_bom_and_crlf_are_rejected(self) -> None:
+    def test_crlf_preserves_whole_records_and_dispatch_source_text(self) -> None:
+        for path in self.root.rglob("*.md"):
+            path.write_bytes(path.read_bytes().replace(b"\n", b"\r\n"))
+        completed = self.run_cli()
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        payload = json.loads(completed.stdout)
+        self.assertEqual([DECISION.replace("\n", "\r\n")], payload["decisions"])
+        self.assertIn("Evidence: [old executor attempt, old reviewer attempt]\r\n", payload["work_item"])
+        self.assertNotIn("\n", payload["work_item"].replace("\r\n", ""))
+        completed = self.run_cli("--unit", "W-003/step-2")
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        self.assertEqual("2. Change only the selected behavior.\n", json.loads(completed.stdout)["work_item"]["source_text"])
+        completed = self.run_cli("--unit", "W-002")
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        source = json.loads(completed.stdout)["work_item"]["source_text"]
+        self.assertIn("Evidence: []\nNext action: Resume later.\n", source)
+
+    def test_bom_and_mixed_line_endings_are_rejected(self) -> None:
         path = self.root / "docs" / "plans" / "0001-selector-fixture.md"
-        for data, code in ((b"\xef\xbb\xbf---\n", "FILE_BOM_FORBIDDEN"), (plan().replace("\n", "\r\n").encode(), "FILE_LINE_ENDING_INVALID")):
+        for data, code in ((b"\xef\xbb\xbf---\n", "FILE_BOM_FORBIDDEN"), (plan().replace("\n", "\r\n", 1).encode(), "FILE_LINE_ENDING_INVALID")):
             with self.subTest(code=code):
                 path.write_bytes(data)
                 completed = self.run_cli()

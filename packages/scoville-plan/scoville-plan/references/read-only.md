@@ -11,15 +11,15 @@ never enables manual selection. The commands below specify the complete
 invocation; do not load the Python source just to call them. Run:
 
 ```text
-python <skill-directory>/scripts/select_context.py --root <project-root> [--work-item W-001] --format json
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" [--work-item W-001] --format json
 ```
 
 For a worker dispatch, select the exact unit instead:
 
 ```text
-python <skill-directory>/scripts/select_context.py --root <project-root> --unit W-001 --format json
-python <skill-directory>/scripts/select_context.py --root <project-root> --unit W-003/step-2 --format json
-python <skill-directory>/scripts/select_context.py --root <project-root> --unit W-003/steps-2-3 --format json
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" --unit W-001 --format json
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" --unit W-003/step-2 --format json
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" --unit W-003/steps-2-3 --format json
 ```
 
 The success object contains exactly four top-level semantic areas:
@@ -90,16 +90,9 @@ referenced record cannot be resolved unambiguously.
 
 ## Surface proposals
 
-Keep every proposed Decision ID discoverable through the inventory. Read and
-report title, recommended choice and practical effect for proposals relevant to
-the current work, or every proposal during a full audit. Ask for accept, reject, or
-revise only when requested work depends on the choice or the user asks to handle
-Decisions. A status/listing request does not require a decision answer. Preserve
-unresolved proposals at handoff without repeating unchanged decision questions
-on each status turn. New decision-relevant evidence may warrant asking again.
-Continue unrelated work, but stop before work whose direction depends on a
-proposal. Never infer acceptance from silence, continued work, or implementation
-that follows the recommendation.
+Apply the entrypoint's proposal policy: inventory IDs and status, read and
+report relevant proposals (all for a full audit), and request a choice only
+for dependent work or explicit Decision handling. Keep unrelated work moving.
 
 ## Report the boundary
 
