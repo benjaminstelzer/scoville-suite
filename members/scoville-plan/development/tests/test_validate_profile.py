@@ -451,6 +451,36 @@ class ValidatorTest(unittest.TestCase):
         self.assertIsNone(result["valid"])
         self.assertEqual({"PATH_REDIRECTED"}, self.codes(result))
 
+    def test_redirect_above_project_root_is_allowed(self) -> None:
+        physical = Path(self.temporary.name) / "physical"
+        project = physical / "project"
+        shutil.copytree(FIXTURE, project)
+        alias = Path(self.temporary.name) / "alias"
+        try:
+            os.symlink(physical, alias, target_is_directory=True)
+        except OSError as error:
+            self.skipTest(f"directory symlink unavailable: {error}")
+        completed, result = self.run_json(root=alias / "project", unchanged=False)
+        self.assertEqual(0, completed.returncode, result)
+        self.assertTrue(result["valid"])
+        self.assertEqual(project.resolve(), Path(result["root"]))
+
+    @unittest.skipUnless(os.name == "nt", "Windows short-path alias regression")
+    def test_windows_short_root_alias_is_canonicalized(self) -> None:
+        import ctypes
+
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = ctypes.windll.kernel32.GetShortPathNameW(str(self.root), buffer, len(buffer))
+        if not length or length >= len(buffer):
+            self.skipTest("short path unavailable")
+        alias = Path(buffer.value)
+        if os.path.normcase(str(alias)) == os.path.normcase(str(self.root)):
+            self.skipTest("root has no distinct short path")
+        completed, result = self.run_json(root=alias, unchanged=False)
+        self.assertEqual(0, completed.returncode, result)
+        self.assertTrue(result["valid"])
+        self.assertEqual(self.root.resolve(), Path(result["root"]))
+
     def test_canonical_root_escape_is_an_incomplete_inspection(self) -> None:
         validator = VALIDATOR.Validator(str(self.root))
         outside = self.root.parent / "outside.md"
