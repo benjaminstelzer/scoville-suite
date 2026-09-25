@@ -3,7 +3,7 @@ format_version: 1
 id: PLAN-0001
 status: draft
 created: 2026-09-21
-updated: 2026-09-23
+updated: 2026-09-25
 ---
 
 # Suite-Builds und zuverlässige Workflow-Übergaben
@@ -401,7 +401,7 @@ Steps:
 4. Veröffentliche die beiden Suites und 14 Einzelpakete ohne separates Workflow-Repo. Bewahre Historien, benenne das WordPress-Ziel wie autorisiert um und prüfe komplette Remote-Bestände. Verifiziere neue Releases und Asset-Nachfolger vor dem Entfernen abgedeckter älterer Releases und Release-Versionstags.
 5. Veröffentliche E:/Dropbox/AI Projects/projects/BenjaminStelzer/README.md mit Scoville oben und Ask darunter; prüfe finale Installationslinks, Topics, Releases und Tags. Historische Belege bleiben unverändert.
 Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus, development/release-preflight.md belegt Workflow und WordPress sowie Handoff/UI; Code-Nachtest besteht; ein damaliger Mitgliedsnachtest und Plan-Gate laufen, Isolierte r4-Builds liefern 238 bytegleiche Paketdateien; 38 gemeinsame Tests bestehen; Viewer-Dateien entsprechen elf CI-Artefakten, RELEASE-HISTORY: Entscheidung zum Nachtragen sieben belegter veröffentlichter Versionen angefragt; keine Remote-Mutation]
-Next action: Veröffentlichten Release-Abschluss aus temp/2026-09-22-suite-release/prepared-final prüfen und knapp im kanonischen Nachweis festhalten; die README-Korrektur hat jetzt Vorrang.
+Next action: Vor einer Wiederaufnahme ausdrücklich entscheiden, ob der durch die Entfernung von Scribe, Design, Research und Brainstorm überholte Veröffentlichungsumfang abgebrochen oder auf verbleibende Ziele begrenzt wird; aktuelle Suite-Releases gehören PLAN-0002/W-010 und W-011.
 
 ### W-032 Workflow-Worker gegen unvollständige Dispatches absichern
 
@@ -492,20 +492,20 @@ Steps:
 5. Veröffentliche pro freigegebenem Ziel die geprüften Dokumentationsänderungen unter Erhalt der Historie. Vergleiche vollständige Remote-Bestände und dokumentiere Ergebnis und Ausnahmen je Repo; ändere keine Release-Tags oder Assets.
 Evidence: [Nutzer erweitert Vorlage ausdrücklich auf Nicht-Skill-Projekte; development/readme-unification.md nennt alle Ziele und Ausnahmen, 22 Repositories gepusht; Remote-Commit und vollständiger Git-Dateibaum verifiziert; Releases und Tags nicht verändert, 40 Shared-Tests plus 5 Scoville-Tests plus 8 Ask-Tests plus 49 GitHub-Tests bestanden; 15 Paketverträge geprüft]
 
-### W-029 Deferred after W-025: Release-Ablauf wiederverwendbar automatisieren
+### W-029 Release-Ablauf nach dem aktuellen Suite-Release wiederverwendbar automatisieren
 
 Status: todo
-Depends on: [W-025]
+Depends on: []
 Blocked by: []
 Decisions: []
 Outcome: Ein gemeinsames Release-Script führt den belegten Suite-Ablauf mit überprüfbarer Wiederaufnahme aus; der GitHub-Skill nennt den genauen Aufruf.
 Acceptance: Tests belegen frische und unterbrochene Läufe ohne doppelte Veröffentlichung sowie Ablehnung geänderter Eingaben und fehlender Gates. Remote-Dateien und Plan-Viewer-Assets werden vor Bereinigung geprüft. Dokumentierte Befehle decken Start, Status, Wiederaufnahme und Fehlerfälle ab; gespeicherte Zustände ersetzen keine frische Remote-Prüfung oder Freigabe.
 Steps:
-1. Überführe den tatsächlich geprüften W-025-Ablauf in ../shared/build/ mit festen Eingaben für Quellen, Pakete, Versionen, Ziele, Autorisierung und Testbelege. Bewahre Versionshistorien und eigenständige Pakete.
+1. Überführe den tatsächlich geprüften Ablauf aus PLAN-0002/W-010 und W-011 in ../shared/build/ mit festen Eingaben für Quellen, Pakete, Versionen, Ziele, Autorisierung und Testbelege. Bewahre Versionshistorien und eigenständige Pakete.
 2. Implementiere nachvollziehbare Schritte für Buildprüfung, Veröffentlichung, Remote-Verifikation und nachgelagerte Release-Bereinigung. Speichere bestätigte Ergebnisse mit Eingabehashes; gleiche unbekannte Ergebnisse vor Wiederaufnahme mit GitHub ab. Bewahre fremde Drafts und operative Tags.
 3. Teste Unterbrechungen vor und nach externen Änderungen sowie fehlende Assets, Drift und mehrdeutige Remote-Ergebnisse ohne Live-Schreibzugriffe. Dokumentiere den belegten Aufruf und passe den kanonischen GitHub-Skill an; synchronisiere gemeinsame Suite-Kopien.
 Evidence: []
-Next action: Nach W-025 dessen verifizierte Release-Schritte und Eingaben für den gemeinsamen Ablauf übernehmen.
+Next action: Nach vollständigem Abschluss von PLAN-0002/W-010 und W-011 deren verifizierte Release-Schritte und Eingaben für den gemeinsamen Ablauf übernehmen.
 
 ### W-026 Entwicklungslinks nach README-Ziel generieren
 

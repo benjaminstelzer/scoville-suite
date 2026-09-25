@@ -50,7 +50,7 @@ Steps:
 2. Lege gemäß ADR-0015 ../shared/ui/quality.md und ../shared/ui/validation.md als Quellen an. Ersetze in suite.json den bisherigen UI-Qualitätseintrag und ergänze für beide Member files[].source mit shared:ui/quality.md beziehungsweise shared:ui/validation.md. Verwende die vollständigen memberbezogenen Zielpfade <skill-name>/references/ui-quality.md und <skill-name>/references/validation-common.md; erzeuge keine doppelten Ziele. Entferne abgelöste lokale Autoritätsquellen; reduziere lokale validation.md auf Adapterregeln und passe beide SKILL.md-Router auf gezieltes einmaliges Laden an.
 3. Ergänze die kleinste passende Regression in development/tests/test_build_suite.py oder im zuständigen kanonischen Test unter ../shared/tests/. Synchronisiere danach Quellen und Tests mit python -B ../shared/build/sync_suite_sources.py --root . in den generierten Shared-Snapshot. Prüfe Manifest, gleiche Shared-Payloads, vollständige Links und isolierten Build über die vorhandenen Build-/Exportprüfungen.
 Evidence: []
-Next action: Nach W-001 die ausdrückliche Annahme von ADR-0015 prüfen; erst danach Shared-Dateivertrag und Verbraucher gegen den aktuellen Builder prüfen und umsetzen.
+Next action: Nach W-001 den angenommenen Shared-Dateivertrag aus ADR-0015 und seine Verbraucher gegen den aktuellen Builder prüfen und umsetzen.
 
 ### W-003 Informationsaufbau und Nutzerführung haben einen kompakten gemeinsamen Maßstab
 
