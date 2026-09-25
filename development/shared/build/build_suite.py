@@ -20,14 +20,21 @@ def shared_root() -> Path:
 def within(root: Path, relative: str) -> Path:
     if not isinstance(relative, str) or not relative or '\\' in relative or ':' in relative:
         raise ValueError('expected a nonempty portable relative path')
-    candidate = root / relative
     if Path(relative).is_absolute() or '..' in Path(relative).parts:
         raise ValueError(f'unsafe path: {relative}')
+    requested_root = root.absolute()
+    candidate = requested_root / relative
+    resolved_root = requested_root.resolve()
     resolved = candidate.resolve()
-    if not resolved.is_relative_to(root.resolve()):
+    if not resolved.is_relative_to(resolved_root):
         raise ValueError(f'path escapes source: {relative}')
-    if any(p.is_symlink() or (hasattr(p, 'is_junction') and p.is_junction()) for p in (candidate, *candidate.parents) if p != root.parent):
-        raise ValueError(f'symlink not allowed: {relative}')
+    current = candidate
+    while True:
+        if current.is_symlink() or (hasattr(current, 'is_junction') and current.is_junction()):
+            raise ValueError(f'symlink not allowed: {relative}')
+        if current == requested_root:
+            break
+        current = current.parent
     return resolved
 
 
