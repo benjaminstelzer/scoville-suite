@@ -24,20 +24,17 @@ Reuse project terms, owners, plan/decision mechanisms, test phases, and version-
 control cadence. Code owns engineering scope, canonical code, integrity, risk,
 and proportionate proof.
 
-Finding another Skill in this family does not make it installed, active, applicable, or required. If that Skill is absent or inactive, ignore it. Do not require, install, simulate, or reimplement it. If it is active and applicable, let it handle only its stated concern while this Skill continues its own authorized work. An opt-out applies only to the Skill the user excluded, not to independently authorized work.
+This Skill works independently. Other Scoville Skills are optional. Use an
+available, active sibling only for its applicable concern; do not install,
+simulate or require an absent sibling. Honor explicit user exclusions.
 
 Family owners, in suite order:
 
 - `scoville-code-anti-ai-slop`: engineering scope, implementation, risk, and validation.
 - `scoville-plan`: durable Plans, Work Items, Decisions, and lifecycle state.
-- `scoville-scribe-anti-ai-slop`: wording, terminology, meaning, and source fidelity.
 - `scoville-ui-anti-ai-slop`: framework UI implementation, accessibility mechanics, and rendered proof.
 - `scoville-wordpress-ui-backend-anti-ai-slop`: WordPress plugin-owned wp-admin implementation and UI acceptance.
-- `scoville-design-anti-ai-slop`: visual definition, art direction, critique, and repair.
 - `scoville-handoff`: active-work transfer.
-- `scoville-research`: source-backed research and synthesis.
-- `scoville-brainstorm`: deliberate divergence before selection.
-- `scoville-workflow-for-codex`: explicit Plan execution through native Codex project tasks.
 
 Fixed labels alone trigger no sibling.
 

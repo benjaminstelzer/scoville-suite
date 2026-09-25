@@ -18,6 +18,9 @@ at the suite root. Contract tests cover source rules, not the live task lifecycl
 See the suite's [context-fix evidence](../../../development/workflow-context-fix.md)
 for the bounded runtime and model checks.
 
+The [coordinator startup correction](../../../development/coordinator-startup-fix.md)
+records native contract and transport checks, validation and installation limits.
+
 ## Installation identity
 
 Install only the generated package. Before replacing an existing installation,

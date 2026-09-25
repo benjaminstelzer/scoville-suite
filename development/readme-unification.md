@@ -13,8 +13,8 @@ and License follow. Suite framing remains separately authored.
 `shared/readme/README-template.md` owns the reusable template. Each member's
 `description_fragments` names its four source fragments. Both suite and member
 READMEs use them. Suite projection only nests headings. Workflow keeps its
-flowchart. Brainstorm and paired Ask use compact branching diagrams. Other
-members use shorter lists.
+flowchart. Paired Ask uses a compact branching diagram. Other members use
+shorter lists.
 
 ## Repository fix matrix
 
@@ -28,13 +28,9 @@ Remote commit and complete Git tree identities matched each candidate.
 | ask-suite-for-codex | Same builder and three variant templates | Verified `f17792d15e9a` |
 | scoville-code-anti-ai-slop | Suite-generated README | Verified `018131fe4c8e` |
 | scoville-plan | Suite-generated README | Verified `a13b736445ed` |
-| scoville-scribe-anti-ai-slop | Suite-generated README | Verified `74c8111f5767` |
 | scoville-ui-anti-ai-slop | Suite-generated README | Verified `d12ab5a092e2` |
 | scoville-wordpress-ui-backend-anti-ai-slop | Suite-generated README | Verified `ce628745efce` |
-| scoville-design-anti-ai-slop | Suite-generated README | Verified `610ea753b5fc` |
 | scoville-handoff | Suite-generated README | Verified `d507a97382a7` |
-| scoville-research | Suite-generated README | Verified `4ade04269f5f` |
-| scoville-brainstorm | Suite-generated README and branching diagram | Verified `b3420e96e660` |
 | ask-astra-for-review-for-codex | Shared single-adviser block | Verified `916c31fcaf48` |
 | ask-sol-for-review-for-codex | Shared single-adviser block | Verified `b7babadb9f33` |
 | ask-claude-and-astra-for-codex | Shared paired block and diagram | Verified `a6900b0cd4ce` |
@@ -72,8 +68,6 @@ was not tested. The profile retained its personal structure.
 
 W-031 narrows every cost block to actual added usage, time or maintenance effort.
 The shared template and GitHub publication guidance now enforce that distinction.
-Research and Brainstorm use one short shared Codex capacity notice under Compatibility.
-Brainstorm's diagram now separates idea agents, research, coordination and criticism.
 Relevant test gaps remain under development instead of inflating the cost lists.
 
 All 21 affected repositories were pushed and their remote commits and complete

@@ -43,8 +43,9 @@ For `yes`: `READ -> CAPTURE -> RENDER -> CHECK -> SEND`.
    Never substitute a source name or reread instruction for known material facts.
    The handoff request is
    not itself a decision. Use `unknown` or `none known` instead of inference.
-   Omit secret values; retain a needed variable name and mark its value
-   redacted. Runtime CWD, temporary workspace, and host state are not task facts
+   Replace each secret value with `[redacted]` before composing any response,
+   including warnings, quotations and instructions about redaction. Retain a
+   needed variable name. Runtime CWD, temporary workspace, and host state are not task facts
    unless the user or a named source supplies them.
    Under a tight output limit, remove repetition and irrelevant history first,
    then shorten explanation. Never drop authority, ownership, hazards, evidence
@@ -56,8 +57,8 @@ For `yes`: `READ -> CAPTURE -> RENDER -> CHECK -> SEND`.
 3. **RENDER:** Copy [the continuation template](assets/continuation-prompt.md) with all H2s and fixed Receiver bullets, then replace its placeholders with captured facts. Under
    `State`, label every applicable fact; name each source once beside its facts;
    repeat a fact only for a hazard or first step; omit only empty labels. Render
-   fully even with sparse facts. Use `Status: not_started` only when a source
-   says work has not started; missing status is `unknown`, not `not_started`.
+   fully even with sparse facts. If a source says work has not started, set
+   `Status: not_started`. If status is missing, set `Status: unknown`.
    Use `none known` for absent known facts, not as proof of absence.
    Step 1 resolves the first blocker, else
    recovers in-flight work, else takes the next safe action. Keep the template's
@@ -82,19 +83,16 @@ For `yes`: `READ -> CAPTURE -> RENDER -> CHECK -> SEND`.
 
 Handoff owns the snapshot.
 
-Finding another Skill in this family does not make it installed, active, applicable, or required. If that Skill is absent or inactive, ignore it. Do not require, install, simulate, or reimplement it. If it is active and applicable, let it handle only its stated concern while this Skill continues its own authorized work. An opt-out applies only to the Skill the user excluded, not to independently authorized work.
+This Skill works independently. Other Scoville Skills are optional. Use an
+available, active sibling only for its applicable concern; do not install,
+simulate or require an absent sibling. Honor explicit user exclusions.
 
 Family owners, in suite order:
 
 - `scoville-code-anti-ai-slop`: engineering scope, implementation, risk, and validation.
 - `scoville-plan`: durable Plans, Work Items, Decisions, and lifecycle state.
-- `scoville-scribe-anti-ai-slop`: wording, terminology, meaning, and source fidelity.
 - `scoville-ui-anti-ai-slop`: framework UI implementation, accessibility mechanics, and rendered proof.
 - `scoville-wordpress-ui-backend-anti-ai-slop`: WordPress plugin-owned wp-admin implementation and UI acceptance.
-- `scoville-design-anti-ai-slop`: visual definition, art direction, critique, and repair.
 - `scoville-handoff`: active-work transfer.
-- `scoville-research`: source-backed research and synthesis.
-- `scoville-brainstorm`: deliberate divergence before selection.
-- `scoville-workflow-for-codex`: explicit Plan execution through native Codex project tasks.
 
 Preserve active sibling state in the snapshot.

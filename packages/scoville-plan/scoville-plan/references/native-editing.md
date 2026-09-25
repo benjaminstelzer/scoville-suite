@@ -21,8 +21,9 @@ proposed-state inspection, and honest reporting.
 2. Read the index and resolved Plan frontmatter and require `format_version: 1`
    in each. Read the current and affected complete Work Item blocks, the title,
    Goal and Non-goals needed to interpret the work, referenced Decisions, and
-   every `proposed` Decision found through a frontmatter inventory. Load other
-   records only for the selected operation's relation or evidence checks.
+   relevant `proposed` Decisions found through a frontmatter inventory. Keep
+   other proposal IDs discoverable; read their bodies only for a full audit.
+   Load other records only for the selected operation's relation or evidence checks.
 3. Inventory all valid records only when allocating an ID, validating the
    complete profile, or checking a cross-record relation.
 4. Capture the exact bytes and SHA-256 of every affected existing file. Re-read

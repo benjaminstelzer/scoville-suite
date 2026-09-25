@@ -15,8 +15,8 @@ tests, not a visual recipe.
 
 ## Start with the user task
 
-**Design decision:** Primary-task priority, information sequence, and intended
-action hierarchy belong to active Design. Consume its record when supplied.
+**Product decision:** Primary-task priority, information sequence, and intended
+action hierarchy belong to the canonical product owner. Consume its record when supplied.
 **UI implementation floor:** Required controls, content, semantics, and task
 completion remain available through the owning framework.
 
@@ -38,7 +38,7 @@ canonical content owner permits it.
 
 ## Make relationships perceptible
 
-**Design decision:** Active Design owns intended grouping, hierarchy, density,
+**Product decision:** The canonical product owner owns intended grouping, hierarchy, density,
 and deliberate visual exceptions. **UI implementation floor:** Implement those
 relations with canonical components/tokens and preserve semantic relationships.
 
@@ -61,7 +61,7 @@ including inventory coverage when auditing a named page.
 
 ## Preserve readable content
 
-**Design decision:** Active Design owns typography, spacing roles, and intended
+**Product decision:** The canonical product owner owns typography, spacing roles, and intended
 reading emphasis. **UI implementation floor:** UI retains text scaling, zoom,
 wrapping, truncation access, label association, theme/state contrast, and
 supported fallback mechanics.
@@ -77,13 +77,12 @@ Use the project or platform's typography and spacing language while protecting:
   target across supported states and themes.
 
 Do not shorten, rewrite, or invent interface copy to solve a layout problem.
-When Scribe is available, route variable wording through it; otherwise preserve
-existing copy or treat the wording as a separate verified text decision. Fix
-the presentation constraint here.
+Preserve existing copy or treat new wording as a separate verified text
+decision. Fix the presentation constraint here.
 
 ## Make interaction predictable
 
-**Design decision:** Active Design owns intended affordance emphasis, feedback
+**Product decision:** The canonical product owner owns intended affordance emphasis, feedback
 priority, and recovery experience. **UI implementation floor:** UI retains
 component semantics, focus/input behavior, announcements, and state transitions.
 
@@ -104,7 +103,7 @@ owning component's semantics or state model.
 
 ## Adapt instead of merely shrinking
 
-**Design decision:** Active Design owns the intended responsive transformation
+**Product decision:** The canonical product owner owns the intended responsive transformation
 and priority changes. **UI implementation floor:** UI retains framework-valid
 breakpoints, reflow mechanics, content/state persistence, input behavior, and
 rendered proof.
@@ -123,7 +122,7 @@ mechanisms.
 
 ## Design states as part of the same interface
 
-**Design decision:** Active Design owns intended state presentation, priority,
+**Product decision:** The canonical product owner owns intended state presentation, priority,
 and recovery. **UI implementation floor:** UI retains component state coverage,
 semantics, focus, announcements, transitions, and implementation proof.
 
@@ -138,15 +137,15 @@ floor is completeness for the requested flow, not ceremonial coverage.
 
 ## Keep accessibility structural
 
-**Design decision:** Active Design owns inclusive communication and equivalent
+**Product decision:** The canonical product owner owns inclusive communication and equivalent
 meaning. **UI implementation floor:** UI retains semantic, interactive,
 platform, scaling, input-alternative, status, and rendered mechanics.
 
 Accessibility is not a final color pass. Confirm that required names, labels,
 roles, values, relationships, reading order, focus behavior, input alternatives,
 scaling, and status communication survive the chosen component and layout.
-Scribe owns the wording; UI owns whether the interface exposes and presents it
-correctly.
+The content owner supplies wording; UI verifies that the interface exposes
+and presents it correctly.
 
 Use the applicable standard or platform rule for quantitative requirements.
 Do not invent substitute measurements or treat an automated scan as proof that

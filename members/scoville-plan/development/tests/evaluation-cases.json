@@ -502,10 +502,10 @@
     },
     {
       "id": "standalone-native-writing-owner",
-      "given": "Create, rewrite, and audit native records with Plan alone, with Scribe installed, and with Scribe active for another segment.",
+      "given": "Create, rewrite, and audit native records with Plan alone and with a separate wording owner active for another segment.",
       "expect": [
-        "Plan owns record writing without requiring or loading Scribe.",
-        "Keep mixed-task prose in its own route. For explicit Scribe use, retain available applicable Plan's Core and edit references for format and lifecycle checks.",
+        "Plan owns record writing without requiring or loading another wording owner.",
+        "Keep mixed-task prose in its own route. Retain Plan's Core and edit references for native-record format and lifecycle checks.",
         "If Plan is absent or inactive, do not impose its rules or require its installation."
       ]
     }

@@ -50,33 +50,38 @@ Without that explicit pause instruction, ask for it once and perform no wait,
 poll, status narration, or project transition from automatic goal-continuation
 turns.
 
-## Load by phase
+## Coordinator delivery
 
-Read this core and the row's references completely before the action. At a
-phase change, load only newly required references. Follow each phase's explicit
-links before crossing into that operation; never interpret “above/below” as
-permission to skip another owner's gates.
-Request only reference paths explicitly linked here or in a loaded phase;
-do not construct another reference name from the phase or topic.
+The launcher and every rollover predecessor supply one complete runtime contract
+through `scripts/coordinator_contract.py build`. The helper composes the normal
+phases and task lifecycle directly from their canonical sources, omitting only
+labelled scenario examples. These files remain source owners, not optional
+reading choices for a running coordinator.
 
-Reuse a reference only while its complete contents remain available and its
-source is unchanged. A read marker or hash alone is not the contents. After
-compaction or context loss, reload this core and the currently required phases;
-do not reload unrelated phases. On a changed source or incomplete read, load
-the affected full reference before its action. Never act on a truncated rule.
-Do not routinely hash or reread unchanged available instructions. Live Plan,
-guard and delivery evidence still need their operation-specific fresh checks.
+The native creation envelope carries the complete contract, exact Skill path
+and content digest. Read it before project access. Do not use
+`collaboration.spawn_agent`, `followup_task` or forks for workflow roles.
+The guard checks the native creation envelope before granting coordinator
+capability, and native writer provenance before binding a writer. Missing,
+ambiguous, stale or incomplete evidence blocks the operation. This proves
+supplied instructions and transport, not comprehension or a host-level lock.
 
-| Next action | Required references |
+After compaction or context loss, run `python <skill-directory>/scripts/coordinator_contract.py show`
+and read the complete output before continuing. The guard requires that complete
+tool-delivered contract after the latest native compaction event before another
+coordinator operation. A read marker or hash alone is not the contents. Reload a conditional reference when its contents are lost or
+its source changes. Never act on truncated instructions.
+
+The normal contract includes the coordinator checkpoint at every accepted
+boundary and the Stop procedure. Load conditional detail only for its trigger:
+
+| Trigger | Required reference |
 | --- | --- |
-| Initial activation and intent | [activation](operations-activation.md), [scope](operations-scope.md) |
-| Select/form a unit | [scope](operations-scope.md), [selection](operations-selection.md), [dispatch](operations-dispatch.md) |
-| Create, activate or send a child | [activation](operations-activation.md), [selection](operations-selection.md), [wait](operations-wait.md) |
-| Wait or report exact child status | [wait](operations-wait.md) |
-| Recover or validate completed result | [wait](operations-wait.md), [results](operations-results.md) |
-| Review, repair, archive or resume terminal-child cleanup | [results](operations-results.md), [review](operations-review.md) |
-| Child compaction or context handoff, including worker-percent checkpoint | [compaction](operations-compaction.md), [checkpoint](operations-checkpoint.md), [review](operations-review.md) |
-| Accept, commit or finish scope | [review](operations-review.md), [accepted](operations-accepted.md), [scope](operations-scope.md), [rollover](operations-rollover.md) |
-| Coordinator boundary or rollover start/validation/activation, including coordinator-percent checkpoint | [rollover](operations-rollover.md), [activation](operations-activation.md), [wait](operations-wait.md) |
-| Stop or cancellation | [stop](operations-stop.md), [wait](operations-wait.md), [review](operations-review.md) |
-| Failure or interrupted operation | Reload the interrupted phase; apply its failure branch before any new phase. Unknown dispatch uses activation's transport recovery; ambiguous results use results; interrupted rollover uses rollover. |
+| Actual coordinator rollover | [rollover](operations-rollover.md) and its linked readiness helper |
+| Worker context handoff or compaction recovery | [compaction](operations-compaction.md), [checkpoint](operations-checkpoint.md) |
+| Missing project contract at explicit launch | [setup](agents-setup.md) |
+
+Guard `read_only`, `clear-writer` and `release` remain available for exact Stop
+reconciliation of an older workflow. This exception grants no new writer,
+Plan write, commit or successor. Stop before upgrading a live installation;
+a changed runtime contract requires a fresh, authorized launch.

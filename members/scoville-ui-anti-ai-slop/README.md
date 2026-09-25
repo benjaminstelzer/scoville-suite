@@ -10,17 +10,16 @@ responsive behavior and accessibility to evidence from the rendered interface.
 
 ## How it works
 
-- Identify the existing design system, implementation owner and any active Design decisions.
+- Identify the existing design system, implementation owner and approved product decisions.
 - Read the relevant component and styling code before changing the interface.
 - Implement affected states and responsive behavior through supported framework components.
 - Check the completed batch in the actual rendered interface, including relevant input and focus behavior.
-- Return only a blocked design decision for revision. Without Design, use the bounded new-interface fallback.
+- Return blocked product decisions to their owner. Without a visual owner, use the bounded new-interface direction.
 
 ## What it enforces
 
 - **The product keeps its visual owner.** The incumbent design system comes
-  first. Within it, an active Design record owns design judgment while UI owns
-  implementation. Without Design, UI uses its bounded fallback.
+  first. UI implements approved product decisions; without a visual owner, it uses a bounded local direction.
 - **The task has a hierarchy.** Primary decisions, supporting information, and
   secondary actions remain distinguishable.
 - **Real states exist.** Loading, empty, error, disabled, success, focus,
@@ -54,24 +53,26 @@ responsive behavior and accessibility to evidence from the rendered interface.
 
 Agent Skills host with reference access and the project's framework toolchain. Geometry proof needs DOM or equivalent platform measurement; visual proof needs actually viewed renders, and interaction proof needs an interactive runtime. Source-only or screenshot-only tasks report missing evidence. No bundled scripts or mandatory network access. Developed for Codex and Claude Code; other hosts untested.
 
+This Skill works on its own. Other Scoville Skills are optional and handle
+only their own concerns when available and applicable.
+
 ## Install
 
 ### Install this Skill
 
-In a local Codex or Claude Code session, ask:
+This standalone package works independently. Ask your compatible agent host:
 
 ```text
-Install this Agent Skill for all my projects from this exact package directory:
+Install this Skill for all my projects from this exact package directory:
 https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop/tree/main/scoville-ui-anti-ai-slop
-Preserve existing customizations and ask before overwriting conflicting files.
-Report the installed location and whether the host discovers the Skill.
+Preserve personal settings and unrelated Skills. Report the installed location
+and whether the host discovers the Skill.
 ```
 
-The agent needs source access and permission to write to its personal Skills
-location. Manual fallback: [Codex Skills guide](https://learn.chatgpt.com/docs/build-skills)
-or [Claude Code Skills guide](https://code.claude.com/docs/en/skills).
-
-Install only the linked package for the focused option.
+The host needs permission to write to its Skills directory. See the
+[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
+[Claude Code Skills guide](https://code.claude.com/docs/en/skills)
+for host-specific locations.
 
 ### Install the complete Scoville suite
 
@@ -81,22 +82,13 @@ Install its released Skill packages, not development templates.
 
 ## How to use
 
-Name Scoville UI for interface design, implementation, or audit work:
-
 ```text
-Use Scoville UI to implement this settled settings-screen design through the product's existing component system. Cover loading, empty, error, and success states, then verify the rendered result responsively.
+Use Scoville UI to implement this settings screen with the existing component system. Cover its states and verify the rendered interactions.
 ```
 
 ```text
-Use Scoville UI to audit the current checkout for hierarchy, accessibility, keyboard use, responsive behavior, and recovery from errors. Do not change files.
+Audit the checkout interface for keyboard use, responsive behavior, accessibility and error recovery. Report findings without changing files.
 ```
-
-```text
-Use Scoville Design with Scoville UI. Design owns the workflow, hierarchy, typography, spacing, and design-system decision. UI implements that record through the existing framework and proves component states and interactions.
-```
-
-Explicit `$scoville-ui-anti-ai-slop` invocation also works on hosts that
-support named Skill invocation.
 
 ### Source-first checks and consistency audits
 
@@ -130,14 +122,9 @@ control interiors, icons, wrapping and clipping. Sampling limits remain explicit
 
 - [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
 - [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
 - [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
 - [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 

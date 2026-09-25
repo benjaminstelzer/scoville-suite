@@ -65,7 +65,9 @@ rollover-specific coordinator handshake below. The helper does not replace
 guard authorization or substantive result validation. Generate new titles with
 `task_title` before guard registration. Children use the exact Plan/unit label,
 role and retained logical attempt: `SCW <unit> WORK|REVIEW|REPAIR RUN [#<N>]`.
-Coordinators use configured `coordinator.title`, workflow ID and target generation.
+Coordinators use configured `coordinator.title`, workflow ID and target guard
+generation plus one for the displayed generation: guard 0 is `G1`, guard 1 is
+`G2`. The full workflow ID stays last.
 Use the same inputs for `create` and its exact title for all run announcements.
 For replacements, pass every retained predecessor ID as `prior_task_ids`;
 the helper excludes those IDs from pending reconciliation.
@@ -183,7 +185,7 @@ Run the helper in a dedicated command or capture only that process's stdout.
 Never combine it with configuration reads, diagnostics, shell transcripts, or
 another command's output. Immediately before sending any helper-built prompt,
 require byte 0 to begin the exact expected `scoville_role=<role>` line and reject
-any preceding or appended non-helper output. Apply this at reviewer creation and
+any preceding or appended non-helper output. Supply necessary additional facts only through the helper input supplemental_context, before binding. Apply this at reviewer creation and
 at executor or repair assignment to an activated parking task. Routing
 configuration selects the native task call and never appears in the child
 prompt.

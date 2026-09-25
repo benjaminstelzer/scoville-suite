@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.0 - 2026-09-24
+
+- Build general and Codex suites from one manifest; keep Python replacement procedures only in the general edition.
+- Require complete suite installations from their own packages; standalone Skills remain independent.
+- Add shared writing profiles with independent Plan and Workflow configuration.
+- Preserve exact plan-point text and bind additional context and writing rules into Workflow dispatches.
+- Bundle the compatible Plan v1.8.0 and Workflow v0.5.0 pair. Plan Viewer v1.3.2 remains unchanged.
+
 ## v1.0.10 - 2026-09-24
 
 - Keep High risk classification for concrete planning or risk review of high-impact operations, even when execution is deferred.
@@ -11,8 +19,6 @@
 - Bundle project-contract and coordinator-guard verification with bounded Work Item selection in one preflight helper.
 - Require Python 3.11+ during suite installation; Workflow stops an affected operation when a required helper cannot run.
 - Document Plan's no-Python dispatch-unit selection and Decision-batch hashing routes.
-- Clarify Design's no-Python source coverage and optional browser helpers.
-- Add a no-Python hash and structural-check route for saved Research packages.
 
 ## v1.0.7 - 2026-09-23
 

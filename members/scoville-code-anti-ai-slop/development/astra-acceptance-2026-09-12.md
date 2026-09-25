@@ -19,8 +19,8 @@ Existing suites, run once with Python 3.14:
 Command in each owning repository:
 `python -B -m unittest discover -s development/tests -v`.
 These test profile structure and adapter behavior, not Desktop orchestration.
-Existing Code (24), Plan (27) and Brainstorm (8) case definitions also parsed
-as valid JSON; parsing is not execution of those cases.
+Existing Code (24) and Plan (27) case definitions also parsed as valid JSON.
+Parsing is not execution of those cases.
 
 Fifteen fresh text probes used Codex CLI `0.154.0-alpha.6.2`, requested model
 `gpt-6-astra`, effort `low`. Each process received only its named Skill core,
@@ -49,16 +49,15 @@ cannot substitute for that missing read. The smoke used 26,301 input and 281
 output tokens. The 15 Low probes used 242,433 input tokens (81,664 cached), 3,237
 output tokens and 172 seconds in aggregate. No before/after Skill comparison ran.
 
-All six installed `SKILL.md` files matched repository source. Full package
-differences were limited to Brainstorm YAML line endings and private `config.json`
-files in the two consultation packages. No configuration values were published.
+The installed `SKILL.md` files in scope matched repository source. Package
+differences were limited to private `config.json` files in the two consultation
+packages. No configuration values were published.
 
 | Package | Tested source commit | Installed SKILL.md SHA-256 |
 | --- | --- | --- |
 | Code | e39f8d9413d73310921c8677f83f61fdb394c06c | 6b0ce702307e79f8e71fcccdad887a149e8c1e8ef6863fe5d6027e8c40416473 |
 | Plan | 298a8d37976bd6cda027cc70bc9be6fecfd385eb | d534f0ccdb7e31b38a5dc9ccc1fba3319207808ca5f08ef04828b96cf9f2ba2d |
 | WordPress | 5471c1c81fca012abc1c818e0324d86c99567c29 | e13f0739de4dd1d8fe8afb5dc81336c11e656673c842967bc8921863615becef |
-| Brainstorm | c3b62c7ea64bcffe09526aead7e3c3d999168ea8 | ccd6d1ecca8d802c29d16af6ed0c896df8840564f481d60a7d56f9d5def2d697 |
 | Claude/Astra | 3fad73fe017747d6d455db17ef8d45adffa82c4a | d017e72312f7b464f564293c49255db9d1fec1964e6cf47f16585e5feef83f20 |
 | Claude/SOL | d7c252eb561376409cc9c8b038f9c4808edb3e30 | 067f442f26b8191b3542e14460822dbb843c78fca899d05869607af6435a7eba |
 
@@ -153,8 +152,6 @@ The local source references below are original transcripts, not exported copies.
    an authority-scope ambiguity, not permission to erase old stops automatically.
    Source: `01a08c6d-98b6-71c2-b293-7caa55012522`, lines 715–727.
 
-Counterevidence matters: the Phase 2 Scribe question at lines 248–253 did not
-establish missing activation; the prior trace names Scribe/interface-text.
 The EMPCO typography investigation at `01a074c6…`, lines 42608–42611, found that
 two suspected heading colors matched Core. Do not turn every user concern,
 missing announcement or visual difference into a routing failure.

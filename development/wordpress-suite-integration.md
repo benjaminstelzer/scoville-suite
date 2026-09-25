@@ -9,7 +9,7 @@ records remain historical, not a second active planning owner.
 
 - Canonical member and package: `scoville-wordpress-ui-backend-anti-ai-slop`.
 - `suite.json` owns exports, family order and README composition. WordPress
-  follows UI. UI and Design discovery now name the new specialist.
+  follows UI. UI discovery now names the new specialist.
 - Shared family and install fragments generate every member README. The suite
   reuses the new member's introduction and keeps Workflow first and Codex-only.
 - WordPress technical references are byte-identical to the imported source.
@@ -30,7 +30,7 @@ WordPress core SHA-256:
 `eaf369cc7fe9d460c7c0c8dc8e4eb9ad469a73eeb5b7a8a9f1496a51cd3c930f`.
 
 Five build tests pass, including family membership, standalone files and
-UI/Design routing metadata. Sixteen existing CLI-runner tests also pass.
+UI routing metadata. Sixteen existing CLI-runner tests also pass.
 README projections match their sources. The old quick validator rejects the
 supported `compatibility` field. Separate YAML validation confirms name,
 description and the 353-character compatibility field without removing it.

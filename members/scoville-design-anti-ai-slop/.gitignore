@@ -1,8 +1,0 @@
-/output/
-/.playwright-cli/
-/.pytest_cache/
-__pycache__/
-*.pyc
-
-# Third-party comparison material and sealed evaluation data stay external.
-/development/evaluation/local-only/

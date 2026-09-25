@@ -44,7 +44,7 @@ for guard registration, creation, retained records and user-facing run labels.
 
 | `family` / `role` | Additional inputs | Output |
 | --- | --- | --- |
-| `workflow` / `coordinator` | `coordinator_title` from config, `workflow_id`, `generation` | Default `SCW COORD [<workflow_id>] G<N>` |
+| `workflow` / `coordinator` | `coordinator_title` from config, `workflow_id`, `generation` | Default `SCW COORD G<N> [<workflow_id>]` |
 | `workflow` / `executor`, `reviewer`, `repair` | `unit`, `attempt` | `SCW <unit> WORK`, `REVIEW` or `REPAIR RUN [#<N>]` |
 | `ask` / `adviser` | `subject`, `adviser`, `attempt` | `ASK <subject> <adviser> RUN [#<N>]` |
 

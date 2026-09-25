@@ -11,11 +11,11 @@ scope: suite/evaluation
 
 ## Decision
 
-Die ausdrücklich beauftragten fünf WordPress-Fälle ergänzen ADR-0008 für das neue Mitglied. SOL Medium koordiniert Luna Medium. Bestehende Ergebnisse gelten nur für unveränderte geprüfte Eingaben und Laufzeitdateien.
+Die ausdrücklich beauftragten fünf WordPress-Fälle ergänzen den früheren Testumfang für das neue Mitglied. SOL Medium koordiniert Luna Medium. Bestehende Ergebnisse gelten nur für unveränderte geprüfte Eingaben und Laufzeitdateien.
 
 ## Problem
 
-ADR-0008 entstand vor der Aufnahme des WordPress-Skills und enthält dessen separat beauftragte Fälle noch nicht.
+den früheren Testumfang entstand vor der Aufnahme des WordPress-Skills und enthält dessen separat beauftragte Fälle noch nicht.
 
 ## Drivers
 

@@ -93,8 +93,8 @@ Do not introduce a section with prose, restate the choice as rationale, repeat
 a driver as a consequence, or pad the record with invented alternatives or
 generic claims. Preserve causal links and material tradeoffs, but remove a
 sentence when its deletion changes no choice, review judgment, verification, or
-reconsideration trigger. A lower-reasoning reviewer must be able to compare the
-choice and alternatives without reconstructing omitted facts.
+reconsideration trigger. At every writing profile, the reviewer must be able to compare the choice
+and alternatives without reconstructing omitted facts.
 
 ## Links and lifecycle
 

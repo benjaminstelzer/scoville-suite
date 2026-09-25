@@ -6,6 +6,10 @@ compatibility: "Codex desktop with saved local projects, native task creation in
 
 # Scoville Workflow Codex
 
+All Skills included in this suite must be installed and enabled. Use the
+applicable owner without checking sibling availability. Load only instructions
+needed for the task. Explicit invocation gates and user exclusions still apply.
+
 Python 3.11+ and the bundled helpers are required. If Python or a required
 helper cannot run, stop the affected operation and report its diagnostic. Never
 rebuild helper output by reading raw files or composing native task payloads by hand.
@@ -18,6 +22,28 @@ acceptance work itself.
 
 Run `python <skill-directory>/scripts/manage_agents_contract.py check --workspace <exact-workspace-root>` before the role gate.
 If it reports `installed: false`, load `references/agents-setup.md`, follow only that setup flow, and end; if it reports `installed: true`, do not load setup or the contract source and continue below.
+
+Additional instructions for every coordinator, worker and reviewer use this
+Skill's [prompting] configuration in `assets/workflow.toml`, independently of
+Plan's settings. Use the bundled `scripts/resolve_prompt_profile.py` for the
+actual recipient model; the dispatch builder applies it automatically. Apply
+its common rules and selected profile to additional prose only. Pass canonical
+Plan source_text unchanged. Never assume conversation history. Coordinator
+creation and rollover use the same helper and retain their fixed contracts.
+
+## Complete coordinator startup
+
+Before every coordinator creation or coordinator startup message, including
+initial parking, initial claim, rollover parking, validation and activation,
+pipe `{"prompt":"<the phase-defined coordinator prompt>"}` to
+`python <skill-directory>/scripts/coordinator_contract.py build`.
+Require exit 0 and pass its returned `prompt` unchanged through the lifecycle
+helper to the native task tool. Capture the full JSON in execution memory;
+print only a receipt, never reconstruct or truncate the prompt.
+The builder supplies the exact `skill_path` and the complete normal coordinator
+contract. A path alone is insufficient. Every start uses this same builder.
+Only normal `create_thread` project tasks are supported. Never substitute
+`collaboration.spawn_agent`, `followup_task`, a fork or a CLI worker.
 
 ## First operation: role gate
 
@@ -107,11 +133,12 @@ workflow, workspace, and Plan reference or unresolved objective. A successful
 acquire authorizes no project writer. Generate `initial_coordinator_title` with
 the bundled lifecycle helper's `task_title`: family `workflow`, role `coordinator`,
 `coordinator_title` from `coordinator.title`, exact `workflow_id`, `generation:1`.
+The title is `SCW COORD G<N> [<workflow_id>]`: keep the full workflow ID last.
 Use that exact title for creation and every
 provisional or unknown-result reconciliation, so an older visible completed
 coordinator cannot match the new launch.
 
-Create the coordinator with only this parking prompt:
+Use this parking input for the coordinator-contract builder:
 
 ```text
 scoville_role=coordinator
@@ -135,7 +162,7 @@ or ask the coordinator to obtain approval inside its task.
 
 After the parking turn completes, call `reconcile-coordinator` as the exact
 launcher with the current workflow, revision, generation, and ready task ID.
-Only after it succeeds, send that same task this activation prompt from scratch
+Only after it succeeds, build and send that same task this activation input from scratch
 in the exact field order:
 
 ```text
@@ -207,13 +234,12 @@ follow only the parking, validation, transfer, activation, predecessor-turn
 wait, and successor-owned predecessor archival order there. Never ask the
 initial continuation question and never edit the guard file directly.
 
-Load Scoville Plan before canonical Plan or Decision access. Read
-[operations.md](references/operations.md)'s short invariant core and phase table
-before the first coordinator operation. Load only the complete references for
-the current phase, including rollover validation before Plan selection.
-Each phase reference is the sole owner of its operation. Do not restate those contracts in the launcher or in this
-entrypoint. Scoville Code may be loaded only for a concrete risk or acceptance
-judgment. Load no execution Skill merely to coordinate.
+Read the complete supplied coordinator runtime contract before project access.
+If it is missing, remain read-only and report the invalid startup. The guard
+verifies its exact native creation envelope before coordinator capability.
+Load Scoville Plan before canonical Plan or Decision access. Scoville Code may
+be loaded only for a concrete risk or acceptance judgment. Load no execution
+Skill merely to coordinate.
 
 The coordinator may write only canonical planning records, run their structural
 validation, and create one accepted simple local commit through the operations
@@ -224,78 +250,15 @@ selection; each child chooses applicable Skills under normal trigger rules.
 
 ## Dispatch routing
 
-Use the Plan hierarchy. A Work Item without Steps is one dispatch unit. A Step
-is the default unit; adjacent Steps may share one unit only through the guarded
-compatibility procedure in [operations.md](references/operations.md). Never
-invent subdivisions, combine Work Items, or split activities that share one
-behavior and Acceptance boundary.
-
-For every fresh execution unit, classify the complete execution and verification
-scope from actual consequence and reasoning demand, not file or activity count.
-Check the classes from `ultra_high` down to `ultra_low` and choose the highest
-class whose criteria apply. If a Step begins with `[route: CLASS]`, treat that
-class as the planned minimum: raise the effective dispatch route when the
-annotation was too low or incomplete, even when no fact changed after planning,
-and never dispatch below it. Do not reclassify a repair or context-rollover
-continuation. New repair attempts follow the WORK-row escalation in
-[review](references/operations-review.md); context-rollover successors retain
-their own launched pair.
-
-- `ultra_low`: simple bounded local change with trivial verification.
-- `low`: nontrivial local implementation judgment or verification, with one
-  known behavior owner, understood helper contracts, established verification
-  commands, and no diagnosis across component or test-harness boundaries.
-- `medium`: an unresolved helper contract or required local diagnostic
-  discovery, interacting behavior owners, helper or mock availability across a
-  harness boundary, integration diagnosis, or broader checks whose results
-  require interpretation.
-- `high`: consequential changes to state, authorization, or integration
-  contracts, rather than mere involvement with those systems.
-- `ultra_high`: unusually consequential or complex work beyond `high`.
-
-`low` is allowed only when every low criterion is positively established from
-the selected Plan context and bounded preflight. The targets and single behavior
-owner must already be known; helper, mock, harness, and generator contracts must
-be understood; verification commands and expected results must be exact and
-mechanical; and execution must require no search, inventory, diagnosis, or result
-interpretation across files, components, languages, runtimes, or harnesses. If
-any one of these facts is false or unknown, use at least `medium`.
-
-Use at least `medium` when execution must locate or classify affected targets,
-decide ownership among duplicated or mirrored definitions, preserve a contract
-across languages or components, discover how helpers or tests work, coordinate
-generated artifacts with their source, or interpret broad validation results.
-A simple verb such as add, rename, comment, document, or test is not evidence for
-`low`; classify the mechanism and verification needed to complete it.
-
-Use `ultra_low` only when none of `medium`, `high`, or `ultra_high` applies and
-the work needs no nontrivial local implementation or verification judgment.
-
-Many files, generated metadata, or a known large test suite alone do not raise
-the route. Route class, model, and reasoning level are separate decisions; a
-model's `medium` reasoning setting does not make a `low` route equivalent to a
-`medium` route. Resolve the final class through the operations-owned
-`scripts/resolve_model_pair.py`, which reads [workflow.toml](assets/workflow.toml).
-Resolve the executor model and reasoning independently: the selected Step's strict
-`[execute: ...]` annotation overrides the matching route-default property.
-An explicitly chosen pair for a still-`todo` Work Item without Steps must be
-retained by adding one behavior-complete annotated Step; do not add a field.
-Validate the resulting pair against current host support and block the unit
-rather than substitute when either property or their combination is
-unavailable. This override changes neither route risk nor review requirements.
-When the operations contract requires review, use the configured reviewer pair
-for the same class; point overrides never affect coordinator or reviewer
-routing. Do not probe unused models.
+[operations-dispatch.md](references/operations-dispatch.md) owns the complete
+route eligibility, model and reasoning rules. Read that contract before fresh
+dispatch classification. Writing depth never changes route or authority.
 
 ## Coordinator runtime reference
 
-[operations.md](references/operations.md) owns every coordinator operation after
-the role, launcher, boundary, and route are established. Follow it for the
-deterministic Scoville Plan selector, separate bounded semantic reads, requested
-scope, compatible-Step bundles, same-workspace task creation, sparse handoffs,
-waits, user decisions, result schemas, fail-soft context telemetry, review and
-repair, Plan transitions, optional commit, visible completion, and Stop.
-For a worker context boundary, its phase table links the exact
-[checkpoint](references/operations-checkpoint.md) and
-[compaction](references/operations-compaction.md) references; use those paths
-instead of deriving a filename from the topic.
+[operations.md](references/operations.md) owns contract delivery and conditional
+routing. `coordinator_contract.py` supplies the normal loop completely, including
+selection, dispatch, waiting, result handling, review, acceptance and Stop.
+The linked phase files are its canonical source fragments. The coordinator
+need not discover or choose them. Only actual rollover and worker context
+recovery require their conditional references.

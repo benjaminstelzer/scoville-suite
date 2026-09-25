@@ -46,6 +46,26 @@ one Step-less Work Item. It need not wait for the enclosing Work Item. A
 blocker, unresolved user decision, failed validation, failed commit, or
 unaccepted unit is not a boundary.
 
+Before each successor creation, validation or activation message below, use
+`coordinator_contract.py build` with the phase-defined input and pass its full
+returned prompt unchanged through the native lifecycle helper. It supplies the
+exact Skill path and complete coordinator contract in every generation. A
+successor without this native creation contract cannot obtain guard authority.
+
+Every input begins with this header, then the phase's fields listed below:
+
+```text
+scoville_role=coordinator
+coordinator_start=<rollover_parking|rollover_validation|rollover_activation>
+workspace_root=<retained exact absolute workspace>
+workflow_id=<retained workflow ID>
+```
+
+Choose the one start value for the current phase. Validation and activation
+also include `coordinator_task_id=<exact successor ID>`. Do not duplicate fields
+already present in this header. Parking retains `workspace_mode` and
+`saved_project_id`; validation and activation retain their established values.
+
 Perform this sequence once:
 
 1. Announce the accepted unit and coordinator transition. Reverify the project
@@ -55,7 +75,7 @@ Perform this sequence once:
    successor title from `task_title` using current guard generation plus two
    for the displayed generation. The first successor is `G2`; guard generation
    still advances from 0 to 1.
-3. Create one successor with only `scoville_role=coordinator`,
+3. Build the successor parking input with `scoville_role=coordinator`,
    `coordinator_start=rollover_parking`, exact workspace, retained
    `workspace_mode`, saved-project identity, workflow ID, transition key,
    predecessor ID, and the instruction to perform no project, Plan, or guard

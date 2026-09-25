@@ -1,88 +1,21 @@
 # Scoville Suite
 
-Scoville gives planning, research, code, design and writing their own Skills.
-Use the ones your task needs. Installing a family does not make every task a
-family gathering.
+Scoville gives planning, code and UI work their own Skills, with Handoff for transfers.
+Install the complete edition. The general suite supports compatible
+Agent Skills hosts and supplies manual procedures only when Python is absent.
+Workflow and Ask are not included.
 
-Scoville Suite brings together Skills for planning, implementation, review,
-research and design. Install the complete suite to use them across a project,
-or choose individual Skills for the work you need. Each Skill has a defined
-responsibility. Workflow connects them through plan-driven execution and is
-available only as part of the suite.
+## Suite requirements
 
-Workflow is a Codex-only beta and is explained first below. Other Skills retain
-their own compatibility limits.
+Install and enable every Skill included in this edition. The suite assumes
+that its members are available and does not check for missing sibling Skills
+at runtime. Partial installation is not supported; use standalone Skill
+packages if you want to install only selected Skills.
 
-## Scoville Workflow for Codex
-
-A long software task can leave one agent planning, coding, reviewing its own
-changes and remembering every earlier decision. Context grows while unfinished
-work becomes harder to track.
-
-Scoville Workflow supports structured, AI-assisted software development and
-long-term project maintenance, including larger codebases. It is not intended
-for fast vibe coding or throwaway prototyping. Plan preserves direction and
-decisions, Code requires maintainable changes and meaningful checks, and Workflow
-coordinates workers, fresh reviewers and continuation. Together they help keep
-project development recoverable without making one conversation carry its history.
-
-**Beta.** Available for real-project testing. Host-level behavior remains under qualification.
-
-Workflow is suite-only and requires Codex desktop with native task controls.
-Other suite Skills should work with many Agent Skills-compatible hosts, subject
-to their requirements. Testing has been limited to Codex, Claude Code and Antigravity.
-
-### How it works
-
-- The coordinator selects a bounded Plan unit and routes its model and reasoning effort by risk. Workers implement in the existing checkout.
-- Fresh reviewers check code and critical documentation changes. Routine changes can skip review after a bounded consistency check.
-- The coordinator corrects Plan findings. Repair workers correct project findings, with further review when changes are material or unclear.
-- Accepted work and Plan updates enter one commit. Failed checks and open decisions do not count as acceptance.
-- At an accepted boundary with more work remaining, the coordinator hands over at or above 33% context use. Workers, reviewers and repairs hand over above 66% at natural stopping points.
-- Both thresholds are configurable and measure current context, not total tokens spent. Missing or stale measurements are not guessed.
-- A successor retains the assignment and checkout. A context handoff is not another repair attempt. Results are saved before exact-task archival is confirmed.
-
-```mermaid
-flowchart TD
-    P["Repository Plan"] --> C["Coordinator selects a bounded unit<br/>and routes model and effort"]
-    C --> W["Worker implements and validates"]
-    W --> G{"Review required?"}
-    G -->|Yes| R["Fresh reviewer checks the result"]
-    G -->|No| A["Coordinator records acceptance,<br/>updates the Plan and commits"]
-    R -->|Pass| A
-    R -->|Findings| F["Coordinator fixes Plan findings<br/>Fresh repair worker fixes project findings"]
-    F --> Q{"Follow-up review required?"}
-    Q -->|Yes| R
-    Q -->|No| A
-    A --> N{"Requested work remains?"}
-    N -->|No| D["Finish"]
-    N -->|Yes| T{"Context threshold reached?"}
-    T -->|No| C
-    T -->|Yes| H["Validate and activate successor coordinator<br/>Transfer ownership and verify predecessor archival"]
-    H --> C
-```
-
-### What it enforces
-
-- **Explicit activation.** Asking for implementation or delegation alone does not start Workflow.
-- **Separate responsibilities.** The coordinator owns Plan updates, dispatch and accepted commits. Workers implement. Reviewers stay read-only.
-- **One live checkout.** Tasks use the existing working state. Workflow does not create an isolated worktree without an explicit choice.
-- **Cooperative write ownership.** A project guard grants one worker a bounded unit. Invalid state stops writes. This coordinates agents, not a filesystem lock against external tools.
-- **Complete but bounded context.** Dispatch includes the selected Plan unit and its Decisions without truncation. Workers do not reconstruct it from a summary or reopen the Plan.
-- **Configured routing.** Risk selects the model and effort. Unsupported required pairs block rather than silently falling back.
-- **Independent review where needed.** Code and critical documentation changes require a fresh reviewer. Unresolved worker findings allow at most three repair workers before user input is required.
-- **Measured rollover.** By default, the coordinator hands over at or above 33 percent after an accepted unit. Child roles hand over strictly above 66 percent at a natural boundary. Missing or stale measurements are not guessed. Both thresholds are configurable.
-- **Verified cleanup.** Results are retained before children are archived. A rollover successor takes ownership before archiving its predecessor, whose turn must have ended. Exact task IDs matter, not titles or list visibility alone.
-- **Accepted work before commit.** One unit commit includes its accepted changes and complete accumulated Plan state. Failed hooks and outstanding backup requirements are not bypassed.
-- **A binding scope.** Without a narrower boundary, continue through the active Plan. Preserve explicit stops and decisions. Archiving a task is not cancelling it.
-
-- The canonical Plan owns progress. Workflow does not add a persistent Codex goal or another continuation loop alongside its coordinator.
-
-- For delivery recovery, permission boundaries and failure handling, see [Native Codex operations](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md).
-
-### What it costs
-
-- Separate worker and reviewer tasks, context handoffs and Plan updates use additional tokens and time.
+Availability does not make every Skill applicable to every task. Load the
+instructions the task needs and preserve explicit user exclusions. Workflow
+still starts only when explicitly named. The general edition does not include
+Workflow or Ask.
 
 ## Scoville Code Anti-AI-Slop
 
@@ -169,56 +102,6 @@ projects, not to turn a small reversible edit into paperwork.
 
 - Reading, updating and checking Plan records add token usage and maintenance time.
 
-## Scoville Scribe Anti-AI-Slop
-
-A rewrite can sound better and say something different. "May reduce latency"
-becomes "will improve performance", or a summary loses the condition that made
-the result true. Smooth prose does not repair a changed claim.
-
-Scoville Scribe drafts, edits, summarizes, localizes and audits requested text.
-It improves clarity while preserving meaning, evidence, terminology and the
-author's position. It also checks whether an explanation gives the reader
-enough information to understand and act.
-
-### How it works
-
-- Identify the requested transformation, audience, source facts and canonical terms.
-- Route each segment to the relevant prose, interface or fidelity guidance.
-- Make the smallest useful revision and compare it against claims, conditions and source boundaries.
-- Check referents, introduced concepts and causal links from the reader's perspective.
-- Keep ordinary conversation outside the Skill. Scoville Plan owns its own records when applicable.
-
-### What it enforces
-
-- **Facts survive the edit.** Numbers, quotations, conditions, attribution,
-  modality, and uncertainty keep their meaning.
-- **Canonical terms stay canonical.** A setting named `Padding` keeps that name
-  so the reader can find it in the product.
-- **Working strings keep working.** Placeholders, ICU branches, access keys,
-  shortcuts, schemas, and accessible names retain their contracts.
-- **Behavior-bound text stays true.** Interface labels, help, errors, and
-  procedures describe supported behavior rather than desired fiction.
-- **The author's position survives.** Voice may improve without inventing
-  certainty, experience, identity, or conclusions.
-- **Prose is built around sentences.** Rewrite sentences that rely on em
-  dashes, en dashes, or semicolons instead of mechanically replacing the marks.
-  Structure newly written or edited prose primarily with periods and commas,
-  using `-` only sparingly when a dash is genuinely needed. Existing text outside
-  the requested edit scope stays unchanged, as do exact quotations, protected
-  source text, and technical syntax.
-- **The requested operation stays narrow.** An audit reports. An edit changes
-  the smallest real defect. Source-exact output remains exact.
-- **Filler does not stand in for meaning.** Check unearned contrasts, vague
-  authority, inflated significance, and decorative formatting. Interface copy
-  names the actual action and state without unsupported reassurance or
-  celebration. These are contextual editing checks, not authorship detection.
-
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop/blob/main/scoville-scribe-anti-ai-slop/SKILL.md).
-
-### What it costs
-
-- Source comparison and revision use additional tokens and time.
-
 ## Scoville UI Anti-AI-Slop
 
 A good desktop screenshot does not show whether someone can use the page.
@@ -231,17 +114,16 @@ responsive behavior and accessibility to evidence from the rendered interface.
 
 ### How it works
 
-- Identify the existing design system, implementation owner and any active Design decisions.
+- Identify the existing design system, implementation owner and approved product decisions.
 - Read the relevant component and styling code before changing the interface.
 - Implement affected states and responsive behavior through supported framework components.
 - Check the completed batch in the actual rendered interface, including relevant input and focus behavior.
-- Return only a blocked design decision for revision. Without Design, use the bounded new-interface fallback.
+- Return blocked product decisions to their owner. Without a visual owner, use the bounded new-interface direction.
 
 ### What it enforces
 
 - **The product keeps its visual owner.** The incumbent design system comes
-  first. Within it, an active Design record owns design judgment while UI owns
-  implementation. Without Design, UI uses its bounded fallback.
+  first. UI implements approved product decisions; without a visual owner, it uses a bounded local direction.
 - **The task has a hierarchy.** Primary decisions, supporting information, and
   secondary actions remain distinguishable.
 - **Real states exist.** Loading, empty, error, disabled, success, focus,
@@ -303,54 +185,6 @@ without forcing a second UI system onto a working page.
 
 - Inspecting spacing, responsive behavior and interactions in WordPress adds token usage and testing time.
 
-## Scoville Design Anti-AI-Slop
-
-A design can look polished and still miss the brief. An 80s reference becomes
-neon and chrome, but the combination says little about the subject. Or every
-element is neatly spaced, yet nothing tells the reader where to start.
-
-Scoville Design connects visual choices to content, audience and medium. It
-supports generation, read-only critique and targeted repair, turning a vague
-style request into choices that can be inspected and explained.
-
-### How it works
-
-- Frame the brief and choose generation, critique or repair.
-- Develop a direction through composition, typography, colour, imagery and the actual content.
-- Load specialist methods only for an open design question. Keep rough ideas provisional until a direction is needed.
-- Inspect the complete rendered artifact, then its groups and details. Use suitable measurements alongside visual judgment.
-- Repair specific defects while preserving strengths. After two unsuccessful passes, reassess the cause and method.
-- When UI is also active, Design owns visual intent and UI owns framework implementation and interaction proof. The incumbent system still takes priority.
-
-### What it enforces
-
-- **The brief becomes a design thesis.** Purpose, audience, content, medium,
-  constraints, and desired effect shape one specific direction.
-- **Relationships do the work.** Hierarchy, composition, typography, colour,
-  imagery, spacing, data, and sequence support the same intent.
-- **Style is a system.** Period, movement, genre, or vernacular traits are
-  translated through structure, type, colour, image logic, material, and
-  medium. Familiar signs remain available when they help recognition.
-- **Rules may be broken deliberately.** The communication and accessibility
-  floors survive, the intent is legible, and compensating structure prevents a
-  local exception from becoming general damage.
-- **Critique makes repair actionable.** Findings connect observation, likely
-  effect, severity, the smallest coherent correction, and preserved strengths.
-  Critique stays read-only. An authorised repair adds the change and its render.
-- **Evidence matches the claim.** Source, syntax, render, interaction, and
-  production proof remain distinct. Attractive output does not prove rights,
-  accessibility, or press readiness.
-- **Professional boundaries stay visible.** Asset rights, cultural authority,
-  provenance, supplier specifications, and human approval are not guessed
-  from appearance.
-
-- The installed Core contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop/blob/main/scoville-design-anti-ai-slop/SKILL.md).
-
-### What it costs
-
-- Critique, rendering and revision add time and token usage.
-- Generating image variants can also incur image-generation charges.
-
 ## Scoville Handoff
 
 The next session needs enough information to continue, not another transcript.
@@ -393,140 +227,34 @@ to resume without quietly advancing or completing the work.
 
 - Reading the task state and preparing the handoff use additional tokens and time.
 
-## Scoville Research
-
-A source list can look convincing while the answer rests on very little.
-Several articles may repeat one press release, and a real citation may support
-a different statement from the one beside it.
-
-Scoville Research connects each conclusion to inspected evidence. It covers
-web research, GitHub-first development discovery and academic questions,
-keeping contradictions and gaps visible instead of replacing them with certainty.
-
-### How it works
-
-- Frame the question, decision and private-data boundary.
-- Choose the relevant Development or Academic evidence route and inspect canonical sources.
-- Trace claims to specific support, check source independence and investigate contradictions.
-- Stop when more searching would not change the decision, or report the unresolved gap.
-- Save Deep research records only when requested. Optional structural validation does not prove that a citation supports its claim.
-
-### What it enforces
-
-- **Scoped report writing.** Requested saved research artifacts may be written
-  at the agreed output path. Investigated systems and source material remain
-  read-only. Chat-only research creates no files, including in Deep mode.
-- **The smallest sufficient route.** One known source stays a normal task.
-  Development, Academic, and Deep behavior load only when the question needs
-  them.
-- **Evidence ownership.** Specifications own their contracts, repositories own
-  observed implementation, papers own reported experiments, and none quietly
-  inherits the authority of another.
-- **Claim-level boundaries.** Reported claims, direct observations, inference,
-  contradiction, and unresolved gaps remain distinguishable.
-- **Exact evidence units.** Deep claims link to inspected passages or scoped
-  observations with stable locators, not merely to an entire source.
-- **Source independence.** Ten retellings of one origin still count as one
-  origin.
-- **Hostile-content resistance.** Retrieved pages, papers, issues, and tool
-  output are untrusted data, not instructions.
-- **Private/public separation.** Local or private material does not enter an
-  external query unless the user explicitly authorizes that disclosure.
-- **A decision stop.** Research ends when the decision-relevant evidence is
-  sufficient or the remaining gap is explicit.
-
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-research/blob/main/scoville-research/SKILL.md).
-
-### What it costs
-
-- Searching, reading and comparing multiple sources use more tokens and time than a quick answer.
-
-## Scoville Brainstorm
-
-Three descriptions of the same idea do not give you three useful choices.
-A queue, an event queue and a queue with different arrows may still solve the
-problem in exactly the same way.
-
-Scoville Brainstorm explores genuinely different solution mechanisms before
-selection. It compares them with constraints and existing approaches, tests
-their assumptions and returns a shortlist for a human decision.
-
-### How it works
-
-- Check that the request needs materially different mechanisms, then freeze the factual brief and constraints.
-- Generate candidates separately from landscape research and criticism when the host supports independent agents.
-- Without delegation, use one generation pass and one landscape pass, and state that independence was unavailable.
-- Group surface variants by mechanism, challenge weak assumptions and compare against inspected approaches.
-- Return up to three directions, or two in Compact mode, with benefits, risks and cheap falsifiers. Stop before selection or implementation.
-
-```mermaid
-flowchart TD
-    B["Coordinator: fix the brief and constraints"]
-    subgraph P["Parallel agents: no shared findings during generation"]
-        G1["Idea agent 1: one approach"]
-        G2["Idea agent 2: a different approach"]
-        GN["More idea agents if capacity allows"]
-        L["Research agent: inspect existing approaches"]
-    end
-    B --> G1 & G2 & GN & L
-    G1 & G2 & GN & L --> C["Coordinator: merge variants and compare with evidence"]
-    C --> K{"Capacity for an independent critic?"}
-    K -->|Yes| R["Critic agent: challenge assumptions and weak directions"]
-    K -->|No| F["Coordinator: apply the same checks"]
-    R & F --> S["Coordinator: shortlist with risks and cheap tests"]
-    S --> H["Human chooses the direction"]
-```
-
-### What it enforces
-
-- **Decision-shaped activation.** Difficulty alone does not trigger an idea
-  search. The request must need materially different mechanisms.
-- **One factual frame.** Facts, authority, fixed constraints, assumptions,
-  source scope, and effort profile are frozen before divergence.
-- **Independent generation when available.** Generators do not see sibling or
-  landscape output. A single-agent fallback is labeled by its real capacity.
-- **One landscape owner in combined mode.** Research replaces the native
-  Brainstorm landscape agent when both Skills are explicitly requested. It
-  never becomes a standalone dependency.
-- **Mechanisms over paraphrases.** Convergence merges surface variants and
-  rejects unsupported or constraint-breaking directions.
-- **Calibrated originality.** Evidence labels describe only the documented,
-  bounded comparison and never claim objective novelty or patentability.
-- **A hard decision stop.** The result gives benefits, risks, and cheapest
-  falsifiers, then waits for human selection.
-
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-brainstorm/blob/main/scoville-brainstorm/SKILL.md).
-
-### What it costs
-
-- Separate idea generation, comparison and critique use additional tokens and time.
-
 ## Install the suite
 
-Use one request in your agent host:
+Use this request in your agent host:
 
 ```text
-Install all Scoville Skills compatible with this host for all my projects from
+Install and enable every Skill in this suite for all my projects, using only
+this repository's own packages:
 https://github.com/benjaminstelzer/scoville-suite/tree/main/packages
 Each packages/<name>/<name>/ directory contains one installable Skill.
-Inspect each Skill's compatibility first. Workflow requires Codex desktop.
-Require Python 3.11 or newer for this suite. Check the installed interpreter
-before copying Skills. If it is missing, install a supported Python through the
-platform's normal package manager or official installer, then verify its version.
-If installation is blocked by host permissions, stop and report the blocker.
-Preserve personal configuration and unrelated installed Skills. Do not install
-members/, development/, or another copy from the individual repositories.
-Report installed locations, skipped incompatibilities and discovery results.
+Require every member declared by suite.json. Do not fetch Skills from individual
+repositories or replace a missing package with another distribution.
+If any member is missing or incompatible with this host, report the blocker;
+do not skip it or claim a complete suite installation.
+Use Python helpers when available. Load their manual procedures only when
+Python is absent; an old interpreter or helper error does not permit that route.
+Preserve personal configuration and unrelated installed Skills. Install only
+the inner package directories, not members/ or development/. Report locations,
+the complete installed member set and discovery results.
 ```
 
-The suite supplies all its Skills from one repository. Your host still sees
-separate Skills, so you can enable or disable them individually. Workflow is
-suite-only. The specialist Skills are also available from their individual repositories.
+All included Skills must remain enabled. Their task scope and invocation rules
+still apply; Workflow requires an explicit invocation. Choose standalone Skill
+packages instead if you want only selected Skills. Do not mix standalone and
+suite copies of the same Skill.
 
-If your host cannot fetch or install them, copy each compatible inner Skill
-directory to its documented Skills location. See the
-[Codex Skills guide](https://developers.openai.com/codex/skills/) or
-[Claude Code Skills guide](https://code.claude.com/docs/en/skills).
+If the host cannot install directly from GitHub, download this suite repository
+and copy all its inner package directories to the host's documented Skills
+location. This uses the same complete suite packages and requirements.
 
 ## Development and builds
 
@@ -546,23 +274,25 @@ member's `development` metadata in `suite.json`.
 Regenerate previews with `python development/build_suite.py --write-readmes`.
 Use `--check-readmes` to detect stale previews.
 
-Build to a new directory outside this repository:
+Build this exported edition to a new directory outside the repository:
 
 ```text
 python development/build_suite.py --output <new-output-directory> --public-only
 ```
 
-Omit `--public-only` only for private local staging. Each output directory
-contains the member package, README, license and changelog where supplied.
-Development files stay in the suite. The build receipt records file hashes,
-target visibility and the source revision. An uncommitted source produces a
-local development build, not a release candidate.
+The exported manifest fixes the edition and complete suite layout. All member
+packages are bundled under the suite's `packages/` directory. An isolated build
+needs no sibling source checkout or individual Skill repository.
 
-Standalone members use their individual repositories. Workflow is suite-only
-and is staged under `scoville-suite/packages/scoville-workflow-for-codex/`.
-Its installable Skill is the nested `scoville-workflow-for-codex/` directory.
-Publication requires a separate authorized publication step with the
-GitHub Skill. Never push a private suite tree to a public member repository.
+The complete private authoring source also supports `--profile general|codex`
+and `--layout standalone|suite`. Standalone projections retain family guidance;
+suite projections require the full member set. Export always produces a complete
+suite with its selected profile and layout. An exported single-profile source
+does not offer the other profile.
+
+The build receipt records the selected profile, layout, package inventory,
+source revision and hashes. Uncommitted sources produce development builds.
+Publication requires inspected committed sources and the release checks.
 
 ### Developer links
 
@@ -571,12 +301,18 @@ and the development files.
 
 - **scoville-code-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code-anti-ai-slop/development/README.md)
 - **scoville-plan**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
-- **scoville-scribe-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-scribe-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-scribe-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-scribe-anti-ai-slop/development/README.md)
 - **scoville-ui-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui-anti-ai-slop/development/README.md)
 - **scoville-wordpress-ui-backend-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-wordpress-ui-backend-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/luna-tests/wordpress-sol-results.md) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-wordpress-ui-backend-anti-ai-slop/development/README.md)
-- **scoville-design-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-design-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-design-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-design-anti-ai-slop/development/README.md)
 - **scoville-handoff**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
-- **scoville-research**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-research) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-research/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-research/development/README.md)
-- **scoville-brainstorm**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-brainstorm/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-brainstorm/development/README.md)
-- **scoville-workflow-for-codex**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-workflow-for-codex) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-workflow-for-codex/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-workflow-for-codex/development/README.md)
+
+## Deprecated
+
+Scoville used to cover more ground. I did not remove these Skills because each of them failed every task. I removed them because I could no longer show a reliable advantage over modern frontier models that justified the work required to test and maintain them. That is the standard I care about. I would rather offer fewer Skills and test them properly than keep a larger suite where some are merely good enough.
+
+The suite now focuses on Workflow, Plan, Code and the two UI Skills. Handoff remains because it supports the development workflow directly.
+
+- **Scoville Scribe Anti-AI-Slop:** The writing comparisons did not establish a reliable benefit. The tested version also introduced unsupported claims.
+- **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models ended in a tie.
+- **Scoville Research:** It did not reach the quality level I expect, while capable research alternatives already exist.
+- **Scoville Brainstorm:** It did not reach the quality level I expect, while capable alternatives for ideation already exist.
 

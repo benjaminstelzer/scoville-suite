@@ -18,6 +18,14 @@ historical member records unless that member's work explicitly requires them.
 
 README fragments under `development/readme/` are authoritative. Member README
 files are generated previews. Build them from the fragments, never edit both.
+Write all GitHub-facing READMEs and CHANGELOGs in Benjamin's voice, including
+suite and member sources, fragments, and release projections. Open with the
+point; use direct, precise language, make real tradeoffs and causal links clear,
+and avoid promotional gloss. Keep the text natural in its target language.
+Use ` - ` for interruptions, never an en dash or em dash. Do not use semicolons
+to separate prose clauses or sentences.
+Preserve factual claims, technical requirements, and release history. When
+available, use `benjaminstelzer-imitate-me` for the wording pass.
 Each member's `description_fragments` owns its complete description block. The suite
 uses `suite.descriptions` and manifest `featured_member` to place Workflow first.
 Keep those fragments self-contained with absolute links and no include tags.

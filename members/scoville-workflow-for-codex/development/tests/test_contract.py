@@ -480,6 +480,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
             [
                 "build_dispatch_prompt.py",
                 "check_context_checkpoint.py",
+                "coordinator_contract.py",
                 "dispatch_transport.js",
                 "inspect_dispatch_preflight.py",
                 "inspect_native_context.py",
@@ -578,6 +579,8 @@ class NativeWorkflowContractTests(unittest.TestCase):
     def run_guard(workspace, actor, *arguments):
         environment = dict(os.environ)
         environment["CODEX_THREAD_ID"] = actor
+        from native_startup_fixture import supply_native_startup
+        environment["CODEX_HOME"] = str(supply_native_startup(PACKAGE, workspace, actor, arguments))
         return subprocess.run(
             [sys.executable, "-B", str(GUARD_HELPER), *arguments, "--workspace", str(workspace)],
             text=True,
@@ -1798,6 +1801,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
         skill = flat(SKILL)
         self.assertEqual(
             [
+                "Complete coordinator startup",
                 "First operation: role gate",
                 "Explicit launcher only",
                 "Coordinator boundary",
@@ -1807,7 +1811,7 @@ class NativeWorkflowContractTests(unittest.TestCase):
             level_two_headings(SKILL),
         )
         self.assertLess(len((ROOT / "scoville-workflow-for-codex/SKILL.md").read_bytes()), 18_000)
-        self.assertIn("Each phase reference is the sole owner of its operation", skill)
+        self.assertIn("The linked phase files are its canonical source fragments", skill)
         for duplicated_contract in (
             "last_token_usage.input_tokens",
             "`changes_requested`",
@@ -2093,42 +2097,20 @@ class NativeWorkflowContractTests(unittest.TestCase):
         self.assertIn("property-wise", operations)
         self.assertIn("malformed or unsupported effective pair blocks that unit", operations)
 
-        readme_routes = markdown_table(ROOT / "README.md", "### Routing")
-        self.assertEqual(
-            readme_routes,
-            {
-                "`coordinator`": (
-                    "Workflow coordination",
-                    "`gpt-6-sol` / `medium`",
-                    "Not applicable",
-                ),
-                "`ultra_low`": (
-                    "Simple bounded local change with trivial verification",
-                    "`gpt-6-sol` / `low`",
-                    "`gpt-6-sol` / `medium`",
-                ),
-                "`low`": (
-                    "Nontrivial local judgment with one known owner, understood helpers, and established checks",
-                    "`gpt-6-sol` / `medium`",
-                    "`gpt-6-sol` / `high`",
-                ),
-                "`medium`": (
-                    "Unresolved helpers, diagnostic discovery, interacting owners, harness boundaries, or interpreted checks",
-                    "`gpt-6-sol` / `high`",
-                    "`gpt-6-sol` / `xhigh`",
-                ),
-                "`high`": (
-                    "Consequential changes to state, authorization, or integration contracts",
-                    "`gpt-6-sol` / `xhigh`",
-                    "`gpt-6-astra` / `high`",
-                ),
-                "`ultra_high`": (
-                    "Unusually consequential or complex work beyond `high`",
-                    "`gpt-6-astra` / `high`",
-                    "`gpt-6-astra` / `xhigh`",
-                ),
-            },
-        )
+        # The README links to configuration rather than duplicating its table.
+        config = tomllib.loads((PACKAGE / "assets/workflow.toml").read_text(encoding="utf-8"))
+        expected = {
+            "ultra_low": (("gpt-6-sol", "low"), ("gpt-6-sol", "medium")),
+            "low": (("gpt-6-sol", "medium"), ("gpt-6-sol", "high")),
+            "medium": (("gpt-6-sol", "high"), ("gpt-6-sol", "xhigh")),
+            "high": (("gpt-6-sol", "xhigh"), ("gpt-6-astra", "high")),
+            "ultra_high": (("gpt-6-astra", "high"), ("gpt-6-astra", "xhigh")),
+        }
+        self.assertEqual(("gpt-6-sol", "medium"),
+                         (config["coordinator"]["model"], config["coordinator"]["reasoning"]))
+        for route, pairs in expected.items():
+            for role, pair in zip(("execute", "review"), pairs):
+                self.assertEqual(pair, (config[role][route]["model"], config[role][route]["reasoning"]))
 
     def test_plan_selection_is_exact_and_never_falls_back(self):
         operations = flat(OPERATIONS)

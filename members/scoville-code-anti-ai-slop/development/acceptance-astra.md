@@ -25,22 +25,15 @@ Each repository owns its acceptance record, with all cases still pending:
 - [F02 Plan](https://github.com/benjaminstelzer/scoville-plan/blob/main/development/acceptance-astra.md)
 - [F05 Claude and Astra](https://github.com/benjaminstelzer/ask-claude-and-astra-for-codex/blob/main/development/acceptance-astra.md)
 - [F05 Claude and SOL](https://github.com/benjaminstelzer/ask-claude-and-sol-for-codex/blob/main/development/acceptance-astra.md)
-- [F09a Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm/blob/main/development/acceptance-astra.md)
 
 ## Unimplemented conditional candidates
 
 - F03 Plan drafting: first observe a sufficiently specified natural-language
   request. Clarify only an actual ambiguity/failure; never invent requirements
   or change the initial active Plan and todo/current item lifecycle.
-- F08 Code/UI/Scribe opt-out: probe both before loading and after prior authorized
-  use. Continue an authorized edit without the excluded Skill; explicit no-edit
-  still forbids edits. Omit changes if the existing local opt-out contract works.
 - F07 review length: existing roles already allow detailed answers over 6000
   characters. Probe short, explicitly detailed and genuinely truncated results
   before changing anything. No multipart protocol is authorized by this record.
-- F09b Brainstorm read batching/LEDGER and F10 Design coverage bookkeeping stay
-  unchanged pending demonstrated need. Preserve explicit read limits, separate
-  provenance and detection of a missing middle even with an intact footer.
 
 ## Resume acceptance
 

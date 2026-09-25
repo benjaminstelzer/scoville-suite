@@ -1,7 +1,7 @@
 ---
 name: scoville-plan
-description: Create, maintain, resume, audit, and hand off project Plans, Work Items, and Decision records stored in the repository. Edit their Markdown and YAML directly. Owns their concise writing and wording audits under its own writing rules. Scribe writing rules do not apply to these records. Use when a task invokes Scoville Plan, requests repository-owned planning or decision records, must survive interruption or compaction, works in a format-version-1 project, receives a new instruction while an active Plan is running, or asks to add, remove, reorder, or clean up Plan points. Apply Plan-record maintenance directly and never create a Work Item whose only outcome is maintaining the Plan. Do not use for a pure informational question that requires no retained action, a small contained task that needs no durable plan, or an explicit opt-out.
-compatibility: "Any Agent Skills host with read and write access to the repository's PROJECT_INDEX.md, docs/plans and docs/decisions. Direct Markdown and YAML edits only; requires no planning CLI, MCP server, database or network. Optional selector, structural validator and Decision-batch helper need Python 3; the batch has a byte-exact SHA-256 alternative. Developed for Codex and Claude Code; other hosts untested."
+description: Create, maintain, resume, audit, and hand off project Plans, Work Items, and Decision records stored in the repository. Edit their Markdown and YAML directly. Owns their concise writing and wording audits under its own writing rules. Use when a task invokes Scoville Plan, requests repository-owned planning or decision records, must survive interruption or compaction, works in a format-version-1 project, receives a new instruction while an active Plan is running, or asks to add, remove, reorder, or clean up Plan points. Apply Plan-record maintenance directly and never create a Work Item whose only outcome is maintaining the Plan. Do not use for a pure informational question that requires no retained action, a small contained task that needs no durable plan, or an explicit opt-out.
+compatibility: "{{ profile: general }}Any Agent Skills host with repository read/write access. Direct Markdown/YAML planning; no service or network required. The writing-profile helper needs Python 3.11+; selector, validator and Decision-batch helpers need Python 3. Manual alternatives load only without Python; helper errors remain errors. Developed for Codex and Claude Code; other hosts untested.{{ /profile }}{{ profile: codex }}Codex with repository read/write access and Python 3.11+. Direct Markdown/YAML planning; no service or network required. Bundled writing-profile, selector, validator and Decision-batch helpers are required for their operations. Missing dependencies or helper errors block the affected operation.{{ /profile }}"
 ---
 
 # Scoville Plan
@@ -30,21 +30,26 @@ Precedence:
 Use the existing durable owner; never create a parallel Plan. Apply compatible
 guardrails only; runtime plans are disposable mirrors.
 
-Never invoke a planning CLI. The optional bundled selector and validator are
+Never invoke a planning CLI. {{ profile: general }}The optional bundled selector and validator are{{ /profile }}{{ profile: codex }}The required bundled selector and validator are{{ /profile }}
 strictly read-only and never a write path. The selector owns only the exact
 current-or-named Work Item or dispatch-unit projection defined in the read-only route; proposal
 discovery, relevant Evidence, graph inspection, and successor recovery remain
 separate bounded reads. Claim no locking, atomic publication, typed mutation,
 or semantic proof; report observations only.
 
-Finding another Skill in this family does not make it installed, active, applicable, or required. If that Skill is absent or inactive, ignore it. Do not require, install, simulate, or reimplement it. If it is active and applicable, let it handle only its stated concern while this Skill continues its own authorized work. An opt-out applies only to the Skill the user excluded, not to independently authorized work.
+{{ profile: general }}Load a `*-without-python.md` reference only after confirming that no Python
+executable is available and its operation is needed. Unknown availability does
+not meet that condition; check the environment before choosing the route.
+{{ /profile }}
 
-Relevant neighboring owners:
+{{ include: family.contract }}
+
+{{ package: standalone }}Relevant neighboring owners:{{ /package }}
 
 {{ include: family.neighbors }}
 
-The optional `scoville-workflow-for-codex` Skill may make Steps usable as
-later dispatch units without activating or loading that Workflow. Group each
+{{ profile: general }}Steps can serve as later execution units.{{ /profile }}{{ profile: codex }}Scoville Workflow can use Steps as dispatch units. Its explicit invocation
+rule still applies; writing a Plan does not start Workflow.{{ /profile }} Group each
 Step around one coherent outcome slice with comparable consequence and
 reasoning demand. Evaluate the complete expected execution and verification
 scope. Treat a bounded change needing no nontrivial local implementation or
@@ -74,12 +79,8 @@ including new or edited Work Items in it. Use the user's request language for a
 new Plan. Preserve an existing Decision's language; write a new Decision in its
 Plan's language, or the user's request language when no Plan supplies one. Keep
 required field names, section labels, IDs, and other format literals unchanged.
-When Plan is available and applicable, load it if needed and use its own writing
-rules for these records. Do not activate, load, or apply Scribe to their creation,
-rewriting, or wording audit. A request to use Scribe does not override Plan's
-writing rules. Plan also owns permitted edits, format, and lifecycle unless
-opted out. If Scribe is active for another text segment, keep it scoped there.
-Plan works without Scribe and never requires its installation.
+{{ package: standalone }}When Plan is available and applicable, load it if needed and use its own writing
+rules for these records. {{ /package }}{{ package: suite }}Use Plan's writing rules for these records. {{ /package }}Plan also owns permitted edits, format, and lifecycle unless opted out.
 
 ## Choose planning and route references
 
@@ -117,13 +118,14 @@ inside a Work Item uses the Work Item route even though its file is a Plan.
 | Rewrite Plan Goal or Non-goals | P, L, E |
 | Rewrite Work Item wording | P, W, E |
 | Rewrite Decision wording | D, P, E |
-| Validate after writes or diagnose a complete supported profile | Use V for validation: run its optional validator when Python is available; load the manual inspection route only without Python. Then load only the native reference needed for a reported diagnostic or correction |
+| Validate after writes or diagnose a complete supported profile | {{ profile: general }}Use V for validation: run its optional validator when Python is available; load the manual inspection route only without Python.{{ /profile }}{{ profile: codex }}Use V for validation: run its required Python validator.{{ /profile }} Then load only the native reference needed for a reported diagnostic or correction |
 
 For read-only, preload no format guides. If profile existence is unknown,
 list the root before canonical reads; never probe absent
-`PROJECT_INDEX.md`. When Python 3 is available, use the bundled selector for
+`PROJECT_INDEX.md`. {{ profile: general }}When Python 3 is available, use the bundled selector for
 current-or-named Work Item selection through R; load R's bounded manual route
-only when Python is unavailable. For an explicitly requested new durable Plan, use the
+only when Python is unavailable.{{ /profile }}{{ profile: codex }}Use the required bundled Python selector for
+current-or-named Work Item selection through R.{{ /profile }} For an explicitly requested new durable Plan, use the
 workspace as setup root, classify the whole profile, and initialize only if all
 three canonical paths are absent. Use an existing complete supported profile.
 If all three paths are absent and no durable Plan was requested, report that
@@ -154,8 +156,9 @@ only with the explicit lifecycle choice required by the route. For an
 authorized multi-Decision accept-or-reject transition, use B and its helper
 route; never substitute single-transition or audit behavior.
 
-At work start, inventory Decision frontmatter and read every proposal. Report
-ID/title/recommendation/effect, including proposals unrelated to current work.
+At work start, inventory Decision frontmatter so proposal IDs remain discoverable.
+Read and report ID/title/recommendation/effect for proposals relevant to the
+current work, or all proposals during a full audit.
 Request accept|reject|revise when the requested work depends on that choice or
 the user asks to handle Decisions. A status/listing request does not require a
 decision answer. Preserve unresolved proposals at handoff; do not repeat an
@@ -272,12 +275,31 @@ immediate redirect still governs live execution.
 
 ### Write compact worker-ready records
 
+Select writing depth per Step, or per whole item without Steps. Run the bundled
+`scripts/resolve_prompt_profile.py --config <skill-directory>/assets/prompting.toml`
+with `--model <exact-recipient-model>` when known. Only without a target model,
+pass `--task-class` if a class already exists. If neither is known, omit both
+options: `auto` resolves to `medium`. Do not search for a model, create an
+assessment or block writing to fill these optional inputs. An explicit
+user low/medium/high request uses `--profile` within its stated scope. The
+helper returns the common rules and only the selected profile. Apply those
+rules to the authored point; never assume conversation history. Each installed
+Skill owns its settings. An unknown model uses medium, even for a high task class.
+{{ profile: general }}Python 3.11+ is required for this helper. Python 3.10 or older is present but
+unsupported: report the version error and do not use a manual route. Only when
+no Python executable is available, load
+[prompt-profile-without-python.md](references/prompt-profile-without-python.md).
+A helper or configuration error is a diagnostic, never permission to use that route.{{ /profile }}{{ profile: codex }}Python 3.11+ and this helper are required. Missing or unsupported Python,
+helper failures and configuration errors block the affected operation; report the diagnostic.{{ /profile }}
+Added explanation does not create extra Steps or worker dispatches.
+
 Before drafting or refining a Plan, Work Item, or Decision:
 
-1. Keep only facts needed to choose, execute, review, resume, or verify the work.
-2. Assign each fact once to its owning field or section.
-3. Put prerequisites before dependent actions and checks after the behavior they prove.
-4. Remove any sentence that changes no choice, action, order, constraint, check, or recovery fact.
+1. Resolve and apply the writing profile through the helper contract above.
+2. Keep only facts needed to choose, execute, review, resume, or verify the work.
+3. Assign each fact once to its owning field or section.
+4. Put prerequisites before dependent actions and checks after the behavior they prove.
+5. Remove any sentence that changes no choice, action, order, constraint, check, or recovery fact.
 
 Before any Goal write, classify every fact in the complete proposed Goal, not
 only the changed sentences. Goal owns only the current target, its boundary,
@@ -313,7 +335,7 @@ the parity checks,” rather than only “add reciprocal comments.” Plan still
 not assign the route; this wording gives the coordinator the facts needed to
 choose it safely.
 
-Write for a worker with lower reasoning and no hidden conversation context. The
+Write for the selected recipient profile with no hidden conversation context. The
 worker and reviewer must be able to identify the result, scope, applicable
 choices, exact order, targets, blockers, and proof without reconstructing omitted
 intent. Split a dense compound instruction instead of compressing it into an
@@ -336,12 +358,15 @@ After writing:
 
 1. reread changed frontmatter and complete affected Work Item or Decision blocks;
 2. inspect the scoped diff and check changed prose against the compact-record rules;
-3. when Python is available, run the optional validator through V on the final
+{{ profile: general }}3. when Python is available, run the optional validator through V on the final
    unchanged multi-file state. Its successful result owns only the structural
    invariants it reports for those exact bytes; any relevant later change
    invalidates that evidence. If Python is unavailable, load V's manual
    structural procedure and report its actual checks. A validator failure with
-   Python available remains a diagnostic, not a manual pass;
+   Python available remains a diagnostic, not a manual pass;{{ /profile }}{{ profile: codex }}3. run the required validator through V on the final unchanged multi-file state.
+   Its successful result owns only the structural invariants it reports for
+   those exact bytes; any relevant later change invalidates that evidence.
+   A validator failure blocks structural acceptance; report its diagnostic;{{ /profile }}
 4. manually check authorization, meaning, compact-record precision, Acceptance
    and Evidence sufficiency, preserved history and user changes, prepared versus
    written bytes, and every invariant the validator does not cover. Do not repeat

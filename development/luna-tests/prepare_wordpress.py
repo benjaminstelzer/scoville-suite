@@ -34,7 +34,7 @@ def main():
         raise ValueError('Expected exactly five cases')
     core = (package / 'SKILL.md').read_text(encoding='utf-8')
     discovery = []
-    for name in (MEMBER, 'scoville-ui-anti-ai-slop', 'scoville-design-anti-ai-slop'):
+    for name in (MEMBER, 'scoville-ui-anti-ai-slop'):
         root = args.build / name / name
         load_receipt(receipt, name, root)
         text = (root / 'SKILL.md').read_text(encoding='utf-8')

@@ -12,8 +12,8 @@ Before publishing either suite or its members:
    to `skills/public/scoville-suite` and `skills/public/scoville-suite-for-codex`. Workflow uses the suite package
    path, not an individual repository. Until release approval, test its same
    relative path in private staging.
-2. ADR-0011 selects five cases for each of ten Scoville Skills and one
-   representative of each of the three generated Ask types: 65 total.
+2. ADR-0011 selects five cases for each of six Scoville Skills and one
+   representative of each of the three generated Ask types: 45 total.
    Use the fixed IDs in
    Scoville Suite `development/luna-tests/selected-cases.json`, in listed order.
    Preserve the full catalogs and hidden keys. Write expected

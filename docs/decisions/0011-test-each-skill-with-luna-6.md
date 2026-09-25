@@ -5,14 +5,13 @@ status: accepted
 created: 2026-09-24
 accepted: 2026-09-24
 scope: suite/evaluation-coverage
-supersedes: ADR-0008
 ---
 
 # Jeden Skill mit Luna 6 Medium prüfen
 
 ## Decision
 
-Der Nutzer legt fünf verschiedene Fälle je Scoville-Skill und je generiertem Ask-Typ fest: zehn Scoville-Skills und drei Ask-Typen ergeben 65 Fälle. Der Tester ist `gpt-6-luna` mit `medium`; das Modell des koordinierenden Agents ist kein Abnahmekriterium.
+Der Nutzer legt fünf verschiedene Fälle je Scoville-Skill und je generiertem Ask-Typ fest: sechs Scoville-Skills und drei Ask-Typen ergeben 45 Fälle. Der Tester ist `gpt-6-luna` mit `medium`; das Modell des koordinierenden Agents ist kein Abnahmekriterium.
 
 ## Problem
 
@@ -27,7 +26,7 @@ Das bisherige Release-Gate verlangt eine ältere Fallauswahl und Modelle der 5.6
 ## Considered alternatives
 
 - Bisherige 64 Fälle plus WordPress-Ergänzung: bewahrt alte Belege, bildet aber den neuen Fünfersatz je Typ nicht ab.
-- Neuer fester 65-Fall-Satz: deckt jeden verlangten Typ gleichmäßig ab; frühere Ergebnisse bleiben historische Belege.
+- Neuer fester 45-Fall-Satz: deckt jeden verlangten Typ gleichmäßig ab; frühere Ergebnisse bleiben historische Belege.
 
 ## Consequences
 
@@ -38,7 +37,7 @@ Das bisherige Release-Gate verlangt eine ältere Fallauswahl und Modelle der 5.6
 
 ## Confirmation
 
-1. Prüfe 13 Gruppen mit je fünf eindeutigen IDs gegen Korpus und verborgene Soll-Texte.
+1. Prüfe neun Gruppen mit je fünf eindeutigen IDs gegen Korpus und verborgene Soll-Texte.
 2. Prüfe pro ausgewähltem Lauf nativen Modell-/Effort-Beleg, Paketgleichheit und inhaltliches Ergebnis; wiederhole Fälle nach Paketänderungen.
 3. Validiere beide Suite-Builds und ihre weiteren Release-Gates vor einem Push oder Release.
 

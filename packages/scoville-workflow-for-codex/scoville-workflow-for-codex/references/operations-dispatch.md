@@ -22,37 +22,10 @@ Step's compatibility tuple is identical:
 ```
 
 Outcome and Acceptance come from the selected Work Item. Determine owner and
-authorization from the actual requested effects and current risk. Treat an
-authored `[route: CLASS]` as the minimum route. Before every fresh execution-unit
-dispatch, compare the complete execution and verification scope with the route
-classes in the entrypoint from `ultra_high` down to `ultra_low`, and choose the
-highest class whose criteria apply. Raise the effective route above an
-annotation that was initially too low or incomplete; no later fact change is
-required. Never dispatch below the annotation. Do not reclassify a repair or
-context-rollover continuation. New repair attempts use the WORK-row escalation
-in [review](operations-review.md); context-rollover successors retain their
-own launched pair. Before mapping a fresh unit to `low` or `ultra_low`, apply
-the entrypoint's complete fail-closed eligibility check. Every required fact must
-be positively established from the selected context and bounded preflight. One
-false or unknown fact selects at least `medium`; an action verb, authored route,
-or expected small diff never substitutes for that evidence. Keep this check
-transient: do not add it to the Plan or child prompt.
+authorization from the requested effects. Apply Route and model selection below
+before comparing compatibility tuples. Keep classification transient; do not
+copy it into Plan points or child prompts.
 
-`low` requires nontrivial local implementation or
-verification judgment, one known behavior owner, understood helper contracts,
-established verification commands,
-and no diagnosis across component or test-harness boundaries. Use at least
-`medium` for an unresolved helper contract or required local diagnostic
-discovery, interacting behavior owners, helper or mock availability across a
-harness boundary, integration diagnosis, or broader checks whose results need
-interpretation. File count, generated metadata, or a known large test suite
-alone does not raise the class. `high` requires consequential changes to state,
-authorization, or integration contracts, not mere involvement with those
-systems. Route, model, and reasoning are separate: choose the final route,
-then pass it with any strict execution override to
-`scripts/resolve_model_pair.py`. Use its returned pair unchanged.
-Use `ultra_low` only when none of `medium`, `high`, or `ultra_high` applies and
-no nontrivial local implementation or verification judgment is needed.
 Parse each Step's execution annotation property-wise and pass only its specified
 model or reasoning values as helper overrides; an item without Steps has none.
 Parse only the strict native form and never infer an
@@ -92,3 +65,68 @@ complete assignment.
 | Adjacent Step has an independently resumable result | Split before that Step | Independent Acceptance ownership |
 | Adjacent Step changes owner or workspace | Split before that Step | Each owner or workspace boundary |
 | Work Item has no Steps | One executor for the complete Work Item | One behavior boundary |
+
+## Route and model selection
+
+Use the Plan hierarchy. A Work Item without Steps is one dispatch unit. A Step
+is the default unit; adjacent Steps may share one unit only through the guarded
+compatibility procedure in [operations.md](operations.md). Never
+invent subdivisions, combine Work Items, or split activities that share one
+behavior and Acceptance boundary.
+
+For every fresh execution unit, classify the complete execution and verification
+scope from actual consequence and reasoning demand, not file or activity count.
+Check the classes from `ultra_high` down to `ultra_low` and choose the highest
+class whose criteria apply. If a Step begins with `[route: CLASS]`, treat that
+class as the planned minimum: raise the effective dispatch route when the
+annotation was too low or incomplete, even when no fact changed after planning,
+and never dispatch below it. Do not reclassify a repair or context-rollover
+continuation. New repair attempts follow the WORK-row escalation in
+[review](operations-review.md); context-rollover successors retain
+their own launched pair.
+
+- `ultra_low`: simple bounded local change with trivial verification.
+- `low`: nontrivial local implementation judgment or verification, with one
+  known behavior owner, understood helper contracts, established verification
+  commands, and no diagnosis across component or test-harness boundaries.
+- `medium`: an unresolved helper contract or required local diagnostic
+  discovery, interacting behavior owners, helper or mock availability across a
+  harness boundary, integration diagnosis, or broader checks whose results
+  require interpretation.
+- `high`: consequential changes to state, authorization, or integration
+  contracts, rather than mere involvement with those systems.
+- `ultra_high`: unusually consequential or complex work beyond `high`.
+
+`low` is allowed only when every low criterion is positively established from
+the selected Plan context and bounded preflight. The targets and single behavior
+owner must already be known; helper, mock, harness, and generator contracts must
+be understood; verification commands and expected results must be exact and
+mechanical; and execution must require no search, inventory, diagnosis, or result
+interpretation across files, components, languages, runtimes, or harnesses. If
+any one of these facts is false or unknown, use at least `medium`.
+
+Use at least `medium` when execution must locate or classify affected targets,
+decide ownership among duplicated or mirrored definitions, preserve a contract
+across languages or components, discover how helpers or tests work, coordinate
+generated artifacts with their source, or interpret broad validation results.
+A simple verb such as add, rename, comment, document, or test is not evidence for
+`low`; classify the mechanism and verification needed to complete it.
+
+Use `ultra_low` only when none of `medium`, `high`, or `ultra_high` applies and
+the work needs no nontrivial local implementation or verification judgment.
+
+Many files, generated metadata, or a known large test suite alone do not raise
+the route. Route class, model, and reasoning level are separate decisions; a
+model's `medium` reasoning setting does not make a `low` route equivalent to a
+`medium` route. Resolve the final class through the operations-owned
+`scripts/resolve_model_pair.py`, which reads [workflow.toml](../assets/workflow.toml).
+Resolve the executor model and reasoning independently: the selected Step's strict
+`[execute: ...]` annotation overrides the matching route-default property.
+An explicitly chosen pair for a still-`todo` Work Item without Steps must be
+retained by adding one behavior-complete annotated Step; do not add a field.
+Validate the resulting pair against current host support and block the unit
+rather than substitute when either property or their combination is
+unavailable. This override changes neither route risk nor review requirements.
+When the operations contract requires review, use the configured reviewer pair
+for the same class; point overrides never affect coordinator or reviewer
+routing. Do not probe unused models.

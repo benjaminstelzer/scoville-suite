@@ -3,7 +3,9 @@ import os
 from pathlib import Path
 import unittest
 
-PACKAGE = Path(os.environ.get("WORKFLOW_PACKAGE_ROOT", str(Path(__file__).resolve().parents[2] / "scoville-workflow-for-codex")))
+from test_contract import PACKAGE as BUILT_PACKAGE
+from native_startup_fixture import contract_module
+PACKAGE = Path(os.environ.get("WORKFLOW_PACKAGE_ROOT", str(BUILT_PACKAGE)))
 NAMES = {"activation", "selection", "dispatch", "scope", "wait", "results",
          "compaction", "checkpoint", "review", "accepted", "rollover", "stop"}
 
@@ -12,11 +14,15 @@ class PhaseRouteTests(unittest.TestCase):
         core = (PACKAGE / "references/operations.md").read_text(encoding="utf-8")
         phases = list((PACKAGE / "references").glob("operations-*.md"))
         self.assertEqual({p.stem.removeprefix("operations-") for p in phases}, NAMES)
+        compiled = contract_module(PACKAGE).runtime_contract(PACKAGE)
         headings = []
         for path in phases:
-            self.assertIn(f"({path.name})", core)
             source = path.read_text(encoding="utf-8")
-            headings.extend(re.findall(r"^## (.+)$", source, re.M))
+            owned = re.findall(r"^## (.+)$", source, re.M)
+            headings.extend(owned)
+            if path.stem.removeprefix("operations-") in contract_module(PACKAGE).PHASES:
+                for heading in owned:
+                    self.assertIn("## " + heading, compiled)
             for link in re.findall(r"\]\(([^)]+)\)", source):
                 if "://" not in link:
                     target = path.parent / link.split("#")[0]
@@ -30,6 +36,6 @@ class PhaseRouteTests(unittest.TestCase):
         self.assertEqual(len(headings), 15)
         self.assertEqual(len(set(headings)), len(headings))
         self.assertNotIn("completely before the first Plan", (PACKAGE / "SKILL.md").read_text(encoding="utf-8"))
-        self.assertIn("After\ncompaction or context loss", core)
-        self.assertIn("A read marker or hash alone is not the contents", core)
-        self.assertIn("Unknown dispatch uses activation", core)
+        self.assertIn("After compaction or context loss", core)
+        self.assertIn("A read marker or hash alone is not the contents", " ".join(core.split()))
+        self.assertIn("coordinator_contract.py", core)

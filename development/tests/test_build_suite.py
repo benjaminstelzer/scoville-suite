@@ -19,7 +19,7 @@ class BuildTests(unittest.TestCase):
             self.assertEqual(a, b)
             expected = {m['name'] for m in builder.load(ROOT)['members'] if m['public_distribution']}
             self.assertEqual(expected, {m['name'] for m in a['members']})
-            self.assertIn('scoville-workflow-for-codex', expected)
+            self.assertNotIn('scoville-workflow-for-codex', expected)
             for member in a['members']:
                 self.assertIn(member['name'] + '/SKILL.md', member['files'])
                 self.assertIn('README.md', member['files'])
@@ -64,7 +64,7 @@ class BuildTests(unittest.TestCase):
             self.assertIn('name: ' + name, core)
             self.assertTrue((package / 'references/routing.md').is_file())
             self.assertIn('$' + name, (package / 'agents/openai.yaml').read_text(encoding='utf-8'))
-            for neighbor in ('scoville-ui-anti-ai-slop', 'scoville-design-anti-ai-slop'):
+            for neighbor in ('scoville-ui-anti-ai-slop',):
                 metadata = (output / neighbor / neighbor / 'SKILL.md').read_text(encoding='utf-8').split('---', 2)[1]
                 self.assertIn(name, metadata)
                 self.assertNotIn(' wordpress-backend-ui', metadata)

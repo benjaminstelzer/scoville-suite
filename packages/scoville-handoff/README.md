@@ -52,24 +52,26 @@ to resume without quietly advancing or completing the work.
 
 Any Agent Skills host that can read the named task sources. Optional read-only version-control inspection (git). No scripts, no network, no subagents. Developed for Codex and Claude Code; other hosts untested.
 
+This Skill works on its own. Other Scoville Skills are optional and handle
+only their own concerns when available and applicable.
+
 ## Install
 
 ### Install this Skill
 
-In a local Codex or Claude Code session, ask:
+This standalone package works independently. Ask your compatible agent host:
 
 ```text
-Install this Agent Skill for all my projects from this exact package directory:
+Install this Skill for all my projects from this exact package directory:
 https://github.com/benjaminstelzer/scoville-handoff/tree/main/scoville-handoff
-Preserve existing customizations and ask before overwriting conflicting files.
-Report the installed location and whether the host discovers the Skill.
+Preserve personal settings and unrelated Skills. Report the installed location
+and whether the host discovers the Skill.
 ```
 
-The agent needs source access and permission to write to its personal Skills
-location. Manual fallback: [Codex Skills guide](https://learn.chatgpt.com/docs/build-skills)
-or [Claude Code Skills guide](https://code.claude.com/docs/en/skills).
-
-Install only the linked package for the focused option.
+The host needs permission to write to its Skills directory. See the
+[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
+[Claude Code Skills guide](https://code.claude.com/docs/en/skills)
+for host-specific locations.
 
 ### Install the complete Scoville suite
 
@@ -79,23 +81,13 @@ Install its released Skill packages, not development templates.
 
 ## How to use
 
-Request an explicit transfer and name any task sources the receiver will need:
-
 ```text
-Use Scoville Handoff to transfer this active task to a new session. Read docs/plans/0001-migration.md and ADR-0002.md, include the current Git state, and return one copy-ready continuation prompt.
+Use Scoville Handoff to transfer this active task to a new session. Include the current repository state and verified evidence.
 ```
 
 ```text
-Create a compact handoff for another agent. Preserve the objective, accepted decisions, dirty files, observed test evidence, current blocker, and next safe action. Do not continue the task.
+Create a compact handoff for another agent. Preserve the objective, decisions, changed files, blockers and next action; do not continue the work.
 ```
-
-```text
-Use Scoville Handoff for the work completed in this session. Mark unverified commands and external state as unknown rather than inferring success.
-```
-
-Explicit `$scoville-handoff` invocation also works on hosts that support named
-Skill invocation. The former `$compact-handoff` identifier is retired. Natural
-requests such as “compact handoff” still activate this Skill.
 
 ## Sources
 
@@ -114,14 +106,9 @@ requests such as “compact handoff” still activate this Skill.
 
 - [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
 - [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [Scribe](https://github.com/benjaminstelzer/scoville-scribe-anti-ai-slop) owns wording, terminology, factual meaning, and source fidelity.
 - [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
 - [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
-- [Design](https://github.com/benjaminstelzer/scoville-design-anti-ai-slop) owns visual definition, art direction, design systems, critique, and repair.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
-- [Research](https://github.com/benjaminstelzer/scoville-research) turns web, GitHub, and scholarly evidence into a decision-ready, claim-traceable result.
-- [Brainstorm](https://github.com/benjaminstelzer/scoville-brainstorm) explores materially different mechanisms before selection.
-- [Workflow Codex](https://github.com/benjaminstelzer/scoville-suite) coordinates explicit Plan execution through native Codex project tasks.
 
 ## License
 

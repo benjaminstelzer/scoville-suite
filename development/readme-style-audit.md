@@ -6,8 +6,8 @@ READMEs. Imported historical documents were not rewritten.
 
 The edits keep Benjamin's direct, qualified voice. Existing strong openings
 remain. Plan and Workflow now explain reader consequences instead of repeating
-their operating contracts. Exact rules stay linked from the README. Scribe's
-introduction is shorter, Ask distinguishes native and Claude-only hosts, and
+their operating contracts. Exact rules stay linked from the README. Ask
+distinguishes native and Claude-only hosts, and
 Workflow describes phase-based loading and dispatch reuse.
 
 Development copy now identifies the suite owner. The viewer's retained
@@ -21,7 +21,6 @@ Release README word counts, measured by whitespace:
 | --- | ---: | ---: |
 | Plan | 1526 | 1143 |
 | Workflow | 3237 | 1758 |
-| Scribe | 1052 | 968 |
 
 These counts describe length, not measured token use or style quality.
 

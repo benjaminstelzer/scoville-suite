@@ -30,7 +30,7 @@ Die vereinfachten Anweisungen setzen leistungsfähige Modelle voraus; diese Vora
 ## Consequences
 
 - Kanonische README-Quellen und alle zugehörigen Releaseprojektionen müssen die Voraussetzung enthalten.
-- Aktuell betroffen sind Scribe und der eigenständige Skillwriter. Weitere Überarbeitungen erweitern den Umfang.
+- Aktuell betroffen sind die mit Skillwriter überarbeiteten Skills und der eigenständige Skillwriter. Weitere Überarbeitungen erweitern den Umfang.
 - Die Anforderung ist kein Nachweis erfolgreicher Läufe auf sämtlichen Modellfamilien und hebt bestehende Releasegates nicht auf.
 
 ## Confirmation

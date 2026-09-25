@@ -1,14 +1,13 @@
-# Scoville Suite
+{{ profile: general }}# Scoville Suite
 
-Scoville gives planning, research, code, design and writing their own Skills.
-Use the ones your task needs. Installing a family does not make every task a
-family gathering.
+Scoville gives planning, code and UI work their own Skills, with Handoff for transfers.
+Install the complete edition. The general suite supports compatible
+Agent Skills hosts and supplies manual procedures only when Python is absent.
+Workflow and Ask are not included.
+{{ /profile }}{{ profile: codex }}# Scoville Suite for Codex
 
-Scoville Suite brings together Skills for planning, implementation, review,
-research and design. Install the complete suite to use them across a project,
-or choose individual Skills for the work you need. Each Skill has a defined
-responsibility. Workflow connects them through plan-driven execution and is
-available only as part of the suite.
-
-Workflow is a Codex-only beta and is explained first below. Other Skills retain
-their own compatibility limits.
+Planning, code and UI Skills for Codex, with Handoff for transfers and the
+Codex-only Workflow beta for plan-driven execution. Python 3.11 or newer and
+the bundled helpers are required. This suite contains no manual Python
+replacement procedures. Scoville Ask will be added in a later update.
+{{ /profile }}

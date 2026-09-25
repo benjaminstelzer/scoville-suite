@@ -12,6 +12,8 @@ import tempfile
 from pathlib import Path
 from typing import Iterator
 
+from coordinator_contract import ContractError, verify_coordinator, verify_writer
+
 
 SCHEMA_VERSION = 1
 ID_PATTERN = re.compile(r"[A-Za-z0-9._:-]{1,160}\Z")
@@ -337,6 +339,18 @@ def acquire(args: argparse.Namespace, path: Path, workspace: Path, actor: str) -
 def transition(args: argparse.Namespace, guard: dict[str, object], actor: str) -> tuple[dict[str, object] | None, bool | None]:
     action = args.command
     require_workflow(guard, args.workflow_id)
+    # Enforce supplied native instructions at the existing authority boundary.
+    # Read-only inspection and stop cleanup remain available to legacy sessions.
+    bootstrap_action = action in {"claim", "validate-successor", "activate-coordinator"}
+    coordinator_action = actor == guard["coordinator_id"] and action not in {
+        "release", "clear-writer", "verify",
+    }
+    coordinator_write = action == "verify" and args.role == "coordinator" and actor == guard["coordinator_id"]
+    if bootstrap_action or coordinator_action or coordinator_write:
+        try:
+            verify_coordinator(actor, str(guard["workflow_id"]), Path(str(guard["workspace_root"])))
+        except (ContractError, OSError, ValueError) as error:
+            raise GuardError("coordinator_contract_invalid", str(error)) from error
     if action == "verify":
         require_revision(guard, args.expected_revision, args.expected_generation)
         authorized = False
@@ -401,6 +415,12 @@ def transition(args: argparse.Namespace, guard: dict[str, object], actor: str) -
         writer = guard["writer"]
         if not isinstance(writer, dict) or writer.get("dispatch_key") != args.dispatch_key or writer.get("task_id") is not None:
             raise GuardError("writer_mismatch", "pending writer does not match the reconciliation request")
+        try:
+            verify_writer(args.task_id, actor, str(guard["workflow_id"]),
+                          Path(str(guard["workspace_root"])), str(writer["role"]),
+                          str(writer["unit"]), str(writer["dispatch_key"]))
+        except (ContractError, OSError, ValueError) as error:
+            raise GuardError("writer_transport_invalid", str(error)) from error
         writer["task_id"] = validate_id(args.task_id, "task_id")
     elif action == "activate-writer":
         require_coordinator(guard, actor, {"writer_pending"})
