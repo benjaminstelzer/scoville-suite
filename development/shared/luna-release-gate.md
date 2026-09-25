@@ -5,7 +5,7 @@ Codex CLI. The coordinator's model is not a test acceptance input.
 
 Before publishing either suite or its members:
 
-1. Build release packages only under `E:/Dropbox/AI Projects/skills/temp/release`.
+1. Build release packages only under `<workspace-root>/skills/temp/release`.
    Keep exactly one current release build. Replace obsolete candidates only
    after their readers finish; never create dated or numbered sibling builds.
    Preserve existing checkouts and changes. Synchronize verified suite exports
