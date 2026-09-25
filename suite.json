@@ -55,6 +55,10 @@
           "target": "scoville-code-anti-ai-slop/references/validation.md"
         },
         {
+          "source": "members/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop/references/project-conventions.md",
+          "target": "scoville-code-anti-ai-slop/references/project-conventions.md"
+        },
+        {
           "source": "members/scoville-code-anti-ai-slop/scoville-code-anti-ai-slop/SKILL.md",
           "target": "scoville-code-anti-ai-slop/SKILL.md"
         },
@@ -356,82 +360,130 @@
       ]
     },
     {
-      "name": "scoville-ui-anti-ai-slop",
+      "name": "scoville-ui",
       "development": {
-        "source": "members/scoville-ui-anti-ai-slop",
-        "tests": "members/scoville-ui-anti-ai-slop/development/tests",
-        "notes": "members/scoville-ui-anti-ai-slop/development/README.md"
+        "source": "members/scoville-ui",
+        "tests": "development/tests/test_build_suite.py",
+        "notes": "members/scoville-ui/development/README.md"
       },
-      "repository": "benjaminstelzer/scoville-ui-anti-ai-slop",
+      "repository": "benjaminstelzer/scoville-ui",
       "visibility": "public",
       "public_distribution": true,
       "import_commit": "52eaa9e04c408fb5934d2f296d2892bd345ecf85",
       "readme": [
-        "development/readme/scoville-ui-anti-ai-slop/description.md",
-        "development/readme/scoville-ui-anti-ai-slop/mechanism.md",
-        "development/readme/scoville-ui-anti-ai-slop/requirements.md",
-        "development/readme/scoville-ui-anti-ai-slop/costs.md",
-        "development/readme/scoville-ui-anti-ai-slop/development.md",
+        "development/readme/scoville-ui/description.md",
+        "development/readme/scoville-ui/mechanism.md",
+        "development/readme/scoville-ui/requirements.md",
+        "development/readme/scoville-ui/costs.md",
+        "development/readme/scoville-ui/development.md",
         {
           "source": "shared:member-development-inline.md",
           "audience": "suite"
         },
-        "development/readme/scoville-ui-anti-ai-slop/compatibility-221fa1eaa338cb20.md",
+        "development/readme/scoville-ui/compatibility-221fa1eaa338cb20.md",
         "shared:skill-installation-contract.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-ui-anti-ai-slop/usage.md",
-        "development/readme/scoville-ui-anti-ai-slop/sources.md",
+        "development/readme/scoville-ui/usage.md",
+        "development/readme/scoville-ui/sources.md",
         "shared:family.md",
         "shared:license.md"
       ],
       "files": [
         {
-          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/agents/openai.yaml",
-          "target": "scoville-ui-anti-ai-slop/agents/openai.yaml"
+          "source": "members/scoville-ui/scoville-ui/agents/openai.yaml",
+          "target": "scoville-ui/agents/openai.yaml"
         },
         {
-          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/LICENSE",
-          "target": "scoville-ui-anti-ai-slop/LICENSE"
+          "source": "members/scoville-ui/scoville-ui/LICENSE",
+          "target": "scoville-ui/LICENSE"
         },
         {
-          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/references/framework-alignment.md",
-          "target": "scoville-ui-anti-ai-slop/references/framework-alignment.md"
+          "source": "members/scoville-ui/scoville-ui/references/framework-alignment.md",
+          "target": "scoville-ui/references/framework-alignment.md"
         },
         {
-          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/references/ui-quality.md",
-          "target": "scoville-ui-anti-ai-slop/references/ui-quality.md"
+          "source": "members/scoville-ui/scoville-ui/references/ui-quality.md",
+          "target": "scoville-ui/references/ui-quality.md"
         },
         {
-          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/references/validation.md",
-          "target": "scoville-ui-anti-ai-slop/references/validation.md"
+          "source": "members/scoville-ui/scoville-ui/references/validation.md",
+          "target": "scoville-ui/references/validation.md"
         },
         {
-          "source": "members/scoville-ui-anti-ai-slop/scoville-ui-anti-ai-slop/SKILL.md",
-          "target": "scoville-ui-anti-ai-slop/SKILL.md"
+          "source": "members/scoville-ui/scoville-ui/SKILL.md",
+          "target": "scoville-ui/SKILL.md"
         },
         {
-          "source": "members/scoville-ui-anti-ai-slop/LICENSE",
+          "source": "members/scoville-ui/LICENSE",
           "target": "LICENSE"
         },
         {
-          "source": "members/scoville-ui-anti-ai-slop/CHANGELOG.md",
+          "source": "members/scoville-ui/CHANGELOG.md",
           "target": "CHANGELOG.md"
         },
         {
-          "source": "members/scoville-ui-anti-ai-slop/.gitattributes",
+          "source": "members/scoville-ui/.gitattributes",
           "target": ".gitattributes"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/adapter.md",
+          "target": "scoville-ui/references/wordpress/adapter.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/classic-patterns.md",
+          "target": "scoville-ui/references/wordpress/classic-patterns.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/examples.md",
+          "target": "scoville-ui/references/wordpress/examples.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/fallback-composition.md",
+          "target": "scoville-ui/references/wordpress/fallback-composition.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/internationalization.md",
+          "target": "scoville-ui/references/wordpress/internationalization.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/responsive.md",
+          "target": "scoville-ui/references/wordpress/responsive.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/routing.md",
+          "target": "scoville-ui/references/wordpress/routing.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/sources.md",
+          "target": "scoville-ui/references/wordpress/sources.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/spacing.md",
+          "target": "scoville-ui/references/wordpress/spacing.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/ui-guidance.md",
+          "target": "scoville-ui/references/wordpress/ui-guidance.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/validation.md",
+          "target": "scoville-ui/references/wordpress/validation.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/version-compatibility.md",
+          "target": "scoville-ui/references/wordpress/version-compatibility.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/wpds-tokens.md",
+          "target": "scoville-ui/references/wordpress/wpds-tokens.md"
         }
       ],
       "family": {
         "label": "UI",
-        "owner": "framework UI implementation, accessibility mechanics, and rendered proof.",
-        "summary": "owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.",
+        "owner": "framework UI implementation and acceptance, including supported WordPress admin surfaces.",
+        "summary": "owns UI implementation, information structure, accessibility and rendered evidence, with a conditional WordPress adapter.",
         "neighbors": [
-          {
-            "description": "supported plugin-owned WordPress `wp-admin` surfaces.",
-            "member": "scoville-wordpress-ui-backend-anti-ai-slop"
-          },
           {
             "member": "scoville-code-anti-ai-slop",
             "description": "engineering scope, implementation risk, and validation."
@@ -440,14 +492,14 @@
         "order": 3
       },
       "variables": {
-        "skill_name": "scoville-ui-anti-ai-slop",
+        "skill_name": "scoville-ui",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
       },
       "description_fragments": [
-        "development/readme/scoville-ui-anti-ai-slop/description.md",
-        "development/readme/scoville-ui-anti-ai-slop/mechanism.md",
-        "development/readme/scoville-ui-anti-ai-slop/requirements.md",
-        "development/readme/scoville-ui-anti-ai-slop/costs.md"
+        "development/readme/scoville-ui/description.md",
+        "development/readme/scoville-ui/mechanism.md",
+        "development/readme/scoville-ui/requirements.md",
+        "development/readme/scoville-ui/costs.md"
       ]
     },
     {
@@ -670,138 +722,136 @@
       ]
     },
     {
-      "name": "scoville-wordpress-ui-backend-anti-ai-slop",
+      "name": "scoville-ask-for-codex",
       "development": {
-        "source": "members/scoville-wordpress-ui-backend-anti-ai-slop",
-        "tests": "development/luna-tests/wordpress-sol-results.md",
-        "notes": "members/scoville-wordpress-ui-backend-anti-ai-slop/development/README.md"
+        "source": "members/scoville-ask-for-codex",
+        "tests": "members/scoville-ask-for-codex/development/tests",
+        "notes": "members/scoville-ask-for-codex/development/README.md"
       },
-      "repository": "benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop",
+      "repository": "benjaminstelzer/scoville-ask-for-codex",
       "visibility": "public",
       "public_distribution": true,
-      "import_commit": "583288b7f89bbdee011f3bc302bc210c1d989c71",
-      "history_repository": "benjaminstelzer/wordpress-backend-ui-skill",
+      "profiles": [
+        "codex"
+      ],
+      "standalone_profiles": [
+        "codex"
+      ],
+      "catalog_profiles": [
+        "general"
+      ],
+      "availability": "Codex online",
       "readme": [
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/description.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/mechanism.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/requirements.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/costs.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/development.md",
+        "development/readme/scoville-ask-for-codex/description.md",
+        "development/readme/scoville-ask-for-codex/mechanism.md",
+        "development/readme/scoville-ask-for-codex/requirements.md",
+        "development/readme/scoville-ask-for-codex/costs.md",
+        "development/readme/scoville-ask-for-codex/development.md",
         {
           "source": "shared:member-development-inline.md",
           "audience": "suite"
         },
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/compatibility.md",
+        "development/readme/scoville-ask-for-codex/compatibility.md",
+        "shared:codex-runtime-requirements.md",
         "shared:skill-installation-contract.md",
         "shared:scoville-install.md",
         "shared:scoville-suite-install.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/usage.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/sources.md",
+        "development/readme/scoville-ask-for-codex/usage.md",
+        "development/readme/scoville-ask-for-codex/sources.md",
         "shared:family.md",
         "shared:license.md"
       ],
+      "description_fragments": [
+        "development/readme/scoville-ask-for-codex/description.md",
+        "development/readme/scoville-ask-for-codex/mechanism.md",
+        "development/readme/scoville-ask-for-codex/requirements.md",
+        "development/readme/scoville-ask-for-codex/costs.md"
+      ],
       "files": [
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/LICENSE",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/LICENSE"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/config.default.json",
+          "target": "scoville-ask-for-codex/config.default.json"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/SKILL.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/SKILL.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/LICENSE",
+          "target": "scoville-ask-for-codex/LICENSE"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/agents/openai.yaml",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/agents/openai.yaml"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/adviser.md",
+          "target": "scoville-ask-for-codex/references/adviser.md"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/classic-patterns.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/classic-patterns.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/claude.md",
+          "target": "scoville-ask-for-codex/references/claude.md"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/examples.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/examples.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/configuration.md",
+          "target": "scoville-ask-for-codex/references/configuration.md"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/fallback-composition.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/fallback-composition.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/native-delivery.md",
+          "target": "scoville-ask-for-codex/references/native-delivery.md"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/internationalization.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/internationalization.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/native.md",
+          "target": "scoville-ask-for-codex/references/native.md"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/responsive.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/responsive.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/ask.py",
+          "target": "scoville-ask-for-codex/scripts/ask.py"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/routing.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/routing.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/ask_claude.py",
+          "target": "scoville-ask-for-codex/scripts/ask_claude.py"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/sources.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/sources.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/list_models.py",
+          "target": "scoville-ask-for-codex/scripts/list_models.py"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/spacing.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/spacing.md"
+          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/SKILL.md",
+          "target": "scoville-ask-for-codex/SKILL.md"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/ui-guidance.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/ui-guidance.md"
-        },
-        {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/validation.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/validation.md"
-        },
-        {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/version-compatibility.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/version-compatibility.md"
-        },
-        {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/scoville-wordpress-ui-backend-anti-ai-slop/references/wpds-tokens.md",
-          "target": "scoville-wordpress-ui-backend-anti-ai-slop/references/wpds-tokens.md"
-        },
-        {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/LICENSE",
+          "source": "members/scoville-ask-for-codex/LICENSE",
           "target": "LICENSE"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/CHANGELOG.md",
+          "source": "members/scoville-ask-for-codex/CHANGELOG.md",
           "target": "CHANGELOG.md"
         },
         {
-          "source": "members/scoville-wordpress-ui-backend-anti-ai-slop/.gitattributes",
+          "source": "members/scoville-ask-for-codex/.gitattributes",
           "target": ".gitattributes"
         }
       ],
+      "shared_helpers": [
+        {
+          "source": "runtime/task_lifecycle.py",
+          "target": "scoville-ask-for-codex/scripts/task_lifecycle.py"
+        },
+        {
+          "source": "runtime/task_lifecycle.md",
+          "target": "scoville-ask-for-codex/scripts/task_lifecycle.md"
+        }
+      ],
       "family": {
-        "label": "WordPress UI Backend",
-        "owner": "WordPress plugin-owned wp-admin implementation and UI acceptance.",
-        "summary": "owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.",
-        "order": 4,
-        "neighbors": [
-          {
-            "member": "scoville-code-anti-ai-slop",
-            "description": "engineering scope and validation outside UI acceptance."
-          }
-        ]
+        "order": 10,
+        "label": "Ask Codex",
+        "owner": "independent read-only consultation through configured advisers.",
+        "summary": "collects independent advice and reviews in Codex."
       },
       "variables": {
-        "skill_name": "scoville-wordpress-ui-backend-anti-ai-slop",
+        "skill_name": "scoville-ask-for-codex",
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      },
-      "description_fragments": [
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/description.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/mechanism.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/requirements.md",
-        "development/readme/scoville-wordpress-ui-backend-anti-ai-slop/costs.md"
-      ]
+      }
     }
   ],
   "readme": [
     "development/readme/suite-intro.md",
     "shared:suite-requirements.md",
     "shared:suite-descriptions.md",
+    "shared:suite-catalog.md",
     "development/readme/suite-install.md",
     "development/readme/suite-development.md",
     "shared:suite-development-links.md",

@@ -284,6 +284,128 @@
         "Do not force the request into the narrower same-check diagnostic-only route.",
         "Do not add Planning or new workflow requirements solely because the failure repeated."
       ]
+    },
+    {
+      "id": "restored-infrastructure-retry",
+      "given": "Documented setup and an alternate check failed to exercise a required integration. The needed service is now demonstrably restored.",
+      "expect": [
+        "Rerun the narrow required check because relevant conditions changed.",
+        "Keep required acceptance open until actual evidence passes."
+      ]
+    },
+    {
+      "id": "no-value-repeat",
+      "given": "All affected behavior and risks have decisive evidence. Inputs and environment are unchanged and no binding protocol requires repetition.",
+      "expect": [
+        "Stop checking.",
+        "Do not justify identical repetition merely because residual risk is nonzero."
+      ]
+    },
+    {
+      "id": "final-tree-changed",
+      "given": "After the final scoped diff inspection an authorized concurrent source change alters affected behavior.",
+      "expect": [
+        "Inspect the changed final tree and validate the affected behavior.",
+        "Do not cite stale evidence or treat the earlier final inspection as a ban on necessary checks."
+      ]
+    },
+    {
+      "id": "authorized-obsolete-assertion",
+      "given": "The user explicitly replaced an ordinary product rule. An old assertion now contradicts that authorized rule and no security guarantee is removed.",
+      "expect": [
+        "Update the obsolete assertion to the authorized new contract.",
+        "Prove the new behavior and preserve remaining guarantees."
+      ]
+    },
+    {
+      "id": "required-guard-removal",
+      "given": "A security guard fails in a bugfix. Deleting it makes existing checks pass. The user has not authorized dropping that guarantee.",
+      "expect": [
+        "Preserve the guard and fix the actual cause.",
+        "Do not infer authority to drop a guarantee from a general bugfix request."
+      ]
+    },
+    {
+      "id": "complete-greenfield-angular",
+      "given": "Initialize a wholly new Angular application. No project naming or layout requirements are present.",
+      "expect": [
+        "Read project-conventions.md after checking project instructions and existing organization.",
+        "Use Angular feature organization and hyphenated filenames with colocated spec tests.",
+        "Do not force a generic central tests directory or development wrapper."
+      ]
+    },
+    {
+      "id": "complete-greenfield-project-first",
+      "given": "Initialize a wholly new Python project whose AGENTS.md prescribes a source folder and filename convention compatible with Python.",
+      "expect": [
+        "Apply project requirements first.",
+        "Use the Greenfield reference only for choices not already prescribed."
+      ]
+    },
+    {
+      "id": "existing-empty-module-folder",
+      "given": "An established application gains a module in a newly created empty directory.",
+      "expect": [
+        "Do not load or apply project-conventions.md.",
+        "Follow the existing project organization and conventions."
+      ]
+    },
+    {
+      "id": "existing-missing-naming-rule",
+      "given": "An established application has no explicit naming rule for a requested new source file.",
+      "expect": [
+        "Do not activate the Greenfield fallback because an individual rule is missing.",
+        "Use established surrounding code and applicable project requirements."
+      ]
+    },
+    {
+      "id": "explicit-conventions-unreadable",
+      "given": "A wholly new project has applicable AGENTS.md explicitly directing an unreadable personal conventions file. Project-specific requirements are readable.",
+      "expect": [
+        "Report the exact unavailable path and stop only dependent organization choices.",
+        "Continue independent authorized work under known project requirements.",
+        "Do not silently replace required personal instructions with bundled defaults."
+      ]
+    },
+    {
+      "id": "greenfield-wordpress-psr4",
+      "given": "A wholly new WordPress plugin uses Composer PSR-4 for its namespaced classes.",
+      "expect": [
+        "Honor the actual PSR-4 loading contract and case-matching namespace paths.",
+        "Use WordPress filename conventions where applicable without breaking PSR-4-loaded classes."
+      ]
+    },
+    {
+      "id": "second-alternative-open-question",
+      "given": "A DB integration check remains blocked by unchanged infrastructure. One alternative syntax check passed but did not establish preservation of status/reason/error/source. An existing isolated serializer contract test needs no DB and can answer that named open acceptance question.",
+      "expect": [
+        "Run the targeted serializer contract test despite an earlier alternative and unchanged infrastructure.",
+        "Do not retry the unchanged blocked integration check or claim integration was verified."
+      ]
+    },
+    {
+      "id": "existing-new-subproject",
+      "given": "Plan a new reporting subproject within an established repository that uses app/ and tests/ with snake_case modules.",
+      "expect": [
+        "Preserve applicable repository requirements and observed organization.",
+        "Do not load project-conventions.md for a new subproject inside the existing repository."
+      ]
+    },
+    {
+      "id": "existing-refactoring",
+      "given": "Refactor an established shipping module without changing behavior.",
+      "expect": [
+        "Preserve the current organization and names and validate the affected behavior.",
+        "Do not load or apply the Greenfield project-conventions.md reference."
+      ]
+    },
+    {
+      "id": "explicit-relative-conventions",
+      "given": "A new project refers to docs/project-conventions.md from its root AGENTS.md while the shell starts in a different directory.",
+      "expect": [
+        "Resolve the relative reference from the AGENTS.md directory, not the shell working directory.",
+        "Read only the explicitly directed file, without personal-file discovery."
+      ]
     }
   ]
 }

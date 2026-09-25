@@ -6,7 +6,7 @@ references. Assess actions and claim limits, not exact wording.
 01. UI does not apply to backend-only work.
 02. UI applies to framework implementation, input and accessibility mechanics.
 03. UI does not own a visual concept task without implementation.
-04. WordPress specialist owns the surface. UI does not start its implementation, references or acceptance process there.
+04. Scoville UI applies and loads its local WordPress adapter/routing contract. Common Quality and Validation remain the sole shared acceptance process; no second Skill is required.
 05. Wording owner, not UI merely because text exists.
 06. Core-only ownership response. Do not load Quality or Validation without their trigger.
 07. Framework only for unresolved ownership/fallback. Do not add Quality/Validation solely because the interface is new.

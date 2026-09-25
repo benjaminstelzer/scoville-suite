@@ -1,4 +1,0 @@
-interface:
-  display_name: "Scoville WordPress UI Backend"
-  short_description: "Consistent WordPress plugin admin interfaces"
-  default_prompt: "Use $scoville-wordpress-ui-backend-anti-ai-slop to design or audit this WordPress plugin admin interface."

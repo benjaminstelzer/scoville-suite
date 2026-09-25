@@ -11,12 +11,13 @@ spec.loader.exec_module(builder)
 
 class DescriptionContractTests(unittest.TestCase):
     def test_all_descriptions_are_shared_complete_blocks(self):
-        for suite in ('scoville-suite', 'ask-suite-for-codex'):
-            root = SHARED.parent/suite
-            combined = builder.expand_fragments(root, '{{ include: suite.descriptions }}')
-            for member in builder.load(root)['members']:
+        for profile in ('general', 'codex'):
+            root = SHARED.parent/'scoville-suite'
+            config = builder.load(root, profile)
+            combined = builder.expand_fragments(root, '{{ include: suite.descriptions }}', config=config)
+            for member in config['members']:
                 with self.subTest(member=member['name']):
-                    text = builder.readme(root, member).decode()
+                    text = builder.readme(root, member, config=config).decode()
                     description = text.split('## How it was developed', 1)[0].strip()
                     lines = []
                     fenced = False

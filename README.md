@@ -34,7 +34,7 @@ remove code without turning every small change into a full audit.
 - Read the owner and relevant callers, contracts and tests. Expand only when the evidence points elsewhere.
 - Fix the cause in the existing implementation. Avoid parallel paths, speculative abstractions and unrelated cleanup.
 - Test the changed behavior. A successful build or mocked integration proves only what it exercised.
-- Investigate failed checks without weakening them. After two unsuccessful corrections of the same cause, reassess the approach.
+- Investigate failed checks without weakening required guarantees. Change obsolete assertions only when an explicitly authorized contract change requires it. After two unsuccessful corrections of the same cause, reassess the approach.
 - Inspect the complete change and report observed results and remaining gaps. Stop checking when further evidence would not change the decision.
 
 ### What it enforces
@@ -55,6 +55,13 @@ remove code without turning every small change into a full audit.
   a backstop with concrete exceptions, never an architecture target.
 - **Material questions only.** It asks when a missing choice changes behavior,
   authority, cost, reversibility, or scope, not for details the code settles.
+- **Defaults for a wholly new project.** Project instructions come first.
+  Only complete greenfield work uses the stack-specific conventions in the
+  Skill's `references/project-conventions.md`. Keep personal overrides outside
+  the installed Skill and reference them explicitly from `AGENTS.md` so Skill
+  updates do not replace them. Existing projects keep their organization.
+  The [customization guide](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop#your-own-conventions)
+  explains paths, precedence and update behavior with a copyable example.
 - **Complete handoff.** The final report names changed behavior, relevant
   validation, unresolved failures, and relevant repository state.
 
@@ -102,22 +109,25 @@ projects, not to turn a small reversible edit into paperwork.
 
 - Reading, updating and checking Plan records add token usage and maintenance time.
 
-## Scoville UI Anti-AI-Slop
+## Scoville UI
 
 A good desktop screenshot does not show whether someone can use the page.
 The main action may disappear on mobile, keyboard focus may be missing, or an
 error may leave the user with no way forward.
 
 Scoville UI implements and audits interfaces through the framework and design
-system already in use. It connects component choices, interaction states,
-responsive behavior and accessibility to evidence from the rendered interface.
+system already in use. One shared contract covers information structure, states,
+accessibility and rendered evidence. For supported WordPress admin pages, it
+loads a local adapter for Core components, native spacing, versions and i18n.
 
 ### How it works
 
 - Identify the existing design system, implementation owner and approved product decisions.
+- Load the local WordPress adapter only for admin surfaces. Other frameworks use the general route.
 - Read the relevant component and styling code before changing the interface.
 - Implement affected states and responsive behavior through supported framework components.
 - Check the completed batch in the actual rendered interface, including relevant input and focus behavior.
+- Use one common validation process with the selected platform's additional checks.
 - Return blocked product decisions to their owner. Without a visual owner, use the bounded new-interface direction.
 
 ### What it enforces
@@ -135,55 +145,15 @@ responsive behavior and accessibility to evidence from the rendered interface.
 - **Evidence matches the claim.** Source inspection can prove structure.
   Rendered or interactive claims require rendered or interactive evidence.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop/blob/main/scoville-ui-anti-ai-slop/SKILL.md).
+- **WordPress keeps its native owners.** Classic, Core Components, bundled WPDS and hybrid regions remain distinct. Tokens do not require a React migration.
+
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-ui/blob/main/scoville-ui/SKILL.md).
 
 ### What it costs
 
 - Browser inspection, interaction checks and corrections use additional tokens and time.
-
-## Scoville WordPress UI Backend Anti-AI-Slop
-
-A plugin settings page can look tidy and still fight WordPress. Native controls
-get rebuilt, spacing becomes inconsistent, and React is treated as proof that
-the page uses the right platform components.
-
-Scoville WordPress UI Backend implements and audits plugin-owned wp-admin
-interfaces through the WordPress runtime that actually owns them. It keeps
-controls, spacing, vertical flow, accessibility and translations consistent
-without forcing a second UI system onto a working page.
-
-### How it works
-
-- Identify the supported surface and its Classic PHP, Core Components or mixed runtime.
-- Reuse platform APIs, controls and spacing owners before adding custom rules.
-- Batch related source corrections, measure spacing relationships, then inspect and operate the rendered page.
-- Check scoped regions, smaller screens and relevant loading, error and permission states.
-- Apply WordPress internationalization rules without turning an unrelated audit into a translation project.
-
-### What it enforces
-
-- **WordPress before custom CSS.** Reuse APIs, semantic markup, Core classes,
-  components and available tokens before adding a narrowly scoped rule.
-- **Runtime ownership.** Classic, Core Components and experimental WPDS are
-  separate paths. React alone does not choose one.
-- **No forced migration.** Keep working native controls and margins.
-  WordPress 7.1 token availability is not a reason to rebuild a PHP page.
-- **One spacing owner.** The parent owns gaps in new plugin compositions.
-  Native margins and component padding retain their existing owners.
-- **Usable states.** Loading, empty, error and permission states preserve the
-  task, keyboard access, focus and recovery.
-- **Translation readiness.** Use WordPress i18n APIs and test text expansion.
-  Translation catalogs are required only when translation delivery is in scope.
-  RTL checks follow the supported or explicitly planned language scope.
-- **Evidence in order.** Inspect and correct source, measure relationships,
-  then view and operate the affected interface. A screenshot or build alone
-  cannot prove the complete result.
-
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop/blob/main/scoville-wordpress-ui-backend-anti-ai-slop/SKILL.md).
-
-### What it costs
-
-- Inspecting spacing, responsive behavior and interactions in WordPress adds token usage and testing time.
+- WordPress work loads extra platform references. Other frameworks do not need them.
+- Source-only work leaves rendering and interaction unverified. These instructions do not establish measured usability gains.
 
 ## Scoville Handoff
 
@@ -197,7 +167,7 @@ to resume without quietly advancing or completing the work.
 
 ### How it works
 
-- Read the named task sources with bounded recovery when a read is incomplete.
+- Use established conversation facts and read named task sources with bounded recovery when a read is incomplete.
 - Capture decisions, ownership, evidence, blockers and hazards without secrets.
 - Organize the result into Receiver Instructions, Objective, State and Resume Steps.
 - Compare the prompt against the captured facts and return one copy-ready block.
@@ -209,7 +179,7 @@ to resume without quietly advancing or completing the work.
   produce a handoff artifact.
 - **One receiver contract.** Every handoff contains Receiver Instructions,
   Objective, State, and Resume Steps in one copy-ready block.
-- **Facts instead of pointers.** Named sources are read with targeted recovery
+- **Facts instead of pointers.** Conversation facts remain available. Named sources are read with targeted recovery
   for truncation or a transient failure, within explicit user limits. Their material
   facts enter the artifact so the receiver has them when resuming.
 - **Authority and ownership survive.** Commit, publication, destructive-action,
@@ -226,6 +196,21 @@ to resume without quietly advancing or completing the work.
 ### What it costs
 
 - Reading the task state and preparing the handoff use additional tokens and time.
+
+## Additional Scoville Skills
+
+### scoville-ask-for-codex
+
+Codex online. Available separately; not included in this edition.
+
+Ask your Codex host:
+
+```text
+Install this Skill for all my projects from this exact package directory:
+https://github.com/benjaminstelzer/scoville-ask-for-codex/tree/main/scoville-ask-for-codex
+Preserve personal settings and unrelated Skills. Report the installed location
+and whether the host discovers the Skill.
+```
 
 ## Install the suite
 
@@ -301,8 +286,7 @@ and the development files.
 
 - **scoville-code-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code-anti-ai-slop/development/README.md)
 - **scoville-plan**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
-- **scoville-ui-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui-anti-ai-slop/development/README.md)
-- **scoville-wordpress-ui-backend-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-wordpress-ui-backend-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/luna-tests/wordpress-sol-results.md) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-wordpress-ui-backend-anti-ai-slop/development/README.md)
+- **scoville-ui**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 - **scoville-handoff**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
 
 ## Deprecated

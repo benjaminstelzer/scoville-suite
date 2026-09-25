@@ -48,6 +48,9 @@ projects, not to turn a small reversible edit into paperwork.
 
 ## Compatibility
 
+Requires a frontier LLM from the Fable, Astra, SOL or Opus families, version 5.0
+or newer. This requirement is separate from the models actually tested.
+
 Any Agent Skills host with repository read/write access. Direct Markdown/YAML planning; no service or network required. The writing-profile helper needs Python 3.11+; selector, validator and Decision-batch helpers need Python 3. Manual alternatives load only without Python; helper errors remain errors. Developed for Codex and Claude Code; other hosts untested.
 
 This Skill works on its own. Other Scoville Skills are optional and handle
@@ -127,8 +130,7 @@ Viewer never changes its repository.
 
 - [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
 - [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [UI](https://github.com/benjaminstelzer/scoville-ui-anti-ai-slop) owns framework-aligned implementation, interface mechanics, accessibility, and rendered evidence, with a standalone design fallback.
-- [WordPress UI Backend](https://github.com/benjaminstelzer/scoville-wordpress-ui-backend-anti-ai-slop) owns plugin-owned WordPress admin interfaces, platform components, spacing, accessibility and internationalization.
+- [UI](https://github.com/benjaminstelzer/scoville-ui) owns UI implementation, information structure, accessibility and rendered evidence, with a conditional WordPress adapter.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
 
 ## License

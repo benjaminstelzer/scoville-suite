@@ -8,7 +8,7 @@ All states are hypothetical. Do not launch browsers or change a project.
 01. Optimize a backend SQL query without changing any interface.
 02. Implement keyboard navigation for a framework dropdown.
 03. Develop a visual art direction for a poster, without implementation.
-04. Implement a supported WordPress plugin-owned wp-admin settings page. The WordPress specialist is active and applicable.
+04. Implement a supported WordPress plugin-owned wp-admin settings page. Use the local WordPress adapter within the single UI Skill.
 05. Correct the meaning of supplied prose without changing its presentation.
 06. A hypothetical ownership-only question has a known framework owner and no open fallback, quality or proof judgment. Which references are needed?
 07. Only ownership/fallback is unresolved for a new interface. No quality or implementation judgment is requested.

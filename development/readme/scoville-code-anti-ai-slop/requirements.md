@@ -16,6 +16,13 @@
   a backstop with concrete exceptions, never an architecture target.
 - **Material questions only.** It asks when a missing choice changes behavior,
   authority, cost, reversibility, or scope, not for details the code settles.
+- **Defaults for a wholly new project.** Project instructions come first.
+  Only complete greenfield work uses the stack-specific conventions in the
+  Skill's `references/project-conventions.md`. Keep personal overrides outside
+  the installed Skill and reference them explicitly from `AGENTS.md` so Skill
+  updates do not replace them. Existing projects keep their organization.
+  The [customization guide](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop#your-own-conventions)
+  explains paths, precedence and update behavior with a copyable example.
 - **Complete handoff.** The final report names changed behavior, relevant
   validation, unresolved failures, and relevant repository state.
 

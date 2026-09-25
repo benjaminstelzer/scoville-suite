@@ -108,6 +108,43 @@ class ValidatorTest(unittest.TestCase):
         self.assertEqual([], result["diagnostics"])
         self.assertEqual({"errors": 0, "warnings": 0, "files_checked": 3, "plans": 1, "work_items": 2, "decisions": 1}, result["summary"])
 
+    def test_deleted_unstarted_draft_leaves_active_profile_unchanged(self) -> None:
+        original = tree_snapshot(self.root)
+        text = self.path("docs/plans/0001-validate-profile.md").read_text(encoding="utf-8")
+        text = text.replace("id: PLAN-0001", "id: PLAN-0002").replace("status: active", "status: draft")
+        text = text.replace("current_item: W-001\n", "").replace("Status: in_progress", "Status: todo")
+        draft = self.path("docs/plans/0002-unstarted.md")
+        draft.write_text(text, encoding="utf-8", newline="\n")
+        completed, result = self.run_json()
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        self.assertTrue(result["valid"])
+        draft.unlink()
+        completed, result = self.run_json()
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        self.assertTrue(result["valid"])
+        self.assertEqual(original, tree_snapshot(self.root))
+
+    def test_deleted_unstarted_active_plan_allows_idle_profile_without_plans(self) -> None:
+        plan = "docs/plans/0001-validate-profile.md"
+        self.replace(plan, "Status: in_progress", "Status: todo")
+        completed, result = self.run_json()
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        decisions = tree_snapshot(self.path("docs/decisions"))
+        self.replace("PROJECT_INDEX.md", "active_plan: PLAN-0001", "active_plan: null")
+        self.path(plan).unlink()
+        completed, result = self.run_json()
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        self.assertTrue(result["valid"])
+        self.assertEqual(0, result["summary"]["plans"])
+        self.assertTrue(self.path("docs/plans").is_dir())
+        self.assertEqual(decisions, tree_snapshot(self.path("docs/decisions")))
+
+    def test_deleted_plan_with_stale_index_is_rejected(self) -> None:
+        plan = "docs/plans/0001-validate-profile.md"
+        self.replace(plan, "Status: in_progress", "Status: todo")
+        self.path(plan).unlink()
+        self.assert_code("INDEX_ACTIVE_PLAN_MISSING")
+
     def test_step_execution_annotations_accept_complete_and_partial_strict_forms(self) -> None:
         plan = "docs/plans/0001-validate-profile.md"
         self.replace(

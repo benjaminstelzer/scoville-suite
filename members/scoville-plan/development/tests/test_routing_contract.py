@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
-TEXT = " ".join((ROOT / "scoville-plan" / "SKILL.md").read_text(encoding="utf-8").split())
+TEXT = " ".join(" ".join((ROOT / "scoville-plan" / path).read_text(encoding="utf-8").split()) for path in ("SKILL.md", "references/planning-granularity.md", "references/native-editing.md"))
 
 
 class RoutingContractTest(unittest.TestCase):

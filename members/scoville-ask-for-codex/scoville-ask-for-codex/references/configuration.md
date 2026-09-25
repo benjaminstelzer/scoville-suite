@@ -1,0 +1,62 @@
+# Settings and helper inputs
+
+All helpers use Python 3.11+. Run them from this installed package with its
+absolute path; never import a sibling Skill or use a development checkout.
+`ask.py` reads one JSON object from stdin and returns JSON. `ok:false` or a
+nonzero exit stops the affected operation. Native payload helpers make no host
+calls. `list_models.py` starts the configured Codex executable's read-only
+app-server session for `initialize` and paginated `model/list`, then closes it.
+It starts no adviser task. Its `--command` option accepts an explicit executable
+and arguments when the host's Codex binary is not on PATH. Use the executable
+for the current host/account; never assume a different CLI catalog proves
+desktop availability.
+
+Personal `config.json` sits beside `SKILL.md`. Layers merge object fields;
+`advisers` replaces the entire list so an explicit selection never adds unwanted
+advisers. Select named advisers with strings such as `["sol", "fable"]`, or use
+objects with `id` and per-call overrides. A matching ID inherits its configured
+preset. Custom IDs need `route` (`native` or `claude-cli`), exact `model` and
+`effort`; `name` is optional. One, two and more advisers use the same structure.
+Explicit named requests select only those presets. Read the actual config for
+current defaults rather than inferring model or effort from a Skill name.
+
+Shipped settings, generated from their canonical file:
+
+```json
+{{ include: member.defaults }}
+```
+
+Personal settings can change only what differs, for example:
+`{"advisers":["sol","fable"],"presets":{"sol":{"effort":"medium"}}}`.
+Project settings and request overrides use the same fields. Retained follow-up
+settings take precedence over new defaults unless explicitly changed.
+
+`resolve` accepts optional `project_config` and `overrides` objects. For native
+advisers it queries `model/list`, or accepts the unchanged freshly observed
+`catalog` from `list_models.py`; do not synthesize or edit a catalog to permit a
+model. Display the returned model/effort choices when configuration is requested.
+
+`prepare` additionally requires `mode:review|consultation`, `question`, `scope`,
+and a unique `reference`. Native entries need verified `caller_id`, exact
+`caller_title`, `projectId`, `creation_authorized:true`, `prior_state:not_started`
+and the observed `prior_task_ids`. CLI entries need an existing absolute `cwd`.
+These authorization fields record existing authority; they do not grant it.
+
+`followup` takes `handle`, `archived:false`, `delivery_state:not_sent`, a new
+`reference`, `question`, `scope`, optional adviser `overrides` and fresh `catalog`.
+`sidebar` takes `section_id`, observed `manual_sort`, complete ordered
+`thread_ids`, `caller_id` and this round's ordered `adviser_ids`.
+
+## Migrate existing settings
+
+Keep original personal configuration files until the migrated settings validate.
+Map each old `astra` or `sol` object to an adviser with that ID, route `native`,
+and its unchanged model/effort. Map `claude` to route `claude-cli` and retain its
+budget, session persistence and customization flags in the top-level `claude`
+object. A Claude-only flat configuration uses the same mapping. Build a single
+explicit adviser list; do not merge five old defaults into an unsolicited round.
+The old optional `command:claude` maps to the adapter's PATH lookup. A custom
+command or conflicting settings across old variants need a user choice; do not
+silently discard them. Validate with `resolve` before using the new file.
+Retain old task/session IDs separately for follow-ups; missing identity or
+settings cannot be inferred from an old display title.

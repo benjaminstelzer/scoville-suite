@@ -47,6 +47,13 @@ for guard registration, creation, retained records and user-facing run labels.
 | `workflow` / `coordinator` | `coordinator_title` from config, `workflow_id`, `generation` | Default `SCW COORD G<N> [<workflow_id>]` |
 | `workflow` / `executor`, `reviewer`, `repair` | `unit`, `attempt` | `SCW <unit> WORK`, `REVIEW` or `REPAIR RUN [#<N>]` |
 | `ask` / `adviser` | `subject`, `adviser`, `attempt` | `ASK <subject> <adviser> RUN [#<N>]` |
+| `ask` / `adviser` | `caller_title` for Scoville Ask | `<caller_title> ASK-TASK` |
+
+Scoville Ask preserves the exact caller title, including existing brackets or
+model words, and adds only ` ASK-TASK`. The legacy label limits below do not
+apply to this input; control characters fail. New handles require a matching
+`consultation_reference` exposed by the host when reconciling a listing.
+Without that evidence they remain unresolved, even with one matching title.
 
 Use the exact Plan/unit label and resolved adviser label (`ASTRA`, `SOL`, or
 `CLAUDE`). Numbers are positive integers. Labels have no outer whitespace,

@@ -48,26 +48,31 @@ class BuildTests(unittest.TestCase):
     def test_readmes_match_sources(self):
         self.assertEqual([], builder.render_readmes(ROOT, False))
 
-    def test_wordpress_member_routing_and_family_projection(self):
-        name = 'scoville-wordpress-ui-backend-anti-ai-slop'
-        with tempfile.TemporaryDirectory() as temp:
-            output = Path(temp) / 'build'
-            receipt = builder.build(ROOT, output, True, [])
-            self.assertIn(name, {m['name'] for m in receipt['members']})
-            for member in receipt['members']:
-                readme = (output / member['package_path'] / 'README.md').read_text(encoding='utf-8')
-                family = readme.split('## Family', 1)[1]
-                self.assertEqual(family.count('https://github.com/benjaminstelzer/' + name), 1)
-                self.assertNotIn('{{ include:', readme)
-            package = output / name / name
-            core = (package / 'SKILL.md').read_text(encoding='utf-8')
-            self.assertIn('name: ' + name, core)
-            self.assertTrue((package / 'references/routing.md').is_file())
-            self.assertIn('$' + name, (package / 'agents/openai.yaml').read_text(encoding='utf-8'))
-            for neighbor in ('scoville-ui-anti-ai-slop',):
-                metadata = (output / neighbor / neighbor / 'SKILL.md').read_text(encoding='utf-8').split('---', 2)[1]
-                self.assertIn(name, metadata)
-                self.assertNotIn(' wordpress-backend-ui', metadata)
+    def test_single_ui_package_in_each_distribution(self):
+        name = 'scoville-ui'
+        retired = {'scoville-ui-anti-ai-slop', 'scoville-wordpress-ui-backend-anti-ai-slop'}
+        for profile, layout in [('general', 'standalone'), ('general', 'suite'), ('codex', 'suite')]:
+            with self.subTest(profile=profile, layout=layout), tempfile.TemporaryDirectory() as temp:
+                output = Path(temp) / 'build'
+                receipt = builder.build(ROOT, output, True, [], profile, layout)
+                names = {m['name'] for m in receipt['members']}
+                self.assertIn(name, names)
+                self.assertFalse(retired & names)
+                member = next(m for m in receipt['members'] if m['name'] == name)
+                package = output / member['package_path'] / name
+                self.assertEqual([package / 'SKILL.md'], list(package.rglob('SKILL.md')))
+                for relative in ('references/wordpress/adapter.md', 'references/wordpress/routing.md',
+                                 'references/validation.md', 'references/wordpress/validation.md'):
+                    self.assertTrue((package / relative).is_file(), relative)
+                self.assertIn('$' + name, (package / 'agents/openai.yaml').read_text(encoding='utf-8'))
+                for path in package.rglob('*.md'):
+                    text = path.read_text(encoding='utf-8')
+                    self.assertNotIn('{{', text)
+                    self.assertFalse(any(old in text for old in retired), path)
+                for exported in receipt['members']:
+                    readme = (output / exported['package_path'] / 'README.md').read_text(encoding='utf-8')
+                    self.assertNotIn('{{ include:', readme)
+                    self.assertFalse(any(old in readme for old in retired), exported['name'])
 
 
 if __name__ == '__main__':

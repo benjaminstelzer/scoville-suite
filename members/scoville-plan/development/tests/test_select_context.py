@@ -148,7 +148,9 @@ class SelectContextTests(unittest.TestCase):
         ):
             with self.subTest(required=required):
                 self.assertIn(required, guide)
-        compatibility = COMPATIBILITY.read_text(encoding="utf-8").split("\n\n", 1)[1].strip()
+        readme_compatibility = COMPATIBILITY.read_text(encoding="utf-8")
+        compatibility = "{{ profile: general }}" + readme_compatibility.split("{{ profile: general }}", 1)[1].strip()
+        self.assertIn("Fable, Astra, SOL or Opus families, version 5.0", readme_compatibility)
         self.assertIn(f'compatibility: "{compatibility}"', SKILL.read_text(encoding="utf-8"))
         self.assertIn("Decision-batch helpers need Python 3", compatibility)
         self.assertIn("Manual alternatives load only without Python", compatibility)

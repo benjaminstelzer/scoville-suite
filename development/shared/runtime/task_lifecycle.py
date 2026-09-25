@@ -52,6 +52,10 @@ def task_title(request):
             title = f'SCW {label("unit", 80)} {roles[role]} RUN [#{number("attempt")}]'
     elif family == 'ask':
         require(role == 'adviser', 'invalid Ask title role')
+        if 'caller_title' in request:
+            caller_title = text(request['caller_title'], 'caller_title')
+            require(not any(ord(c) < 32 for c in caller_title), 'caller_title contains controls')
+            return {'title': caller_title + ' ASK-TASK'}
         title = f'ASK {label("subject", 80)} {label("adviser", 32)} RUN [#{number("attempt")}]'
     else:
         raise ValueError('unknown title family')
@@ -88,6 +92,7 @@ def create(request):
             'thinking': text(request.get('thinking'), 'thinking')}
     return {'arguments': args, 'handle': {'state': 'creation_unknown', 'family': family,
             'role': role, 'projectId': project, 'title': title, 'reference': reference,
+            **({'reference_identity_required': True} if family == 'ask' and 'caller_title' in request else {}),
             'prior_task_ids': prior_ids}}
 
 
@@ -112,6 +117,8 @@ def reconcile(request):
     require(handle.get('state') in {'pending', 'creation_unknown'}, 'only unresolved creation can reconcile')
     candidates = [entry for entry in request['entries']
                   if entry.get('kind') == 'codex'
+                  and (not handle.get('reference_identity_required')
+                       or entry.get('consultation_reference') == handle['reference'])
                   and entry.get('id') not in handle.get('prior_task_ids', [])
                   and entry.get('projectId') == handle['projectId'] and entry.get('title') == handle['title']]
     require(len(candidates) <= 1, 'multiple exact matches; identity is ambiguous')
