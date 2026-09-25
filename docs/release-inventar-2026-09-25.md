@@ -58,14 +58,14 @@ Die frühere Annahme von drei existierenden Git-Repositories ist falsch. W-004 m
 - C:/Users/benja/.agents/skills fehlt. Neue UI-, Ask- und Setup-Pakete sind in den beiden geprüften Installationswurzeln noch nicht installiert.
 - packages/ enthält alle sieben aktuellen Manifestmitglieder. Deren bloße Existenz ist kein finaler Buildbeleg.
 - skills/public/ enthält noch die fünf alten Ask-Einzelrepositoryverzeichnisse.
-- Feste Suite-Ausgabeziele gemäß PLAN-0002/W-006: skills/public/scoville-suite und skills/public/scoville-suite-for-codex; beide fehlen derzeit.
+- Feste Suite-Ausgabeziele gemäß PLAN-0002/W-006: skills/public/scoville-suite und skills/public/scoville-suite-for-codex. Die aktuellen Exporte enthalten 547 und 705 receipt-geprüfte Dateien.
 - Reguläres Staging unter skills/temp/release/general und codex hat Receipts und Suite-Verzeichnisse. standalone enthält noch die beiden alten UI-Pakete.
 - Testbauten bleiben getrennt von finalen Ausgaben. PLAN-0011 verwendet plan-0011-review-fixes sowie plan-0011-w025-final. Nicht während laufender Leser überschreiben oder pauschal löschen.
 
 ## Nachweise und Veröffentlichungssperren
 
 - PLAN-0011/W-001: Der Benutzer-Cache zeigt auf `%LOCALAPPDATA%\pycache` und die Viewer-Ausgaben tragen das Dropbox-Ignore-Attribut. Die Löschung der sieben benannten Cacheordner bleibt durch HOST-POLICY blockiert; eine neue Codex-Sitzung muss die geerbte Variable noch bestätigen.
-- PLAN-0011/W-002: tatsächliche GitHub-Matrix auf Windows/macOS/Ubuntu mit Python 3.11 und aktueller Version fehlt.
+- PLAN-0011/W-002: GitHub-Lauf 36178096054 bestand die Matrix auf Windows, macOS und Ubuntu mit Python 3.11 und der aktuellen 3.x-Version.
 - PLAN-0011/W-026 belegt native Workflow-Abnahme mit den im Prüfbericht genannten Grenzen. W-025 belegt Plan-Vergleiche und fokussierte Prüfungen. Kein Beleg allgemeiner Kosten- oder Laufzeitersparnis.
 - Frühere UI- und Ask-Nachweise bleiben historische Evidenz. Ihre Anwendbarkeit auf den finalen Kandidaten wird anhand betroffener Quellen geprüft; neue Paketnamen und Projektionen benötigen neue Build- und Migrationstests.
 - Keine alten Viewer-Binaries als neue Artefakte ausgeben. W-008 besitzt Neubau und Zuordnung.
@@ -152,6 +152,22 @@ Der Viewer steht in package.json, package-lock.json, src-tauri/tauri.conf.json, 
 
 Beide Workflows verwenden Node 22 und Rust stable. Sie erzeugen Windows-EXE/MSI/Setup, Linux-Binary/AppImage/DEB/RPM sowie macOS-App-ZIP/DMG und führen alle elf Downloads in einem SHA256SUMS.txt zusammen. Die Version wird aus den drei primären Versionsquellen gelesen und auf Übereinstimmung geprüft. YAML-Struktur, vier Matrixziele, Pfade und Checksummenjob wurden lokal statisch geprüft. npm ci, npm run check und npm run build bestehen für den Viewer. GitHub-Lauf 36175688109 auf 08bf750 bestand alle vier Plattformjobs und den Checksummenjob. Die elf heruntergeladenen Artefakte stimmen mit SHA256SUMS.txt überein.
 
+Der geprüfte Uploadsatz unter `<workspace-root>/skills/temp/release/viewer/` ist den Releases von Scoville Plan v1.9.0, Scoville Suite v2.0.0 und Scoville Suite for Codex v2.0.0 zugeordnet. Für alle drei Ziele gilt dieselbe Datei `SHA256SUMS.txt` mit diesen Einträgen:
+
+```text
+a9592f5f43da3817bd4fa7154d41ad80794e46a183c6ea5200b76cae1f090c37  scoville-plan-viewer-v1.3.3-linux-x64
+deb855d1ae349d5897b4bb70102d3688d9bc80b34296483765396f82ba89f152  scoville-plan-viewer-v1.3.3-linux-x64.AppImage
+9bdd4641908f780669ac5a5a77e65cfccd51590ee877a0ee80bd2871774aebe4  scoville-plan-viewer-v1.3.3-linux-x64.deb
+21f2df85e0a6fd4494fa528d949f3a6dfc4d8129f1b4698fbd5dc811ee29fe64  scoville-plan-viewer-v1.3.3-linux-x64.rpm
+70651d894f2ed767ca1c45090491b84e3ed2fac80e73a86dffb34806568cf80a  scoville-plan-viewer-v1.3.3-macos-arm64.app.zip
+79572cd8f87f2a4785230100a3d9d0bb95d8c9a143a1c165716bfb8a7b341e32  scoville-plan-viewer-v1.3.3-macos-arm64.dmg
+c2d5fb7af6b84d62cbcf93e551d80982ecc68625ed13b34c9b2de77c4e05cdf1  scoville-plan-viewer-v1.3.3-macos-x64.app.zip
+e53cd0f5593335f0e375d5a9008fbfb434c0382bdaff0dd314f9ce05884adb3c  scoville-plan-viewer-v1.3.3-macos-x64.dmg
+a4f9d2a006b97653ecdda63dd7e8803a7d913107db1bf244fc00f50effa4e3c2  scoville-plan-viewer-v1.3.3-windows-x64-setup.exe
+43acc2fab5cea015939e02ac700d976698197f6ccd19586d18064590abed782e  scoville-plan-viewer-v1.3.3-windows-x64.exe
+cf9a9240562affbe93de51ff0b18c4e1ba958ee2749102adfd6983da9152ff0e  scoville-plan-viewer-v1.3.3-windows-x64.msi
+```
+
 `origin/main` steht auf `d6096a4bba1d1b20dd93b4cf6bb383c3d1195da9`. GitHub-Lauf 36178096054 bestand dort alle sechs Helper-Jobs für Windows, Ubuntu und macOS mit Python 3.11 und der aktuellen 3.x-Version. Es wurde kein Tag und kein GitHub Release angelegt.
 
 Kandidaten: Suite v2.0.0, Code v2.0.0, Plan v1.9.0, UI v2.0.0, Workflow v0.6.0, Ask v1.0.0, Viewer v1.3.3 und unverändert Handoff v2.0.17. Die Changelogs nennen diese Stände. Vor dem Kandidatenbau wurden zwei irreführende Formulierungen korrigiert: Ask verändert keine Sidebar-Platzierung und Setup bietet regulär low bis xhigh, während weitere Plan-Werte nur manuell und bei Modellunterstützung gelten.
@@ -161,5 +177,7 @@ Frische Entwicklungsbuilds liegen unter `<workspace-root>/skills/temp/release/pl
 Auch die eigenständigen Ziele sind frisch gebaut: General-Standalone enthält Code, Handoff, Plan und UI; Codex-Standalone enthält Ask. Damit liegen vier getrennte Buildlayouts mit gültigen Receipts und Quellenvergleich vor. Der gemeinsame Builder schreibt nun auch `build-receipt.json` ausdrücklich mit LF. Ein Windows-Regressionsfall prüft beide reproduzierbaren Receipts. Alle vier vollständigen Stagingbäume sind UTF-8 ohne BOM und LF-only. Die sieben generierten `packages/`-Verzeichnisse im Quellrepository sind bytegleich mit der jeweils zuständigen General- oder Codex-Projektion.
 
 Nach LF-Normalisierung der kanonischen Textquellen bestehen 26 Suite-, 53 Shared-, 68 Plan-, 16 Workflow-, 22 Ask- und 2 Setup-Tests. `git diff --check` ist fehlerfrei. Beide Viewer-Workflows lassen sich als YAML lesen und enthalten genau die vier Ziel-IDs `linux-x64`, `windows-x64`, `macos-arm64` und `macos-x64`, dynamische Versionsprüfung und einen gemeinsamen Checksummenjob. Die nativen Viewer-Tests und Plattformartefakte müssen aus einem sauberen Commit über die GitHub-Matrix entstehen.
+
+Die vier finalen Kandidaten wurden aus dem sauberen Commit `19a91cb17440a02dbfeb07049c5487db750794bb` neu gebaut. Alle Receipts melden `source_dirty: false`; Paket- und Helperprüfungen bestehen für General Suite, Codex Suite, General Standalone und Codex Standalone. Die vollständigen Exporte nach `skills/public/scoville-suite` und `skills/public/scoville-suite-for-codex` stimmen mit ihren Inventaren und SHA-256-Werten überein. Beide Exporte bestehen ihre Quellen- und README-Projektionsprüfung. Der portable Windows-Viewer meldet Datei- und Produktversion 1.3.3 und blieb im lokalen Starttest vier Sekunden aktiv. Für Linux und macOS ist der erfolgreiche native Build belegt; ein lokaler Start auf Windows wird nicht als Laufzeittest dieser Plattformen ausgegeben.
 
 Der noch nicht gestartete W-010-Prüfschritt wurde an die ausdrückliche Nutzerkorrektur angepasst: Die persönlichen Einstellungen der entfernten Altinstallationen müssen ebenfalls entfernt sein. Kein Konfigurationserhalt und keine Sicherung als Abnahmebedingung.
