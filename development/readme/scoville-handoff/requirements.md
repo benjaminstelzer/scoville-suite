@@ -4,7 +4,7 @@
   produce a handoff artifact.
 - **One receiver contract.** Every handoff contains Receiver Instructions,
   Objective, State, and Resume Steps in one copy-ready block.
-- **Facts instead of pointers.** Named sources are read with targeted recovery
+- **Facts instead of pointers.** Conversation facts remain available. Named sources are read with targeted recovery
   for truncation or a transient failure, within explicit user limits. Their material
   facts enter the artifact so the receiver has them when resuming.
 - **Authority and ownership survive.** Commit, publication, destructive-action,

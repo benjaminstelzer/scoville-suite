@@ -10,7 +10,7 @@ to resume without quietly advancing or completing the work.
 
 ## How it works
 
-- Read the named task sources with bounded recovery when a read is incomplete.
+- Use established conversation facts and read named task sources with bounded recovery when a read is incomplete.
 - Capture decisions, ownership, evidence, blockers and hazards without secrets.
 - Organize the result into Receiver Instructions, Objective, State and Resume Steps.
 - Compare the prompt against the captured facts and return one copy-ready block.
@@ -22,7 +22,7 @@ to resume without quietly advancing or completing the work.
   produce a handoff artifact.
 - **One receiver contract.** Every handoff contains Receiver Instructions,
   Objective, State, and Resume Steps in one copy-ready block.
-- **Facts instead of pointers.** Named sources are read with targeted recovery
+- **Facts instead of pointers.** Conversation facts remain available. Named sources are read with targeted recovery
   for truncation or a transient failure, within explicit user limits. Their material
   facts enter the artifact so the receiver has them when resuming.
 - **Authority and ownership survive.** Commit, publication, destructive-action,
@@ -52,7 +52,13 @@ to resume without quietly advancing or completing the work.
 
 ## Compatibility
 
-Any Agent Skills host that can read the named task sources. Optional read-only version-control inspection (git). No scripts, no network, no subagents. Developed for Codex and Claude Code; other hosts untested.
+Requires a frontier LLM from the Fable, Astra, SOL or Opus families, version 5.0
+or newer, in an Agent Skills host that can read named task sources. Read-only
+version-control inspection is optional. Handoff uses no scripts, network or
+subagents.
+
+Developed for Codex and Claude Code. Other hosts are untested. The model
+requirement does not establish successful tests across those model families.
 
 This Skill works on its own. Other Scoville Skills are optional and handle
 only their own concerns when available and applicable.

@@ -34,7 +34,7 @@
       "given": "The user explicitly requests a handoff before implementation begins and there are no blockers or changes.",
       "expect": [
         "Still return the complete four-section handoff artifact.",
-        "State not_started and use none known for required unknown values.",
+        "State not_started only because the user establishes it. Use unknown for missing information and none known for no known blockers or changes.",
         "Provide a concrete first action and observable completion criterion."
       ]
     },
@@ -54,6 +54,45 @@
         "Treat Handoff as the portable snapshot and Plan as the durable record owner.",
         "Preserve the named state of each optional sibling without requiring or simulating it.",
         "Keep any sibling opt-out local to that sibling."
+      ]
+    },
+    {
+      "id": "conversation-only-transfer",
+      "given": "An explicit transfer names no files. Earlier conversation established a deliverable, acceptance criterion, an accepted decision and an unverified result.",
+      "expect": [
+        "Transfer those conversation facts with attribution without demanding file sources.",
+        "Preserve the unverified result as unverified. Do not inspect unrelated files. Omit incidental host values instead of repeating them with a disclaimer."
+      ]
+    },
+    {
+      "id": "unknown-status-transfer",
+      "given": "An explicit transfer specifies a file-based deliverable but supplies no work status, working directory or evidence.",
+      "expect": [
+        "Use Status: unknown rather than not_started.",
+        "Include Working directory: unknown for file-based work. Keep relevant missing facts unknown and do not infer a workspace from the runtime CWD."
+      ]
+    },
+    {
+      "id": "completed-transfer",
+      "given": "Work is explicitly complete and accepted with current evidence, with no known blockers or in-flight work.",
+      "expect": [
+        "Return all four sections and three resume steps.",
+        "Limit the steps to current-state verification, contradiction reconciliation and a no-material-mismatch completion criterion. Do not invent implementation or repeat accepted tests."
+      ]
+    },
+    {
+      "id": "non-git-transfer",
+      "given": "An explicit transfer concerns a document task outside version control.",
+      "expect": [
+        "Make receiver version-control inspection conditional. Do not require Git initialization or invent repository metadata.",
+        "Preserve the document goal and acceptance, named sources and authority."
+      ]
+    },
+    {
+      "id": "explicit-task-directory",
+      "given": "The user explicitly identifies a working directory as belonging to the task before requesting a handoff.",
+      "expect": [
+        "Preserve the exact task directory. The incidental-host exclusion must not remove an expressly supplied task location."
       ]
     }
   ]
