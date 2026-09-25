@@ -203,7 +203,7 @@ Reviewtimeout. Keine weitere unveränderte Wiederholung. Tatsächliche
 Dateiauflösung und Ablaufausführung werden im nativen Fixturelauf geprüft.
 
 Nativer Fixturelauf gestartet: Koordinator 01a0d8e2-673d-71c1-bf6a-803bf31e6749,
-Modell gpt-6-sol/medium, Workspace Z:/Projekts/AI/temp/2026-09-25-workflow-live.
+Modell gpt-6-sol/medium.
 Zwei Einheiten, absichtliche Konfigurationswerte 1/1 Prozent, tatsächliche
 Telemetrie, keine Änderungen außerhalb des Fixtures. Start ist noch kein
 Abnahmeergebnis. Defaultgrenzen 25/75 wurden unabhängig deterministisch geprüft.

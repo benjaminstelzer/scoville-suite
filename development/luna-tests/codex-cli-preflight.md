@@ -37,7 +37,6 @@ First loopback attempt stopped before any HTTP request: strict-config rejects
 code 1, no timeout; the owned process tree stopped. The proposed Node override
 therefore is not usable evidence. Retry only the local mock without this key,
 retain code_mode_host=false and inspect whether Node tools remain exposed.
-Historical attempt: workspace Z:/Projekts/AI/temp/2026-09-21-codex-loopback-tool-catalog/run-01.
 Further artifacts belong under the canonical E: workspace temp directory.
 
 Second loopback attempt under E:/Dropbox/AI Projects/temp/2026-09-21-codex-loopback-tool-catalog/run-02

@@ -717,9 +717,7 @@ sämtliche Textdateien sind LF. Der gezielte Buildertest deckt echte CRLF-Quelle
 README-/Fragmentexpansion und Shared-Helper-Ausgaben ab; Binärdateien bleiben
 bytegleich. Keine zusätzliche Normalisierung war notwendig.
 Obsolete generierte Dateien sowie die zwei abgelösten separaten UI-Paketkopien
-wurden nach Zielprüfung entfernt. Die vorherigen Paketkopien liegen temporär
-unter Z:/Projekts/AI/temp/2026-09-25-plan-0011-fixes/packages-before-refresh.
-Quellmitglieder und Git-Historie bleiben erhalten. Keine Installation,
+wurden nach Zielprüfung entfernt. Quellmitglieder und Git-Historie bleiben erhalten. Keine Installation,
 Veröffentlichung oder ausführbare Viewerdatei wurde erstellt.
 
 ## W-026: Vorbereitung der nativen Fortsetzung
