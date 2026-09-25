@@ -69,10 +69,11 @@ a redesign or a whole-product audit.
 
 ## Select the platform route
 
-Use the WordPress adapter only when implementing or auditing a plugin-owned
-backend page in `wp-admin`. WordPress use or plugin development alone is not
-enough: themes, site frontends and frontend output from plugins use the general
-UI route. Excluded host-owned admin surfaces retain their host's contract.
+For WordPress admin classification, read the routing contract below, including
+when the result may be an excluded host-owned surface. Its implementation and
+audit rules apply only to supported plugin-owned backend pages in `wp-admin`.
+Themes, site frontends and frontend output from plugins use the general UI
+route. Excluded host-owned admin surfaces retain their host's contract.
 
 For a plugin backend request, read
 [the WordPress adapter](references/wordpress/adapter.md) and its required
@@ -154,8 +155,9 @@ only for status and owners.
 
 **SOURCE-ONLY AUDIT:** If structure-only, omit Validation; explicitly mark
 rendered/interactive behavior unverified. This exception removes only
-Validation. Load Framework when the stack or owner is unfamiliar, ambiguous, or
-otherwise meets the Framework conditions above. For unimplemented direction,
+Validation. The Framework and Quality conditions still apply: load Framework
+for unresolved ownership or implementation paths. Load Quality only when the
+audit also judges one of the concerns listed in its row above. For unimplemented direction,
 omit Validation only to report the same unrendered boundary.
 
 For a page-consistency request, use Audit with a consistency focus and load

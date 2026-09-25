@@ -11,15 +11,15 @@ never enables manual selection. The commands below specify the complete
 invocation; do not load the Python source just to call them. Run:
 
 ```text
-python <skill-directory>/scripts/select_context.py --root <project-root> [--work-item W-001] --format json
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" [--work-item W-001] --format json
 ```
 
 For a worker dispatch, select the exact unit instead:
 
 ```text
-python <skill-directory>/scripts/select_context.py --root <project-root> --unit W-001 --format json
-python <skill-directory>/scripts/select_context.py --root <project-root> --unit W-003/step-2 --format json
-python <skill-directory>/scripts/select_context.py --root <project-root> --unit W-003/steps-2-3 --format json
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" --unit W-001 --format json
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" --unit W-003/step-2 --format json
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" --unit W-003/steps-2-3 --format json
 ```
 
 The success object contains exactly four top-level semantic areas:

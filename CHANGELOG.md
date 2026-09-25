@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0.0 - 2026-09-25
+
+- Bundle Plan Viewer v1.3.3 and build its Windows, Linux and macOS assets with one checksum manifest from the suite workflow.
+- Replace the old Code and UI package names, combine Ask variants, add Setup and simplify Plan and Workflow configuration.
+- Install General and Codex suites through short migration prompts that remove only listed old Skills before a fresh complete installation.
+
 ## v1.1.0 - 2026-09-24
 
 - Build general and Codex suites from one manifest; keep Python replacement procedures only in the general edition.

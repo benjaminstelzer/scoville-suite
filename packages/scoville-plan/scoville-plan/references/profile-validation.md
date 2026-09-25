@@ -75,9 +75,8 @@ uses [native-editing.md](native-editing.md).
 The validator checks native bytes, local record shape, references, and
 lifecycle invariants. It does not prove human authorization, Decision quality,
 evidence truth, acceptance sufficiency, reported work occurrence, or the
-meaning of authored prose. It checks a Decision batch hash only for its
-64-hexadecimal shape and shared symmetric metadata; it cannot recompute a hash
-that depends on unavailable pre-mutation bytes.
+meaning of authored prose. It checks the Decision batch ID shape and symmetric member metadata.
+Historical batch IDs remain readable without their former digest inputs.
 
 Bind validator evidence to the exact complete profile state it inspected.
 Changing a relevant file or dependency invalidates affected evidence. Before

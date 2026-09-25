@@ -7,7 +7,7 @@ in Markdown sources. See `development/shared/build/fragments.md` before changing
 Never install template sources directly; install the built package.
 
 Apply [shared writing rules](development/shared/instruction-writing.md) to all AI-consumed
-content, including AGENTS.md. Write briefly and precisely. Plan writing and additional Workflow instructions
+content, including AGENTS.md. Write briefly and precisely. Plan uses its compact writing rules. Additional Workflow instructions
 use the selected shared writing profile; other instructions remain clear for Luna.
 
 `suite.json` owns distribution membership, visibility, exact package files and

@@ -1,10 +1,11 @@
 ---
 format_version: 1
 id: ADR-0014
-status: accepted
+status: superseded
 created: 2026-09-24
 accepted: 2026-09-24
 scope: prompting/worker-profiles
+superseded_by: ADR-0062
 ---
 
 # Gemeinsame Schreibregeln mit getrennter Konfiguration

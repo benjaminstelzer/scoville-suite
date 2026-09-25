@@ -1,93 +1,103 @@
-# Native Codex operations
+# Execute the requested scope
 
-Use only normal Codex project-task controls. There is no coordinator CLI runner, private
-worker home, process supervisor, SQLite state, snapshot, adoption, or Skill list.
-The entrypoint owns only the role gate, launcher, coordinator boundary, and
-routing classes. This index owns shared invariants and phase routing. Each linked phase owns its
-operation; do not copy those contracts into other files.
+The caller is the coordinator. There is no launcher task or parked worker.
+At startup or resume, read the canonical Plan and `.scoville/workflow.md`.
+Keep `.scoville/workflow.md` and `.scoville/handoffs/` local and never commit
+them; `.scoville/config.json` may be versioned. Remove completed run state only
+after retaining results and finishing any pending handoff. Keep unfinished
+state for resume.
+An existing child must be reconciled by its retained exact task/host ID before
+a new one starts. A saved result is evidence only for what was actually observed.
 
-The project-root `AGENTS.md` contract is cooperative. It reaches native tasks
-that receive project instructions, but it is not a filesystem lock. A native
-task, editor, or external process can ignore it. The guard helper serializes its
-own state transitions; contract and workspace checks detect later drift and
-fail closed without claiming to identify or physically stop its source.
+## One unit through acceptance
 
-## Required invariants
+1. Select the next eligible unit under Scoville Plan: one Step, or the complete
+   Work Item if it has no Steps. Check its assumptions against completed work.
+   Do not bundle Steps, skip prerequisites or rewrite started authored history.
+2. Apply [dispatch](operations-dispatch.md). Save the creation handle, create
+   the worker with its complete assignment, and retain the returned task ID.
+   Pending IDs remain pending. An uncertain creation is reconciled, not retried.
+3. Wait for that exact task with `wait_threads`, retaining its cursor. A timeout
+   means it is still being observed. Use `read_thread` only to retrieve missing
+   result or identity facts. Do not use repeated status narration as progress.
+4. After actual task completion, retrieve its original final `agentMessage.text`
+   with `read_thread`, matching the exact task and completed turn and selecting
+   `phase:final_answer`. Request `maxOutputCharsPerItem:6000` to cover the full
+   result contract. Preserve its line breaks. `wait_threads` is a status snapshot and may flatten or truncate
+   the answer; never parse that snapshot as the original result. If the original
+   is truncated or missing, retrieve the complete final item before judging its
+   format. Run `scripts/parse_role_result.py --role <role>` on that original text.
+   Retain the parsed result
+   before any acceptance or archive call. For a format-only failure, request
+   one correction in the same task; it may only restate its existing result.
+   A second malformed result is a reported blocker, not a fabricated success.
+5. Handle `context_handoff` through [rollover](operations-rollover.md) before
+   review or acceptance. `needs_user_decision` remains open for the answer.
+   For `blocked` or a native failure, preserve the changes and actual diagnostic.
+   Continue independent eligible work only if it cannot mix unaccepted changes,
+   invalidate required backups or advance a dependent Plan item.
+6. Inspect the actual scoped diff, changed paths and named checks. Review is
+   required for code, executable/configuration changes, critical documentation,
+   an explicit requirement or unresolved materiality. The worker's yes/no
+   fields help identify the boundary but never override the observed diff.
+   Routine documentation with two consistent no values may skip review.
+7. When needed, directly create one fresh read-only reviewer for the same unit,
+   using its configured pair and the worker result. For `changes_requested`,
+   handle Plan-owned corrections in the coordinator and send only source-owned
+   findings to a fresh repair worker. Repair 1 uses the original executor pair;
+   repairs 2 and 3 resolve upward from that original pair in the current route
+   table. Rollover never consumes a repair. Create no fourth repair.
+8. Check corrections against every retained finding. Code, critical-documentation
+   or material corrections, explicit requirements and unclear outcomes require
+   another review. A clearly non-material correction may be accepted after a
+   bounded comparison, with the reason recorded. Unresolved findings after
+   repair 3 require the user's disposition before further work on that unit.
+9. Only after observed Acceptance and required review, update the canonical
+   Plan through Scoville Plan, including concise evidence and the next action.
+   Run its structural validator. With existing commit authority, inspect the
+   staged diff and commit only accepted source changes together with the
+   complete affected Plan records. Honor backups and hooks. Do not commit
+   merely because Git is present, publish, or hide a failed check.
+10. If requested work remains, run the coordinator checkpoint immediately after
+    the accepted unit and before selecting or writing the next unit:
 
-Every later guard transition supplies the current workflow ID, revision and
-generation and is accepted only from the runtime `CODEX_THREAD_ID` permitted by
-the current state. The coordinator never edits guard JSON directly. Invalid,
-busy, wrong-workflow, stale-generation or stale-revision results stop writes and
-preserve the observed file. Before each coordinator Plan write, call `verify`
-with `role=coordinator` and `capability=plan`; before staging or committing,
-verify `capability=stage_commit`; a writer verifies `capability=source` with its
-exact unit and dispatch key. Reviewers and other read-only checks require the
-successful `read_only` result rather than write authorization.
+```text
+python "<workflow-skill-directory>/scripts/check_context_checkpoint.py" --project-root "<workspace_root>" --role coordinator --accepted-unit <unit>
+```
 
-The coordinator's sole self-identity owner is its exact runtime
-`CODEX_THREAD_ID`. Keep it as `coordinator_self_id`. Never substitute a
-delegation `source_thread_id`, launcher ID, caller ID, return-task ID, title, or
-the newest visible task. A missing or changing self identity is a blocker before
-project reads, dispatch, Plan mutation, commit, or archival. Ask the exact user
-decision needed to restart or cancel and remain unarchived.
+`rollover` requires [rollover](operations-rollover.md), with no next-unit work
+in this coordinator. `continue` permits the next eligible unit. Report
+unavailable telemetry without guessing occupancy or claiming a handoff.
+Invalid configuration blocks continuation until corrected. A failed helper
+is a failure, not an unavailable-signal result.
 
-The canonical Plan is the workflow's only durable progress owner. The launcher,
-coordinator, and children never call `create_goal` for the workflow objective and
-never create another automatic or scheduled continuation mechanism. Treat user
-instructions such as "set this as your goal", "finish the complete Plan", "keep
-going", or "stop only for a decision" as requested scope and continuation intent
-inside this operations loop, not as authorization to create a persistent Codex
-goal. A persistent goal would create a second continuation owner beside the
-coordinator's exact-child wait loop and is therefore incompatible with one
-authoritative coordinator.
+A completed Step does not complete its Work Item. Continue the requested scope
+without another routine permission request. Only after all of its real work
+and acceptance checks finish, complete the Plan/index through their owner and
+mark the run record finished. Report a narrower boundary as that boundary.
 
-If a persistent Codex goal from an older run is already active, do not dispatch
-a new child under it. When the user explicitly asks to pause that goal, call
-`update_goal` with `status=paused`, report the returned status, and continue the
-Scoville workflow only through its coordinator-owned wait loop. Pausing that
-Codex goal does not pause the canonical Plan or cancel an already active child.
-Without that explicit pause instruction, ask for it once and perform no wait,
-poll, status narration, or project transition from automatic goal-continuation
-turns.
+## Archive once, after retaining the result
 
-## Coordinator delivery
+After actual child completion and retention of its result or failure, use the
+shared lifecycle helper's `archive`, call `set_thread_archived` once with its
+exact task/host ID, then check the actual reply with `verify_archive`. Record the
+outcome with the retained task handle so resume does not repeat the call.
+For `context_handoff`, wait for successor takeover under the rollover reference.
+Report a failure or missing state; it does not invalidate acceptance or block
+the next unit. Leave active tasks and tasks awaiting a user decision open.
+Keep the final coordinator visible. A successor may archive its ended
+predecessor as described in the rollover reference.
 
-The launcher and every rollover predecessor supply one complete runtime contract
-through `scripts/coordinator_contract.py build`. The helper composes the normal
-phases and task lifecycle directly from their canonical sources, omitting only
-labelled scenario examples. These files remain source owners, not optional
-reading choices for a running coordinator.
+## Stop and resume
 
-Guard state proves ownership and writer activation, but does not uniquely
-distinguish selection, review, acceptance, Stop or recovery. Never select a
-phase subset from guard state or a model-supplied phase label. Supply the
-complete normal contract. Add the conditional rollover or worker-recovery
-reference only when its trigger is observed.
+On a user stop, dispatch no new work. Forward the stop to the exact active child
+and observe its state. If sending does not interrupt the child, report that
+fact and the exact task the user must stop in the UI. Never claim a cascade
+that was not observed. Do not commit, review or archive to simulate stopping.
+Retain completed effects, unaccepted changes and the next action. Reconcile the
+Plan once the child's actual state is known.
 
-The native creation envelope carries the complete contract, exact Skill path
-and content digest. Read it before project access. Do not use
-`collaboration.spawn_agent`, `followup_task` or forks for workflow roles.
-The guard checks the native creation envelope before granting coordinator
-capability, and native writer provenance before binding a writer. Missing,
-ambiguous, stale or incomplete evidence blocks the operation. This proves
-supplied instructions and transport, not comprehension or a host-level lock.
-
-After compaction or context loss, run `python <skill-directory>/scripts/coordinator_contract.py show`
-and read the complete output before continuing. The guard requires that complete
-tool-delivered contract after the latest native compaction event before another
-coordinator operation. A read marker or hash alone is not the contents. Reload a conditional reference when its contents are lost or
-its source changes. Never act on truncated instructions.
-
-The normal contract includes the coordinator checkpoint at every accepted
-boundary and the Stop procedure. Load conditional detail only for its trigger:
-
-| Trigger | Required reference |
-| --- | --- |
-| Actual coordinator rollover | [rollover](operations-rollover.md) and its linked readiness helper |
-| Worker context handoff or compaction recovery | [compaction](operations-compaction.md), [checkpoint](operations-checkpoint.md) |
-| Missing project contract at explicit launch | [setup](agents-setup.md) |
-
-Guard `read_only`, `clear-writer` and `release` remain available for exact Stop
-reconciliation of an older workflow. This exception grants no new writer,
-Plan write, commit or successor. Stop before upgrading a live installation;
-a changed runtime contract requires a fresh, authorized launch.
+On resume or compaction, recover the run record, the Plan, the actual diff and
+any pending exact task. Continue from the first unperformed action. Do not
+repeat accepted work, recreate an unresolved child or upgrade an active old
+runtime contract in place.

@@ -17,7 +17,7 @@ import export_suite
 
 class DistributionProfilesTests(unittest.TestCase):
     def test_membership_fallbacks_invocations_and_repeatability(self):
-        for profile, layout, count in [('general', 'standalone', 4), ('general', 'suite', 4), ('codex', 'suite', 6)]:
+        for profile, layout, count in [('general', 'standalone', 4), ('general', 'suite', 4), ('codex', 'suite', 7)]:
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
                 config = builder.load(ROOT, profile, layout)
                 self.assertEqual(count, len(config['members']))
@@ -27,6 +27,8 @@ class DistributionProfilesTests(unittest.TestCase):
                 a = builder.build(ROOT, first, True, [], profile, layout)
                 b = builder.build(ROOT, second, True, [], profile, layout)
                 self.assertEqual(a, b)
+                self.assertNotIn(b'\r', (first / 'build-receipt.json').read_bytes())
+                self.assertNotIn(b'\r', (second / 'build-receipt.json').read_bytes())
                 self.assertEqual([], builder.verify_packages(ROOT, first))
                 for member in config['members']:
                     package = builder.payload(ROOT, member, config)
@@ -37,7 +39,8 @@ class DistributionProfilesTests(unittest.TestCase):
                     usage = package['README.md'].decode().split('## How to use\n', 1)[1].split('\n## ', 1)[0]
                     # Invocation examples precede optional usage subsections and task-title illustration.
                     examples = usage.split('\n### ', 1)[0].split('Task titles identify', 1)[0]
-                    self.assertEqual(1 if member['name'] == 'scoville-workflow-for-codex' else 2, examples.count('```text'))
+                    expected_examples = {'scoville-workflow-for-codex': 1, 'scoville-setup': 0}.get(member['name'], 2)
+                    self.assertEqual(expected_examples, examples.count('```text'))
                     core = package[member['name'] + '/SKILL.md'].decode()
                     readme = package['README.md'].decode()
                     if layout == 'suite':
@@ -59,7 +62,9 @@ class DistributionProfilesTests(unittest.TestCase):
                         self.assertIn('This Skill works on its own', readme)
                 if profile == 'general':
                     plan = next(m for m in config['members'] if m['name'] == 'scoville-plan')
-                    self.assertEqual(4, sum('without-python' in name for name in builder.payload(ROOT, plan, config)))
+                    self.assertEqual({'scoville-plan/references/profile-without-python.md',
+                                      'scoville-plan/references/select-context-without-python.md'},
+                                     {name for name in builder.payload(ROOT, plan, config) if 'without-python' in name})
 
     def test_refresh_preserves_inventory_and_refuses_local_changes(self):
         with tempfile.TemporaryDirectory() as temp:

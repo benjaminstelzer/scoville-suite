@@ -26,6 +26,23 @@ def events(used=33000):
 
 
 class CoordinatorContextTests(unittest.TestCase):
+    def test_imported_defaults_and_fresh_post_compaction_sample(self):
+        from test_contract import PACKAGE
+        thresholds = read_thresholds(PACKAGE / 'assets/workflow.toml', PACKAGE)
+        self.assertEqual(thresholds, {'coordinator_percent': 25, 'worker_percent': 75})
+        for role, used, expected in [('coordinator', 24999, 'continue'),
+                                    ('coordinator', 25000, 'rollover'),
+                                    ('executor', 75000, 'continue'),
+                                    ('executor', 75001, 'context_handoff'),
+                                    ('reviewer', 75001, 'context_handoff'),
+                                    ('repair', 75001, 'context_handoff')]:
+            self.assertEqual(expected, decide_configured(events(used), 'coordinator', role, thresholds)['action'])
+        sample = events(80000)
+        sample.append({'ordinal': 3, 'type': 'compacted', 'payload': {}})
+        sample.append(copy.deepcopy(sample[1]) | {'ordinal': 4})
+        sample.append(copy.deepcopy(events(10000)[-1]) | {'ordinal': 5})
+        self.assertEqual('continue', decide_configured(sample, 'coordinator', 'executor', thresholds)['action'])
+
     def test_configured_thresholds_and_invalid_configuration(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "workflow.toml"

@@ -10,6 +10,8 @@ Workflow asks for a decision instead of silently creating another workspace.
 Measured rollover uses native `token_count` data when available. Missing or
 contradictory measurements do not by themselves block valid bounded work.
 
-Native approval can hold a cross-task message pending. Workflow waits without
-polling or duplicate delivery. A definite result-delivery failure still leaves
-the child's validated final result available to the coordinator's recovery path.
+Native approval can hold a cross-task message pending. Keep that task handle
+and wait without duplicate sends. The coordinator collects results from the
+exact completed task with `read_thread`, preserving the original line breaks.
+The compact `wait_threads` snapshot is not the input to the result parser.
+No separate result-delivery message is required.

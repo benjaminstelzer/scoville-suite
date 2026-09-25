@@ -43,9 +43,11 @@ The handoff request itself is not a task decision.
 Use `unknown` for missing information and `none known` when no instances are
 known, such as no known blockers. Neither proves absence. Set `Status:
 not_started` only when the conversation or a named source establishes it;
-otherwise a missing status stays `unknown`. Include runtime CWD, temporary
-workspace or host state only when the user or a named source identifies it as
-task state. Omit incidental host values rather than listing them as irrelevant.
+otherwise a missing status stays `unknown`. Use the task working directory
+established by the conversation or a named canonical project source. A task
+repository already verified during the work is sufficient; the user need not
+name it again. Runtime CWD alone does not establish the task location. Include
+temporary workspace or host state only when established as task state.
 Conflicting source revisions and material unread ranges remain explicit
 blockers for receiver verification.
 
@@ -62,12 +64,15 @@ size-conflict explanation and request a larger limit.
 ## Compose and check the prompt
 
 Fill the continuation template, keeping its four H2 sections, fixed Receiver
-Instructions, three Resume Steps and Markdown fence. Include every Objective
-field. Under State, label applicable facts and name each source once beside its
-facts; identify conversation facts as such. Omit inapplicable optional labels,
-but retain relevant unknowns and required facts even when information is sparse.
+Instructions and three Resume Steps. Use one outer Markdown fence with at
+least four backticks and more backticks than any run inside the prompt; match
+its opening and closing length. Include every Objective field. Under State,
+use the template labels only where applicable and name each source once beside
+its facts; identify conversation facts as such. Labels are suggestions, not
+required fields. Always preserve Status and the continuation facts required
+above, including relevant unknowns; omit empty optional categories.
 For file-based work, include `Working directory: unknown` when no task location
-is supplied. Repeat a fact only when a hazard or first step needs it.
+is established. Repeat a fact only when a hazard or first step needs it.
 
 Step 1 resolves the first blocker, otherwise recovers in-flight work, otherwise
 states the next safe action. Make the remaining steps concrete and end with an

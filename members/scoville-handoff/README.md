@@ -112,7 +112,7 @@ Create a compact handoff for another agent. Preserve the objective, decisions, c
 
 ## Family
 
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
+- [Code](https://github.com/benjaminstelzer/scoville-code) owns engineering scope, implementation, risk, and validation.
 - [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
 - [UI](https://github.com/benjaminstelzer/scoville-ui) owns UI implementation, information structure, accessibility and rendered evidence, with a conditional WordPress adapter.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
@@ -120,4 +120,3 @@ Create a compact handoff for another agent. Preserve the objective, decisions, c
 ## License
 
 MIT. See [LICENSE](LICENSE).
-

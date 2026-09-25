@@ -4,7 +4,7 @@ Load this reference only when the bundled validator cannot run because Python
 is unavailable. The format stays native Markdown and YAML; do not install a
 runtime or create a cache.
 
-Use shell searches, bounded range reads, and byte or hash comparisons to
+Use shell searches and bounded range reads to
 inspect the complete supported `format_version: 1` profile. Require the
 `PROJECT_INDEX.md`, its referenced Plan, every referenced Work Item and
 Decision, and all records needed for dependency and lifecycle checks. Follow
@@ -12,8 +12,7 @@ the shapes in [native-plan-format.md](native-plan-format.md),
 [native-work-items.md](native-work-items.md),
 [native-decision-format.md](native-decision-format.md), and
 [native-project-lifecycle.md](native-project-lifecycle.md). For a Decision
-batch, load [native-decision-batches.md](native-decision-batches.md) and its
-no-Python hash route.
+batch, load [native-decision-batches.md](native-decision-batches.md).
 
 Check required fields, unique IDs, record boundaries, allowed statuses,
 current-item consistency, direct dependencies, blockers, Decision references,

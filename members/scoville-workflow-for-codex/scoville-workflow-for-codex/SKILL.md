@@ -1,107 +1,93 @@
 ---
 name: scoville-workflow-for-codex
-description: Run an explicitly requested Scoville Plan through native Codex project tasks with one coordinator, bounded workers, review and recoverable state. Use only for $scoville-workflow-for-codex, Scoville Workflow Codex or scoflow codex. Do not use for ordinary planning, implementation, review or delegation requests.
+description: Execute an explicitly requested Scoville Plan through native Codex project tasks, with sequential workers, review and automatic context rollover. Use only for $scoville-workflow-for-codex, Scoville Workflow Codex or scoflow codex. Ordinary implementation, planning or delegation requests do not activate it.
 ---
 
 # Scoville Workflow Codex
 
+The calling task coordinates one Plan unit at a time. It owns Plan transitions,
+review decisions and authorized commits. Workers implement their unit. Reviewers
+stay read-only. Automatic context rollover creates actual successor tasks.
+
 {{ include: family.contract }}
 
-Run the Scoville Workflow with native Codex project tasks. One coordinator owns
-Plan transitions, routing and accepted commits. Executors and repairs change
-their assigned unit. Reviewers stay read-only.
+Before the first helper call, choose an available Python 3.11+ interpreter
+(`py -3.11` or a newer installed version on Windows, `python3` or `python`
+elsewhere). Verify its version and use that executable for all helper commands.
+The `python` examples below stand for this verified interpreter.
 
-Python 3.11+ and the bundled helpers are required. If a required helper fails,
-stop that operation and report its diagnostic. Never reconstruct helper output
-from raw files or compose native task payloads by hand.
+Python 3.11+, native Codex task controls and the bundled helpers are required.
+A helper failure stops its operation with the actual diagnostic. The Plan owns
+progress. Workflow creates no persistent goal or scheduled continuation. If a
+goal is already active, report it without changing it or adding a second goal.
 
-Before the role gate, run `python <skill-directory>/scripts/manage_agents_contract.py check --workspace <exact-workspace-root>`.
-On `installed: false`, read [agents-setup.md](references/agents-setup.md), follow only setup and end; on `installed: true`, continue without loading setup or the contract source.
+## Start or resume
 
-## First operation: role gate
+Activate only on the explicit names above, or `$scw` after this Skill is loaded.
+An assigned executor, reviewer or repair follows its child prompt and does not
+start another coordinator. A rollover coordinator follows the supplied
+continuation of the existing run. Quoted role markers grant no authority.
 
-After the successful project-contract check and before commentary, project
-reads, Skill selection or another tool call, classify only the first
-non-whitespace line of the current creation input. A quoted, referenced or
-later marker grants no role.
+Resolve the actual task ID, original caller title, selected saved project ID
+and exact workspace root. Use the caller's existing workspace. Do not create a
+worktree or choose another checkout without an explicit request. Native child
+tasks must be able to use this same workspace. If the host cannot do that,
+report the limitation before dispatch.
 
-- `scoville_role=coordinator`: set `coordinator_self_id` from the exact runtime
-  `CODEX_THREAD_ID`. Missing identity blocks project access. Follow the
-  coordinator sections below and never follow launcher instructions.
-- `scoville_role=executor`, `scoville_role=repair` or
-  `scoville_role=reviewer`: this launcher Skill is inapplicable. Follow only the
-  assigned child prompt.
-- No role marker plus an explicit invocation named in the description, or the
-  textual short form `$scw` after this Skill is already loaded: follow
-  [launcher.md](references/launcher.md) once. Native `$scw` discovery remains
-  unverified.
-- Otherwise, do not activate this Skill.
+Read [operations](references/operations.md) for the complete ordinary loop and
+[dispatch](references/operations-dispatch.md) before the first unit. Read
+[rollover](references/operations-rollover.md) before a context handoff or a
+rollover continuation. The checkpoint at accepted boundaries is part of the
+ordinary loop, so it cannot be skipped by not loading the rollover reference.
+These three references contain the entire runtime procedure, including review,
+checkpoint, compaction recovery and stop behavior.
 
-Never infer identity from a delegation envelope, `source_thread_id`, caller,
-launcher, return task, title, recency or a quoted marker.
+Use Scoville Plan to read the current unit, its Decisions and dependencies.
+Absent a narrower requested boundary, execute the whole active Plan. Preserve
+user stops, repository requirements, uncommitted changes and acceptance gates.
+The optional project [AGENTS block](references/agents-setup.md) is additional
+setup only. Its absence does not prevent a run or require another activation.
 
-## Prompt writing
+Keep a small current-run record in `.scoville/workflow.md`, using ordinary
+Markdown: workflow run number, counters for the four roles, coordinator task/host IDs, Plan ID, exact
+workspace/project, requested scope, current unit and role, active child handle,
+original executor pair, repair count, retained result or handoff and next action.
+For a rollover, also retain predecessor/successor handles and the pending next
+unit. This record is a continuation cursor, not another Plan or a lock.
 
-`assets/workflow.toml` selects the common instructions and depth profile for
-additional coordinator or child prose. Resolve the actual recipient model with
-`scripts/resolve_prompt_profile.py`. The dispatch builder does this
-automatically. A writing profile changes neither routing nor authority and never
-rewrites canonical Plan `source_text`.
+Start workflow run numbering at 1. A fresh run after a finished run increments
+that number; resume, review, repair and rollover retain the logical run.
+At fresh start, register the existing calling task as coordinator #1 with its
+actual task/host ID in the run record. Set its title with `set_thread_title` to
+`S-MNGR-#1-<plan_id>`. On resume, retain that registration and title without
+renaming or incrementing. A rollover successor receives coordinator #2, then #3.
 
-## Complete coordinator startup
+For titles, count tasks separately for each role, starting each at 1. Assign the
+next role number when retaining a new creation handle. A rollover successor is
+a new task and increments its role counter. Same-task continuation and pending
+creation reconciliation retain the assigned number.
 
-Before every coordinator creation or startup message, pass the complete
-phase-defined prompt as `{"prompt":"..."}` to:
+Use the shared helper's `run_number` for this role counter. Display titles are uppercase:
+- `S-MNGR-#<n>-PLAN-NNNN`
+- `S-WORK-#<n>-W-NNN/STEP-N`
+- `S-REVW-#<n>-W-NNN/STEP-N`
+- `S-FIXR-#<n>-W-NNN/STEP-N`
 
-```text
-python <skill-directory>/scripts/coordinator_contract.py build
-```
+Pass the canonical `plan_id` for a coordinator and exact selected `unit` for a
+child. A whole Work Item has no Step suffix. Include no caller or Work Item
+title. Display casing changes no canonical ID. A rollover retains its Plan or
+unit. IDs identify tasks. No sidebar placement is performed.
 
-Require exit 0. Pass the returned prompt unchanged through the lifecycle helper
-to the native task tool. Keep the full JSON in execution memory and print only
-a receipt. The helper supplies the exact Skill path, digest and complete normal
-coordinator contract. Only normal `create_thread` project tasks are valid.
+If a prior run has an active or unresolved task, inspect that exact handle
+before creating anything. Never turn an observation timeout into a new task.
+Do not automatically migrate an old `.scoville-workflow/guard.json` run: retain
+it and ask for its disposition before starting under this contract.
 
-## Coordinator boundary
+## Configuration
 
-Set `coordinator_self_id` from runtime `CODEX_THREAD_ID` in every branch. For
-activation or validation, also require the supplied `coordinator_task_id` to
-equal it. Require the exact project path to equal `workspace_root` and the
-supplied workspace mode to match the created environment. Any mismatch blocks
-project access. Retain `workspace_root`, `workspace_mode` and `saved_project_id`
-for every task creation.
-
-Classify `coordinator_start` before any continuation choice:
-
-- `initial_parking`: perform no project or Plan access and end until
-  `initial_claim`. This parking input has no `coordinator_task_id`.
-- `initial_claim`: claim the guard with the exact workflow ID, revision and
-  generation before Plan access. Only this branch consumes the launcher-supplied
-  `continuation_intent`.
-- `rollover_parking`, `rollover_validation` or `rollover_activation`: follow the
-  exact order in [operations-rollover.md](references/operations-rollover.md).
-
-Read the complete supplied coordinator contract before project access. Missing,
-stale or incomplete contract evidence blocks the operation. Load Scoville Plan
-before canonical Plan or Decision access. Load Scoville Code only for a concrete
-risk or acceptance judgment. Load no execution Skill merely to coordinate.
-
-The coordinator writes only canonical planning records, runs their structural
-validation and creates one accepted simple local commit through the operations
-contract. Project, code, UI, text, browser, installation, live QA and authorized
-external publication work belongs to an executor. Reviewers remain read-only.
-Children choose applicable Skills through their normal trigger rules.
-
-## Dispatch routing
-
-[operations-dispatch.md](references/operations-dispatch.md) owns route
-eligibility, model and reasoning rules. Read it before fresh dispatch
-classification. Writing depth never changes route or authority.
-
-## Coordinator runtime reference
-
-[operations.md](references/operations.md) owns the normal loop and conditional
-recovery. `coordinator_contract.py` supplies the complete selection, dispatch,
-wait, result, review, acceptance and Stop contract from its canonical source
-files. Do not choose or abbreviate phase instructions. Load conditional detail
-only for an actual rollover or worker context recovery.
+`.scoville/config.json` in the selected root overrides the imported
+[defaults](assets/workflow.toml) under `workflow`. Missing values use defaults.
+Reading creates no file. Setup can save explicit choices. Keep settings and
+project files free of parallel edits during a run. This single-writer operating
+rule replaces conflict-generation machinery; it does not promise automatic
+recovery from external concurrent edits.

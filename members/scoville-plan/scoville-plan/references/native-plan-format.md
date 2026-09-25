@@ -15,7 +15,7 @@ only when the operation creates, changes, transitions, or audits a Decision.
 
 ## Files and encoding
 
-- Use UTF-8 without a byte-order mark and LF line endings.
+- Write UTF-8 without a byte-order mark and LF line endings for compatibility with installed readers. Updated readers also accept consistent CRLF; mixed endings and bare CR are invalid.
 - `PROJECT_INDEX.md` owns the format version and active Plan routing.
 - `docs/plans/` contains one Plan per Markdown file.
 - `docs/decisions/` contains one Decision per Markdown file.
@@ -166,8 +166,7 @@ Prefer a short direct sentence where sufficient. One physical line may contain
 several sentences when necessary criteria would otherwise be lost. Steps add
 subordinate order, not another description of the outcome. Evidence records the
 observed result and a precise reference when needed, not an execution diary.
-Use the selected writing profile for instruction depth. At every profile, the
-concept and sequence must let the worker execute and the reviewer trace each
+The concept and sequence must let the worker execute and the reviewer trace each
 Step to its result and Acceptance without conversation history.
 
 ## State invariants
@@ -188,9 +187,25 @@ External blocker labels are unique within one Work Item and match
 `[A-Z][A-Z0-9]{1,15}-[A-Z0-9][A-Z0-9._-]{0,47}`. `ADR`, `PLAN`, and `W` are
 reserved prefixes.
 
-Evidence entries are unique, case-sensitive strings of at most 200 Unicode
-scalar values, without leading or trailing whitespace, comma, square bracket,
-line break, or ASCII control character. Shape does not prove sufficiency.
+Evidence entries are unique, case-sensitive strings of 1 to 200 Unicode
+scalar values, without leading/trailing whitespace, line breaks or ASCII
+control characters. Shape does not prove sufficiency.
+
+Write legacy lists and LF while installed older readers must remain supported:
+
+```text
+Evidence: [Tests A passed, Selector output checked]
+```
+
+Each list entry must contain neither commas nor square brackets. Commas separate
+entries. Use `Evidence: []` when there is no evidence. Keep detailed results in
+their owning artifact and cite it rather than growing an execution log.
+
+Updated readers additionally accept an ordinary one-line text value, including
+commas and brackets, unless it starts with `[` and therefore uses list syntax.
+Quotes and backslashes remain literal in both forms. Plain text is one entry.
+This reading support does not change the compatible writing rule above.
+Format version remains 1; existing records need no migration.
 
 Dates use ISO `YYYY-MM-DD`. `updated` must not precede `created`. IDs are
 case-sensitive. Canonical paths use forward slashes relative to the project

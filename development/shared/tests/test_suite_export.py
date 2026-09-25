@@ -30,6 +30,7 @@ class SuiteExportTests(unittest.TestCase):
             git('add', '.')
             git('-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '-m', 'fixture')
             (root / 'development/test.py').write_bytes(b'# retained development\r\n')
+            git('add', 'development/test.py')
             self.assertEqual(b'', export_suite.git(root, 'status', '--porcelain'))
             output = Path(temporary) / 'export'
             with patch.object(export_suite, 'render_readmes', return_value=[]), patch.object(export_suite, 'sync', return_value=[]), patch.object(export_suite, 'load', return_value=config), patch.object(export_suite, 'payload', return_value={'README.md': b'readme', 'test-skill/SKILL.md': b'skill'}):

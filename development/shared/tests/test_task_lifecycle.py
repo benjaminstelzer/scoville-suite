@@ -10,7 +10,7 @@ spec.loader.exec_module(lc)
 class LifecycleTests(unittest.TestCase):
     def creation(self, **overrides):
         return dict(operation='create', family='workflow', role='executor', projectId='project',
-                    unit='PLAN-0001 W-001/step-1', attempt=1, reference='dispatch1', prompt='scoville_role=executor\nPark.',
+                    caller_title='Suite fixes', unit='W-001/step-1', run_number=1, attempt=1, reference='dispatch1', prompt='scoville_role=executor\nPark.',
                     model='gpt-5.6-sol', thinking='xhigh', creation_authorized=True,
                     prior_state='not_started', **overrides)
 
@@ -23,7 +23,7 @@ class LifecycleTests(unittest.TestCase):
         output = lc.run(request)
         self.assertEqual({'type': 'project', 'projectId': 'project', 'environment': {'type': 'local'}}, output['arguments']['target'])
         self.assertNotIn('projectId', output['arguments'])
-        self.assertEqual(request['prompt'], output['arguments']['prompt'])
+        self.assertEqual('scoville_role=executor\nworkflow_reference=dispatch1\nPark.', output['arguments']['prompt'])
         self.assertEqual('creation_unknown', output['handle']['state'])
 
     def test_role_and_double_creation_rejected(self):
@@ -47,12 +47,14 @@ class LifecycleTests(unittest.TestCase):
 
     def test_reconciliation_exact_unique_project_and_title(self):
         initial = lc.run(self.creation())['handle'] | {'state': 'pending', 'clientThreadId': 'pending'}
-        entry = {'id': 'child', 'kind': 'codex', 'hostId': 'local', 'title': initial['title'], 'projectId': 'project'}
+        entry = {'id': 'child', 'kind': 'codex', 'hostId': 'local', 'title': initial['title'], 'projectId': 'project', 'workflow_reference': 'dispatch1'}
         def reconcile(entries):
             return lc.run({'operation': 'reconcile', 'handle': initial, 'entries': entries})['handle']
         self.assertEqual('pending', reconcile([entry | {'title': 'prefix ' + entry['title']}])['state'])
         self.assertEqual('pending', reconcile([entry | {'projectId': 'different'}])['state'])
         self.assertEqual('pending', reconcile([entry | {'kind': 'chatgpt'}])['state'])
+        self.assertEqual('pending', reconcile([entry | {'workflow_reference': 'other'}])['state'])
+        self.assertEqual('pending', reconcile([entry | {'workflow_reference': None}])['state'])
         self.assertEqual('child', reconcile([entry])['threadId'])
         with self.assertRaises(ValueError):
             reconcile([entry, entry | {'id': 'other'}])
@@ -84,8 +86,46 @@ class LifecycleTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 lc.run(request | change)
 
+    def test_workflow_archive_retains_exact_identity_for_each_role(self):
+        for role in ('executor', 'reviewer', 'repair'):
+            for status in ('completed', 'pass', 'changes_requested', 'blocked', 'failed', 'replaced'):
+                with self.subTest(role=role, status=status):
+                    request = dict(operation='archive', handle=self.handle(role=role),
+                                   status=status, result_retained=True)
+                    self.assertEqual(dict(threadId='child', hostId='local', archived=True),
+                                     lc.run(request)['arguments'])
+
+    def test_rollover_archive_waits_for_ended_predecessor_and_started_successor(self):
+        for role in ('coordinator', 'executor', 'reviewer', 'repair'):
+            request = dict(operation='archive', handle=self.handle(role=role),
+                           status='context_handoff', result_retained=True,
+                           predecessor_ended=True, successor_started=True)
+            with self.subTest(role=role):
+                self.assertTrue(lc.run(request)['arguments']['archived'])
+                for key in ('predecessor_ended', 'successor_started', 'result_retained'):
+                    for value in (None, False, 'true'):
+                        with self.subTest(key=key, value=value), self.assertRaises(ValueError):
+                            lc.run(request | {key: value})
+
+    def test_unfinished_or_unretained_tasks_stay_open(self):
+        for family, roles in [('workflow', ('coordinator', 'executor', 'reviewer', 'repair')),
+                              ('ask', ('adviser',))]:
+            for role in roles:
+                request = dict(operation='archive', handle=self.handle(family=family, role=role),
+                               status='completed', result_retained=True,
+                               predecessor_ended=True, successor_started=True,
+                               explicit_cleanup_authorized=True)
+                for status in ('active', 'pending', 'needs_user_decision', 'unknown'):
+                    with self.subTest(family=family, role=role, status=status), self.assertRaises(ValueError):
+                        lc.run(request | {'status': status})
+                for state in ('pending', 'creation_unknown'):
+                    with self.assertRaises(ValueError):
+                        lc.run(request | {'handle': request['handle'] | {'state': state}})
+                with self.assertRaises(ValueError):
+                    lc.run(request | {'result_retained': False})
+
     def test_archive_requires_exact_boolean_state(self):
-        for reply in ({'threadId': 'child'}, {'threadId': 'child', 'archived': 'true'}, {'threadId': 'wrong', 'archived': True}, {'status': 'completed'}):
+        for reply in ({'threadId': 'child'}, {'threadId': 'child', 'archived': 'true'}, {'threadId': 'wrong', 'archived': True}, {'status': 'completed'}, {'threadId': 'child', 'archived': False}, {'threadId': 'child', 'archived': True, 'isError': True}):
             with self.assertRaises(ValueError):
                 lc.run(dict(operation='verify_archive', handle=self.handle(), reply=reply))
         self.assertTrue(lc.run(dict(operation='verify_archive', handle=self.handle(), reply={'threadId': 'child', 'archived': True}))['verified'])

@@ -27,11 +27,7 @@ and releasing one behavior normally belong to the same Work Item.
 
 Use numbered Steps for ordered behavior-complete units. Coordinate related
 file changes within their unit; file count does not create Step boundaries. Keep the concept in Goal and Outcome; Steps contain only
-the ordered work needed to realize it. For authored prose, follow an explicit target language first. Otherwise keep
-the existing Plan's language, including for added Steps or Work Items. For a new
-Plan, use the user's request language. Keep required labels and technical
-identifiers unchanged.
-
+the ordered work needed to realize it.
 1. Place prerequisites and canonical-owner changes before dependent consumers.
 2. Name each known repository-relative file in the Step that changes it.
 3. Keep one behavior-complete unit per Step. Use the selected recipient profile for detail, with full context at every profile. Ordered intermediate actions stay within that Step line.
@@ -83,31 +79,29 @@ because the same result needs code, UI, copy, installation, browser work, or
 live QA; those activities stay together when they share one risk and Acceptance
 boundary.
 
-Use the Workflow's route boundaries to decide whether expected work belongs in
-one Step. Evaluate the complete execution and verification scope. `Ultra_low`
-means a simple bounded change needing no nontrivial local implementation or
-verification judgment. `Low` requires nontrivial local judgment, one known
-behavior owner, understood helper contracts, established checks, and no
-diagnosis across component or test-harness boundaries. Interacting behavior
-owners, an unresolved helper contract, required local diagnostic discovery,
-helper or mock availability across a harness boundary, integration diagnosis,
-or broader checks whose results require interpretation need at least `medium`.
-Consequential changes to state, authorization, or integration
-contracts need `high`; mere involvement with those systems does not. Work whose
-consequence or complexity exceeds `high` needs `ultra_high`. Many files,
-generated metadata, or a known large test suite alone do not raise a class.
-Separate a Step when these factors would require a different class, but leave
-the class itself to the coordinator.
-
-Plan does not assign `ultra_low`, `low`, `medium`, `high`, or `ultra_high`.
-Preserve an existing route prefix. Record a new one only when the user
-explicitly supplies that class; it is a planned minimum, not the final dispatch
-choice. The Workflow coordinator classifies the complete current execution and
-verification scope, then chooses the route, model, and reasoning at dispatch.
-Those are three separate values. An explicit user choice of model or reasoning
-may be recorded separately in the existing `[execute: ...]` annotation defined
-by the native Plan format. Without Steps, the complete Work Item is one dispatch
-unit.
+Steps can serve as later execution units. Group each
+Step around one coherent outcome slice with comparable consequence and
+reasoning demand. Evaluate the complete expected execution and verification
+scope. Treat a bounded change needing no nontrivial local implementation or
+verification judgment as `ultra_low`; nontrivial local judgment with one known behavior owner,
+understood helpers, established checks, and no component or harness-boundary
+diagnosis as `low`; unresolved helper contracts, required local diagnostic
+discovery, interacting owners, harness-boundary helpers, integration diagnosis,
+or interpreted broader checks as at least `medium`; consequential
+changes to state, authorization, or integration contracts as `high`; and work
+beyond that consequence or complexity as `ultra_high`. Use these boundaries to
+separate Steps, but do not write the class. Treat every unknown low-eligibility
+fact as at least a `medium` boundary while shaping the Steps; never assume a
+single owner, known helper, mechanical check, or local scope when the Plan does
+not establish it. File count, generated metadata, and
+known test volume alone do not raise it. Separate a trivial text edit from a complex structural change;
+do not split code, UI, browser work, or other activities that share the same
+outcome, risk, authorization, and Acceptance boundary. A user-selected executor
+model or reasoning effort may be recorded only through the strict Step
+annotation in the native format. Plan does not assign a route class. Preserve an
+existing route prefix and record one only when the user explicitly supplies it;
+the Workflow coordinator owns the current route, model, and reasoning choice at
+dispatch.
 
 Keep independently resumable outcomes as separate Work Items even when their
 routing class matches. Workflow-ready Steps remain subordinate sequence: they
@@ -115,9 +109,9 @@ gain no status, ID, dependency, blocker, Evidence, or lifecycle of their own.
 
 ## Representative shapes
 
-For a small application, use two or three Work Items rather than one omnibus
-item or one lifecycle item per action. A calculator can separate its arithmetic
-domain from its responsive interface. Each item owns its implementation steps,
+A small application may need separate Work Items for independent outcomes.
+For example, a calculator can separate its arithmetic domain from its responsive
+interface when they have distinct acceptance boundaries. Each item owns its implementation steps,
 acceptance, evidence, and current action.
 
 For a stored workflow, domain transition, persistence adapter, and user-facing

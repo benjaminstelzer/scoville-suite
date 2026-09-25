@@ -37,8 +37,8 @@ class DescriptionContractTests(unittest.TestCase):
         workflow=next(m for m in builder.load(root, 'codex')['members'] if m['name']=='scoville-workflow-for-codex')
         text=builder.readme(root,workflow).decode()
         self.assertIn('```mermaid\nflowchart TD',text)
-        self.assertIn('at or above 33%',text)
-        self.assertIn('above 66%',text)
+        self.assertIn('at or above 25%',text)
+        self.assertIn('above 75%',text)
 
 
 if __name__=='__main__':

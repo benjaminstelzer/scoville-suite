@@ -15,7 +15,7 @@ Stand: 2026-09-25. Die Umsetzung betrifft Scoville Plan; fremde parallele Code-,
 - Bestehender Distributionstest für unbekannte Profile, ungültige Includes und unzulässige Layouts bestanden.
 - Snapshot des Suite-Profils: 7 Pläne / 69 Work Items / 17 Decisions; historische Member-Akten: 3 Pläne / 9 Work Items / 3 Decisions; ursprüngliches Fixture: 1 Plan / 2 Work Items / 1 Decision. Ausgangs- und Kandidatenvalidator liefern jeweils identische erfolgreiche Ergebnisse, sämtliche Aktenbytes bleiben unverändert.
 - Alle vier Python-Helper sind in beiden Profilen bytegleich zur Baseline. Formatversion und Schnittstellen wurden nicht geändert.
-- Beide vollständigen Suite-Builds erfolgreich unter `E:/Dropbox/AI Projects/skills/temp/release/plan-0008-plan/`. Finale Plan-Payloads stimmen bytegleich mit `candidate-final` überein. Gegenüber der ersten SOL-Matrix wurde nur das beanstandete Step-Beispiel korrigiert; der gezielte Kandidaten-Nachtest nutzt diese finalen Bytes: general 29 Dateien einschließlich 4 Fallback-Dateien; codex 25 Dateien ohne Python-Fallbacks. Paketlinks und Profilblöcke sind aufgelöst.
+- Beide vollständigen Suite-Builds erfolgreich unter `<workspace>/skills/temp/release/plan-0008-plan/`. Finale Plan-Payloads stimmen bytegleich mit `candidate-final` überein. Gegenüber der ersten SOL-Matrix wurde nur das beanstandete Step-Beispiel korrigiert; der gezielte Kandidaten-Nachtest nutzt diese finalen Bytes: general 29 Dateien einschließlich 4 Fallback-Dateien; codex 25 Dateien ohne Python-Fallbacks. Paketlinks und Profilblöcke sind aufgelöst.
 - Das Decision-Frontmatter-Beispiel wurde in vollständigen isolierten Projektprofilen mit beiden Paketvalidatoren erfolgreich geprüft.
 - Skill Creators `quick_validate.py` scheitert in beiden Profilen am bereits bestehenden Feld `compatibility`, das seine lokale Whitelist nicht unterstützt. Kein grüner Lauf behauptet. YAML, Name, Description-Grenze, bekannte Frontmatter-Felder und aufgelöste Templates wurden zusätzlich geprüft; der Validator wurde nicht verändert.
 
@@ -64,7 +64,7 @@ Routentabelle und Feature-Vertrag ergänzt. Sieben Verhaltenstestfälle decken E
 
 78 automatisierte Tests bestanden, einschließlich drei neuer Validator-Regressionstests: Entwurf entfernen bei unverändertem aktivem Bestand; letzten ungestarteten aktiven Plan mit idle-Index entfernen und Decisions erhalten; ungültigen verbleibenden Indexverweis ablehnen. Der Validator, die Formatversion und die Helper-Schnittstellen bleiben unverändert.
 
-Beide Builds unter `E:/Dropbox/AI Projects/skills/temp/release/plan-unstarted-deletion/` erfolgreich. Lifecycle-Referenz jeweils bytegleich zur Quelle; keine offenen Templates; general mit vier Python-Fallback-Dateien, codex ohne diese Dateien. Skill Creators quick_validate scheitert unverändert ausschließlich am bestehenden `compatibility`-Feld seiner Whitelist. Keine Installation, Veröffentlichung oder Änderung bestehender Projektpläne und des aktiven Index.
+Beide Builds unter `<workspace>/skills/temp/release/plan-unstarted-deletion/` erfolgreich. Lifecycle-Referenz jeweils bytegleich zur Quelle; keine offenen Templates; general mit vier Python-Fallback-Dateien, codex ohne diese Dateien. Skill Creators quick_validate scheitert unverändert ausschließlich am bestehenden `compatibility`-Feld seiner Whitelist. Keine Installation, Veröffentlichung oder Änderung bestehender Projektpläne und des aktiven Index.
 
 ### Astra Medium: Nachprüfung der Löschregel
 
@@ -78,6 +78,6 @@ Astra bestätigt die übrige Löschregel und findet keinen weiteren konkreten Ko
 
 Die explizite Inhaltsüberarbeitung bestätigt vollständig ungestarteter Pläne umfasst nun auch cancelled-Pläne und deren todo/cancelled-Items. L besitzt die enge Ausnahme mit Vorrang vor W; W verweist darauf. IDs, Referenzen, Evidence, Reihenfolge und Lifecycle-Felder bleiben erhalten. Kein Wiederöffnen, Aktivieren, Starten oder Statuswechsel. Ausgeführte oder unklare Historie schließt die Ausnahme aus. Zwei entsprechende positive/negative Evaluationsfälle ergänzt, nicht als Modellläufe ausgeführt.
 
-78 automatisierte Tests erneut bestanden. Beide Builds unter `E:/Dropbox/AI Projects/skills/temp/release/plan-unstarted-p2/` erfolgreich; beide geänderten Referenzen jeweils bytegleich zur Quelle.
+78 automatisierte Tests erneut bestanden. Beide Builds unter `<workspace>/skills/temp/release/plan-unstarted-p2/` erfolgreich; beide geänderten Referenzen jeweils bytegleich zur Quelle.
 
 Astra Medium schließt ausschließlich den P2-Befund: keine weiteren Findings im Korrekturpunkt. Referenz `plan-unstarted-deletion-p2-fix-20260925-01`, gleiche Reviewtask `01a0d7f1-c668-7911-a5d1-7adea3a3b186`, Kontext continued, angefordert gpt-6-astra/medium, tatsächliche Metadaten unbekannt. Direkter Vergleich der drei betroffenen Dateien gegen den P2-Snapshot. Textprüfung, keine neue Gesamtabnahme und kein Modell-Verhaltensnachweis. Der zuvor als offen dokumentierte P2 ist damit geschlossen.

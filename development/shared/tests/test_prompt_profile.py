@@ -2,8 +2,10 @@ import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'runtime'))
 spec = importlib.util.spec_from_file_location('profile_resolver', ROOT / 'runtime/resolve_prompt_profile.py')
 resolver = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(resolver)

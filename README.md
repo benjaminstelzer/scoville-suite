@@ -17,7 +17,7 @@ instructions the task needs and preserve explicit user exclusions. Workflow
 still starts only when explicitly named. The general edition does not include
 Workflow or Ask.
 
-## Scoville Code Anti-AI-Slop
+## Scoville Code
 
 A coding agent can finish the wrong thing quite thoroughly. The tests are green,
 the report sounds certain, but the behavior you asked for is still missing.
@@ -60,12 +60,12 @@ remove code without turning every small change into a full audit.
   Skill's `references/project-conventions.md`. Keep personal overrides outside
   the installed Skill and reference them explicitly from `AGENTS.md` so Skill
   updates do not replace them. Existing projects keep their organization.
-  The [customization guide](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop#your-own-conventions)
+  The [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions)
   explains paths, precedence and update behavior with a copyable example.
 - **Complete handoff.** The final report names changed behavior, relevant
   validation, unresolved failures, and relevant repository state.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop/blob/main/scoville-code-anti-ai-slop/SKILL.md).
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-code/blob/main/scoville-code/SKILL.md).
 
 ### What it costs
 
@@ -104,6 +104,11 @@ projects, not to turn a small reversible edit into paperwork.
 - When Workflow is active, Steps expose the scope and boundaries needed for dispatch. The coordinator chooses the route. Plan can retain an explicit executor choice, but does not quietly turn a small-looking edit into low-risk work.
 
 - The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-plan/blob/main/scoville-plan/SKILL.md).
+
+Run one task to completion before editing its files or changing model settings
+elsewhere. Plan assumes this single-run workflow. It does not lock files or
+promise conflict-free recovery after concurrent changes. Routine edits need
+no model-profile selection or hash receipts.
 
 ### What it costs
 
@@ -217,19 +222,12 @@ and whether the host discovers the Skill.
 Use this request in your agent host:
 
 ```text
-Install and enable every Skill in this suite for all my projects, using only
-this repository's own packages:
-https://github.com/benjaminstelzer/scoville-suite/tree/main/packages
-Each packages/<name>/<name>/ directory contains one installable Skill.
-Require every member declared by suite.json. Do not fetch Skills from individual
-repositories or replace a missing package with another distribution.
-If any member is missing or incompatible with this host, report the blocker;
-do not skip it or claim a complete suite installation.
-Use Python helpers when available. Load their manual procedures only when
-Python is absent; an old interpreter or helper error does not permit that route.
-Preserve personal configuration and unrelated installed Skills. Install only
-the inner package directories, not members/ or development/. Report locations,
-the complete installed member set and discovery results.
+Uninstall these Skills completely, including their settings, when present:
+scoville-code-anti-ai-slop, scoville-handoff, scoville-plan,
+scoville-ui-anti-ai-slop, scoville-wordpress-ui-backend-anti-ai-slop,
+scoville-brainstorm, scoville-research, scoville-design-anti-ai-slop,
+scoville-scribe-anti-ai-slop.
+Skip absent entries, leave unrelated Skills untouched, keep no backup or settings migration, treat Python 3.10 or newer as optional, then install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
 ```
 
 All included Skills must remain enabled. Their task scope and invocation rules
@@ -284,7 +282,7 @@ Publication requires inspected committed sources and the release checks.
 Sources, tests and notes stay in this suite. Individual packages omit this block
 and the development files.
 
-- **scoville-code-anti-ai-slop**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code-anti-ai-slop) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code-anti-ai-slop/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code-anti-ai-slop/development/README.md)
+- **scoville-code**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code/development/README.md)
 - **scoville-plan**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
 - **scoville-ui**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 - **scoville-handoff**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
@@ -293,7 +291,7 @@ and the development files.
 
 Scoville used to cover more ground. I did not remove these Skills because each of them failed every task. I removed them because I could no longer show a reliable advantage over modern frontier models that justified the work required to test and maintain them. That is the standard I care about. I would rather offer fewer Skills and test them properly than keep a larger suite where some are merely good enough.
 
-The suite now focuses on Workflow, Plan, Code and the two UI Skills. Handoff remains because it supports the development workflow directly.
+The general suite contains Code, Plan, one combined UI Skill and Handoff. The Codex edition adds Workflow, Ask and Setup.
 
 - **Scoville Scribe Anti-AI-Slop:** The writing comparisons did not establish a reliable benefit. The tested version also introduced unsupported claims.
 - **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models ended in a tie.

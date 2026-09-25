@@ -1,11 +1,10 @@
 # Task, surface, and runtime routing
 
-For every request, read `Select the focus` through `Experimental policy` before
-dependent recommendations or actions. These sections contain the supported
-surface, owner and prohibition semantics. Read `Canonical structured values`
-and `Classification output` only when the caller explicitly requests structured
-classification. Exact identifiers and the output protocol are conditional;
-the meaning of every prohibition and exclusion is not.
+Read this router before dependent recommendations or actions. It owns the
+supported surfaces, owners and prohibitions. Load
+[classification-output.md](classification-output.md) only for an explicitly
+requested structured classification. Ordinary advice needs these routing
+boundaries, not the output protocol.
 
 Use the working mode defined in [Scoville UI](../../SKILL.md#mode-and-scope).
 Within the selected scope, classify the surface before the runtime. Do not
@@ -156,19 +155,15 @@ Classic/Core PHP surface and `unknown` when it is React-owned or the host
 runtime is unspecified. This field records the known host fact; it never gives
 this Skill permission to prescribe the excluded surface.
 
-Use this exact handoff matrix for the excluded version-1 surfaces. The listed
-prohibitions are required; add other applicable stable identifiers only when
-the request supplies evidence for them.
+For excluded surfaces, keep these boundaries even when no structured report is
+requested:
 
-| Excluded surface | Policy | Required prohibited identifiers |
+| Surface | Experimental policy | Required limits |
 | --- | --- | --- |
-| Block Editor sidebar/SlotFill | `unknown` | `own-host-surface`, `frontend-theme-spacing`, `recommend-without-clarification` |
-| Editor canvas | `unknown` | `own-host-surface`, `frontend-theme-spacing`, `recommend-without-clarification` |
-| Post metabox | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides` |
-| Dashboard widget | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides` |
-| Profile field | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides`, `custom-css-before-core` |
-| Existing Core list/screen | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides` |
-| UI inside another plugin | `unknown` | `own-host-surface`, `assume-react-is-wpds`, `recommend-without-clarification` |
+| Block Editor sidebar/SlotFill or editor canvas | unknown | Keep host ownership. Do not apply frontend-theme spacing or recommend dependent details without the missing host facts. |
+| Post metabox, Dashboard widget or existing Core list/screen | deny | Keep host ownership. Do not inject experimental WPDS into Classic UI or apply global admin overrides. |
+| Profile field | deny | Keep host ownership. No experimental WPDS injection, global admin overrides or custom CSS before checking Core. |
+| UI inside another plugin | unknown | Keep host ownership. Do not infer WPDS from React or recommend dependent details without the missing owner facts. |
 
 If the request explicitly says that no experimental component policy was
 provided, return `unknown` even when the known runtime is Core Components;
@@ -176,67 +171,12 @@ provided, return `unknown` even when the known runtime is Core Components;
 placement or host boundary is not specified, return `unknown` for
 `shell_owner` rather than assuming a Core plugin root.
 
-## Canonical structured values
+## Explain the selected route
 
-When a caller requests structured classification, emit these exact stable
-values instead of prose variants:
-
-| Meaning | Canonical value |
-| --- | --- |
-| Plugin settings or tool | `plugin-settings-tool` |
-| Plugin workflow or dashboard | `plugin-workflow-dashboard` |
-| Plugin data view | `plugin-data-view` |
-| Explicit Network Admin | `plugin-network-admin` |
-| Block Editor sidebar/SlotFill | `block-editor-sidebar-slotfill` |
-| Editor canvas | `editor-canvas` |
-| Post metabox | `post-metabox` |
-| Dashboard widget | `dashboard-widget` |
-| Profile field | `profile-field` |
-| Extension of an existing Core screen | `core-screen-extension` |
-| UI inside another plugin | `foreign-plugin-surface` |
-| Plugin-owned page with unspecified runtime | `plugin-owned-unspecified` |
-| Admin surface with unspecified placement | `unknown-admin-surface` |
-| Supported stable route | `supported` |
-| Supported bundled experimental route | `supported-experimental-opt-in` |
-| Supported Network Admin route | `supported-explicit-multisite` |
-| Excluded host-owned route | `excluded-route-to-host-owner` |
-| Missing decision-relevant fact | `needs-clarification` |
-| PHP with Core admin | `php-core` |
-| React with Core Components | `react-core-components` |
-| Bundled experimental WPDS | `bundled-wpds` |
-| Region-owned mixed page | `hybrid` |
-| Excluded host-owned runtime | `host-owned` |
-| Core admin shell | `core-admin` |
-| Core shell plus plugin root | `core-admin-plugin-root` |
-| Core/React region map | `core-admin-region-map` |
-| Network Admin shell | `network-admin` |
-| Network Admin/React region map | `network-admin-region-map` |
-| Block Editor shell | `block-editor` |
-| Editor canvas shell | `editor-canvas` |
-| Post editor shell | `post-editor` |
-| Core Dashboard shell | `core-dashboard` |
-| Core profile screen | `core-profile-screen` |
-| Existing Core list/screen | `core-list-screen` |
-| Host plugin shell | `foreign-plugin` |
-| Core default rhythm | `core-default-css` |
-| Core Components | `core-components` |
-| WPDS Stack and exported tokens | `wpds-stack-and-exported-token-stylesheet` |
-| Region-owned spacing | `region-map` |
-| Block Editor spacing | `block-editor` |
-| Editor canvas spacing | `editor-canvas` |
-| Post editor/metabox spacing | `post-editor-metabox` |
-| Core Dashboard widget spacing | `core-dashboard-widget` |
-| Core profile-screen spacing | `core-profile-screen` |
-| Existing Core list/screen spacing | `core-list-screen` |
-| Host plugin spacing | `foreign-plugin` |
-| Unknown owner | `unknown` |
-
-For structured `prohibited_recommendations`, use only the applicable stable
-identifiers: `assume-react-is-wpds`, `custom-css-before-core`,
-`define-wpds-tokens`, `frontend-theme-spacing`, `global-wp-admin-overrides`,
-`inject-wpds-into-classic`, `own-host-surface`,
-`recommend-without-clarification`, and `unlock-private-theme-provider`.
-Their prose explanation may follow outside the structured object.
+Report the ownership facts needed for the scoped result. Do not add a full
+classification report to every finding. For explicitly requested structured
+classification, load [classification-output.md](classification-output.md).
+Its exact output values do not change the boundaries in this router.
 
 `inject-wpds-into-classic` prohibits introducing a bundled experimental component
 runtime merely to restyle Classic UI. It does not prohibit a Core `wp-theme`
@@ -244,39 +184,6 @@ stylesheet dependency. `define-wpds-tokens` prohibits plugin-authored token
 assignments or imitations, not supported public provider props.
 `unlock-private-theme-provider` prohibits private APIs on every version, not
 the public 7.1 export. Keep these identifiers stable with these precise meanings.
-
-An unknown React runtime must include `assume-react-is-wpds`,
-`define-wpds-tokens`, and `recommend-without-clarification`. An excluded host
-surface must include `own-host-surface`; when the host facts needed for a
-downstream recommendation are absent, also include
-`recommend-without-clarification`. Additional applicable identifiers are
-allowed, but these route-specific prohibitions must not be omitted.
-
-A Classic PHP/Core plugin page must include `frontend-theme-spacing`,
-`inject-wpds-into-classic`, `global-wp-admin-overrides`, and
-`custom-css-before-core`. A bundled WPDS route must include
-`unlock-private-theme-provider`, `define-wpds-tokens`,
-`global-wp-admin-overrides`, and `custom-css-before-core`. A Block Editor
-sidebar/SlotFill handoff must include `own-host-surface`,
-`frontend-theme-spacing`, and `recommend-without-clarification` because this
-Skill must stop before prescribing the host-owned details.
-
-## Classification output
-
-For an explicit classification request, return:
-
-- `surface` and `support_status`;
-- `runtime_owner`;
-- `shell_owner`;
-- `spacing_owner`;
-- `experimental_components_policy`;
-- supporting source or repository evidence;
-- prohibited recommendations for this route.
-
-When structured output was requested, use the canonical values above for all
-six fields and for each prohibited-recommendation identifier. Otherwise use
-these facts to establish ownership and report only those needed to explain the
-scoped result. Do not add a full classification report to every finding.
 
 For a version-sensitive recommendation, also record supported/observed versions,
 token stylesheet owner, required token names, and loading/fallback evidence.

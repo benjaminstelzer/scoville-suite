@@ -17,13 +17,18 @@ Infer `review` or `consultation` from the actual question; an explicit mode wins
 intended outcome is ambiguous, clarify before dispatch. Do not ask again when
 the request already establishes the mode, advisers or permission.
 
-Resolve settings with `scripts/ask.py`, using explicit request overrides above
-applicable project settings, personal `config.json`, then
+Resolve settings with `scripts/ask.py`, using unsaved request overrides above
+the selected project's `.scoville/config.json` (`ask` section), then
 [config.default.json](config.default.json). Select exactly the requested
 advisers, routes, models and efforts. Adviser IDs identify results; optional
 display names never change native task titles. Read
 [configuration and helper inputs](references/configuration.md) for resolution,
 migration or the first helper invocation.
+
+Before the first helper call, choose an available Python 3.11+ interpreter
+(`py -3.11` or a newer installed version on Windows, `python3` or `python`
+elsewhere). Verify its version and use that executable for all helper commands.
+The `python` examples below stand for this verified interpreter.
 
 Python 3.11+, the bundled helpers and Codex online are required. Before native
 dispatch, `scripts/list_models.py` obtains the current `model/list` catalog.
@@ -64,3 +69,7 @@ Resume exact retained handles with their previous settings unless explicitly
 overridden; identify a newly authorized fresh consultation as fresh.
 
 {{ include: family.contract }}
+
+Native advisers receive a read-only instruction. Creating a native task does
+not add a technical write barrier or a separate sandbox. Claude tool restrictions
+and opt-in web access are described in references/claude.md.

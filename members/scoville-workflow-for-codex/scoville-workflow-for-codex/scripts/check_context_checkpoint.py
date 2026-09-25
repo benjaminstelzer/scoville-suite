@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import os
-import tomllib
 from pathlib import Path
 
 from inspect_native_context import (
@@ -13,17 +12,7 @@ from inspect_native_context import (
 )
 
 
-def read_thresholds(path: Path) -> dict:
-    with path.open("rb") as stream:
-        config = tomllib.load(stream)
-    if type(config.get("schema_version")) is not int or config["schema_version"] != 1:
-        raise ValueError("unsupported workflow schema_version")
-    thresholds = config.get("context")
-    if not isinstance(thresholds, dict) or set(thresholds) != {"coordinator_percent", "worker_percent"}:
-        raise ValueError("context requires exactly coordinator_percent and worker_percent")
-    if any(type(value) is not int or not 1 <= value <= 99 for value in thresholds.values()):
-        raise ValueError("context percentages must be integers from 1 through 99")
-    return thresholds
+from workflow_settings import read_thresholds
 
 
 def decide(events: list[dict], thread_id: str, role: str, thresholds: dict) -> dict:
@@ -77,19 +66,15 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--role", choices=("coordinator", "executor", "reviewer", "repair"), required=True)
     parser.add_argument("--accepted-unit")
+    parser.add_argument("--project-root", type=Path, default=Path.cwd())
     args = parser.parse_args()
-    from manage_workflow_guard import GuardError, validate_unit
-    try:
-        if args.role == "coordinator":
-            validate_unit(args.accepted_unit, "accepted_unit")
-        elif args.accepted_unit is not None:
-            raise GuardError("invalid_argument", "accepted-unit is coordinator-only")
-    except GuardError as error:
-        print(compact({"action": "blocked", "diagnostic": str(error)}))
-        return 1
+    if args.role == "coordinator" and not args.accepted_unit:
+        parser.error("coordinator checkpoint requires --accepted-unit")
+    if args.role != "coordinator" and args.accepted_unit is not None:
+        parser.error("--accepted-unit is coordinator-only")
     thread_id = os.environ.get("CODEX_THREAD_ID")
     try:
-        thresholds = read_thresholds(Path(__file__).resolve().parents[1] / "assets" / "workflow.toml")
+        thresholds = read_thresholds(Path(__file__).resolve().parents[1] / "assets" / "workflow.toml", args.project_root)
     except (OSError, ValueError) as error:
         print(compact({"action": "blocked", "reason": "configuration_invalid", "diagnostic": str(error)}))
         return 1

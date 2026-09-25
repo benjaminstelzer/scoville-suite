@@ -8,6 +8,7 @@ Host replies must be the actual decoded tool payload, not invented summaries.
 from __future__ import annotations
 
 import json
+import re
 import sys
 
 
@@ -44,14 +45,20 @@ def task_title(request):
 
     family, role = request.get('family'), request.get('role')
     if family == 'workflow':
-        if role == 'coordinator':
-            title = f'{label("coordinator_title", 32)} G{number("generation")} [{label("workflow_id", 64)}]'
-        else:
-            roles = {'executor': 'WORK', 'reviewer': 'REVIEW', 'repair': 'REPAIR'}
-            require(role in roles, 'invalid workflow title role')
-            title = f'SCW {label("unit", 80)} {roles[role]} RUN [#{number("attempt")}]'
+        roles = {'coordinator': 'MNGR', 'executor': 'WORK', 'reviewer': 'REVW', 'repair': 'FIXR'}
+        require(role in roles, 'invalid workflow title role')
+        title_key = 'plan_id' if role == 'coordinator' else 'unit'
+        title = text(request.get(title_key), title_key)
+        pattern = r'PLAN-[0-9]{4}' if role == 'coordinator' else r'W-[0-9]{3}(?:/step-[1-9][0-9]*)?'
+        require(re.fullmatch(pattern, title) is not None, title_key + ' has invalid ID format')
+        return {'title': f'S-{roles[role]}-#{number("run_number")}-{title.upper()}'}
     elif family == 'ask':
         require(role == 'adviser', 'invalid Ask title role')
+        if 'caller_title' in request:
+            caller_title = text(request['caller_title'], 'caller_title')
+            require(not any(ord(c) < 32 for c in caller_title), 'caller_title contains controls')
+            model = label('model', 128)
+            return {'title': f'Ask {model} · {caller_title}'}
         title = f'ASK {label("subject", 80)} {label("adviser", 32)} RUN [#{number("attempt")}]'
     else:
         raise ValueError('unknown title family')
@@ -74,6 +81,9 @@ def create(request):
     if 'title' in request:
         require(request['title'] == title, 'supplied title differs from generated title')
     reference = text(request.get('reference'), 'reference')
+    if family == 'workflow':
+        first, rest = prompt.split('\n', 1)
+        prompt = first + '\nworkflow_reference=' + reference + '\n' + rest
     prior_ids = request.get('prior_task_ids', [])
     require(isinstance(prior_ids, list) and all(isinstance(i, str) and i for i in prior_ids),
             'prior_task_ids must contain known predecessor task IDs')
@@ -88,6 +98,7 @@ def create(request):
             'thinking': text(request.get('thinking'), 'thinking')}
     return {'arguments': args, 'handle': {'state': 'creation_unknown', 'family': family,
             'role': role, 'projectId': project, 'title': title, 'reference': reference,
+            **({'reference_identity_required': True} if family == 'workflow' or 'caller_title' in request else {}),
             'prior_task_ids': prior_ids}}
 
 
@@ -112,6 +123,8 @@ def reconcile(request):
     require(handle.get('state') in {'pending', 'creation_unknown'}, 'only unresolved creation can reconcile')
     candidates = [entry for entry in request['entries']
                   if entry.get('kind') == 'codex'
+                  and (not handle.get('reference_identity_required')
+                       or entry.get('workflow_reference' if handle.get('family') == 'workflow' else 'consultation_reference') == handle['reference'])
                   and entry.get('id') not in handle.get('prior_task_ids', [])
                   and entry.get('projectId') == handle['projectId'] and entry.get('title') == handle['title']]
     require(len(candidates) <= 1, 'multiple exact matches; identity is ambiguous')
@@ -156,11 +169,11 @@ def archive(request):
                 or (status == 'failed' and request.get('failure_rule_applies') is True)
                 or request.get('explicit_cleanup_authorized') is True, 'Ask task must remain open')
     elif handle.get('family') == 'workflow':
-        require(handle.get('role') in {'executor', 'reviewer', 'repair'}, 'coordinator archive requires rollover handshake')
-        require(status in {'completed', 'pass', 'changes_requested', 'blocked', 'context_handoff', 'failed', 'unassigned_parking'}, 'unrecognized terminal status')
-        if status == 'unassigned_parking':
-            require(request.get('parking_turn_completed') is True and request.get('assignment_not_sent') is True,
-                    'unassigned parking proof missing')
+        require(handle.get('role') in {'coordinator', 'executor', 'reviewer', 'repair'}, 'invalid workflow role')
+        require(status in {'completed', 'pass', 'changes_requested', 'blocked', 'context_handoff', 'failed', 'replaced'}, 'unrecognized terminal status')
+        if handle['role'] == 'coordinator' or status == 'context_handoff':
+            require(request.get('predecessor_ended') is True and request.get('successor_started') is True,
+                    'rollover archive requires an ended predecessor and a started successor')
     else:
         raise ValueError('unknown family')
     return {'arguments': {'threadId': thread, 'hostId': text(handle.get('hostId'), 'hostId'), 'archived': True}}
@@ -169,110 +182,13 @@ def archive(request):
 def verify_archive(request):
     thread = ready(request['handle'])
     reply = request['reply']
-    require(reply.get('threadId') == thread and reply.get('archived') is True,
+    require(reply.get('isError') is not True and reply.get('threadId') == thread and reply.get('archived') is True,
             'exact-ID archived:true proof missing')
     return {'verified': True, 'threadId': thread}
 
 
-def rollover_record(request):
-    """Validate retained handoff identity and terminal predecessor evidence."""
-    successor, predecessor = request['successor'], request['predecessor']
-    successor_id, predecessor_id = ready(successor), ready(predecessor)
-    for handle in (successor, predecessor):
-        text(handle.get('hostId'), 'hostId')
-        require(handle.get('family') == 'workflow' and handle.get('role') == 'coordinator', 'rollover requires coordinator handles')
-    require(successor_id != predecessor_id, 'successor cannot be predecessor')
-    text(request.get('workflow_id'), 'workflow_id')
-    require(type(request.get('generation')) is int and request['generation'] > 0, 'invalid generation')
-    completed = request['predecessor_turn']
-    require(completed.get('threadId') == predecessor_id and completed.get('hostId') == predecessor['hostId']
-            and completed.get('turnId') == text(request.get('activation_turn_id'), 'activation_turn_id')
-            and completed.get('status') == 'completed', 'exact predecessor activation turn completion unproven')
-    return {key: request[key] for key in
-            ('workflow_id', 'generation', 'successor', 'predecessor', 'activation_turn_id', 'predecessor_turn')}
-
-
-def rollover_readiness(request):
-    """Require a listed or exact-read active successor before predecessor archive."""
-    archive_record = rollover_record(request)
-    successor, predecessor = request['successor'], request['predecessor']
-    successor_id, predecessor_id = ready(successor), ready(predecessor)
-    guard = request['guard']
-    require(request.get('guard_capability_verified') is True, 'fresh guard capability verification required')
-    require(guard.get('workflow_id') == text(request.get('workflow_id'), 'workflow_id'), 'wrong workflow')
-    generation = request.get('generation')
-    require(type(generation) is int and generation > 0 and guard.get('generation') == generation, 'wrong generation')
-    require(guard.get('coordinator_id') == successor_id and guard.get('state') == 'coordinator_active', 'successor is not active guard owner')
-    require(guard.get('writer') is None and guard.get('rollover') is None, 'handoff is not quiescent')
-    reachable = request['exact_successor']
-    require(reachable.get('threadId') == successor_id and reachable.get('hostId') == successor['hostId']
-            and reachable.get('reachable') is True, 'exact successor reachability unproven')
-    listing = request['listing']
-    def matches(entry):
-        return entry.get('id') == successor_id and entry.get('hostId') == successor['hostId'] and entry.get('kind') == 'codex'
-    visible = any(matches(entry) for entry in listing.get('threads', []))
-    active_exact = reachable.get('status') == 'active'
-    pinned = any(matches(entry) for entry in listing.get('pinnedThreads', []))
-    key = 'codex:thread:' + successor['hostId'] + ':' + successor_id
-    sectioned = any(key in section.get('itemKeys', []) for section in listing.get('sections', []))
-    complete_listing = all(isinstance(listing.get(key), list) for key in ('threads', 'pinnedThreads', 'sections'))
-    complete_listing = complete_listing and all(isinstance(section.get('itemKeys'), list)
-                                               for section in listing.get('sections', []))
-    complete_listing = complete_listing and not (listing.get('unavailableHosts') or listing.get('unavailableSources'))
-    archive_blockers = []
-    for condition, reason in ((not complete_listing, 'listing_incomplete'),
-                              (not visible and not active_exact, 'successor_not_listed'),
-                              (pinned, 'successor_pinned'), (sectioned, 'successor_sectioned'),
-                              (request.get('status_retained') is not True, 'status_not_retained')):
-        if condition:
-            archive_blockers.append(reason)
-    archive_allowed = not archive_blockers
-    return {'may_continue': True, 'may_archive_predecessor': archive_allowed,
-            'retain_predecessor': not archive_allowed,
-            'archive_blockers': archive_blockers,
-            'archive_record': archive_record,
-            'archive_arguments': {'threadId': predecessor_id, 'hostId': predecessor['hostId'], 'archived': True} if archive_allowed else None}
-
-
-def recover_rollover_archives(request):
-    """Authorize older predecessors only through a contiguous retained handoff chain."""
-    current = rollover_readiness(request)
-    records = request.get('archive_chain')
-    require(isinstance(records, list) and bool(records), 'archive_chain must be nonempty')
-    records = [rollover_record(record) for record in records]
-    require(records[-1] == current['archive_record'], 'chain must end at current handoff')
-    def identity(handle):
-        return ready(handle), handle['hostId']
-    seen = {identity(records[0]['predecessor'])}
-    previous = None
-    for record in records:
-        require(record['workflow_id'] == request['workflow_id'], 'chain workflow mismatch')
-        if previous is not None:
-            require(record['generation'] == previous['generation'] + 1
-                    and identity(record['predecessor']) == identity(previous['successor']),
-                    'handoff chain is not contiguous')
-        require(identity(record['successor']) not in seen, 'handoff chain repeats a coordinator')
-        seen.add(identity(record['successor']))
-        previous = record
-    replies = request.get('archive_receipts', [])
-    require(isinstance(replies, list), 'archive_receipts must be a list')
-    predecessors = {identity(record['predecessor']): record['predecessor'] for record in records}
-    archived = set()
-    for receipt in replies:
-        target = (receipt.get('threadId'), receipt.get('hostId'))
-        require(target in predecessors and target not in archived, 'unknown or duplicate archive receipt')
-        verify_archive({'handle': predecessors[target], 'reply': receipt['reply']})
-        archived.add(target)
-    pending = [handle for key, handle in predecessors.items() if key not in archived]
-    return {'may_continue': True, 'archive_blockers': current['archive_blockers'],
-            'pending_predecessors': pending,
-            'archive_arguments': [{'threadId': handle['threadId'], 'hostId': handle['hostId'], 'archived': True}
-                                  for handle in pending] if current['may_archive_predecessor'] else []}
-
-
 OPERATIONS = {function.__name__: function for function in
-              (task_title, create, creation_result, reconcile, message, match_delivery, archive, verify_archive,
-               rollover_readiness, recover_rollover_archives)}
+              (task_title, create, creation_result, reconcile, message, match_delivery, archive, verify_archive)}
 
 
 def run(request):
@@ -283,6 +199,9 @@ def run(request):
 
 
 def main():
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8', errors='strict')
     try:
         result = run(json.load(sys.stdin))
     except (ValueError, KeyError, TypeError, AttributeError) as error:

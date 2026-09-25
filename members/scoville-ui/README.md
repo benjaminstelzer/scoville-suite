@@ -133,7 +133,7 @@ control interiors, icons, wrapping and clipping. Sampling limits remain explicit
 
 ## Family
 
-- [Code](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop) owns engineering scope, implementation, risk, and validation.
+- [Code](https://github.com/benjaminstelzer/scoville-code) owns engineering scope, implementation, risk, and validation.
 - [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
 - [UI](https://github.com/benjaminstelzer/scoville-ui) owns UI implementation, information structure, accessibility and rendered evidence, with a conditional WordPress adapter.
 - [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
@@ -141,4 +141,3 @@ control interiors, icons, wrapping and clipping. Sampling limits remain explicit
 ## License
 
 MIT. See [LICENSE](LICENSE).
-

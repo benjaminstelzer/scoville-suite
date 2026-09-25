@@ -3,13 +3,8 @@ schema_version = 1
 
 [context]
 # Coordinator: at or above; workers: strictly above. Percent of context window.
-coordinator_percent = 33
-worker_percent = 66
-
-[coordinator]
-model = "gpt-6-sol"
-reasoning = "medium"
-title = "SCW COORD"
+coordinator_percent = 25
+worker_percent = 75
 
 [execute.ultra_low]
 model = "gpt-6-sol"
@@ -50,15 +45,3 @@ reasoning = "high"
 [review.ultra_high]
 model = "gpt-6-astra"
 reasoning = "xhigh"
-
-# Build defaults; each installed Skill owns its independently editable copy.
-# Starting assignments, not a measured capability ranking. Other IDs use medium.
-[prompting]
-profile = "auto"
-
-[prompting.models]
-"gpt-6-luna" = "low"
-"gemini-3.8-flash-high" = "low"
-"gpt-6-astra" = "high"
-"claude-fable-5-1" = "high"
-"claude-opus-5-5" = "high"

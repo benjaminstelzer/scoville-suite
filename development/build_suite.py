@@ -16,6 +16,7 @@ within = _module.within
 load = _module.load
 readme = _module.readme
 payload = _module.payload
+size_report = _module.size_report
 build = _module.build
 render_readmes = _module.render_readmes
 
