@@ -16,6 +16,35 @@ member's `development` metadata in `suite.json`.
 Regenerate previews with `python development/build_suite.py --write-readmes`.
 Use `--check-readmes` to detect stale previews.
 
+### Keep build caches out of synchronized source trees
+
+When the checkout is inside Dropbox or another synchronized directory, keep
+Python bytecode outside the checkout. Preserve an existing
+`PYTHONPYCACHEPREFIX` that already points outside the synchronized tree.
+Otherwise configure a user-level cache and open a new terminal or Codex session
+afterward:
+
+| Platform | User setting |
+| --- | --- |
+| Windows PowerShell | `[Environment]::SetEnvironmentVariable("PYTHONPYCACHEPREFIX", "$env:LOCALAPPDATA\pycache", "User")` |
+| macOS zsh | Add `export PYTHONPYCACHEPREFIX="$HOME/Library/Caches/pycache"` to `~/.zprofile`. |
+| Linux | Add `export PYTHONPYCACHEPREFIX="$HOME/.cache/pycache"` to `~/.profile`. |
+
+Until a new session inherits the setting, invoke repository scripts with
+`python -B`. Confirm the active location with
+`python -c "import sys; print(sys.pycache_prefix)"`.
+
+Before installing or building the Plan Viewer, create and exclude
+`members/scoville-plan/development/viewer/node_modules` and
+`members/scoville-plan/development/viewer/src-tauri/target` from synchronization.
+On Windows, write the `com.dropbox.ignored` alternate data stream with
+`Set-Content -LiteralPath <directory> -Stream com.dropbox.ignored -Value 1`.
+On macOS use `xattr -w com.dropbox.ignored 1 <directory>`; on Linux use
+`attr -s com.dropbox.ignored -V 1 <directory>`. Recheck the attribute after
+`npm ci` and after a Cargo build because either tool may recreate its output
+directory. Keep machine-specific Cargo target paths in local configuration,
+never in versioned files.
+
 Build this exported edition to a new directory outside the repository:
 
 ```text
