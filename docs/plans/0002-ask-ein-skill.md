@@ -133,7 +133,7 @@ Status: done
 Depends on: [W-012]
 Blocked by: []
 Decisions: [ADR-0013]
-Outcome: Es gibt genau einen aktuellen Release-Build unter E:/Dropbox/AI Projects/skills/temp/release; alle erzeugten Skill-Ausgaben im regulären Skill-Ordner entsprechen ihrem aktuellen geprüften Build.
+Outcome: Es gibt genau einen aktuellen Release-Build unter <workspace-root>/skills/temp/release; alle erzeugten Skill-Ausgaben im regulären Skill-Ordner entsprechen ihrem aktuellen geprüften Build.
 Acceptance: Alle Releasepakete und Exporte entstehen im einzigen Stagingbaum skills/temp/release. Neue Kandidaten ersetzen diesen Baum kontrolliert statt weitere release-Datums-/rN-Verzeichnisse anzulegen; laufende Tests dürfen dabei keine Dateien verlieren. Die festen Synchronisationsziele sind skills/public/scoville-suite und skills/public/scoville-suite-for-codex; W-010/W-011 belegen dort den aktuellen vollständig geprüften Build. Nach der Umstellung sind die alten Release- und Korrekturbauten aus dem Skill-Ordner entfernt; Quellen und bestehende Git-Historie bleiben erhalten. Relevante Release-Anweisungen und Tests verwenden den neuen Pfad. Temporäre Testantworten bleiben im vorhandenen Task-Temp; sie sind keine zusätzlichen Release-Builds.
 Steps:
 1. Aktualisiere Build-/Releaseanweisungen und die betroffenen lokalen Stagingaufrufe auf skills/temp/release. Berücksichtige Suite- und Standalone-Artefakte innerhalb desselben Builds; keine Kandidatenverzeichnisse mit fortlaufenden Suffixen.

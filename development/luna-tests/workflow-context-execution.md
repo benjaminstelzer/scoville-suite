@@ -13,9 +13,9 @@ Official CLI option reference: https://developers.openai.com/codex/cli/reference
 (accessed 2026-09-21). Local executable evidence qualifies this exact version.
 
 Pinned inputs:
-- CLI: `C:/Users/benja/AppData/Local/OpenAI/Codex/bin/247581e40ee272fb/codex.exe`;
+- CLI: `<user-home>/AppData/Local/OpenAI/Codex/bin/247581e40ee272fb/codex.exe`;
   SHA256 `bc45017e8239dc150258f69309ced9df6bbcdf5b8e4f346decf780ac0999e226`.
-- Catalog: `E:/Dropbox/AI Projects/temp/2026-09-21-codex-loopback-tool-catalog/bundled-model-catalog.json`;
+- Catalog: `<workspace-root>/temp/2026-09-21-codex-loopback-tool-catalog/bundled-model-catalog.json`;
   SHA256 `0a2bca132452338774a9c243e195095ad0b6400b17b2586306a69e8dcfade5f0`.
 - Runner: `run_codex_cli_case.py`;
   SHA256 `4cb9ea0f660c3bfee33f3d555a7549998e78c89a1e8ec2ddad85038488725519`.
@@ -33,7 +33,7 @@ replace a hash to accept drift. A replay reproduces inputs, not model wording.
 
 ## Repeat
 
-Run from `E:/Dropbox/AI Projects/skills/private/scoville-suite`.
+Run from `<workspace-root>/skills/private/scoville-suite`.
 Replace NEW below with a fresh task-owned temp directory; never reuse output.
 
 1. Run `python -B -m unittest discover -s

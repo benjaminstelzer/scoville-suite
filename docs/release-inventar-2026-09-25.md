@@ -1,6 +1,6 @@
 # Releaseinventar für PLAN-0012
 
-Stand: 2026-09-25. Entwicklungsstand auf HEAD 84b0468347a8e4f4fbec79fc6a4b3de9622e2a83 mit uncommitteten Änderungen. Kein eingefrorener Releasekandidat.
+Stand: 2026-09-25. Maßgeblich sind die aktuellen Build- und Exportreceipts unter `<workspace-root>/skills/temp/release/`. Die folgenden datierten Abschnitte enthalten historische Vorstufen; der letzte W-011-Abschnitt beschreibt die aktuelle Vorbereitung.
 
 ## Aktuelle Quellen und Ziele
 
@@ -9,7 +9,7 @@ Quelle je Mitglied: members/<Paket-ID>. Öffentliches Repository unter benjamins
 | Aktuelle Paket-ID | Ziel-ID | Profile | Veröffentlichungsziel | Quellversion / letzter beobachteter Release |
 | --- | --- | --- | --- | --- |
 | scoville-code | scoville-code | General und Codex | scoville-code durch Umbenennung | v2.0.0 / v1.0.36 |
-| scoville-handoff | unverändert | General und Codex | scoville-handoff | v2.0.17 / v2.0.17 |
+| scoville-handoff | unverändert | General und Codex | scoville-handoff | v2.0.18 / v2.0.17 |
 | scoville-plan | unverändert | General und Codex | scoville-plan | v1.9.0 / v1.7.7 |
 | scoville-ui | unverändert | General und Codex | scoville-ui neu | v2.0.0 / noch kein Ziel |
 | scoville-workflow-for-codex | unverändert | Codex | nur Codex-Suite | v0.6.0 / kein eigener aktueller Release |
@@ -19,7 +19,7 @@ Quelle je Mitglied: members/<Paket-ID>. Öffentliches Repository unter benjamins
 General-Ziel: scoville-suite v2.0.0, öffentlich, letzter Release v1.0.10.
 Codex-Ziel: scoville-suite-for-codex v2.0.0, noch nicht in der Live-Repositoryliste.
 Die member.repository-Angaben von Workflow und Setup nennen scoville-suite. Der geprüfte Codex-Receipt löst beide profilabhängig auf benjaminstelzer/scoville-suite-for-codex auf.
-Plan Viewer v1.3.3 gehört als neuer Build zu den Releases von Scoville Plan und beiden Suites. Die kleinsten wahrheitsgemäßen SemVer-Schritte sind Major für Suite, Code und UI wegen geänderter Paket- und Installationsverträge, Minor für Plan und den noch vor Version 1 liegenden Workflow sowie v1.0.0 für den erstmals zusammengeführten Ask-Skill. Handoff bleibt unverändert. Gleiche Versionsnummern beweisen keine unveränderten Paketbytes.
+Plan Viewer v1.3.3 gehört als neuer Build zu den Releases von Scoville Plan und beiden Suites. Die kleinsten wahrheitsgemäßen SemVer-Schritte sind Major für Suite, Code und UI wegen geänderter Paket- und Installationsverträge, Minor für Plan und den noch vor Version 1 liegenden Workflow sowie v1.0.0 für den erstmals zusammengeführten Ask-Skill. Handoff erhält v2.0.18 für die geänderten Übergabe- und Profilverträge. Der bestehende Tag v2.0.17 bleibt unverändert.
 
 Der kurze Migrationsauftrag installiert danach direkt aus dem jeweiligen GitHub-Repository. General verwendet https://github.com/benjaminstelzer/scoville-suite, Codex verwendet https://github.com/benjaminstelzer/scoville-suite-for-codex. Die vollständige URL steht im kopierbaren Auftrag, nicht nur in Begleittext oder einem lokalen Buildpfad.
 
@@ -29,15 +29,13 @@ Der kurze Migrationsauftrag installiert danach direkt aus dem jeweiligen GitHub-
 | --- | --- | --- |
 | scoville-ui-anti-ai-slop | scoville-ui gemäß ADR-0040 | v1.2.9 |
 | scoville-wordpress-ui-backend-anti-ai-slop | scoville-ui gemäß ADR-0040 | v1.3.0 |
-| fünf Ask-Varianten | scoville-ask-for-codex | ask-suite-for-codex v1.0.3 |
 | scoville-workflow-codex | scoville-workflow-for-codex in Codex-Suite | v0.3.6; Repository bereits privat |
 | scoville-brainstorm | ersatzlos ausmustern; beim Release privat gemäß ADR-0070 | v1.1.14 |
 | scoville-research | ersatzlos ausmustern; beim Release privat gemäß ADR-0070 | v1.1.12 |
 | scoville-design-anti-ai-slop | ersatzlos ausmustern; beim Release privat gemäß ADR-0070 | v1.2.10 |
 | scoville-scribe-anti-ai-slop | ersatzlos ausmustern; beim Release privat gemäß ADR-0070 | v1.0.34 |
 
-Die fünf Ask-IDs sind ask-astra-for-review-for-codex, ask-sol-for-review-for-codex, ask-claude-for-codex, ask-claude-and-astra-for-codex und ask-claude-and-sol-for-codex.
-Live-GitHub bestätigt weiterhin zehn alte Scoville-Pakete sowie diese fünf Ask-Pakete. Die vier ausgemusterten Mitglieder sind noch öffentlich und im aktuellen lokalen Manifest nicht vorhanden. ADR-0070 bestätigt ihre ersatzlose Stilllegung und die spätere Umstellung auf privat.
+Die vier ausgemusterten Mitglieder sind noch öffentlich und im aktuellen lokalen Manifest nicht vorhanden. ADR-0070 bestätigt ihre ersatzlose Stilllegung und die spätere Umstellung auf privat.
 
 ## Private Quellen
 
@@ -53,19 +51,19 @@ Die frühere Annahme von drei existierenden Git-Repositories ist falsch. W-004 m
 
 ## Installationen und lokale Ausgaben
 
-- C:/Users/benja/.codex/skills enthält die fünf Ask-Varianten, Code, Handoff, Plan, beide alten UI-Varianten, Workflow und die drei Benjamin-Skills.
-- C:/Users/benja/.claude/skills enthält Code, Handoff, Plan, beide alten UI-Varianten sowie Benjamin GitHub und Imitate Me.
-- C:/Users/benja/.agents/skills fehlt. Neue UI-, Ask- und Setup-Pakete sind in den beiden geprüften Installationswurzeln noch nicht installiert.
+- <codex-home>/skills enthält die fünf Ask-Varianten, Code, Handoff, Plan, beide alten UI-Varianten, Workflow und die drei Benjamin-Skills.
+- <claude-home>/skills enthält Code, Handoff, Plan, beide alten UI-Varianten sowie Benjamin GitHub und Imitate Me.
+- <agents-home>/skills fehlt. Neue UI-, Ask- und Setup-Pakete sind in den beiden geprüften Installationswurzeln noch nicht installiert.
 - packages/ enthält alle sieben aktuellen Manifestmitglieder. Deren bloße Existenz ist kein finaler Buildbeleg.
-- skills/public/ enthält noch die fünf alten Ask-Einzelrepositoryverzeichnisse.
+- skills/public/ enthält genau die zwei festen Suite-Ausgabeziele scoville-suite und scoville-suite-for-codex.
 - Feste Suite-Ausgabeziele gemäß PLAN-0002/W-006: skills/public/scoville-suite und skills/public/scoville-suite-for-codex. Die aktuellen Exporte enthalten 547 und 705 receipt-geprüfte Dateien.
 - Reguläres Staging unter skills/temp/release/general und codex hat Receipts und Suite-Verzeichnisse. standalone enthält noch die beiden alten UI-Pakete.
 - Testbauten bleiben getrennt von finalen Ausgaben. PLAN-0011 verwendet plan-0011-review-fixes sowie plan-0011-w025-final. Nicht während laufender Leser überschreiben oder pauschal löschen.
 
 ## Nachweise und Veröffentlichungssperren
 
-- PLAN-0011/W-001: Der Benutzer-Cache zeigt auf `%LOCALAPPDATA%\pycache` und die Viewer-Ausgaben tragen das Dropbox-Ignore-Attribut. Die Löschung der sieben benannten Cacheordner bleibt durch HOST-POLICY blockiert; eine neue Codex-Sitzung muss die geerbte Variable noch bestätigen.
-- PLAN-0011/W-002: GitHub-Lauf 36178096054 bestand die Matrix auf Windows, macOS und Ubuntu mit Python 3.11 und der aktuellen 3.x-Version.
+- PLAN-0011/W-001: Der Nutzer hat die Cachebereinigung als Releaseblocker gestrichen und den Punkt abgebrochen. Der Benutzer-Cache zeigt auf `%LOCALAPPDATA%\pycache` und die Viewer-Ausgaben tragen das Dropbox-Ignore-Attribut.
+- PLAN-0011/W-002: GitHub-Lauf 36179075576 auf Commit `3946a41` bestand die Matrix auf Windows, macOS und Ubuntu mit Python 3.11 und der aktuellen 3.x-Version. W-002 und PLAN-0011 sind abgeschlossen.
 - PLAN-0011/W-026 belegt native Workflow-Abnahme mit den im Prüfbericht genannten Grenzen. W-025 belegt Plan-Vergleiche und fokussierte Prüfungen. Kein Beleg allgemeiner Kosten- oder Laufzeitersparnis.
 - Frühere UI- und Ask-Nachweise bleiben historische Evidenz. Ihre Anwendbarkeit auf den finalen Kandidaten wird anhand betroffener Quellen geprüft; neue Paketnamen und Projektionen benötigen neue Build- und Migrationstests.
 - Keine alten Viewer-Binaries als neue Artefakte ausgeben. W-008 besitzt Neubau und Zuordnung.
@@ -181,3 +179,84 @@ Nach LF-Normalisierung der kanonischen Textquellen bestehen 26 Suite-, 53 Shared
 Die vier finalen Kandidaten wurden aus dem sauberen Commit `19a91cb17440a02dbfeb07049c5487db750794bb` neu gebaut. Alle Receipts melden `source_dirty: false`; Paket- und Helperprüfungen bestehen für General Suite, Codex Suite, General Standalone und Codex Standalone. Die vollständigen Exporte nach `skills/public/scoville-suite` und `skills/public/scoville-suite-for-codex` stimmen mit ihren Inventaren und SHA-256-Werten überein. Beide Exporte bestehen ihre Quellen- und README-Projektionsprüfung. Der portable Windows-Viewer meldet Datei- und Produktversion 1.3.3 und blieb im lokalen Starttest vier Sekunden aktiv. Für Linux und macOS ist der erfolgreiche native Build belegt; ein lokaler Start auf Windows wird nicht als Laufzeittest dieser Plattformen ausgegeben.
 
 Der noch nicht gestartete W-010-Prüfschritt wurde an die ausdrückliche Nutzerkorrektur angepasst: Die persönlichen Einstellungen der entfernten Altinstallationen müssen ebenfalls entfernt sein. Kein Konfigurationserhalt und keine Sicherung als Abnahmebedingung.
+
+
+## W-011: PLAN-0013 in der Releasevorbereitung
+
+Der Nutzer hat die Übernahme von PLAN-0013 und eine frische Astra-Medium-Prüfung
+bestätigt. PLAN-0012 ist wieder aktiv; W-011 bleibt bis zur vollständigen Prüfung
+in_progress. Keine Veröffentlichung oder neue Viewer-Ausführung.
+
+Vorbereitete Builds unter `<workspace-root>/skills/temp/release/precommit/`:
+General/Suite und General/Standalone je 4 Pakete mit 60 Dateien einschließlich
+Receipt, Codex/Suite 7 Pakete mit 108 Dateien und Codex/Standalone 1 Paket mit
+20 Dateien. Paket-, Helper-, Inventar- und Hashprüfungen bestehen. Alle sieben
+`packages/`-Kopien entsprechen ihrer General- beziehungsweise Codex-Projektion.
+Die Receipts melden noch `source_dirty:true`; das sind keine finalen Exporte.
+
+74 Plan-Tests und 55 Shared-Tests bestehen unter Python 3.14.3. Der Suite-Lauf
+besteht 28 von 29 Tests; der Pfadtest liest eine gelöschte Datei aus dem noch
+alten Git-Index. Nach dem Commit ist dieser Test erneut auszuführen. Die separate
+Prüfung des aktuellen Dateibaums einschließlich neuer Dateien untersucht 705
+UTF-8-Dateien ohne persönlichen Rechnerpfad. Quellen- und README-Prüfung bestehen.
+Alle elf vorhandenen Viewer-Artefakte stimmen mit dem bisherigen SHA256SUMS.txt
+überein; Viewer-Quellen und Buildworkflow sind gegenüber HEAD unverändert.
+
+Vor Astra: lokalen Quellencommit autorisieren, vier Kandidaten daraus neu bauen,
+kanonische Exporte und Public-Ausgaben aktualisieren und sämtliche Receipts
+prüfen. Die bisherigen Bäume unter `general`, `codex`, `standalone`, `exports`
+und den Public-Zielen bleiben bis dahin auf dem vorherigen Stand. W-009 bleibt
+von erfolgreichem W-011 und gesondert geprüfter Veröffentlichungsautorität abhängig.
+
+
+## W-011: Finaler Neubau und reale Installation
+
+Der Nutzer hat lokale Commits und die Fortsetzung bis zum Release bestätigt.
+Die Kandidaten aus c16a89c bestehen alle vier Paket-, Helper- und Receiptprüfungen
+mit source_dirty false. General- und Codex-Export enthalten 548 beziehungsweise
+706 Dateien; die Public-Ziele stimmen exakt mit ihren Exportreceipts überein.
+Isolierte Quellen- und README-Prüfungen beider Exporte bestehen. Nach dem Commit
+bestehen alle 29 Suite-Tests; der vorherige Indexfehler ist damit geschlossen.
+
+W-016 hat die reale Installation vorgezogen. Nach der vom Nutzer vorgenommenen
+Deinstallation waren die alten Zielverzeichnisse abwesend. Codex enthält alle
+sieben aktuellen Suite-Skills, Claude die vier General-Skills; ihre Dateien
+stimmen bytegenau mit den geprüften Public-Paketen überein. 107 fremde Codex-
+und 27 fremde Claude-Dateien blieben unverändert. Kein Workflow wurde gestartet.
+
+Der folgende Neubau übernimmt ausschließlich diese aktualisierten Plan- und
+Inventarunterlagen. Die installierten Paketbytes bleiben unverändert. W-011
+verlangt weiterhin die frische Astra-Medium-Prüfung vor GitHub-Mutationen.
+
+
+## W-011: Astra-Befunde und Korrektur
+
+Frische Prüfung durch Task `01a0da87-3b50-7d13-862a-18aa35776db3`, Referenz
+`plan0012-w011-32cbaab-20260925:astra`, angefragt gpt-6-astra/medium.
+Tatsächliche Modell-/Effort-Telemetrie ist unbekannt. Vollständiger Bericht unter
+`<workspace-root>/temp/2026-09-25-plan-0012-release/astra-review.md`.
+
+Astra bestätigt vollständige Inventar-/Hashgleichheit aller Kandidaten, Exporte,
+Public-Ziele und Paketkopien sowie Viewer-Provenienz und Checksummen. Keine neue
+Plan-Regression gefunden. Zwei Befunde: widersprüchliche Workflow-Freigabe und
+geändertes Handoff trotz bisheriger Einstufung als unverändert v2.0.17.
+
+ADR-0079 hält die ausdrückliche öffentliche Freigabe nur in der Codex-Suite fest.
+Beide AGENTS.md-Regeln sind abgeglichen. Handoff erhält v2.0.18 mit einem neuen
+Changelog-Eintrag; die veröffentlichte historische v2.0.14-Zeile ist wiederhergestellt.
+Die früheren Angaben unverändert v2.0.17 bleiben historische Fehlbewertungen.
+Korrigierte Projektionen und erneute Astra-Abnahme stehen noch aus.
+
+
+## W-009: Verbindliche Ausnahmen und Live-Preflight
+
+ADR-0080 dokumentiert den Nutzerverzicht auf eine zweite Astra-Prüfung der lokal
+korrigierten Befunde. ADR-0081 nimmt nur diesen Release vom vollständigen
+45-Fall-Luna-Gate aus. Weder zweite Astra-Abnahme noch vollständiger Luna-Pass
+werden behauptet. Die übrigen Releaseprüfungen bleiben erforderlich.
+
+Live-Preflight: bestehende öffentliche Zielbranches main sind ungeschützt;
+Code-Zielname und die neuen UI-, Ask- und Codex-Suite-Namen sind frei. Private
+Benjamin-Ziele bleiben privat. GitHub meldet für deren Rules-Endpunkt eine
+Kontotarifgrenze; Branchmetadaten melden protected false. Releases und Tags
+wurden mit vollständigen Beschreibungen und Assetinventaren vor Mutation erfasst.

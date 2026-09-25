@@ -50,18 +50,17 @@ This projection does not replace every read operation. Inventory Decision
 frontmatter and load relevant proposals separately, or all for a full audit. Read relevant dependency
 Evidence, bounded graph state, queued or paused return state, and complete
 relevant Work Items separately when the operation requires them. Keep those
-reads bounded and never widen the selector response. {{ profile: general }}If Python 3 is unavailable,
+reads bounded and never widen the selector response. If Python 3 is unavailable,
 load [select-context-without-python.md](select-context-without-python.md) only
 for current-or-named recovery or manual unit selection; do not install a runtime. If Python is available but
-the helper fails, report its diagnostic and do not invent partial context.{{ /profile }}{{ profile: codex }}If Python or the selector is unavailable or fails, report its diagnostic
-and stop the selection. Do not invent partial context.{{ /profile }}
+the helper fails, report its diagnostic and do not invent partial context.
 
 ## Read state outside the selector
 
 Use direct reads for Plan or Decision listings, proposal inventory, relevant
 dependency Evidence, and graph inspection. These operations complement the
 selector; they never replace current-or-named Work Item or dispatch-unit
-{{ profile: general }}selection when Python is available.{{ /profile }}{{ profile: codex }}selection.{{ /profile }}
+selection when Python is available.
 
 For a Plan or Decision listing, read only frontmatter and the H1 title unless
 the request asks for record content. Read other Work Items only for the

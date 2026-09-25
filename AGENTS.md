@@ -26,6 +26,9 @@ Use ` - ` for interruptions, never an en dash or em dash. Do not use semicolons
 to separate prose clauses or sentences.
 Preserve factual claims, technical requirements, and release history. When
 available, use `benjaminstelzer-imitate-me` for the wording pass.
+Keep user-facing text portable. Use repository-relative paths or placeholders;
+never include a user name, drive letter, local checkout or session path, or a
+host-specific observation. Keep machine-specific evidence in internal records.
 Each member's `description_fragments` owns its complete description block. The suite
 uses `suite.descriptions` and manifest `featured_member` to place Workflow first.
 Keep those fragments self-contained with absolute links and no include tags.
@@ -48,8 +51,9 @@ Build release packages with `python development/build_suite.py` under the sole
 finish; changed inventory requires reconciliation first. Synchronize verified
 outputs to regular Skill directories, removing obsolete generated files while
 preserving sources and Git history. Build output is not publication authority.
-Scoville Workflow is authorized for suite-only Beta publication by ADR-0009.
-It remains Codex-only. Publication still requires the release gates.
+Scoville Workflow is approved for public distribution only within
+`scoville-suite-for-codex` under ADR-0079. It remains Codex-only.
+Publication still requires the release gates.
 
 Shared build tools and runtime-helper sources are maintained in the sibling
 `../shared/` directory. Both suites consume that source during builds and bundle

@@ -1,5 +1,5 @@
 {
-  "build/build_suite.py": "0e0b1f7b7f5d2dccc6e98e6619f3de0c8ef16264de015b1e475130c48fc7e753",
+  "build/build_suite.py": "914311ce5cdcabfdc48e7032eb58c8283ae373dc7a0c83282ce7a141e0ceda32",
   "build/export_suite.py": "dc695433a4a80ed669f4e2505d007efa6427af8ea22a4b68ecdb212d60c9d9f5",
   "build/fragments.md": "e842ce33af9bd8227b8033bcf2cf1460e067996febc2d7acf574c38f2c57b4a6",
   "build/sync_suite_sources.py": "66b9297d302cc79199b8b3a5a088c6f42e8aadcd61cc07a9cf6a4cd786ab00bf",
@@ -44,7 +44,7 @@
   "tests/test_path_safety.py": "8888708c5e6bf275fb731603b061dc6b244e31c6d17372d2b1382488f0aa2e21",
   "tests/test_portable_sources.py": "71613f91126298b7f66757a2597b38c3b62b84e1a992b5313eb7baccc16889ec",
   "tests/test_prompt_profile.py": "9adf4168f065c13ad78b6cb8ce96100a1fe918b3eefd30b8da606221de1e641e",
-  "tests/test_readme_templates.py": "9c9ad8054354a1b0d6e9cefb8dc8af4cbbf10bcd46cf0e253af4f3f5fb27799e",
+  "tests/test_readme_templates.py": "0e17929ca9ef79b8891ae5a0d5bdacac667e5e13b434600238c7049a6a583f91",
   "tests/test_suite_export.py": "7ec250d82b329748b55ff87395bfcb0733138fe47d7fd4948442f496c0205d4d",
   "tests/test_task_lifecycle.py": "d690b9816917ec822b4f705932b1b532a631452fe3de9957fc0c9211cb1f1405",
   "tests/test_task_titles.py": "6903d0f9a7df9b6d530d16f9c837efd1f2e225778767d690ea79a69cec88d388"

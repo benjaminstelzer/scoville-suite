@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0.18 - 2026-09-25
+
+- Keep the continuation prompt copyable in one outer Markdown fence, with any nested fences safely contained.
+- Preserve the actual task working directory and inspect version control only when the project uses it.
+- Apply the complete-suite ownership contract in suite installations while keeping standalone Handoff independently usable.
+
 ## v2.0.17 - 2026-09-22
 
 - Recover permitted missing source ranges before rendering a handoff instead
@@ -27,6 +33,8 @@
 
 - Copy the continuation record from a packaged template instead of embedding a
   nested fenced template in the core instructions.
+- State the complete eight-Skill ownership boundary in suite order while
+  keeping every sibling optional and independently activated.
 
 ## v2.0.8 - 2026-09-05
 

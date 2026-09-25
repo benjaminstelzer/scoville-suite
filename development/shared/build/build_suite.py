@@ -332,6 +332,12 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                 # Descriptions stay self-contained so moving them cannot break relative links.
                 if '{{ include:' in description or re.search(r'\]\((?!https?://)[^)]+\)', description):
                     raise ValueError(f'description must use absolute links and no includes: {item["name"]}')
+                title = heading[2:]
+                full_readme = readme(root, item, 'suite', config).decode()
+                if '\n## How to use\n' not in full_readme:
+                    raise ValueError(f'missing How to use section: {item["name"]}')
+                description += (f'\n\n[How to use {title}]'
+                                f'(members/{item["name"]}/README.md#how-to-use).')
                 lines = []
                 fenced = False
                 for line in description.splitlines():

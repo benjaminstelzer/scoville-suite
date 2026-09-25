@@ -12,17 +12,16 @@ spec.loader.exec_module(builder)
 
 
 class ReadmeTemplateTests(unittest.TestCase):
-    def test_workflow_beta_notice_can_be_removed_without_runtime_changes(self):
+    def test_workflow_current_readmes_have_no_beta_notice(self):
         root = SHARED.parent / 'scoville-suite'
         config = builder.load(root, 'codex')
         member = next(m for m in config['members'] if m['name'] == 'scoville-workflow-for-codex')
-        beta = builder.payload(root, member, config)
-        stable = dict(member, variables=dict(member['variables'], release_notice=''))
-        candidate = builder.payload(root, stable, config)
-        self.assertIn(b'**Beta.**', beta['README.md'])
-        self.assertNotIn(b'**Beta.**', candidate['README.md'])
-        self.assertEqual({p: b for p, b in beta.items() if p != 'README.md'},
-                         {p: b for p, b in candidate.items() if p != 'README.md'})
+        self.assertNotIn('release_notice', member.get('variables', {}))
+        self.assertNotIn(b'**Beta.**', builder.payload(root, member, config)['README.md'])
+        with tempfile.TemporaryDirectory() as temporary:
+            builder.render_readmes(root, True, config, Path(temporary))
+            suite_readme = (Path(temporary) / 'README.md').read_text(encoding='utf-8')
+        self.assertNotIn('Workflow beta', suite_readme)
 
     def test_development_blocks_are_suite_only_for_every_member(self):
         for profile in ('general', 'codex'):
@@ -99,11 +98,14 @@ class ReadmeTemplateTests(unittest.TestCase):
 
     def test_suite_descriptions_reuse_member_sources_and_feature_workflow(self):
         root = SHARED.parent / 'scoville-suite'
-        result = builder.expand_fragments(root, '{{ include: suite.descriptions }}', config=builder.load(root, 'codex'))
+        config = builder.load(root, 'codex')
+        result = builder.expand_fragments(root, '{{ include: suite.descriptions }}', config=config)
         self.assertTrue(result.startswith('## Scoville Workflow for Codex\n'))
-        for member in builder.load(root)['members']:
+        self.assertEqual(len(config['members']), result.count('](members/') )
+        for member in config['members']:
             source = builder.readme_source(root, member['readme'][0]).read_text(encoding='utf-8').strip()
             self.assertIn(builder.expand_variables(source.partition('\n')[2], member), result)
+            self.assertIn(f'](members/{member["name"]}/README.md#how-to-use).', result)
         self.assertIn('Workflow is suite-only', result)
         self.assertIn('requires Codex desktop', result)
         expected = sorted(builder.load(root)['members'], key=lambda m: m['family']['order'])
@@ -122,9 +124,9 @@ class ReadmeTemplateTests(unittest.TestCase):
             config = {'schema_version': 1, 'name': 'test-suite', 'members': [member]}
             (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
             source = root / 'intro.md'
-            source.write_text('# New Skill\n\nOriginal description.\n', encoding='utf-8')
+            source.write_text('# New Skill\n\nOriginal description.\n\n## How to use\n\nInvoke it.\n', encoding='utf-8')
             for body in ('Original description.', 'Updated description.'):
-                source.write_text('# New Skill\n\n' + body + '\n', encoding='utf-8')
+                source.write_text('# New Skill\n\n' + body + '\n\n## How to use\n\nInvoke it.\n', encoding='utf-8')
                 self.assertIn(body, builder.readme(root, member).decode())
                 self.assertIn(body, builder.expand_fragments(root, '{{ include: suite.descriptions }}'))
             source.unlink()

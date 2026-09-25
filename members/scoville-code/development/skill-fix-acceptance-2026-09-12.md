@@ -8,7 +8,7 @@ Paired fresh independent tool-capable agents used identical isolated fixtures an
 
 Both agents correctly changed only retry_count from 2 to 3, preserved mode, recovered the verification rule at line 450 and returned the requested trace result. Neither searched browser contents. The baseline reread the full remaining notes and raw trace, generating a 45,700-token original tool result truncated to its 7,000-token output budget. The candidate projected only the trace result and bounded its initial missing-range read (746 original output tokens), then located the rule with a targeted search (30). Both used five outer tool calls. This single pair supports improved output handling in the fixture, not a general percentage saving or reduced account quota.
 
-Original baseline task: `01a094f2-e25e-7a41-ae50-aca0d7ecd458`, original JSONL lines 26–39. Candidate: `01a094f3-0ba7-7cf2-b660-72c0b1ae7333`, lines 26–39. Both transcripts are under `C:/Users/benja/.codex/sessions/2026/09/12/`, with filenames ending in those IDs. No real compaction or implicit native Skill discovery was exercised. Fixture source readback and trace projection passed; no external service or build applies.
+Original baseline task: `01a094f2-e25e-7a41-ae50-aca0d7ecd458`, original JSONL lines 26–39. Candidate: `01a094f3-0ba7-7cf2-b660-72c0b1ae7333`, lines 26–39. Both transcripts are under `<codex-home>/sessions/2026/09/12/`, with filenames ending in those IDs. No real compaction or implicit native Skill discovery was exercised. Fixture source readback and trace projection passed; no external service or build applies.
 
 ## WordPress and UI: scheduling and owner control
 
@@ -48,7 +48,7 @@ The existing Plan suite passed 50/50 after edits. The three Skill Creator valida
 
 ## Local activation
 
-Required fixture traces were inspected before activation; W-001 through W-003 were complete. All five source files matched tested candidate content after excluding only the documented fixture-only reference amendment. Existing installed targets matched the original baseline before overwrite; each target and source was checked again immediately before its write. The five changed files were copied to both existing C:/Users/benja/.codex/skills and C:/Users/benja/.claude/skills packages. All ten installed readbacks matched source bytes. Other files and personal configuration were preserved. Nothing was committed or published.
+Required fixture traces were inspected before activation; W-001 through W-003 were complete. All five source files matched tested candidate content after excluding only the documented fixture-only reference amendment. Existing installed targets matched the original baseline before overwrite; each target and source was checked again immediately before its write. The five changed files were copied to both existing <codex-home>/skills and <claude-home>/skills packages. All ten installed readbacks matched source bytes. Other files and personal configuration were preserved. Nothing was committed or published.
 
 | Source within package | Installed SHA-256 in both hosts |
 | --- | --- |

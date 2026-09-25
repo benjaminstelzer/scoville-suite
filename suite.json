@@ -1,7 +1,6 @@
 {
   "schema_version": 1,
   "name": "scoville-suite",
-  "featured_member": "scoville-workflow-for-codex",
   "members": [
     {
       "name": "scoville-code",
@@ -10,7 +9,7 @@
         "tests": "members/scoville-code/development/tests",
         "notes": "members/scoville-code/development/README.md"
       },
-      "repository": "benjaminstelzer/scoville-code",
+      "repository": "benjaminstelzer/scoville-suite",
       "visibility": "public",
       "public_distribution": true,
       "import_commit": "6c8ade8889bb0eee12fb51ba46a6abc1b4ee9dac",
@@ -79,18 +78,21 @@
         "label": "Code",
         "owner": "engineering scope, implementation, risk, and validation.",
         "summary": "owns engineering scope, implementation, risk, and validation.",
-        "order": 0
+        "order": 0,
+        "neighbors": []
       },
       "variables": {
         "skill_name": "scoville-code",
-        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
+        "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md"
       },
       "description_fragments": [
         "development/readme/scoville-code/description.md",
         "development/readme/scoville-code/mechanism.md",
         "development/readme/scoville-code/requirements.md",
         "development/readme/scoville-code/costs.md"
-      ]
+      ],
+      "distribution": "suite"
     },
     {
       "name": "scoville-handoff",
@@ -99,7 +101,7 @@
         "tests": "members/scoville-handoff/development/tests",
         "notes": "members/scoville-handoff/development/README.md"
       },
-      "repository": "benjaminstelzer/scoville-handoff",
+      "repository": "benjaminstelzer/scoville-suite",
       "visibility": "public",
       "public_distribution": true,
       "import_commit": "1e365c1566565cc6399b891e04b11c75c1dc10bb",
@@ -156,18 +158,21 @@
         "label": "Handoff",
         "owner": "active-work transfer.",
         "summary": "transfers active work to another agent or session.",
-        "order": 6
+        "order": 6,
+        "neighbors": []
       },
       "variables": {
         "skill_name": "scoville-handoff",
-        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
+        "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md"
       },
       "description_fragments": [
         "development/readme/scoville-handoff/description.md",
         "development/readme/scoville-handoff/mechanism.md",
         "development/readme/scoville-handoff/requirements.md",
         "development/readme/scoville-handoff/costs.md"
-      ]
+      ],
+      "distribution": "suite"
     },
     {
       "name": "scoville-plan",
@@ -176,7 +181,7 @@
         "tests": "members/scoville-plan/development/tests",
         "notes": "members/scoville-plan/development/README.md"
       },
-      "repository": "benjaminstelzer/scoville-plan",
+      "repository": "benjaminstelzer/scoville-suite",
       "visibility": "public",
       "public_distribution": true,
       "import_commit": "629ec7a5a3e3af0637ecefbc82048ec8e93df4aa",
@@ -209,43 +214,20 @@
           "target": "scoville-plan/LICENSE"
         },
         {
-          "source": "members/scoville-plan/scoville-plan/references/native-decision-batches.md",
-          "target": "scoville-plan/references/native-decision-batches.md"
-        },
-        {
           "source": "members/scoville-plan/scoville-plan/references/native-decision-format.md",
           "target": "scoville-plan/references/native-decision-format.md"
-        },
-        {
-          "source": "members/scoville-plan/scoville-plan/references/native-editing.md",
-          "target": "scoville-plan/references/native-editing.md"
-        },
-        {
-          "source": "members/scoville-plan/scoville-plan/references/native-plan-format.md",
-          "target": "scoville-plan/references/native-plan-format.md"
         },
         {
           "source": "members/scoville-plan/scoville-plan/references/native-project-lifecycle.md",
           "target": "scoville-plan/references/native-project-lifecycle.md"
         },
         {
-          "source": "members/scoville-plan/scoville-plan/references/native-work-items.md",
-          "target": "scoville-plan/references/native-work-items.md"
-        },
-        {
           "source": "members/scoville-plan/scoville-plan/references/planning-granularity.md",
           "target": "scoville-plan/references/planning-granularity.md"
         },
         {
-          "source": "members/scoville-plan/scoville-plan/references/profile-validation.md",
-          "target": "scoville-plan/references/profile-validation.md"
-        },
-        {
           "source": "members/scoville-plan/scoville-plan/references/profile-without-python.md",
-          "target": "scoville-plan/references/profile-without-python.md",
-          "profiles": [
-            "general"
-          ]
+          "target": "scoville-plan/references/profile-without-python.md"
         },
         {
           "source": "members/scoville-plan/scoville-plan/references/read-only.md",
@@ -253,10 +235,7 @@
         },
         {
           "source": "members/scoville-plan/scoville-plan/references/select-context-without-python.md",
-          "target": "scoville-plan/references/select-context-without-python.md",
-          "profiles": [
-            "general"
-          ]
+          "target": "scoville-plan/references/select-context-without-python.md"
         },
         {
           "source": "members/scoville-plan/scoville-plan/scripts/select_context.py",
@@ -281,6 +260,10 @@
         {
           "source": "members/scoville-plan/.gitattributes",
           "target": ".gitattributes"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/edit.md",
+          "target": "scoville-plan/references/edit.md"
         }
       ],
       "family": {
@@ -295,18 +278,14 @@
           {
             "member": "scoville-handoff",
             "description": "active-work transfer snapshots."
-          },
-          {
-            "member": "scoville-workflow-for-codex",
-            "description": "dispatch of accepted Steps when explicitly active.",
-            "optional": true
           }
         ],
         "order": 1
       },
       "variables": {
         "skill_name": "scoville-plan",
-        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
+        "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md"
       },
       "description_fragments": [
         "development/readme/scoville-plan/description.md",
@@ -314,7 +293,8 @@
         "development/readme/scoville-plan/requirements.md",
         "development/readme/scoville-plan/costs.md"
       ],
-      "shared_helpers": []
+      "shared_helpers": [],
+      "distribution": "suite"
     },
     {
       "name": "scoville-ui",
@@ -323,7 +303,7 @@
         "tests": "development/tests/test_build_suite.py",
         "notes": "members/scoville-ui/development/README.md"
       },
-      "repository": "benjaminstelzer/scoville-ui",
+      "repository": "benjaminstelzer/scoville-suite",
       "visibility": "public",
       "public_distribution": true,
       "import_commit": "52eaa9e04c408fb5934d2f296d2892bd345ecf85",
@@ -454,366 +434,16 @@
       },
       "variables": {
         "skill_name": "scoville-ui",
-        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
+        "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md"
       },
       "description_fragments": [
         "development/readme/scoville-ui/description.md",
         "development/readme/scoville-ui/mechanism.md",
         "development/readme/scoville-ui/requirements.md",
         "development/readme/scoville-ui/costs.md"
-      ]
-    },
-    {
-      "name": "scoville-workflow-for-codex",
-      "variables": {
-        "release_notice": "**Beta.** Available for real-project testing. Host-level behavior remains under qualification."
-      },
-      "development": {
-        "source": "members/scoville-workflow-for-codex",
-        "tests": "members/scoville-workflow-for-codex/development/tests",
-        "notes": "members/scoville-workflow-for-codex/development/README.md"
-      },
-      "shared_helpers": [
-        {
-          "source": "runtime/task_lifecycle.py",
-          "target": "scoville-workflow-for-codex/scripts/task_lifecycle.py"
-        },
-        {
-          "source": "runtime/task_lifecycle.md",
-          "target": "scoville-workflow-for-codex/scripts/task_lifecycle.md"
-        },
-        {
-          "source": "runtime/scoville_config.py",
-          "target": "scoville-workflow-for-codex/scripts/scoville_config.py"
-        }
       ],
-      "repository": "benjaminstelzer/scoville-suite",
-      "distribution": "suite",
-      "history_repository": "benjaminstelzer/scoville-workflow-codex",
-      "visibility": "public",
-      "public_distribution": true,
-      "import_commit": "c232a71217a73f7f655ffab8ebae27e1f8968946",
-      "readme": [
-        "development/readme/scoville-workflow-codex/description.md",
-        "development/readme/scoville-workflow-codex/mechanism.md",
-        "development/readme/scoville-workflow-codex/requirements.md",
-        "development/readme/scoville-workflow-codex/costs.md",
-        "development/readme/scoville-workflow-codex/development.md",
-        {
-          "source": "shared:member-development-inline.md",
-          "audience": "suite"
-        },
-        "development/readme/scoville-workflow-codex/compatibility-3248926e0f8a0db5.md",
-        "shared:skill-installation-contract.md",
-        "development/readme/scoville-workflow-codex/install-94174f7bf19c6c42.md",
-        "shared:scoville-suite-install.md",
-        "development/readme/scoville-workflow-codex/usage.md",
-        "development/readme/scoville-workflow-codex/sources.md",
-        "shared:family.md",
-        "shared:license.md"
-      ],
-      "files": [
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/agents/openai.yaml",
-          "target": "scoville-workflow-for-codex/agents/openai.yaml"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/assets/workflow.toml",
-          "target": "scoville-workflow-for-codex/assets/workflow.toml"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/LICENSE",
-          "target": "scoville-workflow-for-codex/LICENSE"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/agents-setup.md",
-          "target": "scoville-workflow-for-codex/references/agents-setup.md"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md",
-          "target": "scoville-workflow-for-codex/references/operations.md"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/build_dispatch_prompt.py",
-          "target": "scoville-workflow-for-codex/scripts/build_dispatch_prompt.py"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/check_context_checkpoint.py",
-          "target": "scoville-workflow-for-codex/scripts/check_context_checkpoint.py"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/inspect_native_context.py",
-          "target": "scoville-workflow-for-codex/scripts/inspect_native_context.py"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/parse_role_result.py",
-          "target": "scoville-workflow-for-codex/scripts/parse_role_result.py"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/resolve_model_pair.py",
-          "target": "scoville-workflow-for-codex/scripts/resolve_model_pair.py"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/SKILL.md",
-          "target": "scoville-workflow-for-codex/SKILL.md"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/LICENSE",
-          "target": "LICENSE"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/CHANGELOG.md",
-          "target": "CHANGELOG.md"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/.gitattributes",
-          "target": ".gitattributes"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-dispatch.md",
-          "target": "scoville-workflow-for-codex/references/operations-dispatch.md"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-rollover.md",
-          "target": "scoville-workflow-for-codex/references/operations-rollover.md"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/workflow_settings.py",
-          "target": "scoville-workflow-for-codex/scripts/workflow_settings.py"
-        }
-      ],
-      "family": {
-        "label": "Workflow Codex",
-        "owner": "explicit Plan execution through native Codex project tasks.",
-        "summary": "coordinates explicit Plan execution through native Codex project tasks.",
-        "order": 9
-      },
-      "description_fragments": [
-        "development/readme/scoville-workflow-codex/description.md",
-        "development/readme/scoville-workflow-codex/mechanism.md",
-        "development/readme/scoville-workflow-codex/requirements.md",
-        "development/readme/scoville-workflow-codex/costs.md"
-      ],
-      "profiles": [
-        "codex"
-      ]
-    },
-    {
-      "name": "scoville-ask-for-codex",
-      "development": {
-        "source": "members/scoville-ask-for-codex",
-        "tests": "members/scoville-ask-for-codex/development/tests",
-        "notes": "members/scoville-ask-for-codex/development/README.md"
-      },
-      "repository": "benjaminstelzer/scoville-ask-for-codex",
-      "visibility": "public",
-      "public_distribution": true,
-      "profiles": [
-        "codex"
-      ],
-      "standalone_profiles": [
-        "codex"
-      ],
-      "catalog_profiles": [
-        "general"
-      ],
-      "availability": "Codex online",
-      "readme": [
-        "development/readme/scoville-ask-for-codex/description.md",
-        "development/readme/scoville-ask-for-codex/mechanism.md",
-        "development/readme/scoville-ask-for-codex/requirements.md",
-        "development/readme/scoville-ask-for-codex/costs.md",
-        "development/readme/scoville-ask-for-codex/development.md",
-        {
-          "source": "shared:member-development-inline.md",
-          "audience": "suite"
-        },
-        "development/readme/scoville-ask-for-codex/compatibility.md",
-        "shared:codex-runtime-requirements.md",
-        "shared:skill-installation-contract.md",
-        "shared:scoville-install.md",
-        "shared:scoville-suite-install.md",
-        "development/readme/scoville-ask-for-codex/usage.md",
-        "development/readme/scoville-ask-for-codex/sources.md",
-        "shared:family.md",
-        "shared:license.md"
-      ],
-      "description_fragments": [
-        "development/readme/scoville-ask-for-codex/description.md",
-        "development/readme/scoville-ask-for-codex/mechanism.md",
-        "development/readme/scoville-ask-for-codex/requirements.md",
-        "development/readme/scoville-ask-for-codex/costs.md"
-      ],
-      "files": [
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/config.default.json",
-          "target": "scoville-ask-for-codex/config.default.json"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/LICENSE",
-          "target": "scoville-ask-for-codex/LICENSE"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/adviser.md",
-          "target": "scoville-ask-for-codex/references/adviser.md"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/claude.md",
-          "target": "scoville-ask-for-codex/references/claude.md"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/configuration.md",
-          "target": "scoville-ask-for-codex/references/configuration.md"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/native-delivery.md",
-          "target": "scoville-ask-for-codex/references/native-delivery.md"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/references/native.md",
-          "target": "scoville-ask-for-codex/references/native.md"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/ask.py",
-          "target": "scoville-ask-for-codex/scripts/ask.py"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/ask_claude.py",
-          "target": "scoville-ask-for-codex/scripts/ask_claude.py"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/list_models.py",
-          "target": "scoville-ask-for-codex/scripts/list_models.py"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/SKILL.md",
-          "target": "scoville-ask-for-codex/SKILL.md"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/LICENSE",
-          "target": "LICENSE"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/CHANGELOG.md",
-          "target": "CHANGELOG.md"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/.gitattributes",
-          "target": ".gitattributes"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/ask_settings.py",
-          "target": "scoville-ask-for-codex/scripts/ask_settings.py"
-        }
-      ],
-      "shared_helpers": [
-        {
-          "source": "runtime/task_lifecycle.py",
-          "target": "scoville-ask-for-codex/scripts/task_lifecycle.py"
-        },
-        {
-          "source": "runtime/task_lifecycle.md",
-          "target": "scoville-ask-for-codex/scripts/task_lifecycle.md"
-        },
-        {
-          "source": "runtime/scoville_config.py",
-          "target": "scoville-ask-for-codex/scripts/scoville_config.py"
-        }
-      ],
-      "family": {
-        "order": 10,
-        "label": "Ask Codex",
-        "owner": "independent read-only consultation through configured advisers.",
-        "summary": "collects independent advice and reviews in Codex."
-      },
-      "variables": {
-        "skill_name": "scoville-ask-for-codex",
-        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills"
-      }
-    },
-    {
-      "name": "scoville-setup",
-      "repository": "benjaminstelzer/scoville-suite",
-      "distribution": "suite",
-      "visibility": "public",
-      "public_distribution": true,
-      "profiles": [
-        "codex"
-      ],
-      "development": {
-        "source": "members/scoville-setup",
-        "tests": "members/scoville-setup/development/tests",
-        "notes": "members/scoville-setup/development/README.md"
-      },
-      "readme": [
-        "development/readme/scoville-setup/description.md",
-        "development/readme/scoville-setup/mechanism.md",
-        "development/readme/scoville-setup/requirements.md",
-        "development/readme/scoville-setup/costs.md",
-        "development/readme/scoville-setup/development.md",
-        {
-          "source": "shared:member-development-inline.md",
-          "audience": "suite"
-        },
-        "development/readme/scoville-setup/compatibility.md",
-        "development/readme/scoville-setup/install.md",
-        "development/readme/scoville-setup/usage.md",
-        "development/readme/scoville-setup/sources.md",
-        "shared:family.md",
-        "shared:license.md"
-      ],
-      "description_fragments": [
-        "development/readme/scoville-setup/description.md",
-        "development/readme/scoville-setup/mechanism.md",
-        "development/readme/scoville-setup/requirements.md",
-        "development/readme/scoville-setup/costs.md"
-      ],
-      "files": [
-        {
-          "source": "members/scoville-setup/scoville-setup/SKILL.md",
-          "target": "scoville-setup/SKILL.md"
-        },
-        {
-          "source": "members/scoville-setup/scoville-setup/scripts/setup.py",
-          "target": "scoville-setup/scripts/setup.py"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/ask_settings.py",
-          "target": "scoville-setup/scripts/ask_settings.py"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/workflow_settings.py",
-          "target": "scoville-setup/scripts/workflow_settings.py"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/scoville-ask-for-codex/config.default.json",
-          "target": "scoville-setup/assets/ask.default.json"
-        },
-        {
-          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/assets/workflow.toml",
-          "target": "scoville-setup/assets/workflow.toml"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/LICENSE",
-          "target": "scoville-setup/LICENSE"
-        },
-        {
-          "source": "members/scoville-ask-for-codex/LICENSE",
-          "target": "LICENSE"
-        }
-      ],
-      "shared_helpers": [
-        {
-          "source": "runtime/scoville_config.py",
-          "target": "scoville-setup/scripts/scoville_config.py"
-        }
-      ],
-      "family": {
-        "label": "Setup",
-        "owner": "saved Scoville settings in the selected project.",
-        "summary": "shows and changes project settings without running workflows.",
-        "order": 11
-      }
+      "distribution": "suite"
     }
   ],
   "readme": [
@@ -827,15 +457,13 @@
     "development/readme/suite-deprecated.md"
   ],
   "repository": "benjaminstelzer/scoville-suite",
-  "default_profile": "general",
-  "profiles": {
-    "general": {
-      "name": "scoville-suite",
-      "repository": "benjaminstelzer/scoville-suite"
-    },
-    "codex": {
-      "name": "scoville-suite-for-codex",
-      "repository": "benjaminstelzer/scoville-suite-for-codex"
+  "profile": "general",
+  "catalog": [
+    {
+      "name": "scoville-ask-for-codex",
+      "repository": "benjaminstelzer/scoville-ask-for-codex",
+      "availability": "Codex online"
     }
-  }
+  ],
+  "layout": "suite"
 }

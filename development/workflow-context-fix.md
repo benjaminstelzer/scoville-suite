@@ -65,7 +65,7 @@ a measured production token or monetary saving. Live counters were not retested.
 ## Terra Medium author evaluation
 
 Tested only the private build:
-`E:/Dropbox/AI Projects/temp/2026-09-21-workflow-context-fix/final/scoville-suite/packages/scoville-workflow-for-codex/scoville-workflow-for-codex`.
+`<workspace-root>/temp/2026-09-21-workflow-context-fix/final/scoville-suite/packages/scoville-workflow-for-codex/scoville-workflow-for-codex`.
 
 Receipt SHA256:
 `e185f88b955a003e4e704fb27faafe87ddfe02841bea24533cf95b1981ebd4e1`.
@@ -106,7 +106,7 @@ qualification or actual native-task integration.
 ## Repeat and retained state
 
 See [test procedure](luna-tests/workflow-context-execution.md).
-Raw artifacts: `E:/Dropbox/AI Projects/temp/2026-09-21-workflow-context-fix/`.
+Raw artifacts: `<workspace-root>/temp/2026-09-21-workflow-context-fix/`.
 Local no-backend qualification found one Terra/medium request, no Authorization
 header and no tools (field absent); the reusable preflight passes. Its initial
 check incorrectly rejected an absent tools field; it now distinguishes absent

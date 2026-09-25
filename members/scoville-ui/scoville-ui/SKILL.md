@@ -46,7 +46,7 @@ Lower sources never override higher owners; report material conflicts.
 
 {{ include: family.contract }}
 
-{{ package: standalone }}Relevant neighboring owners:{{ /package }}
+
 
 {{ include: family.neighbors }}
 

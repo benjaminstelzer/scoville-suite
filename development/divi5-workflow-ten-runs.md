@@ -205,4 +205,4 @@ No missing count was replaced with zero, and no pricing or token savings are
 inferred from character lengths. Final acceptance concerns this audit only.
 Temporary extraction/evidence: workspace
 `temp/2026-09-21-divi5-ten-runs/`; native logs remain under
-`C:/Users/benja/.codex/sessions/` and `archived_sessions/` with exact task IDs above.
+`<codex-home>/sessions/` and `archived_sessions/` with exact task IDs above.

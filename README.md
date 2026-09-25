@@ -65,11 +65,13 @@ remove code without turning every small change into a full audit.
 - **Complete handoff.** The final report names changed behavior, relevant
   validation, unresolved failures, and relevant repository state.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-code/blob/main/scoville-code/SKILL.md).
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md).
 
 ### What it costs
 
 - Source inspection and checks use more tokens and time than an immediate patch.
+
+[How to use Scoville Code](members/scoville-code/README.md#how-to-use).
 
 ## Scoville Plan
 
@@ -103,7 +105,7 @@ projects, not to turn a small reversible edit into paperwork.
 
 - When Workflow is active, Steps expose the scope and boundaries needed for dispatch. The coordinator chooses the route. Plan can retain an explicit executor choice, but does not quietly turn a small-looking edit into low-risk work.
 
-- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-plan/blob/main/scoville-plan/SKILL.md).
+- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md).
 
 Run one task to completion before editing its files or changing model settings
 elsewhere. Plan assumes this single-run workflow. It does not lock files or
@@ -113,6 +115,8 @@ no model-profile selection or hash receipts.
 ### What it costs
 
 - Reading, updating and checking Plan records add token usage and maintenance time.
+
+[How to use Scoville Plan](members/scoville-plan/README.md#how-to-use).
 
 ## Scoville UI
 
@@ -152,13 +156,15 @@ loads a local adapter for Core components, native spacing, versions and i18n.
 
 - **WordPress keeps its native owners.** Classic, Core Components, bundled WPDS and hybrid regions remain distinct. Tokens do not require a React migration.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-ui/blob/main/scoville-ui/SKILL.md).
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ### What it costs
 
 - Browser inspection, interaction checks and corrections use additional tokens and time.
 - WordPress work loads extra platform references. Other frameworks do not need them.
 - Source-only work leaves rendering and interaction unverified. These instructions do not establish measured usability gains.
+
+[How to use Scoville UI](members/scoville-ui/README.md#how-to-use).
 
 ## Scoville Handoff
 
@@ -196,11 +202,13 @@ to resume without quietly advancing or completing the work.
 - **Transfer does not advance the task.** Handoff reads the named state but does
   not edit, test, publish, or otherwise improve it on the way out.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-handoff/blob/main/scoville-handoff/SKILL.md).
+- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
 
 ### What it costs
 
 - Reading the task state and preparing the handoff use additional tokens and time.
+
+[How to use Scoville Handoff](members/scoville-handoff/README.md#how-to-use).
 
 ## Additional Scoville Skills
 
@@ -219,15 +227,29 @@ and whether the host discovers the Skill.
 
 ## Install the suite
 
+### New installation
+
+Use this request in your agent host:
+
+```text
+Python 3.10 or newer is optional. Install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
+```
+
+### Upgrade from an earlier Scoville or Ask suite
+
 Use this request in your agent host:
 
 ```text
 Uninstall these Skills completely, including their settings, when present:
-scoville-code-anti-ai-slop, scoville-handoff, scoville-plan,
+scoville-brainstorm, scoville-code-anti-ai-slop,
+scoville-design-anti-ai-slop, scoville-handoff, scoville-plan,
+scoville-research, scoville-scribe-anti-ai-slop,
 scoville-ui-anti-ai-slop, scoville-wordpress-ui-backend-anti-ai-slop,
-scoville-brainstorm, scoville-research, scoville-design-anti-ai-slop,
-scoville-scribe-anti-ai-slop.
-Skip absent entries, leave unrelated Skills untouched, keep no backup or settings migration, treat Python 3.10 or newer as optional, then install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
+scoville-workflow-for-codex, scoville-workflow-codex,
+ask-astra-for-review-for-codex, ask-sol-for-review-for-codex,
+ask-claude-for-codex, ask-claude-and-astra-for-codex,
+ask-claude-and-sol-for-codex.
+Skip absent entries, leave unrelated Skills untouched, and keep no backup or settings migration. Python 3.10 or newer is optional. Then install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
 ```
 
 All included Skills must remain enabled. Their task scope and invocation rules
@@ -256,35 +278,6 @@ member's `development` metadata in `suite.json`.
 
 Regenerate previews with `python development/build_suite.py --write-readmes`.
 Use `--check-readmes` to detect stale previews.
-
-### Keep build caches out of synchronized source trees
-
-When the checkout is inside Dropbox or another synchronized directory, keep
-Python bytecode outside the checkout. Preserve an existing
-`PYTHONPYCACHEPREFIX` that already points outside the synchronized tree.
-Otherwise configure a user-level cache and open a new terminal or Codex session
-afterward:
-
-| Platform | User setting |
-| --- | --- |
-| Windows PowerShell | `[Environment]::SetEnvironmentVariable("PYTHONPYCACHEPREFIX", "$env:LOCALAPPDATA\pycache", "User")` |
-| macOS zsh | Add `export PYTHONPYCACHEPREFIX="$HOME/Library/Caches/pycache"` to `~/.zprofile`. |
-| Linux | Add `export PYTHONPYCACHEPREFIX="$HOME/.cache/pycache"` to `~/.profile`. |
-
-Until a new session inherits the setting, invoke repository scripts with
-`python -B`. Confirm the active location with
-`python -c "import sys; print(sys.pycache_prefix)"`.
-
-Before installing or building the Plan Viewer, create and exclude
-`members/scoville-plan/development/viewer/node_modules` and
-`members/scoville-plan/development/viewer/src-tauri/target` from synchronization.
-On Windows, write the `com.dropbox.ignored` alternate data stream with
-`Set-Content -LiteralPath <directory> -Stream com.dropbox.ignored -Value 1`.
-On macOS use `xattr -w com.dropbox.ignored 1 <directory>`; on Linux use
-`attr -s com.dropbox.ignored -V 1 <directory>`. Recheck the attribute after
-`npm ci` and after a Cargo build because either tool may recreate its output
-directory. Keep machine-specific Cargo target paths in local configuration,
-never in versioned files.
 
 Build this exported edition to a new directory outside the repository:
 

@@ -6,11 +6,10 @@ review gate requires review.
 
 | Route | Typical task | Executor | Reviewer |
 | --- | --- | --- | --- |
-| `coordinator` | Workflow coordination | `gpt-6-sol` / `medium` | Not applicable |
-| `ultra_low` | Simple bounded local change with trivial verification | `gpt-6-sol` / `low` | `gpt-6-sol` / `medium` |
-| `low` | Nontrivial local judgment with one known owner, understood helpers, and established checks | `gpt-6-sol` / `medium` | `gpt-6-sol` / `high` |
-| `medium` | Unresolved helpers, diagnostic discovery, interacting owners, harness boundaries, or interpreted checks | `gpt-6-sol` / `high` | `gpt-6-sol` / `xhigh` |
-| `high` | Consequential changes to state, authorization, or integration contracts | `gpt-6-sol` / `xhigh` | `gpt-6-astra` / `high` |
+| `ultra_low` | Simple bounded local change with trivial verification | `gpt-6-sol` / `medium` | `gpt-6-sol` / `high` |
+| `low` | Nontrivial local judgment with one known owner, understood helpers, and established checks | `gpt-6-sol` / `high` | `gpt-6-sol` / `xhigh` |
+| `medium` | Unresolved helpers, diagnostic discovery, interacting owners, harness boundaries, or interpreted checks | `gpt-5.6-sol` / `medium` | `gpt-5.6-sol` / `high` |
+| `high` | Consequential changes to state, authorization, or integration contracts | `gpt-6-astra` / `medium` | `gpt-6-astra` / `high` |
 | `ultra_high` | Unusually consequential or complex work beyond `high` | `gpt-6-astra` / `high` | `gpt-6-astra` / `xhigh` |
 
 `low` is fail closed. The coordinator must positively know the target, single
@@ -20,10 +19,10 @@ validation. One false or unknown fact raises the unit to at least `medium`.
 
 Change these assignments in
 [`scoville-workflow-for-codex/assets/workflow.toml`](scoville-workflow-for-codex/assets/workflow.toml).
-The `[coordinator]`, `[execute.CLASS]`, and `[review.CLASS]` sections own model
-assignments. `[context]` sets coordinator and worker rollover thresholds.
-The file also contains the coordinator title. Other protocol limits remain in
-the operations contract. Update this table when the published defaults change.
+The `[execute.CLASS]` and `[review.CLASS]` sections own model assignments.
+`[context]` sets coordinator and worker rollover thresholds. The calling task
+coordinates the workflow with its current model and reasoning. Other protocol
+limits remain in the operations contract. Update this table when the published defaults change.
 
 A Step's `[route: CLASS]` is its planned minimum. For every fresh execution
 unit, the coordinator chooses the highest applicable class and raises the

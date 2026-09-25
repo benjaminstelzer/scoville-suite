@@ -9,7 +9,7 @@
     "sha256": "5c4663ca2b09aec668ad8c134d969bfdbfec94506973d72256c7721d2e5395c1"
   },
   "scope": "Design04 discovery qualification only; package bytes, case and key unchanged.",
-  "prompt_root": "E:/Dropbox/AI Projects/temp/2026-09-21-suite-luna-evaluation",
+  "prompt_root": "<workspace-root>/temp/2026-09-21-suite-luna-evaluation",
   "prompts": {
     "prepared-design-r10-v6-04.md": "bd75c309ed64dbd131d4dd031609b35dccd3f93b012125573a192ac7dac8aaea"
   }

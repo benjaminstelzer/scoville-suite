@@ -1,4 +1,4 @@
-# ASK Claude-only expected results
+# Ask Claude-only expected results
 
 Evaluator-only. Source: built Claude-only core, config.default.json and
 scripts/ask_claude.py. Require honest provider/result boundaries.

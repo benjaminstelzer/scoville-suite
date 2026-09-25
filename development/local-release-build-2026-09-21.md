@@ -4,7 +4,7 @@ User requested all Skills, including Workflow, generated for the next live
 project test. No publication, installation, task mutation or visibility change.
 W-009 remains paused; this build does not resume its configuration work.
 
-Build root: `E:/Dropbox/AI Projects/temp/2026-09-21-local-release-build/`.
+Build root: `<workspace-root>/temp/2026-09-21-local-release-build/`.
 Keep this candidate until the project test/installation decision is settled.
 
 | Suite | Output subdirectory | Verified packages/files | Receipt SHA256 |

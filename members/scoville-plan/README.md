@@ -30,7 +30,7 @@ projects, not to turn a small reversible edit into paperwork.
 
 - When Workflow is active, Steps expose the scope and boundaries needed for dispatch. The coordinator chooses the route. Plan can retain an explicit executor choice, but does not quietly turn a small-looking edit into low-risk work.
 
-- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-plan/blob/main/scoville-plan/SKILL.md).
+- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md).
 
 Run one task to completion before editing its files or changing model settings
 elsewhere. Plan assumes this single-run workflow. It does not lock files or
@@ -58,21 +58,19 @@ or newer. This requirement is separate from the models actually tested.
 
 Any Agent Skills host with repository read/write access. Direct Markdown/YAML planning; no service or network required. Selector and validator need Python 3.10+. Manual alternatives load only without Python; helper errors remain errors. Developed for Codex and Claude Code; other hosts untested.
 
-This Skill works on its own. Other Scoville Skills are optional and handle
-only their own concerns when available and applicable.
+This package requires every Skill included in this suite to be installed and
+enabled. Partial installation is not supported. Skills keep their own task
+scope and invocation rules; Workflow still requires an explicit request.
 
 ## Install
 
 ### Install this Skill
 
-This standalone package works independently. Ask your compatible agent host:
-
-```text
-Install this Skill for all my projects from this exact package directory:
-https://github.com/benjaminstelzer/scoville-plan/tree/main/scoville-plan
-Preserve personal settings and unrelated Skills. Report the installed location
-and whether the host discovers the Skill.
-```
+Install this Skill as part of the complete suite from
+[the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
+Every member must be installed and enabled. Do not fetch or substitute packages
+from individual Skill repositories. If any member is missing or incompatible,
+report the incomplete installation rather than claiming the suite is ready.
 
 The host needs permission to write to its Skills directory. See the
 [Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
@@ -162,13 +160,6 @@ Keep legacy Evidence lists and LF when working with older readers.
   for explicit outcomes, constraints, planning, and completion evidence.
 - [Michael Nygard's architecture decision records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
   for durable decisions and rationale in reviewable project files.
-
-## Family
-
-- [Code](https://github.com/benjaminstelzer/scoville-code) owns engineering scope, implementation, risk, and validation.
-- [Plan](https://github.com/benjaminstelzer/scoville-plan) owns durable Plans, Work Items, Decisions, and lifecycle state.
-- [UI](https://github.com/benjaminstelzer/scoville-ui) owns UI implementation, information structure, accessibility and rendered evidence, with a conditional WordPress adapter.
-- [Handoff](https://github.com/benjaminstelzer/scoville-handoff) transfers active work to another agent or session.
 
 ## License
 

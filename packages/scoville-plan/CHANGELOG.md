@@ -4,7 +4,9 @@
 
 - Write plans directly without model-specific writing profiles or hash-based edit guards.
 - Ship Plan Viewer v1.3.3 with plain-text Evidence and CRLF support. Keep writing legacy Evidence lists and LF for installed older Viewers.
-- Use readable Decision-batch IDs while continuing to read historical IDs.
+- Use a Work Item template and one editing reference for ordinary Plan maintenance. Validate each completed write and preserve manual checks when Python is unavailable in General.
+- Apply Decision transitions individually and append new work in arrival order unless the user chooses another priority. Preserve historical batches, priorities and return instructions.
+- Read and write UTF-8 explicitly, including PowerShell-to-Python text transfers.
 - Document explicit model and reasoning annotations without assigning them automatically.
 
 ## v1.8.0 - 2026-09-24

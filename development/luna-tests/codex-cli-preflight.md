@@ -39,7 +39,7 @@ therefore is not usable evidence. Retry only the local mock without this key,
 retain code_mode_host=false and inspect whether Node tools remain exposed.
 Further artifacts belong under the canonical E: workspace temp directory.
 
-Second loopback attempt under E:/Dropbox/AI Projects/temp/2026-09-21-codex-loopback-tool-catalog/run-02
+Second loopback attempt under <workspace-root>/temp/2026-09-21-codex-loopback-tool-catalog/run-02
 also stopped before HTTP: strict-config rejects `tools.view_image`. SOL's
 bundled-schema check also rejects `tools.web_search`; remove both invalid keys
 together, retaining `web_search="disabled"`. Neither attempted run establishes

@@ -93,7 +93,7 @@ Handoff owns the snapshot.
 
 {{ include: family.contract }}
 
-{{ package: standalone }}Family owners, in suite order:{{ /package }}
+
 
 {{ include: family.owners }}
 
