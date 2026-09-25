@@ -533,6 +533,10 @@
           "target": "scoville-workflow-for-codex/references/agents-setup.md"
         },
         {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/launcher.md",
+          "target": "scoville-workflow-for-codex/references/launcher.md"
+        },
+        {
           "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md",
           "target": "scoville-workflow-for-codex/references/operations.md"
         },
@@ -547,6 +551,10 @@
         {
           "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/inspect_native_context.py",
           "target": "scoville-workflow-for-codex/scripts/inspect_native_context.py"
+        },
+        {
+          "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/parse_role_result.py",
+          "target": "scoville-workflow-for-codex/scripts/parse_role_result.py"
         },
         {
           "source": "members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/inspect_dispatch_preflight.py",

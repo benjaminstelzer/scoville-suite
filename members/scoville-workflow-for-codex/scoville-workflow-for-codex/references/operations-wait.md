@@ -66,7 +66,8 @@ snapshot and then resumes this loop. A changed scope, Stop, or required user
 decision follows its own control path instead. Never use `read_thread` as this
 wait loop.
 
-Every child returns its validated role JSON directly as its final response.
+Every child returns its checked `SCOVILLE_RESULT_V1` line result directly as
+its final response.
 The exact final response observed through `wait_threads` is the completion
 source. Send no result callback: task messaging can require a separate host
 approval and is unnecessary for this exact-child wait.
@@ -81,7 +82,7 @@ or a reason for another model turn. Do not retry, relay, recreate either task,
 poll, or send progress narration. Resume only when the host resolves the same
 call. Approval continues that call. After a definite rejection or tool failure,
 the child does not retry or request a replacement delivery; it returns the
-already-validated identical JSON as its final response so the coordinator's
+already-checked identical line result as its final response so the coordinator's
 wait loop can recover it.
 
 On a completed wait result or result delivery, process these gates in order
@@ -99,9 +100,10 @@ action:
    when the completed wait projection is missing, malformed, or differs from
    the authenticated delivery bytes.
 4. When delivery succeeded, require the recovered candidate bytes to equal the
-   delivered JSON byte-for-byte. When delivery failed or never arrived,
+   delivered result byte-for-byte. When delivery failed or never arrived,
    validate the final-response bytes from the exact completed turn directly.
-   In both cases validate the unchanged role schema and limits.
+   In both cases use `scripts/parse_role_result.py` with the recorded role and
+   require its unchanged protocol and limits.
 5. Branch on the validated status. `needs_user_decision` retains the exact child
    open and asks only its question. Every terminal role status retains the
    result, archives the exact child with verified state, and only then performs
@@ -180,12 +182,17 @@ user decision, blocker, failed check, review finding, unexpected failure, or
 final completion.
 
 If the task returns `needs_user_decision`, keep it unarchived. Ask the user only
-the exact missing decision. After the user answers, call `send_message_to_thread`
-for that same task ID with a compact message containing the unit ID, the exact
-answer, “continue the same task”, and a new single-use delivery reference. Omit
-model and thinking so its existing settings and conversation remain intact.
-Enter the same exact-child wait loop. Never
-replace or fork it merely because a user decision interrupted the turn.
+the exact missing decision. After the user answers, use
+`scripts/build_dispatch_prompt.py` to build a fresh complete prompt for the same
+role, unit and task ID. Preserve the original role inputs, add the exact answer
+and `continuation=continue_same_task` to `supplemental_context`, and bind the
+current guard revision, generation and dispatch key plus a new single-use
+delivery reference. Require helper success and send its output unchanged to the
+same task ID with `send_message_to_thread`. Omit model and thinking so its existing
+settings and conversation remain intact. Never send a compact continuation that
+lacks the complete `SCOVILLE_DISPATCH_V1` envelope required by the native gate.
+Enter the same exact-child wait loop. Never replace or fork the task merely
+because a user decision interrupted the turn.
 
 ### Coordinator wake scenarios
 

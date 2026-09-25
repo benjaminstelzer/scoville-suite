@@ -84,10 +84,13 @@
         require(g && g.ok === true && g.workflow_id === state.envelope.guard.workflow_id &&
           g.generation === state.envelope.guard.generation &&
           g.revision === state.envelope.guard.revision, "stale or failed guard");
-        if (r.role === "reviewer") {
+        if (r.role === "reviewer" && r.target.startsWith("project:")) {
           require(g.state === "coordinator_active" && g.writer === null &&
             args.target?.type === "project" &&
             "project:" + args.target.projectId === r.target, "review creation target or guard mismatch");
+        } else if (r.role === "reviewer") {
+          require(g.state === "coordinator_active" && g.writer === null &&
+            args.threadId === r.target, "review continuation target or guard mismatch");
         } else {
           require(args.threadId === r.target && g.state === "writer_active" &&
             g.writer?.task_id === r.target && g.writer?.role === r.role &&

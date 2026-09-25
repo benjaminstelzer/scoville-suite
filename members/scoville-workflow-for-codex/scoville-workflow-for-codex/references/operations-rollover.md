@@ -121,20 +121,26 @@ Perform this sequence once:
    writes. Reconcile or retry only that same-key activation after proving that no
    successor activation turn exists; never create another successor.
 9. After activation and fresh `capability=plan` verification, the successor
-   confirms its exact task ID and host are reachable through an exact-ID host
-   read, then waits for the exact predecessor activation turn to complete through
-   cursor-bound `wait_threads` calls of at most 60 seconds. Unchanged timeouts
-   repeat silently with the returned cursor. Wrong identity, terminal failure,
-   needs-attention state, or unconfirmed predecessor completion blocks both
-   continuation and archival. Do not infer completion from an idle task.
-   The successor calls `list_threads` without moving itself between sidebar
-   sections and follows [rollover_readiness](../scripts/rollover_readiness.md) with
-   the fresh verified guard, exact reachability and completed-turn evidence.
+   performs these actions in order:
+   a. Read its own exact task ID and host. Retain native reachability and
+      `thread.status.type`. Guard ownership never proves host reachability or
+      native status. A wrong ID, wrong host, failed read or unreachable task
+      blocks before waiting for the predecessor.
+   b. Only after that read succeeds, wait for the exact predecessor activation
+      turn through cursor-bound `wait_threads` calls of at most 60 seconds.
+      Unchanged timeouts repeat silently with the returned cursor. Wrong
+      identity, terminal failure, needs-attention state or unconfirmed
+      predecessor completion blocks continuation and archival. Idle alone does
+      not prove completion.
+   c. With both proofs retained, call `list_threads` without moving the
+      successor between sidebar sections. Follow
+      [rollover_readiness](../scripts/rollover_readiness.md) with the fresh
+      verified guard, exact reachability and completed-turn evidence.
    Include `exact_successor.status` from the fresh host read's
    `thread.status.type`. The helper accepts either exact ID/host listing or
    that native `active` status; list omission alone does not block archival.
    Both paths retain placement, availability, handoff and status-reporting
-   checks defined in the helper contract. Do not infer host status from the guard.
+   checks defined in the helper contract.
    Post or retain the current user-facing phase or blocker.
    If the archive proofs are incomplete but exact reachability, active
    guard identity/generation and predecessor completion are confirmed, continue

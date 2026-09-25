@@ -29,7 +29,7 @@
         "role": "assistant",
         "phase": "final_answer",
         "embedded_turn_id": "01a0bb9a-0eb0-71e3-9694-957f1c07c7bd",
-        "bytes": "{\"status\":\"context_handoff\",\"summary\":\"retained native fixture\",\"review\":null,\"findings\":[]}"
+        "bytes": "SCOVILLE_RESULT_V1\nrole=executor\nstatus=context_handoff\nsummary=retained native fixture"
       },
       {
         "ordinal": 801,
@@ -42,24 +42,6 @@
         "turn_id": "01a0bb9a-0eb0-71e3-9694-957f1c07c7bd"
       }
     ]
-  },
-  "divi_boolean_projection_loss": {
-    "fixture_kind": "sanitized_completed_task_projection",
-    "wait": {
-      "task_id": "01a0bae7-a820-7383-a2b2-c3e79dd37512",
-      "host_id": "local",
-      "turn_id": "01a0bae7-aa28-7a43-bc87-1e69f1968109",
-      "status": "completed",
-      "message_id": "msg-divi-step-2",
-      "message": "{\"status\":\"completed\",\"summary\":\"retained DIVI result\",\"review\":{\"code_changed\":null,\"critical_docs_changed\":null},\"findings\":[]}"
-    },
-    "read": {
-      "task_id": "01a0bae7-a820-7383-a2b2-c3e79dd37512",
-      "host_id": "local",
-      "turn_id": "01a0bae7-aa28-7a43-bc87-1e69f1968109",
-      "message_id": "msg-divi-step-2",
-      "message": "{\"status\":\"completed\",\"summary\":\"retained DIVI result\",\"review\":{\"code_changed\":true,\"critical_docs_changed\":false},\"findings\":[]}"
-    }
   },
   "divi_omitted_results": {
     "fixture_kind": "sanitized_minimal_native_projection",
@@ -114,7 +96,7 @@
         "role": "assistant",
         "phase": "final_answer",
         "embedded_turn_id": "01a0bcdb-6e36-7350-9006-4aac5456e2aa",
-        "bytes": "{\"status\":\"completed\",\"summary\":\"first retained native fixture\",\"review\":{\"code_changed\":\"yes\",\"critical_docs_changed\":\"no\"},\"findings\":[]}"
+        "bytes": "SCOVILLE_RESULT_V1\nrole=executor\nstatus=completed\ncode_changed=yes\ncritical_docs_changed=no\nsummary=first retained native fixture"
       },
       {
         "ordinal": 230,
@@ -151,7 +133,7 @@
         "role": "assistant",
         "phase": "final_answer",
         "embedded_turn_id": "01a0bcdc-6801-7d01-a489-cc9cd20a1857",
-        "bytes": "{\"status\":\"completed\",\"summary\":\"second retained native fixture\",\"review\":{\"code_changed\":\"yes\",\"critical_docs_changed\":\"no\"},\"findings\":[]}"
+        "bytes": "SCOVILLE_RESULT_V1\nrole=executor\nstatus=completed\ncode_changed=yes\ncritical_docs_changed=no\nsummary=second retained native fixture"
       },
       {
         "ordinal": 242,
