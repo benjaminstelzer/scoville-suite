@@ -1,7 +1,7 @@
 ---
 format_version: 1
 id: PLAN-0001
-status: draft
+status: cancelled
 created: 2026-09-21
 updated: 2026-09-25
 ---
@@ -95,9 +95,9 @@ Evidence: [Exact-ID-Lesung 01a0c2f7-fadb-70f3-b931-d52e71f41485 vollständig: ke
 
 ### W-009 Ignorierte Codex-Einstellung features.thread_tools bereinigen
 
-Status: paused
+Status: cancelled
 Depends on: []
-Blocked by: [HOST-FLAGOWNER]
+Blocked by: []
 Decisions: []
 Outcome: Die im Codex-Einstellungsdialog gemeldete unbekannte Einstellung `session-flags: features.thread_tools` ist an ihrer tatsächlichen Quelle korrigiert, ohne unbelegte Änderungen an Task-Funktionen vorzunehmen.
 Acceptance: Der Ursprung des Flags ist belegt; aktuelle offizielle Codex-Dokumentation oder die konkrete Host-Diagnose begründet Entfernung oder Ersatz; relevante Konfiguration ist vor Änderungen gesichert; keine andere Einstellung wird verändert; ein erneuter Konfigurationscheck oder sichtbarer App-Nachweis bestätigt die beseitigte Warnung; nicht ausführbare Reload-Prüfung bleibt ausdrücklich offen.
@@ -105,8 +105,7 @@ Steps:
 1. Prüfe bei Bearbeitung dieses Punktes aktuelle Codex-Konfigurationsdokumentation und den lokalen Ursprung von `features.thread_tools`; unterscheide Benutzerkonfiguration, Projektkonfiguration und injizierte Session-Flags.
 2. Korrigiere ausschließlich die belegte ungültige Einstellung an ihrem Owner; verwende keinen geratenen Ersatz und behaupte keinen Zusammenhang mit dem Rollover-Sichtbarkeitsfehler ohne unabhängigen Nachweis.
 3. Prüfe die Warnung erneut ohne laufende DIVI5-Tasks unautorisiert abzubrechen; falls ein App-Neustart erforderlich ist, benenne diesen verbleibenden Schritt statt dessen Erfolg zu behaupten.
-Evidence: [Offizielle Referenz https://learn.chatgpt.com/docs/config-file/config-reference enthält weder thread_tools noch session-flags, Kein Treffer in geprüften Benutzer- und Projektkonfigurationen sowie globalem App-Zustand oder codex.exe-Startargumenten, App 26.915.4065.0 verwendet thread_tools intern als defaultFeatureOverrides; CLI 0.155.0-alpha.9.2 listet es nicht unter features list, Ursprung der konkreten Session-Injektion nicht abschließend belegt; keine Konfiguration oder App-Datei geändert]
-Next action: Nutzer hat Zurückstellung zugunsten W-010 erlaubt. Bei neuer Host-Evidenz die tatsächliche Flag-Quelle prüfen; keine Binäränderung oder Unterbrechung laufender Tasks.
+Evidence: [Offizielle Referenz https://learn.chatgpt.com/docs/config-file/config-reference enthält weder thread_tools noch session-flags, Kein Treffer in geprüften Benutzer- und Projektkonfigurationen sowie globalem App-Zustand oder codex.exe-Startargumenten, App 26.915.4065.0 verwendet thread_tools intern als defaultFeatureOverrides; CLI 0.155.0-alpha.9.2 listet es nicht unter features list, Ursprung der konkreten Session-Injektion nicht abschließend belegt; keine Konfiguration oder App-Datei geändert, Am 2026-09-25 ausdrücklich abgebrochen - die Host-Flag-Untersuchung gehört nicht mehr zum fokussierten Suiteumfang, Blocker HOST-FLAGOWNER mit dem Abbruch ausdrücklich aufgehoben]
 
 ### W-010 Deferred after W-009: Familienverweise deterministisch erzeugen
 
@@ -388,7 +387,7 @@ Evidence: [development/wordpress-suite-integration.md belegt Import sowie Build 
 
 ### W-025 Autorisierten Suite-Release mit Beta-Workflow veröffentlichen
 
-Status: paused
+Status: cancelled
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0009, ADR-0010]
@@ -400,8 +399,7 @@ Steps:
 3. Prüfe die Live-Releases und Tags aller autorisierten Ziele. Wende die GitHub-Verträge references/release-and-publication.md und references/suite-build-publication.md an. Prüfe Plan-Viewer-Assets gegen Buildmatrix, README, Herkunft und SHA-256.
 4. Veröffentliche die beiden Suites und 14 Einzelpakete ohne separates Workflow-Repo. Bewahre Historien, benenne das WordPress-Ziel wie autorisiert um und prüfe komplette Remote-Bestände. Verifiziere neue Releases und Asset-Nachfolger vor dem Entfernen abgedeckter älterer Releases und Release-Versionstags.
 5. Veröffentliche E:/Dropbox/AI Projects/projects/BenjaminStelzer/README.md mit Scoville oben und Ask darunter; prüfe finale Installationslinks, Topics, Releases und Tags. Historische Belege bleiben unverändert.
-Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus, development/release-preflight.md belegt Workflow und WordPress sowie Handoff/UI; Code-Nachtest besteht; ein damaliger Mitgliedsnachtest und Plan-Gate laufen, Isolierte r4-Builds liefern 238 bytegleiche Paketdateien; 38 gemeinsame Tests bestehen; Viewer-Dateien entsprechen elf CI-Artefakten, RELEASE-HISTORY: Entscheidung zum Nachtragen sieben belegter veröffentlichter Versionen angefragt; keine Remote-Mutation]
-Next action: Vor einer Wiederaufnahme ausdrücklich entscheiden, ob der durch die Entfernung von Scribe, Design, Research und Brainstorm überholte Veröffentlichungsumfang abgebrochen oder auf verbleibende Ziele begrenzt wird; aktuelle Suite-Releases gehören PLAN-0002/W-010 und W-011.
+Evidence: [Plan-Viewer-Asset-Gate in der kanonischen GitHub-Skill-Quelle ergänzt, 37 gemeinsame sowie 21 Scoville- und acht Ask-Tests bestanden; lokale Quellen committed, Vollständige Suite-Exporte unter temp/2026-09-22-suite-release/r2 isoliert geprüft; öffentliche Pakete unter skills/public/release-2026-09-22 verifiziert, SOL führt fünf feste Workflow-Fälle mit Luna Medium gegen unveränderte öffentliche Buildpakete aus, development/release-preflight.md belegt Workflow und WordPress sowie Handoff/UI; Code-Nachtest besteht; ein damaliger Mitgliedsnachtest und Plan-Gate laufen, Isolierte r4-Builds liefern 238 bytegleiche Paketdateien; 38 gemeinsame Tests bestehen; Viewer-Dateien entsprechen elf CI-Artefakten, RELEASE-HISTORY: Entscheidung zum Nachtragen sieben belegter veröffentlichter Versionen angefragt; keine Remote-Mutation, Am 2026-09-25 ausdrücklich abgebrochen - der Umfang mit 14 Einzelpaketen ist durch die reduzierte Suite und PLAN-0002/W-010 sowie W-011 ersetzt]
 
 ### W-032 Workflow-Worker gegen unvollständige Dispatches absichern
 
@@ -494,7 +492,7 @@ Evidence: [Nutzer erweitert Vorlage ausdrücklich auf Nicht-Skill-Projekte; deve
 
 ### W-029 Release-Ablauf nach dem aktuellen Suite-Release wiederverwendbar automatisieren
 
-Status: todo
+Status: cancelled
 Depends on: []
 Blocked by: []
 Decisions: []
@@ -504,8 +502,7 @@ Steps:
 1. Überführe den tatsächlich geprüften Ablauf aus PLAN-0002/W-010 und W-011 in ../shared/build/ mit festen Eingaben für Quellen, Pakete, Versionen, Ziele, Autorisierung und Testbelege. Bewahre Versionshistorien und eigenständige Pakete.
 2. Implementiere nachvollziehbare Schritte für Buildprüfung, Veröffentlichung, Remote-Verifikation und nachgelagerte Release-Bereinigung. Speichere bestätigte Ergebnisse mit Eingabehashes; gleiche unbekannte Ergebnisse vor Wiederaufnahme mit GitHub ab. Bewahre fremde Drafts und operative Tags.
 3. Teste Unterbrechungen vor und nach externen Änderungen sowie fehlende Assets, Drift und mehrdeutige Remote-Ergebnisse ohne Live-Schreibzugriffe. Dokumentiere den belegten Aufruf und passe den kanonischen GitHub-Skill an; synchronisiere gemeinsame Suite-Kopien.
-Evidence: []
-Next action: Nach vollständigem Abschluss von PLAN-0002/W-010 und W-011 deren verifizierte Release-Schritte und Eingaben für den gemeinsamen Ablauf übernehmen.
+Evidence: [Am 2026-09-25 ausdrücklich abgebrochen - eine Automatisierung wird erst nach einem belegten aktuellen Release neu geplant]
 
 ### W-026 Entwicklungslinks nach README-Ziel generieren
 
