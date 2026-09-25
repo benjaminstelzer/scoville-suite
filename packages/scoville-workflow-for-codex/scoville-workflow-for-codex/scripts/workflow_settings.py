@@ -43,4 +43,3 @@ def read_thresholds(path: Path, project_root: Path | str | None = None) -> dict:
     if any(type(value) is not int or not 1 <= value <= 99 for value in thresholds.values()):
         raise ValueError("context percentages must be integers from 1 through 99")
     return thresholds
-
