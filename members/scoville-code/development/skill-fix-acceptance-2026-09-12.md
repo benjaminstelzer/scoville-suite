@@ -58,7 +58,7 @@ Required fixture traces were inspected before activation; W-001 through W-003 we
 | Plan SKILL.md | f4873ad3bd62643b708bf8d88e09e3a21570a20308d404c03bbdec9747561f51 |
 | Plan references/native-editing.md | be5d5d5662b54fbeb39f733502bccd71293a78a18652eed80d3d05a284069993 |
 
-Cleanup of `Z:/Projekts/AI/temp/2026-09-12-skill-fixes` was attempted with resolved-path checks and rejected by automatic approval policy before execution (`blocked by policy`). The temporary directory remains; no alternative deletion path was attempted. The earlier audit temp directory also remains after its previously reported denial. Original Codex session records were never deletion targets.
+Cleanup of the former temporary test directory was rejected by automatic approval policy before execution (`blocked by policy`). Original Codex session records were never deletion targets.
 
 ## Publication on September 12
 

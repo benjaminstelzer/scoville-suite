@@ -4,7 +4,7 @@
 
 Der Nutzer beauftragte am 25. September 2026 die parallele Umsetzung von PLAN-0010 neben der laufenden Plan-Skill-Überarbeitung. ADR-0038 und ADR-0039 wurden zuvor in Aufgabe `01a0d2a8-f239-7f51-bc6b-2b80052f8d4f` nach „beide sollen geschlossen werden“ angenommen und mit dem Fixplan in `890441e` gesichert. Diese Umsetzung verändert keine Plan-Skill-Quellen und beansprucht nicht den gemeinsamen aktiven Planplatz. Die Abschlussfortschreibung betrifft nur PLAN-0010.
 
-Vor den Quelländerungen wurde eine bytegetreue Kopie des Code-Members, seiner README-Fragmente, des Manifests und des importierten Familienvertrags gesichert. Der damals beobachtete HEAD war `8e02436f20f260d8c04cd2ce39f7da7dfad60fd7`. Die Kopie enthielt den tatsächlichen Arbeitsbaum, nicht nur diese Revision. W-001, W-002 und W-003 wurden als getrennte Zwischenstände verglichen. Temporäre Kopien und Testausgaben gehören zu `Z:/Projekts/AI/temp/2026-09-25-code-skillwriter/`, Paketstaging zum eigenen Unterbaum `E:/Dropbox/AI Projects/skills/temp/release/plan-0010-code/`.
+Vor den Quelländerungen wurde eine bytegetreue Kopie des Code-Members, seiner README-Fragmente, des Manifests und des importierten Familienvertrags gesichert. Der damals beobachtete HEAD war `8e02436f20f260d8c04cd2ce39f7da7dfad60fd7`. Die Kopie enthielt den tatsächlichen Arbeitsbaum, nicht nur diese Revision. W-001, W-002 und W-003 wurden als getrennte Zwischenstände verglichen. Das damalige Paketstaging ist nicht mehr vorhanden.
 
 ## Erhaltene und geänderte Verträge
 

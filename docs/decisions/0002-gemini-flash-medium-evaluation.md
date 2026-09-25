@@ -26,7 +26,7 @@ Die bisherigen nativen LUNA-Läufe sind nach einem Zwischenablage-Schreibzugriff
 ## Considered alternatives
 
 - LUNA über Codex: bisherige Ergebnisse vorhanden; Host-Isolation blieb unbewiesen.
-- Gemini über Antigravity: bestehender Transport in `Z:/Projekts/AI/skills/private/gemini-worker`; dessen Implementierungsstarter gewährt zu weitreichende Rechte für theoretische Tests.
+- Gemini über Antigravity: Der frühere Implementierungsstarter gewährte zu weitreichende Rechte für theoretische Tests.
 
 ## Consequences
 
