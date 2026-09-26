@@ -22,9 +22,5 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Arrange bundled shared sources as the development sibling
         run: python -c "import shutil; shutil.copytree('development/shared', '../shared')"
-      - run: python -B -m unittest discover -s ../shared/tests
-      - run: python -B -m unittest discover -s development/tests
-      - run: python -B -m unittest discover -s members/scoville-plan/development/tests
-      - run: python -B -m unittest discover -s members/scoville-ask-for-codex/development/tests
-      - run: python -B -m unittest discover -s members/scoville-workflow-for-codex/development/tests
-      - run: python -B -m unittest discover -s members/scoville-setup/development/tests
+      - name: Run source or exported-suite portability checks
+        run: python -B ../shared/build/run_portability.py --root . --shared ../shared

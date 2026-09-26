@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.1 - 2026-09-26
+
+- Preserve existing user authorization through native Workflow and Ask handoffs, and report answers that could not be delivered.
+- Respect host-required progress waits while keeping internal coordination free of extra polling and archival checks.
+
 ## v2.0.0 - 2026-09-25
 
 - Group related consecutive Workflow Steps, receive results through native messages and continue unfinished work through compact context handoffs.

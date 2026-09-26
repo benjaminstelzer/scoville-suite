@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0012
-status: active
+status: completed
 created: 2026-09-25
 updated: 2026-09-26
-current_item: W-009
 ---
 
 # Scoville und private Skills konsistent migrieren und veröffentlichen
@@ -205,7 +204,7 @@ Evidence: [2026-09-25: Nutzer bestätigt Übernahme von PLAN-0013 sowie Neubau u
 
 ### W-009 GitHub-Ziele sind ohne Namens- oder Sichtbarkeitsdrift veröffentlicht
 
-Status: in_progress
+Status: done
 Depends on: [W-008, W-011]
 Blocked by: []
 Decisions: [ADR-0069, ADR-0070, ADR-0071, ADR-0073, ADR-0079, ADR-0080]
@@ -215,12 +214,11 @@ Steps:
 1. Führe für jedes aktuelle Ziel und die vier Repositories aus ADR-0070 den autorisierten GitHub-Preflight aus und vergleiche Branch, Schutz, Sichtbarkeit, Historie, aktuelle Releases, Tags, Themen und Zielnamen mit W-001 und W-008.
 2. Veröffentliche die verifizierten Paketbäume und privaten Skills; benenne aktuelle Repositories um und setze ausschließlich die vier Repositories aus ADR-0070 privat. Erstelle die erforderlichen Releases und lade den zugeordneten Assetsatz hoch.
 3. Aktualisiere das Profil und alle betroffenen öffentlichen Metadaten aus den finalen Namen und überprüften Installationswegen; bewahre bestehende unbeteiligte Einträge.
-Evidence: [ADR-0082 Defaults umgesetzt und lokal installiert; Ask 23 Workflow 16 Setup 2 Tests bestanden; Codex-Paketprüfung bestanden]
-Next action: Nutzerkorrektur zur schlanken Coordinator-Vorprüfung nachprüfen und in saubere Releasekandidaten übernehmen; öffentliche Exporte und GitHub-Preflight aktualisieren.
+Evidence: Zehn Releases samt 56 hashgeprüften Assets veröffentlicht; Profil und Pins aktualisiert. Belege: docs/release-result-2026-09-26.md.
 
 ### W-010 Remote-Ergebnis und Neuinstallation sind vollständig verifiziert
 
-Status: todo
+Status: done
 Depends on: [W-009]
 Blocked by: []
 Decisions: [ADR-0069, ADR-0071, ADR-0073, ADR-0079]
@@ -230,9 +228,7 @@ Steps:
 1. Vergleiche jeden veröffentlichten Remote-Baum und Release mit dem zugehörigen Receipt, Commit, Tag, Assetinventar und lokalen Prüfsummen; lade Assets zur Identitätsprüfung erneut herunter.
 2. Führe General- und Codex-Migration in getrennten isolierten Installationswurzeln mit repräsentativen Altbeständen aus; prüfe Discovery und die Entfernung der persönlichen Einstellungen aus den deinstallierten Altinstallationen ohne Sicherung oder Übernahme, für unverändert benannte Bestandsmitglieder jeweils genau eine aktuelle verifizierte Installation sowie die Abwesenheit aller umbenannten oder entfallenen Legacy-IDs.
 3. Dokumentiere pro Repository und Suite den verifizierten Endstand sowie jede verbleibende Abweichung; schließe den Plan nur bei vollständiger Acceptance.
-Evidence: []
-Next action: Nach W-009 Remote-Bäume und Releaseassets gegen die lokalen Belege prüfen.
-
+Evidence: docs/release-result-2026-09-26.md: zehn Remote-Audits bestanden; 56 Downloads hashgleich; SOL-Migration mit 4/7 Skills und nativer Codex-Discovery bestanden.
 
 ### W-016 Lokale Suites vor dem GitHub-Release vollständig neu installieren
 

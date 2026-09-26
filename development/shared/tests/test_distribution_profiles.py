@@ -139,6 +139,17 @@ class DistributionProfilesTests(unittest.TestCase):
                               for p in (output / 'packages' / member['name']).rglob('*') if p.is_file()}
                     self.assertEqual(expected, actual)
                 self.assertEqual([], isolated.render_readmes(output, False))
+                exported_shared = Path(temp) / ('shared-' + profile)
+                shutil.copytree(output / 'development/shared', exported_shared)
+                process = subprocess.run([
+                    sys.executable, '-B', str(exported_shared / 'build/run_portability.py'),
+                    '--root', str(output), '--shared', str(exported_shared),
+                ], text=True, capture_output=True)
+                self.assertEqual(0, process.returncode, process.stderr)
+                result = json.loads(process.stdout)
+                self.assertEqual('export', result['mode'])
+                self.assertEqual(profile, result['profile'])
+                self.assertEqual(len(config['members']), result['members'])
 
 
 if __name__ == '__main__':
