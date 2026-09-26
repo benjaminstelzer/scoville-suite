@@ -1,13 +1,16 @@
 ## Compatibility
 
-Requires a frontier LLM from the Fable, Astra, SOL or Opus families, version 5.0
-or newer, an Agent Skills host with reference access, and the target project's
-toolchain. This is a minimum requirement, not a list of tested models.
+A current Fable, Astra, SOL or Opus model is recommended. Luna was also used
+in testing.
 
-Rendered proof needs a running interface, DOM or equivalent geometry inspection
-and actually viewed images. Interaction claims need browser or platform control.
+Requires an Agent Skills host with reference access, and the target project's
+toolchain.
+
+Visual checks require a running interface, screenshots and access to element
+positions and sizes through the DOM or an equivalent tool. Testing interactions
+requires browser or platform control.
 WordPress checks need the supported wp-admin runtime and its PHP/JavaScript
-components. Source-only and screenshot-only tasks retain their evidence limits.
+components. Source inspection cannot verify the rendered interface. Screenshots alone cannot verify interactions.
 
 Developed for Codex and Claude Code. Other hosts are untested. The Skill requires
-no network access or separate UI Skill.
+no network access.

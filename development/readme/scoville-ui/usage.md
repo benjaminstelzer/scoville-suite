@@ -8,16 +8,16 @@ Use Scoville UI to implement this settings screen with the existing component sy
 Audit the checkout interface for keyboard use, responsive behavior, accessibility and error recovery. Report findings without changing files.
 ```
 
-### Source-first checks and consistency audits
+### Checking the interface
 
-Group related edits, then check the source, measure affected relationships and
-view the rendered result. If defects remain, collect the corrections and
+Group related edits, then inspect the code and rendered result, including
+spacing and alignment. If defects remain, collect the corrections and
 validate the affected behavior after that batch.
 
-Custom styling needs a reason grounded in the component's ownership or API.
-Keep authored units distinct from computed pixels and visible geometry.
+Use the component's supported styling options. When custom CSS is needed,
+explain why. Distinguish CSS values from the sizes actually rendered on screen.
 
 A consistency audit inventories regions, variants and states, including content
 below the fold. Each finding links to source, measurements and visual evidence
-or a named gap. Check alignment, text, whitespace, control interiors, icons,
-wrapping and clipping; state any sampling limits.
+or explains what could not be checked. Check alignment, text, whitespace, control interiors, icons,
+wrapping and clipping. State which parts of the interface were checked.

@@ -47,8 +47,7 @@ read-only desktop overview. Point it at a project containing
 `PROJECT_INDEX.md`, `docs/plans`, and `docs/decisions` to see the active Plan
 point, completed and upcoming work, paused, blocked, or cancelled steps, and
 the current and historical Decisions. It rereads visible projects every four
-seconds while the window is active, so edits made by an agent or editor appear
-without a second tracking system.
+seconds while the window is active, so changes made by an agent or editor appear automatically.
 
 [Download the current release](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
 for Windows x64, macOS Apple Silicon or Intel, and Linux x64. Windows offers a
@@ -64,5 +63,5 @@ Viewer never changes its repository.
 
 Plan uses `format_version: 1`. Evidence accepts plain text such as
 `Evidence: Tests A, B passed.` and bracketed lists. Files support LF or
-consistent CRLF line endings. Use matching current Skill and Viewer versions;
-older readers require bracketed Evidence lists and LF.
+consistent CRLF line endings. Use matching current Skill and Viewer versions.
+Older readers require bracketed Evidence lists and LF.

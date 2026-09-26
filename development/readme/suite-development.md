@@ -26,8 +26,8 @@ packages are bundled under the suite's `packages/` directory. An isolated build
 needs no sibling source checkout or individual Skill repository.
 
 The complete private authoring source also supports `--profile general|codex`
-and `--layout standalone|suite`. Standalone projections retain family guidance.
-suite projections require the full member set. Export always produces a complete
+and `--layout standalone|suite`. Standalone builds include the family links.
+Suite builds include every member. Export always produces a complete
 suite with its selected profile and layout. An exported single-profile source
 does not offer the other profile.
 
