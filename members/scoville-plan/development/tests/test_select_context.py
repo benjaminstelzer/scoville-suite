@@ -149,11 +149,12 @@ class SelectContextTests(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, guide)
         readme_compatibility = COMPATIBILITY.read_text(encoding="utf-8")
-        compatibility = "{{ profile: general }}" + readme_compatibility.split("{{ profile: general }}", 1)[1].strip()
-        self.assertIn("Fable, Astra, SOL or Opus families, version 5.0", readme_compatibility)
-        self.assertIn(f'compatibility: "{compatibility}"', SKILL.read_text(encoding="utf-8"))
-        self.assertIn("Selector and validator need Python 3.10+", compatibility)
-        self.assertIn("Manual alternatives load only without Python", compatibility)
+        self.assertIn("A current Fable, Astra, SOL or Opus model is recommended.", readme_compatibility)
+        self.assertIn("Luna was also used", readme_compatibility)
+        self.assertIn("Optional validation and selection helpers require Python 3.10+", readme_compatibility)
+        core = SKILL.read_text(encoding="utf-8")
+        self.assertIn("Selector and validator need Python 3.10+", core)
+        self.assertIn("Manual alternatives load only without Python", core)
 
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory(prefix="scoville-selector-")

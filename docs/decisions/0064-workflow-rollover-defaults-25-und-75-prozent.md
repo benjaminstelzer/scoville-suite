@@ -1,11 +1,12 @@
 ---
 format_version: 1
 id: ADR-0064
-status: accepted
+status: superseded
 created: 2026-09-25
 accepted: 2026-09-25
 scope: workflow/orchestration
 supersedes: ADR-0063
+superseded_by: ADR-0098
 ---
 
 # Workflow mit automatischem Rollover bei 25 und 75 Prozent
