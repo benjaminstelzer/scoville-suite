@@ -1,7 +1,6 @@
 # Scoville Suite
 
-Scoville gives planning, code and UI work their own Skills, with Handoff for transfers.
-Install the complete edition. The general suite supports compatible
-Agent Skills hosts and supplies manual procedures only when Python is absent.
-Workflow and Ask are not included.
+Scoville helps your agent plan work, implement code, improve interfaces and
+carry unfinished tasks into the next conversation. Its Skills keep the goal,
+project conventions and verified results in view as the work progresses.
 
