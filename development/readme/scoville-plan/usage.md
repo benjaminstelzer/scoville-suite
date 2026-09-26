@@ -62,8 +62,7 @@ Viewer never changes its repository.
 
 ### Record compatibility
 
-Existing format-version-1 Plans need no migration. Updated readers also accept
-consistent CRLF and plain text such as `Evidence: Tests A, B passed.` No quoting
-or escaping is needed. Existing bracketed lists keep their meaning. Update the
-Skill and Viewer before using the new forms. Older readers may reject them.
-Keep legacy Evidence lists and LF when working with older readers.
+Plan uses `format_version: 1`. Evidence accepts plain text such as
+`Evidence: Tests A, B passed.` and bracketed lists. Files support LF or
+consistent CRLF line endings. Use matching current Skill and Viewer versions;
+older readers require bracketed Evidence lists and LF.

@@ -1,5 +1,4 @@
 ## How it was developed
 
-- General UI and WordPress instructions were developed separately and are now maintained as one Skill with a local platform adapter.
-- Common quality and validation rules have one source. WordPress retains its surface, version, spacing and translation contracts.
-- Historical reports cover their original packages and models. They do not establish the merged package's runtime behavior.
+- General interface and WordPress admin tasks informed the shared quality checks and platform guidance.
+- Development records identify tested packages, models and evidence limits. They provide no measured usability claim for every interface built with the Skill.

@@ -10,18 +10,14 @@ Audit the checkout interface for keyboard use, responsive behavior, accessibilit
 
 ### Source-first checks and consistency audits
 
-Implementation groups related UI changes before validation. Complete the planned
-edits, then check source, measure affected relationships and view the result.
-Screenshots and measurements follow the completed batch, not each small edit.
-If checks reveal defects, collect the related corrections and validate affected
-concerns after that correction batch is complete.
+Group related edits, then check the source, measure affected relationships and
+view the rendered result. If defects remain, collect the corrections and
+validate the affected behavior after that batch.
 
-Custom styling needs a concrete owner/API justification
-before it is written. Authored units and expressions remain distinct from their
-computed pixel values and visible geometry.
+Custom styling needs a reason grounded in the component's ownership or API.
+Keep authored units distinct from computed pixels and visible geometry.
 
-An ordinary request to check a page for consistency uses a read-only inventory
-of its regions, variants and relevant states, including content below the fold.
-Every entry maps to source, measurement and visual evidence or a named gap.
-The visual routine compares intended edges, text position, apparent whitespace,
-control interiors, icons, wrapping and clipping. Sampling limits remain explicit.
+A consistency audit inventories regions, variants and states, including content
+below the fold. Each finding links to source, measurements and visual evidence
+or a named gap. Check alignment, text, whitespace, control interiors, icons,
+wrapping and clipping; state any sampling limits.

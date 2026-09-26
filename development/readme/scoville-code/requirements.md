@@ -1,30 +1,24 @@
 ## What it enforces
 
-- **Outcome over ceremony.** Plans, tests, docs, and refactors support the
-  requested behavior. Producing them is not completion by itself.
-- **Canonical ownership.** The change fits the project's existing architecture,
-  records, terminology, and workflow instead of creating a second owner.
-- **Proportionate risk.** Small reversible work stays small. Checks follow
-  concrete failure risks. Broader security, migration or release gates apply
-  when the requested outcome or project rules require them.
-- **Evidence before claims.** Checks prove only what they observed. A failed
-  tool is not silently promoted to a passing product.
-- **Root-cause correction.** The agent changes approach after repeated failure
-  instead of repeating the same unsuccessful fix.
-- **Navigable code structure.** Existing work follows project conventions and
-  surrounding module boundaries. Greenfield work starts with the smallest
-  coherent responsibility-based layout. A 2,000-line default ceiling remains
-  a backstop with concrete exceptions, never an architecture target.
-- **Material questions only.** It asks when a missing choice changes behavior,
-  authority, cost, reversibility, or scope, not for details the code settles.
-- **Defaults for a wholly new project.** Project instructions come first.
-  Only complete greenfield work uses the stack-specific conventions in the
-  Skill's `references/project-conventions.md`. Keep personal overrides outside
-  the installed Skill and reference them explicitly from `AGENTS.md` so Skill
-  updates do not replace them. Existing projects keep their organization.
-  The [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions)
-  explains paths, precedence and update behavior with a copyable example.
-- **Complete handoff.** The final report names changed behavior, relevant
-  validation, unresolved failures, and relevant repository state.
+- **The requested result.** Plans, tests and refactors support the outcome;
+  completion requires the behavior itself.
+- **Existing ownership.** Changes follow the project's architecture, records,
+  terminology and workflow.
+- **Proportionate checks.** Verification addresses concrete failure risks.
+  Broader security, migration or release checks follow the task and project rules.
+- **Supported claims.** Reports distinguish observed results, failed checks
+  and unverified behavior.
+- **Root-cause correction.** Repeated failure triggers a reassessment of the approach.
+- **Navigable code.** Existing conventions and module boundaries guide changes.
+  New projects start with a small layout organized by responsibility. The
+  2,000-line default ceiling permits justified exceptions.
+- **Necessary questions.** Ask when a choice changes behavior, authority, cost,
+  reversibility or scope. Resolve ordinary details from the project.
+- **Your conventions.** Project instructions take priority. Defaults apply only
+  to a wholly new project. Keep personal conventions outside the installed
+  Skill and reference them from `AGENTS.md` to preserve them across updates.
+  See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions).
+- **Useful completion reports.** State changed behavior, validation, unresolved
+  failures and relevant repository state.
 
-- The complete contract is in [SKILL.md]({{ var: contract_url }}).
+The complete contract is in [SKILL.md]({{ var: contract_url }}).

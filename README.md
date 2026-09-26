@@ -13,54 +13,47 @@ The agent uses the Skills relevant to your request.
 
 ## Scoville Code
 
-A coding agent can finish the wrong thing quite thoroughly. The tests are green,
-the report sounds certain, but the behavior you asked for is still missing.
+A coding agent can produce passing tests while missing the behavior you asked
+for. Scoville Code connects the requested result, the existing implementation
+and the evidence that a change works.
 
-Scoville Code is the engineering foundation of the suite. It connects the
-requested result, the existing implementation and the evidence that the change
-works. The agent must understand the cause and respect the project's architecture,
-not simply produce a plausible patch. Use it to develop, diagnose, review or
-remove code without turning every small change into a full audit.
+Use it to develop, diagnose, review or remove code. It directs the agent to find
+the cause, respect the project's architecture and check the affected behavior
+with effort proportionate to the task.
 
 ### How it works
 
-- Establish the observable outcome, responsible code, introduced risks and cheapest decisive check before substantial editing.
-- Read the owner and relevant callers, contracts and tests. Expand only when the evidence points elsewhere.
-- Fix the cause in the existing implementation. Avoid parallel paths, speculative abstractions and unrelated cleanup.
-- Test the changed behavior. A successful build or mocked integration proves only what it exercised.
-- Investigate failed checks without weakening required guarantees. Change obsolete assertions only when an explicitly authorized contract change requires it. After two unsuccessful corrections of the same cause, reassess the approach.
-- Inspect the complete change and report observed results and remaining gaps. Stop checking when further evidence would not change the decision.
+- Identify the outcome, responsible code, risks and decisive check before editing.
+- Read relevant code, callers and tests. Expand the investigation when evidence requires it.
+- Fix the cause within the existing architecture and requested scope.
+- Check the changed behavior and report what the evidence actually proves.
+- Investigate failures without weakening guarantees. Revise obsolete assertions only for an authorized contract change. Reassess after two failed corrections of the same cause.
+- Inspect the complete change, report remaining gaps and stop checking when further evidence would not change the decision.
 
 ### What it enforces
 
-- **Outcome over ceremony.** Plans, tests, docs, and refactors support the
-  requested behavior. Producing them is not completion by itself.
-- **Canonical ownership.** The change fits the project's existing architecture,
-  records, terminology, and workflow instead of creating a second owner.
-- **Proportionate risk.** Small reversible work stays small. Checks follow
-  concrete failure risks. Broader security, migration or release gates apply
-  when the requested outcome or project rules require them.
-- **Evidence before claims.** Checks prove only what they observed. A failed
-  tool is not silently promoted to a passing product.
-- **Root-cause correction.** The agent changes approach after repeated failure
-  instead of repeating the same unsuccessful fix.
-- **Navigable code structure.** Existing work follows project conventions and
-  surrounding module boundaries. Greenfield work starts with the smallest
-  coherent responsibility-based layout. A 2,000-line default ceiling remains
-  a backstop with concrete exceptions, never an architecture target.
-- **Material questions only.** It asks when a missing choice changes behavior,
-  authority, cost, reversibility, or scope, not for details the code settles.
-- **Defaults for a wholly new project.** Project instructions come first.
-  Only complete greenfield work uses the stack-specific conventions in the
-  Skill's `references/project-conventions.md`. Keep personal overrides outside
-  the installed Skill and reference them explicitly from `AGENTS.md` so Skill
-  updates do not replace them. Existing projects keep their organization.
-  The [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions)
-  explains paths, precedence and update behavior with a copyable example.
-- **Complete handoff.** The final report names changed behavior, relevant
-  validation, unresolved failures, and relevant repository state.
+- **The requested result.** Plans, tests and refactors support the outcome;
+  completion requires the behavior itself.
+- **Existing ownership.** Changes follow the project's architecture, records,
+  terminology and workflow.
+- **Proportionate checks.** Verification addresses concrete failure risks.
+  Broader security, migration or release checks follow the task and project rules.
+- **Supported claims.** Reports distinguish observed results, failed checks
+  and unverified behavior.
+- **Root-cause correction.** Repeated failure triggers a reassessment of the approach.
+- **Navigable code.** Existing conventions and module boundaries guide changes.
+  New projects start with a small layout organized by responsibility. The
+  2,000-line default ceiling permits justified exceptions.
+- **Necessary questions.** Ask when a choice changes behavior, authority, cost,
+  reversibility or scope. Resolve ordinary details from the project.
+- **Your conventions.** Project instructions take priority. Defaults apply only
+  to a wholly new project. Keep personal conventions outside the installed
+  Skill and reference them from `AGENTS.md` to preserve them across updates.
+  See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions).
+- **Useful completion reports.** State changed behavior, validation, unresolved
+  failures and relevant repository state.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md).
+The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md).
 
 ### What it costs
 
@@ -70,40 +63,34 @@ remove code without turning every small change into a full audit.
 
 ## Scoville Plan
 
-Work spread across conversations is easy to lose. A task may be marked done
-without evidence, a decision may disappear into chat, or the next session may
-have to reconstruct the project before making one change.
+Work spread across conversations needs a durable record of the goal, decisions
+and next action. Scoville Plan keeps those facts in the repository, with Work
+Items that describe resumable outcomes and evidence required for completion.
 
-Scoville Plan keeps direction, Work Items and Decisions in the repository.
-It makes the current work and next action recoverable while preserving the
-project's existing planning owner. Use it for dependent work and long-running
-projects, not to turn a small reversible edit into paperwork.
+Use it for dependent work and long-running projects. It follows the project's
+existing planning owner and keeps small tasks proportionate.
 
 ### How it works
 
-- Resolve the existing planning owner and whether durable records are needed.
-- Read the relevant Plan, Work Item and Decisions, then edit Markdown and YAML directly.
-- Check the next item against current sources before starting it. Keep one current item and an explicit next action.
-- Record evidence before completion and preserve accepted decisions and completed history.
-- Validate the planning records and select the context needed for the current task.
+- Use the repository's planning owner and relevant Plan, Work Items and Decisions.
+- Check current sources before starting the next item.
+- Edit Markdown and YAML records with an explicit next action.
+- Record evidence before completion, preserve accepted history and validate the records.
 
 ### What it enforces
 
-- **One planning owner.** Existing repository instructions and records stay authoritative.
-- **Records a worker can use.** Each fact has one owner. Goals describe the current target, Work Items describe resumable outcomes, and numbered Steps name the actual work.
-- **Check before starting.** Compare the next item with current sources and relevant completed work. Repair stale assumptions before executing them.
-- **One active item.** The Plan names the current work and its first unfinished action.
-- **Durable changes of direction.** Queue additions without losing current work. Preserve explicit stops, priorities and requested returns after a redirect.
-- **Evidence before completion.** A file and a green structure check do not prove that the requested result works.
-- **Explicit decisions.** Record human choices without asking twice. Keep inferred choices proposed until accepted.
-- **No planning for the sake of planning.** Editing the Plan changes its records directly. It does not create another Work Item to maintain them.
+- **One planning owner.** Repository instructions and canonical records remain authoritative.
+- **Clear work units.** Goals name the target, Work Items define resumable outcomes, and ordered Steps describe the work.
+- **Current assumptions.** Check the next item against sources and completed work before execution.
+- **One active item.** Record current work and its first unfinished action.
+- **Durable direction.** Preserve additions, stops, priorities and requested returns after a redirect.
+- **Evidence before completion.** Record observed results that establish acceptance.
+- **Explicit decisions.** Save human choices; keep inferred choices proposed until accepted.
+- **Direct maintenance.** Update Plan records without creating extra work items for routine edits.
 
-- When Workflow is active, Steps expose the scope and boundaries needed for dispatch. The coordinator chooses the route. Plan can retain an explicit executor choice, but does not quietly turn a small-looking edit into low-risk work.
+Edit the records from one session at a time; concurrent changes require reconciliation.
 
-- The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md).
-
-Let the current run finish before editing the same records elsewhere. Plan does
-not lock files. Concurrent changes require reconciliation.
+See [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md) for the complete contract and editing limits.
 
 ### What it costs
 
@@ -113,93 +100,69 @@ not lock files. Concurrent changes require reconciliation.
 
 ## Scoville UI
 
-A good desktop screenshot does not show whether someone can use the page.
-The main action may disappear on mobile, keyboard focus may be missing, or an
-error may leave the user with no way forward.
+A page must work across screen sizes, input methods and error states.
+Scoville UI implements and audits those behaviors through the project's
+framework and design system, using rendered evidence to check the result.
 
-Scoville UI implements and audits interfaces through the framework and design
-system already in use. One shared contract covers information structure, states,
-accessibility and rendered evidence. For supported WordPress admin pages, it
-loads a local adapter for Core components, native spacing, versions and i18n.
+For supported WordPress admin pages, it applies Core components, spacing,
+version requirements and translation conventions.
 
 ### How it works
 
-- Identify the existing design system, implementation owner and approved product decisions.
-- Load the local WordPress adapter only for supported plugin-owned `wp-admin`
-  pages. Editor surfaces and metaboxes keep their host owner. Other frameworks
-  use the general route.
-- Read the relevant component and styling code before changing the interface.
-- Implement affected states and responsive behavior through supported framework components.
-- Check the completed batch in the actual rendered interface, including relevant input and focus behavior.
-- Use one common validation process with the selected platform's additional checks.
-- Return blocked product decisions to their owner. Without an approved visual
-  direction, choose a limited direction within the existing framework conventions.
+- Identify the design system, responsible components and approved product decisions.
+- Read relevant code and use the framework's supported components.
+- Apply WordPress guidance to supported plugin-owned `wp-admin` pages. Editor surfaces and metaboxes retain their host conventions.
+- Implement affected states and responsive behavior, then inspect the rendered result and interactions.
+- Resolve blocked product decisions with their owner. Where visual direction is open, stay within existing framework conventions.
 
 ### What it enforces
 
-- **The product keeps its visual owner.** The incumbent design system comes
-  first. UI implements approved product decisions. Without an approved visual
-  direction, it chooses a limited direction within existing framework conventions.
-- **The task has a hierarchy.** Primary decisions, supporting information, and
-  secondary actions remain distinguishable.
-- **Real states exist.** Loading, empty, error, disabled, success, focus,
-  keyboard, and touch behavior are covered when relevant.
-- **Responsive means adapted.** The task survives narrow, wide, zoomed, and
-  content-heavy conditions rather than just scaling down the desktop layout.
-- **Accessibility is structural.** Reading order, names, relationships,
-  contrast, focus, and input behavior are checked in their real context.
-- **Evidence matches the claim.** Source inspection can prove structure.
-  Rendered or interactive claims require rendered or interactive evidence.
+- **Design consistency.** Follow the existing design system and approved product decisions.
+- **Clear hierarchy.** Distinguish primary decisions, supporting information and secondary actions.
+- **Complete states.** Cover relevant loading, empty, error, disabled, success and input states.
+- **Responsive behavior.** Preserve the task across narrow, wide, zoomed and content-heavy layouts.
+- **Accessibility.** Check reading order, names, relationships, contrast, focus and keyboard or touch behavior.
+- **Matching evidence.** Support visual and interaction claims with rendered and interactive checks.
+- **WordPress conventions.** Respect Classic, Core Components, bundled WPDS and hybrid regions. Using tokens does not require a React migration.
 
-- **WordPress keeps its native owners.** Classic, Core Components, bundled WPDS and hybrid regions remain distinct. Tokens do not require a React migration.
-
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
+The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ### What it costs
 
-- Browser inspection, interaction checks and corrections use additional tokens and time.
-- WordPress work loads extra platform references. Other frameworks do not need them.
-- Source-only work leaves rendering and interaction unverified. These instructions do not establish measured usability gains.
+- Browser inspection, interaction checks and corrections take tokens and time.
+- WordPress tasks load platform-specific guidance.
+- Source-only checks leave rendering and interaction unverified.
 
 [How to use Scoville UI](members/scoville-ui/README.md#how-to-use).
 
 ## Scoville Handoff
 
-The next session needs enough information to continue, not another transcript.
-A long summary can still miss the current blocker, unfinished changes or the
-reason an earlier approach failed.
-
-Scoville Handoff produces one compact continuation prompt with the objective,
-current state, authority and next safe action. It preserves the facts needed
-to resume without quietly advancing or completing the work.
+Continuing a task requires its current blocker, unfinished changes and relevant
+decisions. Scoville Handoff gathers those facts into one compact, copy-ready
+prompt with the objective, permissions and next action, so another session can
+resume the work.
 
 ### How it works
 
-- Use established conversation facts and read named task sources with bounded recovery when a read is incomplete.
-- Capture decisions, ownership, evidence, blockers and hazards without secrets.
-- Organize the result into Receiver Instructions, Objective, State and Resume Steps.
-- Compare the prompt against the captured facts and return one copy-ready block.
-- The receiver checks current state before acting. A tight limit removes repetition before necessary facts.
+- Read conversation facts and named sources, recovering incomplete reads within the user's limits.
+- Capture decisions, ownership, evidence and blockers while excluding secrets.
+- Organize and check one copy-ready prompt with Receiver Instructions, Objective, State and Resume Steps.
+- Preserve necessary facts under length limits. The receiver checks current state before acting.
 
 ### What it enforces
 
-- **Explicit transfer only.** Ordinary summaries and context reduction do not
-  produce a handoff artifact.
-- **One receiver contract.** Every handoff contains Receiver Instructions,
-  Objective, State, and Resume Steps in one copy-ready block.
-- **Facts instead of pointers.** Conversation facts remain available. Named sources are read with targeted recovery
-  for truncation or a transient failure, within explicit user limits. Their material
-  facts enter the artifact so the receiver has them when resuming.
-- **Authority and ownership survive.** Commit, publication, destructive-action,
-  external-effect, file-owner, and dirty-tree boundaries stay explicit.
-- **Unknown stays unknown.** Running or unobserved work never becomes a success
-  claim, and secret values never enter the handoff.
-- **The receiver can act.** Step 1 is the next safe action. The final step names
-  an observable completion result.
-- **Transfer does not advance the task.** Handoff reads the named state but does
-  not edit, test, publish, or otherwise improve it on the way out.
+- **Explicit transfer.** A requested handoff produces one continuation prompt.
+- **Usable context.** Material facts from the conversation and named sources
+  appear in the prompt, including blockers and incomplete work.
+- **Preserved authority.** Permissions, file ownership, user changes and
+  boundaries on commits, publication or destructive actions remain explicit.
+- **Honest state.** Unobserved results remain unknown. Secrets stay out.
+- **Actionable continuation.** The first Resume Step gives the next safe action;
+  the last defines observable completion.
+- **A faithful snapshot.** Creating the handoff reads and describes the task
+  without editing, testing or advancing it.
 
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
+The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
 
 ### What it costs
 
@@ -211,7 +174,7 @@ to resume without quietly advancing or completing the work.
 
 ### scoville-ask-for-codex
 
-Codex online. Available separately; not included in this edition.
+Codex online. Available as a standalone Skill.
 
 Ask your Codex host:
 
@@ -303,9 +266,8 @@ and the development files.
 
 ## Deprecated
 
-Scoville used to cover more ground. I did not remove these Skills because each of them failed every task. I removed them because I could no longer show a reliable advantage over modern frontier models that justified the work required to test and maintain them. That is the standard I care about. I would rather offer fewer Skills and test them properly than keep a larger suite where some are merely good enough.
-
-The general suite contains Code, Plan, one combined UI Skill and Handoff. The Codex edition adds Workflow, Ask and Setup.
+The following Skills are retired. Testing did not establish enough benefit over
+frontier models to justify their continued maintenance.
 
 - **Scoville Scribe Anti-AI-Slop:** The writing comparisons did not establish a reliable benefit. The tested version also introduced unsupported claims.
 - **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models ended in a tie.

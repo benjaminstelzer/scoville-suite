@@ -1,19 +1,14 @@
 ## What it enforces
 
-- **Explicit transfer only.** Ordinary summaries and context reduction do not
-  produce a handoff artifact.
-- **One receiver contract.** Every handoff contains Receiver Instructions,
-  Objective, State, and Resume Steps in one copy-ready block.
-- **Facts instead of pointers.** Conversation facts remain available. Named sources are read with targeted recovery
-  for truncation or a transient failure, within explicit user limits. Their material
-  facts enter the artifact so the receiver has them when resuming.
-- **Authority and ownership survive.** Commit, publication, destructive-action,
-  external-effect, file-owner, and dirty-tree boundaries stay explicit.
-- **Unknown stays unknown.** Running or unobserved work never becomes a success
-  claim, and secret values never enter the handoff.
-- **The receiver can act.** Step 1 is the next safe action. The final step names
-  an observable completion result.
-- **Transfer does not advance the task.** Handoff reads the named state but does
-  not edit, test, publish, or otherwise improve it on the way out.
+- **Explicit transfer.** A requested handoff produces one continuation prompt.
+- **Usable context.** Material facts from the conversation and named sources
+  appear in the prompt, including blockers and incomplete work.
+- **Preserved authority.** Permissions, file ownership, user changes and
+  boundaries on commits, publication or destructive actions remain explicit.
+- **Honest state.** Unobserved results remain unknown. Secrets stay out.
+- **Actionable continuation.** The first Resume Step gives the next safe action;
+  the last defines observable completion.
+- **A faithful snapshot.** Creating the handoff reads and describes the task
+  without editing, testing or advancing it.
 
-- The complete contract is in [SKILL.md]({{ var: contract_url }}).
+The complete contract is in [SKILL.md]({{ var: contract_url }}).

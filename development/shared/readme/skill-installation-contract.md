@@ -1,6 +1,4 @@
-{{ package: standalone }}This Skill works on its own. Other Scoville Skills are optional and handle
-only their own concerns when available and applicable.
-{{ /package }}{{ package: suite }}This package requires every Skill included in this suite to be installed and
-enabled. Partial installation is not supported. Skills keep their own task
-scope and invocation rules. Workflow still requires an explicit request.
+{{ package: standalone }}This Skill works independently. Other Scoville Skills are optional.
+{{ /package }}{{ package: suite }}Install and enable every Skill in the suite. Each applies to its own task scope.
+{{ profile: codex }}Start Workflow by asking for it explicitly.{{ /profile }}
 {{ /package }}

@@ -1,58 +1,42 @@
 # Scoville UI
 
-A good desktop screenshot does not show whether someone can use the page.
-The main action may disappear on mobile, keyboard focus may be missing, or an
-error may leave the user with no way forward.
+A page must work across screen sizes, input methods and error states.
+Scoville UI implements and audits those behaviors through the project's
+framework and design system, using rendered evidence to check the result.
 
-Scoville UI implements and audits interfaces through the framework and design
-system already in use. One shared contract covers information structure, states,
-accessibility and rendered evidence. For supported WordPress admin pages, it
-loads a local adapter for Core components, native spacing, versions and i18n.
+For supported WordPress admin pages, it applies Core components, spacing,
+version requirements and translation conventions.
 
 ## How it works
 
-- Identify the existing design system, implementation owner and approved product decisions.
-- Load the local WordPress adapter only for supported plugin-owned `wp-admin`
-  pages. Editor surfaces and metaboxes keep their host owner. Other frameworks
-  use the general route.
-- Read the relevant component and styling code before changing the interface.
-- Implement affected states and responsive behavior through supported framework components.
-- Check the completed batch in the actual rendered interface, including relevant input and focus behavior.
-- Use one common validation process with the selected platform's additional checks.
-- Return blocked product decisions to their owner. Without an approved visual
-  direction, choose a limited direction within the existing framework conventions.
+- Identify the design system, responsible components and approved product decisions.
+- Read relevant code and use the framework's supported components.
+- Apply WordPress guidance to supported plugin-owned `wp-admin` pages. Editor surfaces and metaboxes retain their host conventions.
+- Implement affected states and responsive behavior, then inspect the rendered result and interactions.
+- Resolve blocked product decisions with their owner. Where visual direction is open, stay within existing framework conventions.
 
 ## What it enforces
 
-- **The product keeps its visual owner.** The incumbent design system comes
-  first. UI implements approved product decisions. Without an approved visual
-  direction, it chooses a limited direction within existing framework conventions.
-- **The task has a hierarchy.** Primary decisions, supporting information, and
-  secondary actions remain distinguishable.
-- **Real states exist.** Loading, empty, error, disabled, success, focus,
-  keyboard, and touch behavior are covered when relevant.
-- **Responsive means adapted.** The task survives narrow, wide, zoomed, and
-  content-heavy conditions rather than just scaling down the desktop layout.
-- **Accessibility is structural.** Reading order, names, relationships,
-  contrast, focus, and input behavior are checked in their real context.
-- **Evidence matches the claim.** Source inspection can prove structure.
-  Rendered or interactive claims require rendered or interactive evidence.
+- **Design consistency.** Follow the existing design system and approved product decisions.
+- **Clear hierarchy.** Distinguish primary decisions, supporting information and secondary actions.
+- **Complete states.** Cover relevant loading, empty, error, disabled, success and input states.
+- **Responsive behavior.** Preserve the task across narrow, wide, zoomed and content-heavy layouts.
+- **Accessibility.** Check reading order, names, relationships, contrast, focus and keyboard or touch behavior.
+- **Matching evidence.** Support visual and interaction claims with rendered and interactive checks.
+- **WordPress conventions.** Respect Classic, Core Components, bundled WPDS and hybrid regions. Using tokens does not require a React migration.
 
-- **WordPress keeps its native owners.** Classic, Core Components, bundled WPDS and hybrid regions remain distinct. Tokens do not require a React migration.
-
-- The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
+The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ## What it costs
 
-- Browser inspection, interaction checks and corrections use additional tokens and time.
-- WordPress work loads extra platform references. Other frameworks do not need them.
-- Source-only work leaves rendering and interaction unverified. These instructions do not establish measured usability gains.
+- Browser inspection, interaction checks and corrections take tokens and time.
+- WordPress tasks load platform-specific guidance.
+- Source-only checks leave rendering and interaction unverified.
 
 ## How it was developed
 
-- General UI and WordPress instructions were developed separately and are now maintained as one Skill with a local platform adapter.
-- Common quality and validation rules have one source. WordPress retains its surface, version, spacing and translation contracts.
-- Historical reports cover their original packages and models. They do not establish the merged package's runtime behavior.
+- General interface and WordPress admin tasks informed the shared quality checks and platform guidance.
+- Development records identify tested packages, models and evidence limits. They provide no measured usability claim for every interface built with the Skill.
 
 - Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 
@@ -67,12 +51,10 @@ and actually viewed images. Interaction claims need browser or platform control.
 WordPress checks need the supported wp-admin runtime and its PHP/JavaScript
 components. Source-only and screenshot-only tasks retain their evidence limits.
 
-Developed for Codex and Claude Code. Other hosts are untested. The merged package
-has no mandatory network access or dependency on another installed UI Skill.
+Developed for Codex and Claude Code. Other hosts are untested. The Skill requires
+no network access or separate UI Skill.
 
-This package requires every Skill included in this suite to be installed and
-enabled. Partial installation is not supported. Skills keep their own task
-scope and invocation rules. Workflow still requires an explicit request.
+Install and enable every Skill in the suite. Each applies to its own task scope.
 
 ## Install
 
@@ -107,21 +89,17 @@ Audit the checkout interface for keyboard use, responsive behavior, accessibilit
 
 ### Source-first checks and consistency audits
 
-Implementation groups related UI changes before validation. Complete the planned
-edits, then check source, measure affected relationships and view the result.
-Screenshots and measurements follow the completed batch, not each small edit.
-If checks reveal defects, collect the related corrections and validate affected
-concerns after that correction batch is complete.
+Group related edits, then check the source, measure affected relationships and
+view the rendered result. If defects remain, collect the corrections and
+validate the affected behavior after that batch.
 
-Custom styling needs a concrete owner/API justification
-before it is written. Authored units and expressions remain distinct from their
-computed pixel values and visible geometry.
+Custom styling needs a reason grounded in the component's ownership or API.
+Keep authored units distinct from computed pixels and visible geometry.
 
-An ordinary request to check a page for consistency uses a read-only inventory
-of its regions, variants and relevant states, including content below the fold.
-Every entry maps to source, measurement and visual evidence or a named gap.
-The visual routine compares intended edges, text position, apparent whitespace,
-control interiors, icons, wrapping and clipping. Sampling limits remain explicit.
+A consistency audit inventories regions, variants and states, including content
+below the fold. Each finding links to source, measurements and visual evidence
+or a named gap. Check alignment, text, whitespace, control interiors, icons,
+wrapping and clipping; state any sampling limits.
 
 ## Sources
 

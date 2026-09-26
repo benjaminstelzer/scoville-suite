@@ -1,10 +1,8 @@
 # Scoville Plan
 
-Work spread across conversations is easy to lose. A task may be marked done
-without evidence, a decision may disappear into chat, or the next session may
-have to reconstruct the project before making one change.
+Work spread across conversations needs a durable record of the goal, decisions
+and next action. Scoville Plan keeps those facts in the repository, with Work
+Items that describe resumable outcomes and evidence required for completion.
 
-Scoville Plan keeps direction, Work Items and Decisions in the repository.
-It makes the current work and next action recoverable while preserving the
-project's existing planning owner. Use it for dependent work and long-running
-projects, not to turn a small reversible edit into paperwork.
+Use it for dependent work and long-running projects. It follows the project's
+existing planning owner and keeps small tasks proportionate.
