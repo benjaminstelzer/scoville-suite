@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.1 - 2026-09-26
+
+- Route component constraints to the visual decision owner and distinguish evidence review from a simple unverified-status boundary.
+- Apply WordPress adapter routing to hypothetical implementation advice as well as execution.
+
 ## v2.0.0 - 2026-09-25
 
 - Merge general UI and WordPress admin guidance into `scoville-ui`.

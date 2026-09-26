@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.0.2 - 2026-09-26
+
+- Keep per-unit Workflow role numbering, stop work at context handoff, and preserve message authorization and exact return identities.
+- Separate Handoff preferences from requirements and name blocking Plan decisions before the action they prevent.
+- Preserve existing file encoding and line endings, report individual check failures, and keep Workflow cursors and delegated ownership current.
+- Clarify Handoff recovery, final Plan completion, UI evidence ownership and Workflow context boundaries.
+- Resolve explicit Ask adviser presets and retain precise mismatch and Claude-timeout recovery state.
+- Reuse the unchanged Plan Viewer v1.3.3 binaries and checksums for the compatible Plan package.
+
 ## v2.0.1 - 2026-09-26
 
 - Preserve existing user authorization through native Workflow and Ask handoffs, and report answers that could not be delivered.

@@ -66,9 +66,9 @@ The user subsequently authorized GitHub publication. Three clean detached releas
 
 | Repository | Release | Commit | Assets |
 | --- | --- | --- | ---: |
-| Scoville Code | [v1.0.26](https://github.com/benjaminstelzer/scoville-code-anti-ai-slop/releases/tag/v1.0.26) | c37e660ed22d0259a43775d3202ffb6011008306 | 2 |
-| Scoville Plan | [v1.3.5](https://github.com/benjaminstelzer/scoville-plan/releases/tag/v1.3.5) | 5443ab8415f39e6e1ad2286915344e6915042b77 | 14 |
-| WordPress Backend UI | [v1.2.3](https://github.com/benjaminstelzer/wordpress-backend-ui-skill/releases/tag/v1.2.3) | c55645a9a44ce1a99eb490bc63645150e2ad0740 | 2 |
+| Scoville Code | v1.0.26 | c37e660ed22d0259a43775d3202ffb6011008306 | 2 |
+| Scoville Plan | v1.3.5 | 5443ab8415f39e6e1ad2286915344e6915042b77 | 14 |
+| WordPress Backend UI | v1.2.3 | c55645a9a44ce1a99eb490bc63645150e2ad0740 | 2 |
 
 GitHub branch heads, annotated tags, release bodies, visibility, asset inventories and server-reported SHA-256 digests matched the candidates. All eleven Plan Viewer binaries were verified against the prior checksum manifest and carried forward unchanged at 1.3.0. Each remote now contains one published stable release and one release-version tag. Older local version tags were removed too. Original local main branches were advanced only after their complete prepared indexes matched the published commits, preserving uncommitted audit work.
 

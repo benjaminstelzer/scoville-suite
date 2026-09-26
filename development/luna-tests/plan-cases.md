@@ -28,5 +28,5 @@ All repository states are hypothetical. Do not change real files or run tasks.
 21. A todo Step involves unresolved helper contracts, cross-language mirrored definitions and interpreted integration tests. Should it be described as a trivial edit?
 22. A user supplies a minimum route annotation. Who owns final model and effort selection at dispatch?
 23. The user pauses W-001 to run W-004 and explicitly requires returning to W-001 afterward.
-24. The active Plan's final current item is in_progress with observed Acceptance, no blockers and all dependencies done. Every other item is done or cancelled and no deferred work remains. State the final item, Plan and index transitions. Should a placeholder item keep the Plan active?
+24. The active Plan's final current item is in_progress with observed Acceptance, no blockers and all dependencies done. Every other item is done or cancelled and no deferred work remains. State the final item, Plan and index transitions and their required validation. Should a placeholder item keep the Plan active?
 25. The current item has partial implementation, a failed test, an unresolved proposal affecting the next step and an incoming additive request. Specify the allowed state update and queue behavior without inventing completion, changing started history or silently accepting the proposal.

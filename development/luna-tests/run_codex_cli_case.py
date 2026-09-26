@@ -18,10 +18,6 @@ import time
 from process_lifetime import WorkerProcess
 
 
-KNOWN_CODE_MODE_ERROR = (
-    "Code Mode is unavailable because code-mode host is disabled. Code mode will fail closed; "
-    "enable `features.code_mode_host` and install `codex-code-mode-host`."
-)
 CONTINUATION = (
     "Continue the same hypothetical case using only supplied text. Do not use\n"
     "tools or execute project actions. Request any other required packaged text\n"
@@ -42,9 +38,9 @@ DISABLED_FEATURES = (
 )
 HASH_PATTERN = re.compile(r"[0-9a-fA-F]{64}\Z")
 READ_PATTERN = re.compile(r"READ ([^\r\n]+)\Z")
-QUALIFIED_MODEL = "gpt-5.6-luna"
-SUPPORTED_TEST_MODELS = (QUALIFIED_MODEL, "gpt-5.6-terra")
-QUALIFIED_EFFORT = "medium"
+QUALIFIED_MODEL = "gpt-6-luna"
+SUPPORTED_TEST_MODELS = (QUALIFIED_MODEL,)
+QUALIFIED_EFFORT = "high"
 
 
 class ProtocolError(RuntimeError):
@@ -136,9 +132,6 @@ def validate_requested_file(
 ) -> tuple[bytes, str]:
     if relative in served:
         raise ProtocolError("duplicate_request")
-    raw_parts = relative.split("/")
-    if not raw_parts or raw_parts[0] not in {"references", "assets", "scripts"}:
-        raise ProtocolError("invalid_request_path")
     if relative not in manifested:
         raise ProtocolError("unmanifested_request")
     resolved = contained_path(package_root, relative, "requested_file_or_parent_is_reparse_point")
@@ -157,25 +150,20 @@ def validate_requested_file(
 
 
 def parse_read_requests(answer: str) -> list[str] | None:
-    lines = answer.splitlines()
-    matches = [READ_PATTERN.fullmatch(line) for line in lines]
-    if lines and all(matches):
-        return [match.group(1) for match in matches if match]
-    if any(line.startswith("READ ") for line in lines):
-        raise ProtocolError("mixed_or_malformed_read_response")
-    return None
+    # A request keeps the turn open, even when accompanied by an explanation.
+    requests = [match.group(1) for line in answer.splitlines()
+                if (match := READ_PATTERN.fullmatch(line.strip()))]
+    return requests or None
 
 
 class EventValidator:
     """Validate the qualified event stream as each complete line arrives."""
 
-    expected_types = (
-        "thread.started", "item.completed", "turn.started", "item.completed", "turn.completed"
-    )
-
     def __init__(self, expected_thread: str | None):
         self.expected_thread = expected_thread
         self.events = []
+        self.state = "start"
+        self.answers = []
 
     def feed(self, line: bytes) -> None:
         try:
@@ -184,32 +172,33 @@ class EventValidator:
             raise ProtocolError("event_parse_error") from error
         if not isinstance(event, dict):
             raise ProtocolError("event_is_not_object")
-        index = len(self.events)
-        if index >= len(self.expected_types) or event.get("type") != self.expected_types[index]:
-            raise ProtocolError("unexpected_event_order")
-        if index == 0:
-            thread_id = event.get("thread_id")
-            if not isinstance(thread_id, str) or not thread_id or (self.expected_thread and thread_id != self.expected_thread):
+        kind = event.get("type")
+        if self.state == "start" and kind == "thread.started":
+            identity = event.get("thread_id")
+            if not isinstance(identity, str) or not identity or (self.expected_thread and identity != self.expected_thread):
                 raise ProtocolError("thread_identity_mismatch")
-        elif index == 1:
-            item = event.get("item")
-            if not isinstance(item, dict) or item.get("type") != "error" or item.get("message") != KNOWN_CODE_MODE_ERROR:
-                raise ProtocolError("missing_known_fail_closed_error")
-        elif index == 3:
-            item = event.get("item")
-            if not isinstance(item, dict) or item.get("type") != "agent_message":
-                raise ProtocolError("missing_agent_response")
-            if not isinstance(item.get("text"), str) or not item["text"].strip():
-                raise ProtocolError("empty_agent_response")
+            self.state = "ready"
+        elif self.state == "ready" and kind == "turn.started":
+            self.state = "turn"
+        elif self.state == "turn" and kind == "item.completed":
+            item = event.get("item", {})
+            if item.get("type") != "agent_message" or not isinstance(item.get("text"), str) or not item["text"].strip():
+                raise ProtocolError("unexpected_action_or_empty_response")
+            self.answers.append(item["text"])
+        elif self.state == "turn" and kind == "turn.completed" and self.answers:
+            self.state = "done"
+        else:
+            raise ProtocolError("unexpected_event_order")
         self.events.append(event)
 
     def finish(self) -> dict:
-        if len(self.events) != len(self.expected_types):
-            raise ProtocolError("unexpected_event_count")
+        if self.state != "done":
+            raise ProtocolError("incomplete_turn")
         return {
             "thread_id": self.events[0]["thread_id"],
-            "answer": self.events[3]["item"]["text"],
-            "usage": self.events[4].get("usage"),
+            "answer": self.answers[-1],
+            "messages": self.answers,
+            "usage": self.events[-1].get("usage"),
             "event_types": [event["type"] for event in self.events],
         }
 
@@ -229,6 +218,11 @@ def base_command(codex: Path, catalog: Path, model: str, effort: str) -> list[st
         "--model", model, "-c", f'model_reasoning_effort="{effort}"',
         "-c", f'model_catalog_json="{catalog.as_posix()}"', "-c", "mcp_servers={}",
         "-c", 'web_search="disabled"',
+        "-c", 'features.code_mode=false',
+        "-c", 'features.skip_host_skill_discovery=true',
+        "-c", 'skills.include_instructions=false',
+        "-c", 'include_collaboration_mode_instructions=false',
+        "-c", 'model_instructions_file=' + json.dumps(str(Path(__file__).with_name("comprehension-instructions.md").resolve())),
     ]
     for feature in DISABLED_FEATURES:
         command.extend(("--disable", feature))

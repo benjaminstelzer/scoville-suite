@@ -26,7 +26,7 @@ Skip absent entries, leave unrelated Skills untouched, and keep no backup or set
 ```
 
 All included Skills must remain enabled. Their task scope and invocation rules
-still apply; Workflow requires an explicit invocation. Choose standalone Skill
+still apply. Workflow requires an explicit invocation. Choose standalone Skill
 packages instead if you want only selected Skills. Do not mix standalone and
 suite copies of the same Skill.
 

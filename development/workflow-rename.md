@@ -1,8 +1,8 @@
 # Workflow rename
 
-Canonical package: `scoville-workflow-for-codex`. Private distribution only.
-Source and tests use the new name. Historical records and GitHub evidence keep
-their original identifiers; `history_repository` preserves imported links.
+Canonical package: `scoville-workflow-for-codex`. It is distributed only inside
+`scoville-suite-for-codex`, never through a standalone Workflow repository.
+Source and tests use the canonical package name.
 
 The old installed `scoville-workflow-codex` directory stays intact while tasks
 may still reference it. No installation, task restart, remote rename or source

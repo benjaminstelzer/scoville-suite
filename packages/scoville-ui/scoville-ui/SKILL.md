@@ -75,7 +75,7 @@ audit rules apply only to supported plugin-owned backend pages in `wp-admin`.
 Themes, site frontends and frontend output from plugins use the general UI
 route. Excluded host-owned admin surfaces retain their host's contract.
 
-For a plugin backend request, read
+For a plugin backend request, including hypothetical implementation advice, read
 [the WordPress adapter](references/wordpress/adapter.md) and its required
 [routing contract](references/wordpress/routing.md) before dependent advice or
 implementation. Classify the surface, actual runtime per DOM region and supported
@@ -101,8 +101,10 @@ selected. Reuse one inventory and one evidence pass.
    variation, inputs, breakpoints/adaptation mechanisms, semantics, and proof.
 3. Reuse canonical components, tokens, variants, layouts, breakpoints, and
    interactions. Add a primitive only for a demonstrated owner gap.
-4. Make the smallest framework-valid change. If a real implementation constraint conflicts with a canonical product
-   decision, report it to its owner. Do not silently redesign.
+4. Make the smallest framework-valid change. If a real implementation constraint
+   conflicts with a canonical product decision, report the exact component
+   constraint to the product or visual decision owner. Implement the revised
+   decision after that owner resolves the conflict. Do not silently redesign.
 5. Batch related UI changes before validation. Inspect generating code and CSS
    to guide implementation, then complete the planned edits before running
    affected source checks, measuring actual geometry and viewing the result.
@@ -147,7 +149,9 @@ the general Framework route. These narrow routes do not bypass its exclusions.
   rendering.
 
 **EVIDENCE-ONLY:** The UI decision is fixed and the task only evaluates existing
-proof. Load Validation alone. Add Quality only when the current task also judges
+proof. Judging what existing source or build evidence establishes uses
+Validation. Merely stating that unimplemented or source-only work leaves
+rendering, interaction and accessibility unverified does not. Add Quality only when the current task also judges
 an open quality, state, accessibility-structure or mechanism question. Add
 Framework only when ownership or the implementation path remains unresolved.
 The narrower OWNERSHIP-ONLY case above still applies to a hypothetical asking

@@ -2,7 +2,7 @@
 
 Install and enable every Skill included in this edition. The suite assumes
 that its members are available and does not check for missing sibling Skills
-at runtime. Partial installation is not supported; use standalone Skill
+at runtime. Partial installation is not supported. Use standalone Skill
 packages if you want to install only selected Skills.
 
 Availability does not make every Skill applicable to every task. Load the

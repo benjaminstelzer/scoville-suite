@@ -1,7 +1,8 @@
 ## What it enforces
 
 - **The product keeps its visual owner.** The incumbent design system comes
-  first. UI implements approved product decisions; without a visual owner, it uses a bounded local direction.
+  first. UI implements approved product decisions. Without an approved visual
+  direction, it chooses a limited direction within existing framework conventions.
 - **The task has a hierarchy.** Primary decisions, supporting information, and
   secondary actions remain distinguishable.
 - **Real states exist.** Loading, empty, error, disabled, success, focus,

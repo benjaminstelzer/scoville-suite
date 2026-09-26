@@ -12,17 +12,21 @@ loads a local adapter for Core components, native spacing, versions and i18n.
 ## How it works
 
 - Identify the existing design system, implementation owner and approved product decisions.
-- Load the local WordPress adapter only for admin surfaces. Other frameworks use the general route.
+- Load the local WordPress adapter only for supported plugin-owned `wp-admin`
+  pages. Editor surfaces and metaboxes keep their host owner. Other frameworks
+  use the general route.
 - Read the relevant component and styling code before changing the interface.
 - Implement affected states and responsive behavior through supported framework components.
 - Check the completed batch in the actual rendered interface, including relevant input and focus behavior.
 - Use one common validation process with the selected platform's additional checks.
-- Return blocked product decisions to their owner. Without a visual owner, use the bounded new-interface direction.
+- Return blocked product decisions to their owner. Without an approved visual
+  direction, choose a limited direction within the existing framework conventions.
 
 ## What it enforces
 
 - **The product keeps its visual owner.** The incumbent design system comes
-  first. UI implements approved product decisions; without a visual owner, it uses a bounded local direction.
+  first. UI implements approved product decisions. Without an approved visual
+  direction, it chooses a limited direction within existing framework conventions.
 - **The task has a hierarchy.** Primary decisions, supporting information, and
   secondary actions remain distinguishable.
 - **Real states exist.** Loading, empty, error, disabled, success, focus,
@@ -68,7 +72,7 @@ has no mandatory network access or dependency on another installed UI Skill.
 
 This package requires every Skill included in this suite to be installed and
 enabled. Partial installation is not supported. Skills keep their own task
-scope and invocation rules; Workflow still requires an explicit request.
+scope and invocation rules. Workflow still requires an explicit request.
 
 ## Install
 

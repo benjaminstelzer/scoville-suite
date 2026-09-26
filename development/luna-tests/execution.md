@@ -1,8 +1,8 @@
 # Evaluation execution
 
-Owner: SOL coordinator (`gpt-5.6-sol`, `medium`). Subject model:
-`gpt-5.6-luna`, `medium`. The host's agent tool advertises both combinations;
-successful execution and actual metadata remain unverified until observed.
+Owner: SOL coordinator (`gpt-6-sol`, `medium`). Subject model:
+`gpt-6-luna`, `medium`. The host advertises both combinations; successful
+execution and actual metadata remain unverified until observed.
 Never substitute. Existing historical agent runs do not count toward this gate.
 
 ## Freeze before dispatch
@@ -47,7 +47,7 @@ references in this development directory. No raw transcript release is implied.
 The author reviews SOL's judgments. Fix evidenced Skill defects in canonical
 sources, rebuild and rerun affected cases plus relevant regressions. A defective
 test requires an explicit versioned correction, not a silently fitted key.
-Changed package or test hashes invalidate affected prior results. All 300 cases
-must pass with verified settings and no unresolved findings before the gate
-passes. Theoretical success neither proves live integrations nor authorizes
-publication.
+Changed package or test hashes invalidate affected prior results. All 45 cases
+selected by `selected-cases.json` must pass with verified settings and no
+unresolved findings before the gate passes. Theoretical success neither proves
+live integrations nor authorizes publication.

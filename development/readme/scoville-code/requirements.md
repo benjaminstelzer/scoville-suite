@@ -4,8 +4,9 @@
   requested behavior. Producing them is not completion by itself.
 - **Canonical ownership.** The change fits the project's existing architecture,
   records, terminology, and workflow instead of creating a second owner.
-- **Proportionate risk.** Small reversible work stays small. Destructive,
-  public-facing, security, data, or release work receives stronger gates.
+- **Proportionate risk.** Small reversible work stays small. Checks follow
+  concrete failure risks. Broader security, migration or release gates apply
+  when the requested outcome or project rules require them.
 - **Evidence before claims.** Checks prove only what they observed. A failed
   tool is not silently promoted to a passing product.
 - **Root-cause correction.** The agent changes approach after repeated failure

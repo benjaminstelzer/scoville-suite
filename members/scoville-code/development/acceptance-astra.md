@@ -18,13 +18,10 @@ Pending cases:
 - Explicit release/migration checks remain required. Measure classification and
   actual testing separately; risk alone already does not widen test scope.
 
-## Other owners
+## Other owner
 
-Each repository owns its acceptance record, with all cases still pending:
-- [F01 WordPress](https://github.com/benjaminstelzer/wordpress-backend-ui-skill/blob/main/development/acceptance-astra.md)
-- [F02 Plan](https://github.com/benjaminstelzer/scoville-plan/blob/main/development/acceptance-astra.md)
-- [F05 Claude and Astra](https://github.com/benjaminstelzer/ask-claude-and-astra-for-codex/blob/main/development/acceptance-astra.md)
-- [F05 Claude and SOL](https://github.com/benjaminstelzer/ask-claude-and-sol-for-codex/blob/main/development/acceptance-astra.md)
+The remaining separate acceptance record is
+[F02 Plan](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/acceptance-astra.md).
 
 ## Unimplemented conditional candidates
 

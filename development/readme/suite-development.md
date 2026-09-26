@@ -6,12 +6,11 @@ files are generated previews, not a second authoring source.
 
 An isolated clone builds from the shared tools and templates bundled under
 `development/shared/`. In the authoring workspace, the sibling `shared/`
-directory owns those sources and supplies both suites. Installed Skills use
+directory owns those sources and builds both the general and Codex editions. Installed Skills use
 only the helpers inside their own package.
 
 The shared Development block appears in this suite and its member previews.
-Individual releases omit it. Maintain its source, test and note paths in each
-member's `development` metadata in `suite.json`.
+Individual releases omit it.
 
 Regenerate previews with `python development/build_suite.py --write-readmes`.
 Use `--check-readmes` to detect stale previews.
@@ -27,11 +26,10 @@ packages are bundled under the suite's `packages/` directory. An isolated build
 needs no sibling source checkout or individual Skill repository.
 
 The complete private authoring source also supports `--profile general|codex`
-and `--layout standalone|suite`. Standalone projections retain family guidance;
+and `--layout standalone|suite`. Standalone projections retain family guidance.
 suite projections require the full member set. Export always produces a complete
 suite with its selected profile and layout. An exported single-profile source
 does not offer the other profile.
 
-The build receipt records the selected profile, layout, package inventory,
-source revision and hashes. Uncommitted sources produce development builds.
-Publication requires inspected committed sources and the release checks.
+Uncommitted sources produce development builds. Publication requires inspected
+committed sources and the release checks.

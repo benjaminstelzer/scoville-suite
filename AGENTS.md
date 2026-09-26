@@ -4,7 +4,7 @@ Agents may read JSON helper output and use JSON configuration. Do not require
 agents to hand-write syntactically correct JSON for dispatch, handoffs or helper
 requests. Use plain text, helper-generated JSON, native structured arguments or
 automatic serialization. Preserve technical parameter contracts. Ask Claude
-may retain its JSON interface; generate its requests rather than hand-writing them.
+may retain its JSON interface. Generate its requests rather than hand-writing them.
 
 Helper acceptance requires direct use of successful output in its intended next
 step. For valid inputs, returned text, prompts, code and data must need no agent
@@ -13,14 +13,19 @@ Explicit diagnostics for invalid input or unavailable dependencies are failures
 to handle, never successful output to repair or silently accept.
 
 Family lists are build projections, not copied text. Maintain membership and
-Scoville `family` metadata in `suite.json`; use `{{ include: suite.members }}`,
+Scoville `family` metadata in `suite.json`. Use `{{ include: suite.members }}`,
 `family.owners`, `family.links`, `family.install`, or `family.neighbors`
 in Markdown sources. See `development/shared/build/fragments.md` before changing them.
-Never install template sources directly; install the built package.
+Never install template sources directly. Install the built package.
 
 Apply [shared writing rules](development/shared/instruction-writing.md) to all AI-consumed
 content, including AGENTS.md. Write briefly and precisely. Plan uses its compact writing rules. Additional Workflow instructions
-use the selected shared writing profile; other instructions remain clear for Luna.
+use the selected shared writing profile. Other instructions remain clear for Luna.
+For user-facing and AI-consumed explanations, a TL;DR never replaces the
+necessary explanation. Write as briefly as possible and as fully as needed.
+remove repetition and low-value maintenance detail, not required context or
+safeguards. Prefer a compact diagram when it explains sequence, ownership or
+branching more clearly than long prose. Preserve useful diagrams during edits.
 
 `suite.json` owns distribution membership, visibility, exact package files and
 README composition. `members/` contains canonical member sources and their
@@ -32,13 +37,13 @@ README fragments under `development/readme/` are authoritative. Member README
 files are generated previews. Build them from the fragments, never edit both.
 Write all GitHub-facing READMEs and CHANGELOGs in Benjamin's voice, including
 suite and member sources, fragments, and release projections. Open with the
-point; use direct, precise language, make real tradeoffs and causal links clear,
+point. Use direct, precise language, make real tradeoffs and causal links clear,
 and avoid promotional gloss. Keep the text natural in its target language.
 Use ` - ` for interruptions, never an en dash or em dash. Do not use semicolons
 to separate prose clauses or sentences.
 Preserve factual claims, technical requirements, and release history. When
 available, use `benjaminstelzer-imitate-me` for the wording pass.
-Keep user-facing text portable. Use repository-relative paths or placeholders;
+Keep user-facing text portable. Use repository-relative paths or placeholders.
 never include a user name, drive letter, local checkout or session path, or a
 host-specific observation. Keep machine-specific evidence in internal records.
 Each member's `description_fragments` owns its complete description block. The suite
@@ -60,7 +65,7 @@ excluded files. See `development/shared/build/fragments.md` for audience and lin
 Build release packages with `python development/build_suite.py` under the sole
 `<workspace-root>/skills/temp/release/` tree, selecting `--profile`,
 `--layout` and `--public-only`. Use `--refresh` only after existing readers
-finish; changed inventory requires reconciliation first. Synchronize verified
+finish. Changed inventory requires reconciliation first. Synchronize verified
 outputs to regular Skill directories, removing obsolete generated files while
 preserving sources and Git history. Build output is not publication authority.
 Scoville Workflow is approved for public distribution only within
@@ -77,3 +82,9 @@ Installed Skills must not depend on either shared directory.
 Archive completed model-test tasks after their task IDs and results are secured
 in the owning evidence. Keep a review task open only while its requested
 review-and-fix loop is still active.
+
+Once at the start of each Codex session working in this repository, inspect the
+available collaboration tools for `close_agent`. Do not repeat this check for
+later tasks in the same session. If it is available, report it and treat Ask's
+separate-adviser-chat workaround as ready for reassessment. Do not change the
+route without an explicit accepted decision.
