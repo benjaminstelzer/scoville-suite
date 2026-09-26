@@ -48,7 +48,7 @@ class DistributionProfilesTests(unittest.TestCase):
                         self.assertNotIn('Family owners', core)
                         self.assertNotIn('Relevant neighboring owners', core)
                         self.assertIn('installed and enabled', core)
-                        self.assertIn('Partial installation is not supported', readme)
+                        self.assertIn('Install the complete suite' if member['name'] == 'scoville-setup' else 'Install and enable every Skill in the suite', readme)
                         install = readme.split('## Install', 1)[1].split('## How to use', 1)[0]
                         self.assertIn(config['repository'] + '/tree/main/packages', install)
                         self.assertNotIn('https://github.com/benjaminstelzer/' + member['name'] + '/tree/', install)
@@ -59,7 +59,7 @@ class DistributionProfilesTests(unittest.TestCase):
                     else:
                         self.assertIn('## Family', readme)
                         self.assertIn('This Skill works independently', core)
-                        self.assertIn('This Skill works on its own', readme)
+                        self.assertIn('This Skill works independently', readme)
                 if profile == 'general':
                     plan = next(m for m in config['members'] if m['name'] == 'scoville-plan')
                     self.assertEqual({'scoville-plan/references/profile-without-python.md',
