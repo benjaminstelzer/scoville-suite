@@ -227,7 +227,7 @@ class SelectContextTests(unittest.TestCase):
         self.assertEqual([], payload["direct_dependencies"])
         self.assertEqual([], payload["decisions"])
 
-    def test_exact_step_unit_omits_other_steps_and_all_evidence(self) -> None:
+    def test_exact_step_keeps_separate_complete_work_item_context(self) -> None:
         completed = self.run_cli("--unit", "W-003/step-2")
         self.assertEqual(0, completed.returncode, completed.stdout)
         payload = json.loads(completed.stdout)
@@ -236,9 +236,12 @@ class SelectContextTests(unittest.TestCase):
         self.assertEqual(["2. Change only the selected behavior."], item["steps"])
         self.assertEqual("2. Change only the selected behavior.\n", item["source_text"])
         self.assertNotIn("Evidence", item)
-        self.assertNotIn("Inspect the producer", completed.stdout)
-        self.assertNotIn("Verify the exact output", completed.stdout)
-        self.assertNotIn("old executor attempt", completed.stdout)
+        self.assertNotIn("Inspect the producer", item["source_text"])
+        self.assertIn("Inspect the producer", item["context_text"])
+        self.assertNotIn("Verify the exact output", item["source_text"])
+        self.assertIn("Verify the exact output", item["context_text"])
+        self.assertNotIn("old executor attempt", item["source_text"])
+        self.assertIn("old executor attempt", item["context_text"])
         self.assertEqual([DECISION], payload["decisions"])
         self.assertEqual("Outcome: Return ✓ without unrelated bodies.", item["outcome"])
         self.assertEqual("Acceptance: Exact projection.", item["acceptance"])
@@ -252,8 +255,10 @@ class SelectContextTests(unittest.TestCase):
             ["1. Inspect the producer.", "2. Change only the selected behavior."],
             item["steps"],
         )
-        self.assertNotIn("Verify the exact output", completed.stdout)
-        self.assertNotIn("old reviewer attempt", completed.stdout)
+        self.assertNotIn("Verify the exact output", item["source_text"])
+        self.assertIn("Verify the exact output", item["context_text"])
+        self.assertNotIn("old reviewer attempt", item["source_text"])
+        self.assertIn("old reviewer attempt", item["context_text"])
 
     def test_work_item_without_steps_preserves_full_source(self) -> None:
         completed = self.run_cli("--unit", "W-002")
@@ -267,7 +272,6 @@ class SelectContextTests(unittest.TestCase):
 
     def test_invalid_unit_selection_fails_closed(self) -> None:
         cases = (
-            (("--unit", "W-003"), "UNIT_STEP_REQUIRED"),
             (("--unit", "W-001/step-1"), "UNIT_HAS_NO_STEPS"),
             (("--unit", "W-003/step-4"), "UNIT_STEP_MISSING"),
             (("--unit", "W-003/steps-2-2"), "UNIT_RANGE_INVALID"),

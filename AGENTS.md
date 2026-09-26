@@ -1,5 +1,17 @@
 # Suite source ownership
 
+Agents may read JSON helper output and use JSON configuration. Do not require
+agents to hand-write syntactically correct JSON for dispatch, handoffs or helper
+requests. Use plain text, helper-generated JSON, native structured arguments or
+automatic serialization. Preserve technical parameter contracts. Ask Claude
+may retain its JSON interface; generate its requests rather than hand-writing them.
+
+Helper acceptance requires direct use of successful output in its intended next
+step. For valid inputs, returned text, prompts, code and data must need no agent
+repair round. Test the actual consumer, not only exit status or parseability.
+Explicit diagnostics for invalid input or unavailable dependencies are failures
+to handle, never successful output to repair or silently accept.
+
 Family lists are build projections, not copied text. Maintain membership and
 Scoville `family` metadata in `suite.json`; use `{{ include: suite.members }}`,
 `family.owners`, `family.links`, `family.install`, or `family.neighbors`

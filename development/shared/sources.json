@@ -39,7 +39,7 @@
   "tests/test_description_contract.py": "6073abb8fbb34149728a4dd8e8d4589ada9edb7ebf50c6edbcf914c8ce98b0e4",
   "tests/test_distribution_profiles.py": "61532953c66c2e98c1b4051b92f0da1873a2f5fffb490fd98277448da4ac2721",
   "tests/test_family_fragments.py": "fd52a7ee74915aa1f0ea9d0313d959e19264bb55bd84bf549f8d46bba1ef8f2b",
-  "tests/test_lifecycle_builds.py": "f4f6f759b2a52784811b38c5983777ddd6934a2e4927adf82141c3e893c7a914",
+  "tests/test_lifecycle_builds.py": "1a470ace7bd3657c0ba86c36c327a7c02d549a8aec19c5447e2d63cb6982d308",
   "tests/test_package_bytes.py": "f3bcf31c19100eef9a277d5695262f26548f917f472522f95f4ca07cb4119606",
   "tests/test_path_safety.py": "8888708c5e6bf275fb731603b061dc6b244e31c6d17372d2b1382488f0aa2e21",
   "tests/test_portable_sources.py": "71613f91126298b7f66757a2597b38c3b62b84e1a992b5313eb7baccc16889ec",
