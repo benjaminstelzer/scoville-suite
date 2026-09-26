@@ -2,6 +2,8 @@
 
 ## v2.0.0 - 2026-09-25
 
+- Group related consecutive Workflow Steps, receive results through native messages and continue unfinished work through compact context handoffs.
+- Keep native Ask advisers in separate chats with S-ASK model titles, without a lifecycle helper between Codex and its task tools.
 - Bundle Plan Viewer v1.3.3 and build its Windows, Linux and macOS assets with one checksum manifest from the suite workflow.
 - Replace the old Code and UI package names, combine Ask variants, add Setup and simplify Plan and Workflow configuration.
 - Install General and Codex suites through short migration prompts that remove only listed old Skills before a fresh complete installation.

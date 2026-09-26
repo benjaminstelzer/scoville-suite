@@ -1,0 +1,147 @@
+{
+  "selection": "Exact descendants of ALT1/ALT2 launchers excluding launchers; NEU includes its initiating coordinator. Full IDs and paths fixed on 2026-09-26.",
+  "groups": {
+    "ALT1": [
+      {
+        "id": "01a0d5be-4297-7ff3-8e23-cc1117aa4dd4",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T01-26-51-01a0d5be-4297-7ff3-8e23-cc1117aa4dd4.jsonl"
+      },
+      {
+        "id": "01a0d5b5-8106-7a72-8bd7-0de74b987e83",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T01-17-17-01a0d5b5-8106-7a72-8bd7-0de74b987e83.jsonl"
+      },
+      {
+        "id": "01a0d5af-50f6-71c1-93fc-bdcf75b84b5e",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T01-10-31-01a0d5af-50f6-71c1-93fc-bdcf75b84b5e.jsonl"
+      },
+      {
+        "id": "01a0d5a6-dffa-7990-b645-e9e14e93417a",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T01-01-18-01a0d5a6-dffa-7990-b645-e9e14e93417a.jsonl"
+      },
+      {
+        "id": "01a0d5a0-57d9-7d32-91a6-1af9048965fe",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T00-54-10-01a0d5a0-57d9-7d32-91a6-1af9048965fe.jsonl"
+      },
+      {
+        "id": "01a0d587-87b2-7470-8666-d6353aac54b2",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T00-27-04-01a0d587-87b2-7470-8666-d6353aac54b2.jsonl"
+      },
+      {
+        "id": "01a0d582-19c7-7362-834c-a0e405c7140e",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T00-21-08-01a0d582-19c7-7362-834c-a0e405c7140e.jsonl"
+      },
+      {
+        "id": "01a0d57d-8387-7e13-a2e0-b91600c6026c",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T00-16-07-01a0d57d-8387-7e13-a2e0-b91600c6026c.jsonl"
+      },
+      {
+        "id": "01a0d575-a93f-7880-a75e-86234a4014ae",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T00-07-33-01a0d575-a93f-7880-a75e-86234a4014ae.jsonl"
+      },
+      {
+        "id": "01a0d561-be24-7e32-a7d4-302f9803138b",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T23-45-47-01a0d561-be24-7e32-a7d4-302f9803138b.jsonl"
+      },
+      {
+        "id": "01a0d50c-2bcd-7b03-8ba3-32d36349a50e",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T22-12-19-01a0d50c-2bcd-7b03-8ba3-32d36349a50e.jsonl"
+      },
+      {
+        "id": "01a0d506-6a4a-74d2-a119-edd2bced51a6",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T22-06-02-01a0d506-6a4a-74d2-a119-edd2bced51a6.jsonl"
+      },
+      {
+        "id": "01a0d4fe-324e-7d30-9c5e-757425d3f7f9",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T21-57-04-01a0d4fe-324e-7d30-9c5e-757425d3f7f9.jsonl"
+      },
+      {
+        "id": "01a0d4f6-5a87-76f2-bfa6-223d8edadad5",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T21-48-30-01a0d4f6-5a87-76f2-bfa6-223d8edadad5.jsonl"
+      },
+      {
+        "id": "01a0d4ef-629d-7753-94c9-497a31d2cc29",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T21-40-53-01a0d4ef-629d-7753-94c9-497a31d2cc29.jsonl"
+      },
+      {
+        "id": "01a0d4da-27b0-7c33-9330-7ec034669378",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T21-17-42-01a0d4da-27b0-7c33-9330-7ec034669378.jsonl"
+      },
+      {
+        "id": "01a0d4d2-9dae-7690-be68-af90af576a6a",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T21-09-27-01a0d4d2-9dae-7690-be68-af90af576a6a.jsonl"
+      },
+      {
+        "id": "01a0d4c7-1e74-76a2-8331-493225bb316b",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T20-56-54-01a0d4c7-1e74-76a2-8331-493225bb316b.jsonl"
+      },
+      {
+        "id": "01a0d4b4-e316-7c12-aaf4-8ed5ef7427f9",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T20-36-59-01a0d4b4-e316-7c12-aaf4-8ed5ef7427f9.jsonl"
+      },
+      {
+        "id": "01a0d4ad-1a3a-7392-8800-b7e9891c5f99",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T20-28-29-01a0d4ad-1a3a-7392-8800-b7e9891c5f99.jsonl"
+      },
+      {
+        "id": "01a0d49d-f0cf-7161-b642-7b298be9a38e",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T20-11-55-01a0d49d-f0cf-7161-b642-7b298be9a38e.jsonl"
+      },
+      {
+        "id": "01a0d49a-b05b-71b3-be40-384fece2ec82",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T20-08-22-01a0d49a-b05b-71b3-be40-384fece2ec82.jsonl"
+      }
+    ],
+    "ALT2": [
+      {
+        "id": "01a0d41a-76ea-7113-891b-846eda80075c",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T17-48-19-01a0d41a-76ea-7113-891b-846eda80075c.jsonl"
+      },
+      {
+        "id": "01a0d411-1fce-7922-ac57-7a1bd73fce78",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T17-38-07-01a0d411-1fce-7922-ac57-7a1bd73fce78.jsonl"
+      },
+      {
+        "id": "01a0d402-70b2-72f3-895a-17b51c9b67ab",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T17-22-04-01a0d402-70b2-72f3-895a-17b51c9b67ab.jsonl"
+      },
+      {
+        "id": "01a0d3d2-1157-7ad0-a3e3-f350048585c4",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T16-29-14-01a0d3d2-1157-7ad0-a3e3-f350048585c4.jsonl"
+      },
+      {
+        "id": "01a0d3be-2c93-7930-b415-e131823dfa61",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T16-07-31-01a0d3be-2c93-7930-b415-e131823dfa61.jsonl"
+      },
+      {
+        "id": "01a0d3af-5396-7151-911c-107d8541e248",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-24T15-51-17-01a0d3af-5396-7151-911c-107d8541e248.jsonl"
+      }
+    ],
+    "NEU": [
+      {
+        "id": "01a0daa1-2f6c-7f93-a57a-4d4ed283e243",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-26T00-13-11-01a0daa1-2f6c-7f93-a57a-4d4ed283e243.jsonl"
+      },
+      {
+        "id": "01a0da9d-4b5b-7703-8a7f-0d95a7ec9229",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-26T00-08-56-01a0da9d-4b5b-7703-8a7f-0d95a7ec9229.jsonl"
+      },
+      {
+        "id": "01a0da99-a364-7f42-8a2a-e8bc88197e58",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-26T00-04-57-01a0da99-a364-7f42-8a2a-e8bc88197e58.jsonl"
+      },
+      {
+        "id": "01a0da96-14ad-7761-920d-8cdfd4ee3019",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-26T00-01-03-01a0da96-14ad-7761-920d-8cdfd4ee3019.jsonl"
+      },
+      {
+        "id": "01a0da92-3039-7251-be02-7097c1abe223",
+        "path": "~/.codex/archived_sessions/rollout-2026-09-25T23-56-48-01a0da92-3039-7251-be02-7097c1abe223.jsonl"
+      },
+      {
+        "id": "01a0da85-96be-7173-acf9-d8cd1da1e4e3",
+        "path": "~/.codex/sessions/2026/09/25/rollout-2026-09-25T23-43-03-01a0da85-96be-7173-acf9-d8cd1da1e4e3.jsonl"
+      }
+    ]
+  }
+}

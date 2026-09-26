@@ -216,7 +216,7 @@ Steps:
 2. Veröffentliche die verifizierten Paketbäume und privaten Skills; benenne aktuelle Repositories um und setze ausschließlich die vier Repositories aus ADR-0070 privat. Erstelle die erforderlichen Releases und lade den zugeordneten Assetsatz hoch.
 3. Aktualisiere das Profil und alle betroffenen öffentlichen Metadaten aus den finalen Namen und überprüften Installationswegen; bewahre bestehende unbeteiligte Einträge.
 Evidence: [ADR-0082 Defaults umgesetzt und lokal installiert; Ask 23 Workflow 16 Setup 2 Tests bestanden; Codex-Paketprüfung bestanden]
-Next action: Finalen Quellenstand committen und Exporte sowie Public-Ziele mit ADR-0082 neu erzeugen; danach Veröffentlichung fortsetzen.
+Next action: Nutzerkorrektur zur schlanken Coordinator-Vorprüfung nachprüfen und in saubere Releasekandidaten übernehmen; öffentliche Exporte und GitHub-Preflight aktualisieren.
 
 ### W-010 Remote-Ergebnis und Neuinstallation sind vollständig verifiziert
 
@@ -247,3 +247,18 @@ Steps:
 2. Deinstalliere die benannten Skillgruppen und installiere die vollständigen passenden Pakete aus skills/public/.
 3. Vergleiche Dateiinventare und Hashes; prüfe verfügbare Discovery und kehre vor GitHub-Veröffentlichung zu W-011 zurück.
 Evidence: [2026-09-25: Nutzer priorisiert reale Neuinstallation vor weiterem GitHub-Release für den Workflow im DIVI-5-Projekt., 2026-09-25: Automatische Hostprüfung verweigert Deinstallationsprozess vor Start mit blocked by policy; keine Installation oder Entfernung ausgeführt., 2026-09-25: Nutzer entfernt Altinstallationen; Abwesenheit vor Installation geprüft., 2026-09-25: Codex sieben und Claude vier Skills aus Public installiert; alle Dateien hashgleich; 107 beziehungsweise 27 fremde Dateien unverändert.]
+
+### W-017 Workflow delegiert sparsam und Suite-Helper sind mit Luna geprüft
+
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0083]
+Outcome: Worker erhalten nur ihren Planpunkt mit nötiger kurzer Zusatzinfo und der Coordinator übernimmt Ergebnisse ohne laufende Überwachung; alle verwendeten Suite-Helper haben korrekte Aufrufverträge.
+Acceptance: Aktuelle und ältere archivierte Sessions sind mit konkreten Git-Änderungen verglichen. Korrigierte Dispatches enthalten keinen gesamten Plan oder fremde Historie. Warte- und Kommunikationsverhalten vermeidet unnötige Modellarbeit. Jeder inventarisierte Helper und seine dokumentierten Aufrufarten ist gegen Implementierung sowie durch ausgeführte Luna-6-Medium-Fälle geprüft; Fehler und Grenzen bleiben sichtbar. Geänderte Pakete und Installation stimmen mit den final geprüften Quellen überein.
+Steps:
+1. Vergleiche aktuelle und archivierte Workflow-Sessions mit der Versionsgeschichte; erfasse vermeidbare Aufrufe und Kontextduplikate.
+2. Korrigiere die kanonischen Dispatch- und Warteverträge sowie belegte Helper-Aufruffehler suiteweit.
+3. Führe für alle inventarisierten Helper und die korrigierten Workflow-Verträge Luna-6-Medium-Tests mit isolierten Fixtures aus; prüfe die beobachteten Ergebnisse.
+4. Baue die betroffenen Pakete neu und aktualisiere die Installation erst an einer sicheren inaktiven Grenze; erhalte den DIVI-Stopp bis zur ausdrücklichen Fortsetzung.
+Evidence: PLAN-0014 samt Astra und SOL abgeschlossen. Nutzer erlaubt Installation trotz DIVI ohne Workflow: Codex 7 Skills mit 78 Dateien; Claude 4 mit 43 Dateien hashgleich.

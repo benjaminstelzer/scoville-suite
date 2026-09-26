@@ -329,3 +329,125 @@ W-007 wurde auf Nutzeranweisung abgebrochen. Keine Nachmessung, kein abschließe
 Releasepaketbau und kein echter Workflow-Lauf. Entsprechend keine Abnahme einer
 Token-/Kosten-/Laufzeitverbesserung oder abschließender Paketgleichheit. Viewer-
 Tests bleiben gemäß ADR-0078 ausgenommen. Keine Veröffentlichung oder Installation.
+
+## PLAN-0014: Verbraucherstand vom 26. September 2026
+
+Testartefakte: workspace/temp/2026-09-26-private-helper-tests. Die älteren PLAN-0011-Messungen oben bleiben historische Ergebnisse.
+
+| Bereich | Tatsächlicher Nachweis | Grenze |
+| --- | --- | --- |
+| Plan/Setup | sol-plan-setup/evidence.md: SOL 6 Medium; Validator/Selector und Setup-Konfiguration vom Workflow-Resolver verwendet | Kein nativer Worker in dieser Einzelprobe |
+| Luna-Helper | luna/evidence.md: Resolver, Builder, Selector, Validator, Setup und echter Claude-CLI-Verbrauch | Astra-Korrekturen zu Skillquelle, Toolprotokoll und internem Selector berücksichtigt |
+| Reviewer/Repair | sol-repair-consumer/evidence.md: unabhängige SOL-6-Medium-Rollen verwenden Builder-Aufträge; echter changes_requested-Befund führt zur Reparatur; 2 Tests bestanden | Subagenten statt nativer Chats; Zustellung separat |
+| Native Workflow/Ask | token-overhead-implementation.md und sol-native/evidence.md trennen ersten vollständigen Lauf, erfolgreiche Ask-Chats und fehlgeschlagenen Subagenten-Caller | Finaler Workflow läuft noch |
+| Private GitHub-Helper | github/evidence.md und github-remaining/evidence.md: Hauptpfade sowie pre-cleanup und skill-package erfolgreich | source-only am Live-Familienzustand gescheitert; positiver release-Test setzt Receipt-Metadaten synthetisch und belegt keine reale saubere Releaseherkunft |
+
+candidate-native-final ist eine unveränderliche Kopie des geprüften codex/suite-Builds aus skills/temp/release/codex. Plan und Setup wurden dateiweise gegen installed verglichen: keine Unterschiede in Paketdateien, Python-Caches ausgenommen. Bestehende SOL-Nachweise gelten für diese unveränderten Dateien. Der Repair-Test verwendet candidate-no-archive-check; die spätere Ask-native-delivery-Korrektur betrifft seinen Workflow nicht.
+
+workflow-rollout-baseline-results.json enthält reproduzierte historische Werte, keinen kontrollierten Vorher-Nachher-Vergleich desselben Fixtures. baseline-installed liegt vorbereitet vor; der native Vergleichslauf steht noch aus. Keine gemessene Einsparung des finalen Fixtures und kein vollständiger W-009-Pass behauptet.
+
+Archivierung wird gemäß ADR-0092 im normalen Ablauf ausgeführt, aber nicht nachgeprüft. Seltene harmlose Restfehler rechtfertigen keine zusätzliche Kontrollschicht. Keine reguläre Installation oder Veröffentlichung.
+
+### Finale Gruppen- und Setup-Prüfung
+
+SOL 6 Medium prüfte die native Gruppe W-001/steps-1-4 in PLAN-0003 anhand
+der Rohereignisse: native-run-3-audit/evidence.md im Testbereich. Drei Dispatches
+geben Builder-stdout unmittelbar an create_thread weiter, ohne vorherige
+Promptausgabe. Der vollständige Work Item steht einmal als Kontext im Auftrag.
+Worker 1 übergab nach Step 1; Worker 2 setzte Steps 2-4 fort, ohne Step 1 neu
+zu implementieren. Fünf Bibliothekstests und Review bestanden, keine CLI-Tests
+wurden vorgezogen. CLI-Gruppe und Coordinator-Nachfolger bleiben in Arbeit.
+
+candidate-grouping-criterion enthält zusätzlich die kurze Prüffrage zur
+Gruppierung und die gleiche lokale Interpreterwahl für Setup wie für Ask und
+Workflow. Paketprüfung gültig. sol-setup-final/evidence.md belegt SOL 6 Medium:
+show, serialisiertes set, erneutes show und tatsächliche Verwendung durch
+Workflow-Resolver für executor/reviewer. Keine Helper-Ausgabe repariert.
+Die gesonderte Gruppierungsprobe ist eine Anwendungsprüfung der Formulierung,
+kein neuer nativer Lauf. Keine gemessene Einsparung wird daraus abgeleitet.
+
+controlled-comparison/protocol.md legt den noch ausstehenden gleichen
+Drei-Step-Fall für Ausgang und Kandidat fest: SOL 6 Medium in allen Rollen,
+75%-Schwellen, frische Coordinatoren und keine künstliche Unterbrechung.
+
+PLAN-0003 ist inzwischen abgeschlossen: beide Gruppen reviewt, acht fokussierte
+Tests bestanden, CLI-Beispiel words=4 lines=2, fehlende Datei Exit 1. Plan/index
+completed/idle, Validator ohne Fehler/Warnungen. Der Rohereignis-Audit belegt
+auch Coordinator-Übernahme: letzter Projektwrite vor create_thread, Nachfolger
+sichert eigene ID und sendet Übernahme, Vorgänger ruft Selbstarchivierung einmal
+als letzte Aktion auf. Kein Rollover-wait und keine Archivierungs-Nachprüfung.
+Auch CLI-Worker/Reviewer konsumierten Builder-Ausgaben direkt; nur die
+benötigten akzeptierten Bibliotheksfakten wurden ergänzt.
+
+Die ausführlichen nativen Belege und tatsächlichen Modell-/Effort-Einträge
+stehen in native-run-3-audit/evidence.md, manifest.json und metrics.json im
+Testbereich. Der kontrollierte Ausgangslauf PLAN-0004 läuft als frischer
+Coordinator 01a0dcde-72d2-70f3-a13b-dd08b4452ee5; der Kandidatenlauf folgt.
+
+### Wiederaufnahme und finale Paketzuordnung
+
+Der SOL-Abschlussaudit final-acceptance-audit.md prüfte den ersten nativen
+Stopptest anhand der Rohereignisse erneut: Worker 2 erstellt (Record 155),
+Stopp vor Ergebniszustellung (161), Stopp weitergeleitet (174), blockiertes
+Ergebnis erhalten (186), Worker-Ende beobachtet (190), Ergebnis gesichert (197),
+Fortsetzung beauftragt (226), Worker 3 nur für Restarbeit erstellt (263).
+resume-step-1.txt und run-1-completed.md bewahren den vorhandenen Funktionsstand.
+Keine doppelte Ergebnisannahme und kein paralleler ungeklärter Worker. Das
+erfüllt W-009; ein künstlicher Transport-Race-Test ist nicht gefordert.
+
+Dateivergleich: Ask in candidate-grouping-criterion ist bytegleich zum nativ
+geprüften candidate-assigned-point. Plan und Workflow unterscheiden sich vom
+erfolgreichen candidate-grouped nur durch die geprüfte Gruppierungs-Prüffrage.
+Setup hat seinen eigenen finalen SOL-Verbrauchertest. Danach angefordert:
+kurze Plan-/Gruppenmeldung und vollständiger Bereich im Titel (ADR-0094).
+Diese Ergänzung liegt in candidate-grouping-titles; deren nativer Test erfolgt
+im Kandidatenvergleich. Die SOL-Formulierungsprobe steht unter
+grouping-title-test.md: zunächst drei statt höchstens zwei Sätze im erweiterten
+Szenario, im fokussierten Drei-Step-Szenario ein Satz und korrekte Bereichstitel.
+Die erste Probe wird nicht als fehlerfrei gewertet.
+
+### Finaler Kandidat mit Gruppierungsansage und Titeln
+
+candidate-grouping-titles enthält die geprüften Workflow-Runtime-Anweisungen.
+final-package-match.json im Testbereich belegt 104/104 Paketdateien bytegleich
+zum damaligen Staging; Caches sind ausgeschlossen. check-packages ist gültig.
+Reguläre Installationen wurden nicht geändert.
+
+| Geänderter Skill | Finaler SOL-6-Medium-Nachweis |
+| --- | --- |
+| Workflow | Native PLAN-0005 mit Gruppierung, Ergebnisübernahme, echtem Reviewbefund, Repair und erneutem Review. PLAN-0003 belegt unveränderte Rollover-Verträge. |
+| Plan | Selector/Validator und Evidence-Verbraucher in sol-plan-setup/sol-rule-fixes; finaler Gruppen-Selector und Planabschluss in PLAN-0005. Gruppierungserklärung zusätzlich mit SOL angewandt. |
+| Ask | Eigener SOL-Adviser 01a0dcbe-6058-72d2-8778-62dfaf766565 mit tatsächlicher Nachricht; parallele Antworten und fehlende Datei separat belegt. Anschließende Titeländerung separat unter ask-title-final.md geprüft. |
+| Setup | sol-setup-final: show, serialisiertes set, show und beide tatsächlichen Workflow-Resolver; Paket seit dieser Probe unverändert. |
+
+PLAN-0005 ist abgeschlossen: acht Tests aus Projektroot und Modulverzeichnis,
+abschließender Reviewer pass, Validator null Fehler/Warnungen. Eine echte
+Testimport-Reparatur war nötig. Sie ist keine Helper-Rückgabekorrektur und bleibt
+in Aufwand und Tokenvergleich enthalten. Der Builder-Repairpfad hat damit
+zusätzlich einen tatsächlichen nativen Verbraucher.
+
+grouping-title-test.md belegt die native Startmeldung in zwei Sätzen und die
+unverändert erzeugten Titel S-WORK-#1-W-001/STEPS-1-3,
+S-REVW-#1-W-001/STEPS-1-3 und S-FIXR-#1-W-001/STEPS-1-3. Der native Testauftrag
+hat weder Gruppe noch Titel vorgegeben. Diese Abnahme betrifft Workflow-Titel;
+die anschließend freigegebene Ask-Titeländerung W-015 ist separat geprüft.
+
+### Ergänzung: Ask-Titel unter ADR-0095
+
+candidate-ask-titles stimmt mit allen 104 Paketdateien des danach erzeugten
+Stagings überein. ask-final-package-match.json im Testbereich weist gegenüber
+candidate-grouping-titles genau zwei Änderungen aus: Ask README.md und
+references/native.md. Helpercode und alle anderen Skill-Dateien sind unverändert.
+ask-title-final.md belegt den echten SOL-Medium-Chattitel und die Rückzustellung.
+Paketprüfung und 18 Ask-Tests bestehen.
+
+### Abschluss nach Astra-Medium-Review
+
+candidate-astra-final enthält zusätzlich nur Workflow README.md und
+references/operations-dispatch.md als geänderte Paketdateien. Alle 104 Dateien
+sind bytegleich zum finalen Staging; astra-final-package-match.json sichert dies.
+astra-final-review.md belegt beide behobenen Findings und Astras Nachreview
+ohne materiellen Restbefund. SOL 6 Medium führt das echte Dispatch-Beispiel mit
+vollständiger, tatsächlich gekürzter und fehlgeschlagener Toolausgabe aus:
+Nur die vollständige Ausgabe erreicht den abgefangenen create_thread-Aufruf.
+Diese Prüfung ergänzt die früheren nativen E2E-Belege. Paketprüfung besteht.
