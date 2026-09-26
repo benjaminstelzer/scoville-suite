@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0017
-status: active
+status: completed
 created: 2026-09-27
 updated: 2026-09-27
-current_item: W-003
 ---
 
 # Kontextreserve und klare Workflow-Quellen
@@ -51,7 +50,7 @@ Evidence: Suite 32, Shared 59, Ask 21, Plan 74, Setup 2 und Workflow 17 Tests be
 
 ### W-003 Geprüfte Builds lokal und auf GitHub bereitstellen
 
-Status: in_progress
+Status: done
 Depends on: [W-002]
 Blocked by: []
 Decisions: []
@@ -61,5 +60,4 @@ Steps:
 1. Versionshinweise pflegen, sauber committen und beide Editionen bauen.
 2. Betroffene lokale Installationen aktualisieren und Bytes vergleichen.
 3. Geprüfte Änderungen unter geltenden Veröffentlichungsgates pushen und remote prüfen.
-Evidence: []
-Next action: Nach W-002 den Build und die Installation abschließen.
+Evidence: Builds und lokale Installationen abgeglichen. GitHub main beider Suites vollständig gegen Exporte geprüft. Gezielter Luna-High-Test und finales Astra-Medium-Review abgeschlossen.
