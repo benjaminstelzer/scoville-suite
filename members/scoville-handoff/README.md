@@ -62,7 +62,7 @@ requirement does not establish successful tests across those model families.
 
 This package requires every Skill included in this suite to be installed and
 enabled. Partial installation is not supported. Skills keep their own task
-scope and invocation rules; Workflow still requires an explicit request.
+scope and invocation rules. Workflow still requires an explicit request.
 
 ## Install
 
@@ -92,7 +92,7 @@ Use Scoville Handoff to transfer this active task to a new session. Include the 
 ```
 
 ```text
-Create a compact handoff for another agent. Preserve the objective, decisions, changed files, blockers and next action; do not continue the work.
+Create a compact handoff for another agent. Preserve the objective, decisions, changed files, blockers and next action. Do not continue the work.
 ```
 
 ## Sources

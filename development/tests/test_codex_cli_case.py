@@ -31,7 +31,6 @@ def digest(data):
 def event_stream(answer="final", thread_id=THREAD_ID):
     events = [
         {"type": "thread.started", "thread_id": thread_id},
-        {"type": "item.completed", "item": {"type": "error", "message": runner.KNOWN_CODE_MODE_ERROR}},
         {"type": "turn.started"},
         {"type": "item.completed", "item": {"type": "agent_message", "text": answer}},
         {"type": "turn.completed", "usage": {"input_tokens": 10}},
@@ -87,10 +86,16 @@ class RequestContainmentTests(unittest.TestCase):
             with self.subTest(relative=relative), self.assertRaises(runner.ProtocolError):
                 runner.validate_requested_file(relative, self.root, manifested, set())
 
-    def test_read_response_must_be_only_exact_read_lines(self):
+    def test_root_configuration_is_readable(self):
+        data = b'{"model":"test"}'
+        (self.root / "config.default.json").write_bytes(data)
+        self.manifest["config.default.json"] = digest(data)
+        delivered, _ = runner.validate_requested_file("config.default.json", self.root, self.manifest, set())
+        self.assertEqual(data, delivered)
+
+    def test_read_response_can_include_explanation(self):
         self.assertEqual(["references/a.md"], runner.parse_read_requests("READ references/a.md"))
-        with self.assertRaises(runner.ProtocolError):
-            runner.parse_read_requests("READ references/a.md\nexplanation")
+        self.assertEqual(["references/a.md"], runner.parse_read_requests("Explanation\n\nREAD references/a.md"))
 
     def test_receipt_verifies_complete_member_inventory_and_rejects_unsafe_path(self):
         (self.root / "SKILL.md").write_text("core", encoding="utf-8")
@@ -128,7 +133,7 @@ class EventContractTests(unittest.TestCase):
             {"type": "future.event"},
         ):
             lines = event_stream().splitlines()
-            lines[3] = json.dumps(event).encode()
+            lines[2] = json.dumps(event).encode()
             with self.subTest(event=event["type"]), self.assertRaises(runner.ProtocolError):
                 runner.validate_events(b"\n".join(lines) + b"\n", THREAD_ID)
 
@@ -147,7 +152,7 @@ class NativeIdentityTests(unittest.TestCase):
         self.temp.cleanup()
 
     def write_rollout(self, name, session_id=THREAD_ID, contexts=None):
-        contexts = contexts or [{"model": "gpt-5.6-luna", "effort": "medium"}]
+        contexts = contexts or [{"model": "gpt-6-luna", "effort": "high"}]
         records = [{"type": "session_meta", "payload": {"id": session_id}}]
         records.extend({"type": "turn_context", "payload": item} for item in contexts)
         path = self.root / name
@@ -156,34 +161,34 @@ class NativeIdentityTests(unittest.TestCase):
 
     def test_exact_rollout_and_all_contexts_pass(self):
         self.write_rollout(f"rollout-{THREAD_ID}.jsonl", contexts=[
-            {"model": "gpt-5.6-luna", "effort": "medium"},
-            {"model": "gpt-5.6-luna", "effort": "medium"},
+            {"model": "gpt-6-luna", "effort": "high"},
+            {"model": "gpt-6-luna", "effort": "high"},
         ])
-        result = runner.validate_native_identity(self.root, THREAD_ID, "gpt-5.6-luna", "medium", 2)
+        result = runner.validate_native_identity(self.root, THREAD_ID, "gpt-6-luna", "high", 2)
         self.assertEqual(2, len(result["turn_contexts"]))
 
     def test_missing_ambiguous_and_mismatched_native_identity_fail(self):
         with self.assertRaises(runner.ProtocolError):
-            runner.validate_native_identity(self.root, THREAD_ID, "gpt-5.6-luna", "medium", 1)
+            runner.validate_native_identity(self.root, THREAD_ID, "gpt-6-luna", "high", 1)
         self.write_rollout(f"a-{THREAD_ID}.jsonl")
         self.write_rollout(f"b-{THREAD_ID}.jsonl")
         with self.assertRaises(runner.ProtocolError):
-            runner.validate_native_identity(self.root, THREAD_ID, "gpt-5.6-luna", "medium", 1)
+            runner.validate_native_identity(self.root, THREAD_ID, "gpt-6-luna", "high", 1)
         for path in self.root.iterdir():
             path.unlink()
         for session_id, contexts in (
             ("wrong", None),
-            (THREAD_ID, [{"model": "wrong", "effort": "medium"}]),
-            (THREAD_ID, [{"model": "gpt-5.6-luna", "effort": "wrong"}]),
+            (THREAD_ID, [{"model": "wrong", "effort": "high"}]),
+            (THREAD_ID, [{"model": "gpt-6-luna", "effort": "wrong"}]),
         ):
             self.write_rollout(f"one-{THREAD_ID}.jsonl", session_id, contexts)
             with self.assertRaises(runner.ProtocolError):
-                runner.validate_native_identity(self.root, THREAD_ID, "gpt-5.6-luna", "medium", 1)
+                runner.validate_native_identity(self.root, THREAD_ID, "gpt-6-luna", "high", 1)
             (self.root / f"one-{THREAD_ID}.jsonl").unlink()
         path = self.root / f"missing-meta-{THREAD_ID}.jsonl"
-        path.write_text(json.dumps({"type": "turn_context", "payload": {"model": "gpt-5.6-luna", "effort": "medium"}}) + "\n", encoding="utf-8")
+        path.write_text(json.dumps({"type": "turn_context", "payload": {"model": "gpt-6-luna", "effort": "high"}}) + "\n", encoding="utf-8")
         with self.assertRaises(runner.ProtocolError):
-            runner.validate_native_identity(self.root, THREAD_ID, "gpt-5.6-luna", "medium", 1)
+            runner.validate_native_identity(self.root, THREAD_ID, "gpt-6-luna", "high", 1)
 
 
 class FailureAndCommandTests(unittest.TestCase):
@@ -205,7 +210,7 @@ class FailureAndCommandTests(unittest.TestCase):
                 runner.validate_process_result(result, None)
 
     def test_resume_keeps_isolation_flags_and_exact_thread(self):
-        base = runner.base_command(Path("codex.exe"), Path("catalog.json"), "gpt-5.6-luna", "medium")
+        base = runner.base_command(Path("codex.exe"), Path("catalog.json"), "gpt-6-luna", "high")
         command = runner.turn_command(base, Path("workspace"), THREAD_ID)
         self.assertEqual(["exec", "resume"], command[len(base):len(base) + 2])
         self.assertEqual([THREAD_ID, "-"], command[-2:])
@@ -214,11 +219,11 @@ class FailureAndCommandTests(unittest.TestCase):
         disabled = [command[index + 1] for index, value in enumerate(command[:-1]) if value == "--disable"]
         self.assertEqual(list(runner.DISABLED_FEATURES), disabled)
 
-    def test_terra_medium_is_explicit_and_other_pairs_remain_rejected(self):
-        command = runner.base_command(Path("codex.exe"), Path("catalog.json"), "gpt-5.6-terra", "medium")
-        self.assertEqual(command[command.index("--model") + 1], "gpt-5.6-terra")
-        self.assertIn('model_reasoning_effort="medium"', command)
-        for model, effort in (("gpt-5.6-terra", "high"), ("unknown", "medium")):
+    def test_luna_medium_is_explicit_and_other_pairs_remain_rejected(self):
+        command = runner.base_command(Path("codex.exe"), Path("catalog.json"), "gpt-6-luna", "high")
+        self.assertEqual(command[command.index("--model") + 1], "gpt-6-luna")
+        self.assertIn('model_reasoning_effort="high"', command)
+        for model, effort in (("gpt-6-luna", "low"), ("gpt-5.6-terra", "high"), ("unknown", "high")):
             with self.assertRaises(runner.ProtocolError):
                 runner.base_command(Path("codex.exe"), Path("catalog.json"), model, effort)
 
@@ -228,7 +233,7 @@ class TurnBudgetTests(unittest.TestCase):
         args = []
         for name in ('case-id', 'prompt', 'package-root', 'receipt', 'receipt-member', 'catalog', 'codex', 'output'):
             args.extend(('--' + name, str(root / name)))
-        args.extend(('--model', 'gpt-5.6-luna', '--effort', 'medium'))
+        args.extend(('--model', 'gpt-6-luna', '--effort', 'high'))
         for name in ('prompt', 'receipt', 'catalog', 'codex'):
             args.extend(('--expected-' + name + '-sha256', 'a' * 64))
         return args

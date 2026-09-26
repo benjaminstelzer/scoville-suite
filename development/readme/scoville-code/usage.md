@@ -42,7 +42,7 @@ fallback to additions or refactors in an existing project.
 ```
 
 Create the referenced file with your actual preferences. Relative paths resolve
-from the directory containing the referring `AGENTS.md`; a shared personal file
+from the directory containing the referring `AGENTS.md`. A shared personal file
 can instead use an explicit absolute path available on that machine. The Skill
 does not search your computer for convention files. If the required file cannot
 be read, the agent reports that input gap before making dependent choices.

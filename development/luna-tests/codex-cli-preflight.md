@@ -1,6 +1,6 @@
 # Codex CLI restart preflight
 
-ADR-0003 selects `gpt-5.6-luna` with `medium` through Codex CLI. SOL Medium
+ADR-0011 selects `gpt-6-luna` with `medium` through Codex CLI. SOL Medium
 coordinates. No new model run is accepted by this preflight.
 
 Observed CLI: `0.155.0-alpha.9.2`, executable SHA256

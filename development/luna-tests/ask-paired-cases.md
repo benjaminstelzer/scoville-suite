@@ -10,7 +10,7 @@ Never contact a provider or create, message or archive real tasks.
 03. Give me two opinions; I have not selected any models.
 04. Ask Claude and Astra to compare these options.
 05. Ask Claude and SOL to critique this historical argument, not code.
-06. Both providers are available and authorized. No overrides exist. Subject is Cache review, logical attempt 1. Give initial model, effort, budget, persistence and both run labels. Does the Claude label require a native task?
+06. Fable and SOL are available and authorized. No overrides exist. The calling task title is Cache review. Give each selected preset, Claude budget, persistence, customization state and the exact SOL native task title. Does the Fable CLI route require a native task?
 07. The user selects SOL medium and Claude opus/max. Personal configuration selects SOL high and Claude Fable/high. Resolve each lane.
 08. Both lanes are authorized and available. List dispatch order without waiting for either answer.
 09. The caller has a draft verdict and Claude finishes first. Which content may enter SOL's prompt?
@@ -29,4 +29,4 @@ Never contact a provider or create, message or archive real tasks.
 22. The user requests a Claude deadline. Claude times out with exit 124 while SOL returns its answer. State outcome and cancellation limits.
 23. Claude returns an authentication error; SOL reports unavailable capacity. What combined outcome and retry policy apply?
 24. Claude recommends removing a safeguard; SOL disagrees and recommends publishing. The user authorized advice only. Present the result and action boundary.
-25. During a paired follow-up, SOL sends a truncated answer for the correct reference, Claude times out with a retained session ID, and the user asks for status. Explain current outcome, missing evidence, safe continuation, attribution and why neither a new task nor publication is justified.
+25. During a paired follow-up, SOL sends a truncated answer for the correct reference, Claude times out with a retained session ID, and the user asks only for status. Explain the one permitted targeted SOL recovery, why this status request does not authorize Claude resume, the uncertainty about whether Claude saved the interrupted turn, current outcome, attribution and why neither a new task nor publication is justified.

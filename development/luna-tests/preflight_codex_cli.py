@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 import subprocess
 import threading
-from run_codex_cli_case import base_command, turn_command, verify_hash
+from run_codex_cli_case import base_command, turn_command, sha256_file
 from process_lifetime import WorkerProcess
 
 
@@ -14,11 +14,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for key in ('codex', 'catalog', 'output'):
         parser.add_argument('--' + key, type=Path, required=True)
-    parser.add_argument('--model', choices=('gpt-5.6-luna', 'gpt-5.6-terra'), required=True)
+    parser.add_argument('--model', choices=('gpt-6-luna',), required=True)
     args = parser.parse_args()
+    for name in ("codex", "catalog", "output"):
+        setattr(args, name, getattr(args, name).resolve())
     hashes = {
-        'codex': verify_hash(args.codex, 'bc45017e8239dc150258f69309ced9df6bbcdf5b8e4f346decf780ac0999e226', 'codex'),
-        'catalog': verify_hash(args.catalog, '0a2bca132452338774a9c243e195095ad0b6400b17b2586306a69e8dcfade5f0', 'catalog'),
+        'codex': sha256_file(args.codex),
+        'catalog': sha256_file(args.catalog),
     }
     args.output.mkdir(parents=True, exist_ok=False)
     workspace = args.output / 'workspace'
@@ -38,7 +40,9 @@ def main():
             observations.append({'model': request.get('model'),
                 'effort': request.get('reasoning', {}).get('effort'),
                 'tools': request.get('tools', []), 'tools_present': 'tools' in request,
-                'auth_present': 'Authorization' in self.headers})
+                'embedded_tools_present': any(item.get('type') == 'additional_tools' and item.get('tools') for item in request.get('input', []) if isinstance(item, dict)),
+                'auth_present': 'Authorization' in self.headers,
+                'instruction_text': json.dumps(request.get('instructions', '')) + json.dumps(request.get('input', []))})
             body = b'{"error":{"message":"intentional local preflight stop","type":"preflight"}}'
             self.send_response(400)
             self.send_header('Content-Type', 'application/json')
@@ -49,7 +53,7 @@ def main():
     server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    base = base_command(args.codex, args.catalog, args.model, 'medium')
+    base = base_command(args.codex, args.catalog, args.model, 'high')
     for config in ('model_provider="loopback"', 'model_providers.loopback.name="Local qualification"',
         f'model_providers.loopback.base_url="http://127.0.0.1:{server.server_port}/v1"',
         'model_providers.loopback.wire_api="responses"',
@@ -74,7 +78,7 @@ def main():
         server.shutdown()
         server.server_close()
         thread.join(timeout=5)
-    expected = {'model': args.model, 'effort': 'medium', 'tools': [], 'auth_present': False}
+    expected = {'model': args.model, 'effort': 'high', 'tools': [], 'embedded_tools_present': False, 'auth_present': False}
     valid = (len(observations) == 1 and
              {k: observations[0][k] for k in expected} == expected and
              not stderr and worker.returncode != 0)
@@ -84,7 +88,7 @@ def main():
     (args.output / 'summary.json').write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8')
     (args.output / 'stdout.jsonl').write_bytes(stdout)
     (args.output / 'stderr.log').write_bytes(stderr)
-    print(json.dumps(result))
+    print(json.dumps({k: v for k, v in result.items() if k != 'observations'}))
     return 0 if valid else 1
 
 if __name__ == '__main__':

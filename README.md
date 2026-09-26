@@ -9,7 +9,7 @@ Workflow and Ask are not included.
 
 Install and enable every Skill included in this edition. The suite assumes
 that its members are available and does not check for missing sibling Skills
-at runtime. Partial installation is not supported; use standalone Skill
+at runtime. Partial installation is not supported. Use standalone Skill
 packages if you want to install only selected Skills.
 
 Availability does not make every Skill applicable to every task. Load the
@@ -43,8 +43,9 @@ remove code without turning every small change into a full audit.
   requested behavior. Producing them is not completion by itself.
 - **Canonical ownership.** The change fits the project's existing architecture,
   records, terminology, and workflow instead of creating a second owner.
-- **Proportionate risk.** Small reversible work stays small. Destructive,
-  public-facing, security, data, or release work receives stronger gates.
+- **Proportionate risk.** Small reversible work stays small. Checks follow
+  concrete failure risks. Broader security, migration or release gates apply
+  when the requested outcome or project rules require them.
 - **Evidence before claims.** Checks prove only what they observed. A failed
   tool is not silently promoted to a passing product.
 - **Root-cause correction.** The agent changes approach after repeated failure
@@ -107,10 +108,8 @@ projects, not to turn a small reversible edit into paperwork.
 
 - The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md).
 
-Run one task to completion before editing its files or changing model settings
-elsewhere. Plan assumes this single-run workflow. It does not lock files or
-promise conflict-free recovery after concurrent changes. Routine edits need
-no model-profile selection or hash receipts.
+Let the current run finish before editing the same records elsewhere. Plan does
+not lock files. Concurrent changes require reconciliation.
 
 ### What it costs
 
@@ -132,17 +131,21 @@ loads a local adapter for Core components, native spacing, versions and i18n.
 ### How it works
 
 - Identify the existing design system, implementation owner and approved product decisions.
-- Load the local WordPress adapter only for admin surfaces. Other frameworks use the general route.
+- Load the local WordPress adapter only for supported plugin-owned `wp-admin`
+  pages. Editor surfaces and metaboxes keep their host owner. Other frameworks
+  use the general route.
 - Read the relevant component and styling code before changing the interface.
 - Implement affected states and responsive behavior through supported framework components.
 - Check the completed batch in the actual rendered interface, including relevant input and focus behavior.
 - Use one common validation process with the selected platform's additional checks.
-- Return blocked product decisions to their owner. Without a visual owner, use the bounded new-interface direction.
+- Return blocked product decisions to their owner. Without an approved visual
+  direction, choose a limited direction within the existing framework conventions.
 
 ### What it enforces
 
 - **The product keeps its visual owner.** The incumbent design system comes
-  first. UI implements approved product decisions; without a visual owner, it uses a bounded local direction.
+  first. UI implements approved product decisions. Without an approved visual
+  direction, it chooses a limited direction within existing framework conventions.
 - **The task has a hierarchy.** Primary decisions, supporting information, and
   secondary actions remain distinguishable.
 - **Real states exist.** Loading, empty, error, disabled, success, focus,
@@ -253,7 +256,7 @@ Skip absent entries, leave unrelated Skills untouched, and keep no backup or set
 ```
 
 All included Skills must remain enabled. Their task scope and invocation rules
-still apply; Workflow requires an explicit invocation. Choose standalone Skill
+still apply. Workflow requires an explicit invocation. Choose standalone Skill
 packages instead if you want only selected Skills. Do not mix standalone and
 suite copies of the same Skill.
 
@@ -269,12 +272,11 @@ files are generated previews, not a second authoring source.
 
 An isolated clone builds from the shared tools and templates bundled under
 `development/shared/`. In the authoring workspace, the sibling `shared/`
-directory owns those sources and supplies both suites. Installed Skills use
+directory owns those sources and builds both the general and Codex editions. Installed Skills use
 only the helpers inside their own package.
 
 The shared Development block appears in this suite and its member previews.
-Individual releases omit it. Maintain its source, test and note paths in each
-member's `development` metadata in `suite.json`.
+Individual releases omit it.
 
 Regenerate previews with `python development/build_suite.py --write-readmes`.
 Use `--check-readmes` to detect stale previews.
@@ -290,14 +292,13 @@ packages are bundled under the suite's `packages/` directory. An isolated build
 needs no sibling source checkout or individual Skill repository.
 
 The complete private authoring source also supports `--profile general|codex`
-and `--layout standalone|suite`. Standalone projections retain family guidance;
+and `--layout standalone|suite`. Standalone projections retain family guidance.
 suite projections require the full member set. Export always produces a complete
 suite with its selected profile and layout. An exported single-profile source
 does not offer the other profile.
 
-The build receipt records the selected profile, layout, package inventory,
-source revision and hashes. Uncommitted sources produce development builds.
-Publication requires inspected committed sources and the release checks.
+Uncommitted sources produce development builds. Publication requires inspected
+committed sources and the release checks.
 
 ### Developer links
 

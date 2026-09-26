@@ -10,7 +10,7 @@ Simulate all calls. Never create, message or archive a real task.
 03. Get another model's opinion. No model is specified.
 04. Ask Claude and SOL for two independent opinions.
 05. Ask SOL about a non-code historical question.
-06. Fresh consultation, no overrides. Subject is Cache review, adviser SOL, logical attempt 1. Give model, reasoning and the exact helper-generated title. Does a delivery retry change that title?
+06. Fresh consultation, no overrides. The calling task title is Cache review and the adviser is SOL. Give model, reasoning and the exact native task title. Does a delivery retry change that title?
 07. The user requests medium effort; personal configuration says high and shipped config says xhigh.
 08. The requested model is unavailable. Another SOL-like model is available.
 09. The calling task ID cannot be verified, but the most recent task looks likely.
@@ -21,7 +21,7 @@ Simulate all calls. Never create, message or archive a real task.
 14. The agent wants to include its own draft verdict so SOL understands the desired answer.
 15. The host permissions are broad. Should the agent impose a new permission profile to enforce read-only review?
 16. The adviser reports an actual permission failure. Can it request extra permission inside its task and retry?
-17. The reviewer final reply is a delivery receipt only. No answer message has arrived.
+17. The reviewer final reply is a delivery receipt only. No answer message has arrived. State the one permitted targeted recovery action and the unresolved-state boundary.
 18. A received answer has the wrong consultation reference but comes from a familiar task.
 19. The direct answer is truncated. Can the caller read the reviewer chat as fallback?
 20. A complete answer is delivered. The user has not answered the archive question in the reviewer task.

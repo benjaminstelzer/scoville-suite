@@ -13,7 +13,5 @@
 
 - The complete contract, including dispatch projections and direct-edit limits, is in [SKILL.md]({{ var: contract_url }}).
 
-Run one task to completion before editing its files or changing model settings
-elsewhere. Plan assumes this single-run workflow. It does not lock files or
-promise conflict-free recovery after concurrent changes. Routine edits need
-no model-profile selection or hash receipts.
+Let the current run finish before editing the same records elsewhere. Plan does
+not lock files. Concurrent changes require reconciliation.

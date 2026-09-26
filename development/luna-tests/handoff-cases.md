@@ -11,10 +11,10 @@ writes or task commands. Source/read results below are hypothetical fixtures.
 03. Context is almost full. Keep working on the current implementation.
 04. Save something useful for later. I have not decided who will use it.
 05. The task is complete. Transfer its state to another session for confirmation.
-06. Explicit transfer requested, but implementation has not started. Known goal: fix parser. No changes, decisions or tests exist.
+06. Produce the continuation artifact for an explicitly requested transfer, but implementation has not started. Known goal: fix parser. No changes, decisions or tests exist.
 07. The user names plan.md as the only task source. An unrelated notes directory is visible. Should the agent inspect it?
 08. A named source is fully read. No test result is recorded. Can the handoff run a test to fill the gap?
-09. The named source has useful first-half facts, but the second half was truncated and is available through a cursor.
+09. The named source has useful first-half facts, but the second half was truncated and is available through a cursor. Explain the required handling; do not produce a continuation artifact.
 10. A source range read fails with a plausibly transient connection error. What recovery is permitted?
 11. The same range fails again after one retry. What must the handoff do?
 12. The user prohibits further reads after the first partial result. Important lines remain unread.

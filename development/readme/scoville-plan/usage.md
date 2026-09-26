@@ -9,13 +9,14 @@ Create a detailed repository-owned implementation plan for the billing migration
 ```
 
 State the outcome, acceptance criteria and next action directly in the Plan.
-No model-specific writing profile or profile resolver is needed.
 
 ### Set reasoning for a Step
 
-Plan does not choose a model or reasoning level on its own. Without an explicit
-instruction, Workflow assesses the Step and uses the configured model pair for
-its route, falling back to the Skill defaults.
+Plan does not choose a model or reasoning level on its own. When using Scoville
+Workflow for Codex from the Codex suite, you can retain an explicit model or
+reasoning choice on a Step. Plan itself does not dispatch work. Without an
+explicit choice, Workflow assesses the Step and uses the configured pair for
+its route. Scoville Setup displays or saves those project settings.
 
 You can request a reasoning level for one Step:
 
@@ -51,7 +52,7 @@ without a second tracking system.
 
 [Download the current release](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
 for Windows x64, macOS Apple Silicon or Intel, and Linux x64. Windows offers a
-portable EXE and installers; macOS offers DMGs and zipped apps; Linux offers a
+portable EXE and installers. macOS offers DMGs and zipped apps. Linux offers a
 portable binary, AppImage, DEB, and RPM packages.
 
 The saved project list is one `scoville-plan-viewer.xml` file beside a portable
@@ -64,5 +65,5 @@ Viewer never changes its repository.
 Existing format-version-1 Plans need no migration. Updated readers also accept
 consistent CRLF and plain text such as `Evidence: Tests A, B passed.` No quoting
 or escaping is needed. Existing bracketed lists keep their meaning. Update the
-Skill and Viewer before using the new forms; older readers may reject them.
+Skill and Viewer before using the new forms. Older readers may reject them.
 Keep legacy Evidence lists and LF when working with older readers.

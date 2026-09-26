@@ -10,7 +10,7 @@ without a second tracking system.
 
 [Download the current release](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
 for Windows x64, macOS Apple Silicon or Intel, and Linux x64. Windows offers a
-portable EXE and installers; macOS offers DMGs and zipped apps; Linux offers a
+portable EXE and installers. macOS offers DMGs and zipped apps. Linux offers a
 portable binary, AppImage, DEB, and RPM packages.
 
 The saved project list is one `scoville-plan-viewer.xml` file beside a portable
