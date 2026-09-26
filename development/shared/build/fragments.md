@@ -20,6 +20,9 @@ root files. Workflow has no separate distribution repository.
 
 Suite-specific tests run from `development/tests`. Shared tests use `shared/` and `scoville-suite/` as siblings, covering both build profiles and the standalone Codex Ask package. The bundled copy retains those test sources
 for development, but installing a Skill requires none of them.
+`build/run_portability.py` runs those complete tests in authoring sources. In an
+export it validates only the selected manifest, fixed layout and exact packages;
+it never asks a projected tree to recreate an excluded profile.
 
 Members default to `distribution: standalone`. `distribution: suite` targets
 the suite repository and stages its package at `<suite>/packages/<member>`.
