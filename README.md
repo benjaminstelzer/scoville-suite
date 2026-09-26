@@ -1,21 +1,15 @@
 # Scoville Suite
 
-Scoville gives planning, code and UI work their own Skills, with Handoff for transfers.
-Install the complete edition. The general suite supports compatible
-Agent Skills hosts and supplies manual procedures only when Python is absent.
-Workflow and Ask are not included.
+Scoville helps your agent plan work, implement code, improve interfaces and
+carry unfinished tasks into the next conversation. Its Skills keep the goal,
+project conventions and verified results in view as the work progresses.
 
 ## Suite requirements
 
-Install and enable every Skill included in this edition. The suite assumes
-that its members are available and does not check for missing sibling Skills
-at runtime. Partial installation is not supported. Use standalone Skill
-packages if you want to install only selected Skills.
+Install and enable every Skill in the suite. For individual Skills, use their
+standalone packages.
 
-Availability does not make every Skill applicable to every task. Load the
-instructions the task needs and preserve explicit user exclusions. Workflow
-still starts only when explicitly named. The general edition does not include
-Workflow or Ask.
+The agent uses the Skills relevant to your request.
 
 ## Scoville Code
 
@@ -91,7 +85,7 @@ projects, not to turn a small reversible edit into paperwork.
 - Read the relevant Plan, Work Item and Decisions, then edit Markdown and YAML directly.
 - Check the next item against current sources before starting it. Keep one current item and an explicit next action.
 - Record evidence before completion and preserve accepted decisions and completed history.
-- Use optional read-only helpers for structural validation and selected-work projections. Records remain usable without them.
+- Validate the planning records and select the context needed for the current task.
 
 ### What it enforces
 
@@ -235,7 +229,7 @@ and whether the host discovers the Skill.
 Use this request in your agent host:
 
 ```text
-Python 3.10 or newer is optional. Install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
+Install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
 ```
 
 ### Upgrade from an earlier Scoville or Ask suite
@@ -252,13 +246,10 @@ scoville-workflow-for-codex, scoville-workflow-codex,
 ask-astra-for-review-for-codex, ask-sol-for-review-for-codex,
 ask-claude-for-codex, ask-claude-and-astra-for-codex,
 ask-claude-and-sol-for-codex.
-Skip absent entries, leave unrelated Skills untouched, and keep no backup or settings migration. Python 3.10 or newer is optional. Then install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
+Skip absent entries, leave unrelated Skills untouched, and keep no backup or settings migration. Then install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
 ```
 
-All included Skills must remain enabled. Their task scope and invocation rules
-still apply. Workflow requires an explicit invocation. Choose standalone Skill
-packages instead if you want only selected Skills. Do not mix standalone and
-suite copies of the same Skill.
+Do not mix standalone and suite copies of the same Skill.
 
 If the host cannot install directly from GitHub, download this suite repository
 and copy all its inner package directories to the host's documented Skills
