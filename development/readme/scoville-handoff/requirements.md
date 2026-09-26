@@ -6,9 +6,9 @@
 - **Preserved authority.** Permissions, file ownership, user changes and
   boundaries on commits, publication or destructive actions remain explicit.
 - **Honest state.** Unobserved results remain unknown. Secrets stay out.
-- **Actionable continuation.** The first Resume Step gives the next safe action;
-  the last defines observable completion.
+- **Actionable continuation.** The first Resume Step gives the next safe action.
+  The last defines how to confirm completion.
 - **A faithful snapshot.** Creating the handoff reads and describes the task
   without editing, testing or advancing it.
 
-The complete contract is in [SKILL.md]({{ var: contract_url }}).
+The full instructions are in [SKILL.md]({{ var: contract_url }}).

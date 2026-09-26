@@ -1,14 +1,14 @@
 # Scoville UI
 
-The name comes from the Scoville scale, which originally measured chili heat through dilution.
-Here, the heat is the task a person can still understand and complete across layouts, interactions and error states.
-
 A page must work across screen sizes, input methods and error states.
 Scoville UI implements and audits those behaviors through the project's
 framework and design system, using rendered evidence to check the result.
 
 For supported WordPress admin pages, it applies Core components, spacing,
 version requirements and translation conventions.
+
+The name comes from the Scoville scale, which originally measured chili heat through dilution.
+Here, the heat is the task a person can still understand and complete across layouts, interactions and error states.
 
 ## How it works
 
@@ -23,12 +23,12 @@ version requirements and translation conventions.
 - **Design consistency.** Follow the existing design system and approved product decisions.
 - **Clear hierarchy.** Distinguish primary decisions, supporting information and secondary actions.
 - **Complete states.** Cover relevant loading, empty, error, disabled, success and input states.
-- **Responsive behavior.** Preserve the task across narrow, wide, zoomed and content-heavy layouts.
+- **Responsive behavior.** Keep the interface usable on narrow and wide screens, with zoom and long content.
 - **Accessibility.** Check reading order, names, relationships, contrast, focus and keyboard or touch behavior.
-- **Matching evidence.** Support visual and interaction claims with rendered and interactive checks.
-- **WordPress conventions.** Respect Classic, Core Components, bundled WPDS and hybrid regions. Using tokens does not require a React migration.
+- **Visual checks.** Inspect the rendered interface and test its interactions before reporting them as working.
+- **WordPress conventions.** Use the appropriate WordPress components and design tokens for each part of the page. Existing PHP-rendered pages can remain in PHP.
 
-The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
+The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ## What it costs
 
@@ -39,21 +39,24 @@ The complete contract is in [SKILL.md](https://github.com/benjaminstelzer/scovil
 ## How it was developed
 
 - General interface and WordPress admin tasks informed the shared quality checks and platform guidance.
-- Development records identify tested packages, models and evidence limits. They provide no measured usability claim for every interface built with the Skill.
+- Skill tests do not establish the usability of an individual interface. That needs testing with its users.
 
 ## Compatibility
 
-Requires a frontier LLM from the Fable, Astra, SOL or Opus families, version 5.0
-or newer, an Agent Skills host with reference access, and the target project's
-toolchain. This is a minimum requirement, not a list of tested models.
+A current Fable, Astra, SOL or Opus model is recommended. Luna was also used
+in testing.
 
-Rendered proof needs a running interface, DOM or equivalent geometry inspection
-and actually viewed images. Interaction claims need browser or platform control.
+Requires an Agent Skills host with reference access, and the target project's
+toolchain.
+
+Visual checks require a running interface, screenshots and access to element
+positions and sizes through the DOM or an equivalent tool. Testing interactions
+requires browser or platform control.
 WordPress checks need the supported wp-admin runtime and its PHP/JavaScript
-components. Source-only and screenshot-only tasks retain their evidence limits.
+components. Source inspection cannot verify the rendered interface. Screenshots alone cannot verify interactions.
 
 Developed for Codex and Claude Code. Other hosts are untested. The Skill requires
-no network access or separate UI Skill.
+no network access.
 
 Install and enable every Skill in the suite. Each applies to its own task scope.
 
@@ -88,19 +91,19 @@ Use Scoville UI to implement this settings screen with the existing component sy
 Audit the checkout interface for keyboard use, responsive behavior, accessibility and error recovery. Report findings without changing files.
 ```
 
-### Source-first checks and consistency audits
+### Checking the interface
 
-Group related edits, then check the source, measure affected relationships and
-view the rendered result. If defects remain, collect the corrections and
+Group related edits, then inspect the code and rendered result, including
+spacing and alignment. If defects remain, collect the corrections and
 validate the affected behavior after that batch.
 
-Custom styling needs a reason grounded in the component's ownership or API.
-Keep authored units distinct from computed pixels and visible geometry.
+Use the component's supported styling options. When custom CSS is needed,
+explain why. Distinguish CSS values from the sizes actually rendered on screen.
 
 A consistency audit inventories regions, variants and states, including content
 below the fold. Each finding links to source, measurements and visual evidence
-or a named gap. Check alignment, text, whitespace, control interiors, icons,
-wrapping and clipping; state any sampling limits.
+or explains what could not be checked. Check alignment, text, whitespace, control interiors, icons,
+wrapping and clipping. State which parts of the interface were checked.
 
 ## Sources
 

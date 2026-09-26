@@ -14,7 +14,7 @@ For a wholly new project, Scoville Code uses
 [`references/project-conventions.md`](scoville-code/references/project-conventions.md)
 for choices the project instructions leave open. Its defaults follow the
 language and framework, with a small `src/`, `tests/`, `docs/` and `scripts/`
-layout where appropriate. Directories are added when needed; tests may sit
+layout where appropriate. Directories are added when needed. Tests may sit
 beside code when the framework expects it. Existing projects retain their
 organization, including during refactors or module additions.
 
@@ -36,8 +36,7 @@ fallback to additions or refactors in an existing project.
 ```
 
 Create the file with your conventions. Relative paths resolve from the
-referring `AGENTS.md`; a shared personal file can use an absolute path.
+referring `AGENTS.md`. A shared personal file can use an absolute path.
 The agent reads the explicitly referenced file and reports it if unavailable.
 
-Keeping conventions outside the installed Skill preserves them across updates.
 Project-specific instructions and framework requirements still apply.
