@@ -106,7 +106,7 @@ class ReadmeTemplateTests(unittest.TestCase):
             source = builder.readme_source(root, member['readme'][0]).read_text(encoding='utf-8').strip()
             self.assertIn(builder.expand_variables(source.partition('\n')[2], member), result)
             self.assertIn(f'](members/{member["name"]}/README.md#how-to-use).', result)
-        self.assertIn('Workflow is suite-only', result)
+        self.assertIn('Install it through the complete Codex Suite.', result)
         self.assertIn('requires Codex desktop', result)
         expected = sorted(builder.load(root)['members'], key=lambda m: m['family']['order'])
         expected = [m for m in expected if m['name'] != 'scoville-workflow-for-codex']

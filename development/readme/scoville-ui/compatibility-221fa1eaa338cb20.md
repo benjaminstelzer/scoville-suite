@@ -9,5 +9,5 @@ and actually viewed images. Interaction claims need browser or platform control.
 WordPress checks need the supported wp-admin runtime and its PHP/JavaScript
 components. Source-only and screenshot-only tasks retain their evidence limits.
 
-Developed for Codex and Claude Code. Other hosts are untested. The merged package
-has no mandatory network access or dependency on another installed UI Skill.
+Developed for Codex and Claude Code. Other hosts are untested. The Skill requires
+no network access or separate UI Skill.

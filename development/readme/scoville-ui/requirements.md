@@ -1,19 +1,11 @@
 ## What it enforces
 
-- **The product keeps its visual owner.** The incumbent design system comes
-  first. UI implements approved product decisions. Without an approved visual
-  direction, it chooses a limited direction within existing framework conventions.
-- **The task has a hierarchy.** Primary decisions, supporting information, and
-  secondary actions remain distinguishable.
-- **Real states exist.** Loading, empty, error, disabled, success, focus,
-  keyboard, and touch behavior are covered when relevant.
-- **Responsive means adapted.** The task survives narrow, wide, zoomed, and
-  content-heavy conditions rather than just scaling down the desktop layout.
-- **Accessibility is structural.** Reading order, names, relationships,
-  contrast, focus, and input behavior are checked in their real context.
-- **Evidence matches the claim.** Source inspection can prove structure.
-  Rendered or interactive claims require rendered or interactive evidence.
+- **Design consistency.** Follow the existing design system and approved product decisions.
+- **Clear hierarchy.** Distinguish primary decisions, supporting information and secondary actions.
+- **Complete states.** Cover relevant loading, empty, error, disabled, success and input states.
+- **Responsive behavior.** Preserve the task across narrow, wide, zoomed and content-heavy layouts.
+- **Accessibility.** Check reading order, names, relationships, contrast, focus and keyboard or touch behavior.
+- **Matching evidence.** Support visual and interaction claims with rendered and interactive checks.
+- **WordPress conventions.** Respect Classic, Core Components, bundled WPDS and hybrid regions. Using tokens does not require a React migration.
 
-- **WordPress keeps its native owners.** Classic, Core Components, bundled WPDS and hybrid regions remain distinct. Tokens do not require a React migration.
-
-- The complete contract is in [SKILL.md]({{ var: contract_url }}).
+The complete contract is in [SKILL.md]({{ var: contract_url }}).

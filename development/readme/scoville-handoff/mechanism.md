@@ -1,7 +1,6 @@
 ## How it works
 
-- Use established conversation facts and read named task sources with bounded recovery when a read is incomplete.
-- Capture decisions, ownership, evidence, blockers and hazards without secrets.
-- Organize the result into Receiver Instructions, Objective, State and Resume Steps.
-- Compare the prompt against the captured facts and return one copy-ready block.
-- The receiver checks current state before acting. A tight limit removes repetition before necessary facts.
+- Read conversation facts and named sources, recovering incomplete reads within the user's limits.
+- Capture decisions, ownership, evidence and blockers while excluding secrets.
+- Organize and check one copy-ready prompt with Receiver Instructions, Objective, State and Resume Steps.
+- Preserve necessary facts under length limits. The receiver checks current state before acting.

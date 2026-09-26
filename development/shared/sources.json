@@ -1,5 +1,5 @@
 {
-  "build/build_suite.py": "914311ce5cdcabfdc48e7032eb58c8283ae373dc7a0c83282ce7a141e0ceda32",
+  "build/build_suite.py": "487ef158351dc979fb1dac07149f7613dacdf848aa13889de642c26016737ab3",
   "build/export_suite.py": "dc695433a4a80ed669f4e2505d007efa6427af8ea22a4b68ecdb212d60c9d9f5",
   "build/fragments.md": "5fd9c17c089e3c38f716ae75116ab080cf31c74d1dcc4b2511702f49cde4ef80",
   "build/run_portability.py": "bab2bec299bef8c4e0014ec97e355308597c3a01e761c5c3e8e6b135e6d0907e",
@@ -25,7 +25,7 @@
   "readme/scoville-family.md": "0b8d44bbb9269df021969f11ed9fd24f034b22167e29da23fcd9c73294540f17",
   "readme/scoville-install.md": "7b89c96cf6866111a65d871ae4ab740ac3eb09b0186e7bf721fda7678e110605",
   "readme/scoville-suite-install.md": "594b0a8ef941027b2528c9ec32289f5773f001fc69fb316077599fe7136145a4",
-  "readme/skill-installation-contract.md": "b2c1e50d9081a81e975ca424eaf40083d7ed8a2daf1b999c6e18abcdab4d6e52",
+  "readme/skill-installation-contract.md": "751820562590967f394f39737bf3b7e94f76a8315960329ebef415a1c12fa42f",
   "readme/suite-catalog.md": "30fcf82c3d93e9e073ac98158ae59db5eda9923ddb4d5c47e397363507dd2389",
   "readme/suite-descriptions.md": "7099d04ebd040f06285081b7dfcf22e6ca6983d4f82f7ee228aeead11a0a7b12",
   "readme/suite-development-links.md": "65eb96db0fdf69d5512961e0cc90713addcf469c71088751b3b384f5e62d98fe",
@@ -46,7 +46,7 @@
   "tests/test_portability_runner.py": "885097a86bdb9616c3a9398e17a0bd302ebe1b5543fefeb0ccd66ee3f3931743",
   "tests/test_portable_sources.py": "71613f91126298b7f66757a2597b38c3b62b84e1a992b5313eb7baccc16889ec",
   "tests/test_prompt_profile.py": "9adf4168f065c13ad78b6cb8ce96100a1fe918b3eefd30b8da606221de1e641e",
-  "tests/test_readme_templates.py": "0e17929ca9ef79b8891ae5a0d5bdacac667e5e13b434600238c7049a6a583f91",
+  "tests/test_readme_templates.py": "380734ba4f1fc01227303d266dfa3540455074f30f21d5cabb4e76a77abbad69",
   "tests/test_suite_export.py": "7ec250d82b329748b55ff87395bfcb0733138fe47d7fd4948442f496c0205d4d",
   "tests/test_task_lifecycle.py": "d690b9816917ec822b4f705932b1b532a631452fe3de9957fc0c9211cb1f1405",
   "tests/test_task_titles.py": "6903d0f9a7df9b6d530d16f9c837efd1f2e225778767d690ea79a69cec88d388"

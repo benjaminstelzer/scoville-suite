@@ -10,19 +10,13 @@ Analyze this codebase for defects and hidden failure paths. Support findings wit
 
 ### Starting a new project
 
-Project instructions come first. Scoville Code uses its organization fallback
-only when you start a wholly new project, and only for choices your instructions
-have not already settled. Adding a module to an existing project is not a fresh
-start. Neither is a refactor or a missing naming rule.
-
-The defaults live in
+For a wholly new project, Scoville Code uses
 [`references/project-conventions.md`](scoville-code/references/project-conventions.md)
-inside the installed Skill. They follow the selected language and framework:
-Python modules, Angular components and PSR-4 classes have different naming
-rules for a reason. Where the ecosystem leaves the choice open, the fallback
-uses a small `src/`, `tests/`, `docs/` and `scripts/` layout. Directories appear
-when they have a purpose, not as an empty scaffold. Tests can live beside the
-code when the framework expects that.
+for choices the project instructions leave open. Its defaults follow the
+language and framework, with a small `src/`, `tests/`, `docs/` and `scripts/`
+layout where appropriate. Directories are added when needed; tests may sit
+beside code when the framework expects it. Existing projects retain their
+organization, including during refactors or module additions.
 
 ### Your own conventions
 
@@ -41,14 +35,9 @@ defaults only for choices neither source settles. Do not apply this
 fallback to additions or refactors in an existing project.
 ```
 
-Create the referenced file with your actual preferences. Relative paths resolve
-from the directory containing the referring `AGENTS.md`. A shared personal file
-can instead use an explicit absolute path available on that machine. The Skill
-does not search your computer for convention files. If the required file cannot
-be read, the agent reports that input gap before making dependent choices.
+Create the file with your conventions. Relative paths resolve from the
+referring `AGENTS.md`; a shared personal file can use an absolute path.
+The agent reads the explicitly referenced file and reports it if unavailable.
 
-Your file is maintained separately from the installed Skill, so replacing the
-Skill does not replace it. Project-specific instructions still take precedence
-over generic personal defaults unless you explicitly choose otherwise. Required
-framework paths and loading rules remain binding. Naming preferences do not
-grant new permissions or extend the fallback to existing projects.
+Keeping conventions outside the installed Skill preserves them across updates.
+Project-specific instructions and framework requirements still apply.
