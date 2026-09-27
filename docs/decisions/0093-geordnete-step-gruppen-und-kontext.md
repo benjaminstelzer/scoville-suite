@@ -1,10 +1,11 @@
 ---
 format_version: 1
 id: ADR-0093
-status: accepted
+status: superseded
 created: 2026-09-26
 accepted: 2026-09-26
 scope: workflow/dispatch
+superseded_by: ADR-0099
 ---
 
 # Zusammenhängende Steps in Reihenfolge bearbeiten
