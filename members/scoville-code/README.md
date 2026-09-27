@@ -64,7 +64,7 @@ in testing.
 
 The host must read the Skill's references and run the project's own build, test
 and check commands in a shell. Version control is optional. The Skill bundles
-no scripts and requires no network access. It was developed for Codex and
+no scripts. It was developed for Codex and
 Claude Code. Other hosts are untested.
 
 Install and enable every Skill in the suite. Each applies to its own task scope.

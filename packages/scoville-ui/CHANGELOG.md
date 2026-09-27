@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.2 - 2026-09-27
+
+- Remove the blanket network-access claim from the compatibility description.
+
 ## v2.0.1 - 2026-09-26
 
 - Route component constraints to the visual decision owner and distinguish evidence review from a simple unverified-status boundary.

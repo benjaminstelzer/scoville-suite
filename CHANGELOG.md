@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.6 - 2026-09-27
+
+- Review completed Workflow Work Items at the project-defined boundary and reuse available workers for corrections.
+- Keep formal Plan updates and related test repairs within their existing Work Item, with concise evidence and retained history.
+
 ## v2.0.5 - 2026-09-27
 
 - Explain how to keep personal conventions in `AGENTS.md` for Codex or `CLAUDE.md` for Claude Code.

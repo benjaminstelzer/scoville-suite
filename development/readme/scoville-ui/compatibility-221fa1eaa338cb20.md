@@ -12,5 +12,4 @@ requires browser or platform control.
 WordPress checks need the supported wp-admin runtime and its PHP/JavaScript
 components. Source inspection cannot verify the rendered interface. Screenshots alone cannot verify interactions.
 
-Developed for Codex and Claude Code. Other hosts are untested. The Skill requires
-no network access.
+Developed for Codex and Claude Code. Other hosts are untested.
