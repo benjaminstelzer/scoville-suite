@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.0 - 2026-09-27
+
+- Run Workflow through direct handoffs and ordinary worker results. Review findings start a new worker, and chat numbers identify the reviewed work.
+- Explain invalid helper inputs with the expected value and a concrete correction.
+- Keep Plans and handoffs focused on the facts needed to execute, verify or continue.
+
 ## v2.0.6 - 2026-09-27
 
 - Review completed Workflow Work Items at the project-defined boundary and reuse available workers for corrections.
