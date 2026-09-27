@@ -55,7 +55,8 @@ Here, the heat is the requested behavior and the evidence that it works, kept cl
   reversibility or scope. Resolve ordinary details from the project.
 - **Your conventions.** Project instructions take priority. Defaults apply only
   to a wholly new project. Keep personal conventions outside the installed
-  Skill and reference them from `AGENTS.md` to preserve them across updates.
+  Skill and reference them from `AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code)
+  to preserve them across updates.
   See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions).
 - **Useful completion reports.** State changed behavior, validation, unresolved
   failures and relevant repository state.

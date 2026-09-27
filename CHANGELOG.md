@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.5 - 2026-09-27
+
+- Explain how to keep personal conventions in `AGENTS.md` for Codex or `CLAUDE.md` for Claude Code.
+
 ## v2.0.4 - 2026-09-27
 
 - Set Codex Workflow rollover defaults to 40% for coordinators and 60% for workers, reviewers and fixers.
