@@ -1,0 +1,72 @@
+"""Exercise faulty profiles and apply the diagnostic's actual correction."""
+import unittest
+import test_validate_profile as base
+
+
+class DiagnosticCorrections(unittest.TestCase):
+    setUp = base.ValidatorTest.setUp
+    tearDown = base.ValidatorTest.tearDown
+    path = base.ValidatorTest.path
+    replace = base.ValidatorTest.replace
+    run_json = base.ValidatorTest.run_json
+    plan = 'docs/plans/0001-validate-profile.md'
+
+    def check_evidence(self, bad, corrected, messages):
+        self.replace(self.plan, 'Evidence: []', 'Evidence: ' + bad)
+        result, payload = self.run_json()
+        self.assertEqual(result.returncode, 1)
+        issue = next(d for d in payload['diagnostics'] if d['code'] == 'WORK_EVIDENCE_INVALID')
+        self.assertEqual(issue['field'], 'Evidence')
+        self.assertEqual(issue['record'], 'PLAN-0001/W-001')
+        self.assertEqual(issue['file'], self.plan)
+        self.assertIsInstance(issue['line'], int)
+        for text in messages:
+            self.assertIn(text, issue['message'] + ' ' + issue['suggestion'])
+        self.assertTrue(issue['expected'])
+        self.replace(self.plan, 'Evidence: ' + bad, 'Evidence: ' + corrected)
+        completed, valid = self.run_json()
+        self.assertEqual(completed.returncode, 0, valid)
+        self.assertTrue(valid['valid'])
+
+    def test_length_reports_actual_limit_and_correction(self):
+        self.check_evidence('x' * 212, 'Checks passed; details in tests/results.md.',
+                            ['212', '200', 'Shorten', 'Do not invent evidence'])
+
+    def test_control_character_reports_exact_code_and_correction(self):
+        self.check_evidence('Result\x01 retained', 'Result retained',
+                            ['U+0001', 'Replace control characters'])
+
+    def test_list_punctuation_can_be_preserved_in_plain_text(self):
+        self.check_evidence('[Result [x] retained]', 'Result [x] retained',
+                            ['U+005B', 'U+005D', 'plain-text Evidence'])
+
+    def test_exact_limit_is_valid(self):
+        self.replace(self.plan, 'Evidence: []', 'Evidence: ' + 'x' * 200)
+        completed, payload = self.run_json()
+        self.assertEqual(completed.returncode, 0, payload)
+
+    def test_scope_instruction_repairs_actual_record(self):
+        path = 'docs/decisions/0001-use-read-only-validation.md'
+        self.replace(path, 'scope: skill/profile-validation', 'scope: Skill/Profile-validation')
+        completed, payload = self.run_json()
+        self.assertEqual(completed.returncode, 1)
+        issue = next(d for d in payload['diagnostics'] if d['code'] == 'DECISION_SCOPE_INVALID')
+        self.assertIn('lowercase', issue['suggestion'])
+        self.assertIn('single slashes', issue['suggestion'])
+        self.assertEqual(issue['observed'], 'Skill/Profile-validation')
+        self.replace(path, 'scope: Skill/Profile-validation', 'scope: skill/profile-validation')
+        completed, payload = self.run_json()
+        self.assertEqual(completed.returncode, 0, payload)
+
+    def test_field_order_instruction_preserves_values(self):
+        original = 'Outcome: The local record shapes are valid.\nAcceptance: The validator reports a valid profile.'
+        reversed_fields = '\n'.join(reversed(original.splitlines()))
+        self.replace(self.plan, original, reversed_fields)
+        completed, payload = self.run_json()
+        self.assertEqual(completed.returncode, 1)
+        issue = next(d for d in payload['diagnostics'] if d['code'] == 'WORK_FIELD_ORDER')
+        self.assertIn('Outcome, Acceptance', issue['expected'])
+        self.assertIn('without changing their values', issue['suggestion'])
+        self.replace(self.plan, reversed_fields, original)
+        completed, payload = self.run_json()
+        self.assertEqual(completed.returncode, 0, payload)

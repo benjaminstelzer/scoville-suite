@@ -1,5 +1,16 @@
 # Suite source ownership
 
+Plans, Decisions, run cursors, assignments, results and handoffs must be as
+short as possible and only as long as necessary. Necessary means relevant to
+correctly executing, verifying or continuing the work without hidden context.
+Keep binding constraints, relevant decision reasons, evidence limits and next
+actions. Omit repetition and history that no longer affects the work; preserve
+required historical records in their canonical owners.
+
+Use GPT-6 Astra with high reasoning for requested independent Astra reviews
+unless the user explicitly selects another effort. Executor settings remain
+unchanged.
+
 Agents may read JSON helper output and use JSON configuration. Do not require
 agents to hand-write syntactically correct JSON for dispatch, handoffs or helper
 requests. Use plain text, helper-generated JSON, native structured arguments or
