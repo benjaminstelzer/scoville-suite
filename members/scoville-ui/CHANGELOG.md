@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.3 - 2026-09-28
+
+- Keep pure visual concepts for a future WordPress admin page outside the implementation adapter, while retaining it for implementation advice and audits.
+
 ## v2.0.2 - 2026-09-27
 
 - Remove the blanket network-access claim from the compatibility description.

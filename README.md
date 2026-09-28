@@ -204,6 +204,9 @@ and whether the host discovers the Skill.
 
 ## Install the suite
 
+Install the suite once in your agent host for use across projects.
+
+
 ### New installation
 
 Use this request in your agent host:

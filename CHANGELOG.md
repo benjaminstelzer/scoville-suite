@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.1 - 2026-09-28
+
+
+- Split unfinished Plan Steps without changing scope, acceptance criteria or completed evidence.
+- Keep pure visual concepts outside the WordPress implementation adapter.
+
 ## v2.1.0 - 2026-09-27
 
 - Run Workflow through direct handoffs and ordinary worker results. Review findings start a new worker, and chat numbers identify the reviewed work.
