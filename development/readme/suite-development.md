@@ -1,3 +1,6 @@
+<details>
+<summary>Development and builds</summary>
+
 ## Development and builds
 
 Edit member sources under `members/`. Edit README fragments under
@@ -33,3 +36,5 @@ does not offer the other profile.
 
 Uncommitted sources produce development builds. Publication requires inspected
 committed sources and the release checks.
+
+</details>

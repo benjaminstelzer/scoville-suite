@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.1.4 - 2026-09-28
+
+- Add an edition guide and Skill overview, and collapse upgrade and development details.
+- Clarify examples and remove repeated name explanations.
+
 ## v2.1.3 - 2026-09-28
 
 - Keep Code safeguards proportionate to actual consequences and preserve useful output when a later step fails.

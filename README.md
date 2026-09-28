@@ -8,6 +8,18 @@ The Scoville scale originally measured chili heat through dilution. For this
 suite, the idea is to keep the goal, decisions and verified results clear as
 work passes through plans, code changes and conversations.
 
+
+Claude Code or other Agent Skills hosts: [Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
+Codex desktop: [Scoville Suite for Codex](https://github.com/benjaminstelzer/scoville-suite-for-codex),
+which adds Workflow, Ask and Setup.
+
+| Skill | Purpose |
+| --- | --- |
+| [Code](#scoville-code) | Keeps implementation, risk and validation focused on the requested outcome. |
+| [Plan](#scoville-plan) | Keeps longer work, decisions and progress recoverable. |
+| [UI](#scoville-ui) | Implements and checks interfaces through their framework and design system. |
+| [Handoff](#scoville-handoff) | Transfers unfinished work to another session. |
+
 ## Suite requirements
 
 Install and enable every Skill in the suite. For individual Skills, use their
@@ -25,7 +37,6 @@ Use it to develop, diagnose, review or remove code. It directs the agent to find
 the cause, respect the project's architecture and check the affected behavior
 with effort proportionate to the task.
 
-The name comes from the Scoville scale, which originally measured chili heat through dilution.
 Here, the heat is the requested behavior and the evidence that it works, kept clear through implementation and testing.
 
 ### How it works
@@ -78,7 +89,6 @@ Items that describe resumable outcomes and evidence required for completion.
 Use it for dependent work and long-running projects. It follows the project's
 existing planning system and keeps small tasks proportionate.
 
-The name comes from the Scoville scale, which originally measured chili heat through dilution.
 Here, the heat is the direction another agent can recover: the goal, decisions, current state and next action.
 
 ### How it works
@@ -113,14 +123,14 @@ See [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packa
 
 A page must work across screen sizes, input methods and error states.
 Scoville UI implements and audits those behaviors through the project's
-framework and design system, using rendered evidence to check the result.
+framework and design system, including plugin-owned WordPress admin pages,
+using rendered evidence to check the result.
 It also shapes interface text so labels describe their purpose, buttons name
 their action and terminology stays consistent across views and translations.
 
 For supported WordPress admin pages, it applies Core components, spacing,
 version requirements and translation conventions.
 
-The name comes from the Scoville scale, which originally measured chili heat through dilution.
 Here, the heat is the task a person can still understand and complete across layouts, interactions and error states.
 
 ### How it works
@@ -161,7 +171,6 @@ decisions. Scoville Handoff gathers those facts into one compact, copy-ready
 prompt with the objective, permissions and next action, so another session can
 resume the work.
 
-The name comes from the Scoville scale, which originally measured chili heat through dilution.
 Here, the heat is the working context another session needs after a long conversation is condensed.
 
 ### How it works
@@ -207,6 +216,8 @@ Preserve personal settings and unrelated Skills. Report the installed location
 and whether the host discovers the Skill.
 ```
 
+
+
 ## Install the suite
 
 Install the suite once in your agent host for use across projects.
@@ -219,6 +230,9 @@ Use this request in your agent host:
 ```text
 Install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
 ```
+
+<details>
+<summary>Upgrade from an earlier Scoville or Ask suite</summary>
 
 ### Upgrade from an earlier Scoville or Ask suite
 
@@ -237,11 +251,16 @@ ask-claude-and-sol-for-codex.
 Skip absent entries, leave unrelated Skills untouched, and keep no backup or settings migration. Then install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
 ```
 
+</details>
+
 Do not mix standalone and suite copies of the same Skill.
 
 If the host cannot install directly from GitHub, download this suite repository
 and copy all its inner package directories to the host's documented Skills
 location. This uses the same complete suite packages and requirements.
+
+<details>
+<summary>Development and builds</summary>
 
 ## Development and builds
 
@@ -278,6 +297,8 @@ does not offer the other profile.
 
 Uncommitted sources produce development builds. Publication requires inspected
 committed sources and the release checks.
+
+</details>
 
 ### Developer links
 
