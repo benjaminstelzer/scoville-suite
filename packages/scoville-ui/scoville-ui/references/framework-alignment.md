@@ -110,11 +110,14 @@ Apply this invariant before normalizing a local exception:
 
 ## Handle true greenfield work
 
-When there is no design system, theme, token set, approved precedent, or visual
-owner:
+For unsettled concerns of the requested surface, derive navigation, content
+groups and task flow from user tasks, content relationships and usage frequency.
+Apply Quality's principles even without a supplied product structure. Preserve
+settled decisions; this does not authorize new features or a wider redesign.
 
-Use an approved product direction when supplied; otherwise use the bounded
-fallback below.
+For visual direction, use an approved product direction when supplied. When
+there is no design system, theme, token set, approved precedent or visual owner,
+use the bounded fallback below.
 
 When polished presentation is requested, the requested surface owns a
 deliberate local direction. Framework defaults may supply compatible primitives

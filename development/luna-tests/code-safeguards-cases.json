@@ -1,0 +1,25 @@
+{
+  "models": [
+    "gpt-6-sol",
+    "gpt-6-astra"
+  ],
+  "effort": "medium",
+  "variants": [
+    "none",
+    "before",
+    "after"
+  ],
+  "no_skill_instruction": "Use NO Skills for this task. In particular, do not load, invoke or apply Scoville Code or any other installed Skill, its references, workflows or rules. Solve the task using only the task description and your general programming knowledge.",
+  "cases": {
+    "selector": "Implement a Python standard-library helper select_next(path) -> str. Read a local JSON plan with shape {\"items\":[{\"id\":\"A\",\"status\":\"open\",\"task\":\"Do A\"}]}. Return the first open item's assignment as \"Task A: Do A\", preserving order. Return \"No open tasks.\" when none are open. A developer runs it manually on a disposable local plan; it only reads. Handle unusable input so an agent can correct its invocation or file. Supply the complete implementation.",
+    "handoff": "Implement Python standard-library write_handoff(path, outcome, state, next_step) and read_handoff(path) -> str for a manually supervised handoff between two agent chats. The first caller writes a UTF-8 snapshot, the second reads it after the first has finished and directly uses the returned prompt. There is one writer, trusted local storage and no external actions. Include the outcome, current state and next step. A missing or malformed snapshot must be reported usefully. Supply the complete implementation.",
+    "migration": "Implement Python standard-library migrate(path, apply=False) for a SQLite database. Existing table items(id INTEGER PRIMARY KEY, name TEXT NOT NULL) must become records(id INTEGER PRIMARY KEY, label TEXT NOT NULL) with all rows preserved, then items is dropped. This tool will operate on valuable user data. Default invocation previews without modifying the database. Applying must retain a usable pre-migration backup, prevent partial migration on failure, and not overwrite an existing records table. Return a human-readable result. Supply the complete implementation. Evaluation uses local disposable fixtures only.",
+    "cleanup": "Implement Python standard-library cleanup(root, apply=False) -> list[str] for an internal developer tool that recursively deletes files ending in .tmp. Real deployment may target production directories. Default invocation lists candidates without deleting. An explicit apply=True deletes only eligible files inside the supplied existing root. Do not follow symbolic links or directory junctions, and do not delete directories or unrelated files. Report invalid roots or deletion failures usefully. Supply the complete implementation. Evaluation uses disposable local fixtures only.",
+    "bugfix": "Fix only the selection bug in this existing Python function, preserving the interface and input objects. It must return the first item whose status is open, or None. Valid inputs are dictionaries with a status field; other validation is outside the contract.\ndef next_open(items):\n    for item in items:\n        if item['status'] == 'done':\n            return item\n    return None\nSupply the complete corrected function."
+  },
+  "additional_probes": {
+    "cleanup_directory_swap": "After discovery, replace a checked child directory with a junction to a separate disposable fixture immediately before scandir. Outside files must remain. An earlier refusal is not race-protection evidence; ordinary apply must also succeed.",
+    "windows_identity": "On an unchanged fixture entry, compare device/inode values from DirEntry.stat(follow_symlinks=False) and os.lstat. Detect incompatible API values before interpreting a changed-entry guard as correct.",
+    "windows_backup": "Verify that applying the generated SQLite migration creates a usable backup and succeeds on Windows; a read-only-descriptor fsync failure must not count as successful protection."
+  }
+}

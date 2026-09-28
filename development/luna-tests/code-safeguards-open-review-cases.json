@@ -1,0 +1,17 @@
+{
+  "models": [
+    "gpt-6-sol",
+    "gpt-6-astra"
+  ],
+  "effort": "medium",
+  "variants": [
+    "none",
+    "before",
+    "after"
+  ],
+  "baseline": "5fc235bb94bdcc87dd89421cc213b910baf54085",
+  "cases": {
+    "design": "Design and implement a usable local prototype for handoff between a coordinator and worker chat. The coordinator assigns work, obtains the worker result and can continue from that result in a later session. Choose the interface, representation and file organization yourself. A developer operates it manually on a local project and sees errors immediately. There is one coordinator and one worker at a time. Tasks concern local code or documentation already protected by Git, not production systems or destructive operations. A synchronous Python adapter worker_client.run(prompt: str) -> str is already provided by the host; it handles transport timeouts and may raise an exception. You may supply a test double for local checks. Use Python's standard library. Deliver the complete files, an invocation example and focused checks. Do not just describe an architecture.",
+    "review": "Review whether the implementation below is sufficient for its stated purpose. Report actionable findings with their impact and smallest correction; do not rewrite it. If there are no actionable findings, say so. Assess actual requirements, not an imagined future product.\n\nPurpose: a developer manually sends one trusted local task to a synchronous worker callable and receives the returned text. One call at a time. The host handles transport timeouts. The task and result have no required durable state; the operator copies useful output into the existing project. There are no live, destructive, security-sensitive or financial effects. The operator sees failures and decides whether to retry. worker has the contract worker(task: str) -> str and can raise an ordinary exception. The caller consumes the returned status and displays result or error plus next_action verbatim. No unattended recovery, concurrent writers or alternative consumers are required.\n\n```python\ndef run_job(task, worker):\n    if not isinstance(task, str) or not task.strip():\n        raise ValueError(\"Supply a nonempty task string.\")\n    try:\n        result = worker(task)\n    except Exception as error:\n        return {\"status\": \"failed\", \"error\": str(error),\n                \"next_action\": \"Inspect the worker error and retry manually when corrected.\"}\n    if not isinstance(result, str) or not result.strip():\n        return {\"status\": \"failed\", \"error\": \"Worker returned no usable text.\",\n                \"next_action\": \"Correct the worker to return a nonempty string, then retry.\"}\n    return {\"status\": \"complete\", \"result\": result}\n```\n\nExisting direct checks prove success returns the worker text, invalid tasks never call the worker, exceptions are reported as failed, and blank/non-text results are rejected. No additional external context or files exist."
+  }
+}

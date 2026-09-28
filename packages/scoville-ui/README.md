@@ -3,6 +3,8 @@
 A page must work across screen sizes, input methods and error states.
 Scoville UI implements and audits those behaviors through the project's
 framework and design system, using rendered evidence to check the result.
+It also shapes interface text so labels describe their purpose, buttons name
+their action and terminology stays consistent across views and translations.
 
 For supported WordPress admin pages, it applies Core components, spacing,
 version requirements and translation conventions.
@@ -22,8 +24,11 @@ Here, the heat is the task a person can still understand and complete across lay
 
 - **Design consistency.** Follow the existing design system and approved product decisions.
 - **Clear hierarchy.** Distinguish primary decisions, supporting information and secondary actions.
+- **Task structure.** Resolve open navigation and layout choices around the user's task. Choose controls by their meaning and use modal interruptions deliberately.
+- **Interface text.** Write labels and buttons that describe their purpose and action. Keep terminology consistent across views, states and translations.
 - **Complete states.** Cover relevant loading, empty, error, disabled, success and input states.
 - **Responsive behavior.** Keep the interface usable on narrow and wide screens, with zoom and long content.
+- **Changes in context.** Reassess the affected group and flow when elements change, including whether the responsive arrangement still works.
 - **Accessibility.** Check reading order, names, relationships, contrast, focus and keyboard or touch behavior.
 - **Visual checks.** Inspect the rendered interface and test its interactions before reporting them as working.
 - **WordPress conventions.** Use the appropriate WordPress components and design tokens for each part of the page. Existing PHP-rendered pages can remain in PHP.
@@ -43,8 +48,8 @@ The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scovi
 
 ## Compatibility
 
-A current Fable, Astra, SOL or Opus model is recommended. Luna was also used
-in testing.
+Requires a frontier LLM from the Fable, Astra, SOL or Opus families, version 5.0
+or newer. Luna was also used in testing.
 
 Requires an Agent Skills host with reference access, and the target project's
 toolchain.
@@ -113,6 +118,33 @@ wrapping and clipping. State which parts of the interface were checked.
   [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
   for system-owned components, patterns, and platform conventions.
 - [WCAG 2.2](https://www.w3.org/TR/WCAG22/) for accessibility requirements.
+  Its guidance on [consistent identification](https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification.html),
+  [headings and labels](https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html)
+  and [label in name](https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html)
+  informs the interface text checks.
+- [Microsoft Style Guide](https://learn.microsoft.com/en-us/style-guide/global-communications/writing-tips)
+  for consistent terminology and wording that supports translation.
+- [GOV.UK Design System: Buttons](https://design-system.service.gov.uk/components/button/)
+  for labels that describe the action and its relevant effect.
+
+- [Microsoft navigation basics](https://learn.microsoft.com/en-us/windows/apps/design/basics/navigation-basics)
+  for task-based navigation, orientation and avoiding unnecessary detours.
+- [Microsoft responsive design techniques](https://learn.microsoft.com/en-us/windows/apps/design/layout/responsive-design)
+  for adapting composition and using space to reduce navigation.
+- Google Android [layout basics](https://developer.android.com/design/ui/mobile/guides/layout-and-content/layout-basics?hl=en)
+  and [content composition](https://developer.android.com/design/ui/mobile/guides/layout-and-content/content-structure?hl=en)
+  for grouping, alignment and layouts that adapt to content and available space.
+- [Adobe Spectrum switches](https://spectrum.adobe.com/page/switch/)
+  and [Microsoft toggle switches](https://learn.microsoft.com/en-us/windows/apps/design/controls/toggles)
+  for control meaning and platform-specific activation behavior.
+- [Microsoft dialogs](https://learn.microsoft.com/en-us/windows/apps/design/controls/dialogs-and-flyouts/dialogs)
+  for bounded interruptions and keeping field errors in context.
+
+Vendor guidance informs the general rules. Platform-specific layouts, measures,
+control behavior and visual conventions are not universal requirements.
+The Skill contains the working rules. These sources document their basis and
+do not require web research for routine UI changes. Reassessing composition
+after element changes is the Skill's application of these principles.
 
 ## License
 

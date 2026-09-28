@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.1.3 - 2026-09-28
+
+- Keep Code safeguards proportionate to actual consequences and preserve useful output when a later step fails.
+- Give UI ownership of interface wording, terminology and unsettled task structure.
+- Check the affected composition and responsive behavior after UI changes.
+
+
+
 ## v2.1.1 - 2026-09-28
 
 

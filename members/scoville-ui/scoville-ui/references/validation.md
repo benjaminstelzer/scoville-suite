@@ -53,6 +53,11 @@ Do not impose a universal breakpoint list or test every possible combination.
 Include a condition when it could change the decision or expose a failure in the
 requested flow.
 
+When elements are added, removed or changed, include the affected group's
+composition and responsive transitions, not only the edited element. Check
+relevant widths and states that could expose broken grouping, wrapping,
+overflow or unavailable actions.
+
 When a flow supports multiple input methods and one method can leave focus,
 selection, pointer capture, composition, or shared state that affects another,
 exercise at least one relevant handoff in the same task, such as pointer to
@@ -72,6 +77,9 @@ does not prove the primary populated surface, and the reverse is equally true.
 
 When the requested flow includes these mechanisms, operate the relevant path:
 
+- Navigation, controls and adaptive view changes: verify orientation, available
+  back/cancel paths, actual change/save timing and preservation of the working
+  context needed for the task. Do not require every value or position to persist.
 - Dialogs: open, reach controls, close or cancel and verify focus returns to the
   invoking control or the appropriate next location. Check that overlays and
   sticky regions do not obscure focused controls.
@@ -198,6 +206,12 @@ Zoom alone does not test whether `em`, `rem` and fixed pixels behave equivalentl
 Where units are at risk, vary element/root font conditions independently.
 
 ## Consistency audit coverage
+
+For new or changed interface text and consistency audits, compare concept names
+across affected views, states and in-scope languages using Quality's wording
+rules. Check that labels describe actual behavior and that accessible names
+contain visible control text. Inspect wording in source and in rendered context;
+source alone does not prove its presentation or the action's runtime behavior.
 
 An ordinary request to check page X for consistency selects Audit with a
 consistency focus. Keep the named page or region as scope. It is not permission
