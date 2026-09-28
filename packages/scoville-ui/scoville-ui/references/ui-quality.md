@@ -6,10 +6,13 @@ tests, not a visual recipe.
 ## Contents
 
 - Start with the user task
+- Navigation and orientation
+- UI wording and terminology
 - Make relationships perceptible
 - Preserve readable content
 - Make interaction predictable
 - Adapt instead of merely shrinking
+- Reassess composition after changes
 - Design states as part of the same interface
 - Keep accessibility structural
 
@@ -26,8 +29,7 @@ information should remain available without competing equally for attention.
 Use one primary next action per decision region, not a page-wide one-button
 limit. Make each action's affected fields, object and consequence clear before
 activation. Preserve legitimate information density and separate decision regions.
-Preserve domain terminology and product intent; do not simplify away necessary
-distinctions.
+Preserve product intent.
 
 For each visible region, ask:
 
@@ -40,9 +42,38 @@ Required prerequisites and consequences precede the action that needs them.
 Disclose rare secondary detail through understandable controls, while keeping
 required fields, errors and critical consequences discoverable in time. Avoid
 repeated disclosure steps that obstruct frequent expert work. Keep needed values
-and consistent object/action terms visible so users recognize rather than recall.
+and object/action terms visible so users recognize rather than recall.
 Remove or demote content only when doing so preserves the user's task and the
 canonical content owner permits it.
+
+## Navigation and orientation
+
+Structure navigation around user tasks and content relationships. Distinguish
+global destinations from local views and actions. Make the current location
+and available back or cancel paths understandable and accessible through
+platform conventions. Avoid unnecessary hierarchy depth and detours between
+related content. Preserve needed working context across navigation when safe
+and appropriate to the task.
+
+## UI wording and terminology
+
+Use approved product and platform terminology. When none exists, choose terms
+suited to the audience, domain and established conventions.
+
+- Use one term per concept within each language, across settings, navigation,
+  help, errors and confirmations. Do not vary terms for stylistic variety or
+  collapse meaningful distinctions. Consistent naming allows grammatical and
+  contextual variation; it does not require every label to be identical.
+- Make headings and labels describe their topic or purpose. Name buttons by
+  their actual action and relevant effect, fields by the value collected, and
+  toggles by the property controlled. Add the object, unit or consequence when
+  context would otherwise leave the meaning ambiguous.
+- Preserve meaning, conceptual distinctions and established technical terms
+  in translations. Follow the target language's conventions and approved
+  terminology rather than translating technical terms mechanically.
+
+These rules apply to new and changed interface text without requiring a
+dictionary, glossary or separate terminology record.
 
 ## Make relationships perceptible
 
@@ -95,7 +126,15 @@ priority, and recovery experience. **UI implementation floor:** UI retains
 component semantics, focus/input behavior, announcements, and state transitions.
 
 Use existing components and platform conventions so affordance and behavior
-agree. For the states introduced or changed by the task, preserve the cues and
+agree. Choose controls by meaning: navigation, action, single selection,
+multiple selection or activation. Follow the owning component's contract;
+presentation and feedback must make clear when changes take effect or are saved.
+
+Use modal interruptions for bounded content or interactions that need attention
+before continuing. Keep ordinary editing and local field errors in their
+working context; do not put complex routine flows in dialogs by default.
+
+For the states introduced or changed by the task, preserve the cues and
 recovery needed to answer:
 
 - What can I act on?
@@ -106,8 +145,8 @@ recovery needed to answer:
 
 Do not depend on hover for required information or operation. Keep focus order,
 keyboard behavior, touch behavior, programmatic relationships, announcements,
-and motion accommodations intact. Name actions by their real result and provide
-a nearby associated reason for disabled actions. Confirm consequential actions
+and motion accommodations intact. Provide a nearby associated reason for
+disabled actions. Confirm consequential actions
 that cannot easily be undone; offer undo only when restoration exists.
 A custom visual treatment must not weaken the
 owning component's semantics or state model.
@@ -130,6 +169,21 @@ meaning, required controls, status, and recovery. Do not clip, hide, or collapse
 required content simply to eliminate overflow. Avoid separate interaction logic
 for each viewport when one semantic flow can adapt through canonical layout
 mechanisms.
+
+Give sequential tasks a clear order. Where frequent comparison or switching
+benefits from simultaneous views, use the available space for related panes.
+On smaller surfaces, preserve those relationships and needed working context
+through a coherent sequence of views.
+
+## Reassess composition after changes
+
+When adding, removing or changing UI elements, reassess the affected group and
+task flow, not just the edited element. Check whether hierarchy, grouping,
+available space and responsive transitions still support the task. If the
+existing arrangement no longer works, adapt that local composition through its
+owner rather than merely making the element fit. Preserve needed functions
+and settled product decisions. Report conflicts requiring a broader redesign;
+a local edit does not authorize a whole-surface redesign.
 
 ## Design states as part of the same interface
 
@@ -168,8 +222,8 @@ platform, scaling, input-alternative, status, and rendered mechanics.
 Accessibility is not a final color pass. Confirm that required names, labels,
 roles, values, relationships, reading order, focus behavior, input alternatives,
 scaling, and status communication survive the chosen component and layout.
-The content owner supplies wording; UI verifies that the interface exposes
-and presents it correctly.
+Use approved wording where supplied; otherwise apply UI wording and terminology
+above. Verify that the interface exposes and presents it correctly.
 
 Visible control text belongs in its accessible name, preferably at the start.
 Name icon-only controls by purpose. Do not convey meaning solely through color,

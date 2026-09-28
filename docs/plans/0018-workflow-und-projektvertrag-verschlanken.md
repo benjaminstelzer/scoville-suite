@@ -4,7 +4,7 @@ id: PLAN-0018
 status: active
 created: 2026-09-27
 updated: 2026-09-28
-current_item: W-014
+current_item: W-004
 ---
 
 # Workflow und DIVI-Projektvertrag verschlanken
@@ -197,7 +197,7 @@ Steps:
 Evidence: 223 Tests grün, Luna High/SOL Medium gezielt bestanden, lokal installiert; Grenzen: ../../development/luna-tests/2026-09-28-workflow-boundaries/results.md.
 
 ### W-014 Reviewkorrekturen und getesteten Stand veröffentlichen
-Status: in_progress
+Status: done
 Depends on: [W-013]
 Blocked by: []
 Decisions: []
@@ -207,5 +207,4 @@ Steps:
 1. K1/K2 und DIVI-Verweis korrigieren; Nutzerfassung des Kostenhinweises erhalten. WordPress-Konzeptgrenze präzisieren und gezielt testen; unterstütztes compatibility-Feld mit Referenzvalidator prüfen.
 2. Release-Gate für geänderte Pakete aktualisieren, unveränderte Nachweise anhand Paketinhalt wiederverwenden. Quellen committen, Distributionen bauen und lokale Pakete aktualisieren.
 3. Geänderte Zielrepos veröffentlichen und neue Releases samt Viewer-Assets verifizieren; erst danach alte Releases bereinigen und öffentliche Projektionen synchronisieren. W-004 bleibt pausiert.
-Evidence: []
-Next action: Finale Modelltests und Releaseprüfungen durchführen.
+Evidence: Lokal, Remote-Bäume und vier Releases samt Assets verifiziert; ../../../../../temp/2026-09-28-workflow-release/release-evidence.md. Modelltestgrenzen bleiben dokumentiert.

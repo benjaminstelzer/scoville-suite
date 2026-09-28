@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0.4 - 2026-09-28
+
+- Own new interface wording and keep terminology consistent across views, states and translations.
+- Derive unsettled navigation and task flow from user needs, and choose controls by their meaning.
+- Reassess the affected composition and responsive behavior when interface elements change.
+
 ## v2.0.3 - 2026-09-28
 
 - Keep pure visual concepts for a future WordPress admin page outside the implementation adapter, while retaining it for implementation advice and audits.

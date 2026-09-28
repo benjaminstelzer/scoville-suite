@@ -1,6 +1,6 @@
 ---
 name: scoville-ui
-description: "Implement or audit UI through its framework and design system. Use for information structure, components, states, interaction, responsiveness, accessibility mechanics and rendered proof. The WordPress adapter applies to implementation or audit of plugin-owned wp-admin backend pages, including hypothetical implementation advice, not pure visual concepts for a future page. Supported pages include settings, tools, workflows, dashboards, data views and explicit Network Admin. It excludes editor canvases, SlotFills, metaboxes, Dashboard widgets, profile fields, Core-screen extensions and UI owned by another plugin. Themes, site frontends and frontend UI produced by plugins use the general route. Excludes non-UI backend work and prose-only tasks."
+description: "Implement or audit UI through its framework and design system. Use for information structure, UI wording and terminology, components, states, interaction, responsiveness, accessibility mechanics and rendered proof. The WordPress adapter applies to implementation or audit of plugin-owned wp-admin backend pages, including hypothetical implementation advice, not pure visual concepts for a future page. Supported pages include settings, tools, workflows, dashboards, data views and explicit Network Admin. It excludes editor canvases, SlotFills, metaboxes, Dashboard widgets, profile fields, Core-screen extensions and UI owned by another plugin. Themes, site frontends and frontend UI produced by plugins use the general route. Excludes non-UI backend work and prose unrelated to interface text."
 compatibility: "Agent Skills host with reference access and the project's framework toolchain. Geometry proof needs DOM or equivalent platform measurement; visual proof needs actually viewed renders, and interaction proof needs an interactive runtime. Source-only or screenshot-only tasks report missing evidence. No bundled scripts or mandatory network access. Developed for Codex and Claude Code; other hosts untested."
 ---
 
@@ -52,10 +52,11 @@ Lower sources never override higher owners; report material conflicts.
 
 UI owns framework-valid implementation, component semantics and states,
 focus/input behavior, responsive mechanics, and rendered/interaction proof.
-UI preserves supplied wording and verifies its presentation, labels, and
-accessibility-name associations. Ordinary task flow and information structure
-belong to UI. Honor requested wording changes without requiring another Skill;
-otherwise preserve protected text and settled product decisions.
+UI owns new interface wording and terminology consistency within the task,
+including greenfield work. Preserve supplied approved wording and settled
+product decisions; honor requested text changes without another Skill.
+Verify text presentation, labels, and accessibility-name associations.
+Ordinary task flow and information structure also belong to UI.
 
 ## Mode and scope
 
@@ -139,7 +140,8 @@ the general Framework route. These narrow routes do not bypass its exclusions.
   owner if stack unfamiliar, ownership ambiguous, UI layers interact, no
   canonical visual owner exists, customization path is uncertain, or a
   component limitation prevents the requested target.
-- **Quality:** Load [ui-quality.md](references/ui-quality.md) before judging task
+- **Quality:** Load [ui-quality.md](references/ui-quality.md) when creating,
+  translating, changing or reviewing interface text, or before judging task
   flow, hierarchy, layout, readability, states, accessibility structure, or
   responsive behavior not settled by a canonical product decision, or
   when implementation mechanics could violate the settled intent.
