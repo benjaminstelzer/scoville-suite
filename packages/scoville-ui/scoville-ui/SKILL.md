@@ -1,6 +1,6 @@
 ---
 name: scoville-ui
-description: "Implement or audit UI through its framework and design system. Use for information structure, components, states, interaction, responsiveness, accessibility mechanics and rendered proof. The WordPress adapter applies only to plugin-owned wp-admin backend pages: settings, tools, workflows, dashboards, data views and explicit Network Admin. It excludes editor canvases, SlotFills, metaboxes, Dashboard widgets, profile fields, Core-screen extensions and UI owned by another plugin. Themes, site frontends and frontend UI produced by plugins use the general route. Excludes non-UI backend work and prose-only tasks."
+description: "Implement or audit UI through its framework and design system. Use for information structure, components, states, interaction, responsiveness, accessibility mechanics and rendered proof. The WordPress adapter applies to implementation or audit of plugin-owned wp-admin backend pages, including hypothetical implementation advice, not pure visual concepts for a future page. Supported pages include settings, tools, workflows, dashboards, data views and explicit Network Admin. It excludes editor canvases, SlotFills, metaboxes, Dashboard widgets, profile fields, Core-screen extensions and UI owned by another plugin. Themes, site frontends and frontend UI produced by plugins use the general route. Excludes non-UI backend work and prose-only tasks."
 compatibility: "Agent Skills host with reference access and the project's framework toolchain. Geometry proof needs DOM or equivalent platform measurement; visual proof needs actually viewed renders, and interaction proof needs an interactive runtime. Source-only or screenshot-only tasks report missing evidence. No bundled scripts or mandatory network access. Developed for Codex and Claude Code; other hosts untested."
 ---
 
@@ -75,7 +75,9 @@ audit rules apply only to supported plugin-owned backend pages in `wp-admin`.
 Themes, site frontends and frontend output from plugins use the general UI
 route. Excluded host-owned admin surfaces retain their host's contract.
 
-For a plugin backend request, including hypothetical implementation advice, read
+For pure visual concepts for a future page, keep the requested design scope
+without activating the WordPress implementation or acceptance rules.
+For a plugin backend implementation or audit request, including hypothetical implementation advice, read
 [the WordPress adapter](references/wordpress/adapter.md) and its required
 [routing contract](references/wordpress/routing.md) before dependent advice or
 implementation. Classify the surface, actual runtime per DOM region and supported

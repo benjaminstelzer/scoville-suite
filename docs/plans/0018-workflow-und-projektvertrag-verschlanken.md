@@ -3,8 +3,8 @@ format_version: 1
 id: PLAN-0018
 status: active
 created: 2026-09-27
-updated: 2026-09-27
-current_item: W-012
+updated: 2026-09-28
+current_item: W-014
 ---
 
 # Workflow und DIVI-Projektvertrag verschlanken
@@ -172,7 +172,7 @@ Steps:
 Evidence: Negative/Korrekturtests und Astra Medium PASS; Umfang und Grenzen: ../../../../../temp/2026-09-27-workflow-simplify/helper-diagnostics.md.
 
 ### W-012 Geprüfte Vereinfachungen lokal und auf GitHub veröffentlichen
-Status: in_progress
+Status: done
 Depends on: [W-010, W-011]
 Blocked by: []
 Decisions: []
@@ -181,5 +181,31 @@ Acceptance: Geänderte Pakete bestehen gezielte Tests und finales Astra-Review. 
 Steps:
 1. Finale Testnachweise und Astra-Abnahme sichern, kanonische README-Projektionen bauen und geänderte Distributionsziele bestimmen.
 2. Nach GitHub-Skill prüfen, bauen, lokal installieren und veröffentlichen; Remote-Dateien, Tags und Assets gegen den Kandidaten verifizieren.
+Evidence: Lokal und sechs GitHub-Releases samt Assets verifiziert; siehe ../../../../../temp/2026-09-27-workflow-simplify/release-evidence.md.
+
+### W-013 Lange Workflow-Einheiten an sicheren Grenzen fortsetzen und prüfen
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0102]
+Outcome: Worker-Handoffs ermöglichen Koordinator-Rollover und begrenzte Restarbeit; Produktkorrekturen erhalten rechtzeitig unabhängiges Feedback ohne wiederholte Vollreviews.
+Acceptance: ADR-0102 ist in Workflow, Dispatch und Plan widerspruchsfrei umgesetzt. Alle Workflow-, Suite-, Shared-, Plan-, Ask- und Setup-Tests sowie README-/Sourcechecks bestehen. GPT-6 Luna High und SOL Medium prüfen die sieben beauftragten Ablauffälle und normale Statusnachrichten. Testgrenzen und ursprüngliche Fehlläufe bleiben dokumentiert. Gebaute geänderte Skills werden vor lokaler Installation mit dem Bestand verglichen und danach verifiziert. Kein DIVI-Eingriff und keine Veröffentlichung.
+Steps:
+1. Bestehende Operations-, Rollover-, Dispatch-, Checkpoint- und Planregeln minimal präzisieren; README-Fragmente generieren. Keine neue Laufzeitschicht.
+2. Helper und alle beauftragten Tests ausführen. Reale Modellantworten gegen vorher festgelegte Erwartungen bewerten und nur belegte Fehler gezielt korrigieren.
+3. Evidence knapp unter development/luna-tests ablegen, gebaute Pakete vergleichen und lokal installieren. Danach zum unverändert pausierten W-004 zurückkehren.
+Evidence: 223 Tests grün, Luna High/SOL Medium gezielt bestanden, lokal installiert; Grenzen: ../../development/luna-tests/2026-09-28-workflow-boundaries/results.md.
+
+### W-014 Reviewkorrekturen und getesteten Stand veröffentlichen
+Status: in_progress
+Depends on: [W-013]
+Blocked by: []
+Decisions: []
+Outcome: Der korrigierte Workflow, Plan und UI sind nachvollziehbar committed, lokal installiert und in den geänderten autorisierten GitHub-Zielen veröffentlicht.
+Acceptance: K1 trennt Fehler in zuvor fertigem Produktcode von eigenen Zwischenfehlern und besteht positive sowie negative Modelltests. K2 stellt Zwischenstände ohne vorzeitige Abnahme dar. DIVI verweist ohne duplizierte Review-Kadenz auf Workflow. Der offene WordPress-Konzeptfall und betroffene Luna-Medium-Regressionen bestehen. Geänderte Pakete werden gebaut, lokal verifiziert und als neue Releases samt Remote-Baum und Assets geprüft. Unveränderte Ziele bleiben unverändert; Workflow bleibt suite-only.
+Steps:
+1. K1/K2 und DIVI-Verweis korrigieren; Nutzerfassung des Kostenhinweises erhalten. WordPress-Konzeptgrenze präzisieren und gezielt testen; unterstütztes compatibility-Feld mit Referenzvalidator prüfen.
+2. Release-Gate für geänderte Pakete aktualisieren, unveränderte Nachweise anhand Paketinhalt wiederverwenden. Quellen committen, Distributionen bauen und lokale Pakete aktualisieren.
+3. Geänderte Zielrepos veröffentlichen und neue Releases samt Viewer-Assets verifizieren; erst danach alte Releases bereinigen und öffentliche Projektionen synchronisieren. W-004 bleibt pausiert.
 Evidence: []
-Next action: Nach W-010/W-011 den geprüften Kandidaten bauen und veröffentlichen.
+Next action: Finale Modelltests und Releaseprüfungen durchführen.
