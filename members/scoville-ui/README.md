@@ -2,14 +2,14 @@
 
 A page must work across screen sizes, input methods and error states.
 Scoville UI implements and audits those behaviors through the project's
-framework and design system, using rendered evidence to check the result.
+framework and design system, including plugin-owned WordPress admin pages,
+using rendered evidence to check the result.
 It also shapes interface text so labels describe their purpose, buttons name
 their action and terminology stays consistent across views and translations.
 
 For supported WordPress admin pages, it applies Core components, spacing,
 version requirements and translation conventions.
 
-The name comes from the Scoville scale, which originally measured chili heat through dilution.
 Here, the heat is the task a person can still understand and complete across layouts, interactions and error states.
 
 ## How it works
@@ -110,6 +110,8 @@ A consistency audit inventories regions, variants and states, including content
 below the fold. Each finding links to source, measurements and visual evidence
 or explains what could not be checked. Check alignment, text, whitespace, control interiors, icons,
 wrapping and clipping. State which parts of the interface were checked.
+
+
 
 ## Sources
 

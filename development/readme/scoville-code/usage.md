@@ -5,7 +5,11 @@ Use Scoville Code to analyze this codebase for correctness, ownership and missin
 ```
 
 ```text
-Analyze this codebase for defects and hidden failure paths. Support findings with code evidence and keep the analysis read-only.
+Use Scoville Code to fix the failing checkout total when a coupon and free shipping combine. Find the cause, change the responsible code and verify the corrected case.
+```
+
+```text
+Use Scoville Code to add CSV export to the orders page. Follow the existing structure and verify the exported fields and values against a representative local test order.
 ```
 
 ### Starting a new project

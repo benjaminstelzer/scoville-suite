@@ -11,6 +11,9 @@ Use this request in your agent host:
 Install and enable the complete suite for all my projects directly from {{ include: suite.repository }}.
 ```
 
+<details>
+<summary>Upgrade from an earlier Scoville or Ask suite</summary>
+
 ### Upgrade from an earlier Scoville or Ask suite
 
 Use this request in your agent host:
@@ -27,6 +30,8 @@ ask-claude-for-codex, ask-claude-and-astra-for-codex,
 ask-claude-and-sol-for-codex.
 Skip absent entries, leave unrelated Skills untouched, and keep no backup or settings migration. Then install and enable the complete suite for all my projects directly from {{ include: suite.repository }}.
 ```
+
+</details>
 
 Do not mix standalone and suite copies of the same Skill.
 
