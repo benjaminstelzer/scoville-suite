@@ -26,7 +26,7 @@ der Sichtbarkeit, keine neue Viewer-Version, keine Veröffentlichung fremder Arb
 Status: in_progress
 Depends on: []
 Blocked by: []
-Decisions: []
+Decisions: [ADR-0118]
 Outcome: Kanonische Quellen, Versionen, Testnachweise und unveränderte Viewer-Assets sind publikationsbereit.
 Acceptance: Manifest-Ziele und Remote-Zustand erfasst. Geänderte Pakete geprüft, Nutzerwahl Luna 6 High beibehalten, Testergebnisse und Grenzen dokumentiert. Changelogs nennen tatsächliche Änderungen; sauberer Source-Commit und profilgetrennte Exporte liegen vor.
 Steps:

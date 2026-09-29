@@ -1,5 +1,10 @@
 # Release preflight
 
+Current rule (2026-09-29): the fixed 45-case Luna CLI series is no longer
+required. Use development/shared/luna-release-gate.md and the current release
+Plan. The sections below retain the historical PLAN-0012 preparation and its
+release-specific decisions; they do not impose gates on later releases.
+
 ## Current candidate
 
 The general suite contains Code, Handoff, Plan and UI. WordPress backend UI
