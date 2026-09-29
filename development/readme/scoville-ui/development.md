@@ -1,4 +1,6 @@
 ## How it was developed
 
-- General interface and WordPress admin tasks informed the shared quality checks and platform guidance.
-- Skill tests do not establish the usability of an individual interface. That needs testing with its users.
+- General interface work and WordPress admin tasks shaped the shared quality
+  checks and the platform guidance.
+- Skill tests can't tell you whether a particular interface is usable. That
+  takes testing with its users.

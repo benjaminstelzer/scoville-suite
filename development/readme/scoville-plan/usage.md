@@ -12,11 +12,11 @@ State the outcome, acceptance criteria and next action directly in the Plan.
 
 ### Set reasoning for a Step
 
-Plan does not choose a model or reasoning level on its own. When using Scoville
-Workflow for Codex from the Codex suite, you can retain an explicit model or
-reasoning choice on a Step. Plan itself does not dispatch work. Without an
-explicit choice, Workflow assesses the Step and uses the configured pair for
-its route. Scoville Setup displays or saves those project settings.
+Plan doesn't pick a model or reasoning level by itself, and it doesn't
+dispatch work either. If you use Scoville Workflow for Codex from the Codex
+suite, you can attach an explicit model or reasoning choice to a Step.
+Without one, Workflow assesses the Step and uses the pair configured for its
+route. Scoville Setup shows or saves those project settings.
 
 You can request a reasoning level for one Step:
 
@@ -30,38 +30,40 @@ To specify the model as well, put it first:
 1. [execute: model=gpt-6-astra; reasoning=high] Check the migration and its rollback behavior.
 ```
 
-The regular levels are `low`, `medium`, `high` and `xhigh`. Setup offers and
-saves these four. The format also supports `none`, `minimal`, `max` and `ultra`
-for explicit annotations or manual entries in `.scoville/config.json`. Setup
-preserves those manual entries when you change other settings. Every selected
-pair must be supported by the actual model. An unsupported pair stops with an
-explanation, without silently choosing another level.
+The regular levels are `low`, `medium`, `high` and `xhigh`, and those are the
+four Setup offers and saves. The format also accepts `none`, `minimal`, `max`
+and `ultra`, either as explicit annotations or as manual entries in
+`.scoville/config.json`. Setup leaves such manual entries alone when you
+change other settings. Whatever pair you choose, the model has to support it.
+If it doesn't, the run stops and explains why instead of quietly picking
+another level.
 
-Route classes such as `ultra_low` describe task complexity. They are separate
-from reasoning levels: an `ultra_low` task can use reasoning `low`.
+Route classes such as `ultra_low` describe how complex a task is. They're
+separate from reasoning levels: an `ultra_low` task can use reasoning `low`.
 
 ### Companion app
 
-The optional Scoville Plan Viewer turns the repository records into a compact,
-read-only desktop overview. Point it at a project containing
-`PROJECT_INDEX.md`, `docs/plans`, and `docs/decisions` to see the active Plan
-point, completed and upcoming work, paused, blocked, or cancelled steps, and
-the current and historical Decisions. It rereads visible projects every four
-seconds while the window is active, so changes made by an agent or editor appear automatically.
+The optional Scoville Plan Viewer shows the repository records as a compact,
+read-only desktop overview. Point it at a project with `PROJECT_INDEX.md`,
+`docs/plans` and `docs/decisions`, and you'll see the active Plan point,
+finished and upcoming work, paused, blocked or cancelled steps, and current
+and past Decisions. While the window is active, it rereads visible projects
+every four seconds, so changes from an agent or an editor show up on their
+own.
 
 [Download the current release](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
-for Windows x64, macOS Apple Silicon or Intel, and Linux x64. Windows offers a
-portable EXE and installers. macOS offers DMGs and zipped apps. Linux offers a
-portable binary, AppImage, DEB, and RPM packages.
+for Windows x64, macOS Apple Silicon or Intel, and Linux x64. For Windows
+there's a portable EXE and installers, for macOS DMGs and zipped apps, and for
+Linux a portable binary, an AppImage and DEB and RPM packages.
 
-The saved project list is one `scoville-plan-viewer.xml` file beside a portable
-application. Installed copies in read-only system folders use the platform user
-configuration directory for the same XML file. Removing a project from the
-Viewer never changes its repository.
+The portable version saves its project list in a `scoville-plan-viewer.xml`
+next to the application. Installed copies in read-only system folders keep
+the same XML file in the platform's user configuration directory. Removing a
+project from the Viewer never touches its repository.
 
 ### Record compatibility
 
-Plan uses `format_version: 1`. Evidence accepts plain text such as
-`Evidence: Tests A, B passed.` and bracketed lists. Files support LF or
-consistent CRLF line endings. Use matching current Skill and Viewer versions.
-Older readers require bracketed Evidence lists and LF.
+Plan uses `format_version: 1`. Evidence can be plain text such as
+`Evidence: Tests A, B passed.` or a bracketed list. Files can use LF or
+consistent CRLF line endings. Keep the Skill and the Viewer on matching
+current versions, because older readers need bracketed Evidence lists and LF.

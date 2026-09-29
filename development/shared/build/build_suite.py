@@ -283,7 +283,7 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             if not entries:
                 return ''
             return '## Additional Scoville Skills\n\n' + '\n\n'.join(
-                f'### {item["name"]}\n\n{item["availability"]}. Available as a standalone Skill.\n\n'
+                f'### {item["name"]}\n\n{item["availability"]}, also available as a standalone Skill. '
                 f'Ask your Codex host:\n\n```text\nInstall this Skill for all my projects from this exact package directory:\n'
                 f'https://github.com/{item["repository"]}/tree/main/{item["name"]}\n'
                 'Preserve personal settings and unrelated Skills. Report the installed location\n'

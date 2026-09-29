@@ -10,14 +10,15 @@ Audit the checkout interface for keyboard use, responsive behavior, accessibilit
 
 ### Checking the interface
 
-Group related edits, then inspect the code and rendered result, including
-spacing and alignment. If defects remain, collect the corrections and
-validate the affected behavior after that batch.
+Make related edits together, then check the code and the rendered result,
+including spacing and alignment. If defects remain, collect the corrections
+and recheck the affected behavior once that batch is done.
 
-Use the component's supported styling options. When custom CSS is needed,
-explain why. Distinguish CSS values from the sizes actually rendered on screen.
+Use the styling options the component supports. If custom CSS is needed,
+explain why. Keep CSS values and the sizes actually rendered on screen apart.
 
-A consistency audit inventories regions, variants and states, including content
-below the fold. Each finding links to source, measurements and visual evidence
-or explains what could not be checked. Check alignment, text, whitespace, control interiors, icons,
-wrapping and clipping. State which parts of the interface were checked.
+A consistency audit lists regions, variants and states, including content
+below the fold. Each finding points to the source, measurements and visual
+evidence, or explains what couldn't be checked. Look at alignment, text,
+whitespace, the inside of controls, icons, wrapping and clipping, and say
+which parts of the interface were checked.

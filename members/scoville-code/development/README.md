@@ -1,14 +1,19 @@
 # Development
 
-The [member source](../scoville-code/) belongs to [Scoville Suite](../../../README.md#development-and-builds).
-Build the Skill before installing it. Development files stay in the suite.
+The [member source](../scoville-code/) is part of
+[Scoville Suite](../../../README.md#development-and-builds). Build the Skill
+before you install it. Development files stay in the suite.
 
 ## Validate
 
-Review outcome preservation, canonical ownership, bounded change, and evidence claims directly against the canonical Skill and references. The retained cases describe expected behavior. They do not establish observed agent results.
+Check the canonical Skill and its references directly: does it keep the
+requested outcome, respect canonical ownership, keep changes bounded and make
+only supported claims? The retained cases describe expected behavior, not
+observed agent results.
 
 ## Retention
 
-Keep current regression inputs and this maintenance summary. Create benchmark runs, model outputs, review packets, audits, and optimization reports in temporary storage. Retain a concise evaluation summary only when it explains a useful result or
-development lesson and a published release links it. Routine checks and
-inconclusive miniature runs stay temporary.
+Only the current regression inputs and this summary are kept. Benchmark runs,
+model outputs, reviews, audits and optimization reports go to temporary
+storage. An evaluation summary stays only if it teaches something useful and
+a published release links to it.

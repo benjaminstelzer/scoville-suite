@@ -1,13 +1,14 @@
 # Scoville UI
 
-A page must work across screen sizes, input methods and error states.
-Scoville UI implements and audits those behaviors through the project's
+A page has to work across screen sizes and input methods, and in error
+states. Scoville UI builds and audits that behavior with the project's
 framework and design system, including plugin-owned WordPress admin pages,
-using rendered evidence to check the result.
-It also shapes interface text so labels describe their purpose, buttons name
-their action and terminology stays consistent across views and translations.
+and checks the result in the rendered interface. It also takes care of
+interface text: labels say what they're for, buttons name their action, and
+terms stay consistent across views and translations.
 
-For supported WordPress admin pages, it applies Core components, spacing,
-version requirements and translation conventions.
+On supported WordPress admin pages, it uses Core components and follows
+WordPress spacing, version requirements and translation conventions.
 
-Here, the heat is the task a person can still understand and complete across layouts, interactions and error states.
+The heat, in this case, is a task people can still understand and finish,
+whatever the layout, the interaction or the error.

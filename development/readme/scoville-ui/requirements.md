@@ -1,14 +1,26 @@
 ## What it enforces
 
-- **Design consistency.** Follow the existing design system and approved product decisions.
-- **Clear hierarchy.** Distinguish primary decisions, supporting information and secondary actions.
-- **Task structure.** Resolve open navigation and layout choices around the user's task. Choose controls by their meaning and use modal interruptions deliberately.
-- **Interface text.** Write labels and buttons that describe their purpose and action. Keep terminology consistent across views, states and translations.
-- **Complete states.** Cover relevant loading, empty, error, disabled, success and input states.
-- **Responsive behavior.** Keep the interface usable on narrow and wide screens, with zoom and long content.
-- **Changes in context.** Reassess the affected group and flow when elements change, including whether the responsive arrangement still works.
-- **Accessibility.** Check reading order, names, relationships, contrast, focus and keyboard or touch behavior.
-- **Visual checks.** Inspect the rendered interface and test its interactions before reporting them as working.
-- **WordPress conventions.** Use the appropriate WordPress components and design tokens for each part of the page. Existing PHP-rendered pages can remain in PHP.
+- **Design consistency.** Changes follow the existing design system and
+  approved product decisions.
+- **Clear hierarchy.** Main decisions, supporting information and secondary
+  actions are visibly distinct.
+- **Task structure.** Open navigation and layout questions are decided around
+  the user's task. Controls are chosen by what they mean, and modal
+  interruptions are used deliberately.
+- **Interface text.** Labels and buttons say what they're for and what they
+  do. Terms stay the same across views, states and translations.
+- **Complete states.** Relevant loading, empty, error, disabled, success and
+  input states are covered.
+- **Responsive behavior.** The interface stays usable on narrow and wide
+  screens, with zoom and long content.
+- **Changes in context.** When elements change, the affected group and flow
+  get another look, including whether the responsive layout still works.
+- **Accessibility.** Reading order, names, relationships, contrast, focus and
+  keyboard or touch behavior are checked.
+- **Visual checks.** Nothing is reported as working until the rendered
+  interface has been inspected and its interactions tested.
+- **WordPress conventions.** Each part of the page uses the appropriate
+  WordPress components and design tokens. Existing PHP-rendered pages can stay
+  in PHP.
 
 The full instructions are in [SKILL.md]({{ var: contract_url }}).

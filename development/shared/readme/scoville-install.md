@@ -2,7 +2,7 @@
 
 ### Install this Skill
 
-{{ package: standalone }}This standalone package works independently. Ask your compatible agent host:
+{{ package: standalone }}This package works on its own. Ask your agent host:
 
 ```text
 Install this Skill for all my projects from this exact package directory:
@@ -16,7 +16,8 @@ Every member must be installed and enabled. Do not fetch or substitute packages
 from individual Skill repositories. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 {{ /package }}
-The host needs permission to write to its Skills directory. See the
-[Codex Skills guide]({{ var: codex_skills_guide }}){{ profile: general }} or the
-[Claude Code Skills guide](https://code.claude.com/docs/en/skills){{ /profile }}
-for host-specific locations.
+The host needs permission to write to its Skills directory. {{ profile: general }}The
+[Codex Skills guide]({{ var: codex_skills_guide }}) and the
+[Claude Code Skills guide](https://code.claude.com/docs/en/skills)
+list the locations for each host.{{ /profile }}{{ profile: codex }}The
+[Codex Skills guide]({{ var: codex_skills_guide }}) lists where to install it.{{ /profile }}

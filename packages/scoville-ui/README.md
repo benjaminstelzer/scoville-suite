@@ -1,66 +1,88 @@
 # Scoville UI
 
-A page must work across screen sizes, input methods and error states.
-Scoville UI implements and audits those behaviors through the project's
+A page has to work across screen sizes and input methods, and in error
+states. Scoville UI builds and audits that behavior with the project's
 framework and design system, including plugin-owned WordPress admin pages,
-using rendered evidence to check the result.
-It also shapes interface text so labels describe their purpose, buttons name
-their action and terminology stays consistent across views and translations.
+and checks the result in the rendered interface. It also takes care of
+interface text: labels say what they're for, buttons name their action, and
+terms stay consistent across views and translations.
 
-For supported WordPress admin pages, it applies Core components, spacing,
-version requirements and translation conventions.
+On supported WordPress admin pages, it uses Core components and follows
+WordPress spacing, version requirements and translation conventions.
 
-Here, the heat is the task a person can still understand and complete across layouts, interactions and error states.
+The heat, in this case, is a task people can still understand and finish,
+whatever the layout, the interaction or the error.
 
 ## How it works
 
-- Identify the design system, responsible components and approved product decisions.
-- Read relevant code and use the framework's supported components.
-- Apply WordPress guidance to supported plugin-owned `wp-admin` pages. Editor surfaces and metaboxes retain their host conventions.
-- Implement affected states and responsive behavior, then inspect the rendered result and interactions.
-- Resolve blocked product decisions with their owner. Where visual direction is open, stay within existing framework conventions.
+- Find out which design system, components and approved product decisions
+  apply.
+- Read the relevant code and use the components the framework supports.
+- Apply the WordPress guidance to supported plugin-owned `wp-admin` pages.
+  Editor surfaces and metaboxes keep their host's conventions.
+- Implement the affected states and responsive behavior, then look at the
+  rendered result and try the interactions.
+- Take blocked product decisions to whoever owns them. Where the visual
+  direction is still open, stay within the framework's existing conventions.
 
 ## What it enforces
 
-- **Design consistency.** Follow the existing design system and approved product decisions.
-- **Clear hierarchy.** Distinguish primary decisions, supporting information and secondary actions.
-- **Task structure.** Resolve open navigation and layout choices around the user's task. Choose controls by their meaning and use modal interruptions deliberately.
-- **Interface text.** Write labels and buttons that describe their purpose and action. Keep terminology consistent across views, states and translations.
-- **Complete states.** Cover relevant loading, empty, error, disabled, success and input states.
-- **Responsive behavior.** Keep the interface usable on narrow and wide screens, with zoom and long content.
-- **Changes in context.** Reassess the affected group and flow when elements change, including whether the responsive arrangement still works.
-- **Accessibility.** Check reading order, names, relationships, contrast, focus and keyboard or touch behavior.
-- **Visual checks.** Inspect the rendered interface and test its interactions before reporting them as working.
-- **WordPress conventions.** Use the appropriate WordPress components and design tokens for each part of the page. Existing PHP-rendered pages can remain in PHP.
+- **Design consistency.** Changes follow the existing design system and
+  approved product decisions.
+- **Clear hierarchy.** Main decisions, supporting information and secondary
+  actions are visibly distinct.
+- **Task structure.** Open navigation and layout questions are decided around
+  the user's task. Controls are chosen by what they mean, and modal
+  interruptions are used deliberately.
+- **Interface text.** Labels and buttons say what they're for and what they
+  do. Terms stay the same across views, states and translations.
+- **Complete states.** Relevant loading, empty, error, disabled, success and
+  input states are covered.
+- **Responsive behavior.** The interface stays usable on narrow and wide
+  screens, with zoom and long content.
+- **Changes in context.** When elements change, the affected group and flow
+  get another look, including whether the responsive layout still works.
+- **Accessibility.** Reading order, names, relationships, contrast, focus and
+  keyboard or touch behavior are checked.
+- **Visual checks.** Nothing is reported as working until the rendered
+  interface has been inspected and its interactions tested.
+- **WordPress conventions.** Each part of the page uses the appropriate
+  WordPress components and design tokens. Existing PHP-rendered pages can stay
+  in PHP.
 
 The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ## What it costs
 
 - Browser inspection, interaction checks and corrections take tokens and time.
-- WordPress tasks load platform-specific guidance.
-- Source-only checks leave rendering and interaction unverified.
+- WordPress tasks load extra platform guidance.
+- If only the source can be checked, rendering and interaction remain
+  unverified.
 
 ## How it was developed
 
-- General interface and WordPress admin tasks informed the shared quality checks and platform guidance.
-- Skill tests do not establish the usability of an individual interface. That needs testing with its users.
+- General interface work and WordPress admin tasks shaped the shared quality
+  checks and the platform guidance.
+- Skill tests can't tell you whether a particular interface is usable. That
+  takes testing with its users.
 
 ## Compatibility
 
-Requires a frontier LLM from the Fable, Astra, SOL or Opus families, version 5.0
-or newer. Luna was also used in testing.
+Needs a frontier model from the Fable, Astra, SOL or Opus families, version
+5.0 or newer. Luna was also used in testing.
 
-Requires an Agent Skills host with reference access, and the target project's
-toolchain.
+The host must be able to read the Skill's references, and the target
+project's toolchain has to be available.
 
-Visual checks require a running interface, screenshots and access to element
-positions and sizes through the DOM or an equivalent tool. Testing interactions
-requires browser or platform control.
-WordPress checks need the supported wp-admin runtime and its PHP/JavaScript
-components. Source inspection cannot verify the rendered interface. Screenshots alone cannot verify interactions.
+Visual checks need a running interface, screenshots and access to element
+positions and sizes, through the DOM or an equivalent tool. Testing
+interactions needs control of a browser or the platform.
 
-Developed for Codex and Claude Code. Other hosts are untested.
+WordPress checks need the supported wp-admin runtime with its PHP and
+JavaScript components. Reading the source can't verify the rendered
+interface, and screenshots alone can't verify interactions.
+
+Developed for Codex and Claude Code. Other hosts haven't been tested.
 
 Install and enable every Skill in the suite. Each applies to its own task scope.
 
@@ -74,14 +96,14 @@ Every member must be installed and enabled. Do not fetch or substitute packages
 from individual Skill repositories. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 
-The host needs permission to write to its Skills directory. See the
-[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
+The host needs permission to write to its Skills directory. The
+[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) and the
 [Claude Code Skills guide](https://code.claude.com/docs/en/skills)
-for host-specific locations.
+list the locations for each host.
 
 ### Install the complete Scoville suite
 
-Get the complete suite from the
+The complete suite is in the
 [Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
 Install its released Skill packages, not development templates.
 
@@ -97,17 +119,18 @@ Audit the checkout interface for keyboard use, responsive behavior, accessibilit
 
 ### Checking the interface
 
-Group related edits, then inspect the code and rendered result, including
-spacing and alignment. If defects remain, collect the corrections and
-validate the affected behavior after that batch.
+Make related edits together, then check the code and the rendered result,
+including spacing and alignment. If defects remain, collect the corrections
+and recheck the affected behavior once that batch is done.
 
-Use the component's supported styling options. When custom CSS is needed,
-explain why. Distinguish CSS values from the sizes actually rendered on screen.
+Use the styling options the component supports. If custom CSS is needed,
+explain why. Keep CSS values and the sizes actually rendered on screen apart.
 
-A consistency audit inventories regions, variants and states, including content
-below the fold. Each finding links to source, measurements and visual evidence
-or explains what could not be checked. Check alignment, text, whitespace, control interiors, icons,
-wrapping and clipping. State which parts of the interface were checked.
+A consistency audit lists regions, variants and states, including content
+below the fold. Each finding points to the source, measurements and visual
+evidence, or explains what couldn't be checked. Look at alignment, text,
+whitespace, the inside of controls, icons, wrapping and clipping, and say
+which parts of the interface were checked.
 
 
 
@@ -142,11 +165,12 @@ wrapping and clipping. State which parts of the interface were checked.
 - [Microsoft dialogs](https://learn.microsoft.com/en-us/windows/apps/design/controls/dialogs-and-flyouts/dialogs)
   for bounded interruptions and keeping field errors in context.
 
-Vendor guidance informs the general rules. Platform-specific layouts, measures,
-control behavior and visual conventions are not universal requirements.
-The Skill contains the working rules. These sources document their basis and
-do not require web research for routine UI changes. Reassessing composition
-after element changes is the Skill's application of these principles.
+The vendor guidance shaped the general rules, but platform-specific layouts,
+measurements, control behavior and visual conventions aren't universal
+requirements. The working rules are in the Skill itself. These sources show
+where they come from, so routine UI changes don't need web research.
+Rechecking the composition after elements change is how the Skill applies
+these principles.
 
 ## License
 

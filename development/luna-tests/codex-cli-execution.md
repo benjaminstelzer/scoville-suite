@@ -5,8 +5,8 @@ prove that a project action, browser flow or host integration was executed.
 
 1. Build the intended package through `development/build_suite.py` and record
    its receipt and package hashes.
-2. Select cases from `selected-cases.json`. Keep the prompts and expected
-   results separate. Use a fresh context for every case.
+2. Select cases relevant to the changed behavior. Keep the prompts and
+   expected results separate. Use a fresh context for every case.
 3. Pin the requested model and reasoning effort. Record the host-visible model,
    effort, prompt, package, references and runner identity for every run.
 4. Disable project mutation and external actions. Serve only requested package

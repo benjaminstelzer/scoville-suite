@@ -80,7 +80,7 @@ def export(root, output, profile=None):
         # syntax. They are records, not package templates.
         if (not name.startswith(('development/shared/', 'docs/'))
                 and name.endswith(('.md', '.toml')) and (b'{{ profile:' in data or b'{{ package:' in data)):
-            data = variant_text(data.decode('utf-8'), config).encode('utf-8')
+            data = (variant_text(data.decode('utf-8'), config).rstrip() + '\n').encode('utf-8')
         files[name] = data
         offset = end + 1
     if offset != len(objects):

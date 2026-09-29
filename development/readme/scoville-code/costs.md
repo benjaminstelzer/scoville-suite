@@ -1,3 +1,4 @@
 ## What it costs
 
-- Source inspection and checks use more tokens and time than an immediate patch.
+- Reading the code and running checks costs more tokens and time than
+  patching right away.
