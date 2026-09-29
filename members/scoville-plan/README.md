@@ -10,21 +10,23 @@ Decisions, accepted results and the next action. The next agent can pick up the
 work from there. You can see what is finished, why a choice was made and what
 still needs checking, without piecing it together from an entire chat.
 
-For substantial work, the Plan deserves substantial attention before execution.
-Clarify requirements, check dependencies and get independent feedback, for
-example through Scoville Ask. Revise the Plan until the material questions are
-settled. Complex work may need several rounds of review and changes before
-Scoville Workflow starts implementing it. Its coordination overhead makes sense
-when the size and dependencies justify it. Good planning is a substantial part
-of software engineering. AI helps with the work, while goals, architecture and
-tradeoffs still need informed judgment.
+Substantial work deserves a Plan that got real attention before anything is
+executed. Clarify requirements, check dependencies and get independent
+feedback, for example through Scoville Ask, then revise the Plan until the
+important questions are settled. Complex work can take several rounds of
+review and changes before Scoville Workflow starts implementing it. That
+coordination overhead is worth it when the size and dependencies justify it.
+Good planning is a large part of software engineering. AI helps with it, but
+goals, architecture and tradeoffs still need informed judgment.
 
-When implementation shows that an assumption was wrong, update the Plan. Its
-job is to preserve direction while the work develops. Use it for dependent work
-and long-term maintenance, within the project's existing planning system. Keep
-small tasks small. A large Plan for a contained fix only adds work.
+If implementation shows that an assumption was wrong, update the Plan. Its
+job is to keep the direction while the work changes. Use it for dependent
+work and long-term maintenance, inside whatever planning system the project
+already has. And keep small tasks small: a large Plan for a contained fix
+just adds work.
 
-Here, the heat is the direction another agent can recover: the goal, decisions, current state and next action.
+The heat, in this case, is the direction another agent can pick up again: the
+goal, the decisions, the current state and the next action.
 
 ## How it works
 
@@ -35,16 +37,25 @@ Here, the heat is the direction another agent can recover: the goal, decisions, 
 
 ## What it enforces
 
-- **Existing project records.** Follow the repository's planning rules and update its established records.
-- **Clear work units.** Goals name the target, Work Items define resumable outcomes, and ordered Steps describe the work.
-- **Current assumptions.** Check the next item against sources and completed work before execution.
-- **One active item.** Record current work and its first unfinished action.
-- **Changes of direction.** Record new priorities, pauses and work the user wants to return to.
-- **Evidence before completion.** Record observed results that establish acceptance.
-- **Explicit decisions.** Record the user's decisions. Keep unconfirmed choices marked as proposals.
-- **Direct maintenance.** Update Plan records without creating extra work items for routine edits.
+- **Existing project records.** Plan follows the repository's planning rules
+  and updates its established records.
+- **Clear work units.** Goals name the target, Work Items describe outcomes
+  that can be resumed, and ordered Steps describe the work.
+- **Current assumptions.** Before the next item is executed, it's checked
+  against the sources and the work already done.
+- **One active item.** Only one item is active at a time, with its first
+  unfinished action recorded.
+- **Changes of direction.** New priorities, pauses and work you want to come
+  back to get recorded.
+- **Evidence before completion.** Nothing is marked complete without the
+  observed results that show it meets acceptance.
+- **Explicit decisions.** Your decisions get recorded. Choices you haven't
+  confirmed stay marked as proposals.
+- **Direct maintenance.** Routine edits update the Plan directly instead of
+  creating extra Work Items.
 
-Edit the records from one session at a time. Concurrent changes must be reconciled.
+Edit the records from one session at a time. If two sessions change them in
+parallel, the changes have to be reconciled.
 
 See [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md) for the full instructions and editing limits.
 
@@ -54,17 +65,22 @@ See [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packa
 
 ## How it was developed
 
-- Real project records exposed the information needed to resume: active work, applicable decisions and remaining actions.
-- Project histories and targeted simulations informed the record format and validation checks.
+- Real project records showed what you need to resume work: the active item,
+  the decisions that apply and what's left to do.
+- Project histories and targeted simulations shaped the record format and the
+  validation checks.
 
 - Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
 
 ## Compatibility
 
-Requires a frontier model from the Fable, Astra, SOL or Opus families, version
+Needs a frontier model from the Fable, Astra, SOL or Opus families, version
 5.0 or newer. Luna was also used in testing.
 
-Any Agent Skills host with repository read/write access. Direct Markdown/YAML planning needs no service or network. Optional validation and selection helpers require Python 3.10+. Developed for Codex and Claude Code. Other hosts are untested.
+Any Agent Skills host with read and write access to the repository will do.
+Planning in plain Markdown and YAML needs no service and no network. The
+optional validation and selection helpers need Python 3.10+. Developed for
+Codex and Claude Code. Other hosts haven't been tested.
 
 Install and enable every Skill in the suite. Each applies to its own task scope.
 
@@ -78,14 +94,14 @@ Every member must be installed and enabled. Do not fetch or substitute packages
 from individual Skill repositories. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 
-The host needs permission to write to its Skills directory. See the
-[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) or the
+The host needs permission to write to its Skills directory. The
+[Codex Skills guide](https://learn.chatgpt.com/docs/build-skills) and the
 [Claude Code Skills guide](https://code.claude.com/docs/en/skills)
-for host-specific locations.
+list the locations for each host.
 
 ### Install the complete Scoville suite
 
-Get the complete suite from the
+The complete suite is in the
 [Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
 Install its released Skill packages, not development templates.
 
@@ -103,11 +119,11 @@ State the outcome, acceptance criteria and next action directly in the Plan.
 
 ### Set reasoning for a Step
 
-Plan does not choose a model or reasoning level on its own. When using Scoville
-Workflow for Codex from the Codex suite, you can retain an explicit model or
-reasoning choice on a Step. Plan itself does not dispatch work. Without an
-explicit choice, Workflow assesses the Step and uses the configured pair for
-its route. Scoville Setup displays or saves those project settings.
+Plan doesn't pick a model or reasoning level by itself, and it doesn't
+dispatch work either. If you use Scoville Workflow for Codex from the Codex
+suite, you can attach an explicit model or reasoning choice to a Step.
+Without one, Workflow assesses the Step and uses the pair configured for its
+route. Scoville Setup shows or saves those project settings.
 
 You can request a reasoning level for one Step:
 
@@ -121,41 +137,43 @@ To specify the model as well, put it first:
 1. [execute: model=gpt-6-astra; reasoning=high] Check the migration and its rollback behavior.
 ```
 
-The regular levels are `low`, `medium`, `high` and `xhigh`. Setup offers and
-saves these four. The format also supports `none`, `minimal`, `max` and `ultra`
-for explicit annotations or manual entries in `.scoville/config.json`. Setup
-preserves those manual entries when you change other settings. Every selected
-pair must be supported by the actual model. An unsupported pair stops with an
-explanation, without silently choosing another level.
+The regular levels are `low`, `medium`, `high` and `xhigh`, and those are the
+four Setup offers and saves. The format also accepts `none`, `minimal`, `max`
+and `ultra`, either as explicit annotations or as manual entries in
+`.scoville/config.json`. Setup leaves such manual entries alone when you
+change other settings. Whatever pair you choose, the model has to support it.
+If it doesn't, the run stops and explains why instead of quietly picking
+another level.
 
-Route classes such as `ultra_low` describe task complexity. They are separate
-from reasoning levels: an `ultra_low` task can use reasoning `low`.
+Route classes such as `ultra_low` describe how complex a task is. They're
+separate from reasoning levels: an `ultra_low` task can use reasoning `low`.
 
 ### Companion app
 
-The optional Scoville Plan Viewer turns the repository records into a compact,
-read-only desktop overview. Point it at a project containing
-`PROJECT_INDEX.md`, `docs/plans`, and `docs/decisions` to see the active Plan
-point, completed and upcoming work, paused, blocked, or cancelled steps, and
-the current and historical Decisions. It rereads visible projects every four
-seconds while the window is active, so changes made by an agent or editor appear automatically.
+The optional Scoville Plan Viewer shows the repository records as a compact,
+read-only desktop overview. Point it at a project with `PROJECT_INDEX.md`,
+`docs/plans` and `docs/decisions`, and you'll see the active Plan point,
+finished and upcoming work, paused, blocked or cancelled steps, and current
+and past Decisions. While the window is active, it rereads visible projects
+every four seconds, so changes from an agent or an editor show up on their
+own.
 
 [Download the current release](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
-for Windows x64, macOS Apple Silicon or Intel, and Linux x64. Windows offers a
-portable EXE and installers. macOS offers DMGs and zipped apps. Linux offers a
-portable binary, AppImage, DEB, and RPM packages.
+for Windows x64, macOS Apple Silicon or Intel, and Linux x64. For Windows
+there's a portable EXE and installers, for macOS DMGs and zipped apps, and for
+Linux a portable binary, an AppImage and DEB and RPM packages.
 
-The saved project list is one `scoville-plan-viewer.xml` file beside a portable
-application. Installed copies in read-only system folders use the platform user
-configuration directory for the same XML file. Removing a project from the
-Viewer never changes its repository.
+The portable version saves its project list in a `scoville-plan-viewer.xml`
+next to the application. Installed copies in read-only system folders keep
+the same XML file in the platform's user configuration directory. Removing a
+project from the Viewer never touches its repository.
 
 ### Record compatibility
 
-Plan uses `format_version: 1`. Evidence accepts plain text such as
-`Evidence: Tests A, B passed.` and bracketed lists. Files support LF or
-consistent CRLF line endings. Use matching current Skill and Viewer versions.
-Older readers require bracketed Evidence lists and LF.
+Plan uses `format_version: 1`. Evidence can be plain text such as
+`Evidence: Tests A, B passed.` or a bracketed list. Files can use LF or
+consistent CRLF line endings. Keep the Skill and the Viewer on matching
+current versions, because older readers need bracketed Evidence lists and LF.
 
 
 

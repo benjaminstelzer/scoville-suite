@@ -1,7 +1,7 @@
 ## Install the suite
 
-Install the suite once in your agent host for use across projects.
-
+Install the suite once in your agent host and it's available in all your
+projects.
 
 ### New installation
 
@@ -33,8 +33,8 @@ Skip absent entries, leave unrelated Skills untouched, and keep no backup or set
 
 </details>
 
-Do not mix standalone and suite copies of the same Skill.
+Don't mix standalone and suite copies of the same Skill.
 
-If the host cannot install directly from GitHub, download this suite repository
-and copy all its inner package directories to the host's documented Skills
-location. This uses the same complete suite packages and requirements.
+If your host can't install directly from GitHub, download this repository and
+copy all the package directories inside it to the host's Skills folder. You
+end up with the same complete suite and the same requirements.

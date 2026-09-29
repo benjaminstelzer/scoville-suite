@@ -12,7 +12,7 @@ updated: 2026-09-29
 
 Die Suite erhält nach ADR-0103 als `scoville-suite-for-claude-code` (ADR-0108) eine Claude-Code-Ausgabe als drittes Buildprofil `claude` aus denselben Quellen wie `general` und `codex`. Code, Plan, UI, Handoff und ihre README-Fragmente bleiben gemeinsam. Workflow for Claude und Ask for Claude übertragen die fachlichen Regeln der Codex-Member auf native Claude-Code-Mittel. Ask for Claude fragt Claude-Advisers als Subagenten und Codex über die Codex CLI. Setup gilt für beide Hosts. Pakete entstehen nur über den Builder. General- und Codex-Ausgabe ändern sich nur durch angenommene Decisions.
 
-Grundlage ist die [Analyse](../claude-code-build-analyse-2026-09-28.md). Claude-Code-Fakten stammen aus code.claude.com vom 2026-09-28 und werden in W-001 an installierten Versionen belegt.
+Die versionsgebundene Grundlage steht in der [Fähigkeitsmatrix](../../development/claude-code/capabilities.md). Claude-Code-Fakten stammen aus code.claude.com vom 2026-09-28 und werden in W-001 an installierten Versionen belegt.
 
 ## Non-goals
 

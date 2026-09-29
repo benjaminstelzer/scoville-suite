@@ -1,31 +1,32 @@
 # Scoville Suite
 
-Scoville helps your agent plan work, implement code, improve interfaces and
-carry unfinished tasks into the next conversation. Its Skills keep the goal,
-project conventions and verified results in view as the work progresses.
+Scoville helps your agent plan work, write code, improve interfaces and carry
+unfinished tasks into the next conversation. Along the way, the Skills keep
+the goal, the project's conventions and the verified results in view.
 
-The Scoville scale originally measured chili heat through dilution. For this
-suite, the idea is to keep the goal, decisions and verified results clear as
+The Scoville scale originally measured chili heat through dilution. Here, the
+point is that the goal, the decisions and the verified results stay clear as
 work passes through plans, code changes and conversations.
 
-
-Claude Code or other Agent Skills hosts: [Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
-Codex desktop: [Scoville Suite for Codex](https://github.com/benjaminstelzer/scoville-suite-for-codex),
+Using Claude Code or another Agent Skills host? Take
+[Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
+On Codex desktop, take
+[Scoville Suite for Codex](https://github.com/benjaminstelzer/scoville-suite-for-codex),
 which adds Workflow, Ask and Setup.
 
 | Skill | Purpose |
 | --- | --- |
-| [Code](#scoville-code) | Keeps implementation, risk and validation focused on the requested outcome. |
-| [Plan](#scoville-plan) | Keeps longer work, decisions and progress recoverable. |
-| [UI](#scoville-ui) | Implements and checks interfaces through their framework and design system. |
-| [Handoff](#scoville-handoff) | Transfers unfinished work to another session. |
+| [Code](#scoville-code) | Keeps implementation, risk assessment and checks focused on what you asked for. |
+| [Plan](#scoville-plan) | Keeps longer work, decisions and progress easy to pick up again. |
+| [UI](#scoville-ui) | Builds and checks interfaces with their framework and design system. |
+| [Handoff](#scoville-handoff) | Passes unfinished work to another session. |
 
 ## Suite requirements
 
-Install and enable every Skill in the suite. For individual Skills, use their
-standalone packages.
+Install and enable every Skill in the suite. For individual Skills available
+on their own, use the standalone packages instead.
 
-The agent uses the Skills relevant to your request.
+The agent picks the Skills that fit your request.
 
 ## Scoville Code
 
@@ -33,50 +34,65 @@ A coding agent can produce passing tests while missing the behavior you asked
 for. Scoville Code connects the requested result, the existing implementation
 and the evidence that a change works.
 
-Use it to develop, diagnose, review or remove code. It directs the agent to find
-the cause, respect the project's architecture and check the affected behavior
-with effort proportionate to the task.
+Use it to write, debug, review or remove code. It has the agent find the
+actual cause, work within the project's architecture and check the affected
+behavior, with as much effort as the task deserves.
 
-Here, the heat is the requested behavior and the evidence that it works, kept clear through implementation and testing.
+The heat, in this case, is the behavior you asked for and the evidence that it
+works. Scoville Code keeps both clear through implementation and testing.
 
 ### How it works
 
-- Identify the outcome, responsible code, risks and decisive check before editing.
-- Read relevant code, callers and tests. Expand the investigation when evidence requires it.
-- Fix the cause within the existing architecture and requested scope.
+- Before editing, pin down the outcome, the responsible code, the risks and
+  the check that will settle whether it works.
+- Read the relevant code, its callers and tests. Look further when the
+  evidence calls for it.
+- Fix the cause, within the existing architecture and the scope you asked for.
+- Check runtime and memory costs before and after the change. Prefer simpler
+  algorithms and avoiding repeated work. Use suitable existing caches correctly
+  and explain the tradeoff before asking you to approve a new one.
 - Check the changed behavior and report what the evidence actually proves.
-- Investigate failures without weakening guarantees. Revise obsolete assertions only for an approved change to the expected behavior. Reassess after two failed corrections of the same cause.
-- Inspect the complete change, report remaining gaps and stop checking when further evidence would not change the decision.
+- When something fails, investigate it without weakening guarantees. Change
+  an outdated assertion only when a change to the expected behavior has been
+  approved. After two failed fixes for the same cause, step back and reassess.
+- Look at the complete change, report what's still open, and stop checking
+  once more evidence wouldn't change the decision.
 
 ### What it enforces
 
-- **The requested result.** Plans, tests and refactors support the outcome.
-  Completion requires the behavior itself.
+- **The requested result.** Plans, tests and refactors serve the outcome. The
+  task is only done when the behavior itself works.
 - **Project conventions.** Changes follow the project's architecture, records,
   terminology and workflow.
-- **Proportionate checks.** Verification addresses concrete failure risks.
-  Broader security, migration or release checks follow the task and project rules.
-- **Supported claims.** Reports distinguish observed results, failed checks
-  and unverified behavior.
-- **Root-cause correction.** Repeated failure triggers a reassessment of the approach.
-- **Navigable code.** Existing conventions and module boundaries guide changes.
-  New projects start with a small layout organized by responsibility. The
-  default limit of 2,000 lines per source file permits justified exceptions.
-- **Necessary questions.** Ask when a choice changes behavior, authority, cost,
-  reversibility or scope. Resolve ordinary details from the project.
-- **Your conventions.** Project instructions take priority. Defaults apply only
-  to a wholly new project. Keep personal conventions outside the installed
-  Skill and reference them from `AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code)
-  to preserve them across updates.
+- **Proportionate checks.** Checks target concrete ways things could fail.
+  Broader security, migration or release checks happen when the task or the
+  project's rules call for them.
+- **Supported claims.** Reports keep observed results, failed checks and
+  unverified behavior apart.
+- **Root-cause correction.** If fixes keep failing, the approach gets
+  reassessed.
+- **Navigable code.** Changes follow existing conventions and module
+  boundaries. New projects start with a small layout organized by
+  responsibility. Source files are limited to 2,000 lines by default, with
+  room for justified exceptions.
+- **Necessary questions.** The agent asks when a choice affects behavior,
+  authority, cost, reversibility or scope. Ordinary details it settles from
+  the project itself.
+- **Your conventions.** Project instructions come first. The defaults only
+  apply to a brand-new project. To keep your own conventions across updates,
+  store them outside the installed Skill and reference them from `AGENTS.md`
+  (Codex) or `CLAUDE.md` (Claude Code).
   See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions).
-- **Useful completion reports.** State changed behavior, validation, unresolved
-  failures and relevant repository state.
+- **Useful completion reports.** The final report states what behavior
+  changed, how it was checked, which failures remain and the relevant
+  repository state.
 
 The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md).
 
 ### What it costs
 
-- Source inspection and checks use more tokens and time than an immediate patch.
+- Reading the code and running checks costs more tokens and time than
+  patching right away.
 
 [How to use Scoville Code](members/scoville-code/README.md#how-to-use).
 
@@ -92,21 +108,23 @@ Decisions, accepted results and the next action. The next agent can pick up the
 work from there. You can see what is finished, why a choice was made and what
 still needs checking, without piecing it together from an entire chat.
 
-For substantial work, the Plan deserves substantial attention before execution.
-Clarify requirements, check dependencies and get independent feedback, for
-example through Scoville Ask. Revise the Plan until the material questions are
-settled. Complex work may need several rounds of review and changes before
-Scoville Workflow starts implementing it. Its coordination overhead makes sense
-when the size and dependencies justify it. Good planning is a substantial part
-of software engineering. AI helps with the work, while goals, architecture and
-tradeoffs still need informed judgment.
+Substantial work deserves a Plan that got real attention before anything is
+executed. Clarify requirements, check dependencies and get independent
+feedback, for example through Scoville Ask, then revise the Plan until the
+important questions are settled. Complex work can take several rounds of
+review and changes before Scoville Workflow starts implementing it. That
+coordination overhead is worth it when the size and dependencies justify it.
+Good planning is a large part of software engineering. AI helps with it, but
+goals, architecture and tradeoffs still need informed judgment.
 
-When implementation shows that an assumption was wrong, update the Plan. Its
-job is to preserve direction while the work develops. Use it for dependent work
-and long-term maintenance, within the project's existing planning system. Keep
-small tasks small. A large Plan for a contained fix only adds work.
+If implementation shows that an assumption was wrong, update the Plan. Its
+job is to keep the direction while the work changes. Use it for dependent
+work and long-term maintenance, inside whatever planning system the project
+already has. And keep small tasks small: a large Plan for a contained fix
+just adds work.
 
-Here, the heat is the direction another agent can recover: the goal, decisions, current state and next action.
+The heat, in this case, is the direction another agent can pick up again: the
+goal, the decisions, the current state and the next action.
 
 ### How it works
 
@@ -117,16 +135,25 @@ Here, the heat is the direction another agent can recover: the goal, decisions, 
 
 ### What it enforces
 
-- **Existing project records.** Follow the repository's planning rules and update its established records.
-- **Clear work units.** Goals name the target, Work Items define resumable outcomes, and ordered Steps describe the work.
-- **Current assumptions.** Check the next item against sources and completed work before execution.
-- **One active item.** Record current work and its first unfinished action.
-- **Changes of direction.** Record new priorities, pauses and work the user wants to return to.
-- **Evidence before completion.** Record observed results that establish acceptance.
-- **Explicit decisions.** Record the user's decisions. Keep unconfirmed choices marked as proposals.
-- **Direct maintenance.** Update Plan records without creating extra work items for routine edits.
+- **Existing project records.** Plan follows the repository's planning rules
+  and updates its established records.
+- **Clear work units.** Goals name the target, Work Items describe outcomes
+  that can be resumed, and ordered Steps describe the work.
+- **Current assumptions.** Before the next item is executed, it's checked
+  against the sources and the work already done.
+- **One active item.** Only one item is active at a time, with its first
+  unfinished action recorded.
+- **Changes of direction.** New priorities, pauses and work you want to come
+  back to get recorded.
+- **Evidence before completion.** Nothing is marked complete without the
+  observed results that show it meets acceptance.
+- **Explicit decisions.** Your decisions get recorded. Choices you haven't
+  confirmed stay marked as proposals.
+- **Direct maintenance.** Routine edits update the Plan directly instead of
+  creating extra Work Items.
 
-Edit the records from one session at a time. Concurrent changes must be reconciled.
+Edit the records from one session at a time. If two sessions change them in
+parallel, the changes have to be reconciled.
 
 See [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md) for the full instructions and editing limits.
 
@@ -138,46 +165,64 @@ See [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packa
 
 ## Scoville UI
 
-A page must work across screen sizes, input methods and error states.
-Scoville UI implements and audits those behaviors through the project's
+A page has to work across screen sizes and input methods, and in error
+states. Scoville UI builds and audits that behavior with the project's
 framework and design system, including plugin-owned WordPress admin pages,
-using rendered evidence to check the result.
-It also shapes interface text so labels describe their purpose, buttons name
-their action and terminology stays consistent across views and translations.
+and checks the result in the rendered interface. It also takes care of
+interface text: labels say what they're for, buttons name their action, and
+terms stay consistent across views and translations.
 
-For supported WordPress admin pages, it applies Core components, spacing,
-version requirements and translation conventions.
+On supported WordPress admin pages, it uses Core components and follows
+WordPress spacing, version requirements and translation conventions.
 
-Here, the heat is the task a person can still understand and complete across layouts, interactions and error states.
+The heat, in this case, is a task people can still understand and finish,
+whatever the layout, the interaction or the error.
 
 ### How it works
 
-- Identify the design system, responsible components and approved product decisions.
-- Read relevant code and use the framework's supported components.
-- Apply WordPress guidance to supported plugin-owned `wp-admin` pages. Editor surfaces and metaboxes retain their host conventions.
-- Implement affected states and responsive behavior, then inspect the rendered result and interactions.
-- Resolve blocked product decisions with their owner. Where visual direction is open, stay within existing framework conventions.
+- Find out which design system, components and approved product decisions
+  apply.
+- Read the relevant code and use the components the framework supports.
+- Apply the WordPress guidance to supported plugin-owned `wp-admin` pages.
+  Editor surfaces and metaboxes keep their host's conventions.
+- Implement the affected states and responsive behavior, then look at the
+  rendered result and try the interactions.
+- Take blocked product decisions to whoever owns them. Where the visual
+  direction is still open, stay within the framework's existing conventions.
 
 ### What it enforces
 
-- **Design consistency.** Follow the existing design system and approved product decisions.
-- **Clear hierarchy.** Distinguish primary decisions, supporting information and secondary actions.
-- **Task structure.** Resolve open navigation and layout choices around the user's task. Choose controls by their meaning and use modal interruptions deliberately.
-- **Interface text.** Write labels and buttons that describe their purpose and action. Keep terminology consistent across views, states and translations.
-- **Complete states.** Cover relevant loading, empty, error, disabled, success and input states.
-- **Responsive behavior.** Keep the interface usable on narrow and wide screens, with zoom and long content.
-- **Changes in context.** Reassess the affected group and flow when elements change, including whether the responsive arrangement still works.
-- **Accessibility.** Check reading order, names, relationships, contrast, focus and keyboard or touch behavior.
-- **Visual checks.** Inspect the rendered interface and test its interactions before reporting them as working.
-- **WordPress conventions.** Use the appropriate WordPress components and design tokens for each part of the page. Existing PHP-rendered pages can remain in PHP.
+- **Design consistency.** Changes follow the existing design system and
+  approved product decisions.
+- **Clear hierarchy.** Main decisions, supporting information and secondary
+  actions are visibly distinct.
+- **Task structure.** Open navigation and layout questions are decided around
+  the user's task. Controls are chosen by what they mean, and modal
+  interruptions are used deliberately.
+- **Interface text.** Labels and buttons say what they're for and what they
+  do. Terms stay the same across views, states and translations.
+- **Complete states.** Relevant loading, empty, error, disabled, success and
+  input states are covered.
+- **Responsive behavior.** The interface stays usable on narrow and wide
+  screens, with zoom and long content.
+- **Changes in context.** When elements change, the affected group and flow
+  get another look, including whether the responsive layout still works.
+- **Accessibility.** Reading order, names, relationships, contrast, focus and
+  keyboard or touch behavior are checked.
+- **Visual checks.** Nothing is reported as working until the rendered
+  interface has been inspected and its interactions tested.
+- **WordPress conventions.** Each part of the page uses the appropriate
+  WordPress components and design tokens. Existing PHP-rendered pages can stay
+  in PHP.
 
 The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ### What it costs
 
 - Browser inspection, interaction checks and corrections take tokens and time.
-- WordPress tasks load platform-specific guidance.
-- Source-only checks leave rendering and interaction unverified.
+- WordPress tasks load extra platform guidance.
+- If only the source can be checked, rendering and interaction remain
+  unverified.
 
 [How to use Scoville UI](members/scoville-ui/README.md#how-to-use).
 
@@ -188,7 +233,8 @@ decisions. Scoville Handoff gathers those facts into one compact, copy-ready
 prompt with the objective, permissions and next action, so another session can
 resume the work.
 
-Here, the heat is the working context another session needs after a long conversation is condensed.
+The heat, in this case, is the working context another session still needs
+once a long conversation has been condensed.
 
 ### How it works
 
@@ -200,15 +246,16 @@ Here, the heat is the working context another session needs after a long convers
 ### What it enforces
 
 - **Explicit transfer.** A requested handoff produces one continuation prompt.
-- **Usable context.** Material facts from the conversation and named sources
-  appear in the prompt, including blockers and incomplete work.
-- **Preserved authority.** Permissions, file ownership, user changes and
-  boundaries on commits, publication or destructive actions remain explicit.
-- **Honest state.** Unobserved results remain unknown. Secrets stay out.
-- **Actionable continuation.** The first Resume Step gives the next safe action.
-  The last defines how to confirm completion.
-- **A faithful snapshot.** Creating the handoff reads and describes the task
-  without editing, testing or advancing it.
+- **Usable context.** Important facts from the conversation and named sources
+  end up in the prompt, including blockers and unfinished work.
+- **Preserved authority.** Permissions, file ownership, your own changes and
+  limits on commits, publishing or destructive actions stay explicit.
+- **Honest state.** Results nobody observed stay marked as unknown. Secrets
+  stay out.
+- **Actionable continuation.** The first Resume Step gives the next safe
+  action. The last says how to confirm the work is complete.
+- **A faithful snapshot.** Creating the handoff only reads and describes the
+  task. It doesn't edit, test or move it forward.
 
 The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
 
@@ -222,9 +269,7 @@ The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scovi
 
 ### scoville-ask-for-codex
 
-For Codex. Available as a standalone Skill.
-
-Ask your Codex host:
+For Codex, also available as a standalone Skill. Ask your Codex host:
 
 ```text
 Install this Skill for all my projects from this exact package directory:
@@ -237,8 +282,8 @@ and whether the host discovers the Skill.
 
 ## Install the suite
 
-Install the suite once in your agent host for use across projects.
-
+Install the suite once in your agent host and it's available in all your
+projects.
 
 ### New installation
 
@@ -270,57 +315,62 @@ Skip absent entries, leave unrelated Skills untouched, and keep no backup or set
 
 </details>
 
-Do not mix standalone and suite copies of the same Skill.
+Don't mix standalone and suite copies of the same Skill.
 
-If the host cannot install directly from GitHub, download this suite repository
-and copy all its inner package directories to the host's documented Skills
-location. This uses the same complete suite packages and requirements.
+If your host can't install directly from GitHub, download this repository and
+copy all the package directories inside it to the host's Skills folder. You
+end up with the same complete suite and the same requirements.
 
 <details>
 <summary>Development and builds</summary>
 
 ## Development and builds
 
-Edit member sources under `members/`. Edit README fragments under
-`development/readme/` and their ordered paths in `suite.json`. Member README
-files are generated previews, not a second authoring source.
+Member sources live under `members/`. README fragments live under
+`development/readme/`, and `suite.json` lists them in order. Member README
+files are generated previews, so don't edit them directly.
 
-An isolated clone builds from the shared tools and templates bundled under
+A standalone clone builds from the shared tools and templates bundled under
 `development/shared/`. In the authoring workspace, the sibling `shared/`
-directory owns those sources and builds both the general and Codex editions. Installed Skills use
-only the helpers inside their own package.
+directory holds those sources and builds both the general and the Codex
+edition. Installed Skills only use the helpers inside their own package.
 
 The shared Development block appears in this suite and its member previews.
-Individual releases omit it.
+Individual releases leave it out.
 
-Regenerate previews with `python development/build_suite.py --write-readmes`.
-Use `--check-readmes` to detect stale previews.
+[How Scoville Suite developed](https://github.com/benjaminstelzer/scoville-suite/blob/main/docs/README.md)
+covers the problems that shaped the suite and the changes they led to.
 
-Build this exported edition to a new directory outside the repository:
+Regenerate the previews with `python development/build_suite.py --write-readmes`.
+Use `--check-readmes` to find stale previews.
+
+To build this exported edition, write it to a new directory outside the
+repository:
 
 ```text
 python development/build_suite.py --output <new-output-directory> --public-only
 ```
 
-The exported manifest fixes the edition and complete suite layout. All member
-packages are bundled under the suite's `packages/` directory. An isolated build
-needs no sibling source checkout or individual Skill repository.
+The exported manifest fixes the edition and the complete suite layout. All
+member packages are bundled under the suite's `packages/` directory, so an
+isolated build needs no sibling source checkout and no individual Skill
+repository.
 
 The complete private authoring source also supports `--profile general|codex`
-and `--layout standalone|suite`. Standalone builds include the family links.
-Suite builds include every member. Export always produces a complete
-suite with its selected profile and layout. An exported single-profile source
-does not offer the other profile.
+and `--layout standalone|suite`. Standalone builds include the family links,
+suite builds include every member. An export always produces a complete suite
+with the selected profile and layout. An exported single-profile source
+doesn't offer the other profile.
 
-Uncommitted sources produce development builds. Publication requires inspected
+Uncommitted sources produce development builds. Publishing requires reviewed,
 committed sources and the release checks.
 
 </details>
 
 ### Developer links
 
-Sources, tests and notes stay in this suite. Individual packages omit this block
-and the development files.
+Sources, tests and notes live in this suite. Individual packages leave out
+this block and the development files.
 
 - **scoville-code**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code/development/README.md)
 - **scoville-plan**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
@@ -329,11 +379,15 @@ and the development files.
 
 ## Deprecated
 
-The following Skills are retired. Testing did not establish enough benefit over
-frontier models to justify their continued maintenance.
+These Skills are retired. In testing, they didn't do enough better than
+current frontier models to be worth maintaining.
 
-- **Scoville Scribe Anti-AI-Slop:** The writing comparisons did not establish a reliable benefit. The tested version also introduced unsupported claims.
-- **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models ended in a tie.
-- **Scoville Research:** It did not reach the quality level I expect, while capable research alternatives already exist.
-- **Scoville Brainstorm:** It did not reach the quality level I expect, while capable alternatives for ideation already exist.
+- **Scoville Scribe Anti-AI-Slop:** The writing comparisons showed no reliable
+  benefit, and the tested version added claims it couldn't support.
+- **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models
+  ended in a tie.
+- **Scoville Research:** It didn't reach the quality I expect, and good
+  research tools already exist.
+- **Scoville Brainstorm:** It didn't reach the quality I expect, and good
+  tools for ideation already exist.
 

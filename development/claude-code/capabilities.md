@@ -1,76 +1,61 @@
-# Claude-Code- und Codex-CLI-Fähigkeiten für PLAN-0019
+# Claude Code and Codex CLI capabilities for PLAN-0019
 
-Probe am 2026-09-28 mit Claude Code 2.1.283, Hauptmodell `claude-opus-5-5`.
-Probeprojekt: Wegwerfprojekt unter `<workspace-root>/temp/`, Subagenten in `.claude/agents/`, PreToolUse-Hook
-auf Bash protokolliert die Hook-Eingabe. "Interaktiv" ist eine normale Sitzung im Standardmodus, "headless" ist
-`claude -p` aus dieser Sitzung.
+Probed on 28 September 2026 in a disposable project with Claude Code 2.1.283 and `claude-opus-5-5`. A project `PreToolUse` Bash hook recorded its inputs. “Interactive” means a normal session; “headless” means `claude -p` launched from that session. These are observations of the named versions, not guarantees for later hosts.
 
 ## Claude Code
 
-| Eigenschaft | Aufruf | Beobachtung |
+| Property | Version and probe | Observation and limit |
 | --- | --- | --- |
-| Start eines Subagenten interaktiv | `Agent` ohne Vorder-/Hintergrundangabe | Läuft im Hintergrund ("Async agent launched"), Abschluss kommt als Task-Benachrichtigung. Das interaktive Agent-Schema hat nur `description`, `isolation`, `model`, `prompt`, `subagent_type`. |
-| `Agent` in einem Hintergrund-Subagenten | `probe-nester` mit `tools: Agent, Read, Bash` | Werkzeuge `Agent, Read, Bash, SubagentHandback`. Er startete `probe-leaf` (Tiefe 2) im Hintergrund, erhielt dessen Abschlussbenachrichtigung und gab `LEAF-OK` zurück. Meta: `requestShape: background`, `spawnDepth` 1 und 2. |
-| Headless | `claude -p` mit demselben Nester | Agent-Schema hat `run_in_background`, der Nester startete den Leaf im Vordergrund. `subagent_stats`: foreground 2, max_depth 2. |
-| Fortsetzung | `SendMessage` an die agentId | Setzt den beendeten Subagenten fort, er kennt das zuvor gegebene Token. Adressierung über `description` scheitert ("No agent named ... is reachable"). |
-| Modell pro Aufruf | `Agent` mit `model: "haiku"` | Transkript `model: claude-haiku-4-5-20251001`. Das interaktive Schema erlaubt für `model` nur `sonnet`, `opus`, `haiku`, `fable`, also Familien statt fester Versionen. |
-| Effort im Frontmatter | `effort: low` in Projekt- und Plugin-Agent | Hook-Feld `effort.level` = `low`, sonst `medium` (Sitzungswert). Transkripte beider Agents zeigen `"effort":"low"`. Beim Haiku-Aufruf `effort` = null. Nur `low` beobachtet, `xhigh` und `max` nur aus der CLI-Hilfe. Frontmatter-Effort zusammen mit `model`-Override nicht geprüft. |
-| Hook-Identität | Projekt-Hook PreToolUse auf Bash | In Subagenten gesetzt: `agent_id`, `agent_type`. `transcript_path` zeigt immer auf das Haupttranskript, `agent_transcript_path` ist null. |
-| Transkripte | Dateisystem | Haupt: `~/.claude/projects/<projekt-slug>/<session_id>.jsonl`. Subagenten flach, auch verschachtelte: `.../<session_id>/subagents/agent-<agent_id>.jsonl` plus `.meta.json` (`parentAgentId`, `spawnDepth`, `requestShape`, `model`). |
-| Kontextgröße | letzte Assistant-Zeile | `message.usage` mit `input_tokens`, `cache_creation_input_tokens`, `cache_read_input_tokens`, `output_tokens`. Kein Feld zum Kontextfenster im Transkript. `claude -p --output-format json` meldet `modelUsage.<modell>.contextWindow` = 1000000. |
-| Umgebung | `env` per Bash in Hauptsitzung und Subagent | Beide haben `CLAUDE_CODE_SESSION_ID` mit der ID der Hauptsitzung und `CLAUDE_EFFORT`. Keine agentId und kein Transkriptpfad. Auch eine interaktive Sitzung setzt `CLAUDE_CODE_SESSION_ID`. |
-| Kontextfenster je Modell | `claude -p --model <familie oder ID> --output-format json "/context"` | `num_turns` 0, Kosten 0. Der `result`-Text nennt Modell-ID und Fenster, etwa `**Tokens:** 30.2k / 200k (15%)`. Beobachtet: `haiku` und `claude-haiku-4-5-20251001` 200k, `sonnet`, `opus` und `fable` 1m. Formatierter Text mit gerundeten Werten, keine dokumentierte Schnittstelle. Hook-Eingaben enthalten kein Fenster. |
-| Frische Sitzungen | `claude --help`, `claude agents --help` | `claude --bg` startet eine Hintergrundsitzung und gibt eine ID aus, `claude agents --json` listet Sitzungen, dazu `attach`, `logs`, `stop`, `respawn`. `SendMessage` und `ListAgents` erreichen laut Werkzeugbeschreibung auch andere Sitzungen. Nichts davon gestartet. |
-| Dynamic Workflows | Skill `workflow-authoring` | In der Probesitzung nicht verfügbar, `agent()`-Optionen nicht beobachtet. |
-| Kompaktierung durch das Modell | headless: Modell soll `compact` über `Skill` aufrufen | `tool_use_error`: "compact is a built-in CLI command, not a skill". Kein Werkzeug löst Kompaktierung aus. Laut Doku auch kein Hook (nicht beobachtet). |
-| Kompaktierung durch den Aufrufer | `claude -p --resume <id> "/compact"` | Läuft ohne Antwort-Turn (`num_turns` 0), die Zusammenfassung ist aber ein Modellaufruf (0,34 USD bei 36k Tokens). Transkript erhält `compact_boundary` mit `compactMetadata.trigger` = `manual` und `preTokens`. Nur der Sender des Prompts kann kompaktieren, also Nutzer oder Treiberskript. |
-| Inhalt nach Kompaktierung | headless: Skill mit 40 Regeln per `/probe-persist`, Merkwort, `/compact`, dann Rückfrage ohne Werkzeuge | Die Zusammenfassung (`isCompactSummary`) hat Abschnitte für Anliegen, alle Nutzernachrichten, offene Aufgaben, aktuelle Arbeit und nächsten Schritt. Sie enthielt Regel 37 wörtlich und das Merkwort, die Rückfrage wurde vollständig beantwortet. Sie nennt den Pfad des vollständigen Transkripts von vor der Kompaktierung. Den Skill-Text hängt Claude Code nicht wörtlich neu an, wohl aber Umgebung, Projektanweisungen und Agent-Liste. |
-| `disable-model-invocation: true` | interaktiv: `Skill`-Werkzeug; headless: Skill-Liste erfragen | Interaktiv verweigert das Modell den Aufruf. Headless fehlen solche Skills in der Liste, nur `probe-plugin:probe-visible` erscheint. Der Nutzer kann sie per Slash-Befehl aufrufen. |
-| `${CLAUDE_SKILL_DIR}` | headless: `claude -p "/probe-skill"`, `"/probe-plugin:probe-visible"`, `"/probe-plugin:probe-plugin-skill"` | Wird in Projekt- und Plugin-Skills durch das absolute Skill-Verzeichnis mit `/` als Trenner ersetzt, auch bei `disable-model-invocation: true`. In Git Bash braucht ein Slash-Argument `MSYS_NO_PATHCONV=1`, sonst kommt `<Git-Installationsordner>/<skill>` an. Interaktiv nicht geprüft. |
-| Plugin-Agents | `--plugin-dir`, `agents` mit Einzeldateien | Geladen als `probe-plugin:probe-plugin-agent`, antwortete. `claude plugin validate` besteht (Warnung: kein author). Laut Doku ignorieren Plugin-Agents `permissionMode`, `hooks` und `mcpServers` (nicht beobachtet). Ob ein Plugin-Agent im Hintergrund `Agent` behält, ist nicht geprüft. |
-| Plugin-Skills aus `./packages/<name>` | headless, `--plugin-dir`, Manifest `skills: ["./packages/<name>"]`, Layout `packages/<name>/<name>/SKILL.md` | `probe-visible` und `probe-plugin-skill` antworten per Nutzeraufruf `/probe-plugin:<skill>`. Modell-aufrufbar erscheint nur `probe-plugin:probe-visible`. `probe-member` (`disable-model-invocation`) wurde nicht aufgerufen. |
-| Skill-Preload in Subagenten | Agent-Frontmatter `skills: [probe-skill]` bei `disable-model-invocation: true` | Offen, nicht Teil der Acceptance. Schritt in Probe 2 auf Nutzerwunsch ausgelassen. |
-| Plugin-CLI | `claude plugin --help` | `validate`, `install`, `marketplace`, `list`, `enable`/`disable`, `update`, `uninstall`, `details`, `eval`, `tag`, `init`, `prune`. |
-| Plugin-Evals | `claude plugin eval --help` | Fälle als `case.yaml` oder `prompt.md` mit Gradern unterhalb des Plugins, dazu `--model`, `--json`, `--max-cost-usd`, `--judge-model` (Standard `haiku`) und eine Vergleichsrunde ohne Plugin. Ohne `--no-publish` wird ein HTML-Bericht veröffentlicht. Nicht ausgeführt. |
+| Interactive agent launch | 2.1.283, `Agent` without a foreground/background option | Launched in the background and returned a task completion notification. The interactive schema exposed `description`, `isolation`, `model`, `prompt` and `subagent_type`. |
+| Nested agent | 2.1.283, `probe-nester` with `tools: Agent, Read, Bash` | The background agent received `Agent`, `Read`, `Bash` and `SubagentHandback`, launched `probe-leaf` at depth 2, received its completion and returned `LEAF-OK`. Metadata recorded `requestShape: background` and depths 1 and 2. Plugin-agent nesting was not tested. |
+| Headless nesting | 2.1.283, `claude -p` with the same nester | The schema included `run_in_background`; the nester ran the leaf in the foreground. `subagent_stats` reported two foreground agents and maximum depth 2. |
+| Continue an agent | 2.1.283, `SendMessage` to an `agentId` | Resumed a completed agent, which remembered its earlier token. Addressing by description failed with “No agent named ... is reachable.” |
+| Model selection | 2.1.283, `Agent` with `model: "haiku"` | Transcript identified `claude-haiku-4-5-20251001`. Interactive `model` accepted family names `sonnet`, `opus`, `haiku`, `fable`, not pinned versions. |
+| Frontmatter effort | 2.1.283, `effort: low` in project and plugin agents | Both transcripts recorded `low` and the hook reported `effort.level: low`; otherwise the session value was `medium`. Haiku reported null effort. `xhigh` and `max` came only from CLI help. Effort together with a model override was not checked. |
+| Hook identity | 2.1.283, project `PreToolUse` Bash hook | Subagent input had `agent_id` and `agent_type`. `transcript_path` always pointed to the main transcript; `agent_transcript_path` was null. |
+| Transcripts | 2.1.283, filesystem inspection | The main transcript was under `~/.claude/projects/<project-slug>/<session_id>.jsonl`. Nested and direct subagents were flat under `<session_id>/subagents/agent-<agent_id>.jsonl`; metadata included `parentAgentId`, `spawnDepth`, `requestShape` and `model`. |
+| Context usage | 2.1.283, last assistant message | `message.usage` contained input, cache creation, cache read and output tokens. The transcript had no context-window field. Headless JSON output reported `modelUsage.<model>.contextWindow`. |
+| Environment identity | 2.1.283, `env` in main session and subagent | Both had the main session's `CLAUDE_CODE_SESSION_ID` and `CLAUDE_EFFORT`. Neither exposed an agent ID or transcript path. Interactive sessions also set `CLAUDE_CODE_SESSION_ID`. |
+| Model window | 2.1.283, `claude -p --model <family-or-id> --output-format json "/context"` | Returned formatted text with model ID and window, with no model turn or reported cost. Haiku showed 200k; Sonnet, Opus and Fable showed 1m. Values were rounded text, not a documented API. Hooks had no window field. |
+| Fresh sessions | 2.1.283, `claude --help` and `claude agents --help` | Help listed `claude --bg`, `claude agents --json`, `attach`, `logs`, `stop` and `respawn`; `SendMessage` and `ListAgents` described cross-session reach. None of these session routes was run. |
+| Dynamic Workflows | 2.1.283, `workflow-authoring` Skill lookup | Unavailable in the probe session; `agent()` options were not observed. |
+| Model-triggered compaction | 2.1.283, headless request to call `compact` through `Skill` | Rejected: “compact is a built-in CLI command, not a skill.” No model tool was found that triggered compaction. The documented hook claim was not tested. |
+| Caller-triggered compaction | 2.1.283, `claude -p --resume <id> "/compact"` | Produced no answer turn, but the summary used a model call. Transcript recorded `compact_boundary`, `trigger: manual` and `preTokens`. Only the prompt sender could invoke this route. |
+| Content after compaction | 2.1.283, headless Skill with 40 rules, `/compact`, then a question without tools | The summary retained the tested task, open work, rule 37 and a memory word; the answer succeeded. It pointed to the earlier full transcript. Skill text was not reattached verbatim, while environment, project instructions and agent list were. One probe does not establish general recovery reliability. |
+| Disabled model invocation | 2.1.283, `disable-model-invocation: true` in interactive and headless Skills | The interactive model declined to invoke it; headless Skill listing omitted it. A user could invoke it with a slash command. |
+| Skill directory variable | 2.1.283, headless `/probe-skill` and plugin Skill calls | `${CLAUDE_SKILL_DIR}` expanded to the absolute Skill directory for project and plugin Skills, including one disabled for model invocation. Git Bash needed `MSYS_NO_PATHCONV=1` for slash arguments. Interactive behavior was not checked. |
+| Plugin agents | 2.1.283, `--plugin-dir` with agent files | Loaded and answered as `probe-plugin:probe-plugin-agent`. `claude plugin validate` passed with an author warning. Documentation says plugin agents ignore `permissionMode`, `hooks` and `mcpServers`; this was not observed. Background `Agent` access inside a plugin agent was not checked. |
+| Plugin Skill layout | 2.1.283, headless `--plugin-dir`, `skills: ["./packages/<name>"]`, layout `packages/<name>/<name>/SKILL.md` | User slash calls reached the visible and plugin Skills. Only the visible Skill appeared model-callable. The member Skill with disabled model invocation was not called. |
+| Skill preload | 2.1.283, agent frontmatter `skills: [probe-skill]` with disabled model invocation | Not tested; the user excluded this second probe from acceptance. |
+| Plugin CLI | 2.1.283, `claude plugin --help` | Listed validate, install, marketplace, list, enable/disable, update, uninstall, details, eval, tag, init and prune. |
+| Plugin evals | 2.1.283, `claude plugin eval --help` | Help described `case.yaml` or `prompt.md` and grader inputs, model and cost options, and an optional comparison without the plugin. Without `--no-publish`, it publishes an HTML report. No eval was run. |
 
 ## Codex CLI
 
-Erste Probe mit `codex-cli 0.154.0`, zweite am selben Tag mit `codex-cli 0.158.0-alpha.2.1`. Ort und Version der
-ausführbaren Datei hängen von der Installation ab. Die Tabelle gilt für 0.158. Angaben zu 0.154 stammen aus der ersten
-Auswertung, deren Rohdaten überschrieben sind. Arbeitsverzeichnis ist ein leerer Ordner, Schreibversuche folgen einer
-Anweisung im Prompt.
+The first probe used `codex-cli 0.154.0`; the second used `0.158.0-alpha.2.1`. The executable path depends on the installation. Observations below are from 0.158 unless marked otherwise. The earlier raw data were overwritten, so 0.154 observations come from the first analysis. Probes ran in an empty directory and asked the model to attempt writes.
 
-| Eigenschaft | Aufruf | Beobachtung |
+| Property | Version and probe | Observation and limit |
 | --- | --- | --- |
-| Read-only-Ausführung | `codex exec - --sandbox read-only --json --skip-git-repo-check -C <dir> -c model_reasoning_effort=low` | Prompt per stdin. Schreiben per Shell scheiterte, Datei nicht angelegt, Exit 0, 13 s (0.154: 137 s). |
-| `apply_patch` read-only | wie oben, Anweisung `apply_patch` statt Shell | Abgelehnt: "patch rejected: writing is blocked by read-only sandbox". |
-| JSONL-Ereignisse | `--json` | `thread.started` (`thread_id`), `turn.started`, `item.started`, `item.completed` (`item.type` `agent_message`, `command_execution` oder `web_search`, Text in `item.text`), `turn.completed` (`usage`: `input_tokens`, `cached_input_tokens`, `cache_write_input_tokens`, `output_tokens`, `reasoning_output_tokens`). Die Antwort ist die letzte `agent_message`. |
-| Fehler | Resume einer unbekannten Sitzung | Exit 1, keine JSONL-Zeile, Grund nur in stderr (`Error: thread/resume: ... no rollout found for thread id <id>`). `error`- oder `turn.failed`-Ereignisse kamen in keinem Lauf vor. stderr enthält auch bei Exit 0 `WARN`-Zeilen und ist kein Fehlersignal. |
-| Resume read-only | `codex exec resume <id> - --json --skip-git-repo-check -c sandbox_mode="read-only"` | Schreiben scheiterte, Datei nicht angelegt, gleiche `thread_id`. |
-| Resume ohne Override | dasselbe ohne `-c sandbox_mode=...`, nach read-only-Start | Schreiben gelang, Datei angelegt. Resume übernimmt die Sandbox des Starts nicht. |
-| Resume-Arbeitsverzeichnis | wie oben | `resume` kennt kein `-C` (0.154: Exit 2). Das Verzeichnis kommt vom Prozess-Arbeitsverzeichnis. |
-| `--ephemeral` | `exec` mit `--ephemeral` | Läuft und liefert eine `thread_id`. Resume dieser ID scheitert mit Exit 1 ("no rollout found"). |
-| `--ignore-user-config` | `exec` mit `--ignore-user-config` | Läuft, Anmeldung bleibt erhalten. |
-| Websuche | `exec` mit `--ignore-user-config`, Prompt verlangt eine Suche | Ohne Option aktiv (`item.type` `web_search`). `-c web_search="live"` und `codex --search exec` ebenso. `-c web_search="disabled"` schaltet sie ab. `exec` selbst hat kein `--search`. |
-| Websuche beim Resume | Start mit `web_search="disabled"`, Resume ohne Option und mit `-c web_search="live"` | Beide Male keine Websuche. Die Einstellung gilt ab Start und lässt sich per Resume nicht ändern. |
-| Werkzeuge mit Außenwirkung | Modell listet seine Werkzeuge, `exec` read-only | Mit und ohne `--ignore-user-config` sichtbar: 169 `mcp__codex_apps__*`-Werkzeuge, darunter `github_create_commit`, `github_merge_pull_request`, `sites_deploy_site_version`. Ohne `--ignore-user-config` zusätzlich MCP-Server der Nutzerkonfiguration (`node_repl`, `cua_repl`). Laut Hilfe gilt die Sandbox für Shell-Befehle, Aufrufe dieser Werkzeuge nicht geprüft. `--disable apps` entfernt alle `codex_apps`-Werkzeuge, `collaboration.*` bleibt auch mit `--disable multi_agent`. |
-| Werkzeuge beim Resume | Start mit `--disable apps --ignore-user-config --ignore-rules`, Resume mit und ohne diese Optionen | Ohne Wiederholung sind 169 `codex_apps`-Werkzeuge, `node_repl` und `cua_repl` wieder da. Mit wiederholten Optionen keine. Resume übernimmt diese Start-Optionen nicht. |
-| Unteragent | read-only-Start wie oben, Modell startet per `collaboration.spawn_agent` einen Unteragenten mit Schreibauftrag | Unteragent meldet "shell command was blocked by the read-only policy", Datei nicht angelegt. |
-| MCP-Server | `codex --help` | Die Befehlsliste von 0.158 enthält kein `mcp-server`. Eine Anbindung von Codex als MCP-Server entfällt. |
-| Optionen | `codex exec --help`, `codex exec resume --help` | `exec`: `-s/--sandbox`, `-C/--cd`, `-m`, `--ephemeral`, `--ignore-user-config`, `--ignore-rules`, `-o`, `--output-schema`, `--enable`/`--disable <feature>`. `resume`: kein `--sandbox`, kein `-C`, dafür `-c`, `-m`, `--last`, `--json`, `--ephemeral`, `--ignore-user-config`, `--ignore-rules`, `--enable`/`--disable <feature>`, `--skip-git-repo-check`. |
+| Read-only execution | 0.158, `codex exec - --sandbox read-only --json --skip-git-repo-check -C <dir> -c model_reasoning_effort=low` | Prompt came from stdin. Shell write failed, no file appeared, and exit was 0. The 0.154 probe also blocked the write. |
+| Read-only patch | 0.158, same call asking for `apply_patch` | Rejected with “patch rejected: writing is blocked by read-only sandbox.” |
+| JSONL events | 0.158, `--json` | Observed `thread.started` with `thread_id`, `turn.started`, item events with message/command/web-search types, and `turn.completed` usage fields. The answer was the last `agent_message`. |
+| Errors | 0.158, resume an unknown session | Exit 1 without a JSONL line; reason only on stderr. No `error` or `turn.failed` event was observed. Warnings on stderr also occurred with exit 0. |
+| Read-only resume | 0.158, `codex exec resume <id> - --json --skip-git-repo-check -c sandbox_mode="read-only"` | Write failed, no file appeared, and the `thread_id` stayed the same. |
+| Resume without override | 0.158, omit `-c sandbox_mode=...` after a read-only start | Write succeeded. Resume did not inherit the starting sandbox. |
+| Resume working directory | 0.158, same resume route | Resume had no `-C`; use the process working directory. The 0.154 probe exited 2 for `-C`. |
+| Ephemeral execution | 0.158, `exec --ephemeral` | Returned a `thread_id`, but resuming it failed because no rollout was saved. |
+| Ignore user config | 0.158, `exec --ignore-user-config` | Execution worked and sign-in remained available. |
+| Web search | 0.158, search request with `--ignore-user-config` | Search was available by default. `-c web_search="disabled"` disabled it; live-search options enabled it. `exec` had no `--search` flag. |
+| Search after resume | 0.158, start with search disabled, then resume with and without a live override | Neither resume searched. Search behavior was set at start in the observed route. |
+| External tools | 0.158, ask the read-only model to list tools | It listed app tools with potential external effects. The shell sandbox did not test those effects. `--disable apps` removed them; collaboration tools remained visible even with `--disable multi_agent`. |
+| Resume tool restrictions | 0.158, start with `--disable apps --ignore-user-config --ignore-rules`, then resume | Without repeating restrictions, app and user MCP tools returned. Repeating them kept those tools absent. |
+| Subagent shell write | 0.158, spawn a subagent from a read-only session with a write assignment | Subagent reported the shell write blocked by read-only policy; no file appeared. External tools were not exercised. |
+| MCP server | 0.158, `codex --help` | No `mcp-server` command appeared in the command list. |
+| CLI options | 0.158, `codex exec --help` and `codex exec resume --help` | `exec` exposed sandbox, directory, model, ephemeral, config and feature flags. Resume had model, config and feature flags but no sandbox or directory flag; use `-c sandbox_mode=...` and process cwd. |
 
-## Folgen für die Decisions
+## Consequences for PLAN-0019
 
-- ADR-0104: Der Blocker aus der Doku besteht in 2.1.283 nicht, Hintergrund-Nesting ist aber undokumentiert und für
-  Plugin-Agents unbelegt. Gezielte Kompaktierung geht nur für den Sender des Prompts. Entschieden: Die Hauptsitzung
-  koordiniert ohne Rollover, Worker und Reviewer laufen auf Tiefe 1.
-- ADR-0105: Modell pro Aufruf und Effort im Frontmatter wirken, auch im Plugin-Agent. Bei Haiku ist Effort null,
-  W-003 prüft Effort je Modellfamilie. Plugin-Agents und Plugin-Skills laden aus dem `packages/<name>/<name>/`-Layout,
-  `${CLAUDE_SKILL_DIR}` wird ersetzt.
-- ADR-0107: Der Adapter löst den Codex-Pfad auf, wiederholt bei jedem Resume alle Start-Einschränkungen samt
-  `-c sandbox_mode="read-only"`, lässt dort `-C` weg und nutzt das Prozessverzeichnis. Websuche ist ohne `-c web_search="disabled"` an und wird beim Start
-  festgelegt. `--disable apps` entfernt Werkzeuge mit Außenwirkung. `--ephemeral` schließt Folgefragen aus. Erfolg
-  heißt Exit 0 und nicht leere letzte `agent_message`.
-- Kontext-Checkpoint: Nutzung ist aus dem eigenen Transkript lesbar, das Fenster nicht. Es kommt nach ADR-0114 per
-  `/context` aus dem Dispatch-Helper. Sein Transkript findet ein Subagent über `CLAUDE_CODE_SESSION_ID` im Ordner `subagents/` der eigenen
-  Sitzung anhand seiner Auftragsdatei. W-006 belegt das zuerst an einem laufenden Subagenten.
+- ADR-0104: the old documentation blocker did not hold in 2.1.283, but background nesting remained undocumented and unverified for plugin agents. The main session coordinates without rollover; workers and reviewers stay at depth 1.
+- ADR-0105: model selection and frontmatter effort worked, including in a plugin agent. Haiku reported null effort. W-003 must check effort by model family. Plugin agents and Skills loaded from the package layout.
+- ADR-0107: resolve the Codex path, repeat every required restriction on every resume, omit `-C` on resume and use the process directory. Disable web search at start and app tools explicitly. `--ephemeral` rules out follow-up. Treat exit 0 plus a nonempty final `agent_message` as success.
+- Context checkpoint: a subagent finds its transcript through `CLAUDE_CODE_SESSION_ID` and its assignment file; usage comes from that transcript, the window from `/context` under ADR-0114. W-006 still needs a live subagent check of this route.

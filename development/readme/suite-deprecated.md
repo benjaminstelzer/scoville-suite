@@ -1,10 +1,13 @@
 ## Deprecated
 
-The following Skills are retired. Testing did not establish enough benefit over
-frontier models to justify their continued maintenance.
+These Skills are retired. In testing, they didn't do enough better than
+current frontier models to be worth maintaining.
 
-- **Scoville Scribe Anti-AI-Slop:** The writing comparisons did not establish a reliable benefit. The tested version also introduced unsupported claims.
-- **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models ended in a tie.
-- **Scoville Research:** It did not reach the quality level I expect, while capable research alternatives already exist.
-- **Scoville Brainstorm:** It did not reach the quality level I expect, while capable alternatives for ideation already exist.
-
+- **Scoville Scribe Anti-AI-Slop:** The writing comparisons showed no reliable
+  benefit, and the tested version added claims it couldn't support.
+- **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models
+  ended in a tie.
+- **Scoville Research:** It didn't reach the quality I expect, and good
+  research tools already exist.
+- **Scoville Brainstorm:** It didn't reach the quality I expect, and good
+  tools for ideation already exist.

@@ -1,4 +1,6 @@
 ## How it was developed
 
-- Real engineering tasks and their histories supplied cases involving wrong-cause fixes, missed outcomes and repeated checks.
-- Targeted simulations and SkillOpt informed instruction revisions, with tests checking that required behavior survived.
+- The cases come from real engineering tasks and their histories: fixes aimed
+  at the wrong cause, missed outcomes and checks that ran again and again.
+- Targeted simulations and SkillOpt fed into the revisions of the
+  instructions, and tests made sure the required behavior survived them.

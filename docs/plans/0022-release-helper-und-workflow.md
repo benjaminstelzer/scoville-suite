@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0022
-status: active
+status: completed
 created: 2026-09-29
 updated: 2026-09-29
-current_item: W-001
 ---
 
 # Geprüfte Helper- und Workflow-Änderungen veröffentlichen
@@ -23,7 +22,7 @@ der Sichtbarkeit, keine neue Viewer-Version, keine Veröffentlichung fremder Arb
 
 ### W-001 Release-Kandidat und Zielmenge sind geprüft
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0118]
@@ -32,12 +31,11 @@ Acceptance: Manifest-Ziele und Remote-Zustand erfasst. Geänderte Pakete geprüf
 Steps:
 1. Ziele, Releasehistorie und Asset-Provenienz prüfen.
 2. Versionsangaben und Nachweise ergänzen, gültige Pakete aus committed Quellen bauen.
-Evidence: []
-Next action: Remote-Inventar und betroffene Releaseprüfungen abschließen.
+Evidence: fa6a684; vier Build-Varianten validiert. Release-Inventar, Viewer-Provenienz und Tests unter temp/2026-09-29-suite-release und docs/plan0021-evidence.md.
 
 ### W-002 Betroffene Ziele sind veröffentlicht und verifiziert
 
-Status: todo
+Status: done
 Depends on: [W-001]
 Blocked by: []
 Decisions: []
@@ -46,5 +44,4 @@ Acceptance: Remote-Trees entsprechen Exporten; Tags, Release-Inhalte, herunterge
 Steps:
 1. Distributionen committen/pushen und annotierte Tags mit Releases erzeugen.
 2. Remote-Bytes und Assets prüfen, vorhandene Releasehistorie sichern und finalen Zustand dokumentieren.
-Evidence: []
-Next action: Nach freigegebenem Kandidaten veröffentlichen.
+Evidence: docs/plan0022-release-evidence.md: vier Releases und Remote-Assets verifiziert; lokale Codex-/Claude-Skills und public-Projektionen synchronisiert.

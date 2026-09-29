@@ -5,4 +5,5 @@ decisions. Scoville Handoff gathers those facts into one compact, copy-ready
 prompt with the objective, permissions and next action, so another session can
 resume the work.
 
-Here, the heat is the working context another session needs after a long conversation is condensed.
+The heat, in this case, is the working context another session still needs
+once a long conversation has been condensed.

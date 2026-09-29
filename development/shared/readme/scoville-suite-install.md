@@ -1,5 +1,5 @@
 ### Install the complete Scoville suite
 
-Get the complete suite from the
+The complete suite is in the
 [Scoville Suite monorepo]({{ include: suite.repository }}).
 Install its released Skill packages, not development templates.

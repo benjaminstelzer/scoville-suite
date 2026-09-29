@@ -10,18 +10,20 @@ Decisions, accepted results and the next action. The next agent can pick up the
 work from there. You can see what is finished, why a choice was made and what
 still needs checking, without piecing it together from an entire chat.
 
-For substantial work, the Plan deserves substantial attention before execution.
-Clarify requirements, check dependencies and get independent feedback, for
-example through Scoville Ask. Revise the Plan until the material questions are
-settled. Complex work may need several rounds of review and changes before
-Scoville Workflow starts implementing it. Its coordination overhead makes sense
-when the size and dependencies justify it. Good planning is a substantial part
-of software engineering. AI helps with the work, while goals, architecture and
-tradeoffs still need informed judgment.
+Substantial work deserves a Plan that got real attention before anything is
+executed. Clarify requirements, check dependencies and get independent
+feedback, for example through Scoville Ask, then revise the Plan until the
+important questions are settled. Complex work can take several rounds of
+review and changes before Scoville Workflow starts implementing it. That
+coordination overhead is worth it when the size and dependencies justify it.
+Good planning is a large part of software engineering. AI helps with it, but
+goals, architecture and tradeoffs still need informed judgment.
 
-When implementation shows that an assumption was wrong, update the Plan. Its
-job is to preserve direction while the work develops. Use it for dependent work
-and long-term maintenance, within the project's existing planning system. Keep
-small tasks small. A large Plan for a contained fix only adds work.
+If implementation shows that an assumption was wrong, update the Plan. Its
+job is to keep the direction while the work changes. Use it for dependent
+work and long-term maintenance, inside whatever planning system the project
+already has. And keep small tasks small: a large Plan for a contained fix
+just adds work.
 
-Here, the heat is the direction another agent can recover: the goal, decisions, current state and next action.
+The heat, in this case, is the direction another agent can pick up again: the
+goal, the decisions, the current state and the next action.

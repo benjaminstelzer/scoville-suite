@@ -1,4 +1,6 @@
 ## How it was developed
 
-- Real project records exposed the information needed to resume: active work, applicable decisions and remaining actions.
-- Project histories and targeted simulations informed the record format and validation checks.
+- Real project records showed what you need to resume work: the active item,
+  the decisions that apply and what's left to do.
+- Project histories and targeted simulations shaped the record format and the
+  validation checks.

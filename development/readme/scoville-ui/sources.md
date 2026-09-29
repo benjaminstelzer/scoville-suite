@@ -29,8 +29,9 @@
 - [Microsoft dialogs](https://learn.microsoft.com/en-us/windows/apps/design/controls/dialogs-and-flyouts/dialogs)
   for bounded interruptions and keeping field errors in context.
 
-Vendor guidance informs the general rules. Platform-specific layouts, measures,
-control behavior and visual conventions are not universal requirements.
-The Skill contains the working rules. These sources document their basis and
-do not require web research for routine UI changes. Reassessing composition
-after element changes is the Skill's application of these principles.
+The vendor guidance shaped the general rules, but platform-specific layouts,
+measurements, control behavior and visual conventions aren't universal
+requirements. The working rules are in the Skill itself. These sources show
+where they come from, so routine UI changes don't need web research.
+Rechecking the composition after elements change is how the Skill applies
+these principles.

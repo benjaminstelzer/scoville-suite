@@ -1,8 +1,16 @@
 ## How it works
 
-- Identify the outcome, responsible code, risks and decisive check before editing.
-- Read relevant code, callers and tests. Expand the investigation when evidence requires it.
-- Fix the cause within the existing architecture and requested scope.
+- Before editing, pin down the outcome, the responsible code, the risks and
+  the check that will settle whether it works.
+- Read the relevant code, its callers and tests. Look further when the
+  evidence calls for it.
+- Fix the cause, within the existing architecture and the scope you asked for.
+- Check runtime and memory costs before and after the change. Prefer simpler
+  algorithms and avoiding repeated work. Use suitable existing caches correctly
+  and explain the tradeoff before asking you to approve a new one.
 - Check the changed behavior and report what the evidence actually proves.
-- Investigate failures without weakening guarantees. Revise obsolete assertions only for an approved change to the expected behavior. Reassess after two failed corrections of the same cause.
-- Inspect the complete change, report remaining gaps and stop checking when further evidence would not change the decision.
+- When something fails, investigate it without weakening guarantees. Change
+  an outdated assertion only when a change to the expected behavior has been
+  approved. After two failed fixes for the same cause, step back and reassess.
+- Look at the complete change, report what's still open, and stop checking
+  once more evidence wouldn't change the decision.

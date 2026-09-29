@@ -1,4 +1,6 @@
 ## How it was developed
 
-- Transfers between real sessions exposed missing blockers, decisions and ownership of local changes.
-- Project histories, targeted simulations and optimization workflows informed the four-section template and checks for necessary continuation facts.
+- Handoffs between real sessions showed what tends to get lost: blockers,
+  decisions and who owns local changes.
+- Project histories, targeted simulations and optimization runs shaped the
+  four-section template and the checks for facts a continuation needs.

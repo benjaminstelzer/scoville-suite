@@ -1,8 +1,8 @@
 # Release validation
 
 The fixed 45-case Luna CLI series is no longer a release requirement, following
-an explicit user decision on 2026-09-29. Retain its catalogs and historical
-results as optional test material, not as a mandatory gate.
+an explicit user decision on 2026-09-29. Use targeted cases when a changed
+behavior calls for them; no fixed historical case catalog is retained.
 
 Validate the changed behavior with appropriate technical checks and requested
 model or real-workflow tests. Record the actual results and remaining limits.

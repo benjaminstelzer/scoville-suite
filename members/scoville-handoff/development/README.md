@@ -1,14 +1,18 @@
 # Development
 
-The [member source](../scoville-handoff/) belongs to [Scoville Suite](../../../README.md#development-and-builds).
-Build the Skill before installing it. Development files stay in the suite.
+The [member source](../scoville-handoff/) is part of
+[Scoville Suite](../../../README.md#development-and-builds). Build the Skill
+before you install it. Development files stay in the suite.
 
 ## Validate
 
-Review freshness, authority preservation, secret handling, and receiver instructions directly against the canonical Skill. Case definitions do not prove receiver success in a live transfer.
+Check the canonical Skill directly for freshness, preserved permissions,
+secret handling and receiver instructions. The case definitions don't prove
+that a live transfer succeeds.
 
 ## Retention
 
-Keep current regression inputs and this maintenance summary. Create benchmark runs, transcripts, handoff trials, audits, and reviews in temporary storage. Retain a concise evaluation summary only when it explains a useful result or
-development lesson and a published release links it. Routine checks and
-inconclusive miniature runs stay temporary.
+Only the current regression inputs and this summary are kept. Benchmark runs,
+transcripts, handoff trials, audits and reviews go to temporary storage. An
+evaluation summary stays only if it teaches something useful and a published
+release links to it.

@@ -1,14 +1,23 @@
 ## What it enforces
 
-- **Existing project records.** Follow the repository's planning rules and update its established records.
-- **Clear work units.** Goals name the target, Work Items define resumable outcomes, and ordered Steps describe the work.
-- **Current assumptions.** Check the next item against sources and completed work before execution.
-- **One active item.** Record current work and its first unfinished action.
-- **Changes of direction.** Record new priorities, pauses and work the user wants to return to.
-- **Evidence before completion.** Record observed results that establish acceptance.
-- **Explicit decisions.** Record the user's decisions. Keep unconfirmed choices marked as proposals.
-- **Direct maintenance.** Update Plan records without creating extra work items for routine edits.
+- **Existing project records.** Plan follows the repository's planning rules
+  and updates its established records.
+- **Clear work units.** Goals name the target, Work Items describe outcomes
+  that can be resumed, and ordered Steps describe the work.
+- **Current assumptions.** Before the next item is executed, it's checked
+  against the sources and the work already done.
+- **One active item.** Only one item is active at a time, with its first
+  unfinished action recorded.
+- **Changes of direction.** New priorities, pauses and work you want to come
+  back to get recorded.
+- **Evidence before completion.** Nothing is marked complete without the
+  observed results that show it meets acceptance.
+- **Explicit decisions.** Your decisions get recorded. Choices you haven't
+  confirmed stay marked as proposals.
+- **Direct maintenance.** Routine edits update the Plan directly instead of
+  creating extra Work Items.
 
-Edit the records from one session at a time. Concurrent changes must be reconciled.
+Edit the records from one session at a time. If two sessions change them in
+parallel, the changes have to be reconciled.
 
 See [SKILL.md]({{ var: contract_url }}) for the full instructions and editing limits.

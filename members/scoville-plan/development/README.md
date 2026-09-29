@@ -1,8 +1,10 @@
 # Development
 
-The [member source](../scoville-plan/) belongs to [Scoville Suite](../../../README.md#development-and-builds).
-Build the Skill before installing it. Development files stay in the suite. The optional read-only
-profile validator is bundled with the Skill. Fixtures and viewer sources are not.
+The [member source](../scoville-plan/) is part of
+[Scoville Suite](../../../README.md#development-and-builds). Build the Skill
+before you install it. Development files stay in the suite. The optional
+read-only profile validator ships with the Skill, but the fixtures and the
+Viewer sources don't.
 
 ## Validate
 
@@ -12,7 +14,7 @@ Run these checks from `members/scoville-plan/` in the suite:
 python -B -m unittest discover -s development/tests -v
 ```
 
-For viewer changes, run from `development/viewer`:
+For Viewer changes, run from `development/viewer`:
 
 ```text
 npm ci
@@ -20,10 +22,13 @@ npm run check
 cargo test --manifest-path src-tauri/Cargo.toml
 ```
 
-These checks cover native profile structure and viewer behavior. They do not prove agent compliance or transactional filesystem writes.
+These checks cover the native profile structure and the Viewer's behavior.
+They don't prove that agents follow the Skill or that file writes are
+transactional.
 
 ## Retention
 
-Keep current tests, fixtures, viewer source, dependency locks, and this maintenance summary. Create benchmark profiles, token measurements, model outputs, audits, and review packets in temporary storage. Retain a concise evaluation summary only when it explains a useful result or
-development lesson and a published release links it. Routine checks and
-inconclusive miniature runs stay temporary.
+Tests, fixtures, Viewer source, dependency locks and this summary are kept.
+Benchmark profiles, token measurements, model outputs, audits and reviews go
+to temporary storage. An evaluation summary stays only if it teaches
+something useful and a published release links to it.

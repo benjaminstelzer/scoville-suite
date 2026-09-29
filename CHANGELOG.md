@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.2.1 - 2026-09-29
+
+- Check runtime and memory costs before and after code changes. Prefer simpler algorithms, use suitable existing caches correctly and obtain the user's decision before adding a new cache unless already authorized.
+
+
 ## v2.2.0 - 2026-09-29
 
 - Keep manual no-Python procedures separately loadable in the general edition. Codex requires the packaged helpers, with concrete diagnostics for invalid calls.

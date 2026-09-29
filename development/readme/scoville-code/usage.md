@@ -14,21 +14,22 @@ Use Scoville Code to add CSV export to the orders page. Follow the existing stru
 
 ### Starting a new project
 
-For a wholly new project, Scoville Code uses
+In a brand-new project, Scoville Code falls back on
 [`references/project-conventions.md`](scoville-code/references/project-conventions.md)
-for choices the project instructions leave open. Its defaults follow the
+for anything the project instructions leave open. Those defaults follow the
 language and framework, with a small `src/`, `tests/`, `docs/` and `scripts/`
-layout where appropriate. Directories are added when needed. Tests may sit
-beside code when the framework expects it. Existing projects retain their
-organization, including during refactors or module additions.
+layout where it fits. Directories are only added when they're needed, and
+tests can sit next to the code if the framework expects that. Existing
+projects keep their organization, even during refactors or when modules are
+added.
 
 ### Your own conventions
 
-You can edit the bundled reference, but a Skill update can replace that edit.
-For conventions you want to keep across updates, maintain a Markdown file
-outside the Skill installation and explicitly reference it in your global or
-project `AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code). For example, add
-this to the applicable file at the project root:
+You can edit the bundled reference, but the next Skill update may overwrite
+it. For conventions you want to keep, maintain a Markdown file outside the
+Skill installation and reference it explicitly from your global or project
+`AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code). For example, add this to
+the file at the project root:
 
 ```markdown
 ### Greenfield project conventions
@@ -40,8 +41,9 @@ defaults only for choices neither source settles. Do not apply this
 fallback to additions or refactors in an existing project.
 ```
 
-Create the file with your conventions. Relative paths resolve from the
-referring `AGENTS.md` or `CLAUDE.md`. A shared personal file can use an absolute path.
-The agent reads the explicitly referenced file and reports it if unavailable.
+Then create the file with your conventions. Relative paths are resolved from
+the `AGENTS.md` or `CLAUDE.md` that references them, and a personal file
+shared across projects can use an absolute path. The agent reads the
+referenced file and tells you if it can't find it.
 
 Project-specific instructions and framework requirements still apply.

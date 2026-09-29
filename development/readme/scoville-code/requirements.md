@@ -1,25 +1,30 @@
 ## What it enforces
 
-- **The requested result.** Plans, tests and refactors support the outcome.
-  Completion requires the behavior itself.
+- **The requested result.** Plans, tests and refactors serve the outcome. The
+  task is only done when the behavior itself works.
 - **Project conventions.** Changes follow the project's architecture, records,
   terminology and workflow.
-- **Proportionate checks.** Verification addresses concrete failure risks.
-  Broader security, migration or release checks follow the task and project rules.
-- **Supported claims.** Reports distinguish observed results, failed checks
-  and unverified behavior.
-- **Root-cause correction.** Repeated failure triggers a reassessment of the approach.
-- **Navigable code.** Existing conventions and module boundaries guide changes.
-  New projects start with a small layout organized by responsibility. The
-  default limit of 2,000 lines per source file permits justified exceptions.
-- **Necessary questions.** Ask when a choice changes behavior, authority, cost,
-  reversibility or scope. Resolve ordinary details from the project.
-- **Your conventions.** Project instructions take priority. Defaults apply only
-  to a wholly new project. Keep personal conventions outside the installed
-  Skill and reference them from `AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code)
-  to preserve them across updates.
+- **Proportionate checks.** Checks target concrete ways things could fail.
+  Broader security, migration or release checks happen when the task or the
+  project's rules call for them.
+- **Supported claims.** Reports keep observed results, failed checks and
+  unverified behavior apart.
+- **Root-cause correction.** If fixes keep failing, the approach gets
+  reassessed.
+- **Navigable code.** Changes follow existing conventions and module
+  boundaries. New projects start with a small layout organized by
+  responsibility. Source files are limited to 2,000 lines by default, with
+  room for justified exceptions.
+- **Necessary questions.** The agent asks when a choice affects behavior,
+  authority, cost, reversibility or scope. Ordinary details it settles from
+  the project itself.
+- **Your conventions.** Project instructions come first. The defaults only
+  apply to a brand-new project. To keep your own conventions across updates,
+  store them outside the installed Skill and reference them from `AGENTS.md`
+  (Codex) or `CLAUDE.md` (Claude Code).
   See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions).
-- **Useful completion reports.** State changed behavior, validation, unresolved
-  failures and relevant repository state.
+- **Useful completion reports.** The final report states what behavior
+  changed, how it was checked, which failures remain and the relevant
+  repository state.
 
 The full instructions are in [SKILL.md]({{ var: contract_url }}).
