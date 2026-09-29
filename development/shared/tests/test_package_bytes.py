@@ -28,11 +28,12 @@ class PackageBytesTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / 'intro.md').write_bytes(b'# Example\r\n\r\nREADME text.\r\n')
-            (root / 'SKILL.md').write_bytes(b'---\r\nname: example\r\ndescription: Example.\r\n---\r\n\r\n{{ include: family.contract }}\r\n')
+            (root / 'SKILL.md').write_bytes(b'---\r\nname: example\r\ndescription: Example.\r\n---\r\n\r\n{{ include: family.contract }}\r\n\r\n{{ include: helper.policy }}\r\n')
             member = {'name': 'example', 'readme': ['intro.md'],
                       'files': [{'source': 'SKILL.md', 'target': 'example/SKILL.md'}],
                       'shared_helpers': [{'source': 'runtime/task_lifecycle.py',
-                                          'target': 'example/scripts/task_lifecycle.py'}]}
+                                          'target': 'example/scripts/task_lifecycle.py'}],
+                      'helper_contracts': {'scripts/task_lifecycle.py': {'kind': 'helper'}}}
             config = {'name': 'fixture', 'layout': 'suite', 'members': [member], 'readme': ['intro.md']}
             files = payload(root, member, config)
             self.assertIn(b'installed and enabled', files['example/SKILL.md'])

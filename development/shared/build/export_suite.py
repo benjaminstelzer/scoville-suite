@@ -76,7 +76,9 @@ def export(root, output, profile=None):
         if objects[end:end + 1] != b'\n':
             raise ValueError('Incomplete source object: ' + name)
         data = objects[start:end]
-        if (not name.startswith('development/shared/')
+        # Planning/evidence documents may quote unsupported or unfinished profile
+        # syntax. They are records, not package templates.
+        if (not name.startswith(('development/shared/', 'docs/'))
                 and name.endswith(('.md', '.toml')) and (b'{{ profile:' in data or b'{{ package:' in data)):
             data = variant_text(data.decode('utf-8'), config).encode('utf-8')
         files[name] = data

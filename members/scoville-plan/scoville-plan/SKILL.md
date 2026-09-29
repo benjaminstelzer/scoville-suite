@@ -96,9 +96,8 @@ defect that changes no intent.
 
 After every completed write operation, validate the complete resulting profile
 using the command and diagnostic handling in edit.md.
-With Python 3.10+ available, use the bundled validator and selector. Only
-without Python load [profile-without-python.md](references/profile-without-python.md)
-for manual validation and [select-context-without-python.md](references/select-context-without-python.md)
-for manual selection. Missing scripts or helper errors never enable fallback.
+See Runtime helpers below for the profile-specific runtime rule.
 Report outcome, active or blocked work, actual evidence, unresolved choices and
 the next action. These direct edits provide no locks or atomic transactions.
+
+{{ include: helper.policy }}

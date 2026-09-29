@@ -23,6 +23,29 @@ repair round. Test the actual consumer, not only exit status or parseability.
 Explicit diagnostics for invalid input or unavailable dependencies are failures
 to handle, never successful output to repair or silently accept.
 
+Test every added or changed helper with its actual next consumer. Successful
+output must be correct and directly usable, never instructions the agent must
+fix. For missing or invalid inputs, identify the failing argument or condition,
+state the expected value/format and show the correct invocation through usage
+help or an example. Emit no partial success output. Test the invalid call and
+its corrected invocation, preserving actionable diagnostics and failure status.
+
+Encapsulate repeated mechanical prompt, title and argument assembly in the
+existing helper or a small new helper when it prevents an identified error.
+Keep its optional manual procedure in its paired fallback file, never inline
+or as an independently maintained second rule copy.
+
+Every packaged runtime script must have an exact `helper_contracts` entry in
+suite.json, classified as a callable helper or an internal library. Generate
+the common helper policy from that registry. General packages use helpers first
+and expose each callable helper's manual route only through a separate
+`references/fallbacks/<helper-name>-fallback.md`, loaded only without Python. Missing
+scripts or helper errors never enable fallback. Codex packages require helpers
+and contain neither optional fallback files nor links or instructions to use
+them. Builds and package verification must reject missing registrations,
+missing or unconditional fallback routes, and cross-profile leakage. Cover both
+general standalone and general suite builds, plus Codex, with negative tests.
+
 Family lists are build projections, not copied text. Maintain membership and
 Scoville `family` metadata in `suite.json`. Use `{{ include: suite.members }}`,
 `family.owners`, `family.links`, `family.install`, or `family.neighbors`

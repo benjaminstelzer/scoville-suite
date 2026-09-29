@@ -127,8 +127,8 @@ Next action: Stay absent.
 
 class SelectContextTests(unittest.TestCase):
     def test_no_python_dispatch_recipe_and_runtime_requirements_are_complete(self) -> None:
-        self.assertIn("load [select-context-without-python.md]", READ_ONLY.read_text(encoding="utf-8"))
-        fallback = READ_ONLY.parent / "select-context-without-python.md"
+        self.assertIn("Runtime helpers rule in SKILL.md", READ_ONLY.read_text(encoding="utf-8"))
+        fallback = READ_ONLY.parent / "fallbacks/select_context-fallback.md"
         guide = " ".join(fallback.read_text(encoding="utf-8").split())
         for required in (
             "For current-or-named Work Item recovery",
@@ -149,7 +149,7 @@ class SelectContextTests(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, guide)
         readme_compatibility = COMPATIBILITY.read_text(encoding="utf-8")
-        self.assertIn("A current Fable, Astra, SOL or Opus model is recommended.", readme_compatibility)
+        self.assertIn("Requires a frontier model from the Fable, Astra, SOL or Opus families", readme_compatibility)
         self.assertIn("Luna was also used", readme_compatibility)
         self.assertIn("Optional validation and selection helpers require Python 3.10+", readme_compatibility)
         core = SKILL.read_text(encoding="utf-8")
