@@ -20,4 +20,4 @@ prompts, schemas, examples, errors and tool output.
   use with Luna when authorized and available. Otherwise report comprehension
 as unverified. Word counts and stronger-model review are not Luna proof.
 
-Before publication, apply [luna-release-gate.md](luna-release-gate.md).
+Before publication, apply the [release validation rules](luna-release-gate.md).
