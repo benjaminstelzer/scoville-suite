@@ -1,5 +1,21 @@
 # Family fragments
 
+## Runtime helper policy
+
+Register every packaged Python file under `helper_contracts`, keyed by its
+Skill-relative `scripts/<name>.py` path. Use `kind: helper` for executable
+entrypoints and `kind: library` for imported support code. General helpers also
+declare `fallback: references/fallbacks/<name>-fallback.md`; libraries do not.
+List each fallback file in the manifest with `profiles: ["general"]`.
+
+Put `{{ include: helper.policy }}` once in the Skill entrypoint. The builder
+generates helper-first routing and the conditional reference table. Each manual
+file begins with `<!-- helper-fallback: scripts/<name>.py -->`, followed by its
+complete no-Python procedure. Do not inline or separately link these optional
+routes. Codex strips fallback metadata and rejects fallback files and links.
+Package building and verification check the exact registry and route structure.
+Behavioral equivalence and diagnostic quality still require consumer tests.
+
 ## Portable suite sources
 
 The workspace sibling `shared/` is the authoring source. Before release run

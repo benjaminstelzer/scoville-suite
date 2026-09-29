@@ -8,7 +8,7 @@ helper contract. Grade exact identity and authorization, not call-name trivia.
 03. Generic model request does not activate this specific Skill. Resolve intended adviser.
 04. Paired Skill, not the single-adviser route.
 05. Eligible. Neither code nor a Skill review is required.
-06. `gpt-5.6-sol` with high; exact native title `S-ASK GPT-5.6-SOL - Cache review`. A delivery retry does not rename the retained task.
+06. `gpt-5.6-sol` with high; exact native title `SC · ASK · GPT-5.6-SOL · Cache review`. A delivery retry does not rename the retained task.
 07. Explicit user request wins: medium. Precedence is user, applicable project instructions, personal config, shipped config.
 08. Report unavailable settings. No silent model/effort substitution, CLI or own-opinion fallback.
 09. Stop dispatch with project_task_unavailable. Never guess destination from recency.

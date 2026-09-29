@@ -1,0 +1,57 @@
+{
+  "workflow": {
+    "skill": "scoville-workflow-for-codex",
+    "files": [
+      "SKILL.md",
+      "references/operations.md",
+      "references/operations-dispatch.md",
+      "references/operations-rollover.md"
+    ],
+    "question": "Apply the supplied contract to these independent hypothetical situations. Give the concrete next actions for each numbered case, including tool parameters where relevant. No real tools. 1. A worker was created successfully, its ID retained, and the one host-required wait returned timedOut:true with the worker still active. There is no independent work. The project requests progress updates. 2. A coordinator rollover is due. Its verified own model is gpt-6-sol/high, worker is gpt-6-astra/medium, current project default gpt-6-luna/medium. Supply successor model/thinking and retained facts. 3. At takeover a scope question sent to the user in the predecessor chat is unanswered; no answer event exists. 4. Same takeover but a user answer arrived during creation and is present in the known predecessor chat. 5. The coordinator's own launched pair cannot be recovered from available host metadata or creation parameters. 6. Several review findings concern unknown freshness, confirmed change and missing required content across list and detail consumers; the user also added a new nonblocking dynamic-warning requirement. Define the correction boundary without doing the worker's diagnosis. 7. A checked implementation is handed off with only one remaining test; say what the successor repeats and when review occurs. 8. A bounded requested Workflow run passed acceptance and all required closure; the user then asks an unrelated ordinary coding question. 9. Creation returned an ambiguous pending identity; a timeout followed. 10. User says stop while a worker is active. Keep each answer short.",
+    "expected": "1 end turn/no polling, use received progress only; 2 own sol/high explicit and pending scope; 3 preserve unanswered question without repeat; 4 recover/process answer; 5 no invented pair, obtain missing setting before create; 6 coherent state distinction/direct consumers/negative cases, separate new scope, retain delta review; 7 preserve code, only remaining checks, review cadence retained; 8 explicit closure then ordinary mode; 9 reconcile known creation before another dispatch; 10 no new work, forward stop and establish actual stopped state."
+  },
+  "plan": {
+    "skill": "scoville-plan",
+    "files": [
+      "SKILL.md",
+      "references/edit.md",
+      "references/native-project-lifecycle.md"
+    ],
+    "question": "Apply the supplied Plan contract. For each independent case state statuses/current_item/index changes, whether to execute and whether to ask the user. No real tools. 1. Whole Plan execution explicitly requested; current W-001 accepted, next W-002 depends only on W-001, no stops or conflicts. 2. Same but ordinary W-002 is blocked by unavailable external access. 3. W-002 is an explicitly recorded paused return after W-001, but W-002 is blocked. 4. Paused W-002 return and Prioritized-after-W-001 W-003 conflict. 5. User explicitly says execute entire Plan and lifts the earlier W-002 stop that required a separate continuation request; W-002 prerequisites are fulfilled. 6. Whole Plan requested, but a still-applicable cost approval for W-002 is missing. 7. Final current item accepted and every other item terminal. 8. Only W-001 was authorized, now accepted; W-002 is an eligible unblocked successor outside the execution request. 9. No eligible successor can be identified although current acceptance is observed. Explain whether validator or selector success proves authorization. Keep answers concise.",
+    "expected": "1 done/select/start after preflight without renewed approval; 2 done/select todo blocked no start; 3 retain current nonterminal/return ask; 4 retain conflict ask; 5 apply explicit newer direction proceed; 6 preserve cost gate; 7 done/completed/index null; 8 select no start, bounded closure; 9 retain acceptance evidence unresolved succession next action no repeated work; helpers do not grant authority."
+  },
+  "ask": {
+    "skill": "scoville-ask-for-codex",
+    "files": [
+      "SKILL.md",
+      "references/native.md",
+      "references/native-delivery.md",
+      "references/adviser.md",
+      "agents/openai.yaml"
+    ],
+    "question": "Hypothetical cases only; no actions. Apply the supplied Ask contract with verified caller title Prüfe den Patch, native adviser id astra, model gpt-6-astra, effort medium and saved project ID test. 1. User requests Ask review by Astra medium. Give helper arguments, exact chat title, creation and pinning. 2. As adviser you have a complete read-only result; where do you answer? 3. As adviser you need the PHP minimum version. As caller you know it is 7.4; explain the round trip. 4. User merely asks what Ask does. 5. User prohibits chat creation. 6. A wait times out while adviser remains active, with no independent work. 7. User stops before creation. 8. Own ID absent in prompt but CODEX_THREAD_ID available. 9. Complete answer already returned by wait_threads; what retrieval follows? 10. Helper returns missing --adviser-id, empty stdout and usage help. What do you correct?",
+    "expected": "1 helper create JSON with adviser-id astra; SC-ASK-ASTRA: Prüfe den Patch; model remains gpt-6-astra, pin returned real ID; no extra approval. 2 ordinary final answer in adviser chat, no callback. 3 ordinary question, caller collects and sends answer in same chat, then collects final. 4 no dispatch. 5 respect no chat. 6 pending then end turn, no repeated polling/replacement. 7 no create. 8 read actual environment ID. 9 consume complete answer, no redundant read. 10 supply resolved adviser-id and rerun, never repair output."
+  },
+  "lifecycle": {
+    "skill": "scoville-workflow-for-codex",
+    "files": [
+      "SKILL.md",
+      "references/operations.md",
+      "references/operations-dispatch.md",
+      "references/operations-rollover.md"
+    ],
+    "question": "Execute only a hypothetical walkthrough, no tools. The user explicitly requests Scoville Workflow for the active Plan PLAN-0042; caller chat is current coordinator 1; saved project name is Test App. Project and caller IDs are verified and internal communication is included. W-009 has steps1-3, assigned as one coherent group to worker number7 (numbers1-6 already used). The route resolver returns gpt-6-astra/medium. For each event give concrete actions/tool arguments and which work remains; do not restart earlier events.\n1. First dispatch: naming and which helper output is passed to creation.\n2. Worker7 hands off checked product fixes for previously completed code in step1 plus only steps2-3 unfinished; manager checkpoint says rollover. Manager host pair gpt-6-sol/high, reviewer pair gpt-6-astra/medium. Identify ordering of review/manager/worker continuation, numbering and actual model arguments; use the actual supplied manager helper.\n3. New manager takes over and pending review is due. What helper creates the reviewer assignment, what result/evidence does it consume, and what title/number/scope? The pending reviewed range is step1 only.\n4. Reviewer reports a material source defect in that checked change. Describe correction prompt, model selection and follow-up review while retaining remaining steps.\n5. Correction passed review. Continue only steps2-3 via the existing helper. State necessary inputs and ensure finished implementation is not repeated.\n6. Final result passes required checks and review, all Plan work is terminal and required closure complete. State completion message and procedure for an unrelated later user question.\n7. Independent countercase: User only asks Implement this Plan, with no named Workflow request. Does this activate Workflow?\n8. Independent countercase: A sole typo finding has no shared state-contract defect. Describe correction boundary without a compulsory broad matrix.\n9. Independent countercase: Reviewer assignment lacks its worker result. Can the helper be bypassed manually in Codex?\n",
+    "expected": "Caller renamed before dispatch; exact title SC-WRK-7: Test App · PLAN-0042/W-009/steps-1-3 and returned generated prompt/model pair. Coordinator checkpoint/rollover before child successor; explicit own sol/high and pending review. Reviewer worker7 number STEP-1, helper role reviewer executor result + scoped diff/constraints. New correction worker8 preserves original worker pair, material delta re-review number8. Then new worker9 continues remaining steps2-3 using handoff+predecessor+supplemental scope, no repeat; qualified prior worker/predecessor IDs retained. Final closure then ordinary mode. Generic plan request not activation. Isolated typo narrow. Missing result fails helper with diagnosis, no manual fallback."
+  },
+  "helper-final": {
+    "skill": "scoville-workflow-for-codex",
+    "files": [
+      "SKILL.md",
+      "references/operations.md",
+      "references/operations-dispatch.md",
+      "references/operations-rollover.md"
+    ],
+    "question": "Hypothetical test only, no actions. Saved project name is Test App, ID known. Active Plan PLAN-0042. Exact model IDs are gpt-6-astra, gpt-6-sol and gpt-6-luna. 1. Create worker7 for W-009/steps-1-3, resolved pair astra/medium. Name the builder inputs, exact title, how its output reaches create_thread and what follows ready creation. 2. Review that worker with result and scope provided. 3. Manager 2 must roll over to manager3 for PLAN-0042, its own native pair is sol/high, worker is astra/medium and default is luna/medium. There is an unanswered user question. Explain builder use and facts to retain. 4. Manager metadata is missing; may you substitute the worker pair? 5. A builder reports missing --project-name with usage help, empty stdout, nonzero exit. Correct the call using known project data. 6. Creation returned only a pending clientThreadId. Pinning a different ready chat later fails. Explain both recoveries. 7. Python is unavailable in Codex. May you load a manual fallback? Give short concrete actions. 8. Successor receives all needed continuation information and a known predecessor ID. State its first action, whether it reads the Skill first, and whether it waits for archival. 9. One essential handoff fact is missing. State the allowed recovery before that first action and behavior if sending fails.",
+    "expected": "Native create JSON direct; SC-WRK-7: Test App · PLAN-0042/W-009/steps-1-3; SC-REV-7 with same project and Plan/unit, original worker result; manager helper derives own sol/high and SC-MGR-3: Test App · PLAN-0042, preserves unanswered question; no guessed pair; corrected project-name call no repaired output; wait for real ID before pin, retry only pin not creation; no Codex manual fallback. Successor first sends exact self-archival notice to predecessor before ordinary reading/work; no archival wait. Missing essential fact only is recovered first. Failed/forbidden send stops takeover with concrete diagnostic."
+  }
+}

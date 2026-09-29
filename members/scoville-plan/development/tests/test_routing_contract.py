@@ -22,13 +22,18 @@ class RoutingContractTest(unittest.TestCase):
             self.assertIn(exit_result, edit)
 
     def test_runtime_profiles_keep_distinct_fallback_contracts(self):
-        core = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-        general = " ".join(re.findall(r"{{ profile: general }}(.*?){{ /profile }}", core, re.S))
-        codex = " ".join(re.findall(r"{{ profile: codex }}(.*?){{ /profile }}", core, re.S))
-        self.assertIn("profile-without-python.md", general)
-        self.assertIn("Python 3.11+", codex)
-        self.assertNotIn("profile-without-python.md", codex)
-        self.assertIn("blocks", codex)
+        import importlib.util
+        suite = ROOT.parents[2]
+        spec = importlib.util.spec_from_file_location('routing_build', suite / 'development/build_suite.py')
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        for profile in ('general', 'codex'):
+            config = builder.load(suite, profile)
+            member = next(m for m in config['members'] if m['name'] == 'scoville-plan')
+            package = builder.payload(suite, member, config)
+            core = package['scoville-plan/SKILL.md'].decode()
+            self.assertEqual('select_context-fallback.md' in core, profile == 'general')
+            self.assertIn('Only when Python is unavailable' if profile == 'general' else 'Do not substitute manual execution', core)
         edit = (ROOT / "references/edit.md").read_text(encoding="utf-8")
         general_edit = " ".join(re.findall(r"{{ profile: general }}(.*?){{ /profile }}", edit, re.S))
         codex_edit = " ".join(re.findall(r"{{ profile: codex }}(.*?){{ /profile }}", edit, re.S))

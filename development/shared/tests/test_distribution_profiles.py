@@ -39,7 +39,7 @@ class DistributionProfilesTests(unittest.TestCase):
                     usage = package['README.md'].decode().split('## How to use\n', 1)[1].split('\n## ', 1)[0]
                     # Invocation examples precede optional usage subsections and task-title illustration.
                     examples = usage.split('\n### ', 1)[0].split('Task titles identify', 1)[0]
-                    expected_examples = {'scoville-workflow-for-codex': 1, 'scoville-setup': 0}.get(member['name'], 2)
+                    expected_examples = {'scoville-code': 3, 'scoville-setup': 0}.get(member['name'], 2)
                     self.assertEqual(expected_examples, examples.count('```text'))
                     core = package[member['name'] + '/SKILL.md'].decode()
                     readme = package['README.md'].decode()
@@ -62,9 +62,9 @@ class DistributionProfilesTests(unittest.TestCase):
                         self.assertIn('This Skill works independently', readme)
                 if profile == 'general':
                     plan = next(m for m in config['members'] if m['name'] == 'scoville-plan')
-                    self.assertEqual({'scoville-plan/references/profile-without-python.md',
-                                      'scoville-plan/references/select-context-without-python.md'},
-                                     {name for name in builder.payload(ROOT, plan, config) if 'without-python' in name})
+                    self.assertEqual({'scoville-plan/references/fallbacks/validate_profile-fallback.md',
+                                      'scoville-plan/references/fallbacks/select_context-fallback.md'},
+                                     {name for name in builder.payload(ROOT, plan, config) if '/fallbacks/' in name})
 
     def test_refresh_preserves_inventory_and_refuses_local_changes(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -112,6 +112,8 @@ class DistributionProfilesTests(unittest.TestCase):
             stale = root / 'packages/obsolete/private.txt'
             stale.parent.mkdir(parents=True)
             stale.write_text('must never export', encoding='utf-8')
+            literal = root / 'docs/profile-syntax-example.md'
+            literal.write_text('Draft syntax: `{{ profile: future }}` is only quoted here.\n', encoding='utf-8', newline='\n')
             def git(*args):
                 return subprocess.run(['git', '-C', str(root), *args], check=True, capture_output=True)
             git('init')
@@ -122,9 +124,11 @@ class DistributionProfilesTests(unittest.TestCase):
                 receipt = export_suite.export(root, output, profile)
                 self.assertEqual(profile, receipt['profile'])
                 self.assertFalse((output / 'packages/obsolete').exists())
+                self.assertEqual(literal.read_bytes(), (output / 'docs/profile-syntax-example.md').read_bytes())
                 self.assertEqual(profile == 'codex', (output / 'members/scoville-workflow-for-codex').exists())
                 if profile == 'codex':
                     self.assertFalse(list((output / 'members').rglob('*without-python.md')))
+                    self.assertFalse(list((output / 'members').rglob('*-fallback.md')))
                 config = builder.load(output)
                 self.assertNotIn('profiles', config)
                 isolated_path = output / 'development/shared/build/build_suite.py'

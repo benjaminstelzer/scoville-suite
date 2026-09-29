@@ -42,7 +42,7 @@
       "id": "initialize-wholly-absent-profile",
       "sources": [
         "references/native-project-lifecycle.md",
-        "references/profile-without-python.md",
+        "references/fallbacks/validate_profile-fallback.md",
         "references/edit.md"
       ]
     },
@@ -57,7 +57,7 @@
       "id": "create-update-and-cancel-draft-plan",
       "sources": [
         "references/native-project-lifecycle.md",
-        "references/profile-without-python.md"
+        "references/fallbacks/validate_profile-fallback.md"
       ]
     },
     {
@@ -86,7 +86,7 @@
       "id": "insert-update-move-delete-work-item",
       "sources": [
         "references/edit.md",
-        "references/profile-without-python.md"
+        "references/fallbacks/validate_profile-fallback.md"
       ]
     },
     {
@@ -99,14 +99,14 @@
       "id": "add-and-resolve-blocker",
       "sources": [
         "references/edit.md",
-        "references/profile-without-python.md"
+        "references/fallbacks/validate_profile-fallback.md"
       ]
     },
     {
       "id": "start-pause-resume-complete-cancel-work",
       "sources": [
         "references/edit.md",
-        "references/profile-without-python.md"
+        "references/fallbacks/validate_profile-fallback.md"
       ]
     },
     {
@@ -161,7 +161,7 @@
     {
       "id": "dependency-order-blocker-evidence-and-date-invariants",
       "sources": [
-        "references/profile-without-python.md",
+        "references/fallbacks/validate_profile-fallback.md",
         "references/edit.md"
       ]
     },
@@ -196,14 +196,14 @@
       "id": "normalized-goal-ownership",
       "sources": [
         "SKILL.md",
-        "references/profile-without-python.md",
+        "references/fallbacks/validate_profile-fallback.md",
         "references/native-project-lifecycle.md"
       ]
     },
     {
       "id": "step-execution-annotations",
       "sources": [
-        "references/profile-without-python.md",
+        "references/fallbacks/validate_profile-fallback.md",
         "references/edit.md",
         "scripts/validate_profile.py"
       ]
@@ -212,7 +212,7 @@
       "id": "compact-worker-ready-records",
       "sources": [
         "SKILL.md",
-        "references/profile-without-python.md",
+        "references/fallbacks/validate_profile-fallback.md",
         "references/planning-granularity.md",
         "references/edit.md",
         "references/native-decision-format.md"

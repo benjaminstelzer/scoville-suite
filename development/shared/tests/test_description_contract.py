@@ -18,7 +18,9 @@ class DescriptionContractTests(unittest.TestCase):
             for member in config['members']:
                 with self.subTest(member=member['name']):
                     text = builder.readme(root, member, config=config).decode()
-                    description = text.split('## How it was developed', 1)[0].strip()
+                    description = text.split('## How it was developed', 1)[0]
+                    # Historical examples extend the member README, not the shared description.
+                    description = description.split('### One recorded workflow sequence', 1)[0].strip()
                     lines = []
                     fenced = False
                     for line in description.splitlines():

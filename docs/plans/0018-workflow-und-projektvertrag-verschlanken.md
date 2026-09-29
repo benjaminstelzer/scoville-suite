@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0018
-status: active
+status: completed
 created: 2026-09-27
 updated: 2026-09-28
-current_item: W-004
 ---
 
 # Workflow und DIVI-Projektvertrag verschlanken
@@ -36,7 +35,7 @@ Steps:
 Evidence: ../../../temp/2026-09-27-plan18/version-check-results.json: Identität und Provenienz geprüft; candidate-reader prüft unveränderte Erwartungen. Finalreview folgt in W-005.
 
 ### W-004 M10-Vertrag bündeln und nachgewiesen saubere Folgetests beschleunigen
-Status: paused
+Status: cancelled
 Depends on: [W-003]
 Blocked by: []
 Decisions: [ADR-0100]
@@ -47,8 +46,7 @@ Steps:
 2. In `docs/general-rules/project-workflow-contract.md` nur Ziele, Zuständigkeit, berechtigte Testsysteme, geschützte Daten, Kandidatenidentität, Editionskonfiguration und Abnahmegrenzen behalten. Ausführungsdetails in `tools/playwright/final-product-test/M10-RUNBOOK.md` bündeln und von Vertrag, README und betroffenen Helfern eindeutig referenzieren. Keine erforderliche Schutzregel ersatzlos streichen.
 3. Bestehende Helfer auf einmalige vollständige Vorbereitung, schnelle saubere Folgetests und nötige Abschlusswiederherstellung ausrichten. Ein neuer Prozess oder Worker macht die Erstvorbereitung nicht automatisch ungültig. Echte Zustands-, Fixture- oder Kandidatenänderungen gezielt berücksichtigen; keine zusätzliche Ablaufverwaltung einführen.
 4. Repräsentativ auf D4 und D5 nachweisen: verschmutzte Testseite wird vollständig zurückgesetzt; Testwerte wirken im Frontend; unbeteiligte Inhalte bleiben erhalten; Fehler verlassen keinen unklaren Testzustand. Vorhandene erfolgreiche Erstvorbereitung wiederverwenden. Vorbereitungszeiten vor/nach Änderung vergleichen und die tatsächlich betroffenen Reset-/Editionsvarianten abdecken, ohne Gesamtlauf.
-Evidence: D4/D5 Reset, D4 Effekt und D5-Recovery bestanden; D5 Importeffekt offen. Bericht: ../../../temp/2026-09-27-plan18/divi-evidence.md.
-Next action: Nach Abschluss W-007/W-008 bleibt der D5-Nachweis offen; beim Manager vorhandene Import-Wirkungsbelege abgleichen und nur tatsächlich fehlende Wirkung nachweisen.
+Evidence: Auf Nutzerwunsch am 2026-09-28 abgebrochen. D5-Importeffekt bleibt unbelegt; bisherige Nachweise: ../../../temp/2026-09-27-plan18/divi-evidence.md.
 
 ### W-001 Review und Worker-Fortsetzung am zusammengehörigen Ergebnis ausrichten
 Status: done

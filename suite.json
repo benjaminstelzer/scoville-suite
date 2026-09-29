@@ -92,6 +92,7 @@
         "development/readme/scoville-code/requirements.md",
         "development/readme/scoville-code/costs.md"
       ],
+      "helper_contracts": {},
       "distribution": "suite"
     },
     {
@@ -172,6 +173,7 @@
         "development/readme/scoville-handoff/requirements.md",
         "development/readme/scoville-handoff/costs.md"
       ],
+      "helper_contracts": {},
       "distribution": "suite"
     },
     {
@@ -226,16 +228,16 @@
           "target": "scoville-plan/references/planning-granularity.md"
         },
         {
-          "source": "members/scoville-plan/scoville-plan/references/profile-without-python.md",
-          "target": "scoville-plan/references/profile-without-python.md"
+          "source": "members/scoville-plan/scoville-plan/references/fallbacks/validate_profile-fallback.md",
+          "target": "scoville-plan/references/fallbacks/validate_profile-fallback.md"
         },
         {
           "source": "members/scoville-plan/scoville-plan/references/read-only.md",
           "target": "scoville-plan/references/read-only.md"
         },
         {
-          "source": "members/scoville-plan/scoville-plan/references/select-context-without-python.md",
-          "target": "scoville-plan/references/select-context-without-python.md"
+          "source": "members/scoville-plan/scoville-plan/references/fallbacks/select_context-fallback.md",
+          "target": "scoville-plan/references/fallbacks/select_context-fallback.md"
         },
         {
           "source": "members/scoville-plan/scoville-plan/scripts/select_context.py",
@@ -294,6 +296,16 @@
         "development/readme/scoville-plan/costs.md"
       ],
       "shared_helpers": [],
+      "helper_contracts": {
+        "scripts/select_context.py": {
+          "kind": "helper",
+          "fallback": "references/fallbacks/select_context-fallback.md"
+        },
+        "scripts/validate_profile.py": {
+          "kind": "helper",
+          "fallback": "references/fallbacks/validate_profile-fallback.md"
+        }
+      },
       "distribution": "suite"
     },
     {
@@ -443,6 +455,7 @@
         "development/readme/scoville-ui/requirements.md",
         "development/readme/scoville-ui/costs.md"
       ],
+      "helper_contracts": {},
       "distribution": "suite"
     }
   ],
