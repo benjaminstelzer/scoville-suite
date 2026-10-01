@@ -122,6 +122,9 @@ work and long-term maintenance, inside whatever planning system the project
 already has. And keep small tasks small: a large Plan for a contained fix
 just adds work.
 
+[Download Scoville Plan Viewer](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
+for Windows, macOS and Linux.
+
 ### How it works
 
 - Use the repository's existing planning system and relevant Plan, Work Items and Decisions.
