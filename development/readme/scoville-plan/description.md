@@ -24,3 +24,6 @@ job is to keep the direction while the work changes. Use it for dependent
 work and long-term maintenance, inside whatever planning system the project
 already has. And keep small tasks small: a large Plan for a contained fix
 just adds work.
+
+[Download Scoville Plan Viewer](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
+for Windows, macOS and Linux.

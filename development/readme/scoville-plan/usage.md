@@ -71,10 +71,9 @@ only recorded active or safely selected todo Steps. Without Step status this fie
 stays hidden. Instructions and linked open Decisions appear separately. Completed Steps
 show a check, and cancelled Steps show an X and crossed-out text.
 
-[Download the current release](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
-for Windows x64, macOS Apple Silicon or Intel, and Linux x64. For Windows
-there's a portable EXE and installers, for macOS DMGs and zipped apps, and for
-Linux a portable binary, an AppImage and DEB and RPM packages.
+Downloads include a portable EXE and installers for Windows x64, DMGs and
+zipped apps for macOS Apple Silicon or Intel, and a portable binary, an
+AppImage and DEB and RPM packages for Linux x64.
 
 The portable version saves its project list in a `scoville-plan-viewer.xml`
 next to the application. Installed copies in read-only system folders keep
