@@ -38,9 +38,10 @@ class DescriptionContractTests(unittest.TestCase):
         root=SHARED.parent/'scoville-suite'
         workflow=next(m for m in builder.load(root, 'codex')['members'] if m['name']=='scoville-workflow-for-codex')
         text=builder.readme(root,workflow).decode()
-        self.assertIn('```mermaid\nflowchart TD',text)
-        self.assertIn('at or above 40%',text)
-        self.assertIn('above 60%',text)
+        self.assertRegex(text, r'```mermaid\n(?:%%[^\n]*\n)*flowchart TD\n')
+        thresholds=(root/'development/readme/scoville-workflow-codex/requirements.md').read_text(encoding='utf-8')
+        self.assertIn('at or above 40%',thresholds)
+        self.assertIn('above 60%',thresholds)
 
 
 if __name__=='__main__':

@@ -1,5 +1,14 @@
 # Changelog
 
+
+## v2.3.2 - 2026-10-01
+
+- Record the active Work Item and started Steps before delegated execution. Preserve completed Steps during review and continuation.
+- Filter paused and cancelled Plan points directly in Plan Viewer 1.4.1.
+
+
+
+
 ## v2.3.1 - 2026-10-01
 
 - Keep Handoff's observed Luna High test limit in its README, changelog and released package when replacing earlier releases.

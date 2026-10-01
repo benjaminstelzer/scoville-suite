@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+from uuid import uuid4
 
 
 EFFORTS = ('none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')
@@ -43,11 +44,16 @@ def workflow_title(project_name: str, role: str, number: int, identity: str) -> 
     return f'{labels[role]}-{number}: {single_line(project_name, "project name")} · {identity}'
 
 
+def unique_task_name(base: str) -> str:
+    if not re.fullmatch(r'[a-z0-9_]+', base):
+        raise ValueError('task_name must use lowercase letters, digits and underscores')
+    return f'{base}_{uuid4().hex}'
+
+
 def creation_arguments(prompt: str, task_name: str, model: str, thinking: str) -> dict:
     if not prompt.strip():
         raise ValueError('the assignment must be nonempty')
-    if not re.fullmatch(r'[a-z0-9_]+', task_name):
-        raise ValueError('task_name must use lowercase letters, digits and underscores')
+    task_name = unique_task_name(task_name)
     if thinking not in EFFORTS:
         raise ValueError('thinking must be one of: ' + ', '.join(EFFORTS))
     return {'message': prompt, 'task_name': task_name, 'fork_turns': 'none',
