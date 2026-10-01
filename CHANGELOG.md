@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.3.1 - 2026-10-01
+
+- Keep Handoff's observed Luna High test limit in its README, changelog and released package when replacing earlier releases.
+
 ## v2.3.0 - 2026-10-01
 
 - Add Project Context Cleanup for requested edits to project rules and index text, preserving their meaning and record ownership.
