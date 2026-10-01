@@ -39,6 +39,10 @@ The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scovi
 - Project histories, targeted simulations and optimization runs shaped the
   four-section template and the checks for facts a continuation needs.
 
+In one targeted GPT-6 Luna High repeat, a preference became a requirement.
+Check that distinction when continuing from a generated handoff. A later test
+has not disproved this observation.
+
 - Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
 
 ## Compatibility
