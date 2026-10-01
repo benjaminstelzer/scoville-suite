@@ -18,7 +18,8 @@
 - **Accessibility.** Reading order, names, relationships, contrast, focus and
   keyboard or touch behavior are checked.
 - **Visual checks.** Nothing is reported as working until the rendered
-  interface has been inspected and its interactions tested.
+  interface has been inspected and its interactions tested. Source checks
+  alone leave rendering and interaction unverified.
 - **WordPress conventions.** Each part of the page uses the appropriate
   WordPress components and design tokens. Existing PHP-rendered pages can stay
   in PHP.

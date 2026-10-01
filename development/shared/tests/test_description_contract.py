@@ -13,7 +13,7 @@ class DescriptionContractTests(unittest.TestCase):
     def test_all_descriptions_are_shared_complete_blocks(self):
         for profile in ('general', 'codex'):
             root = SHARED.parent/'scoville-suite'
-            config = builder.load(root, profile)
+            config = builder.load(root, profile, 'suite')
             combined = builder.expand_fragments(root, '{{ include: suite.descriptions }}', config=config)
             for member in config['members']:
                 with self.subTest(member=member['name']):

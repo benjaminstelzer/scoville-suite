@@ -8,20 +8,18 @@ Use it to write, debug, review or remove code. It has the agent find the
 actual cause, work within the project's architecture and check the affected
 behavior, with as much effort as the task deserves.
 
-The heat, in this case, is the behavior you asked for and the evidence that it
-works. Scoville Code keeps both clear through implementation and testing.
-
 ## How it works
 
 - Before editing, pin down the outcome, the responsible code, the risks and
   the check that will settle whether it works.
 - Read the relevant code, its callers and tests. Look further when the
   evidence calls for it.
-- Fix the cause, within the existing architecture and the scope you asked for.
-- Check runtime and memory costs before and after the change. Prefer simpler
+- Assess runtime and memory costs before the change. Prefer simpler
   algorithms and avoiding repeated work. Use suitable existing caches correctly
   and explain the tradeoff before asking you to approve a new one.
-- Check the changed behavior and report what the evidence actually proves.
+- Fix the cause, within the existing architecture and the scope you asked for.
+- Check the changed behavior, including runtime and memory costs, and report
+  what the evidence actually proves.
 - When something fails, investigate it without weakening guarantees. Change
   an outdated assertion only when a change to the expected behavior has been
   approved. After two failed fixes for the same cause, step back and reassess.
@@ -100,11 +98,7 @@ The host needs permission to write to its Skills directory. The
 [Claude Code Skills guide](https://code.claude.com/docs/en/skills)
 list the locations for each host.
 
-### Install the complete Scoville suite
 
-The complete suite is in the
-[Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
-Install its released Skill packages, not development templates.
 
 ## How to use
 
@@ -155,8 +149,6 @@ shared across projects can use an absolute path. The agent reads the
 referenced file and tells you if it can't find it.
 
 Project-specific instructions and framework requirements still apply.
-
-
 
 ## Sources
 

@@ -24,6 +24,3 @@ job is to keep the direction while the work changes. Use it for dependent
 work and long-term maintenance, inside whatever planning system the project
 already has. And keep small tasks small: a large Plan for a contained fix
 just adds work.
-
-The heat, in this case, is the direction another agent can pick up again: the
-goal, the decisions, the current state and the next action.

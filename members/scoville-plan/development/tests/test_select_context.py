@@ -149,9 +149,9 @@ class SelectContextTests(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, guide)
         readme_compatibility = COMPATIBILITY.read_text(encoding="utf-8")
-        self.assertIn("Requires a frontier model from the Fable, Astra, SOL or Opus families", readme_compatibility)
+        self.assertRegex(readme_compatibility, r"(?:Requires|Needs) a frontier model from the Fable, Astra, SOL or Opus families")
         self.assertIn("Luna was also used", readme_compatibility)
-        self.assertIn("Optional validation and selection helpers require Python 3.10+", readme_compatibility)
+        self.assertRegex(" ".join(readme_compatibility.split()), r"[Oo]ptional validation and selection helpers (?:require|need) Python 3\.10\+")
         core = SKILL.read_text(encoding="utf-8")
         self.assertIn("Selector and validator need Python 3.10+", core)
         self.assertIn("Manual alternatives load only without Python", core)

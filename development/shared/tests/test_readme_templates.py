@@ -104,7 +104,8 @@ class ReadmeTemplateTests(unittest.TestCase):
         self.assertEqual(len(config['members']), result.count('](members/') )
         for member in config['members']:
             source = builder.readme_source(root, member['readme'][0]).read_text(encoding='utf-8').strip()
-            self.assertIn(builder.expand_variables(source.partition('\n')[2], member), result)
+            expected_body = builder.variant_text(source.partition('\n')[2], dict(config, layout='suite'))
+            self.assertIn(builder.expand_variables(expected_body, member), result)
             self.assertIn(f'](members/{member["name"]}/README.md#how-to-use).', result)
         self.assertIn('Install it through the complete Codex Suite.', result)
         self.assertIn('requires Codex desktop', result)
@@ -115,6 +116,22 @@ class ReadmeTemplateTests(unittest.TestCase):
         self.assertEqual(sorted(positions), positions)
         with self.assertRaisesRegex(ValueError, 'only valid in the suite README'):
             builder.expand_fragments(root, '{{ include: suite.descriptions }}', builder.load(root)['members'][0])
+
+    def test_name_origin_precedes_metaphor_without_repeating_in_suite(self):
+        root = SHARED.parent / 'scoville-suite'
+        for profile in ('general', 'codex'):
+            for layout in ('standalone', 'suite'):
+                config = builder.load(root, profile, layout)
+                descriptions = builder.expand_fragments(root, '{{ include: suite.descriptions }}', config=config)
+                self.assertNotIn('The name comes from', descriptions)
+                for member in config['members']:
+                    rendered = builder.readme(root, member, config=config).decode()
+                    if layout == 'standalone' and member['name'] != 'scoville-project-context-cleanup':
+                        self.assertEqual(rendered.count('The name comes from'), 1)
+                        self.assertLess(rendered.index('The name comes from'), rendered.index('the heat') if 'Here, the heat' in rendered else rendered.index('The heat'))
+                        self.assertLess(rendered.index('The name comes from'), rendered.index('## How it works'))
+                    else:
+                        self.assertNotIn('The name comes from', rendered)
 
     def test_description_addition_edit_and_missing_source(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -141,15 +158,22 @@ class ReadmeTemplateTests(unittest.TestCase):
 
     def test_complete_suite_has_one_final_monorepo_link(self):
         root = SHARED.parent / 'scoville-suite'
-        for member in builder.load(root)['members']:
-            result = builder.readme(root, member).decode()
-            section = result.split('### Install the complete Scoville suite\n', 1)[1].split('\n## ', 1)[0]
+        config = builder.load(root)
+        for member in config['members']:
+            result = builder.readme(root, member, config=config).decode()
+            if member.get('distribution') == 'suite':
+                section = result.split('## Install\n', 1)[1].split('\n## ', 1)[0]
+                self.assertIn('complete released suite', section)
+                self.assertIn('without a separate Skill repository', section)
+                self.assertIn('/tree/main/packages', section)
+            else:
+                section = result.split('### Install the complete Scoville suite\n', 1)[1].split('\n## ', 1)[0]
+                self.assertIn('Install its released Skill packages, not development templates.', section)
+                self.assertNotIn('/tree/main/', section)
             self.assertEqual(1, section.count('https://github.com/'))
             self.assertIn('https://github.com/benjaminstelzer/scoville-suite', section)
-            self.assertIn('Install its released Skill packages, not development templates.', section)
             self.assertNotIn('has not been created yet', section)
             self.assertNotIn('Private repository access', section)
-            self.assertNotIn('/tree/main/', section)
 
     def test_shared_sources_are_confined_and_missing_templates_fail(self):
         root = SHARED.parent / 'scoville-suite'

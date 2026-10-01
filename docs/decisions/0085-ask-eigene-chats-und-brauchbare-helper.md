@@ -1,10 +1,11 @@
 ---
 format_version: 1
 id: ADR-0085
-status: accepted
+status: superseded
 created: 2026-09-26
 accepted: 2026-09-26
 scope: suite/ask-native-ablauf
+superseded_by: ADR-0120
 ---
 
 # Ask behält eigene Chats und direkt brauchbare Helper

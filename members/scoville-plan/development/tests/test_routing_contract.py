@@ -34,6 +34,21 @@ class RoutingContractTest(unittest.TestCase):
             core = package['scoville-plan/SKILL.md'].decode()
             self.assertEqual('select_context-fallback.md' in core, profile == 'general')
             self.assertIn('Only when Python is unavailable' if profile == 'general' else 'Do not substitute manual execution', core)
+            repair_path = 'scoville-plan/references/repair.md'
+            self.assertIn(repair_path, package)
+            repair_rows = [line for line in core.splitlines() if '](' + 'references/repair.md)' in line]
+            self.assertEqual(len(repair_rows), 1)
+            self.assertTrue(repair_rows[0].startswith('| Explicit request to inspect/repair'))
+            for path, content in package.items():
+                if path.endswith('.md') and path not in (repair_path, 'scoville-plan/SKILL.md'):
+                    self.assertNotRegex(content.decode(), r'\]\([^)]*repair\.md\)')
+            reader = package['scoville-plan/references/read-only.md'].decode()
+            self.assertIn('--plan PLAN-0001 --position', reader)
+            fallback_files = [path for path in package if '/fallbacks/' in path]
+            self.assertEqual(bool(fallback_files), profile == 'general')
+            if profile == 'general':
+                fallback = package['scoville-plan/references/fallbacks/select_context-fallback.md'].decode()
+                self.assertIn('actual task results', fallback)
         edit = (ROOT / "references/edit.md").read_text(encoding="utf-8")
         general_edit = " ".join(re.findall(r"{{ profile: general }}(.*?){{ /profile }}", edit, re.S))
         codex_edit = " ".join(re.findall(r"{{ profile: codex }}(.*?){{ /profile }}", edit, re.S))
