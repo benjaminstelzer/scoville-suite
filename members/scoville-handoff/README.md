@@ -5,9 +5,6 @@ decisions. Scoville Handoff gathers those facts into one compact, copy-ready
 prompt with the objective, permissions and next action, so another session can
 resume the work.
 
-The heat, in this case, is the working context another session still needs
-once a long conversation has been condensed.
-
 ## How it works
 
 - Read conversation facts and named sources, recovering incomplete reads within the user's limits.
@@ -46,8 +43,8 @@ The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scovi
 
 ## Compatibility
 
-A current Fable, Astra, SOL or Opus model is recommended. Luna was also used
-in testing.
+Requires a frontier model from the Fable, Astra, SOL or Opus families,
+version 5.0 or newer. Luna was also used in testing.
 
 The host needs to be able to read the task sources you name. Read-only access
 to version control is optional. Handoff uses no scripts, no network and no
@@ -72,11 +69,7 @@ The host needs permission to write to its Skills directory. The
 [Claude Code Skills guide](https://code.claude.com/docs/en/skills)
 list the locations for each host.
 
-### Install the complete Scoville suite
 
-The complete suite is in the
-[Scoville Suite monorepo](https://github.com/benjaminstelzer/scoville-suite).
-Install its released Skill packages, not development templates.
 
 ## How to use
 
@@ -87,8 +80,6 @@ Use Scoville Handoff to transfer this active task to a new session. Include the 
 ```text
 Create a compact handoff for another agent. Preserve the objective, decisions, changed files, blockers and next action. Do not continue the work.
 ```
-
-
 
 ## Sources
 

@@ -7,20 +7,22 @@ import re
 EFFORTS = ('none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')
 
 
-def takeover_instruction(predecessor: str) -> str:
-    single_line(predecessor, 'predecessor thread ID')
+def takeover_instruction(predecessor: str, manager: str) -> str:
+    single_line(predecessor, '--predecessor-agent-id')
+    single_line(manager, '--manager-agent-id')
+    if predecessor == manager:
+        raise ValueError('--predecessor-agent-id must identify the prior child, not --manager-agent-id')
     return (
-        'FIRST ACTION — once the required continuation information is retained, before '
-        'ordinary Skill/Plan/source reading or project work, call '
-        f'send_message_to_thread with threadId={predecessor} and this exact prompt:\n'
-        'I have the information. You can archive yourself now. Call set_thread_archived '
-        'with archived=true for your own chat as your last action.\n'
-        'The supplied handoff normally provides that information. If an essential fact '
-        'is missing, recover only that fact first; do not begin the work. Then send this '
-        'notice before ordinary reading or implementation. A reply in your own chat is not delivery. '
-        'If the host forbids the send or the tool fails, report the concrete limitation '
-        'and stop this takeover; do not silently skip the notice. After a successful send, '
-        'continue below without waiting for archival.\n\n')
+        'FIRST ACTION: retain the supplied continuation information. If an essential fact '
+        'is missing, report it to the manager before project work. Otherwise call '
+        f'send_message with target={manager} and message=HANDOFF_ACCEPTED {predecessor}. '
+        'The manager owns the retained handoff and completed predecessor. Never send a '
+        'routine receipt to that predecessor. After delivery, wait actively with wait_agent '
+        'for TAKEOVER_COMPLETE from that exact manager, at most 60 seconds. Do no project '
+        'work before this release. A failed send, missing release or user stop blocks '
+        'takeover with its diagnostic. After verified release, continue the remaining '
+        'assignment. The predecessor stays write-inactive; no archival or close tool '
+        'is required.\n\n')
 
 
 def single_line(value: str, name: str) -> str:
@@ -41,36 +43,32 @@ def workflow_title(project_name: str, role: str, number: int, identity: str) -> 
     return f'{labels[role]}-{number}: {single_line(project_name, "project name")} · {identity}'
 
 
-def creation_arguments(prompt: str, title: str, project_id: str,
-                       model: str, thinking: str) -> dict:
+def creation_arguments(prompt: str, task_name: str, model: str, thinking: str) -> dict:
     if not prompt.strip():
         raise ValueError('the assignment must be nonempty')
+    if not re.fullmatch(r'[a-z0-9_]+', task_name):
+        raise ValueError('task_name must use lowercase letters, digits and underscores')
     if thinking not in EFFORTS:
         raise ValueError('thinking must be one of: ' + ', '.join(EFFORTS))
-    return {'prompt': prompt, 'title': single_line(title, 'title'),
-            'model': single_line(model, 'model'), 'thinking': thinking,
-            'target': {'type': 'project', 'projectId': single_line(project_id, 'project ID'),
-                       'environment': {'type': 'local'}}}
+    return {'message': prompt, 'task_name': task_name, 'fork_turns': 'none',
+            'model': single_line(model, '--model'), 'reasoning_effort': thinking}
 
 
-def add_creation_options(parser, *, project_name=True) -> None:
+def add_creation_options(parser) -> None:
     parser.add_argument('--format', choices=('prompt', 'create'), default='prompt')
-    parser.add_argument('--project-id')
-    if project_name:
-        parser.add_argument('--project-name')
+    parser.add_argument('--project-name')
     parser.add_argument('--model')
     parser.add_argument('--thinking', choices=EFFORTS)
 
 
 def validate_creation_options(args) -> None:
+    native = ('project_name', 'model', 'thinking', 'worker_number')
     if args.format != 'create':
-        native = ('project_id', 'project_name', 'model', 'thinking', 'worker_number', 'caller_title', 'adviser_id')
         supplied = ['--' + name.replace('_', '-') for name in native if getattr(args, name, None) is not None]
         if supplied:
             raise ValueError('use --format create with native creation arguments: ' + ', '.join(supplied))
         return
-    required = ('project_id', 'model', 'thinking') + (('project_name',) if hasattr(args, 'project_name') else ())
-    missing = ['--' + name.replace('_', '-') for name in required if not getattr(args, name)]
+    missing = ['--' + name.replace('_', '-') for name in native if getattr(args, name, None) is None]
     if missing:
         raise ValueError('--format create requires ' + ', '.join(missing) +
-                         '; supply the saved project and the resolved model/effort')
+                         '; supply the project name, role number and resolved model/effort')

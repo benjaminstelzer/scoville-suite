@@ -2,7 +2,7 @@
 
 ### Install this Skill
 
-{{ package: standalone }}This package works on its own. Ask your agent host:
+{{ package: standalone }}Ask your agent host:
 
 ```text
 Install this Skill for all my projects from this exact package directory:

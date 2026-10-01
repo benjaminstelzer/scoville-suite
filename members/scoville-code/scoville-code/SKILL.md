@@ -32,6 +32,10 @@ and proportionate proof.
 
 Mentioning another Skill or using one of its labels does not activate it.
 
+For requested additions or cleanup in AGENTS.md and PROJECT_INDEX.md,
+use Scoville Project Context Cleanup for wording and placement. Plan retains
+native index fields and lifecycle. Ordinary code edits do not request cleanup.
+
 Use Scoville Plan for applicable native planning records; invent no parallel
 record system.
 

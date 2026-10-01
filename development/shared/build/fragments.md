@@ -178,3 +178,29 @@ Synchronize every generated Skill distribution from this verified build,
 including the fixed public suite targets. Remove obsolete generated files;
 preserve source repositories and Git history. Regular Skill directories contain
 only their current verified output, never build candidates or stale copies.
+
+## Viewer release gate
+
+Package checks alone do not approve a release. For Plan and both suites, build
+the current Viewer only through the canonical suite's `Plan Viewer` Actions
+workflow. Download its four platform artifacts and `SHA256SUMS.txt` unchanged
+to `skills/temp/release/viewer/`. Add `BUILD.json` with `version`, `platforms`,
+`workflow_run` and `source_commit` from that successful run.
+
+Before publication, run for each suite package build:
+
+```text
+python development/build_suite.py --check-release --output <package-build> --viewer-assets <release/viewer>
+```
+
+This checks package freshness, all five version owners, the exact eleven
+binaries and checksums, successful platform/checksum jobs, current Viewer and
+workflow source identity, and bytes downloaded from the Actions artifacts.
+Its JSON `viewer.assets` is the exact attachment list for the release consumer.
+Attach every listed file directly to Plan and both suite releases.
+
+After upload, repeat with all three `--release owner/repository=vX.Y.Z`
+arguments. The gate downloads and compares every published Viewer file against
+the approved Actions output. Keep both successful results as release evidence.
+Missing assets, source drift or failed provenance checks stop publication or
+installation. A renamed old binary is never a current build.

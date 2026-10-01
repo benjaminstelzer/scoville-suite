@@ -1,5 +1,10 @@
 # Suite source ownership
 
+Build Plan Viewer binaries only through GitHub Actions, for Windows x64,
+Linux x64, macOS Apple Silicon and macOS Intel. Never install Rust or compile
+the native Viewer locally. Download successful workflow artifacts, verify their
+checksums and retain the current build under `skills/temp/release/viewer/`.
+
 Plans, Decisions, run cursors, assignments, results and handoffs must be as
 short as possible and only as long as necessary. Necessary means relevant to
 correctly executing, verifying or continuing the work without hidden context.
@@ -105,6 +110,9 @@ preserving sources and Git history. Build output is not publication authority.
 Scoville Workflow is approved for public distribution only within
 `scoville-suite-for-codex` under ADR-0079. It remains Codex-only.
 Publication still requires the release gates.
+Before publishing Plan or either suite, run `--check-release` with the current
+Actions Viewer assets. After upload, repeat with all three release targets.
+See `development/shared/build/fragments.md#viewer-release-gate`.
 
 Shared build tools and runtime-helper sources are maintained in the sibling
 `../shared/` directory. Both suites consume that source during builds and bundle

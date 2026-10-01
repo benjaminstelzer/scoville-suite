@@ -1,10 +1,11 @@
 ---
 format_version: 1
 id: ADR-0082
-status: accepted
+status: superseded
 created: 2026-09-26
 accepted: 2026-09-26
 scope: suite/model-defaults
+superseded_by: ADR-0121
 ---
 
 # Bestätigte Workflow-Defaults übernehmen

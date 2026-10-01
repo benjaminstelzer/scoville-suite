@@ -130,7 +130,7 @@ class BuildTests(unittest.TestCase):
                     self.assertNotIn('/home/', rendered)
 
     def test_suite_overview_links_each_member_how_to_use(self):
-        for profile, expected_count in (('general', 4), ('codex', 7)):
+        for profile, expected_count in (('general', 5), ('codex', 8)):
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
                 destination = Path(temp)
                 config = builder.load(ROOT, profile, 'suite')
@@ -165,7 +165,7 @@ class BuildTests(unittest.TestCase):
                         self.assertIn('without checking sibling availability', core)
                         self.assertNotIn('Other Scoville Skills are optional', core)
             if 'scoville-workflow-for-codex' in cores:
-                self.assertIn('Generic plan execution, implementation, delegation, mentions and questions do not activate it.',
+                self.assertIn('Generic execution, delegation and discussion do not activate it.',
                               cores['scoville-workflow-for-codex'])
             if 'scoville-ask-for-codex' in cores:
                 self.assertIn('Ordinary questions to the current assistant do not trigger a consultation.',
@@ -206,6 +206,37 @@ class BuildTests(unittest.TestCase):
                     readme = (output / exported['package_path'] / 'README.md').read_text(encoding='utf-8')
                     self.assertNotIn('{{ include:', readme)
                     self.assertFalse(any(old in readme for old in retired), exported['name'])
+
+    def test_project_context_package_is_suite_owned_and_self_contained(self):
+        name = 'scoville-project-context-cleanup'
+        shared_rule = ROOT.parent / 'shared/prompting/common.md'
+        for profile, layout in [('general', 'standalone'), ('general', 'suite'), ('codex', 'suite')]:
+            with self.subTest(profile=profile, layout=layout), tempfile.TemporaryDirectory() as temp:
+                output = Path(temp) / 'build'
+                receipt = builder.build(ROOT, output, True, [], profile, layout)
+                member = next(m for m in receipt['members'] if m['name'] == name)
+                self.assertEqual('suite', member['distribution'])
+                self.assertEqual('benjaminstelzer/' + receipt['suite'], member['repository'])
+                self.assertEqual(receipt['suite'] + '/packages/' + name, member['package_path'])
+                package = output / member['package_path'] / name
+                self.assertTrue((package / 'agents/openai.yaml').is_file())
+                self.assertEqual(shared_rule.read_text(encoding='utf-8'),
+                                 (package / 'references/writing.md').read_text(encoding='utf-8'))
+                self.assertFalse((package / 'scripts').exists())
+                for path in package.rglob('*.md'):
+                    text = path.read_text(encoding='utf-8')
+                    self.assertNotIn('{{', text)
+                    self.assertNotIn('shared/prompting/', text)
+
+    def test_missing_project_context_writing_contract_blocks_packaging(self):
+        config = builder.load(ROOT, 'codex', 'suite')
+        member = next(m for m in config['members'] if m['name'] == 'scoville-project-context-cleanup')
+        self.assertIn('scoville-project-context-cleanup/references/writing.md',
+                      builder.payload(ROOT, member, config))
+        member['files'] = [entry for entry in member['files']
+                           if not entry['target'].endswith('/references/writing.md')]
+        with self.assertRaisesRegex(ValueError, 'writing.md'):
+            builder.payload(ROOT, member, config)
 
 
 if __name__ == '__main__':

@@ -332,7 +332,7 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                 references = item.get('description_fragments', item.get('readme', [])[:1])
                 if not references:
                     raise ValueError(f'missing description: {item["name"]}')
-                description = '\n\n'.join(variant_text(readme_source(root, ref).read_text(encoding='utf-8'), config).strip() for ref in references)
+                description = '\n\n'.join(variant_text(readme_source(root, ref).read_text(encoding='utf-8'), dict(config, layout='suite')).strip() for ref in references)
                 description = expand_variables(description, item)
                 heading, separator, body = description.partition('\n')
                 if not heading.startswith('# ') or not separator or not body.strip():
@@ -728,6 +728,9 @@ def main(default_root: Path | None = None) -> int:
     modes.add_argument('--write-readmes', action='store_true')
     modes.add_argument('--check-helpers', action='store_true')
     modes.add_argument('--check-packages', action='store_true')
+    modes.add_argument('--check-release', action='store_true', help='Verify packages and matching Actions Viewer assets before publication')
+    parser.add_argument('--viewer-assets', type=Path)
+    parser.add_argument('--release', action='append', default=[], help='Verify uploaded Viewer files: benjaminstelzer/<plan-or-suite>=vX.Y.Z')
     modes.add_argument('--check-sources', action='store_true')
     modes.add_argument('--write-sources', action='store_true')
     parser.add_argument('--refresh', action='store_true', help='Refresh an intact staging build with the same inventory; never delete files')
@@ -739,6 +742,8 @@ def main(default_root: Path | None = None) -> int:
     if args.root is None:
         parser.error('--root is required when running the shared builder directly')
     try:
+        if (args.viewer_assets or args.release) and not args.check_release:
+            raise ValueError('--viewer-assets and --release require --check-release; use --check-release --output <packages> --viewer-assets <release/viewer>')
         if args.load_trace and not args.size_report:
             raise ValueError('--load-trace requires --size-report')
         if args.size_report:
@@ -772,6 +777,25 @@ def main(default_root: Path | None = None) -> int:
             return int(bool(changed) and args.check_readmes)
         if args.output is None:
             parser.error('--output is required for package builds')
+        if args.check_release:
+            if args.viewer_assets is None:
+                raise ValueError('--check-release requires --viewer-assets <release/viewer>')
+            dirty = subprocess.run(['git', '-C', str(args.root), 'status', '--porcelain'], check=True, capture_output=True).stdout
+            if dirty.strip():
+                raise ValueError('Commit and inspect current sources before --check-release')
+            receipt = json.loads((args.output / 'build-receipt.json').read_text(encoding='utf-8'))
+            revision = subprocess.run(['git', '-C', str(args.root), 'rev-parse', 'HEAD'], check=True, capture_output=True, text=True).stdout.strip()
+            if receipt.get('source_dirty') or receipt.get('source_commit') != revision:
+                raise ValueError('Release package receipt must identify the current clean source commit; rebuild from committed sources')
+            errors = verify_packages(args.root, args.output)
+            if errors:
+                raise ValueError('Package verification failed: ' + '; '.join(errors))
+            import importlib.util
+            spec = importlib.util.spec_from_file_location('viewer_release_gate', Path(__file__).with_name('verify_viewer_assets.py'))
+            gate = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(gate)
+            print(json.dumps({'valid': True, 'viewer': gate.verify(args.root.resolve(), args.viewer_assets.resolve(), args.release)}))
+            return 0
         if args.check_helpers or args.check_packages:
             check = verify_packages if args.check_packages else verify_shared_helpers
             errors = check(args.root, args.output)

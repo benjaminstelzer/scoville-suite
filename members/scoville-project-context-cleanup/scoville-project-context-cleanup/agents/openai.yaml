@@ -1,0 +1,6 @@
+interface:
+  display_name: "Scoville Project Context Cleanup"
+  short_description: "Keeps project rules and indexes concise and structured"
+  default_prompt: "Use $scoville-project-context-cleanup to add this project rule in the right place while preserving its scope and safeguards."
+policy:
+  allow_implicit_invocation: true

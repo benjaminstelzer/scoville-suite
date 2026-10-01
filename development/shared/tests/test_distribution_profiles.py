@@ -17,7 +17,7 @@ import export_suite
 
 class DistributionProfilesTests(unittest.TestCase):
     def test_membership_fallbacks_invocations_and_repeatability(self):
-        for profile, layout, count in [('general', 'standalone', 4), ('general', 'suite', 4), ('codex', 'suite', 7)]:
+        for profile, layout, count in [('general', 'standalone', 5), ('general', 'suite', 5), ('codex', 'suite', 8)]:
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
                 config = builder.load(ROOT, profile, layout)
                 self.assertEqual(count, len(config['members']))
@@ -38,8 +38,9 @@ class DistributionProfilesTests(unittest.TestCase):
                         self.assertFalse(any(b'without-python' in data for name, data in package.items() if name.endswith('.md') and name != 'CHANGELOG.md'))
                     usage = package['README.md'].decode().split('## How to use\n', 1)[1].split('\n## ', 1)[0]
                     # Invocation examples precede optional usage subsections and task-title illustration.
-                    examples = usage.split('\n### ', 1)[0].split('Task titles identify', 1)[0]
-                    expected_examples = {'scoville-code': 3, 'scoville-setup': 0}.get(member['name'], 2)
+                    examples = usage.split('\n### ', 1)[0].split('Assignment labels identify', 1)[0]
+                    expected_examples = {'scoville-code': 3, 'scoville-setup': 0,
+                                         'scoville-project-context-cleanup': 1}.get(member['name'], 2)
                     self.assertEqual(expected_examples, examples.count('```text'))
                     core = package[member['name'] + '/SKILL.md'].decode()
                     readme = package['README.md'].decode()

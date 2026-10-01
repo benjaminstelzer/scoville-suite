@@ -9,6 +9,3 @@ terms stay consistent across views and translations.
 
 On supported WordPress admin pages, it uses Core components and follows
 WordPress spacing, version requirements and translation conventions.
-
-The heat, in this case, is a task people can still understand and finish,
-whatever the layout, the interaction or the error.

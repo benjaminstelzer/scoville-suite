@@ -20,6 +20,7 @@ which adds Workflow, Ask and Setup.
 | [Plan](#scoville-plan) | Keeps longer work, decisions and progress easy to pick up again. |
 | [UI](#scoville-ui) | Builds and checks interfaces with their framework and design system. |
 | [Handoff](#scoville-handoff) | Passes unfinished work to another session. |
+| [Project Context Cleanup](#scoville-project-context-cleanup) | Keeps requested project rules and index text clear without losing required context. |
 
 ## Suite requirements
 
@@ -38,20 +39,18 @@ Use it to write, debug, review or remove code. It has the agent find the
 actual cause, work within the project's architecture and check the affected
 behavior, with as much effort as the task deserves.
 
-The heat, in this case, is the behavior you asked for and the evidence that it
-works. Scoville Code keeps both clear through implementation and testing.
-
 ### How it works
 
 - Before editing, pin down the outcome, the responsible code, the risks and
   the check that will settle whether it works.
 - Read the relevant code, its callers and tests. Look further when the
   evidence calls for it.
-- Fix the cause, within the existing architecture and the scope you asked for.
-- Check runtime and memory costs before and after the change. Prefer simpler
+- Assess runtime and memory costs before the change. Prefer simpler
   algorithms and avoiding repeated work. Use suitable existing caches correctly
   and explain the tradeoff before asking you to approve a new one.
-- Check the changed behavior and report what the evidence actually proves.
+- Fix the cause, within the existing architecture and the scope you asked for.
+- Check the changed behavior, including runtime and memory costs, and report
+  what the evidence actually proves.
 - When something fails, investigate it without weakening guarantees. Change
   an outdated assertion only when a change to the expected behavior has been
   approved. After two failed fixes for the same cause, step back and reassess.
@@ -123,14 +122,11 @@ work and long-term maintenance, inside whatever planning system the project
 already has. And keep small tasks small: a large Plan for a contained fix
 just adds work.
 
-The heat, in this case, is the direction another agent can pick up again: the
-goal, the decisions, the current state and the next action.
-
 ### How it works
 
 - Use the repository's existing planning system and relevant Plan, Work Items and Decisions.
 - Check current sources before starting the next item.
-- Edit Markdown and YAML records with an explicit next action.
+- Edit Markdown and YAML records with observed Step progress and any additional Instructions.
 - Record evidence before completion, preserve accepted history and validate the records.
 
 ### What it enforces
@@ -175,9 +171,6 @@ terms stay consistent across views and translations.
 On supported WordPress admin pages, it uses Core components and follows
 WordPress spacing, version requirements and translation conventions.
 
-The heat, in this case, is a task people can still understand and finish,
-whatever the layout, the interaction or the error.
-
 ### How it works
 
 - Find out which design system, components and approved product decisions
@@ -185,10 +178,10 @@ whatever the layout, the interaction or the error.
 - Read the relevant code and use the components the framework supports.
 - Apply the WordPress guidance to supported plugin-owned `wp-admin` pages.
   Editor surfaces and metaboxes keep their host's conventions.
-- Implement the affected states and responsive behavior, then look at the
-  rendered result and try the interactions.
 - Take blocked product decisions to whoever owns them. Where the visual
   direction is still open, stay within the framework's existing conventions.
+- Implement the affected states and responsive behavior, then look at the
+  rendered result and try the interactions.
 
 ### What it enforces
 
@@ -210,7 +203,8 @@ whatever the layout, the interaction or the error.
 - **Accessibility.** Reading order, names, relationships, contrast, focus and
   keyboard or touch behavior are checked.
 - **Visual checks.** Nothing is reported as working until the rendered
-  interface has been inspected and its interactions tested.
+  interface has been inspected and its interactions tested. Source checks
+  alone leave rendering and interaction unverified.
 - **WordPress conventions.** Each part of the page uses the appropriate
   WordPress components and design tokens. Existing PHP-rendered pages can stay
   in PHP.
@@ -221,8 +215,6 @@ The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scovi
 
 - Browser inspection, interaction checks and corrections take tokens and time.
 - WordPress tasks load extra platform guidance.
-- If only the source can be checked, rendering and interaction remain
-  unverified.
 
 [How to use Scoville UI](members/scoville-ui/README.md#how-to-use).
 
@@ -232,9 +224,6 @@ Continuing a task requires its current blocker, unfinished changes and relevant
 decisions. Scoville Handoff gathers those facts into one compact, copy-ready
 prompt with the objective, permissions and next action, so another session can
 resume the work.
-
-The heat, in this case, is the working context another session still needs
-once a long conversation has been condensed.
 
 ### How it works
 
@@ -265,18 +254,35 @@ The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scovi
 
 [How to use Scoville Handoff](members/scoville-handoff/README.md#how-to-use).
 
-## Additional Scoville Skills
+## Scoville Project Context Cleanup
 
-### scoville-ask-for-codex
+Project rules grow with every new note. Repeated instructions and stale context
+make the next task harder to follow. Scoville Project Context Cleanup adds or
+revises the rules you request in `AGENTS.md` and context in `PROJECT_INDEX.md`,
+placing them where they belong and preserving their meaning.
 
-For Codex, also available as a standalone Skill. Ask your Codex host:
+Suitable text stays unchanged. Necessary scope, exceptions and safeguards stay
+explicit, even when they need more words.
 
-```text
-Install this Skill for all my projects from this exact package directory:
-https://github.com/benjaminstelzer/scoville-ask-for-codex/tree/main/scoville-ask-for-codex
-Preserve personal settings and unrelated Skills. Report the installed location
-and whether the host discovers the Skill.
-```
+### How it works
+
+- Resolve the target file and read its relevant governing rules.
+- Check the addition for useful project information, duplicates and conflicts.
+- Place concise wording in the affected structure, with conditions and exceptions together.
+- Inspect the saved change and use the record owner's checks where required.
+
+### What it enforces
+
+- Requested additions and cleanup stay within the named project-context files.
+- Scope, conditions, permissions, safeguards and necessary reasons survive edits.
+- Existing formats and record owners remain responsible for fields and lifecycle.
+- Suitable text stays unchanged, and unresolved material choices are asked directly.
+
+### What it costs
+
+- Reading the target, relevant rules and saved edits takes additional tokens and time.
+
+[How to use Scoville Project Context Cleanup](members/scoville-project-context-cleanup/README.md#how-to-use).
 
 
 
@@ -320,6 +326,19 @@ Don't mix standalone and suite copies of the same Skill.
 If your host can't install directly from GitHub, download this repository and
 copy all the package directories inside it to the host's Skills folder. You
 end up with the same complete suite and the same requirements.
+
+## Additional Scoville Skills
+
+### scoville-ask-for-codex
+
+For Codex, also available as a standalone Skill. Ask your Codex host:
+
+```text
+Install this Skill for all my projects from this exact package directory:
+https://github.com/benjaminstelzer/scoville-ask-for-codex/tree/main/scoville-ask-for-codex
+Preserve personal settings and unrelated Skills. Report the installed location
+and whether the host discovers the Skill.
+```
 
 <details>
 <summary>Development and builds</summary>
@@ -376,6 +395,7 @@ this block and the development files.
 - **scoville-plan**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
 - **scoville-ui**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 - **scoville-handoff**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
+- **scoville-project-context-cleanup**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-project-context-cleanup) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-project-context-cleanup/development/README.md)
 
 ## Deprecated
 

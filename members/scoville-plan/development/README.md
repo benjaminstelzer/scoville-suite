@@ -2,9 +2,10 @@
 
 The [member source](../scoville-plan/) is part of
 [Scoville Suite](../../../README.md#development-and-builds). Build the Skill
-before you install it. Development files stay in the suite. The optional
-read-only profile validator ships with the Skill, but the fixtures and the
-Viewer sources don't.
+before you install it. Development files stay in the suite. The read-only
+profile validator ships with the Skill. General packages offer a manual route
+without Python, while Codex requires the helpers. Fixtures and Viewer sources
+stay in development.
 
 ## Validate
 

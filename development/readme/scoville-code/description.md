@@ -7,6 +7,3 @@ and the evidence that a change works.
 Use it to write, debug, review or remove code. It has the agent find the
 actual cause, work within the project's architecture and check the affected
 behavior, with as much effort as the task deserves.
-
-The heat, in this case, is the behavior you asked for and the evidence that it
-works. Scoville Code keeps both clear through implementation and testing.
