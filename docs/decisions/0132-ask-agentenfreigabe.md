@@ -1,10 +1,11 @@
 ---
 format_version: 1
 id: ADR-0132
-status: accepted
+status: superseded
 created: 2026-10-01
 accepted: 2026-10-01
 scope: ask/native-agent-capacity
+superseded_by: ADR-0136
 ---
 
 # Native Ask-Agenten über denselben begrenzten Weg freigeben

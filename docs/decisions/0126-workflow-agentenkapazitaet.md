@@ -1,10 +1,11 @@
 ---
 format_version: 1
 id: ADR-0126
-status: accepted
+status: superseded
 created: 2026-10-01
 accepted: 2026-10-01
 scope: workflow/agent-capacity
+superseded_by: ADR-0135
 ---
 
 # Bestätigte Kapazitäts-Workarounds prüfen und einbauen

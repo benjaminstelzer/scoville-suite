@@ -74,22 +74,19 @@ responsive switch.
   with visible keyboard focus.
 - Sticky or clipped UI must not obscure focus.
 
-## Test matrix
+## Test selection
 
-For a new page or a full responsive audit, render each applicable archetype at
-`783`, `782`, `600`, `390`, and `320` CSS
-pixels, plus `1280px` at `400%` zoom or an equivalent reflow setup. Repeat the
-decisive cases with doubled text, long labels, errors/notices,
-empty/loading/success/permission states, and keyboard-only traversal.
-Add RTL cases only when RTL is in language scope. LTR-only or unspecified
-language scope does not make an RTL check mandatory.
-
-For a focused audit or isolated change, select the widths, content, and states
-that can affect the scoped conclusion. A spacing check includes a wrapping
-boundary when wrapping changes those distances, not every page and state by
-default. Preserve the same reflow and accessibility requirements for the
-affected UI. Report which cases were inspected, without calling a partial
-matrix a complete responsive audit. A source-only review leaves rendered
-behavior unverified rather than requiring a browser session.
+For a new page, full audit, or focused change, select the widths, content and
+states that can disprove the scoped layout claims. Include the Core `782px`
+boundary and `783px` when that admin transition affects the region. Check
+WCAG reflow at a width equivalent to `320 CSS px` for non-exempt vertically
+scrolling content, using `1280px` at `400%` zoom or an equivalent setup when
+appropriate. Two-dimensional content needed for meaning has the criterion's
+exception; do not extend it to the entire page. `600px` and `390px` are useful
+intermediate Skill-Norm samples when a wrap or layout change occurs there, not
+mandatory widths. Use realistic long text or changed states when they can
+alter the conclusion. Add RTL only when the UI language scope requires it.
+Report the inspected cases and remaining gaps; a source-only review leaves
+rendered behavior unverified. No partial sample proves a full audit.
 
 Source and build inspection do not prove these conditions.

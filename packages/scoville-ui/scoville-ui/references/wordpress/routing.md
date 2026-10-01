@@ -178,17 +178,11 @@ classification report to every finding. For explicitly requested structured
 classification, load [classification-output.md](classification-output.md).
 Its exact output values do not change the boundaries in this router.
 
-`inject-wpds-into-classic` prohibits introducing a bundled experimental component
-runtime merely to restyle Classic UI. It does not prohibit a Core `wp-theme`
-stylesheet dependency. `define-wpds-tokens` prohibits plugin-authored token
-assignments or imitations, not supported public provider props.
-`unlock-private-theme-provider` prohibits private APIs on every version, not
-the public 7.1 export. Keep these identifiers stable with these precise meanings.
-
 For a version-sensitive recommendation, also record supported/observed versions,
 token stylesheet owner, required token names, and loading/fallback evidence.
-These facts supplement the six stable fields, they do not change a PHP route
-to `bundled-wpds` just because Core tokens are available.
+These facts do not change a PHP route to `bundled-wpds` just because Core tokens
+are available. Structured field values and prohibition identifiers belong to
+[classification-output.md](classification-output.md).
 
 First seek needed surface, runtime, token-style, or ownership evidence in the
 supplied context and accessible source or runtime within the authorized scope.

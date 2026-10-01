@@ -67,9 +67,10 @@ behavior.
 A rendering framework, CSS utility library, module system, or routing framework
 does not by itself define the product's design language. Look for project
 tokens, presets, component layers, and deliberate local patterns. When no such
-owner exists, the framework's default value scale may supply coherent
-implementation values, but it does not settle hierarchy, product meaning, or
-visual direction.
+owner exists and an installed UI layer supplies a value scale, that scale may
+supply coherent implementation values. A rendering framework such as React
+does not supply a spacing or typography scale. Neither settles hierarchy,
+product meaning, or visual direction.
 
 ### Platform UI stack
 
@@ -134,6 +135,11 @@ and scales, but they never become the visual owner.
    the requested surface; and
 5. keep those choices local unless the task explicitly creates or extends the
    canonical design system.
+
+For multiple requested views, choose shared values once at their nearest
+common code owner. Reuse an existing project structure; if none exists, use the
+smallest shared location needed by those views. Do not create a separate token
+registry or design-system project for this local direction.
 
 Do not pretend a single screen's choices are a mature project-wide system. Ask
 only when materially different visual directions would change the product

@@ -80,6 +80,12 @@ identifiers: `assume-react-is-wpds`, `custom-css-before-core`,
 `recommend-without-clarification`, and `unlock-private-theme-provider`.
 Their prose explanation may follow outside the structured object.
 
+`inject-wpds-into-classic` prohibits introducing bundled experimental
+components merely to restyle Classic UI, not a Core `wp-theme` stylesheet.
+`define-wpds-tokens` prohibits plugin-authored token assignments or imitations,
+not supported public provider props. `unlock-private-theme-provider` prohibits
+private APIs on every version, not the public 7.1 export.
+
 An unknown React runtime must include `assume-react-is-wpds`,
 `define-wpds-tokens`, and `recommend-without-clarification`. An excluded host
 surface must include `own-host-surface`; when the host facts needed for a
