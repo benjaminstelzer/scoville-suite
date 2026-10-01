@@ -11,9 +11,10 @@ system. Do not silently redesign a settled concern.
 
 ## Gates and owners
 
-**OPT-OUT:** If the user explicitly excludes this Skill, STOP before references,
-Skill tools, changes, or Skill-derived completion claims. If higher-authority
-host/project rules require it, report exact conflict.
+**OPT-OUT:** If the user explicitly excludes this Skill, stop applying it before
+loading its references or making Skill-derived claims. Continue other authorized
+work under its own owner. If higher-authority host/project rules require this
+Skill, report the exact conflict.
 
 Apply the highest owner per concern:
 
@@ -108,34 +109,19 @@ selected. Reuse one inventory and one evidence pass.
    conflicts with a canonical product decision, report the exact component
    constraint to the product or visual decision owner. Implement the revised
    decision after that owner resolves the conflict. Do not silently redesign.
-5. Batch related UI changes before validation. Inspect generating code and CSS
-   to guide implementation, then complete the planned edits before running
-   affected source checks, measuring actual geometry and viewing the result.
-   Do not measure or capture screenshots after every small edit. If validation
-   reveals defects, batch the corrections and recheck affected concerns once
-   that correction batch is complete. Audit reports source defects first and
-   continues read-only.
-   Preserve authored units/expressions separately from computed pixels.
-   Justify custom styling before writing it against a concrete owner gap.
-   Verify only relevant rendered conditions that could disprove the specific
-   layout or behavior claim. Report rendered, source,
-   and unverified evidence separately. Mark unimplemented or source-only work
-   unrendered and rendered behavior unverified; never load Validation merely to
-   state this boundary. Rendered proof requires a browser, renderer, or screenshot output that the
-   agent can actually view. Interaction proof additionally requires an
-   interactive runtime in which the behavior can be exercised. Geometry claims
-   require DOM or equivalent platform measurement. Report each missing kind of
-   evidence as unverified. Build, source, or an unviewed screenshot file never
-   substitutes for a viewed render; a screenshot alone never proves interaction.
+5. Batch related changes, then use the selected Validation contract for
+   affected source, measurement, viewed render, and interaction checks. Audit
+   reports source defects first and remains read-only. A build or source check
+   does not prove rendering; a viewed image does not prove interaction, and
+   geometry needs runtime measurement. State missing evidence precisely.
 
 ## Reference router
 
-**OWNERSHIP-ONLY:** For a routing-only hypothetical asking only for status and
-owners, load Framework when ownership or fallback is unresolved. Omit Quality
-and Validation unless also judging UI/design quality, implementation mechanics,
-or proof. Greenfield or polished intent alone does not broaden this route.
-For WordPress admin, the adapter's surface/runtime classification replaces
-the general Framework route. These narrow routes do not bypass its exclusions.
+**OWNERSHIP-ONLY:** A hypothetical asking only for status and owners loads
+Framework when ownership or fallback is unresolved; it does not load Quality
+or Validation without a quality, implementation, or evidence question. For
+WordPress admin, the adapter's classification replaces general Framework.
+Its exclusions still apply.
 
 - **Framework (general route):** Load
   [framework-alignment.md](references/framework-alignment.md) before choosing an
@@ -148,18 +134,17 @@ the general Framework route. These narrow routes do not bypass its exclusions.
   responsive behavior not settled by a canonical product decision, or
   when implementation mechanics could violate the settled intent.
 - **Validation:** Load [validation.md](references/validation.md) before an
-  interface change, a consistency audit, or claims of rendered/responsive behavior, observed
-  interaction, visual quality, or accessibility. Build/source cannot prove
-  rendering.
+  interface change, a consistency audit, or evaluating existing proof of
+  rendering, responsive behavior, interaction, visual quality, or
+  accessibility. Build/source cannot prove rendering.
 
-**EVIDENCE-ONLY:** The UI decision is fixed and the task only evaluates existing
-proof. Judging what existing source or build evidence establishes uses
-Validation. Merely stating that unimplemented or source-only work leaves
-rendering, interaction and accessibility unverified does not. Add Quality only when the current task also judges
-an open quality, state, accessibility-structure or mechanism question. Add
-Framework only when ownership or the implementation path remains unresolved.
-The narrower OWNERSHIP-ONLY case above still applies to a hypothetical asking
-only for status and owners.
+**EVIDENCE-ONLY:** When the UI decision is fixed, use Validation to judge what
+existing proof establishes. An existing result or test report can supply that
+proof; do not repeat checks without a concrete gap. Merely stating that
+unimplemented or source-only work leaves rendering, interaction and
+accessibility unverified needs no Validation read. Add Quality for an open
+quality, state, accessibility-structure or mechanism question; add Framework
+for unresolved ownership or implementation path.
 
 **SOURCE-ONLY AUDIT:** If structure-only, omit Validation; explicitly mark
 rendered/interactive behavior unverified. This exception removes only

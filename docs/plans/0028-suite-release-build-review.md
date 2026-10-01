@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0028
-status: active
+status: draft
 created: 2026-10-01
 updated: 2026-10-01
-current_item: W-005
 ---
 
 # Aktualisierte Suiten prüfen, veröffentlichen und installieren
@@ -81,7 +80,7 @@ Evidence: Astra bestätigt alle drei Ergänzungen. Workflow 50 Tests bestanden; 
 
 ### W-005 Neue Skill-Releases folgen der lokalen Aktualisierung
 
-Status: in_progress
+Status: paused
 Depends on: [W-003, W-004]
 Blocked by: []
 Decisions: [ADR-0133]
@@ -89,7 +88,22 @@ Outcome: Plan und beide Suiten enthalten öffentlich die lokal installierten, ge
 Acceptance: Nur funktional geänderte Ziele erhalten neue Versionen. Vollständige Remote-Trees sowie Uploadstatus, Namen, Größen und GitHub-SHA-256-Digests entsprechen den freigegebenen Paketen. Release-Anhänge werden nach dem Upload nie erneut heruntergeladen; die Regel steht in AGENTS.md und gilt für Entwürfe und Endaudit. Alle drei Releases enthalten dieselben geprüften Viewer-1.4.1-Downloads. Abgelöste Releases und Versionstags werden erst nach Sicherung und Abnahme entfernt. Workflow bleibt ausschließlich Mitglied der öffentlichen Codex-Suite.
 Instructions: []
 Steps:
-1. [status: in_progress] Freigegebene Kandidaten und Viewer-Provenienz vor Veröffentlichung prüfen.
-2. [status: todo] Drei Releases veröffentlichen und Remote-Inhalte vollständig rückprüfen.
+1. [status: done] Freigegebene Kandidaten und Viewer-Provenienz vor Veröffentlichung prüfen.
+2. [status: in_progress] Drei Releases veröffentlichen und Remote-Inhalte vollständig rückprüfen.
 3. [status: todo] Abgelöste Releases bereinigen und Plan samt Projektstatus abschließen.
 Evidence: []
+
+### W-006 Externe Reviews begründen einen geprüften Fixplan
+
+Status: paused
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0133]
+Outcome: Bestätigte Fehler sind korrigiert; begründete weitere Änderungen haben klare Planpunkte statt ungeprüfter Übernahme externer Vorschläge.
+Acceptance: Zwei unabhängige Astra-High-Berater prüfen W1-W6 des Workflow-/Plan-Reviews und A1-A4 des Ask-Reviews gegen aktuelle Quellen, Testnachweise und verbindliche Nutzeranforderungen. Release-Schritte bleiben ausdrücklich ausgeschlossen. Befunde nennen Folge, Nachweisgrenze und kleinste Korrektur. Bestätigte Fehler werden automatisch behoben und im selben Review-Kontext nachgeprüft; erforderliche größere Änderungen erhalten eigenständige Outcomes und Acceptance. Änderungen an Runtime-Paketen werden vor Veröffentlichung gebaut, geprüft, lokal aktualisiert und den autorisierten laufenden Sessions mitgeteilt.
+Instructions: After PLAN-0029 completes, resume PLAN-0028 W-006/step-3, then W-005/step-2.
+Steps:
+1. [status: done] Externen Review mit Astra High gegen Quellen und Nachweise prüfen.
+2. [status: done] Aus beiden Antworten PLAN-0029 erstellen und separat mit Astra High prüfen.
+3. [status: in_progress] Plan-Findings korrigieren und den freigegebenen Umsetzungsstand festhalten.
+Evidence: Auftrag ergänzt: Astra High, keine Release-Prüfung. Quelle: Nutzeranhang Eingefügter Text.txt. Nachweise: temp/2026-10-01-workflow-plan-state/external-review-question.txt.

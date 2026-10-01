@@ -38,8 +38,9 @@ silently substitute a different layout or visual system.
 
 ## Derive the test surface
 
-Use the project's supported environments and the conditions affected by the
-change. Select only relevant combinations of:
+Before implementation or audit measurement, select the layout claims, normative
+limits and concrete risks that can change the result. Use the project's
+supported environments and only relevant combinations of:
 
 - viewport, window mode, orientation, or safe-area constraints;
 - mouse, keyboard, touch, switch, or platform navigation;
@@ -51,7 +52,8 @@ change. Select only relevant combinations of:
 
 Do not impose a universal breakpoint list or test every possible combination.
 Include a condition when it could change the decision or expose a failure in the
-requested flow.
+requested flow. A broad viewport can establish the requested composition, but
+it is not a separate accessibility threshold.
 
 When elements are added, removed or changed, include the affected group's
 composition and responsive transitions, not only the edited element. Check
@@ -65,6 +67,10 @@ keyboard. Separate clean-start passes for each method do not prove that the
 transition works. Do not create a cross-input matrix when the methods are
 behaviorally independent.
 
+For a changed shared component, inspect each immediately affected use with a
+different role, variant, state or layout relationship. Render representative
+distinct uses; identical copies need no separate proof.
+
 When polished presentation is an explicit outcome, rendered evidence must show
 a representative populated state rather than only an empty, loading, or error
 state. Use realistic information density, content lengths, hierarchy, and at
@@ -75,7 +81,9 @@ does not prove the primary populated surface, and the reverse is equally true.
 
 ## Exercise affected transitions
 
-When the requested flow includes these mechanisms, operate the relevant path:
+When the requested flow includes these mechanisms, operate the relevant path
+with controlled data and local targets. Do not cause unrequested external or
+durable effects merely to gather interaction evidence:
 
 - Navigation, controls and adaptive view changes: verify orientation, available
   back/cancel paths, actual change/save timing and preservation of the working
@@ -125,7 +133,9 @@ without repairing them. Audit findings never authorize edits.
    relationships in the actual runtime against independently established
    references. Follow the measurement contract below.
 3. **Sight:** View the rendered image and apply the visual routine below.
-   Numeric equality does not establish optical alignment.
+   Check component contents as well as their outer layout. Page/container
+   overflow checks do not prove internal alignment, and numeric equality does
+   not establish optical alignment.
 
 Before writing a custom styling exception, including inline styles and styling
 props, name the unmet requirement, concrete owner API/component checked, why
@@ -149,9 +159,11 @@ unrequested work. Preserve every known required gap in the result.
 
 Before the evaluated measurement, identify reference elements and edges, the
 expected relationship and its source, and any justified tolerance. Derive these
-from an unchanged owner contract or demonstrably suitable reference. Do not
-choose tolerance after seeing the result or derive a target from candidate CSS.
-An unresolved target stays unresolved. There is no universal pixel tolerance.
+from an unchanged owner contract, demonstrably suitable reference, or, for
+greenfield work, requirements and the direction/values chosen from the brief
+before implementation. New candidate CSS alone is not an independent target.
+Do not choose tolerance after seeing the result. An unresolved target stays
+unresolved. There is no universal pixel tolerance.
 
 Record compact evidence for each affected relation:
 
@@ -185,7 +197,7 @@ exclusions without producing boilerplate for unrelated lenses.
 | Grouping and rhythm | Equivalent relationships within and across sections |
 | Content edges and text alignment | Intended shared edge, top, baseline or center, not an assumed universal alignment |
 | Apparent whitespace | Line boxes and glyph position alongside measured box gaps |
-| Controls and icons | Same-variant size, internal padding and icon/text placement |
+| Components, including status text, controls and icons | Intended internal text/icon placement as well as outer alignment; check unintended parent stretching and wrapped neighbors |
 | Content/state changes | Wrap, clipping, overlap, hidden-content holes and reading order |
 
 **Worked diagnosis:** Two same-variant controls have equal outer heights, but

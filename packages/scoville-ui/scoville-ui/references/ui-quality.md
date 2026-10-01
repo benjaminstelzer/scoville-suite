@@ -129,6 +129,9 @@ Use existing components and platform conventions so affordance and behavior
 agree. Choose controls by meaning: navigation, action, single selection,
 multiple selection or activation. Follow the owning component's contract;
 presentation and feedback must make clear when changes take effect or are saved.
+Prefer native semantics and supported existing primitives to custom widgets.
+When the task needs a custom composite control, verify its relevant focus and
+keyboard sequence in the interactive runtime.
 
 Use modal interruptions for bounded content or interactions that need attention
 before continuing. Keep ordinary editing and local field errors in their

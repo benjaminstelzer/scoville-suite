@@ -1,6 +1,11 @@
 # Changelog
 
 
+## v2.3.3 - 2026-10-01
+
+- Show Plan progress and the current point in a compact, collapsible overview in Plan Viewer 1.4.2. Keep detailed Steps in the point body.
+- Clarify Code, Project Context Cleanup and UI decisions around local checks, project setup and rendered evidence while retaining task authorization.
+
 ## v2.3.2 - 2026-10-01
 
 - Record the active Work Item and started Steps before delegated execution. Preserve completed Steps during review and continuation.

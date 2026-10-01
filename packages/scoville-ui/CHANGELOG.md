@@ -1,8 +1,10 @@
 # Changelog
 
-## v2.0.5 - 2026-09-28
+## v2.0.6 - 2026-10-01
 
-- Clarify the README presentation and keep the name explanation once per package.
+- Choose a visual direction from the project and user when a new interface has no existing owner. Apply shared values at the smallest owner used by related views.
+- Check the rendered layout and relevant interactions against independent requirements. Keep host-owned WordPress surfaces and unverified versions outside the admin-page adapter.
+- Include internal text placement in rendered component checks, including non-interactive status labels and stretched or wrapped layouts.
 
 ## v2.0.4 - 2026-09-28
 
@@ -27,7 +29,6 @@
 
 - Merge general UI and WordPress admin guidance into `scoville-ui`.
 - Load WordPress rules only for relevant admin surfaces and share quality and validation rules.
-- Update package metadata and all build layouts to one UI member.
 
 ## v1.2.9 - 2026-09-22
 
