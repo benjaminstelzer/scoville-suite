@@ -4,7 +4,7 @@ id: PLAN-0028
 status: active
 created: 2026-10-01
 updated: 2026-10-01
-current_item: W-004
+current_item: W-005
 ---
 
 # Aktualisierte Suiten prüfen, veröffentlichen und installieren
@@ -51,7 +51,7 @@ Evidence: Sieben Remote-Audits bestanden. Zwölf abgelöste Releases/Tags entfer
 
 ### W-003 Lokale Codex- und Claude-Suiten stimmen mit dem Release überein
 
-Status: paused
+Status: done
 Depends on: [W-002]
 Blocked by: []
 Decisions: [ADR-0133]
@@ -60,36 +60,36 @@ Acceptance: Aktive Leser sind beendet oder der Nutzer hat eine konkrete koordini
 Instructions: []
 Steps:
 1. [status: done] Schreibruhe prüfen, alte Pakete und Einstellungen sichern.
-2. [status: in_progress] Beide Suiten am bisherigen Installationspfad ersetzen und vollständig rückprüfen.
-Evidence: Nutzer genehmigt koordinierte Updates für Empco und Fluid Base. Vorherige Suiten installiert und gesichert; neue Ergänzungen folgen nach W-004. temp/2026-10-01-workflow-plan-state/installation.json.
+2. [status: done] Beide Suiten am bisherigen Installationspfad ersetzen und vollständig rückprüfen.
+Evidence: Alle 8 Codex-/5 Claude-Mitglieder hashgeprüft; öffentliche Kopien synchron. Empco und Fluid Base informiert. temp/2026-10-01-workflow-plan-state/installation-final.json.
 
 ### W-004 Ergänzte Plan- und Workflow-Regeln sind umgesetzt und geprüft
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0133]
 Outcome: Skills und Viewer zeigen den tatsächlichen Arbeitsstand und verhindern Namenskollisionen ohne Nutzerfrage.
 Acceptance: Plan bleibt standalone. Vor Schreibfreigabe sind Work Item und tatsächlich gestartete Steps gespeichert; sequenzielle Übergänge, Pausen, Wiederaufnahme und Nachfolger bleiben konsistent. Viewer bietet jeden Work-Status einschließlich Paused und Cancelled. Der Runner nennt seinen Chat SC-WFL PLAN-xxxx. Neue native Agenten erhalten automatisch eindeutige Namen; bekannte Kapazitätswiederholungen behalten identische Argumente, unklare Starts bleiben gesperrt. Astra Medium bestätigt die Korrekturen im selben Review-Kontext. Tests und verifizierte öffentliche Pakete bestehen; Viewer 1.4.1 stammt aus erfolgreicher Vier-Plattform-CI.
-Instructions: After W-004 completes, resume W-003 at Step 2.
+Instructions: []
 Steps:
 1. [status: done] Planpflege und sequenzielle Step-Grenzen implementieren und mit Astra prüfen.
 2. [status: done] Viewer-Statusauswahl ergänzen, Frontend prüfen und native Downloads in CI bauen.
 3. [status: done] Runner-Titel und eindeutige Agentennamen implementieren, Regression prüfen und Astra-Findings korrigieren.
-4. [status: in_progress] Geprüfte Quellen sichern und alle betroffenen Suite-/Einzelpakete neu bauen.
+4. [status: done] Geprüfte Quellen sichern und alle betroffenen Suite-/Einzelpakete neu bauen.
 Evidence: Astra bestätigt alle drei Ergänzungen. Workflow 50 Tests bestanden; Viewer-CI 36856214450 erfolgreich. Weitere Nachweise: temp/2026-10-01-workflow-plan-state/report.md.
 
 ### W-005 Neue Skill-Releases folgen der lokalen Aktualisierung
 
-Status: todo
+Status: in_progress
 Depends on: [W-003, W-004]
 Blocked by: []
 Decisions: [ADR-0133]
 Outcome: Plan und beide Suiten enthalten öffentlich die lokal installierten, geprüften Änderungen.
-Acceptance: Nur funktional geänderte Ziele erhalten neue Versionen. Vollständige Remote-Trees und alle heruntergeladenen Release-Anhänge entsprechen den freigegebenen Paketen. Alle drei Releases enthalten dieselben geprüften Viewer-1.4.1-Downloads. Abgelöste Releases und Versionstags werden erst nach Sicherung und Abnahme entfernt. Workflow bleibt ausschließlich Mitglied der öffentlichen Codex-Suite.
+Acceptance: Nur funktional geänderte Ziele erhalten neue Versionen. Vollständige Remote-Trees sowie Uploadstatus, Namen, Größen und GitHub-SHA-256-Digests entsprechen den freigegebenen Paketen. Release-Anhänge werden nach dem Upload nie erneut heruntergeladen; die Regel steht in AGENTS.md und gilt für Entwürfe und Endaudit. Alle drei Releases enthalten dieselben geprüften Viewer-1.4.1-Downloads. Abgelöste Releases und Versionstags werden erst nach Sicherung und Abnahme entfernt. Workflow bleibt ausschließlich Mitglied der öffentlichen Codex-Suite.
 Instructions: []
 Steps:
-1. [status: todo] Freigegebene Kandidaten und Viewer-Provenienz vor Veröffentlichung prüfen.
+1. [status: in_progress] Freigegebene Kandidaten und Viewer-Provenienz vor Veröffentlichung prüfen.
 2. [status: todo] Drei Releases veröffentlichen und Remote-Inhalte vollständig rückprüfen.
 3. [status: todo] Abgelöste Releases bereinigen und Plan samt Projektstatus abschließen.
 Evidence: []

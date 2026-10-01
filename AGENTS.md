@@ -111,7 +111,10 @@ Scoville Workflow is approved for public distribution only within
 `scoville-suite-for-codex` under ADR-0079. It remains Codex-only.
 Publication still requires the release gates.
 Before publishing Plan or either suite, run `--check-release` with the current
-Actions Viewer assets. After upload, repeat with all three release targets.
+Actions Viewer assets. Never download release attachments again after upload.
+Check upload success and the remote attachment inventory through GitHub metadata.
+This also applies to draft checks and the final audit. Initial downloads from
+successful Actions builds remain required. After upload, repeat with all three release targets.
 See `development/shared/build/fragments.md#viewer-release-gate`.
 
 Shared build tools and runtime-helper sources are maintained in the sibling
