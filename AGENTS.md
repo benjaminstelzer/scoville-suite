@@ -1,5 +1,10 @@
 # Suite source ownership
 
+Build Plan Viewer binaries only through GitHub Actions, for Windows x64,
+Linux x64, macOS Apple Silicon and macOS Intel. Never install Rust or compile
+the native Viewer locally. Download successful workflow artifacts, verify their
+checksums and retain the current build under `skills/temp/release/viewer/`.
+
 Plans, Decisions, run cursors, assignments, results and handoffs must be as
 short as possible and only as long as necessary. Necessary means relevant to
 correctly executing, verifying or continuing the work without hidden context.
