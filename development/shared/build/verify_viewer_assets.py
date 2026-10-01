@@ -66,6 +66,14 @@ def local_assets(root, assets):
     return version, names, sums
 
 
+def verify_attachment(asset, path):
+    """Check an uploaded attachment without downloading its bytes again."""
+    if (asset.get('name') != path.name or asset.get('state') != 'uploaded'
+            or asset.get('size') != path.stat().st_size
+            or asset.get('digest') != 'sha256:' + digest(path)):
+        raise ValueError('Uploaded attachment metadata differs from approved file: ' + path.name)
+
+
 def verify(root, assets, releases=()):
     if releases:
         repositories = [target.split('=')[0] for target in releases]
@@ -112,12 +120,9 @@ def verify(root, assets, releases=()):
             published = [a['name'] for a in release['assets'] if a['name'].startswith('scoville-plan-viewer-') or a['name'] == 'SHA256SUMS.txt']
             if len(published) != 12 or set(published) != names | {'SHA256SUMS.txt'}:
                 raise ValueError(target + ' must attach exactly all 12 approved Viewer files directly')
-            destination = Path(temp) / release_repo.split('/')[1]
-            command('gh', 'release', 'download', tag, '--repo', release_repo, '--dir', str(destination),
-                    '--pattern', 'scoville-plan-viewer-*', '--pattern', 'SHA256SUMS.txt')
-            for name in published:
-                if digest(destination / name) != digest(assets / name):
-                    raise ValueError(target + ': uploaded asset differs from Actions: ' + name)
+            for attachment in release['assets']:
+                if attachment['name'] in published:
+                    verify_attachment(attachment, assets / attachment['name'])
     return {'version': version, 'source_commit': run['head_sha'], 'workflow_run': run['html_url'],
             'source_files_verified': len(local), 'assets': {name: sums.get(name, digest(assets / name))
                                                         for name in sorted(names | {'SHA256SUMS.txt'})},

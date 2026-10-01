@@ -200,7 +200,9 @@ Its JSON `viewer.assets` is the exact attachment list for the release consumer.
 Attach every listed file directly to Plan and both suite releases.
 
 After upload, repeat with all three `--release owner/repository=vX.Y.Z`
-arguments. The gate downloads and compares every published Viewer file against
-the approved Actions output. Keep both successful results as release evidence.
+arguments. Check upload state, exact attachment names, sizes and GitHub's SHA-256
+digests against the approved files. Never download release attachments again,
+including drafts and final audits. Initial Actions artifact downloads remain
+required. Keep both successful results as release evidence.
 Missing assets, source drift or failed provenance checks stop publication or
 installation. A renamed old binary is never a current build.

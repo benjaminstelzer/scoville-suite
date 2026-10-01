@@ -66,6 +66,33 @@ class ViewerReleaseGateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'exactly one --release for Plan'):
             gate.verify(self.root, self.assets, ['benjaminstelzer/scoville-plan=v1.11.0'])
 
+    def attachment(self):
+        path = self.assets / self.names[0]
+        return path, {'name': path.name, 'state': 'uploaded',
+                      'size': path.stat().st_size, 'digest': 'sha256:' + gate.digest(path)}
+
+    def test_uploaded_metadata_matches_approved_file(self):
+        path, asset = self.attachment()
+        gate.verify_attachment(asset, path)
+
+    def test_wrong_uploaded_digest_is_rejected(self):
+        path, asset = self.attachment()
+        asset['digest'] = 'sha256:' + '0' * 64
+        with self.assertRaisesRegex(ValueError, 'metadata differs'):
+            gate.verify_attachment(asset, path)
+
+    def test_missing_uploaded_digest_is_rejected(self):
+        path, asset = self.attachment()
+        asset.pop('digest')
+        with self.assertRaisesRegex(ValueError, 'metadata differs'):
+            gate.verify_attachment(asset, path)
+
+    def test_incomplete_upload_is_rejected(self):
+        path, asset = self.attachment()
+        asset['state'] = 'starter'
+        with self.assertRaisesRegex(ValueError, 'metadata differs'):
+            gate.verify_attachment(asset, path)
+
 
 if __name__ == '__main__':
     unittest.main()

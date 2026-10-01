@@ -1,12 +1,12 @@
 {
   "build/build_suite.py": "999aeec77b5983cc9071bf59e3648e37c0c472f6008a5b9d5ebf739f154460a3",
   "build/export_suite.py": "fd7e557814a8a255c76cc744f780a4d453db7aca69593afc98d42b5b22a7d5f9",
-  "build/fragments.md": "f8dfbc9aac4b8d62bf254ef9f1f05b2756c9a578a65400bf685c023c974eb970",
+  "build/fragments.md": "bf34dc05ba3680627112489bcde02db8612566473c5e2567528453ef797c7701",
   "build/run_portability.py": "bab2bec299bef8c4e0014ec97e355308597c3a01e761c5c3e8e6b135e6d0907e",
   "build/sync_suite_sources.py": "66b9297d302cc79199b8b3a5a088c6f42e8aadcd61cc07a9cf6a4cd786ab00bf",
   "build/test_verify_package_set.py": "9445f05e2d3ea799baf9f31d84ebb0d79bbfd0c6364f71566e0ea6fea8d0d510",
   "build/verify_package_set.py": "5a323b787974819c7279b46765c7a039cd669a140d64c34925222e59d8f52b65",
-  "build/verify_viewer_assets.py": "ca006a1bce853917702462e4861f335bd4437cae66c7ceea722916394ca193df",
+  "build/verify_viewer_assets.py": "4af4c802b3dfd1a9e51683fefbe721292ce345771e78627666e6c8b533ccba1c",
   "instruction-writing.md": "95fd9c4e1bf1da8548ce1b3897ce402994ad0b86c8c9984e06df4866470c2538",
   "luna-release-gate.md": "67db605b0db9711584ddcf657b32c902a05548380df645a99fe5f836e5444ddb",
   "prompting/common.md": "59205b1b58f80623ee6a5a1193825ab8aa33265ec8f44226c7a718474b711991",
@@ -53,5 +53,5 @@
   "tests/test_suite_export.py": "7ec250d82b329748b55ff87395bfcb0733138fe47d7fd4948442f496c0205d4d",
   "tests/test_task_lifecycle.py": "d690b9816917ec822b4f705932b1b532a631452fe3de9957fc0c9211cb1f1405",
   "tests/test_task_titles.py": "6903d0f9a7df9b6d530d16f9c837efd1f2e225778767d690ea79a69cec88d388",
-  "tests/test_viewer_release_gate.py": "e4f76da7fdf36ae2a2877a2b8a95c88cb4c829606f3691d048c55eedd8bdcfec"
+  "tests/test_viewer_release_gate.py": "9a9a1f1b0c572902dc37aa2e4d471ba4b39bca7469c18acdd8744b21c654bcc8"
 }
