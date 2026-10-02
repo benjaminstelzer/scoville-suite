@@ -43,8 +43,6 @@ Real project records shaped the resumable work units and progress checks.
 The useful lesson was to keep decisions and accepted results close to the
 work they explain, without turning routine updates into more work items.
 
-- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
-
 ## Compatibility
 
 Developed for Codex and Claude Code with repository read/write access and a Fable, Astra, SOL or Opus model (5.0+). The optional helpers need Python 3.10+.
@@ -65,6 +63,15 @@ The host needs permission to write to its Skills directory. The
 list the locations for each host.
 
 
+
+## Configuration
+
+### Model choices for Workflow
+
+When using Scoville Workflow for Codex, you can request a model and reasoning
+level for a Step. Otherwise Workflow uses its configured routing. Scoville
+Setup shows or saves those settings. Unsupported model/effort combinations
+stop the affected operation instead of silently changing your choice.
 
 ## How to use
 
@@ -114,13 +121,6 @@ application. An installed copy in a read-only folder uses the platform's user
 configuration directory. Keep the Skill and Viewer updated together: older
 readers do not understand all current progress fields.
 
-### Model choices for Workflow
-
-When using Scoville Workflow for Codex, you can request a model and reasoning
-level for a Step. Otherwise Workflow uses its configured routing. Scoville
-Setup shows or saves those settings. Unsupported model/effort combinations
-stop the affected operation instead of silently changing your choice.
-
 The [record guide](scoville-plan/references/edit.md) covers Step annotations,
 field formats and helper commands. Plan uses `format_version: 1`.
 
@@ -132,6 +132,10 @@ field formats and helper commands. Plan uses `format_version: 1`.
   for explicit outcomes, constraints, planning, and completion evidence.
 - [Michael Nygard's architecture decision records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
   for durable decisions and rationale in reviewable project files.
+
+## Developer links
+
+[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)
 
 ## License
 

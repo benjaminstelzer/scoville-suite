@@ -14,8 +14,9 @@ MEMBERS = ('scoville-workflow-for-codex', 'scoville-ask-for-codex', 'scoville-pl
 
 def signature(path, command=None):
     tree = ast.parse(path.read_text(encoding='utf-8'))
-    if any(isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-           and node.func.attr == 'add_subparsers' for node in ast.walk(tree)):
+    if path.name == 'build_dispatch_prompt.py' or any(
+            isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+            and node.func.attr == 'add_subparsers' for node in ast.walk(tree)):
         captured = []
 
         class ParserReady(BaseException):
@@ -64,6 +65,13 @@ def signature(path, command=None):
 
 
 class RuntimeHelperExamples(unittest.TestCase):
+    def test_dispatch_signature_includes_generated_options_and_required_inputs(self):
+        script = ROOT / 'members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/build_dispatch_prompt.py'
+        flags, required = signature(script)
+        self.assertTrue({'--executor-result', '--reviewer-result', '--context-handoff', '--supplemental-context'} <= flags)
+        self.assertNotIn('--context', flags)
+        self.assertIn({'--manager-agent-id'}, required)
+
     def test_markdown_invocations_use_existing_flags_and_supply_required_ones(self):
         checked = 0
         for member in MEMBERS:

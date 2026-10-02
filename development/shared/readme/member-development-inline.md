@@ -1,1 +1,3 @@
-- Development links: {{ include: member.development }}
+## Developer links
+
+{{ include: member.development }}

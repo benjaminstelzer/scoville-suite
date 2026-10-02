@@ -40,8 +40,6 @@ The cases come from real engineering tasks: wrong-cause fixes, missed outcomes
 and checks repeated without new information. They shaped the focus on useful
 evidence. Selected comparisons do not establish a general performance gain.
 
-- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code/development/README.md)
-
 ## Compatibility
 
 Developed for Codex and Claude Code with access to the Skill's references and a shell for the project's own checks. Use a Fable, Astra, SOL or Opus model (5.0+).
@@ -62,6 +60,33 @@ The host needs permission to write to its Skills directory. The
 list the locations for each host.
 
 
+
+## Configuration
+
+### Your own conventions
+
+You can edit the bundled [conventions](scoville-code/references/project-conventions.md),
+but the next Skill update may overwrite them. To keep your conventions, maintain a Markdown file outside the
+Skill installation and reference it explicitly from your global or project
+`AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code). For example, add this to
+the file at the project root:
+
+```markdown
+### Greenfield project conventions
+
+For the initial organization of a wholly new project, first follow this
+project's explicit requirements, then read `docs/project-conventions.md`
+for my additional folder and filename conventions. Use Scoville Code's
+defaults only for choices neither source settles. Do not apply this
+fallback to additions or refactors in an existing project.
+```
+
+Then create the file with your conventions. Relative paths are resolved from
+the `AGENTS.md` or `CLAUDE.md` that references them, and a personal file
+shared across projects can use an absolute path. The agent reads the
+referenced file and tells you if it can't find it.
+
+Project-specific instructions and framework requirements still apply.
 
 ## How to use
 
@@ -88,31 +113,6 @@ tests can sit next to the code if the framework expects that. Existing
 projects keep their organization, even during refactors or when modules are
 added.
 
-### Your own conventions
-
-You can edit the bundled reference, but the next Skill update may overwrite
-it. For conventions you want to keep, maintain a Markdown file outside the
-Skill installation and reference it explicitly from your global or project
-`AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code). For example, add this to
-the file at the project root:
-
-```markdown
-### Greenfield project conventions
-
-For the initial organization of a wholly new project, first follow this
-project's explicit requirements, then read `docs/project-conventions.md`
-for my additional folder and filename conventions. Use Scoville Code's
-defaults only for choices neither source settles. Do not apply this
-fallback to additions or refactors in an existing project.
-```
-
-Then create the file with your conventions. Relative paths are resolved from
-the `AGENTS.md` or `CLAUDE.md` that references them, and a personal file
-shared across projects can use an absolute path. The agent reads the
-referenced file and tells you if it can't find it.
-
-Project-specific instructions and framework requirements still apply.
-
 ## Sources
 
 - [OpenAI coding-agent best practices](https://developers.openai.com/codex/learn/best-practices)
@@ -133,6 +133,10 @@ Project-specific instructions and framework requirements still apply.
 - Configurable file-size checks in [ESLint](https://eslint.org/docs/latest/rules/max-lines)
   and [Checkstyle](https://checkstyle.org/checks/sizes/filelength.html), whose
   different defaults are not treated as one universal standard.
+
+## Developer links
+
+[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code/development/README.md)
 
 ## License
 

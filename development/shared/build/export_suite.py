@@ -44,10 +44,12 @@ def export(root, output, profile=None):
         for item in member.get('files', []):
             if item['source'] not in selected_sources and not item['source'].startswith('shared:'):
                 excluded_files.add(item['source'])
-    # A fragment shared with a retained member must remain available.
+    # Suite-level fragments and those shared with retained members stay available.
+    retained_readmes = list(config.get('readme', []))
     for member in config['members']:
-        for ref in member.get('readme', []):
-            excluded_files.discard(ref if isinstance(ref, str) else ref['source'])
+        retained_readmes.extend(member.get('readme', []))
+    for ref in retained_readmes:
+        excluded_files.discard(ref if isinstance(ref, str) else ref['source'])
     for entry in git(root, 'ls-files', '--stage', '-z').split(b'\0'):
         if not entry:
             continue
