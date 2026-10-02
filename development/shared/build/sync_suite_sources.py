@@ -13,7 +13,7 @@ def snapshot(root, source):
              'build/verify_package_set.py', 'build/fragments.md',
              'instruction-writing.md', 'luna-release-gate.md'}
     # Retain shared development sources and tests, not only runtime consumers.
-    for folder in ('build', 'readme', 'runtime', 'prompting', 'tests'):
+    for folder in ('build', 'readme', 'runtime', 'runtime-tests', 'prompting', 'tests'):
         paths.update(p.relative_to(source).as_posix() for p in (source / folder).rglob('*')
                      if p.is_file() and '__pycache__' not in p.parts
                      and p.suffix not in ('.pyc', '.pyo'))

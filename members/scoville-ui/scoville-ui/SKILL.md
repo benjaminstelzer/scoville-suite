@@ -47,8 +47,6 @@ Lower sources never override higher owners; report material conflicts.
 
 {{ include: family.contract }}
 
-
-
 {{ include: family.neighbors }}
 
 UI owns framework-valid implementation, component semantics and states,
@@ -145,11 +143,8 @@ quality, state, accessibility-structure or mechanism question; add Framework
 for unresolved ownership or implementation path.
 
 **SOURCE-ONLY AUDIT:** If structure-only, omit Validation; explicitly mark
-rendered/interactive behavior unverified. This exception removes only
-Validation. The Framework and Quality conditions still apply: load Framework
-for unresolved ownership or implementation paths. Load Quality only when the
-audit also judges one of the concerns listed in its row above. For unimplemented direction,
-omit Validation only to report the same unrendered boundary.
+rendered/interactive behavior unverified. Framework and Quality retain their
+normal triggers. Unimplemented direction uses the same evidence boundary.
 
 For a page-consistency request, use Audit with a consistency focus and load
 Quality and Validation. Load Framework only under its existing conditions.

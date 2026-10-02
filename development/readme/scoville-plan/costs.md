@@ -1,3 +1,3 @@
 ## What it costs
 
-- Reading, updating and checking Plan records add token usage and maintenance time.
+- Maintaining records takes tokens and time. It pays for continuity on dependent work. A small fix rarely needs a large Plan.

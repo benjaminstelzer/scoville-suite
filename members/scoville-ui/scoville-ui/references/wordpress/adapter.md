@@ -151,7 +151,8 @@ not as a mandatory report or full-audit checklist for every task:
 - rendered, source-only, and unverified evidence kept separate.
 
 When the caller requests structured classification, use the canonical field
-values and prohibited-recommendation identifiers from `routing.md`; do not
+values and prohibited-recommendation identifiers from
+[classification-output.md](classification-output.md); do not
 replace them with prose synonyms.
 
 Label facts as **Core**, **WPDS**, **WCAG**, or **Skill-Norm**. Never describe

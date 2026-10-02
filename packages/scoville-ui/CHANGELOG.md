@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.7 - 2026-10-02
+
+- Check keyboard operation, focus, contrast and reflow against applicable accessibility requirements, and compare the rendered hierarchy with the main task.
+- Follow the product's UI language and keep shared styling with its owner. Report measurement evidence without imposing a fixed report format.
+
 ## v2.0.6 - 2026-10-01
 
 - Choose a visual direction from the project and user when a new interface has no existing owner. Apply shared values at the smallest owner used by related views.

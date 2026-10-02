@@ -1,6 +1,5 @@
 ## How it was developed
 
-- Real project records showed what you need to resume work: the active item,
-  the decisions that apply and what's left to do.
-- Project histories and targeted simulations shaped the record format and the
-  validation checks.
+Real project records shaped the resumable work units and progress checks.
+The useful lesson was to keep decisions and accepted results close to the
+work they explain, without turning routine updates into more work items.

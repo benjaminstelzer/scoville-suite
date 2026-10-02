@@ -150,26 +150,21 @@ WPDS opt-in. Use `unknown` only when the request leaves a decision-relevant
 experimental policy or runtime fact genuinely unspecified; do not replace a
 known non-experimental route with `unknown`.
 
-For an excluded host-owned surface, report `deny` when the named host is a
-Classic/Core PHP surface and `unknown` when it is React-owned or the host
-runtime is unspecified. This field records the known host fact; it never gives
-this Skill permission to prescribe the excluded surface.
-
 For excluded surfaces, keep these boundaries even when no structured report is
 requested:
 
-| Surface | Experimental policy | Required limits |
-| --- | --- | --- |
-| Block Editor sidebar/SlotFill or editor canvas | unknown | Keep host ownership. Do not apply frontend-theme spacing or recommend dependent details without the missing host facts. |
-| Post metabox, Dashboard widget or existing Core list/screen | deny | Keep host ownership. Do not inject experimental WPDS into Classic UI or apply global admin overrides. |
-| Profile field | deny | Keep host ownership. No experimental WPDS injection, global admin overrides or custom CSS before checking Core. |
-| UI inside another plugin | unknown | Keep host ownership. Do not infer WPDS from React or recommend dependent details without the missing owner facts. |
+| Surface | Required limits |
+| --- | --- |
+| Block Editor sidebar/SlotFill or editor canvas | Keep host ownership. Do not apply frontend-theme spacing or recommend dependent details without the missing host facts. |
+| Post metabox, Dashboard widget or existing Core list/screen | Keep host ownership. Do not inject experimental WPDS into Classic UI or apply global admin overrides. |
+| Profile field | Keep host ownership. No experimental WPDS injection, global admin overrides or custom CSS before checking Core. |
+| UI inside another plugin | Keep host ownership. Do not infer WPDS from React or recommend dependent details without the missing owner facts. |
 
-If the request explicitly says that no experimental component policy was
-provided, return `unknown` even when the known runtime is Core Components;
-`unknown` still behaves as deny for adding an experimental API. If the page's
-placement or host boundary is not specified, return `unknown` for
-`shell_owner` rather than assuming a Core plugin root.
+An explicitly unspecified experimental policy stays unresolved even with a
+known Core Components runtime; it does not permit experimental additions.
+Unspecified page placement leaves shell ownership unresolved, not implicitly
+Core plugin-owned. Exact output precedence belongs to
+[classification-output.md](classification-output.md).
 
 ## Explain the selected route
 

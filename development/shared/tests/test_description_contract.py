@@ -28,7 +28,7 @@ class DescriptionContractTests(unittest.TestCase):
                             fenced = not fenced
                         lines.append('#'+line if not fenced and re.match(r'^#{1,5} ',line) else line)
                     self.assertIn('\n'.join(lines), combined)
-                    for heading in ('How it works','What it enforces','What it costs','How it was developed'):
+                    for heading in ('How it works','What it enforces','What it costs'):
                         section = text.split('## '+heading+'\n',1)[1].split('\n## ',1)[0]
                         self.assertRegex(section, r'(?m)^- \S')
                     self.assertNotIn('{{', text)
@@ -39,8 +39,8 @@ class DescriptionContractTests(unittest.TestCase):
         workflow=next(m for m in builder.load(root, 'codex')['members'] if m['name']=='scoville-workflow-for-codex')
         text=builder.readme(root,workflow).decode()
         self.assertRegex(text, r'```mermaid\n(?:%%[^\n]*\n)*flowchart TD\n')
-        thresholds=(root/'development/readme/scoville-workflow-codex/requirements.md').read_text(encoding='utf-8')
-        self.assertIn('at or above 40%',thresholds)
+        thresholds=(root/'development/readme/scoville-workflow-codex/usage.md').read_text(encoding='utf-8')
+        self.assertIn('at 40%',thresholds)
         self.assertIn('above 60%',thresholds)
 
 

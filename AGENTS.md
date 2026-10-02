@@ -127,9 +127,3 @@ Installed Skills must not depend on either shared directory.
 Archive completed model-test tasks after their task IDs and results are secured
 in the owning evidence. Keep a review task open only while its requested
 review-and-fix loop is still active.
-
-Once at the start of each Codex session working in this repository, inspect the
-available collaboration tools for `close_agent`. Do not repeat this check for
-later tasks in the same session. If it is available, report it and treat Ask's
-separate-adviser-chat workaround as ready for reassessment. Do not change the
-route without an explicit accepted decision.

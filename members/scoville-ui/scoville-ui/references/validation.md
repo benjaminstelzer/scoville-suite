@@ -8,6 +8,7 @@ Select relevant conditions by scope and risk, without skipping an applicable gat
 - Establish the claim
 - Derive the test surface
 - Exercise affected transitions
+- Styling exceptions
 - Source first, then measurement, then sight
 - Measure relationships, not declarations
 - Inspect with a comparison and a hypothesis
@@ -55,6 +56,24 @@ Include a condition when it could change the decision or expose a failure in the
 requested flow. A broad viewport can establish the requested composition, but
 it is not a separate accessibility threshold.
 
+For affected web UI with an AA target, include these applicable checks:
+
+- Operate the affected primary flow using only the keyboard and inspect visible
+  focus at each step. Retain [WCAG 2.1.1's exceptions](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html)
+  and verify [WCAG 2.4.7](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html).
+- For each affected view, check reflow at an equivalent width of 320 CSS px for
+  vertically scrolling content, such as 1280px at 400% zoom. Preserve information
+  and functionality; the exception for content requiring two-dimensional layout does not exempt
+  the whole page. See [WCAG 1.4.10](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html).
+- Calculate contrast for distinct new, changed or audited text/background pairs
+  in their rendered states: 4.5:1, or 3:1 for large text (at least 18pt/24 CSS px,
+  or 14pt/18⅔ CSS px bold), retaining
+  [WCAG 1.4.3's exceptions](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html).
+- Required non-text control/state cues and authored focus indicators need 3:1
+  against adjacent colors. Apply [WCAG 1.4.11's scope and exceptions](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html),
+  including inactive controls and unmodified browser-owned appearance; do not
+  apply the threshold to every decorative surface.
+
 When elements are added, removed or changed, include the affected group's
 composition and responsive transitions, not only the edited element. Check
 relevant widths and states that could expose broken grouping, wrapping,
@@ -78,6 +97,10 @@ least one relevant interaction state. Capture each target viewport named by the
 task as its own observation so a desktop result does not stand in for mobile or
 vice versa. Keep recovery-state evidence separate: a convincing error state
 does not prove the primary populated surface, and the reverse is equally true.
+Compare the rendered emphasis with the primary task: decision-critical values,
+states and actions must remain readily readable and findable, without
+decoration obscuring or competing with them. Judge the task, not a fixed size
+hierarchy or a prescribed visual style.
 
 ## Exercise affected transitions
 
@@ -111,6 +134,15 @@ These are scoped triggers, not a requirement to add every mechanism or test
 unaffected flows. WCAG is the normative source where applicable; APG is
 implementation guidance, not an additional conformance standard.
 
+## Styling exceptions
+
+Before custom styling, including inline styles and styling props, identify the
+unmet requirement, concrete owner API/component checked, why it fails and the
+smallest scope. An official token alone does not justify the exception. Prefer
+supported composition and variants. Keep the rationale in the task result or
+an existing project record; no separate document is required. Inspect the final
+diff for unnecessary custom styling and obsolete compensation.
+
 ## Source first, then measurement, then sight
 
 For implementation, batch related UI changes and complete the planned edits
@@ -137,12 +169,6 @@ without repairing them. Audit findings never authorize edits.
    overflow checks do not prove internal alignment, and numeric equality does
    not establish optical alignment.
 
-Before writing a custom styling exception, including inline styles and styling
-props, name the unmet requirement, concrete owner API/component checked, why
-it fails and the smallest scope. An official token alone does not justify the
-exception. Prefer supported composition and variants. Inspect the final diff
-for unnecessary custom styling and remove compensation made obsolete by the fix.
-
 Do not run measurements, screenshots or sight checks after each small layout
 edit. Validate the completed change batch once. If validation reveals defects,
 collect and implement the related corrections before repeating affected source
@@ -165,9 +191,10 @@ before implementation. New candidate CSS alone is not an independent target.
 Do not choose tolerance after seeing the result. An unresolved target stays
 unresolved. There is no universal pixel tolerance.
 
-Record compact evidence for each affected relation:
-
-`target/group | revision/state/viewport | source declaration + owner | expected relation + tolerance | resolved value | measured geometry | result`
+For each selected relation, report the expected value/relationship and source,
+measured result and conclusion. Identify its target and applicable tolerance;
+revision, state and viewport may be recorded once for a measurement group.
+Use an existing report or task result, without a prescribed table or new file.
 
 Keep the authored unit/expression, computed value and measured distance separate.
 Preserve `em`, `rem`, `px`, percentages, unitless line-height, token references,

@@ -1,11 +1,12 @@
 ---
 format_version: 1
 id: ADR-0121
-status: accepted
+status: superseded
 created: 2026-09-30
 accepted: 2026-09-30
 scope: workflow/model-defaults
 supersedes: ADR-0082
+superseded_by: ADR-0140
 ---
 
 # Bestätigte Workflow-Modellpaare verwenden

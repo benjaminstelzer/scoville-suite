@@ -1,4 +1,5 @@
 ## How it was developed
 
-- The structure follows current OpenAI and Anthropic guidance on relevant context and conditional references.
-- Targeted Codex Luna cases checked file edits, exceptions, unresolved permissions, index formats and repeated requests.
+Project-rule edits exposed lost exceptions and references that did not carry
+the full rule. Those cases shaped the checks for scope, independent copies
+and complete context. Brevity only helps when the meaning survives.

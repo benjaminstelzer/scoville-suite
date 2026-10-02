@@ -20,6 +20,17 @@ prohibitions. The surface row does not replace them.
 
 ## Canonical structured values
 
+For an excluded host-owned surface, report `deny` for a named Classic/Core PHP
+host and `unknown` for a React-owned or unspecified host runtime. These values
+record host facts and do not authorize this Skill to prescribe that surface.
+If the request explicitly states that no experimental policy was supplied,
+return `unknown` even for Core Components or an otherwise `deny` route.
+Unknown policy still forbids introducing experimental APIs. If page placement
+or the host boundary is unspecified, use `unknown` for `shell_owner`.
+When the router cannot resolve a decision-relevant ownership fact, set
+`support_status` to `needs-clarification`; a supported surface category alone
+does not resolve that fact.
+
 When a caller requests structured classification, emit these exact stable
 values instead of prose variants:
 

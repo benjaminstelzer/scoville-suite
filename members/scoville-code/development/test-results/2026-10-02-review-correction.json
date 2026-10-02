@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-02",
+  "scope": "Narrow correction after third external review, authorized by user: setze um",
+  "audit": "../audits/2026-10-02-overengineering.md",
+  "source_sha256": {
+    "members/scoville-code/scoville-code/SKILL.md": "03eb97c6053fed7ef264720fff8e7144cfeeb8f6d07c0aa9e54de07d708fc1ac",
+    "members/scoville-code/scoville-code/references/change-workflow.md": "0921cebfe4305ea9553ac17c770fe77647f0147b67cdd22c1e8be5e5fdd98ab9",
+    "members/scoville-code/scoville-code/references/planning-and-decisions.md": "055969cc5547984c293ae6d06bce23687d10e0eae68fc59c8dd1bd38601d5453",
+    "members/scoville-code/scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+    "members/scoville-code/scoville-code/references/validation.md": "872fd6e0c256fdfdd4bb4655a4a7512af6a1e4e4d777bf3b8d07292f7d7563be",
+    "development/readme/scoville-code/mechanism.md": "3125659047f8c0eb8000cf9dc13bbeac9ad678efeebe5c4cbdb836b6bb38c443",
+    "members/scoville-code/development/tests/evaluation-cases.json": "b6fa1b244362cadc4f570ce3c8e83826529c8c5dad70719176132ca24869fbaa"
+  },
+  "package_sha256": {
+    "general-standalone": {
+      "README.md": "0470851bef9c860976109a1e9d73e21807b8ae67c73087af13f6b8892e6b5482",
+      "scoville-code/agents/openai.yaml": "b61da1aa461a095063d780919f1fa982109ca75234b6350d04269f134632a107",
+      "scoville-code/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "scoville-code/references/change-workflow.md": "0921cebfe4305ea9553ac17c770fe77647f0147b67cdd22c1e8be5e5fdd98ab9",
+      "scoville-code/references/planning-and-decisions.md": "fb8c65ce2425c1b6804dc44312e5d7fdd8da42c8c1c0ecd2941587296982f89c",
+      "scoville-code/references/validation.md": "872fd6e0c256fdfdd4bb4655a4a7512af6a1e4e4d777bf3b8d07292f7d7563be",
+      "scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+      "scoville-code/SKILL.md": "5288c796328d3693f7e9c16d73b9c1698c7ee02154942a196cc4857ef80e708e",
+      "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "CHANGELOG.md": "76b928918b74e0332fefc69552dd996c3fff97c18014cbd464388d71c44ed2db",
+      ".gitattributes": "ec2d2af19590bc0beffea8e7f6534683ff656843b651728bfb61742576742a62"
+    },
+    "general-suite": {
+      "README.md": "89cdd06ca59c55ac8f14e01ae9f83d0a825dbdf6fbc3260f708d73a43b3549ab",
+      "scoville-code/agents/openai.yaml": "b61da1aa461a095063d780919f1fa982109ca75234b6350d04269f134632a107",
+      "scoville-code/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "scoville-code/references/change-workflow.md": "0921cebfe4305ea9553ac17c770fe77647f0147b67cdd22c1e8be5e5fdd98ab9",
+      "scoville-code/references/planning-and-decisions.md": "014cb7ef5d97f762912bceecb9ad0193bf7bba4a24fd2c80b45560dc5ef2c886",
+      "scoville-code/references/validation.md": "872fd6e0c256fdfdd4bb4655a4a7512af6a1e4e4d777bf3b8d07292f7d7563be",
+      "scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+      "scoville-code/SKILL.md": "1f8070cc7b4116aa978d6c93ee63557ce0f70aae879918150665bcd6105707ed",
+      "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "CHANGELOG.md": "76b928918b74e0332fefc69552dd996c3fff97c18014cbd464388d71c44ed2db",
+      ".gitattributes": "ec2d2af19590bc0beffea8e7f6534683ff656843b651728bfb61742576742a62"
+    },
+    "codex-suite": {
+      "README.md": "08b83328fc8709c45e8dcf30c19b9530068518dab66f14a79de318458396d6af",
+      "scoville-code/agents/openai.yaml": "b61da1aa461a095063d780919f1fa982109ca75234b6350d04269f134632a107",
+      "scoville-code/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "scoville-code/references/change-workflow.md": "0921cebfe4305ea9553ac17c770fe77647f0147b67cdd22c1e8be5e5fdd98ab9",
+      "scoville-code/references/planning-and-decisions.md": "014cb7ef5d97f762912bceecb9ad0193bf7bba4a24fd2c80b45560dc5ef2c886",
+      "scoville-code/references/validation.md": "872fd6e0c256fdfdd4bb4655a4a7512af6a1e4e4d777bf3b8d07292f7d7563be",
+      "scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+      "scoville-code/SKILL.md": "7eb75d8684e98d31afff45e4a4a78289f324fa0ad33abc631e38d7642492810a",
+      "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "CHANGELOG.md": "76b928918b74e0332fefc69552dd996c3fff97c18014cbd464388d71c44ed2db",
+      ".gitattributes": "ec2d2af19590bc0beffea8e7f6534683ff656843b651728bfb61742576742a62"
+    }
+  },
+  "checks": {
+    "builder_payloads_and_package_links": [
+      "general-standalone",
+      "general-suite",
+      "codex-suite"
+    ],
+    "scoped_git_diff_check": "passed",
+    "validation_line_endings": "LF, matching original pre-research source",
+    "greenfield_and_planning_unchanged_from_this_correction_baseline": true,
+    "evaluation_inputs": 65,
+    "evaluation_input_ids_unique_and_json_parses": true,
+    "generic_validator_baseline_and_candidate_exit_code": 1,
+    "generic_validator_diagnostic": "Unexpected key(s) in SKILL.md frontmatter: compatibility. Pre-existing in baseline and candidate, not reported as a pass."
+  },
+  "review": {
+    "two_correction_checkpoint": "Reassess same unresolved failure or evidenced cause before another patch. Different reproductions, fresh output or old passing checks do not reset it.",
+    "countercases": [
+      "one failed attempt with a supported new diagnosis can proceed",
+      "unrelated failures are not combined",
+      "host attempt caps remain binding",
+      "real single-consumer boundary permitted; speculative factory/registry/strategy rejected",
+      "fixed-size repeated I/O can matter; small harmless local passes need no benchmark"
+    ],
+    "baseline_and_final_scoped_diff": "read",
+    "whole_skill_consistency": "Changed paragraphs checked against current core and all references; unchanged content reused from prior review.",
+    "research_claims": "Two-attempt checkpoint is user-experience-based, not an experimentally optimal threshold. Initial audit overstatement corrected.",
+    "new_model_runs": 0,
+    "limits": "Static source/package checks only for this correction. No observed long-running repair loop, new model superiority or Claude behavioral result claimed."
+  },
+  "installations": {
+    "codex": {
+      "profile": "codex-suite",
+      "changed_files": [
+        "references/change-workflow.md",
+        "references/planning-and-decisions.md",
+        "references/validation.md",
+        "SKILL.md"
+      ],
+      "exact_inventory": true,
+      "all_file_bytes_match_build": true,
+      "files": 7
+    },
+    "claude": {
+      "profile": "general-suite",
+      "changed_files": [
+        "references/change-workflow.md",
+        "references/planning-and-decisions.md",
+        "references/validation.md",
+        "SKILL.md"
+      ],
+      "exact_inventory": true,
+      "all_file_bytes_match_build": true,
+      "files": 7
+    }
+  },
+  "source_and_installation_baseline": "Workspace temp/2026-10-02-code-review-correction/baseline, including uncommitted changes.",
+  "publication": "No commit, push or publication performed by this correction task."
+}

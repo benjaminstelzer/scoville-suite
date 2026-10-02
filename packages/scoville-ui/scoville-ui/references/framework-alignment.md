@@ -31,11 +31,10 @@ design system and before framework defaults.
 Do not fetch mutable third-party skill files or generic design checklists at
 runtime. Prefer installed source and version-matched official documentation.
 
-Before custom styling, record the concrete owner option checked, the unmet
-requirement and why the supported option fails. Preserve source units and
-expressions, including relative units and unitless line-height. A token name or
-equal current pixel value does not establish equivalent behavior. Check final
-overrides and obsolete compensation at the owning layer.
+Before custom styling, follow Validation's
+[styling exception contract](validation.md#styling-exceptions).
+When changing style values, follow its
+[authored-unit contract](validation.md#measure-relationships-not-declarations).
 
 ## Classify the stack
 

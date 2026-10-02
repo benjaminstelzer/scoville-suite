@@ -1,0 +1,24 @@
+name: Runtime helpers
+on: [push, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  runtime:
+    name: runtime (${{ matrix.os }}, ${{ matrix.python }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        python: ['3.11', '3.x']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUTF8: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Test the exact packaged runtime helpers
+        run: python -B -m unittest discover -s tests -v

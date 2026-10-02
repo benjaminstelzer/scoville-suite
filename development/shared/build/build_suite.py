@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import ast
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -16,6 +17,13 @@ from urllib.parse import unquote, urlsplit
 def shared_root() -> Path:
     """Use the sources beside this builder, including published snapshots."""
     return Path(__file__).resolve().parents[1]
+
+
+def runtime_ci():
+    spec = importlib.util.spec_from_file_location('suite_runtime_ci', Path(__file__).with_name('runtime_ci.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def within(root: Path, relative: str) -> Path:
@@ -123,13 +131,32 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
     return data
 
 
+def substitute_template(text: str, pattern: str, replace, flags: int = 0) -> str:
+    """Remove an empty directive's own line and following blank separator."""
+    parts = []
+    cursor = 0
+    for match in re.finditer(pattern, text, flags):
+        value = replace(match)
+        start, end = match.span()
+        if not value:
+            line_start = text.rfind('\n', 0, start) + 1
+            tail = re.match(r'[ \t]*(?:\n|$)(?:[ \t]*\n)*', text[end:])
+            if line_start >= cursor and not text[line_start:start].strip() and tail:
+                start = line_start
+                end += tail.end()
+        parts.extend((text[cursor:start], value))
+        cursor = end
+    parts.append(text[cursor:])
+    return ''.join(parts)
+
+
 def select_text(text: str, kind: str, selected: str | None, allowed: set[str]) -> str:
     pattern = r'\{\{ ' + kind + r': ([a-z]+) \}\}(.*?)\{\{ /' + kind + r' \}\}'
     def replace(match):
         if match[1] not in allowed or '{{ ' + kind + ':' in match[2] or selected not in allowed:
             raise ValueError('invalid or unselected ' + kind + ' block')
         return match[2] if match[1] == selected else ''
-    result = re.sub(pattern, replace, text, flags=re.S)
+    result = substitute_template(text, pattern, replace, flags=re.S)
     if '{{ ' + kind + ':' in result or '{{ /' + kind in result:
         raise ValueError('unknown or unclosed ' + kind + ' block')
     return result
@@ -377,7 +404,7 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                 rows.append(f'https://github.com/{item["repository"]}/tree/main/{install_path}')
         return '\n'.join(rows)
 
-    result = re.sub(r'\{\{\s*include:\s*([^{}]+?)\s*\}\}', replace, text)
+    result = substitute_template(text, r'\{\{\s*include:\s*([^{}]+?)\s*\}\}', replace)
     if '{{ include:' in result:
         raise ValueError('unresolved build fragment')
     return result
@@ -617,7 +644,9 @@ def build(root: Path, output: Path, public: bool, selected: list[str], profile: 
     receipt = {'layout': config.get('layout'), 'profile': config.get('profile'), 'schema_version': 1, 'suite': config['name'], 'source_commit': revision.stdout.strip() if revision.returncode == 0 else None,
                'manifest_sha256': hashlib.sha256((root / 'suite.json').read_bytes()).hexdigest(),
                'shared_sources': shared_sources,
-               'source_dirty': bool(dirty.stdout), 'public_only': public, 'members': []}
+               'source_dirty': bool(dirty.stdout), 'public_only': public,
+               'runtime_validation': {'status': 'pending' if any(m.get('helper_contracts') for m in members) else 'not_applicable'},
+               'members': []}
     if output.exists():
         receipt_path = within(output, 'build-receipt.json')
         old = json.loads(receipt_path.read_text(encoding='utf-8'))
@@ -723,6 +752,8 @@ def main(default_root: Path | None = None) -> int:
     parser.add_argument('--output', type=Path)
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument('--size-report', action='store_true', help='Report package bytes without writing a build')
+    modes.add_argument('--prepare-runtime-ci', type=Path, metavar='DIRECTORY', help='Prepare exact packages and tests for the private Actions matrix; creates a test candidate only')
+    parser.add_argument('--runtime-run', help='Successful private Runtime helpers Actions URL matching current packages and tests; required for runtime package builds')
     parser.add_argument('--load-trace', nargs=2, action='append', default=[], metavar=('MEMBER', 'SUMMARY'), help='Existing runner summary for observed reference loads; use with --size-report')
     modes.add_argument('--check-readmes', action='store_true')
     modes.add_argument('--write-readmes', action='store_true')
@@ -742,6 +773,14 @@ def main(default_root: Path | None = None) -> int:
     if args.root is None:
         parser.error('--root is required when running the shared builder directly')
     try:
+        # Modules loaded by the suite-local entrypoint are not necessarily in sys.modules.
+        from types import SimpleNamespace
+        builder_api = SimpleNamespace(load=load, payload=payload, within=within)
+        if args.prepare_runtime_ci:
+            if args.output or args.runtime_run:
+                raise ValueError('--prepare-runtime-ci cannot combine with --output or --runtime-run')
+            print(json.dumps(runtime_ci().prepare(builder_api, args.root, args.prepare_runtime_ci, args.refresh)))
+            return 0
         if (args.viewer_assets or args.release) and not args.check_release:
             raise ValueError('--viewer-assets and --release require --check-release; use --check-release --output <packages> --viewer-assets <release/viewer>')
         if args.load_trace and not args.size_report:
@@ -790,18 +829,26 @@ def main(default_root: Path | None = None) -> int:
             errors = verify_packages(args.root, args.output)
             if errors:
                 raise ValueError('Package verification failed: ' + '; '.join(errors))
-            import importlib.util
+            runtime = runtime_ci().verify(builder_api, args.root,
+                args.runtime_run or receipt.get('runtime_validation', {}).get('run'),
+                load(args.root, receipt.get('profile'), receipt.get('layout')),
+                [m['name'] for m in receipt['members']])
             spec = importlib.util.spec_from_file_location('viewer_release_gate', Path(__file__).with_name('verify_viewer_assets.py'))
             gate = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(gate)
-            print(json.dumps({'valid': True, 'viewer': gate.verify(args.root.resolve(), args.viewer_assets.resolve(), args.release)}))
+            print(json.dumps({'valid': True, 'runtime': runtime, 'viewer': gate.verify(args.root.resolve(), args.viewer_assets.resolve(), args.release)}))
             return 0
         if args.check_helpers or args.check_packages:
             check = verify_packages if args.check_packages else verify_shared_helpers
             errors = check(args.root, args.output)
             print(json.dumps({'valid': not errors, 'errors': errors}))
             return int(bool(errors))
+        config = load(args.root, args.profile, args.layout)
+        selected = args.member or [m['name'] for m in config['members'] if not args.public_only or m['public_distribution']]
+        runtime = runtime_ci().verify(builder_api, args.root, args.runtime_run, config, selected)
         result = build(args.root, args.output, args.public_only, args.member, args.profile, args.layout, args.refresh)
+        runtime_ci().bind_receipt(result, runtime)
+        (args.output / 'build-receipt.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8', newline='\n')
     except (ValueError, OSError, KeyError, subprocess.CalledProcessError) as error:
         parser.exit(1, f'BUILD FAILED: {error}\n')
     print(json.dumps({k: v for k, v in result.items() if k != 'members'} | {'members': [m['name'] for m in result['members']]}))

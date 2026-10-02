@@ -39,7 +39,7 @@ class DistributionProfilesTests(unittest.TestCase):
                     usage = package['README.md'].decode().split('## How to use\n', 1)[1].split('\n## ', 1)[0]
                     # Invocation examples precede optional usage subsections and task-title illustration.
                     examples = usage.split('\n### ', 1)[0].split('Assignment labels identify', 1)[0]
-                    expected_examples = {'scoville-code': 3, 'scoville-setup': 0,
+                    expected_examples = {'scoville-code': 3, 'scoville-setup': 0, 'scoville-workflow-for-codex': 1,
                                          'scoville-project-context-cleanup': 1}.get(member['name'], 2)
                     self.assertEqual(expected_examples, examples.count('```text'))
                     core = package[member['name'] + '/SKILL.md'].decode()

@@ -1,4 +1,3 @@
 ## What it costs
 
-- Reading the code and running checks costs more tokens and time than
-  patching right away.
+- Reading relevant code and checking behavior takes tokens and time. The extra work is aimed at avoiding fixes that merely look finished.

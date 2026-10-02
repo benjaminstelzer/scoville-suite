@@ -13,6 +13,41 @@ spec.loader.exec_module(builder)
 
 
 class FamilyFragmentsTests(unittest.TestCase):
+    def test_empty_directives_leave_no_blank_paragraphs(self):
+        source = ('Before\n\n'
+                  '{{ package: standalone }}Family owners:{{ /package }}\n\n'
+                  '{{ include: family.owners }}\n\nAfter\n')
+        for profile in ('general', 'codex'):
+            with self.subTest(profile=profile):
+                config = builder.load(ROOT, profile, 'suite')
+                self.assertEqual('Before\n\nAfter\n',
+                                 builder.expand_fragments(ROOT, source, config=config))
+                # Unrelated blank lines and inline spaces are content, not residue.
+                literal = '```text\na\n\n\nb\n```\n\n\nTail\n'
+                self.assertEqual(literal, builder.expand_fragments(ROOT, literal, config=config))
+                self.assertEqual('left  right\n', builder.expand_fragments(
+                    ROOT, 'left {{ include: family.owners }} right\n', config=config))
+        standalone = builder.load(ROOT, 'general', 'standalone')
+        rendered = builder.expand_fragments(ROOT, source, config=standalone)
+        self.assertIn('Family owners:\n\n- `', rendered)
+        self.assertIn('`scoville-handoff`:', rendered)
+        self.assertTrue(rendered.endswith('\n\nAfter\n'))
+
+    def test_packaged_family_blocks_have_one_separator(self):
+        for profile, layout in (('general', 'suite'), ('codex', 'suite'),
+                                ('general', 'standalone')):
+            config = builder.load(ROOT, profile, layout)
+            for name in ('scoville-handoff', 'scoville-code', 'scoville-plan', 'scoville-ui'):
+                with self.subTest(profile=profile, layout=layout, member=name):
+                    member = next(m for m in config['members'] if m['name'] == name)
+                    text = builder.payload(ROOT, member, config)[name + '/SKILL.md'].decode()
+                    self.assertNotIn('{{', text)
+                    if layout == 'suite':
+                        self.assertIn('Explicit invocation gates', text)
+                        self.assertRegex(text, r'user exclusions still apply\.\n\n[^\n]')
+                    else:
+                        self.assertIn('works independently', text)
+
     def test_suite_omits_family_projections(self):
         config = builder.load(ROOT, 'codex')
         for key in ('family.install', 'family.links', 'family.owners', 'family.catalog'):

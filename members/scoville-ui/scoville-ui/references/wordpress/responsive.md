@@ -8,8 +8,7 @@ breakpoint.
 
 - At `<=782px`, respect Core mobile admin behavior. Check `783px` as the
   boundary immediately above it.
-- At `320 CSS px`, non-exempt content retains information and function in one
-  scrolling direction. Also check the equivalent `1280px` at `400%` zoom.
+- Apply [common Validation's reflow limit](../validation.md#derive-the-test-surface).
 - `600px` and `390px` are Skill-Norm intermediate test widths, not official
   universal WordPress breakpoints.
 - Preserve DOM, keyboard, and screen-reader order when layout changes.
@@ -78,12 +77,10 @@ responsive switch.
 
 For a new page, full audit, or focused change, select the widths, content and
 states that can disprove the scoped layout claims. Include the Core `782px`
-boundary and `783px` when that admin transition affects the region. Check
-WCAG reflow at a width equivalent to `320 CSS px` for non-exempt vertically
-scrolling content, using `1280px` at `400%` zoom or an equivalent setup when
-appropriate. Two-dimensional content needed for meaning has the criterion's
-exception; do not extend it to the entire page. `600px` and `390px` are useful
-intermediate Skill-Norm samples when a wrap or layout change occurs there, not
+boundary and `783px` when that admin transition affects the region. Apply
+[common Validation's reflow check](../validation.md#derive-the-test-surface).
+`600px` and `390px` are useful intermediate Skill-Norm samples when a wrap or
+layout change occurs there, not
 mandatory widths. Use realistic long text or changed states when they can
 alter the conclusion. Add RTL only when the UI language scope requires it.
 Report the inspected cases and remaining gaps; a source-only review leaves

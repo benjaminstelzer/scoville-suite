@@ -1,3 +1,3 @@
 ## What it costs
 
-- Reading the task state and preparing the handoff use additional tokens and time.
+- Preparing the prompt takes tokens and time once, so the next session has less context to reconstruct.

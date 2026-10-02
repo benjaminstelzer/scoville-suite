@@ -4,9 +4,9 @@ Scoville helps your agent plan work, write code, improve interfaces and carry
 unfinished tasks into the next conversation. Along the way, the Skills keep
 the goal, the project's conventions and the verified results in view.
 
-The Scoville scale originally measured chili heat through dilution. Here, the
-point is that the goal, the decisions and the verified results stay clear as
-work passes through plans, code changes and conversations.
+Scoville is the scale for chili heat. These Skills aim for sharper work and
+less diluted context. Adding more instructions is easy. Keeping the useful
+ones is the point.
 
 Using Claude Code or another Agent Skills host? Take
 [Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
@@ -31,99 +31,57 @@ The agent picks the Skills that fit your request.
 
 ## Scoville Code
 
-A coding agent can produce passing tests while missing the behavior you asked
-for. Scoville Code connects the requested result, the existing implementation
-and the evidence that a change works.
+Passing tests are useful. Passing tests for the wrong behavior, rather less so.
+Scoville Code keeps implementation, debugging and review tied to the result you
+asked for: find the cause, work with the existing architecture and check what
+actually changed.
 
-Use it to write, debug, review or remove code. It has the agent find the
-actual cause, work within the project's architecture and check the affected
-behavior, with as much effort as the task deserves.
+Scoville measures chili heat. Code aims for sharper reasoning before a small
+fix acquires its own framework.
 
 ### How it works
 
-- Before editing, pin down the outcome, the responsible code, the risks and
-  the check that will settle whether it works.
-- Read the relevant code, its callers and tests. Look further when the
-  evidence calls for it.
-- Assess runtime and memory costs before the change. Prefer simpler
-  algorithms and avoiding repeated work. Use suitable existing caches correctly
-  and explain the tradeoff before asking you to approve a new one.
-- Fix the cause, within the existing architecture and the scope you asked for.
-- Check the changed behavior, including runtime and memory costs, and report
-  what the evidence actually proves.
-- When something fails, investigate it without weakening guarantees. Change
-  an outdated assertion only when a change to the expected behavior has been
-  approved. After two failed fixes for the same cause, step back and reassess.
-- Look at the complete change, report what's still open, and stop checking
-  once more evidence wouldn't change the decision.
+- Establish the requested result and find the code responsible for it.
+- Fix the cause within the project's architecture and your authorized scope.
+- Check the affected behavior and relevant performance costs.
+- Reassess failed fixes, report remaining limits and stop when further checks
+  would no longer change the decision.
 
 ### What it enforces
 
-- **The requested result.** Plans, tests and refactors serve the outcome. The
-  task is only done when the behavior itself works.
-- **Project conventions.** Changes follow the project's architecture, records,
-  terminology and workflow.
-- **Proportionate checks.** Checks target concrete ways things could fail.
-  Broader security, migration or release checks happen when the task or the
-  project's rules call for them.
-- **Supported claims.** Reports keep observed results, failed checks and
-  unverified behavior apart.
-- **Root-cause correction.** If fixes keep failing, the approach gets
-  reassessed.
-- **Navigable code.** Changes follow existing conventions and module
-  boundaries. New projects start with a small layout organized by
-  responsibility. Source files are limited to 2,000 lines by default, with
-  room for justified exceptions.
-- **Necessary questions.** The agent asks when a choice affects behavior,
-  authority, cost, reversibility or scope. Ordinary details it settles from
-  the project itself.
-- **Your conventions.** Project instructions come first. The defaults only
-  apply to a brand-new project. To keep your own conventions across updates,
-  store them outside the installed Skill and reference them from `AGENTS.md`
-  (Codex) or `CLAUDE.md` (Claude Code).
-  See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions).
-- **Useful completion reports.** The final report states what behavior
-  changed, how it was checked, which failures remain and the relevant
-  repository state.
+- **Work that serves the request.** Refactors, safeguards and tests need a
+  concrete purpose. The agent asks about material choices and settles routine
+  details from the project.
+- **Your conventions.** Existing architecture and project rules take precedence.
+  New projects start with a small structure organized by responsibility.
+- **Evidence that fits the change.** Check the behavior, preserve guarantees and
+  distinguish observed results from what remains unverified.
 
-The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md).
+Keep personal conventions outside the installed Skill so updates preserve them.
+See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions)
+and [full instructions](https://github.com/benjaminstelzer/scoville-code/blob/main/scoville-code/SKILL.md).
 
 ### What it costs
 
-- Reading the code and running checks costs more tokens and time than
-  patching right away.
+- Reading relevant code and checking behavior takes tokens and time. The extra work is aimed at avoiding fixes that merely look finished.
 
 [How to use Scoville Code](members/scoville-code/README.md#how-to-use).
 
 ## Scoville Plan
 
-Before an agent starts implementing, it should be clear what it is supposed to
-achieve and how the result will be checked. A Plan makes the goal, dependencies
-and acceptance criteria explicit. That matters in AI-assisted software
-engineering, especially when the work spans several conversations.
+Scoville Plan keeps goals, decisions and progress in the repository so longer
+work survives the next conversation. You can see what is done, what remains
+and why a choice was made without reconstructing it from chat history.
 
-Scoville Plan keeps those facts in the repository: Work Items, relevant
-Decisions, accepted results and the next action. The next agent can pick up the
-work from there. You can see what is finished, why a choice was made and what
-still needs checking, without piecing it together from an entire chat.
+Use it for work with dependencies or several sessions. Settle the requirements
+and acceptance criteria before implementation, get independent advice where
+useful, and revise the Plan when the facts change. A contained fix can stay small.
 
-Substantial work deserves a Plan that got real attention before anything is
-executed. Clarify requirements, check dependencies and get independent
-feedback, for example through Scoville Ask, then revise the Plan until the
-important questions are settled. Complex work can take several rounds of
-review and changes before Scoville Workflow starts implementing it. That
-coordination overhead is worth it when the size and dependencies justify it.
-Good planning is a large part of software engineering. AI helps with it, but
-goals, architecture and tradeoffs still need informed judgment.
+Scoville measures chili heat. Plan keeps the direction from being diluted by
+one more perfectly reasonable detour.
 
-If implementation shows that an assumption was wrong, update the Plan. Its
-job is to keep the direction while the work changes. Use it for dependent
-work and long-term maintenance, inside whatever planning system the project
-already has. And keep small tasks small: a large Plan for a contained fix
-just adds work.
-
-[Download Scoville Plan Viewer](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
-for Windows, macOS and Linux.
+[Plan Viewer](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
+shows these records on Windows, macOS and Linux.
 
 ### How it works
 
@@ -134,138 +92,110 @@ for Windows, macOS and Linux.
 
 ### What it enforces
 
-- **Existing project records.** Plan follows the repository's planning rules
-  and updates its established records.
-- **Clear work units.** Goals name the target, Work Items describe outcomes
-  that can be resumed, and ordered Steps describe the work.
-- **Current assumptions.** Before the next item is executed, it's checked
-  against the sources and the work already done.
-- **One active item.** Only one item is active at a time, with its first
-  unfinished action recorded.
-- **Changes of direction.** New priorities, pauses and work you want to come
-  back to get recorded.
-- **Evidence before completion.** Nothing is marked complete without the
-  observed results that show it meets acceptance.
-- **Explicit decisions.** Your decisions get recorded. Choices you haven't
-  confirmed stay marked as proposals.
-- **Direct maintenance.** Routine edits update the Plan directly instead of
-  creating extra Work Items.
+- **Resumable work.** Goals, ordered Steps, dependencies and the current position
+  stay explicit in the project's records.
+- **Decisions with an owner.** Confirmed choices are recorded. Open questions
+  remain proposals and block only the work that depends on them.
+- **Evidence before completion.** Finished means acceptance was checked.
+  Changes of direction preserve completed work and relevant history.
 
-Edit the records from one session at a time. If two sessions change them in
-parallel, the changes have to be reconciled.
-
-See [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md) for the full instructions and editing limits.
+Edit records from one session at a time. Concurrent edits need reconciliation.
+See the [full instructions](https://github.com/benjaminstelzer/scoville-plan/blob/main/scoville-plan/SKILL.md).
 
 ### What it costs
 
-- Reading, updating and checking Plan records add token usage and maintenance time.
+- Maintaining records takes tokens and time. It pays for continuity on dependent work. A small fix rarely needs a large Plan.
 
 [How to use Scoville Plan](members/scoville-plan/README.md#how-to-use).
 
 ## Scoville UI
 
-A page has to work across screen sizes and input methods, and in error
-states. Scoville UI builds and audits that behavior with the project's
-framework and design system, including plugin-owned WordPress admin pages,
-and checks the result in the rendered interface. It also takes care of
-interface text: labels say what they're for, buttons name their action, and
-terms stay consistent across views and translations.
+Scoville UI builds and audits interfaces with the project's framework and
+design system. It covers clear wording, useful hierarchy, responsive layouts
+and accessible interactions, then checks the rendered result. A tidy component
+tree is a start. People still have to use the page.
 
-On supported WordPress admin pages, it uses Core components and follows
-WordPress spacing, version requirements and translation conventions.
+It includes specific guidance for plugin-owned WordPress admin pages, using
+Core components and WordPress conventions.
+
+Scoville measures chili heat. UI aims for a sharper interface without making
+the user sweat.
 
 ### How it works
 
-- Find out which design system, components and approved product decisions
-  apply.
-- Read the relevant code and use the components the framework supports.
-- Apply the WordPress guidance to supported plugin-owned `wp-admin` pages.
-  Editor surfaces and metaboxes keep their host's conventions.
-- Take blocked product decisions to whoever owns them. Where the visual
-  direction is still open, stay within the framework's existing conventions.
-- Implement the affected states and responsive behavior, then look at the
-  rendered result and try the interactions.
+- Establish the user's task, approved design direction and framework components.
+- Build the affected views, wording, states and responsive behavior.
+- Inspect the rendered interface and try its relevant interactions.
+- Apply the WordPress adapter to supported plugin-owned admin pages. Editor
+  surfaces and metaboxes keep their host's conventions.
 
 ### What it enforces
 
-- **Design consistency.** Changes follow the existing design system and
-  approved product decisions.
-- **Clear hierarchy.** Main decisions, supporting information and secondary
-  actions are visibly distinct.
-- **Task structure.** Open navigation and layout questions are decided around
-  the user's task. Controls are chosen by what they mean, and modal
-  interruptions are used deliberately.
-- **Interface text.** Labels and buttons say what they're for and what they
-  do. Terms stay the same across views, states and translations.
-- **Complete states.** Relevant loading, empty, error, disabled, success and
-  input states are covered.
-- **Responsive behavior.** The interface stays usable on narrow and wide
-  screens, with zoom and long content.
-- **Changes in context.** When elements change, the affected group and flow
-  get another look, including whether the responsive layout still works.
-- **Accessibility.** Reading order, names, relationships, contrast, focus and
-  keyboard or touch behavior are checked.
-- **Visual checks.** Nothing is reported as working until the rendered
-  interface has been inspected and its interactions tested. Source checks
-  alone leave rendering and interaction unverified.
-- **WordPress conventions.** Each part of the page uses the appropriate
-  WordPress components and design tokens. Existing PHP-rendered pages can stay
-  in PHP.
+- **A coherent interface.** Hierarchy, controls and terminology follow the task
+  and the existing design system.
+- **Usable states.** Loading, empty, error and success states receive the same
+  attention as the convenient example with perfect data.
+- **Access across devices.** Check responsive layout, zoom, reading order,
+  contrast, focus and keyboard or touch operation where applicable.
+- **Rendered proof.** Source checks alone cannot establish that the interface
+  works. Unchecked rendering or interaction stays explicitly unverified.
 
-The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
+See the [full instructions](https://github.com/benjaminstelzer/scoville-ui/blob/main/scoville-ui/SKILL.md).
 
 ### What it costs
 
-- Browser inspection, interaction checks and corrections take tokens and time.
-- WordPress tasks load extra platform guidance.
+- Rendered inspection and interaction checks take tokens and time. They catch problems the source alone cannot show. WordPress tasks also load platform guidance.
 
 [How to use Scoville UI](members/scoville-ui/README.md#how-to-use).
 
 ## Scoville Handoff
 
-Continuing a task requires its current blocker, unfinished changes and relevant
-decisions. Scoville Handoff gathers those facts into one compact, copy-ready
-prompt with the objective, permissions and next action, so another session can
-resume the work.
+Scoville Handoff turns the current task into one copy-ready continuation
+prompt: the goal, decisions, unfinished work, blockers and next action.
+Another session can pick up the work without asking you to explain it all again.
+
+Scoville measures chili heat. Handoff keeps the useful context from being
+diluted between conversations. The next agent already has enough imagination.
 
 ### How it works
 
-- Read conversation facts and named sources, recovering incomplete reads within the user's limits.
-- Capture decisions, ownership, evidence and blockers while excluding secrets.
-- Organize and check one copy-ready prompt with Receiver Instructions, Objective, State and Resume Steps.
-- Preserve necessary facts under length limits. The receiver checks current state before acting.
+- Read the conversation and the task sources already named or established.
+- Capture the facts needed to resume, including permissions and unfinished work.
+- Produce one prompt in the requested language, otherwise the conversation
+  language. The receiving agent checks current state before acting.
 
 ### What it enforces
 
-- **Explicit transfer.** A requested handoff produces one continuation prompt.
-- **Usable context.** Important facts from the conversation and named sources
-  end up in the prompt, including blockers and unfinished work.
-- **Preserved authority.** Permissions, file ownership, your own changes and
-  limits on commits, publishing or destructive actions stay explicit.
-- **Honest state.** Results nobody observed stay marked as unknown. Secrets
-  stay out.
-- **Actionable continuation.** The first Resume Step gives the next safe
-  action. The last says how to confirm the work is complete.
-- **A faithful snapshot.** Creating the handoff only reads and describes the
-  task. It doesn't edit, test or move it forward.
+- **Explicit transfer.** A handoff starts when you request one. Preparing it is
+  read-only and does not advance the task.
+- **Faithful context.** Decisions, permissions, ownership and blockers survive
+  the transfer. Unknown results stay unknown, and secrets stay out.
+- **A useful next action.** The prompt tells the next session where to resume
+  and how to recognize completion.
 
-The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
+A targeted GPT-6 Luna High test turned a preference into a requirement. Check
+that distinction in a generated handoff. Later testing has not disproved the
+observation.
+
+See the [full instructions](https://github.com/benjaminstelzer/scoville-handoff/blob/main/scoville-handoff/SKILL.md).
 
 ### What it costs
 
-- Reading the task state and preparing the handoff use additional tokens and time.
+- Preparing the prompt takes tokens and time once, so the next session has less context to reconstruct.
 
 [How to use Scoville Handoff](members/scoville-handoff/README.md#how-to-use).
 
 ## Scoville Project Context Cleanup
 
-Project rules grow with every new note. Repeated instructions and stale context
-make the next task harder to follow. Scoville Project Context Cleanup adds or
-revises the rules you request in `AGENTS.md` and context in `PROJECT_INDEX.md`,
-placing them where they belong and preserving their meaning.
+Project rules grow. Unfortunately, clarity does not grow automatically with
+them. This Skill adds or revises the rules you request in `AGENTS.md` and
+context in `PROJECT_INDEX.md`, keeping useful information where the next agent
+will find it.
 
-Suitable text stays unchanged. Necessary scope, exceptions and safeguards stay
-explicit, even when they need more words.
+It preserves meaning, scope and safeguards. Suitable text stays as it is.
+
+Scoville measures chili heat. Context Cleanup removes the dilution, not the
+ingredients that made the rules useful.
 
 ### How it works
 
@@ -283,7 +213,7 @@ explicit, even when they need more words.
 
 ### What it costs
 
-- Reading the target, relevant rules and saved edits takes additional tokens and time.
+- Reading the rules and checking edits takes tokens and time. The useful return is clearer context for later work, without deleting necessary detail.
 
 [How to use Scoville Project Context Cleanup](members/scoville-project-context-cleanup/README.md#how-to-use).
 
@@ -346,46 +276,14 @@ and whether the host discovers the Skill.
 <details>
 <summary>Development and builds</summary>
 
-## Development and builds
+Sources live under `members/`. Edit README fragments in `development/readme/`,
+then run `python development/build_suite.py --write-readmes`. The manifest
+`suite.json` owns package membership and README composition.
 
-Member sources live under `members/`. README fragments live under
-`development/readme/`, and `suite.json` lists them in order. Member README
-files are generated previews, so don't edit them directly.
-
-A standalone clone builds from the shared tools and templates bundled under
-`development/shared/`. In the authoring workspace, the sibling `shared/`
-directory holds those sources and builds both the general and the Codex
-edition. Installed Skills only use the helpers inside their own package.
-
-The shared Development block appears in this suite and its member previews.
-Individual releases leave it out.
-
-[How Scoville Suite developed](https://github.com/benjaminstelzer/scoville-suite/blob/main/docs/README.md)
-covers the problems that shaped the suite and the changes they led to.
-
-Regenerate the previews with `python development/build_suite.py --write-readmes`.
-Use `--check-readmes` to find stale previews.
-
-To build this exported edition, write it to a new directory outside the
-repository:
-
-```text
-python development/build_suite.py --output <new-output-directory> --public-only
-```
-
-The exported manifest fixes the edition and the complete suite layout. All
-member packages are bundled under the suite's `packages/` directory, so an
-isolated build needs no sibling source checkout and no individual Skill
-repository.
-
-The complete private authoring source also supports `--profile general|codex`
-and `--layout standalone|suite`. Standalone builds include the family links,
-suite builds include every member. An export always produces a complete suite
-with the selected profile and layout. An exported single-profile source
-doesn't offer the other profile.
-
-Uncommitted sources produce development builds. Publishing requires reviewed,
-committed sources and the release checks.
+[Development notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/docs/README.md)
+explain the problems behind the suite. The
+[build guide](development/shared/build/fragments.md) covers package generation,
+runtime checks and Viewer assets. Installed Skills need only their own packages.
 
 </details>
 

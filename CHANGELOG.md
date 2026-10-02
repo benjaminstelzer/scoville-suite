@@ -1,6 +1,12 @@
 # Changelog
 
 
+## v2.3.4 - 2026-10-02
+
+- Keep Code fixes and checks proportionate, and preserve task meaning across handoffs.
+- Find open Plan decisions and read fenced examples correctly when resuming work.
+- Strengthen rendered accessibility checks and preserve scope and safeguards when cleaning project rules.
+
 ## v2.3.3 - 2026-10-01
 
 - Show Plan progress and the current point in a compact, collapsible overview in Plan Viewer 1.4.2. Keep detailed Steps in the point body.
@@ -12,50 +18,30 @@
 - Filter paused and cancelled Plan points directly in Plan Viewer 1.4.1.
 
 
-
-
 ## v2.3.1 - 2026-10-01
 
-- Keep Handoff's observed Luna High test limit in its README, changelog and released package when replacing earlier releases.
+Known limit: a targeted Handoff test promoted a preference to a requirement.
+Check that distinction when resuming from a generated prompt.
 
 ## v2.3.0 - 2026-10-01
 
 - Add Project Context Cleanup for requested edits to project rules and index text, preserving their meaning and record ownership.
 - Record Step progress and additional instructions in Plan. Select the written position without guessing unknown progress, and repair proven progress from Evidence and actual results.
 - Ship Plan Viewer 1.4.0 for all four platforms with matching Step progress, active groups, Instructions and open Decisions.
-
-
 ## v2.2.1 - 2026-09-29
 
 - Check runtime and memory costs before and after code changes. Prefer simpler algorithms, use suitable existing caches correctly and obtain the user's decision before adding a new cache unless already authorized.
-
-
 ## v2.2.0 - 2026-09-29
 
 - Keep manual no-Python procedures separately loadable in the general edition. Codex requires the packaged helpers, with concrete diagnostics for invalid calls.
 - Continue explicitly requested Plan execution through eligible work while preserving recorded stops and unresolved Decisions.
-
-
-
-
-
-
-
-
-
-
-
-
 ## v2.1.3 - 2026-09-28
 
 - Keep Code safeguards proportionate to actual consequences and preserve useful output when a later step fails.
 - Give UI ownership of interface wording, terminology and unsettled task structure.
 - Check the affected composition and responsive behavior after UI changes.
 
-
-
 ## v2.1.1 - 2026-09-28
-
 
 - Split unfinished Plan Steps without changing scope, acceptance criteria or completed evidence.
 - Keep pure visual concepts outside the WordPress implementation adapter.
@@ -105,8 +91,8 @@
 
 ## v1.1.0 - 2026-09-24
 
-- Build general and Codex suites from one manifest; keep Python replacement procedures only in the general edition.
-- Require complete suite installations from their own packages; standalone Skills remain independent.
+- Build general and Codex suites from one manifest. Keep Python replacement procedures only in the general edition.
+- Require complete suite installations from their own packages. Standalone Skills remain independent.
 - Add shared writing profiles with independent Plan and Workflow configuration.
 - Preserve exact plan-point text and bind additional context and writing rules into Workflow dispatches.
 - Bundle the compatible Plan v1.8.0 and Workflow v0.5.0 pair. Plan Viewer v1.3.2 remains unchanged.
@@ -145,7 +131,7 @@
 
 ## v1.0.2 - 2026-09-23
 
-- Route new Workflow tasks through Luna 6, SOL 6, and Astra 6; remove Terra from the default routing table.
+- Route new Workflow tasks through Luna 6, SOL 6, and Astra 6. Remove Terra from the default routing table.
 - Verify builder assignments after the native task envelope escapes HTML characters or removes the final newline.
 
 ## v1.0.1 - 2026-09-23

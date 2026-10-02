@@ -117,22 +117,6 @@ class ReadmeTemplateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'only valid in the suite README'):
             builder.expand_fragments(root, '{{ include: suite.descriptions }}', builder.load(root)['members'][0])
 
-    def test_name_origin_precedes_metaphor_without_repeating_in_suite(self):
-        root = SHARED.parent / 'scoville-suite'
-        for profile in ('general', 'codex'):
-            for layout in ('standalone', 'suite'):
-                config = builder.load(root, profile, layout)
-                descriptions = builder.expand_fragments(root, '{{ include: suite.descriptions }}', config=config)
-                self.assertNotIn('The name comes from', descriptions)
-                for member in config['members']:
-                    rendered = builder.readme(root, member, config=config).decode()
-                    if layout == 'standalone' and member['name'] != 'scoville-project-context-cleanup':
-                        self.assertEqual(rendered.count('The name comes from'), 1)
-                        self.assertLess(rendered.index('The name comes from'), rendered.index('the heat') if 'Here, the heat' in rendered else rendered.index('The heat'))
-                        self.assertLess(rendered.index('The name comes from'), rendered.index('## How it works'))
-                    else:
-                        self.assertNotIn('The name comes from', rendered)
-
     def test_description_addition_edit_and_missing_source(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

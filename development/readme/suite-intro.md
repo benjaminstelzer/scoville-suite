@@ -4,9 +4,9 @@ Scoville helps your agent plan work, write code, improve interfaces and carry
 unfinished tasks into the next conversation. Along the way, the Skills keep
 the goal, the project's conventions and the verified results in view.
 
-The Scoville scale originally measured chili heat through dilution. Here, the
-point is that the goal, the decisions and the verified results stay clear as
-work passes through plans, code changes and conversations.
+Scoville is the scale for chili heat. These Skills aim for sharper work and
+less diluted context. Adding more instructions is easy. Keeping the useful
+ones is the point.
 
 Using Claude Code or another Agent Skills host? Take
 [Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
