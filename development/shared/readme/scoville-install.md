@@ -1,5 +1,3 @@
-## Install
-
 ### Install this Skill
 
 {{ package: standalone }}Ask your agent host:
@@ -10,10 +8,8 @@ https://github.com/benjaminstelzer/{{ var: skill_name }}/tree/main/{{ var: skill
 Preserve personal settings and unrelated Skills. Report the installed location
 and whether the host discovers the Skill.
 ```
-{{ /package }}{{ package: suite }}Install this Skill as part of the complete suite from
-[the suite's own packages]({{ include: suite.repository }}/tree/main/packages).
-Every member must be installed and enabled. Do not fetch or substitute packages
-from individual Skill repositories. If any member is missing or incompatible,
+{{ /package }}{{ package: suite }}Use [the suite's own packages]({{ include: suite.repository }}/tree/main/packages).
+Keep all members from the same suite. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 {{ /package }}
 The host needs permission to write to its Skills directory. {{ profile: general }}The

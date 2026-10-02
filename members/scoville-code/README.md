@@ -44,24 +44,16 @@ evidence. Selected comparisons do not establish a general performance gain.
 
 ## Compatibility
 
-Use a frontier model from the Fable, Astra, SOL or Opus families, version 5.0
-or newer. Luna was also used in testing.
-
-The host has to be able to read the Skill's references and run the project's
-own build, test and check commands in a shell. Version control is optional,
-and the Skill ships no scripts. It was developed for Codex and Claude Code.
-Other hosts haven't been tested.
-
-Install and enable every Skill in the suite. Each applies to its own task scope.
+Developed for Codex and Claude Code with access to the Skill's references and a shell for the project's own checks. Use a Fable, Astra, SOL or Opus model (5.0+).
 
 ## Install
 
+Install and enable every Skill in the suite. Each applies to its own task scope.
+
 ### Install this Skill
 
-Install this Skill as part of the complete suite from
-[the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
-Every member must be installed and enabled. Do not fetch or substitute packages
-from individual Skill repositories. If any member is missing or incompatible,
+Use [the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
+Keep all members from the same suite. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 
 The host needs permission to write to its Skills directory. The
