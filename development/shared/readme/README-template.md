@@ -28,8 +28,10 @@ and development text remain suite-specific sources.
 
 Use a flowchart only when it clarifies branches or dependent steps and replaces
 longer explanation. Keep the Workflow flowchart. Lists may precede a diagram.
-Keep operational examples and configuration under How to use. Put material
+Keep prerequisites in a two-sentence Compatibility section, setup and required
+configuration under Install, and operational examples under How to use. Put material
 compatibility or evidence limits beside the affected claim, not in What it costs.
-Read each complete README for flow, connected reasoning and repetition after
-assembling its fragments. Keep developer links under How it was developed. Suite-only developer
+After building, read each distinct assembled README for flow, connected
+reasoning, repetition and correct section placement. Fix sources, rebuild and
+recheck affected output before publishing. Keep developer links under How it was developed. Suite-only developer
 links stay absent from standalone distributions. Preserve historical evidence.

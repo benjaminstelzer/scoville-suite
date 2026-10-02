@@ -41,28 +41,16 @@ session needs to continue.
 
 ## Compatibility
 
-Requires a frontier model from the Fable, Astra, SOL or Opus families,
-version 5.0 or newer. This requirement does not establish test coverage for
-each family. Targeted GPT-6 Luna High testing found the preference-to-requirement
-error described above.
-
-The host needs to read sources named or already established for the task.
-Read-only access to version control is optional. Handoff uses no scripts,
-no network and no subagents.
-
-Developed for Codex and Claude Code. This states the intended hosts, not evidence
-of equivalent test coverage on both. Other hosts haven't been tested.
-
-Install and enable every Skill in the suite. Each applies to its own task scope.
+Developed for Codex and Claude Code with read access to the task's relevant sources. Use a Fable, Astra, SOL or Opus model (5.0+).
 
 ## Install
 
+Install and enable every Skill in the suite. Each applies to its own task scope.
+
 ### Install this Skill
 
-Install this Skill as part of the complete suite from
-[the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
-Every member must be installed and enabled. Do not fetch or substitute packages
-from individual Skill repositories. If any member is missing or incompatible,
+Use [the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
+Keep all members from the same suite. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 
 The host needs permission to write to its Skills directory. The

@@ -46,32 +46,16 @@ of check replaces usability testing with the people who will use the product.
 
 ## Compatibility
 
-Needs a frontier model from the Fable, Astra, SOL or Opus families, version
-5.0 or newer. Luna was also used in testing.
-
-The host must be able to read the Skill's references, and the target
-project's toolchain has to be available.
-
-Visual checks need a running interface, screenshots and access to element
-positions and sizes, through the DOM or an equivalent tool. Testing
-interactions needs control of a browser or the platform.
-
-WordPress checks need the supported wp-admin runtime with its PHP and
-JavaScript components. Reading the source can't verify the rendered
-interface, and screenshots alone can't verify interactions.
-
-Developed for Codex and Claude Code. Other hosts haven't been tested.
-
-Install and enable every Skill in the suite. Each applies to its own task scope.
+Developed for Codex and Claude Code with the project's toolchain and browser or platform access for rendered checks and interactions. Use a Fable, Astra, SOL or Opus model (5.0+).
 
 ## Install
 
+Install and enable every Skill in the suite. Each applies to its own task scope.
+
 ### Install this Skill
 
-Install this Skill as part of the complete suite from
-[the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
-Every member must be installed and enabled. Do not fetch or substitute packages
-from individual Skill repositories. If any member is missing or incompatible,
+Use [the suite's own packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
+Keep all members from the same suite. If any member is missing or incompatible,
 report the incomplete installation rather than claiming the suite is ready.
 
 The host needs permission to write to its Skills directory. The
