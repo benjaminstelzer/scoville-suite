@@ -1,7 +1,3 @@
-## Suite requirements
+## Compatibility
 
-Install and enable every Skill in the suite. For individual Skills available
-on their own, use the standalone packages instead.
-
-The agent picks the Skills that fit your request.{{ profile: codex }} Workflow only starts when
-you ask for it. Codex needs Python 3.11 or newer for the included tools.{{ /profile }}
+{{ profile: general }}Developed for Codex and Claude Code with a Fable, Astra, SOL or Opus model (5.0+). Optional Python helpers require Python 3.10 or newer.{{ /profile }}{{ profile: codex }}Requires Codex desktop with native agents, Python 3.11+ and a Fable, Astra, SOL or Opus model (5.0+). Claude consultations also need a signed-in Claude Code CLI, version 2.1.280+ for Opus 5.5.{{ /profile }}

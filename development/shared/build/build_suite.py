@@ -232,13 +232,17 @@ def readme(root: Path, member: dict, audience: str = 'release', config: dict | N
     if 'description_fragments' in member:
         expected = ['How it works', 'What it enforces', 'What it costs',
                     'How it was developed', 'Compatibility', 'Install',
-                    'How to use', 'Sources', 'Family', 'License']
+                    'Configuration', 'Limitations', 'How to use', 'Sources',
+                    'Family', 'Developer links', 'License']
         if config.get('layout') == 'suite':
             expected.remove('Family')
         actual = re.findall(r'^## (.+)$', text, re.M)
+        optional = {'Configuration', 'Limitations', 'Developer links'}
+        expected = [heading for heading in expected if heading not in optional or heading in actual]
         # Shared family and license headings are expanded from their files above.
         if actual != expected:
-            raise ValueError(f'noncanonical README sections for {member["name"]}: {actual}')
+            raise ValueError(f'noncanonical README sections for {member["name"]}: {actual}. '
+                             f'Order the member readme entries as {expected}; omit optional sections only when unused.')
         if member['readme'][:4] != member['description_fragments']:
             raise ValueError('description_fragments must be the first four README entries')
     return (text.rstrip() + '\n').encode('utf-8')
@@ -309,8 +313,8 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             entries = config.get('catalog', [])
             if not entries:
                 return ''
-            return '## Additional Scoville Skills\n\n' + '\n\n'.join(
-                f'### {item["name"]}\n\n{item["availability"]}, also available as a standalone Skill. '
+            return '### Additional Scoville Skills\n\n' + '\n\n'.join(
+                f'#### {item["name"]}\n\n{item["availability"]}, also available as a standalone Skill. '
                 f'Ask your Codex host:\n\n```text\nInstall this Skill for all my projects from this exact package directory:\n'
                 f'https://github.com/{item["repository"]}/tree/main/{item["name"]}\n'
                 'Preserve personal settings and unrelated Skills. Report the installed location\n'

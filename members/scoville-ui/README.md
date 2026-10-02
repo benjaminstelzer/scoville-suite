@@ -42,8 +42,6 @@ General interface work and WordPress admin tasks shaped the shared checks.
 Rendered inspection exposed problems that source review missed. Neither type
 of check replaces usability testing with the people who will use the product.
 
-- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
-
 ## Compatibility
 
 Developed for Codex and Claude Code with the project's toolchain and browser or platform access for rendered checks and interactions. Use a Fable, Astra, SOL or Opus model (5.0+).
@@ -127,6 +125,10 @@ requirements. The working rules are in the Skill itself. These sources show
 where they come from, so routine UI changes don't need web research.
 Rechecking the composition after elements change is how the Skill applies
 these principles.
+
+## Developer links
+
+[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 
 ## License
 

@@ -12,6 +12,20 @@ spec.loader.exec_module(builder)
 
 
 class ReadmeTemplateTests(unittest.TestCase):
+    def test_setup_sections_reject_misplaced_configuration_and_accept_correction(self):
+        root = SHARED.parent / 'scoville-suite'
+        config = builder.load(root, 'codex', 'suite')
+        member = next(m for m in config['members'] if m['name'] == 'scoville-workflow-for-codex')
+        expected = builder.readme(root, member, 'suite', config=config)
+        changed = dict(member, readme=list(member['readme']))
+        configuration = next(p for p in changed['readme'] if isinstance(p, str) and p.endswith('/configuration.md'))
+        changed['readme'].remove(configuration)
+        changed['readme'].insert(changed['readme'].index('shared:skill-installation-contract.md'), configuration)
+        with self.assertRaisesRegex(ValueError, 'Order the member readme entries'):
+            builder.readme(root, changed, 'suite', config=config)
+        changed['readme'] = member['readme']
+        self.assertEqual(expected, builder.readme(root, changed, 'suite', config=config))
+
     def test_workflow_current_readmes_have_no_beta_notice(self):
         root = SHARED.parent / 'scoville-suite'
         config = builder.load(root, 'codex')

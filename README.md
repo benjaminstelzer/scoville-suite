@@ -22,13 +22,6 @@ which adds Workflow, Ask and Setup.
 | [Handoff](#scoville-handoff) | Passes unfinished work to another session. |
 | [Project Context Cleanup](#scoville-project-context-cleanup) | Keeps requested project rules and index text clear without losing required context. |
 
-## Suite requirements
-
-Install and enable every Skill in the suite. For individual Skills available
-on their own, use the standalone packages instead.
-
-The agent picks the Skills that fit your request.
-
 ## Scoville Code
 
 Passing tests are useful. Passing tests for the wrong behavior, rather less so.
@@ -217,7 +210,9 @@ ingredients that made the rules useful.
 
 [How to use Scoville Project Context Cleanup](members/scoville-project-context-cleanup/README.md#how-to-use).
 
+## Compatibility
 
+Developed for Codex and Claude Code with a Fable, Astra, SOL or Opus model (5.0+). Optional Python helpers require Python 3.10 or newer.
 
 ## Install the suite
 
@@ -231,6 +226,12 @@ Use this request in your agent host:
 ```text
 Install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
 ```
+
+Don't mix standalone and suite copies of the same Skill.
+
+If your host can't install directly from GitHub, download this repository and
+copy all the package directories inside it to the host's Skills folder. You
+end up with the same complete suite and the same requirements.
 
 <details>
 <summary>Upgrade from an earlier Scoville or Ask suite</summary>
@@ -254,15 +255,9 @@ Skip absent entries, leave unrelated Skills untouched, and keep no backup or set
 
 </details>
 
-Don't mix standalone and suite copies of the same Skill.
+### Additional Scoville Skills
 
-If your host can't install directly from GitHub, download this repository and
-copy all the package directories inside it to the host's Skills folder. You
-end up with the same complete suite and the same requirements.
-
-## Additional Scoville Skills
-
-### scoville-ask-for-codex
+#### scoville-ask-for-codex
 
 For Codex, also available as a standalone Skill. Ask your Codex host:
 
@@ -272,6 +267,30 @@ https://github.com/benjaminstelzer/scoville-ask-for-codex/tree/main/scoville-ask
 Preserve personal settings and unrelated Skills. Report the installed location
 and whether the host discovers the Skill.
 ```
+
+## Configuration
+
+Keep personal project conventions outside the installed Skills so updates
+preserve them. The [Code configuration guide](members/scoville-code/README.md#configuration)
+shows how to connect them to your project.
+
+
+
+## Deprecated
+
+These Skills are retired. In testing, they didn't do enough better than
+current frontier models to be worth maintaining.
+
+- **Scoville Scribe Anti-AI-Slop:** The writing comparisons showed no reliable
+  benefit, and the tested version added claims it couldn't support.
+- **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models
+  ended in a tie.
+- **Scoville Research:** It didn't reach the quality I expect, and good
+  research tools already exist.
+- **Scoville Brainstorm:** It didn't reach the quality I expect, and good
+  tools for ideation already exist.
+
+## Developer links
 
 <details>
 <summary>Development and builds</summary>
@@ -287,8 +306,6 @@ runtime checks and Viewer assets. Installed Skills need only their own packages.
 
 </details>
 
-### Developer links
-
 Sources, tests and notes live in this suite. Individual packages leave out
 this block and the development files.
 
@@ -298,17 +315,7 @@ this block and the development files.
 - **scoville-handoff**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
 - **scoville-project-context-cleanup**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-project-context-cleanup) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-project-context-cleanup/development/README.md)
 
-## Deprecated
+## License
 
-These Skills are retired. In testing, they didn't do enough better than
-current frontier models to be worth maintaining.
-
-- **Scoville Scribe Anti-AI-Slop:** The writing comparisons showed no reliable
-  benefit, and the tested version added claims it couldn't support.
-- **Scoville Design Anti-AI-Slop:** Its comparison with modern frontier models
-  ended in a tie.
-- **Scoville Research:** It didn't reach the quality I expect, and good
-  research tools already exist.
-- **Scoville Brainstorm:** It didn't reach the quality I expect, and good
-  tools for ideation already exist.
+The bundled Skills use the MIT license. Each package includes its `LICENSE` file.
 

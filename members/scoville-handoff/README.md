@@ -39,8 +39,6 @@ Real transfers exposed lost blockers, decisions and ownership of unfinished
 changes. Those cases shaped a compact template that preserves what the next
 session needs to continue.
 
-- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
-
 ## Compatibility
 
 Developed for Codex and Claude Code with read access to the task's relevant sources. Use a Fable, Astra, SOL or Opus model (5.0+).
@@ -84,6 +82,10 @@ Create a compact handoff for another agent. Preserve the objective, decisions, c
   portable package contract.
 - [OWASP LLM06: Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)
   for keeping consequential authority explicit across agent boundaries.
+
+## Developer links
+
+[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
 
 ## License
 

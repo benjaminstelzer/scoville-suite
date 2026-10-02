@@ -36,10 +36,11 @@ class DescriptionContractTests(unittest.TestCase):
 
     def test_workflow_chart_and_both_thresholds_survive(self):
         root=SHARED.parent/'scoville-suite'
-        workflow=next(m for m in builder.load(root, 'codex')['members'] if m['name']=='scoville-workflow-for-codex')
-        text=builder.readme(root,workflow).decode()
+        config=builder.load(root, 'codex')
+        workflow=next(m for m in config['members'] if m['name']=='scoville-workflow-for-codex')
+        text=builder.readme(root,workflow,config=config).decode()
         self.assertRegex(text, r'```mermaid\n(?:%%[^\n]*\n)*flowchart TD\n')
-        thresholds=(root/'development/readme/scoville-workflow-codex/usage.md').read_text(encoding='utf-8')
+        thresholds=text.split('## Configuration\n',1)[1].split('\n## ',1)[0]
         self.assertIn('at 40%',thresholds)
         self.assertIn('above 60%',thresholds)
 

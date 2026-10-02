@@ -11,6 +11,12 @@ Use this request in your agent host:
 Install and enable the complete suite for all my projects directly from {{ include: suite.repository }}.
 ```
 
+Don't mix standalone and suite copies of the same Skill.
+
+If your host can't install directly from GitHub, download this repository and
+copy all the package directories inside it to the host's Skills folder. You
+end up with the same complete suite and the same requirements.
+
 <details>
 <summary>Upgrade from an earlier Scoville or Ask suite</summary>
 
@@ -32,9 +38,3 @@ Skip absent entries, leave unrelated Skills untouched, and keep no backup or set
 ```
 
 </details>
-
-Don't mix standalone and suite copies of the same Skill.
-
-If your host can't install directly from GitHub, download this repository and
-copy all the package directories inside it to the host's Skills folder. You
-end up with the same complete suite and the same requirements.

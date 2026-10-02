@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v2.3.5 - 2026-10-03
+
+- Keep configuration and workarounds in the right place when building Skill READMEs. Preserve shared fragments needed by the suite so filtered exports build on their own.
+
 ## v2.3.4 - 2026-10-02
 
 - Keep Code fixes and checks proportionate, and preserve task meaning across handoffs.

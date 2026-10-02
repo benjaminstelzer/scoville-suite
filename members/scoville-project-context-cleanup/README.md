@@ -34,8 +34,6 @@ Project-rule edits exposed lost exceptions and references that did not carry
 the full rule. Those cases shaped the checks for scope, independent copies
 and complete context. Brevity only helps when the meaning survives.
 
-- Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-project-context-cleanup) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-project-context-cleanup/development/README.md)
-
 ## Compatibility
 
 Developed and tested in Codex with access to the project files and permission for the requested edits. Use a Fable, Astra, SOL or Opus model (5.0+).
@@ -71,6 +69,10 @@ ordinary README edit or routine Plan progress does not request cleanup.
 - [Anthropic: effective context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
 - [AGENTS.md format](https://agents.md/)
 - [AGENTbench study](https://arxiv.org/abs/2602.11988) and [efficiency study](https://arxiv.org/abs/2601.20404): different results, no universal savings claim.
+
+## Developer links
+
+[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-project-context-cleanup) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-project-context-cleanup/development/README.md)
 
 ## License
 

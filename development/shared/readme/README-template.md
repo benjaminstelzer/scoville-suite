@@ -15,10 +15,13 @@ scale to its purpose, with a small, relevant joke where it fits.
 5. `## How it was developed`: short prose about setbacks, useful changes and lessons.
 6. `## Compatibility`
 7. `## Install`
-8. `## How to use`
-9. `## Sources`
-10. `## Family`: generated family links. Use `## Related projects` without a family.
-11. `## License`
+8. `## Configuration`, when there are settings to explain.
+9. `## Limitations`, with practical workarounds where available.
+10. `## How to use`
+11. `## Sources`
+12. `## Family`: generated family links. Use `## Related projects` without a family.
+13. `## Developer links`, when included in this distribution.
+14. `## License`
 
 The first four parts form one description block. Store their ordered fragment
 paths in `description_fragments`, also as the first four `readme` entries.
@@ -28,10 +31,13 @@ and development text remain suite-specific sources.
 
 Use a flowchart only when it clarifies branches or dependent steps and replaces
 longer explanation. Keep the Workflow flowchart. Lists may precede a diagram.
-Keep prerequisites in a two-sentence Compatibility section, setup and required
-configuration under Install, and operational examples under How to use. Put material
+Keep the description above the setup block. Merge compatibility and host/tool
+requirements into one two-sentence Compatibility section. Follow with the main
+installation path, configuration, and limitations with their workarounds.
+Put agent-limit settings in Limitations beside the capacity problem they address.
+Keep operational examples under How to use. Omit empty optional sections. Put material
 compatibility or evidence limits beside the affected claim, not in What it costs.
 After building, read each distinct assembled README for flow, connected
 reasoning, repetition and correct section placement. Fix sources, rebuild and
-recheck affected output before publishing. Keep developer links under How it was developed. Suite-only developer
+recheck affected output before publishing. Finish with Developer links and License. Suite-only developer
 links stay absent from standalone distributions. Preserve historical evidence.

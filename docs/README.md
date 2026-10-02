@@ -15,7 +15,7 @@ JSON is a rather modest definition of success.
 Workflow initially spent too much effort moving context through extra layers.
 Native agent operations and smaller assignments simplified that path. Context
 exhaustion and rejected messages then showed where explicit ownership and
-retained progress still mattered. Removing machinery helped; pretending the
+retained progress still mattered. Removing machinery helped. Pretending the
 host could never fail would not.
 
 The same tension shaped the writing. A shorter handoff can accidentally turn a
