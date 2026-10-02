@@ -109,7 +109,7 @@ introduction, How it works, What it enforces, What it costs. The last three use
 bullets. Suite descriptions reuse the complete block and demote headings outside
 code fences. Keep absolute links and no include tags inside these fragments.
 Follow [the common project template](../readme/README-template.md) for all projects.
-How it was developed uses bullets and stays outside the suite description block.
+How it was developed uses brief prose and stays outside the suite description block.
 
 The shared builder expands placeholders before packaging. Packages contain
 complete Markdown and need no shared directory. Never install source templates.
@@ -178,6 +178,40 @@ Synchronize every generated Skill distribution from this verified build,
 including the fixed public suite targets. Remove obsolete generated files;
 preserve source repositories and Git history. Regular Skill directories contain
 only their current verified output, never build candidates or stale copies.
+
+## Runtime build gate
+
+Builds containing Python runtime helpers require a successful private GitHub
+Actions matrix for the exact generated packages and current tests. The matrix
+runs Windows, macOS and Linux on Python 3.11 and the current stable Python.
+It exercises packaged helpers and their actual local consumers; no live
+adviser calls or credentials are needed. The private CI repository is
+`benjaminstelzer/scoville-runtime-ci`. Never push private sources to public CI.
+
+Prepare the test snapshot under the sole release staging tree:
+
+```text
+python development/build_suite.py --prepare-runtime-ci <release/runtime-ci>
+```
+
+Commit and push this generated snapshot to the private CI repository, then wait
+for all six `Runtime helpers` jobs. Use `--refresh` only after existing readers
+finish and while inventory is unchanged; it preserves `.git` and refuses edited
+staging files. Do not maintain snapshot copies separately from canonical sources.
+
+Pass the successful run URL to the normal build:
+
+```text
+python development/build_suite.py --profile codex --layout suite --public-only --output <package-build> --runtime-run https://github.com/benjaminstelzer/scoville-runtime-ci/actions/runs/ID
+```
+
+The builder verifies GitHub run/job status, tested commit, exact package files,
+helper registry and test/workflow hashes before producing a verified build.
+Changed packages or tests require a new run. Missing, failed, skipped or stale
+evidence blocks the build. Authenticated `gh` access to private CI is required.
+`--check-release` rechecks the run retained in `build-receipt.json`.
+The Python `build()` function remains a local candidate constructor for tests;
+its receipt says `runtime_validation.status: pending`, never runtime acceptance.
 
 ## Viewer release gate
 

@@ -245,6 +245,10 @@
           "target": "scoville-plan/scripts/select_context.py"
         },
         {
+          "source": "members/scoville-plan/scoville-plan/scripts/markdown_structure.py",
+          "target": "scoville-plan/scripts/markdown_structure.py"
+        },
+        {
           "source": "members/scoville-plan/scoville-plan/scripts/validate_profile.py",
           "target": "scoville-plan/scripts/validate_profile.py"
         },
@@ -301,6 +305,9 @@
         "scripts/select_context.py": {
           "kind": "helper",
           "fallback": "references/fallbacks/select_context-fallback.md"
+        },
+        "scripts/markdown_structure.py": {
+          "kind": "library"
         },
         "scripts/validate_profile.py": {
           "kind": "helper",

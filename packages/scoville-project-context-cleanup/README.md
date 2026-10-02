@@ -1,12 +1,14 @@
 # Scoville Project Context Cleanup
 
-Project rules grow with every new note. Repeated instructions and stale context
-make the next task harder to follow. Scoville Project Context Cleanup adds or
-revises the rules you request in `AGENTS.md` and context in `PROJECT_INDEX.md`,
-placing them where they belong and preserving their meaning.
+Project rules grow. Unfortunately, clarity does not grow automatically with
+them. This Skill adds or revises the rules you request in `AGENTS.md` and
+context in `PROJECT_INDEX.md`, keeping useful information where the next agent
+will find it.
 
-Suitable text stays unchanged. Necessary scope, exceptions and safeguards stay
-explicit, even when they need more words.
+It preserves meaning, scope and safeguards. Suitable text stays as it is.
+
+Scoville measures chili heat. Context Cleanup removes the dilution, not the
+ingredients that made the rules useful.
 
 ## How it works
 
@@ -24,12 +26,13 @@ explicit, even when they need more words.
 
 ## What it costs
 
-- Reading the target, relevant rules and saved edits takes additional tokens and time.
+- Reading the rules and checking edits takes tokens and time. The useful return is clearer context for later work, without deleting necessary detail.
 
 ## How it was developed
 
-- The structure follows current OpenAI and Anthropic guidance on relevant context and conditional references.
-- Targeted Codex Luna cases checked file edits, exceptions, unresolved permissions, index formats and repeated requests.
+Project-rule edits exposed lost exceptions and references that did not carry
+the full rule. Those cases shaped the checks for scope, independent copies
+and complete context. Brevity only helps when the meaning survives.
 
 ## Compatibility
 
@@ -63,7 +66,7 @@ Add this to the project rules: edit schemas/ and regenerate docs/generated/.
 Or name `AGENTS.md` or `PROJECT_INDEX.md` explicitly. Requests such as
 “Füge das den Projektregeln hinzu” use the same scope.
 At a clear project root, this can create a missing `AGENTS.md`. A missing index
-follows the requested format; a text addition alone does not create a Plan.
+follows the requested format. A text addition alone does not create a Plan.
 
 For an explicit call, use `$scoville-project-context-cleanup`. A file mention,
 ordinary README edit or routine Plan progress does not request cleanup.

@@ -27,8 +27,8 @@ class RoutingContractTest(unittest.TestCase):
         spec = importlib.util.spec_from_file_location('routing_build', suite / 'development/build_suite.py')
         builder = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(builder)
-        for profile in ('general', 'codex'):
-            config = builder.load(suite, profile)
+        for profile, layout in (('general', 'standalone'), ('general', 'suite'), ('codex', 'suite')):
+            config = builder.load(suite, profile, layout)
             member = next(m for m in config['members'] if m['name'] == 'scoville-plan')
             package = builder.payload(suite, member, config)
             core = package['scoville-plan/SKILL.md'].decode()
@@ -44,11 +44,29 @@ class RoutingContractTest(unittest.TestCase):
                     self.assertNotRegex(content.decode(), r'\]\([^)]*repair\.md\)')
             reader = package['scoville-plan/references/read-only.md'].decode()
             self.assertIn('--plan PLAN-0001 --position', reader)
+            self.assertIn('--proposals --format json', core)
+            self.assertNotIn('--proposals --format json', reader)
+            self.assertIn('../SKILL.md#proposal-inventory', reader)
+            self.assertIn('scoville-plan/scripts/markdown_structure.py', package)
+            edit = package['scoville-plan/references/edit.md'].decode()
+            self.assertIn('../SKILL.md#runtime-helpers', edit)
+            self.assertNotIn('#load-only-the-current-route', edit)
+            self.assertNotIn('sole no-Python fallback', edit)
+            if profile == 'codex':
+                for path, content in package.items():
+                    if path.startswith('scoville-plan/') and path.endswith('.md'):
+                        self.assertNotRegex(content.decode(), r'(?i)without Python,\s*(?:General uses|use|follow)')
+                self.assertIn('Scoville Workflow can group', reader)
+            else:
+                self.assertNotIn('Scoville Workflow can group', reader)
+            decision = package['scoville-plan/references/native-decision-format.md'].decode()
+            self.assertEqual('validator manual route' in decision, profile == 'general')
             fallback_files = [path for path in package if '/fallbacks/' in path]
             self.assertEqual(bool(fallback_files), profile == 'general')
             if profile == 'general':
                 fallback = package['scoville-plan/references/fallbacks/select_context-fallback.md'].decode()
                 self.assertIn('actual task results', fallback)
+                self.assertIn('project-wide proposal inventory', fallback)
         edit = (ROOT / "references/edit.md").read_text(encoding="utf-8")
         general_edit = " ".join(re.findall(r"{{ profile: general }}(.*?){{ /profile }}", edit, re.S))
         codex_edit = " ".join(re.findall(r"{{ profile: codex }}(.*?){{ /profile }}", edit, re.S))

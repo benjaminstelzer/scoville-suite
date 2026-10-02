@@ -1,6 +1,6 @@
 ## How it works
 
-- Read conversation facts and named sources, recovering incomplete reads within the user's limits.
-- Capture decisions, ownership, evidence and blockers while excluding secrets.
-- Organize and check one copy-ready prompt with Receiver Instructions, Objective, State and Resume Steps.
-- Preserve necessary facts under length limits. The receiver checks current state before acting.
+- Read the conversation and the task sources already named or established.
+- Capture the facts needed to resume, including permissions and unfinished work.
+- Produce one prompt in the requested language, otherwise the conversation
+  language. The receiving agent checks current state before acting.

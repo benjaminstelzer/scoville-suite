@@ -15,11 +15,13 @@ proof of better instructions.
 ## Target and scope
 
 Use the named file and retain its filename and case. For “add this to project
-rules”, use the governing rule file at the known project root; if that is
-AGENTS.md and it is missing, create it for an unambiguous project-wide request.
-Respect an already governing host or subtree rule file; do not create a parallel
-AGENTS.md for its scope. Ask only when the destination or rule is materially
-ambiguous. Advice alone creates no rule. Explicit opt-out excludes this Skill.
+rules”, use the existing rule file governing the requested scope. Put a
+subtree-only rule in that subtree's existing governing file. Do not create a
+parallel AGENTS.md for a scope already covered by a host or subtree rule file.
+For an unambiguous project-wide request at a known root without its own rule
+file, create AGENTS.md there; inherited workspace rules do not prevent this.
+Ask only when the destination or rule is materially ambiguous. Advice alone
+creates no rule. Explicit opt-out excludes this Skill.
 
 Read the target and relevant governing instructions before editing. Inspect a
 specific cited source when it can establish ownership, meaning or whether a
@@ -42,11 +44,16 @@ generic explanation that adds no necessary decision. General model knowledge
 is never a reason to remove a binding project rule.
 
 State an action with its condition and scope. Keep exceptions and any necessary
-reason next to the rule. Merge duplicates only when their meaning and scope
-match and each copy is not needed for independent use. Put a long procedure in
-an existing suitable reference with an exact path and reading trigger. Create
-a new reference only when the request covers that extraction; otherwise keep
-the complete procedure together. Keep binding safeguards directly accessible.
+reason next to the rule. Keep independently needed copies and the instructions
+requiring them; merge other duplicates only when their meaning and scope match.
+Replace a long procedure with an exact reference and reading trigger only when
+that reference already contains it completely. Unless the request covers extraction,
+leave an incomplete reference unchanged and keep the complete procedure in the
+target. Cleanup, shortening or use of existing references alone does not authorize
+extraction. When requested, move the complete procedure into a suitable existing
+or new reference. Even when referencing or extracting a procedure, keep existing
+approval requirements and prohibitions for external actions in the target rule
+file, with their conditions and exceptions.
 
 Check the proposed addition against existing rules. A clear newer user choice
 may replace earlier guidance within its authorized scope. If the intended
@@ -85,10 +92,11 @@ required fields. Cleanup itself changes no Plan status or record identity.
 ## Write and verify
 
 Write the smallest coherent change that fulfils the request. Reread the saved
-affected blocks and inspect the scoped diff for lost scope, conditions,
-exceptions, permissions, reasons or references. Use the owning record's
-validator when its format requires it. Verify saved non-ASCII wording when
-encoding could alter it. Keep suitable existing text unchanged, including on
+affected blocks and inspect every changed file's scoped diff, including any
+extracted reference, for lost scope, conditions, exceptions, permissions,
+reasons or references. Use the owning record's validator when its format
+requires it. Verify saved non-ASCII wording when encoding could alter it.
+Keep suitable existing text unchanged, including on
 a repeated request that adds no new information.
 
 Report what was added, merged or clarified, any materially relevant removal

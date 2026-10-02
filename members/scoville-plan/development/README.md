@@ -1,35 +1,13 @@
 # Development
 
-The [member source](../scoville-plan/) is part of
-[Scoville Suite](../../../README.md#development-and-builds). Build the Skill
-before you install it. Development files stay in the suite. The read-only
-profile validator ships with the Skill. General packages offer a manual route
-without Python, while Codex requires the helpers. Fixtures and Viewer sources
-stay in development.
+Long tasks needed a durable answer to three questions: what is current, what
+was decided and what is left? Explicit Steps and evidence made that state easier
+to resume. The Viewer then had to show progress without repeating every detail
+in its header. Planning helps when it makes the next action clear; a larger
+record is not automatically a better one.
 
-## Validate
+The [source](../scoville-plan/) and tests live in the suite. Install the built package.
 
-Run these checks from `members/scoville-plan/` in the suite:
+From this member directory, run `python -B -m unittest discover -s development/tests`.
 
-```text
-python -B -m unittest discover -s development/tests -v
-```
-
-For Viewer changes, run from `development/viewer`:
-
-```text
-npm ci
-npm run check
-cargo test --manifest-path src-tauri/Cargo.toml
-```
-
-These checks cover the native profile structure and the Viewer's behavior.
-They don't prove that agents follow the Skill or that file writes are
-transactional.
-
-## Retention
-
-Tests, fixtures, Viewer source, dependency locks and this summary are kept.
-Benchmark profiles, token measurements, model outputs, audits and reviews go
-to temporary storage. An evaluation summary stays only if it teaches
-something useful and a published release links to it.
+See the [Viewer guide](viewer/README.md) for its checks and GitHub-only native builds.

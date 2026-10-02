@@ -60,6 +60,11 @@ and appropriate to the task.
 Use approved product and platform terminology. When none exists, choose terms
 suited to the audience, domain and established conventions.
 
+Follow the explicit language request, then the established product/source
+language and applicable platform conventions; chat language alone does not
+override them. For new UI with no such owner, state the chosen language briefly
+and ask only when the choice materially affects the product outcome.
+
 - Use one term per concept within each language, across settings, navigation,
   help, errors and confirmations. Do not vary terms for stylistic variety or
   collapse meaningful distinctions. Consistent naming allows grammatical and

@@ -1,19 +1,10 @@
 # Development
 
-The [member source](../scoville-code/) is part of
-[Scoville Suite](../../../README.md#development-and-builds). Build the Skill
-before you install it. Development files stay in the suite.
+Code began with a familiar failure: the patch passed its tests but missed the
+requested behavior. Adding more procedure could make the same mistake more
+expensive. The useful change was to connect each edit and check to the actual
+outcome, then stop when more checking would not change the decision.
 
-## Validate
+The [source](../scoville-code/) and tests live in the suite. Install the built package.
 
-Check the canonical Skill and its references directly: does it keep the
-requested outcome, respect canonical ownership, keep changes bounded and make
-only supported claims? The retained cases describe expected behavior, not
-observed agent results.
-
-## Retention
-
-Only the current regression inputs and this summary are kept. Benchmark runs,
-model outputs, reviews, audits and optimization reports go to temporary
-storage. An evaluation summary stays only if it teaches something useful and
-a published release links to it.
+The retained [research audit](audits/2026-10-02-overengineering.md) separates study findings from project conventions.

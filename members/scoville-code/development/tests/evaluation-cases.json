@@ -33,7 +33,7 @@
       "id": "greenfield-responsibility-boundaries",
       "given": "A new 700-line checkout feature has no project conventions yet and combines pricing rules, payment API calls, database writes, and HTTP handlers in one proposed file.",
       "expect": [
-        "Reject the catch-all file before it approaches the 2,000-line ceiling because it already contains several nameable responsibilities and real integration boundaries.",
+        "Identify the existing pricing, payment, persistence and delivery responsibilities from their contracts, not from the line count.",
         "Use the smallest coherent set of purpose-named modules that keeps domain rules, external I/O, persistence, and delivery responsibilities independently navigable.",
         "Do not prescribe a named architecture, speculative layer, empty directory, or one-function-file pattern."
       ]
@@ -51,9 +51,9 @@
       "id": "coherent-large-file-exception",
       "given": "A 2100-line hand-written protocol grammar has one coherent responsibility and a required format whose split would break a validated invariant. The project has no stricter configured limit.",
       "expect": [
-        "Treat the default ceiling as a backstop and require the concrete coherence and invariant rationale for the exception.",
-        "Do not split, compress, or rename fragments merely to satisfy the line count.",
-        "Keep the exception scoped to this file and preserve focused validation of the required format and invariant."
+        "Preserve the coherent file and its validated invariant without requesting a size exception.",
+        "Do not split, compress, or rename fragments merely because of the line count.",
+        "Validate the requested behavior through the existing contract."
       ]
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "id": "generated-file-over-limit",
-      "given": "A generated 24000-line source snapshot exceeds the default file-size ceiling. Its header names the project generator and the requested behavior change belongs in the generator input.",
+      "given": "A generated 24000-line source snapshot names its generator. The requested behavior change belongs in the generator input.",
       "expect": [
         "Change the generator or its hand-written input, not the generated snapshot.",
         "Do not split generated output to satisfy the line limit.",
@@ -79,7 +79,7 @@
       "given": "A hand-written 2400-line module has several responsibilities. The proposed fix only renames it to part-1 and part-2 files while retaining shared globals and bidirectional calls.",
       "expect": [
         "Reject the numbered split because it preserves coupling and obscures ownership.",
-        "Identify a nameable responsibility boundary or require a concrete exception rationale.",
+        "Use a real responsibility boundary if the requested refactor requires a split; no size exception is needed.",
         "Do not compress code or delete useful comments to pass the metric."
       ]
     },
@@ -89,14 +89,14 @@
       "expect": [
         "Apply and validate the narrow security fix without expanding it into an unrequested refactor.",
         "Keep security ahead of the maintainability signal.",
-        "Report the oversized hand-written file and the missing safe split as a scoped remaining concern."
+        "Do not report the file size itself as an unresolved defect or require a separate refactor."
       ]
     },
     {
       "id": "data-import-versus-language-import",
       "given": "A project adds a real customer-data import adapter and also adds ordinary language import statements to three existing modules.",
       "expect": [
-        "Place the implemented data-import subsystem in a descriptive project area or established equivalent boundary.",
+        "Place the data-import behavior in its existing project owner or an actual responsibility boundary; require no dedicated directory solely because it imports data.",
         "Keep ordinary language import statements with their consuming modules under project conventions.",
         "Create no directory per import statement and no empty plugin or adapter scaffolding."
       ]
@@ -212,7 +212,7 @@
       "expect": [
         "Stop patching and re-read the responsible implementation, contract, and evidence before another correction.",
         "Change the approach or narrow the change without weakening required acceptance.",
-        "Do not reset the diagnosis trigger because the reproductions differ or old checks pass."
+        "Different reproductions, fresh failure output and passing existing checks do not reset the two-unsuccessful-corrections checkpoint."
       ]
     },
     {
@@ -220,7 +220,7 @@
       "given": "Two findings occur in the same file. One is a text conversion defect and the other is an unrelated permission check; the evidence shows distinct causal mechanisms.",
       "expect": [
         "Diagnose each finding through its actual owner and risk.",
-        "Do not invoke the repeated-common-cause trigger based only on count or location.",
+        "Do not combine unrelated failures into the same repair checkpoint merely because of their count or location.",
         "Preserve the security requirements of the permission defect."
       ]
     },
@@ -229,7 +229,7 @@
       "given": "Only one correction attempt has failed. Its new evidence identifies a bounded cause, required permissions are present, and no host limit prevents the next correction.",
       "expect": [
         "Use the new evidence for the next focused correction and proportionate checks.",
-        "Do not claim the two-attempt trigger has fired or add a mandatory process solely to wait for a second failure."
+        "Do not claim the two-correction checkpoint has been reached or wait for a second failure before using a supported diagnosis."
       ]
     },
     {
@@ -281,7 +281,7 @@
       "given": "The user requests review of the implementation and test evidence after two corrections fail through the same conversion mechanism across different checks. No plan change or unresolved product decision is requested.",
       "expect": [
         "Load Change for the implementation review and Validation for evidence and repeated-failure assessment.",
-        "Do not force the request into the narrower same-check diagnostic-only route.",
+        "Select references from implementation and evidence work actually reviewed, regardless of whether the failures came from the same check.",
         "Do not add Planning or new workflow requirements solely because the failure repeated."
       ]
     },
@@ -405,6 +405,151 @@
       "expect": [
         "Resolve the relative reference from the AGENTS.md directory, not the shell working directory.",
         "Read only the explicitly directed file, without personal-file discovery."
+      ]
+    },
+    {
+      "id": "sufficient-native-failure",
+      "given": "A developer CLI reads a required JSON config through read_text and json.loads. Missing or malformed input already aborts visibly before any writes. Internal functions receive immutable values whose relevant properties the caller guarantees.",
+      "expect": [
+        "Use the existing failure paths; add no redundant existence checks, catch-and-rethrow, or internal validation of guaranteed properties.",
+        "Preserve any separately required actionable error contract."
+      ]
+    },
+    {
+      "id": "validation-trust-conditions-change",
+      "given": "One endpoint accepts raw JSON and promises a dictionary, but only has a dict return annotation. After actual boundary validation, fields pass into a pure function. A separate filesystem path can be replaced by another process after validation and before a destructive operation.",
+      "expect": [
+        "Reject non-object JSON at the input boundary; a return annotation is not validation. Rely on unchanged validated properties internally.",
+        "Do not treat stale path validation as proof of safe deletion; preserve protection at the destructive boundary."
+      ]
+    },
+    {
+      "id": "review-optional-hardening-and-real-defect",
+      "given": "One change to an internal typed helper fails visibly on unsupported input without side effects. A separate change catches a failed save and reports success. Review both.",
+      "expect": [
+        "Do not block the helper for lacking defensive checks; omit optional ideas unless relevant to a decision.",
+        "Report the false save success as a defect with its actual consequence and smallest correction."
+      ]
+    },
+    {
+      "id": "superseded-debugging-workarounds",
+      "given": "A root-cause correction fixes the actual parse defect after earlier attempts added a retry and a None guard. Neither still protects a requirement or material consequence. An independent authorization guard is still required.",
+      "expect": [
+        "Remove the now-unjustified retry and None guard from the changed path.",
+        "Preserve the authorization guard; an unsuccessful attempt alone does not justify deleting protection."
+      ]
+    },
+    {
+      "id": "recovery-without-new-persistence",
+      "given": "A CLI already has useful generated output when an optional delivery step fails. Keeping that output is permitted. No restart or durable recovery contract exists.",
+      "expect": [
+        "Preserve the available output and report the delivery failure without claiming completion.",
+        "Do not add checkpoints, a recovery command, or persisted execution state solely for manual recovery."
+      ]
+    },
+    {
+      "id": "review-added-retry-and-required-retry",
+      "given": "A worker adds retries around parsing an immutable local manifest, although malformed input already fails visibly without writes and no transient failure or retry contract exists. A separate idempotent service adapter must retry TimeoutError up to three total attempts under its existing contract, then propagate the final failure.",
+      "expect": [
+        "Report the manifest retry as an unnecessary repeated operation with extra branches and no transient recovery benefit; remove only that retry.",
+        "Preserve the service adapter retry required by its contract and its visible final failure; do not turn a preference for fewer retries into a finding."
+      ]
+    },
+    {
+      "id": "flat-fields-and-real-tree",
+      "given": "One input contract supplies a flat sequence of form fields. Another requires arbitrarily nested child groups. Both need selected values in source order.",
+      "expect": [
+        "Use direct traversal for flat fields without recursively searching unrelated objects.",
+        "Support actual nesting for the tree contract; a blanket recursion ban is incorrect."
+      ]
+    },
+    {
+      "id": "authorized-format-replacement",
+      "given": "An unreleased prototype replaces format 1 with format 2. The user explicitly authorizes regenerating its disposable fixtures and supporting only format 2.",
+      "expect": [
+        "Implement format 2 and update actual consumers and fixtures.",
+        "Add no legacy parser, migration registry or second approval request."
+      ]
+    },
+    {
+      "id": "unresolved-real-compatibility",
+      "given": "A requested format change would make saved customer records unreadable. The task does not settle continued support or migration.",
+      "expect": [
+        "Ask the concrete support or migration question before the dependent change.",
+        "Do not silently discard the records, add fallback parsing, or infer that prerelease status removes existing data obligations."
+      ]
+    },
+    {
+      "id": "single-consumer-encapsulation",
+      "given": "One consumer uses a parser with an existing input contract and parser-owned state. A bounded refactor can isolate that responsibility without generic extension points.",
+      "expect": [
+        "Allow useful encapsulation with one consumer.",
+        "Require no fabricated second consumer, generic factory or configurable parser family."
+      ]
+    },
+    {
+      "id": "no-finding-valid-review",
+      "given": "A patch satisfies the stated contract with two straightforward linear passes, no repeated I/O and no demonstrated material cost. An alternative could combine the passes with more state.",
+      "expect": [
+        "Accept the patch without a finding based solely on pass count.",
+        "Do not request the alternative or invent a performance requirement."
+      ]
+    },
+    {
+      "id": "independent-behavior-oracle",
+      "given": "The requirement says integer discounts use floor(total * percent / 100). The implementation and its test both round to nearest instead, while a correct control handles floor.",
+      "expect": [
+        "Derive expectations from the specified floor rule and correct the faulty calculation and mirrored assertion.",
+        "Preserve the correct control and require no additional test framework."
+      ]
+    },
+    {
+      "id": "ordinary-cache-choice",
+      "given": "A request-local result store avoids repeated pure calculations on immutable inputs within an already authorized implementation. It adds no external effects or material cost or behavior choice.",
+      "expect": [
+        "Assess its actual benefit and lifetime, then decide locally.",
+        "Do not require a cache-specific user approval or invent invalidation machinery."
+      ]
+    },
+    {
+      "id": "consistent-greenfield-base",
+      "given": "Two wholly new projects have no layout requirements and their toolchains allow the Skill defaults. One currently needs source and tests, the other also needs development scripts.",
+      "expect": [
+        "Use the same src/tests/docs/scripts base where content exists, respecting toolchain naming.",
+        "Create no empty directories; preserve the user-selected consistency convention without claiming a measured correctness benefit."
+      ]
+    },
+    {
+      "id": "handoff-ownership-active-and-inactive",
+      "given": "The user explicitly requests a transfer of a code task with a user-owned dirty file, a running command with an unknown exit, and no publication authority. In one variant Scoville Handoff is active. In another, Code is installed alone and Handoff is unavailable.",
+      "expect": [
+        "With active Handoff, preserve its full continuation contract, including Receiver Instructions, ownership, hazards, evidence limits and Resume Steps. Code's engineering-state summary must not restrict that prompt.",
+        "Without Handoff, Code prepares the requested handoff from the outcome, binding constraints, current state, decisive evidence, next concrete step and material decisions not already recorded canonically. Do not require, install or simulate Handoff or create a new record system.",
+        "In both variants, preserve the user-owned change, unknown command exit and missing publication authority without continuing implementation or claiming unobserved success."
+      ]
+    },
+    {
+      "id": "single-consumer-speculative-framework",
+      "given": "A parser with one consumer and one required format can have its state encapsulated directly. A proposed refactor also adds a parser registry, abstract strategy and factory for unspecified future formats.",
+      "expect": [
+        "Allow the existing responsibility to be encapsulated without requiring a second consumer.",
+        "Reject the registry, abstract strategy and factory because no current format or consumer needs those extra variants; preserve the direct parser boundary."
+      ]
+    },
+    {
+      "id": "same-failure-fresh-output-checkpoint",
+      "given": "Two corrections have failed to fix separator loss. Each run printed a different failing input and old regression checks stayed green. The agent proposes a third string-specific patch based only on that fresh output.",
+      "expect": [
+        "Reassess the owner, contract and causal evidence before another patch; the two-correction checkpoint still applies.",
+        "Treat new output as useful for a next attempt only if it changes or substantiates the causal explanation; add no unsupported special case."
+      ]
+    },
+    {
+      "id": "material-cost-with-fixed-input",
+      "given": "A small fixed-size form performs one remote lookup per field although the same required result can be fetched once. A separate patch scans a tiny local list twice without plausible material cost.",
+      "expect": [
+        "Assess the repeated remote I/O even though the form cannot grow, and compare the existing shared fetch.",
+        "Do not demand a benchmark or complex one-pass rewrite for the tiny local list merely because it has two traversals."
       ]
     }
   ]

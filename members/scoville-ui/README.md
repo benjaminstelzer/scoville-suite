@@ -1,66 +1,46 @@
 # Scoville UI
 
-A page has to work across screen sizes and input methods, and in error
-states. Scoville UI builds and audits that behavior with the project's
-framework and design system, including plugin-owned WordPress admin pages,
-and checks the result in the rendered interface. It also takes care of
-interface text: labels say what they're for, buttons name their action, and
-terms stay consistent across views and translations.
+Scoville UI builds and audits interfaces with the project's framework and
+design system. It covers clear wording, useful hierarchy, responsive layouts
+and accessible interactions, then checks the rendered result. A tidy component
+tree is a start. People still have to use the page.
 
-On supported WordPress admin pages, it uses Core components and follows
-WordPress spacing, version requirements and translation conventions.
+It includes specific guidance for plugin-owned WordPress admin pages, using
+Core components and WordPress conventions.
+
+Scoville measures chili heat. UI aims for a sharper interface without making
+the user sweat.
 
 ## How it works
 
-- Find out which design system, components and approved product decisions
-  apply.
-- Read the relevant code and use the components the framework supports.
-- Apply the WordPress guidance to supported plugin-owned `wp-admin` pages.
-  Editor surfaces and metaboxes keep their host's conventions.
-- Take blocked product decisions to whoever owns them. Where the visual
-  direction is still open, stay within the framework's existing conventions.
-- Implement the affected states and responsive behavior, then look at the
-  rendered result and try the interactions.
+- Establish the user's task, approved design direction and framework components.
+- Build the affected views, wording, states and responsive behavior.
+- Inspect the rendered interface and try its relevant interactions.
+- Apply the WordPress adapter to supported plugin-owned admin pages. Editor
+  surfaces and metaboxes keep their host's conventions.
 
 ## What it enforces
 
-- **Design consistency.** Changes follow the existing design system and
-  approved product decisions.
-- **Clear hierarchy.** Main decisions, supporting information and secondary
-  actions are visibly distinct.
-- **Task structure.** Open navigation and layout questions are decided around
-  the user's task. Controls are chosen by what they mean, and modal
-  interruptions are used deliberately.
-- **Interface text.** Labels and buttons say what they're for and what they
-  do. Terms stay the same across views, states and translations.
-- **Complete states.** Relevant loading, empty, error, disabled, success and
-  input states are covered.
-- **Responsive behavior.** The interface stays usable on narrow and wide
-  screens, with zoom and long content.
-- **Changes in context.** When elements change, the affected group and flow
-  get another look, including whether the responsive layout still works.
-- **Accessibility.** Reading order, names, relationships, contrast, focus and
-  keyboard or touch behavior are checked.
-- **Visual checks.** Nothing is reported as working until the rendered
-  interface has been inspected and its interactions tested. Source checks
-  alone leave rendering and interaction unverified.
-- **WordPress conventions.** Each part of the page uses the appropriate
-  WordPress components and design tokens. Existing PHP-rendered pages can stay
-  in PHP.
+- **A coherent interface.** Hierarchy, controls and terminology follow the task
+  and the existing design system.
+- **Usable states.** Loading, empty, error and success states receive the same
+  attention as the convenient example with perfect data.
+- **Access across devices.** Check responsive layout, zoom, reading order,
+  contrast, focus and keyboard or touch operation where applicable.
+- **Rendered proof.** Source checks alone cannot establish that the interface
+  works. Unchecked rendering or interaction stays explicitly unverified.
 
-The full instructions are in [SKILL.md](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
+See the [full instructions](https://github.com/benjaminstelzer/scoville-ui/blob/main/scoville-ui/SKILL.md).
 
 ## What it costs
 
-- Browser inspection, interaction checks and corrections take tokens and time.
-- WordPress tasks load extra platform guidance.
+- Rendered inspection and interaction checks take tokens and time. They catch problems the source alone cannot show. WordPress tasks also load platform guidance.
 
 ## How it was developed
 
-- General interface work and WordPress admin tasks shaped the shared quality
-  checks and the platform guidance.
-- Skill tests can't tell you whether a particular interface is usable. That
-  takes testing with its users.
+General interface work and WordPress admin tasks shaped the shared checks.
+Rendered inspection exposed problems that source review missed. Neither type
+of check replaces usability testing with the people who will use the product.
 
 - Development links: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 

@@ -1,9 +1,9 @@
 # Development
 
-Skill sources live in the sibling package directory. README fragments belong
-to development/readme/scoville-project-context-cleanup/ at the suite root.
-suite.json exports references/writing.md from shared/prompting/common.md.
-Do not maintain a second copy. Install built packages, not template sources.
+Shortening project rules exposed a trap: a repeated instruction may protect a
+different scope, and a link may omit the exception that makes a rule safe. The
+Skill now keeps independently needed copies and checks the full affected text.
+Useful cleanup removes ambiguity and repetition, not the conditions that made
+the instruction correct.
 
-Suite build tests cover membership, package completeness and profile boundaries.
-PLAN-0024 retains the targeted behavioral evidence and remaining limits.
+The [source](../scoville-project-context-cleanup/) and tests live in the suite. Install the built package.

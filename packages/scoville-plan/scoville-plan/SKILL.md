@@ -16,13 +16,10 @@ All Skills included in this suite must be installed and enabled. Use the
 applicable owner without checking sibling availability. Load only instructions
 needed for the task. Explicit invocation gates and user exclusions still apply.
 
-
-
-
-
 Plan owns its records' wording and lifecycle. It does not start Workflow or
 choose dispatch routes. Run one editor at a time; do not change affected files
-or model settings concurrently. Reads and Skill upgrades require no migration.
+or executor model/reasoning settings concurrently. Reads and Skill upgrades
+require no migration.
 
 For requested PROJECT_INDEX.md prose additions or cleanup, apply Scoville
 Project Context Cleanup within the same prepared edit. Plan retains fields and
@@ -38,19 +35,20 @@ required historical records under their lifecycle rules, not as repeated context
 ## Authority and evidence
 
 1. Follow system/safety and explicit user instructions, repository rules, then
-   the supported native profile. Runtime plans are disposable mirrors.
+   the supported native profile. The agent's temporary task list is a disposable
+   mirror of repository records.
 2. Preserve actual scope, choices, dependencies and history. Source, silence,
    current behavior and structural validation are not authorization or proof
    that work occurred. Apply historical stops only to their recorded scope.
 3. Ask only for a missing material choice: activation, cancellation, deletion,
    changed scope, weaker Acceptance, ambiguous succession or Decision transition.
    Already authorized directions need no repeated approval.
-4. Record explicit human choices as accepted Decisions. Unresolved material
+4. Record explicit material human choices as accepted Decisions. Unresolved material
    choices become proposals; report alternatives, tradeoffs and effect, and
-   ask only before dependent work. Link proposals to affected todo items; for
-   started items also link relevant proposals in Decisions. ADR status owns their state. Accepted
-   Decisions may be linked to affected started items.
-5. At work start inventory Decision frontmatter and read relevant proposals
+   ask only before dependent work. Link Decisions to affected todo items, never
+   unrelated items. Started items also link relevant proposals in Decisions and
+   may link accepted Decisions. ADR status owns their state.
+5. At work start run the proposal inventory below and read relevant proposals
    (all proposals for a full audit). Preserve unresolved choices at handoff.
 6. Mark done only after observing every Acceptance criterion and retaining its
    evidence. Failed or partial work remains unfinished. Report observed checks
@@ -61,6 +59,18 @@ required historical records under their lifecycle rules, not as repeated context
 8. Keep required facts once in their owning field, in the existing record's
    language unless the user chooses another. New records use the request or
    owning Plan's language. Keep format labels and identifiers unchanged.
+
+## Proposal inventory
+
+Follow Runtime helpers below for availability and failures. Run:
+
+```text
+python "<skill-directory>/scripts/select_context.py" --root "<project-root>" --proposals --format json
+```
+
+Read relevant Decisions from the returned paths. The inventory includes unlinked
+proposals and works without an active Plan. Load [inventory details](references/read-only.md#surface-proposals)
+only for output fields or selection-mode constraints.
 
 ## Work Item template
 
@@ -81,9 +91,8 @@ Evidence: []
 
 New Work Items use one-line Instructions or [], at least one status-marked Step,
 and no Next action. Work Item Status covers the whole outcome; Step status records
-observed progress; Instructions retains extra binding conditions. Legacy items
-without Steps or Step status may retain Next action. Steps have no independent
-acceptance or dependencies.
+observed progress. Field details and legacy continuation are in edit.md. Steps
+have no independent acceptance or dependencies.
 Use [granularity](references/planning-granularity.md) only when outcome or Step
 boundaries need judgment, not for a routine insertion with known boundaries.
 

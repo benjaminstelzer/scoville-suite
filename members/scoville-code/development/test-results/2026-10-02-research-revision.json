@@ -1,0 +1,488 @@
+{
+  "date": "2026-10-02",
+  "scope": "Scoville Code research-guided revision; no release or publication action by this task",
+  "audit": "../audits/2026-10-02-overengineering.md",
+  "source_sha256": {
+    "members/scoville-code/scoville-code/SKILL.md": "1caa985e360b198c7b0fc00eab187866c20b12d275348a5b0a821cdba68d0da0",
+    "members/scoville-code/scoville-code/references/change-workflow.md": "37a07d7445c29d613d7ce53ad5f1710bf3b61aaf11b78566e76e259cef5a3059",
+    "members/scoville-code/scoville-code/references/planning-and-decisions.md": "bd887f63dbdc04db5ab5c4629593faaeddd491f976b0a81554a76bf253328e62",
+    "members/scoville-code/scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+    "members/scoville-code/scoville-code/references/validation.md": "86b657213371d51ebee9f21a82a8d77caf76b872626bb94c62b34167f544be21"
+  },
+  "baseline_sha256": {
+    "scoville-code/references/change-workflow.md": "ad04858d0122a840d6c4c0c1ec16218e88cdbe43ed65d103015096b7f86f8bcc",
+    "scoville-code/references/planning-and-decisions.md": "bd887f63dbdc04db5ab5c4629593faaeddd491f976b0a81554a76bf253328e62",
+    "scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+    "scoville-code/references/validation.md": "e29eda698c6b13bdf6269a2b54f61909a1c4970626d7db08b4ed519c276b512a",
+    "scoville-code/SKILL.md": "57a066064b8e8223f69269e0973e670669dda7284f11e871d922f9f6011c898b"
+  },
+  "unchanged_references": [
+    "references/project-conventions.md",
+    "references/planning-and-decisions.md"
+  ],
+  "package_projection_sha256": {
+    "general-standalone": {
+      "README.md": "e925f77f85191b7475b0d63a3072699bdffaaeec441cf99c648e24a8adc657d9",
+      "scoville-code/agents/openai.yaml": "b61da1aa461a095063d780919f1fa982109ca75234b6350d04269f134632a107",
+      "scoville-code/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "scoville-code/references/change-workflow.md": "37a07d7445c29d613d7ce53ad5f1710bf3b61aaf11b78566e76e259cef5a3059",
+      "scoville-code/references/planning-and-decisions.md": "fcdef29ab74d5ce11d8c4a6258978d98f242ff5393c5dbc9ae2284e2c99b130b",
+      "scoville-code/references/validation.md": "a2f796f5e89d2839d55b3e8583b699c599340edd627032f8fbbe9c0b53d7737b",
+      "scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+      "scoville-code/SKILL.md": "f86c2fd4c82e832f555d7f80706a0b7cab63df94df0f003e691c5b253c699dc2",
+      "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "CHANGELOG.md": "0295059d49b6ce1a19efdb2ab237fe3228a8a9a54fe3bc6730226e823c93d00e",
+      ".gitattributes": "ec2d2af19590bc0beffea8e7f6534683ff656843b651728bfb61742576742a62"
+    },
+    "general-suite": {
+      "README.md": "c7244a394de679dae9392163df174d728078ca4794c6b79ccd2839c82c1ae8bc",
+      "scoville-code/agents/openai.yaml": "b61da1aa461a095063d780919f1fa982109ca75234b6350d04269f134632a107",
+      "scoville-code/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "scoville-code/references/change-workflow.md": "37a07d7445c29d613d7ce53ad5f1710bf3b61aaf11b78566e76e259cef5a3059",
+      "scoville-code/references/planning-and-decisions.md": "9122a054ba71394800c8dc24f515265e35c18ed431abab32689d019e893d0526",
+      "scoville-code/references/validation.md": "a2f796f5e89d2839d55b3e8583b699c599340edd627032f8fbbe9c0b53d7737b",
+      "scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+      "scoville-code/SKILL.md": "ec2b804fe6cfcc5ce22564bdc7d0e927b34ee2d6ae0727fbeda6a34f91b376ab",
+      "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "CHANGELOG.md": "0295059d49b6ce1a19efdb2ab237fe3228a8a9a54fe3bc6730226e823c93d00e",
+      ".gitattributes": "ec2d2af19590bc0beffea8e7f6534683ff656843b651728bfb61742576742a62"
+    },
+    "codex-suite": {
+      "README.md": "39102945b875d4eabb238faf0b804e4cab722718c26a32d8bab01db78f945ba4",
+      "scoville-code/agents/openai.yaml": "b61da1aa461a095063d780919f1fa982109ca75234b6350d04269f134632a107",
+      "scoville-code/LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "scoville-code/references/change-workflow.md": "37a07d7445c29d613d7ce53ad5f1710bf3b61aaf11b78566e76e259cef5a3059",
+      "scoville-code/references/planning-and-decisions.md": "9122a054ba71394800c8dc24f515265e35c18ed431abab32689d019e893d0526",
+      "scoville-code/references/validation.md": "a2f796f5e89d2839d55b3e8583b699c599340edd627032f8fbbe9c0b53d7737b",
+      "scoville-code/references/project-conventions.md": "4af71f40a3532c9408f3dc34c009b21fa54f35f5b982903a31e644279fc85970",
+      "scoville-code/SKILL.md": "bfc05927fe0646e06b757e0acfe29d0c98b633682266ad03f365b25ce5299b34",
+      "LICENSE": "9ad694bcec64de4030c474a389a3473d2a2669f25177f2ba9db49956b38b4bf1",
+      "CHANGELOG.md": "0295059d49b6ce1a19efdb2ab237fe3228a8a9a54fe3bc6730226e823c93d00e",
+      ".gitattributes": "ec2d2af19590bc0beffea8e7f6534683ff656843b651728bfb61742576742a62"
+    }
+  },
+  "generic_validator": {
+    "baseline_exit": 1,
+    "candidate_exit": 1,
+    "diagnostic": "Unexpected key(s) in SKILL.md frontmatter: compatibility. Allowed properties are: allowed-tools, description, license, metadata, name",
+    "interpretation": "Pre-existing incompatibility with this validator, not a passing validation or a regression."
+  },
+  "git_diff_check": {
+    "exit_code": 0,
+    "diagnostic": "warning: in the working copy of 'members/scoville-code/development/audits/2026-10-02-overengineering.md', CRLF will be replaced by LF the next time Git touches it\nwarning: in the working copy of 'members/scoville-code/scoville-code/references/validation.md', CRLF will be replaced by LF the next time Git touches it\n"
+  },
+  "retained_scenario_count": 61,
+  "scenarios_are_executed_tests": false,
+  "comparison": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "medium",
+    "conditions": {
+      "simple": "Brief outcome/owner/proportionate-check/no-unrelated-behavior instruction",
+      "baseline": "Saved built Codex suite Skill before revision",
+      "candidate": "Built Codex suite Skill after revision"
+    },
+    "agents": [
+      "/root/audit_simple",
+      "/root/audit_baseline",
+      "/root/audit_candidate"
+    ],
+    "isolation": "Fresh agent contexts without research or desired answers; separate equal Python standard-library fixtures. Three sequential turns per condition.",
+    "task_sequence": [
+      "Implement selection of wanted names from flat validated records, last occurrence wins, missing omitted, inputs preserved, existing encoding preserved.",
+      "Trim names, skip optional disabled records, replace unreleased disposable format with explicit version 2 envelope and required external JSON validation; legacy support excluded by authorization.",
+      "Read-only decisions about unresolved real customer-file compatibility, correct two-pass selection, redundant deterministic parse retry, and unsupported symptom-specific repair."
+    ],
+    "implementation_checks": {
+      "phase1": {
+        "simple": {
+          "checks": [
+            {
+              "check": "last-wins-and-missing-omitted",
+              "passed": true
+            },
+            {
+              "check": "records-preserved",
+              "passed": true
+            },
+            {
+              "check": "wanted-preserved",
+              "passed": true
+            },
+            {
+              "check": "empty-records",
+              "passed": true
+            },
+            {
+              "check": "empty-selection",
+              "passed": true
+            },
+            {
+              "check": "existing-encoder",
+              "passed": true
+            },
+            {
+              "check": "existing-decoder",
+              "passed": true
+            }
+          ],
+          "observed_record_traversals": 1,
+          "functions": [
+            "collect_fields",
+            "encode_fields",
+            "decode_fields"
+          ],
+          "source_lines": 14
+        },
+        "baseline": {
+          "checks": [
+            {
+              "check": "last-wins-and-missing-omitted",
+              "passed": true
+            },
+            {
+              "check": "records-preserved",
+              "passed": true
+            },
+            {
+              "check": "wanted-preserved",
+              "passed": true
+            },
+            {
+              "check": "empty-records",
+              "passed": true
+            },
+            {
+              "check": "empty-selection",
+              "passed": true
+            },
+            {
+              "check": "existing-encoder",
+              "passed": true
+            },
+            {
+              "check": "existing-decoder",
+              "passed": true
+            }
+          ],
+          "observed_record_traversals": 1,
+          "functions": [
+            "collect_fields",
+            "encode_fields",
+            "decode_fields"
+          ],
+          "source_lines": 18
+        },
+        "candidate": {
+          "checks": [
+            {
+              "check": "last-wins-and-missing-omitted",
+              "passed": true
+            },
+            {
+              "check": "records-preserved",
+              "passed": true
+            },
+            {
+              "check": "wanted-preserved",
+              "passed": true
+            },
+            {
+              "check": "empty-records",
+              "passed": true
+            },
+            {
+              "check": "empty-selection",
+              "passed": true
+            },
+            {
+              "check": "existing-encoder",
+              "passed": true
+            },
+            {
+              "check": "existing-decoder",
+              "passed": true
+            }
+          ],
+          "observed_record_traversals": 1,
+          "functions": [
+            "collect_fields",
+            "encode_fields",
+            "decode_fields"
+          ],
+          "source_lines": 19
+        }
+      },
+      "phase2": {
+        "simple": {
+          "checks": [
+            {
+              "check": "last-wins-and-missing-omitted",
+              "passed": true
+            },
+            {
+              "check": "records-preserved",
+              "passed": true
+            },
+            {
+              "check": "wanted-preserved",
+              "passed": true
+            },
+            {
+              "check": "empty-records",
+              "passed": true
+            },
+            {
+              "check": "empty-selection",
+              "passed": true
+            },
+            {
+              "check": "new-encoder-independent-shape",
+              "passed": true
+            },
+            {
+              "check": "new-decoder-independent-input",
+              "passed": true
+            },
+            {
+              "check": "trim-disable-last-enabled",
+              "passed": true
+            },
+            {
+              "check": "only-disabled-omitted",
+              "passed": true
+            },
+            {
+              "check": "reject-old-format",
+              "passed": true
+            },
+            {
+              "check": "reject-unsupported-version",
+              "passed": true
+            },
+            {
+              "check": "reject-root-list",
+              "passed": true
+            },
+            {
+              "check": "reject-fields-list",
+              "passed": true
+            },
+            {
+              "check": "reject-non-string-value",
+              "passed": true
+            },
+            {
+              "check": "updated-fixture",
+              "passed": true
+            }
+          ],
+          "observed_record_traversals": 1,
+          "functions": [
+            "collect_fields",
+            "encode_fields",
+            "decode_fields"
+          ],
+          "source_lines": 32
+        },
+        "baseline": {
+          "checks": [
+            {
+              "check": "last-wins-and-missing-omitted",
+              "passed": true
+            },
+            {
+              "check": "records-preserved",
+              "passed": true
+            },
+            {
+              "check": "wanted-preserved",
+              "passed": true
+            },
+            {
+              "check": "empty-records",
+              "passed": true
+            },
+            {
+              "check": "empty-selection",
+              "passed": true
+            },
+            {
+              "check": "new-encoder-independent-shape",
+              "passed": true
+            },
+            {
+              "check": "new-decoder-independent-input",
+              "passed": true
+            },
+            {
+              "check": "trim-disable-last-enabled",
+              "passed": true
+            },
+            {
+              "check": "only-disabled-omitted",
+              "passed": true
+            },
+            {
+              "check": "reject-old-format",
+              "passed": true
+            },
+            {
+              "check": "reject-unsupported-version",
+              "passed": true
+            },
+            {
+              "check": "reject-root-list",
+              "passed": true
+            },
+            {
+              "check": "reject-fields-list",
+              "passed": true
+            },
+            {
+              "check": "reject-non-string-value",
+              "passed": true
+            },
+            {
+              "check": "updated-fixture",
+              "passed": true
+            }
+          ],
+          "observed_record_traversals": 1,
+          "functions": [
+            "collect_fields",
+            "encode_fields",
+            "decode_fields"
+          ],
+          "source_lines": 32
+        },
+        "candidate": {
+          "checks": [
+            {
+              "check": "last-wins-and-missing-omitted",
+              "passed": true
+            },
+            {
+              "check": "records-preserved",
+              "passed": true
+            },
+            {
+              "check": "wanted-preserved",
+              "passed": true
+            },
+            {
+              "check": "empty-records",
+              "passed": true
+            },
+            {
+              "check": "empty-selection",
+              "passed": true
+            },
+            {
+              "check": "new-encoder-independent-shape",
+              "passed": true
+            },
+            {
+              "check": "new-decoder-independent-input",
+              "passed": true
+            },
+            {
+              "check": "trim-disable-last-enabled",
+              "passed": true
+            },
+            {
+              "check": "only-disabled-omitted",
+              "passed": true
+            },
+            {
+              "check": "reject-old-format",
+              "passed": true
+            },
+            {
+              "check": "reject-unsupported-version",
+              "passed": true
+            },
+            {
+              "check": "reject-root-list",
+              "passed": true
+            },
+            {
+              "check": "reject-fields-list",
+              "passed": true
+            },
+            {
+              "check": "reject-non-string-value",
+              "passed": true
+            },
+            {
+              "check": "updated-fixture",
+              "passed": true
+            }
+          ],
+          "observed_record_traversals": 1,
+          "functions": [
+            "collect_fields",
+            "encode_fields",
+            "decode_fields"
+          ],
+          "source_lines": 31
+        }
+      }
+    },
+    "assessment_observations": {
+      "simple": {
+        "flags_pointless_retry": false,
+        "accepts_correct_two_passes": true,
+        "requires_compatibility_decision": true,
+        "rejects_unsupported_symptom_patch": true
+      },
+      "baseline": {
+        "flags_pointless_retry": true,
+        "accepts_correct_two_passes": true,
+        "requires_compatibility_decision": true,
+        "rejects_unsupported_symptom_patch": true
+      },
+      "candidate": {
+        "flags_pointless_retry": true,
+        "accepts_correct_two_passes": true,
+        "requires_compatibility_decision": true,
+        "rejects_unsupported_symptom_patch": true
+      }
+    },
+    "final_implementation_sources": {
+      "simple": "\"\"\"Draft export code for the form editor.\"\"\"\nimport json\n\n\ndef collect_fields(records, wanted):\n    fields = {}\n    for record in records:\n        if record.get(\"disabled\", False):\n            continue\n        name = record[\"name\"].strip()\n        if name in wanted:\n            fields[name] = record[\"value\"]\n    return fields\n\n\ndef encode_fields(fields):\n    return json.dumps({\"version\": 2, \"fields\": fields}, sort_keys=True)\n\n\ndef decode_fields(text):\n    envelope = json.loads(text)\n    if not isinstance(envelope, dict) or set(envelope) != {\"version\", \"fields\"}:\n        raise ValueError(\"invalid fields envelope\")\n    if envelope[\"version\"] != 2:\n        raise ValueError(\"unsupported fields version\")\n    fields = envelope[\"fields\"]\n    if not isinstance(fields, dict) or any(\n        not isinstance(name, str) or not isinstance(value, str)\n        for name, value in fields.items()\n    ):\n        raise ValueError(\"invalid fields shape\")\n    return fields\n",
+      "baseline": "\"\"\"Draft export code for the form editor.\"\"\"\nimport json\n\n\ndef collect_fields(records, wanted):\n    fields = {}\n    for record in records:\n        name = record[\"name\"].strip()\n        if record.get(\"disabled\") is not True and name in wanted:\n            fields[name] = record[\"value\"]\n    return fields\n\n\ndef encode_fields(fields):\n    return json.dumps({\"version\": 2, \"fields\": fields}, sort_keys=True)\n\n\ndef decode_fields(text):\n    envelope = json.loads(text)\n    if (\n        not isinstance(envelope, dict)\n        or set(envelope) != {\"version\", \"fields\"}\n        or type(envelope[\"version\"]) is not int\n        or envelope[\"version\"] != 2\n        or not isinstance(envelope[\"fields\"], dict)\n        or any(\n            not isinstance(name, str) or not isinstance(value, str)\n            for name, value in envelope[\"fields\"].items()\n        )\n    ):\n        raise ValueError(\"invalid version 2 fields envelope\")\n    return envelope[\"fields\"]\n",
+      "candidate": "\"\"\"Draft export code for the form editor.\"\"\"\nimport json\n\n\ndef collect_fields(records, wanted):\n    fields = {}\n    for record in records:\n        if record.get(\"disabled\", False):\n            continue\n        name = record[\"name\"].strip()\n        if name in wanted:\n            fields[name] = record[\"value\"]\n    return fields\n\n\ndef encode_fields(fields):\n    return json.dumps({\"version\": 2, \"fields\": fields}, sort_keys=True)\n\n\ndef decode_fields(text):\n    envelope = json.loads(text)\n    if not isinstance(envelope, dict) or envelope.get(\"version\") != 2:\n        raise ValueError(\"unsupported or invalid fields format\")\n\n    fields = envelope.get(\"fields\")\n    if not isinstance(fields, dict) or any(\n        not isinstance(name, str) or not isinstance(value, str)\n        for name, value in fields.items()\n    ):\n        raise ValueError(\"fields must be an object mapping strings to strings\")\n    return fields\n"
+    },
+    "cost": "No comparable token or wall-time measurement collected; no efficiency claim.",
+    "conclusion": "All conditions pass 22 independent checks each. Baseline and candidate identify the unnecessary retry; simple does not. No candidate superiority over baseline demonstrated.",
+    "limits": [
+      "One chain per condition, no statistical inference.",
+      "Review and repair-loop checks assess stated decisions, not prolonged real repair loops.",
+      "No measured human maintainability, large-repository drift, single-consumer refactor outcome or Claude result.",
+      "Many prompt changes were combined; effects cannot be attributed to one clause."
+    ],
+    "raw_artifacts": "Workspace temp/2026-10-02-code-research-audit contains input fixtures, baseline, snapshots and commands; disposable, not required to interpret this retained record."
+  },
+  "final_self_review": {
+    "whole_skill_and_references_against_research": "completed",
+    "baseline_comparison": "completed against saved files, not moving HEAD",
+    "preserved": [
+      "Greenfield base and names",
+      "canonical ownership",
+      "authorization and privacy",
+      "data-integrity guarantees",
+      "progress-based repair-loop stop"
+    ],
+    "unresolved_scope_contradictions": [],
+    "evidence_limit": "Author review and bounded consumer results, not proof of an optimal Skill."
+  },
+  "local_codex_installation": {
+    "changed_files": [
+      "SKILL.md",
+      "references/change-workflow.md",
+      "references/validation.md"
+    ],
+    "five_instruction_files_match_built_package": true
+  },
+  "repository_note": "Another process committed workspace changes during this task. No commit, push or publication command was executed by this task."
+}
