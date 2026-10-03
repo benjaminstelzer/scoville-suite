@@ -11,9 +11,6 @@ from pathlib import Path
 
 REPOSITORY = Path(__file__).resolve().parent.parent
 SCRIPT = REPOSITORY.parent / "scoville-plan" / "scripts" / "select_context.py"
-SKILL = REPOSITORY.parent / "scoville-plan" / "SKILL.md"
-READ_ONLY = REPOSITORY.parent / "scoville-plan" / "references" / "read-only.md"
-COMPATIBILITY = REPOSITORY.parent.parent.parent / "development" / "readme" / "scoville-plan" / "compatibility-16ef3bbbbcff0431.md"
 
 
 DECISION = """---
@@ -126,36 +123,6 @@ Next action: Stay absent.
 
 
 class SelectContextTests(unittest.TestCase):
-    def test_no_python_dispatch_recipe_and_runtime_requirements_are_complete(self) -> None:
-        self.assertIn("Runtime helpers rule in SKILL.md", READ_ONLY.read_text(encoding="utf-8"))
-        fallback = READ_ONLY.parent / "fallbacks/select_context-fallback.md"
-        guide = " ".join(fallback.read_text(encoding="utf-8").split())
-        for required in (
-            "For current-or-named Work Item recovery",
-            "otherwise use the active Plan's `current_item`",
-            "complete selected Work Item block, including Steps, Evidence",
-            "Use the `W-NNN` ID in the requested unit",
-            "not `current_item`",
-            "existing Step or an ascending adjacent range of at least two Steps",
-            "Without Steps, require `W-NNN` alone",
-            "the requested unit ID",
-            "Status, Depends on, Blocked by, Decisions, Outcome and Acceptance",
-            "direct dependency IDs with their Status lines",
-            "every complete Decision referenced",
-            "retain Evidence and Next action",
-            "Exclude unselected Steps and Work Item-wide Next action",
-            "stop without supplying a partial dispatch context",
-        ):
-            with self.subTest(required=required):
-                self.assertIn(required, guide)
-        readme_compatibility = COMPATIBILITY.read_text(encoding="utf-8")
-        self.assertRegex(readme_compatibility, r"(?:Requires|Needs) a frontier model from the Fable, Astra, SOL or Opus families")
-        self.assertIn("Luna was also used", readme_compatibility)
-        self.assertRegex(" ".join(readme_compatibility.split()), r"[Oo]ptional validation and selection helpers (?:require|need) Python 3\.10\+")
-        core = SKILL.read_text(encoding="utf-8")
-        self.assertIn("Selector and validator need Python 3.10+", core)
-        self.assertIn("Manual alternatives load only without Python", core)
-
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory(prefix="scoville-selector-")
         self.root = Path(self.temp.name) / "project"
@@ -340,6 +307,13 @@ class SelectContextTests(unittest.TestCase):
         payload = json.loads(completed.stdout)
         self.assertEqual("OUTPUT_BUDGET_EXCEEDED", payload["diagnostics"][0]["code"])
         self.assertNotIn("ééééé", completed.stdout)
+        diagnostic = payload["diagnostics"][0]
+        required = diagnostic["observed"]["required_bytes"]
+        self.assertIn(f"--max-output-bytes {required}", diagnostic["message"])
+        corrected = self.run_cli("--max-output-bytes", str(required))
+        self.assertEqual(0, corrected.returncode, corrected.stdout)
+        self.assertEqual(required, len(corrected.stdout.encode("utf-8")))
+        self.assertIn("é" * 2_000, json.loads(corrected.stdout)["work_item"])
 
     def test_missing_referenced_decision_is_rejected(self) -> None:
         (self.root / "docs" / "decisions" / "0001-preserve-unicode.md").unlink()

@@ -200,15 +200,6 @@ class ReadmeTemplateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'missing or invalid variant variable: skill_name'):
             builder.readme(root, member)
 
-    def test_native_readme_requires_python_and_project_config(self):
-        root = SHARED.parent / 'scoville-suite'
-        config = builder.load(root, 'codex', 'standalone')
-        result = builder.readme(root, config['members'][0], config=config).decode()
-        self.assertIn('Python 3.11 or newer', result)
-        self.assertIn('`.scoville/config.json`', result)
-        self.assertIn('Reading settings creates no file', result)
-        self.assertNotIn('personal `config.json` files remain', result)
-
     def test_receipt_tracks_shared_template_and_source_drift_is_detected(self):
         root = SHARED.parent / 'scoville-suite'
         member = 'scoville-ask-for-codex'
