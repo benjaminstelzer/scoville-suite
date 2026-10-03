@@ -1,6 +1,11 @@
 # Changelog
 
 
+## v2.3.6 - 2026-10-03
+
+- Allow Context Cleanup with the tested Luna 6 Medium baseline instead of requiring a recommended frontier model.
+- Report the required Plan context size when an output budget is too small.
+
 ## v2.3.5 - 2026-10-03
 
 - Keep configuration and workarounds in the right place when building Skill READMEs. Preserve shared fragments needed by the suite so filtered exports build on their own.

@@ -1,7 +1,7 @@
 ---
 name: scoville-project-context-cleanup
 description: Add or revise project rules in AGENTS.md and context in PROJECT_INDEX.md. Use for requested additions to project rules (Projektregeln) and cleanup of these files. Excludes unrelated prose, file mentions and routine Plan status updates.
-compatibility: Requires project-file read/write access and a frontier Fable, Astra, SOL or Opus model version 5.0 or newer. Developed and tested in Codex, with targeted Luna cases. Other hosts remain untested. No scripts, services or network required.
+compatibility: Requires project-file read/write access. Fable, Astra, SOL or Opus 5.0+ recommended. Lowest tested baseline is Luna 6 with Medium reasoning. Developed and tested in Codex; other hosts untested. No scripts, services or network required.
 ---
 
 # Scoville Project Context Cleanup

@@ -35,6 +35,11 @@ state the expected value/format and show the correct invocation through usage
 help or an example. Emit no partial success output. Test the invalid call and
 its corrected invocation, preserving actionable diagnostics and failure status.
 
+Do not gate releases on exact wording or required prose fragments in READMEs,
+Skills or other instructions. Test behavior, structure and semantic requirements.
+Exact matching remains appropriate for machine-readable contracts, lossless
+content preservation and generated-file provenance.
+
 Encapsulate repeated mechanical prompt, title and argument assembly in the
 existing helper or a small new helper when it prevents an identified error.
 Keep its optional manual procedure in its paired fallback file, never inline
