@@ -3,7 +3,7 @@ format_version: 1
 id: PLAN-0019
 status: draft
 created: 2026-09-28
-updated: 2026-09-29
+updated: 2026-10-05
 ---
 
 # Claude-Code-Build der Suite
@@ -88,10 +88,26 @@ Steps:
 3. [status: todo] Helper und Konsultation mit einem Claude- und einem Codex-Adviser samt Folgefrage testen.
 Evidence: []
 
+### W-011 Function-Hook-Mods für Workflow for Claude sind geprüft und entschieden
+
+Status: todo
+Depends on: [W-001]
+Blocked by: []
+Decisions: [ADR-0104, ADR-0114]
+Outcome: Belegt ist, welche Claude-Code-Mods (Function Hooks) Kontextmessung, Wiederaufnahme nach Compaction, Rollengrenzen und Skill-Ladesignale zuverlässig liefern. Eine Decision legt ihren Einsatz im Profil `claude` fest; die Ladesignale dienen auch den Claude-Testläufen aus PLAN-0034 W-001.
+Acceptance: `development/claude-code/capabilities.md` nennt je Eigenschaft Claude-Code-Version, Ladeweg (`--plugin-dir` interaktiv, `claude -p` mit `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`, `CLAUDE_CODE_PLUGIN_DIRS` in einer Desktop-Sitzung, Marketplace-Installation) und Beobachtung mit Transkriptstelle: `turn.complete` liefert `usage` mit `agentId` je Subagent; `$.session.usage()` liefert Füllstand und Fenster der Hauptsitzung; `session.compact` feuert für Hauptsitzung und Subagent mit Auslöser und nimmt ergänzte Anweisungen für die Zusammenfassung an, ohne sie zu blockieren; `$.session.append` erreicht den Coordinator nach einer Compaction; `$.session.messages({ agentId })` liest die letzte Antwort eines Subagenten; `tool.call` trägt die `agentId` und lehnt Schreibwerkzeuge je Rolle ab; `skill.prompt` meldet jedes Laden eines Skills. Nicht belegte Eigenschaften sind als unverifiziert markiert. Eine Decision legt fest, ob das Profil `claude` einen optionalen Mod ausliefert, welche geplanten Helper er ersetzt (`inspect_claude_context.py`, Transkript-Leser, `/context`-Parser) und dass alle Skills ohne Mod korrekt bleiben.
+Instructions: Nur in einem Wegwerfprojekt unter `<workspace-root>/temp/` mit eigenem `CLAUDE_CONFIG_DIR` prüfen; kein Mod im Nutzerprofil, Auto-Compaction weder blockieren noch verschieben.
+Steps:
+1. [status: todo] Die Typdeklaration der installierten Version mit `/plugin-types` gegen die genannten Ereignisse und Aufrufe abgleichen und einen minimalen Probe-Mod anlegen, der `claude plugin validate` besteht.
+2. [status: todo] Den Probe-Mod interaktiv und headless mit einem Coordinator sowie einem schreibenden und einem lesenden Plugin-Subagenten ausführen, je eine Compaction von Hauptsitzung und Subagent auslösen und die Beobachtungen in `capabilities.md` eintragen.
+3. [status: todo] Laden über Marketplace-Installation und Desktop-Sitzung sowie die Abschaltbarkeit durch Richtlinien prüfen und festhalten.
+4. [status: todo] Eine Decision zum Mod-Einsatz mit Empfehlung anlegen und ihre Auswirkungen auf W-003, W-006 und W-008 benennen.
+Evidence: []
+
 ### W-006 Workflow for Claude führt einen Plan mit Subagenten aus
 
 Status: todo
-Depends on: [W-003, W-004]
+Depends on: [W-003, W-004, W-011]
 Blocked by: []
 Decisions: [ADR-0104, ADR-0105, ADR-0111, ADR-0112, ADR-0114]
 Outcome: `members/scoville-workflow-for-claude-code` führt wie Workflow for Codex eine Einheit nach der anderen mit Worker, Review und Worker-Handoff aus. Die Hauptsitzung koordiniert nach ADR-0104.
