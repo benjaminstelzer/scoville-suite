@@ -46,11 +46,11 @@ Blocked by: []
 Decisions: [ADR-0125]
 Outcome: Scoville Code begrenzt die aktive Runner-Rolle auf die erlaubten Scoville-Skills, ohne Implementierungsrollen zu sperren.
 Acceptance: Die Codex-Code-Quelle definiert die Runner-Grenze für den aktiven Ablauf einschließlich Pause, Wiederaufnahme und Managerwechsel. Der Runner benutzt keine zusätzlichen Skills oder Code-Engineering-Routen. Planarbeit und Planinhalte bleiben beim Manager. Eine neue tatsächliche Runner-Abnahme konsumiert die aktualisierte gebaute Regel und hält sie bei Statusfragen ein. Generierte Pakete bleiben quellentreu, bestehende aktive Testkopien unverändert. Die genaue erlaubte Liste wird mit einer eingehenden Nutzerklärung abgeglichen.
-Instructions: Vor Abnahme die genaue erlaubte Skillliste mit der eingehenden Nutzerklärung abgleichen und die Runner-Abnahme abschließend bewerten.
+Instructions: Abnahme erst nach Klärung der erlaubten Runner-Skillliste.
 Steps:
 1. [status: done] Vorhandene Code-Runner-Grenze und Workflow-Einstiegsreferenz im aktuellen Codex-Build abgleichen.
 2. [status: done] Mit einem tatsächlichen Luna-Runner und Zwischenfragen prüfen, Ergebnisse und Nachweisgrenzen sichern.
-Evidence: Luna-Neulauf: zwei Punkte/Statusfragen und Managerwechsel bestanden. Skillliste offen. Siehe ../../../../../temp/2026-10-01-workflow-agent-capacity/report.md.
+Evidence: Luna-Runner mit Statusfragen und Managerwechsel geprüft; erlaubte Skillliste für die finale Abnahme noch ungeklärt.
 
 ### W-003 Native Ask-Berater beenden ihre Turns ohne wartende Routinequittungen
 

@@ -167,7 +167,7 @@ Blocked by: []
 Decisions: [ADR-0103, ADR-0108, ADR-0112]
 Outcome: Die verifizierte Claude-Suite liegt im festen Distributionsziel und ist nach Nutzerfreigabe veröffentlicht.
 Acceptance: Der Nutzer hat Sichtbarkeit und Veröffentlichung entschieden. Der Build liegt unter `<workspace-root>/skills/temp/release/` und ist nach `<workspace-root>/skills/public/scoville-suite-for-claude-code/` synchronisiert. Eine frische Plugin-Installation in einem leeren Profil über ein eigenes `CLAUDE_CONFIG_DIR` funktioniert. General und Codex werden in W-009 nicht eigens neu veröffentlicht. Ihre durch PLAN-0019 geänderten Bytes gehen mit dem nächsten regulären Release (ADR-0112). Ein Push umfasst den GitHub-Release nach `skills/AGENTS.md`.
-Instructions: Nach W-008 die Veröffentlichungsfreigabe beim Nutzer einholen.
+Instructions: []
 Steps:
 1. [status: todo] Freigabe einholen, `--profile claude --layout suite` bauen, prüfen und synchronisieren.
 2. [status: todo] Frische Installation prüfen und nach Push-Auftrag Release und Verifikation abschließen.

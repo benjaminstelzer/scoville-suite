@@ -30,7 +30,7 @@ Blocked by: []
 Decisions: [ADR-0001]
 Outcome: A representative corpus measures current Plan token cost and the ability of fresh workers to reconstruct and resume the recorded work without chat context.
 Acceptance: The corpus covers small, ordered, blocked, Decision-linked, paused, completed, and mixed deferred-queue work. Before variants are created, one compact protocol fixes tokenizer and encoding identity, input bytes, worker model and effort, canonical context, run count, expected facts, safe-action rubric, and paired comparison method. Full-record tokens are measured directly; field counts are diagnostic and need not sum to the full record. Every case scores Goal, Non-goals, status, current_item, dependencies, blockers, proposal authority, Decisions, successor provenance and order, ordered actions, Acceptance, Evidence, terminal behavior, and Next action. Safety-critical recovery must be correct per case. Baseline failures remain failures and trigger corpus or scope correction rather than becoming an acceptable candidate baseline. The declared token gate requires a positive aggregate saving without a per-case token regression that lacks an explicit recovery benefit. Consumption claims count the complete canonical context supplied to the worker, including the index and referenced Decisions.
-Instructions: Await revised plan scope per ADR-0001 before establishing the baseline.
+Instructions: []
 Steps:
 1. [status: todo] Extend `development/tests/fixtures/record-writing/` with representative valid Plans, including one mixed deferred queue with a current item, existing successor, blocked or proposed-Decision successor, explicit arrival order, and expected safe action.
 2. [status: todo] Add a read-only measurement harness under `development/tests/` that records tokenizer identity, per-field counts, total counts, and corpus summaries without rewriting fixtures.
@@ -46,7 +46,7 @@ Blocked by: []
 Decisions: [ADR-0001]
 Outcome: A format-version-1 writing profile removes repeated wording while retaining every fact needed to choose, execute, review, resume, and verify work.
 Acceptance: Before-and-after Plans remain valid, meet the frozen W-001 token gate, and preserve every required recovery fact and safe action in every case. The profile defines ownership boundaries for titles, Goal, Non-goals, Outcome, Steps, Acceptance, Evidence, and Next action, and identifies intentional redundancy that must remain for direct recovery.
-Instructions: Baseline revision is required before creating format-version-1 variants from the W-001 corpus.
+Instructions: []
 Steps:
 1. [status: todo] Produce bounded variants that remove duplicated rationale, repeated subjects, execution diaries, and restated status while preserving canonical field names and order.
 2. [status: todo] Compare concise titles, single-owner facts, compact equal-rank bullets, direct Step targets, and result-only Evidence through the frozen W-001 protocol, including adversarial conditions, exceptions, time bases, thresholds, metrics, uncertainty, and reference frames.

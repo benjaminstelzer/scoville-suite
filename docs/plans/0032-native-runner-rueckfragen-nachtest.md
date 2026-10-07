@@ -37,7 +37,7 @@ Steps:
 1. [status: done] Neues Testprojekt-Szenario, eingefrorene Paketbytes und ausschließlich Luna-Medium-Einstellungen vorbereiten und validieren.
 2. [status: done] Den echten Workflow seriell ausführen; native Übermittlung und tatsächliche Runner-Ausgabe vor Antworten und Wiederaufnahme sichern.
 3. [status: done] Nachweise auswerten, Konfiguration wiederherstellen, abgeschlossene Tests aufräumen und Ergebnis committen.
-Evidence: members/scoville-workflow-for-codex/development/test-results/2026-10-02-runner-questions.md: Worker-Frage sichtbar, Fortsetzung geprüft, Konfiguration wiederhergestellt und Rollen archiviert.
+Evidence: Worker-Frage sichtbar und Fortsetzung nativ geprüft; Konfiguration wiederhergestellt und abgeschlossene Testrollen archiviert.
 
 ### W-002 Statusmeldungen sind eindeutig zugeordnet und einheitlich formatiert
 
@@ -47,7 +47,7 @@ Blocked by: []
 Decisions: [ADR-0139, ADR-0141]
 Outcome: Der Helper erzeugt fertige Statusmeldungen mit Projekt, Plan und Planpunkt/Step in fetter Titelzeile und normalem Fragetext.
 Acceptance: Gebaute Helper-Ausgabe funktioniert unverändert im Consumer und tatsächlichen seriellen Luna-Medium-Lauf. Astra Medium prüft das Opus-Review und weitere sinnvolle Helper anhand des tatsächlichen Skills. Die Nachrichtenroute bleibt erhalten. Geprüftes Paket ist lokal installiert; autorisierte Live-Runner sind über das Update informiert.
-Instructions: ADR-0141 enthält die ausdrückliche Präzisierung des Nutzers. Ursprünglicher Auftrag und erster Darstellungsstand sind in Commit 00bc56b erhalten. Keine Umsetzung der Opus-Architekturvorschläge ohne Freigabe.
+Instructions: []
 Steps:
 1. [status: done] Zentrale Regel ergänzen und Paket prüfen.
 2. [status: done] Darstellung im nächsten tatsächlichen Workflow-Lauf prüfen und Ergebnis sichern.
@@ -55,4 +55,4 @@ Steps:
 4. [status: done] Astra Medium prüft Opus-Befunde und weitere Helper zur Kürzung des tatsächlichen Skills.
 5. [status: done] Endgültige Darstellung im seriellen Luna-Medium-Lauf prüfen, Nachweise sichern und Testkonfiguration wiederherstellen.
 6. [status: done] Geprüftes Paket lokal installieren, autorisierte Runner informieren und Änderungen committen.
-Evidence: members/scoville-workflow-for-codex/development/test-results/2026-10-02-runner-questions.md: Status-/Berichtsanzeige nativ geprüft, lokal installiert, beide Runner informiert; Grenzen erhalten.
+Evidence: Statusdarstellung nativ geprüft und Paket lokal installiert; autorisierte Runner informiert. Astra-Review durchgeführt.

@@ -33,7 +33,7 @@ Steps:
 1. Ask-Helper und Referenzen beim kanonischen Member korrigieren, Fehler-/Erfolgsfälle prüfen.
 2. Reales Claude-Review mit Rückfrage im Desktop-Testprojekt ausführen; gezielten nativen Ask-Modellfall ohne UI-Einstiegsprompt prüfen.
 3. Gesichertes Release-Staging ohne Verzeichnislöschung aktualisieren und prüfen.
-Evidence: docs/plan0021-evidence.md: realer Claude-Resume bestanden; isolierter Luna-High-Ask-Test und aktuelle Staging-Prüfung bestanden.
+Evidence: Realer Claude-Resume, isolierter Luna-Ask-Test und aktuelle Staging-Prüfung bestanden.
 
 ### W-002 Luna High prüft Skills und einen vollständigen Workflow
 
@@ -47,7 +47,7 @@ Steps:
 1. Gebaute Testpakete, begrenztes Testprojekt und Plan vorbereiten; nur dort 15/15 setzen.
 2. Unabhängige Luna-High-Prüfung der Skills/Helper und nativen Workflow ausführen, Befunde beheben und gezielt erneut prüfen.
 3. Endzustand und Belege prüfen; finale Änderungen in Staging übernehmen.
-Evidence: docs/plan0021-evidence.md und Desktop/test/plan0021/workflow-result.md: Testplan abgeschlossen, reale 15/15-Rollover, Luna-High-Helperprüfung und kontrollierte Nachprüfungen bestanden.
+Evidence: Nativer Testplan mit realem Manager-/Worker-Rollover abgeschlossen; Luna-Helperprüfung und gezielte kontrollierte Nachprüfungen bestanden.
 
 ### W-003 Tatsächliche Übergaben und Kontextkosten sind geprüft
 
@@ -60,7 +60,7 @@ Acceptance: Tatsächliche Aufrufe und Erstellungsargumente werden mit Helper-Aus
 Steps:
 1. Native Logs des Testlaufs lesen, Ausgabegrößen und konkrete Übergaben auswerten.
 2. Belegte Defekte beim kanonischen Owner korrigieren; betroffene Fälle und finale Pakete erneut prüfen.
-Evidence: docs/plan0021-evidence.md: native Übergaben geprüft, belegte Fehler korrigiert, gezielte Luna-Proben bestanden; Erstlauf und kontrollierte Fortsetzung getrennt dokumentiert.
+Evidence: Native Übergaben geprüft, belegte Fehler korrigiert und gezielt nachgetestet. Kontrollierte Fortsetzung ersetzt keinen fehlerfreien Erstlauf.
 
 ### W-004 Setup steuert das Anpinnen getrennt für Ask und Workflow
 
@@ -73,7 +73,7 @@ Acceptance: Beide Bereiche sind unabhängig ein-/ausschaltbar. False unterbindet
 Steps:
 1. Kanonische Defaults, Validierung, Resolver-Ausgabe und Setup ergänzen, bedingte Pin-Regeln nachführen.
 2. Fehlende Defaults, true/false und ungültige Typen an echten gebauten Consumern testen; Luna High prüft Gegenfälle.
-Evidence: docs/plan0021-evidence.md: Setup-/Consumer-Tests und 14 Luna-High-Pin-Prüfungen bestanden.
+Evidence: Unabhängige Pin-Einstellungen an Setup und tatsächlichen Consumern sowie mit Luna-Gegenfällen geprüft.
 
 ### W-005 READMEs erklären Nutzen und Planung vor der Umsetzung
 
@@ -86,4 +86,4 @@ Acceptance: Kanonische Einleitungen nennen sorgfältige Planung mit unabhängige
 Steps:
 1. Nutzerargumente in den beiden kanonischen Beschreibungstexten ausarbeiten; Kosten zentral halten.
 2. Vorschauen/Staging regenerieren und die betroffenen README-Projektionen prüfen.
-Evidence: Kanonische Beschreibungen und generierte READMEs in beiden Profilen aktualisiert; 16 betroffene README-Tests und beide Paketprüfungen bestanden.
+Evidence: Kanonische Beschreibungen und generierte READMEs aktualisiert; beide Paketprofile geprüft.

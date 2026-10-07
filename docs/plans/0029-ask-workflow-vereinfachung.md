@@ -235,8 +235,8 @@ Blocked by: []
 Decisions: []
 Outcome: Der beobachtete Badge-Fehler wird als Skill-Prüfdefekt behandelt und am bestehenden Validation-Vertrag korrigiert.
 Acceptance: Tatsächliche Referenzlektüre, Quellen-, Mess- und Sichtprüfung des fehlgeschlagenen Luna-Laufs sind ausgewertet. Innere Textplatzierung gilt auch für nicht interaktive Statuskomponenten und wird nicht durch reine Overflow-Prüfung ersetzt. Keine pauschale Zentrierung gegen eine bewusste Variante und keine neue Prüfmatrix. Ein serieller Luna-Medium-Audit am gebauten Skill prüft den erhaltenen Fehlerfall ohne Produktreparatur; der erste Fehlbefund bleibt erhalten. Angefangene Fixture-Korrekturen gelten nicht als Skill-Nachweis.
-Instructions: Der Nutzer stoppt die Reparatur der Linden-Testoberfläche ausdrücklich; Ziel ist der Defekt im Skill.
+Instructions: []
 Steps:
 1. [status: done] Fehlgeschlagenen Prüfablauf auswerten und den bestehenden komponentenbezogenen Prüfschritt präzisieren.
 2. [status: done] Gebauten Skill im realen Testprojekt seriell read-only prüfen und tatsächliche Fehlererkennung belegen.
-Evidence: Luna-Audit findet Badge-Drift ohne Produktedit; Originalhashes gleich. Verbraucherbeleg und Grenzen: temp/2026-10-01-plan-0029/w15-ui-badge-skill-defect.md.
+Evidence: Luna-Audit erkannte Badge-Drift ohne Produktänderung; ursprüngliche Fixture blieb unverändert.

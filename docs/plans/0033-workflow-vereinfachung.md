@@ -31,4 +31,4 @@ Steps:
 1. [status: done] In members/scoville-workflow-for-codex die gemeinsame Protokollreferenz und beide Helper-Vereinfachungen mit betroffenen Anweisungen und Paketverträgen umsetzen.
 2. [status: done] Gebaute Helper mit tatsächlichen Consumern und korrigierten Fehlerfällen prüfen; Kürzung und erhaltene Grenzen gegen den gesicherten Ausgangsstand belegen.
 3. [status: done] Im gespeicherten Projekt test seriell mit neuem Luna/Medium-Runner prüfen, getestetes Paket installieren, ursprüngliche Konfiguration wiederherstellen und Testrollen archivieren.
-Evidence: 56 Tests, Paketprüfung und native Consumer bestanden; lokal installiert. Details: members/scoville-workflow-for-codex/development/test-results/2026-10-02-workflow-simplification.md
+Evidence: Paketprüfung, technische Checks und native Consumer bestanden; getestete Vereinfachungen lokal installiert.

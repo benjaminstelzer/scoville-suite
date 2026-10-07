@@ -35,7 +35,7 @@ Acceptance: Gebaute Workflow-Helper und ihre echten Verbraucher zeigen Working o
 Steps:
 1. [status: done] In members/scoville-workflow-for-codex/ einen kleinen Report-/Anzeigehelper und die notwendigen Start-, Manager-, Übergabe- und Kindverträge umsetzen; suite.json registriert jeden Helper und jede Paketdatei.
 2. [status: done] Erfolgs-, Wiederholungs-, Frage-/Klärungs-, Stopp-, Pfad- und Fehlerfälle am gebauten Paket mit tatsächlichen Folgeverbrauchern prüfen und kanonische README-Fragmente regenerieren.
-Evidence: 268 Tests bestanden; vier Builds und 40 READMEs geprüft; Astra Medium bestätigt die Quelle. Nachweise: temp/2026-09-30-workflow-feedback/report.md.
+Evidence: Anzeige, Reporthelper und Paketprojektionen geprüft; unabhängiges Astra-Review bestätigte die Quelle.
 
 ### W-002 Der aktuelle Workflow besteht die vollständige technische und reale Abnahme
 
@@ -49,4 +49,4 @@ Steps:
 1. [status: done] Vollständigen technischen Quellenlauf ausführen; Paketbestände, Helper und README-Ausgaben am einzigen aktuellen Build unter skills/temp/release/ prüfen.
 2. [status: done] Isolierte Fixture im Testprojekt vorbereiten und die gebauten Manager- und Kindaufträge unverändert in native Werkzeugaufrufe übernehmen. Ereignisse, wirkliche Dateiänderungen, Kontrollzustände, Telemetrie und Grenzen in temp/2026-09-30-workflow-feedback/ sichern.
 3. [status: done] Unabhängige Prüfung und erforderliche Korrekturen abschließen, betroffene fehlgeschlagene Fälle wiederholen und den finalen Build sowie Plan-Nachweise aktualisieren.
-Evidence: Native Abnahmen: 18 und 23 Prüfungen bestanden. Anzeige, Fragen, Stopp, Übergaben und sauberer Abschluss belegt; Transportgrenzen: temp/2026-09-30-workflow-feedback/report.md.
+Evidence: Native Anzeige, Fragen, Stopp, Übergaben und sauberer Abschluss belegt. Kontrollierte Negativfälle beweisen keine nicht erzeugbaren Transportzustände.
