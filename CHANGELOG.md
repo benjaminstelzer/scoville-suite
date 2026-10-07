@@ -2,6 +2,11 @@
 
 
 
+## v2.4.2 - 2026-10-07
+
+- Keep Acceptance focused on distinct required results and binding checks, without turning it into an implementation recipe or test catalog.
+- Let explicit Maintenance shorten Outcome, Acceptance and Step wording in started and completed Plans while preserving every requirement, action and historical meaning.
+
 ## v2.4.1 - 2026-10-07
 
 - Keep Instructions limited to current conditions beyond the Steps, and Evidence limited to useful results and required review occurrence. Clean old Plans through Maintenance without reconstructing history or retaining review transcripts.
