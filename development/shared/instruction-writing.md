@@ -1,12 +1,17 @@
 # Instruction writing
 
-When authoring AI-consumed content, read [the runtime writing rules](prompting/common.md).
-This includes AGENTS.md, Skills, plans, references, prompts, schemas, examples,
-errors and tool output. The following rules add authoring and packaging guidance.
+When authoring AI-consumed content or public copy, read
+[the runtime writing rules](prompting/common.md). AI-consumed content includes
+AGENTS.md, Skills, plans, references, prompts, schemas, examples, errors and tool
+output. Public copy includes READMEs, CHANGELOGs and release notes.
+The following rules add authoring and packaging guidance.
 
 - Write every shipped Skill file in English, including metadata, assets and
   script messages. Runtime documents and supplied user data follow the user's
   or project's language. English descriptions must still support German requests.
+- Public copy uses repository-relative paths or placeholders, never author
+  usernames, drive letters, local checkout or session paths, or host observations.
+  Runtime diagnostics still name the actual paths and conditions needed for repair.
 - Begin a Skill description with its capability, then its trigger in English
   user words and a relevant boundary with a neighboring Skill. About 500
   characters is a guide, never an acceptance gate. Keep UI metadata consistent.

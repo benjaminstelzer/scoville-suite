@@ -1,122 +1,29 @@
-# Suite source ownership
+# Suite project context
 
-Build Plan Viewer binaries only through GitHub Actions, for Windows x64,
-Linux x64, macOS Apple Silicon and macOS Intel. Never install Rust or compile
-the native Viewer locally. Download successful workflow artifacts, verify their
-checksums and retain the current build under `skills/temp/release/viewer/`.
+Scoville Suite owns checks and procedures. This file contains only
+project-specific source ownership and boundaries.
 
-Use GPT-6 Astra with high reasoning for requested independent Astra reviews
-unless the user explicitly selects another effort. Executor settings remain
-unchanged.
+## Canonical sources
 
-Agents may read JSON helper output and use JSON configuration. Do not require
-agents to hand-write syntactically correct JSON for dispatch, handoffs or helper
-requests. Use plain text, helper-generated JSON, native structured arguments or
-automatic serialization. Preserve technical parameter contracts. Ask Claude
-may retain its JSON interface. Generate its requests rather than hand-writing them.
+- `suite.json`: membership, visibility, package files, helper contracts,
+  README composition, family metadata and export destinations.
+- `members/`: canonical Skill sources and member development material,
+  not separate Git repositories.
+- Root Plan profile: suite planning. Member profiles: historical member records.
+- `../shared/`: shared build tools and runtime-helper sources.
+  Suite-local copies, including `development/shared/`, are generated snapshots.
+- `development/readme/`: README fragments. Member READMEs are generated previews.
+  Each member's `description_fragments` owns its complete description.
+- `development/shared/instruction-writing.md`: Suite authoring rules for
+  AI-consumed content and public copy, generated from `../shared/instruction-writing.md`.
 
-Helper acceptance requires direct use of successful output in its intended next
-step. For valid inputs, returned text, prompts, code and data must need no agent
-repair round. Test the actual consumer, not only exit status or parseability.
-Explicit diagnostics for invalid input or unavailable dependencies are failures
-to handle, never successful output to repair or silently accept.
+## Project boundaries
 
-Test every added or changed helper with its actual next consumer. Successful
-output must be correct and directly usable, never instructions the agent must
-fix. For missing or invalid inputs, identify the failing argument or condition,
-state the expected value/format and show the correct invocation through usage
-help or an example. Emit no partial success output. Test the invalid call and
-its corrected invocation, preserving actionable diagnostics and failure status.
+Plan Viewer binaries come from GitHub Actions for Windows x64, Linux x64,
+macOS Apple Silicon and macOS Intel. Local Rust installation and native Viewer
+compilation are prohibited.
 
-Do not gate releases on exact wording or required prose fragments in READMEs,
-Skills or other instructions. Test behavior, structure and semantic requirements.
-Exact matching remains appropriate for machine-readable contracts, lossless
-content preservation and generated-file provenance.
+Installed Skills contain their own runtime dependencies. They depend on neither
+shared source directory and do not import installed siblings as helper libraries.
 
-Encapsulate repeated mechanical prompt, title and argument assembly in the
-existing helper or a small new helper when it prevents an identified error.
-Keep its optional manual procedure in its paired fallback file, never inline
-or as an independently maintained second rule copy.
-
-Every packaged runtime script must have an exact `helper_contracts` entry in
-suite.json, classified as a callable helper or an internal library. Generate
-the common helper policy from that registry. General packages use helpers first
-and expose each callable helper's manual route only through a separate
-`references/fallbacks/<helper-name>-fallback.md`, loaded only without Python. Missing
-scripts or helper errors never enable fallback. Codex packages require helpers
-and contain neither optional fallback files nor links or instructions to use
-them. Builds and package verification must reject missing registrations,
-missing or unconditional fallback routes, and cross-profile leakage. Cover both
-general standalone and general suite builds, plus Codex, with negative tests.
-
-Family lists are build projections, not copied text. Maintain membership and
-Scoville `family` metadata in `suite.json`. Use `{{ include: suite.members }}`,
-`family.owners`, `family.links`, `family.install`, or `family.neighbors`
-in Markdown sources. See `development/shared/build/fragments.md` before changing them.
-Never install template sources directly. Install the built package.
-
-For all AI-consumed content, including AGENTS.md, read and apply the
-[shared authoring rules](development/shared/instruction-writing.md) and their
-linked runtime writing rules. The runtime file owns general writing requirements.
-
-`suite.json` owns distribution membership, visibility, exact package files and
-README composition. `members/` contains canonical member sources and their
-development material. These directories are not independent Git repositories.
-The root planning profile coordinates suite work. Preserve member profiles as
-historical member records unless that member's work explicitly requires them.
-
-README fragments under `development/readme/` are authoritative. Member README
-files are generated previews. Build them from the fragments, never edit both.
-Write all GitHub-facing READMEs and CHANGELOGs in Benjamin's voice, including
-suite and member sources, fragments, and release projections. Open with the
-point. Use direct, precise language, make real tradeoffs and causal links clear,
-and avoid promotional gloss. Keep the text natural in its target language.
-Use ` - ` for interruptions, never an en dash or em dash. Do not use semicolons
-to separate prose clauses or sentences.
-Preserve factual claims, technical requirements, and release history. When
-available, use `benjaminstelzer-imitate-me` for the wording pass.
-Keep user-facing text portable. Use repository-relative paths or placeholders.
-never include a user name, drive letter, local checkout or session path, or a
-host-specific observation. Keep machine-specific evidence in internal records.
-Each member's `description_fragments` owns its complete description block. The suite
-uses `suite.descriptions` and manifest `featured_member` to place Workflow first.
-Keep those fragments self-contained with absolute links and no include tags.
-Use development/shared/readme/README-template.md for section order and lists.
-Skill descriptions explain the problem, the solution and how the rules produce
-it. Briefly name relevant costs or limits, including extra tokens and process
-overhead where applicable. Keep benefits central. Do not invent measured gains
-or force four headings onto every description.
-Shared helper sources must have one canonical owner and explicit manifest
-destinations. Every exported Skill includes its own runtime dependencies.
-Never import a sibling installed Skill as a helper library.
-
-Development links belong in the shared suite-only README block. Maintain each
-member's `development` paths in `suite.json`. Release READMEs must not depend on
-excluded files. See `development/shared/build/fragments.md` for audience and link checks.
-
-Build release packages with `python development/build_suite.py` under the sole
-`<workspace-root>/skills/temp/release/` tree, selecting `--profile`,
-`--layout` and `--public-only`. Use `--refresh` only after existing readers
-finish. Changed inventory requires reconciliation first. Synchronize verified
-outputs to regular Skill directories, removing obsolete generated files while
-preserving sources and Git history. Build output is not publication authority.
-Scoville Workflow is approved for public distribution only within
-`scoville-suite-for-codex` under ADR-0079. It remains Codex-only.
-Publication still requires the release gates.
-Before publishing Plan or either suite, run `--check-release` with the current
-Actions Viewer assets. Never download release attachments again after upload.
-Check upload success and the remote attachment inventory through GitHub metadata.
-This also applies to draft checks and the final audit. Initial downloads from
-successful Actions builds remain required. After upload, repeat with all three release targets.
-See `development/shared/build/fragments.md#viewer-release-gate`.
-
-Shared build tools and runtime-helper sources are maintained in the sibling
-`../shared/` directory. Both suites consume that source during builds and bundle
-the required runtime helpers in each exported package. Suite-local tool copies
-are generated, never separate authoring sources. Record source hashes and check
-them before release. Isolated clones build from generated `development/shared/`.
-Installed Skills must not depend on either shared directory.
-
-Archive completed model-test tasks after their task IDs and results are secured
-in the owning evidence. Keep a review task open only while its requested
-review-and-fix loop is still active.
+GitHub-facing README and CHANGELOG wording uses Benjamin's voice.
