@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.1.0 - 2026-10-07
+
+- Preserve complete oversized UI findings through compaction or a hashed temporary file, with the manual helper procedure available only without Python.
+- Keep checks tied to the requested interface result and its actual consumers, and reuse evidence for unchanged behavior.
+- Follow the applicable Codex or Claude Code project rules while preserving framework ownership and required rendered proof.
+
 ## v2.0.7 - 2026-10-02
 
 - Check keyboard operation, focus, contrast and reflow against applicable accessibility requirements, and compare the rendered hierarchy with the main task.

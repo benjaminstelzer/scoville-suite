@@ -120,11 +120,73 @@ class RequestContainmentTests(unittest.TestCase):
             runner.load_receipt(receipt, "skill", self.root)
 
 
+@unittest.skipUnless(os.environ.get("CODEX_TEST_BINARY") and os.environ.get("CODEX_TEST_CATALOG"),
+                     "Set CODEX_TEST_BINARY and CODEX_TEST_CATALOG for the real host prompt consumer")
+class HostPromptContainmentTests(unittest.TestCase):
+    def test_real_prompt_renderer_excludes_project_rules(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            workspace = root / "workspace"
+            workspace.mkdir()
+            marker = "AMBIENT_PROJECT_RULE_MUST_NOT_REACH_CASE_93d7"
+            (workspace / "AGENTS.md").write_text(marker + "\n", encoding="utf-8")
+            home = root / "host-home"
+            (home / ".codex").mkdir(parents=True)
+            base = runner.base_command(Path(os.environ["CODEX_TEST_BINARY"]),
+                                       Path(os.environ["CODEX_TEST_CATALOG"]), "gpt-6-luna", "high")
+            prompt = "Explain only the supplied hypothetical case: prompt consumer control."
+
+            def render(command):
+                result = subprocess.run(command + ["-C", str(workspace), "debug", "prompt-input", prompt],
+                                        cwd=workspace, env=runner.isolated_environment(home),
+                                        capture_output=True, text=True, encoding="utf-8", timeout=60)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(result.stderr, "")
+                json.loads(result.stdout)
+                self.assertIn(prompt, result.stdout)
+                return result.stdout
+
+            # Removing the containment setting must reproduce actual ambient loading.
+            baseline = list(base)
+            setting = baseline.index("project_doc_max_bytes=0")
+            del baseline[setting - 1:setting + 1]
+            self.assertIn(marker, render(baseline))
+            isolated = render(base)
+            self.assertNotIn(marker, isolated)
+            self.assertNotIn("# AGENTS.md instructions", isolated)
+
+
 class EventContractTests(unittest.TestCase):
     def test_exact_qualified_sequence_passes(self):
         result = runner.validate_events(event_stream(), THREAD_ID)
         self.assertEqual("final", result["answer"])
         self.assertEqual(THREAD_ID, result["thread_id"])
+
+    def test_all_messages_keep_reads_open_until_complete_turn(self):
+        cases = (
+            (["READ SKILL.md", ""], ["SKILL.md"]),
+            (["READ SKILL.md", "Prose after request"], ["SKILL.md"]),
+            (["READ SKILL.md", "READ references/a.md"], ["SKILL.md", "references/a.md"]),
+            (["READ SKILL.md", "READ SKILL.md"], ["SKILL.md"]),
+        )
+        for messages, expected in cases:
+            events = [json.loads(line) for line in event_stream().splitlines()]
+            events[2:3] = [{"type": "item.completed", "item": {
+                "type": "agent_message", "text": message}} for message in messages]
+            raw = b"".join((json.dumps(event) + "\n").encode() for event in events)
+            with self.subTest(messages=messages):
+                result = runner.validate_events(raw, THREAD_ID)
+                self.assertEqual(expected, result["read_requests"])
+                self.assertEqual(messages, result["messages"])
+                with self.assertRaisesRegex(runner.ProtocolError, "incomplete_turn"):
+                    runner.validate_events(b"\n".join(raw.splitlines()[:-1]), THREAD_ID)
+
+    def test_empty_turn_fails_only_after_completion(self):
+        validator = runner.EventValidator(THREAD_ID)
+        for line in event_stream("").splitlines():
+            validator.feed(line)
+        with self.assertRaisesRegex(runner.ProtocolError, "empty_response"):
+            validator.finish()
 
     def test_tool_permission_and_unknown_events_fail(self):
         for event in (
@@ -153,6 +215,7 @@ class NativeIdentityTests(unittest.TestCase):
 
     def write_rollout(self, name, session_id=THREAD_ID, contexts=None):
         contexts = contexts or [{"model": "gpt-6-luna", "effort": "high"}]
+        contexts = [{'multi_agent_version': 'disabled', **item} for item in contexts]
         records = [{"type": "session_meta", "payload": {"id": session_id}}]
         records.extend({"type": "turn_context", "payload": item} for item in contexts)
         path = self.root / name
@@ -166,6 +229,43 @@ class NativeIdentityTests(unittest.TestCase):
         ])
         result = runner.validate_native_identity(self.root, THREAD_ID, "gpt-6-luna", "high", 2)
         self.assertEqual(2, len(result["turn_contexts"]))
+
+    def test_native_tool_attempt_is_retained_even_without_a_cli_item_event(self):
+        path = self.write_rollout(f"rollout-{THREAD_ID}.jsonl")
+        with path.open('a', encoding='utf-8') as stream:
+            stream.write(json.dumps({'type': 'response_item', 'payload': {
+                'type': 'function_call', 'name': 'request_user_input', 'arguments': '{"questions":[]}'}}) + '\n')
+        result = runner.validate_native_identity(self.root, THREAD_ID, 'gpt-6-luna', 'high', 1)
+        self.assertEqual([{'type': 'function_call', 'name': 'request_user_input'}], result['native_tool_calls'])
+
+    def test_ambient_project_instructions_invalidate_native_evidence(self):
+        path = self.write_rollout(f"rollout-{THREAD_ID}.jsonl")
+        with path.open("a", encoding="utf-8") as stream:
+            stream.write(json.dumps({"type": "response_item", "payload": {
+                "type": "message", "role": "user", "content": [{"type": "input_text",
+                "text": "# AGENTS.md instructions for /fixture\n\n<INSTRUCTIONS>ambient rule</INSTRUCTIONS>"}]}}) + "\n")
+        with self.assertRaisesRegex(runner.ProtocolError, "native_ambient_project_instructions"):
+            runner.validate_native_identity(self.root, THREAD_ID, "gpt-6-luna", "high", 1)
+        self.write_rollout(f"rollout-{THREAD_ID}.jsonl")
+        self.assertEqual(1, len(runner.validate_native_identity(
+            self.root, THREAD_ID, "gpt-6-luna", "high", 1)["turn_contexts"]))
+
+    def test_agent_exposure_refuses_evidence_even_without_a_tool_call(self):
+        for version in ('v1', 'v2', None):
+            self.write_rollout(f'rollout-{THREAD_ID}.jsonl', contexts=[{
+                'model': 'gpt-6-luna', 'effort': 'high', 'multi_agent_version': version}])
+            with self.assertRaisesRegex(runner.ProtocolError, 'native_agents_not_disabled'):
+                runner.validate_native_identity(self.root, THREAD_ID, 'gpt-6-luna', 'high', 1)
+        path = self.write_rollout(f'rollout-{THREAD_ID}.jsonl')
+        with path.open('a', encoding='utf-8') as stream:
+            stream.write(json.dumps({'type': 'response_item', 'payload': {
+                'type': 'message', 'role': 'developer', 'content': [
+                    {'type': 'input_text', 'text': '<multi_agent_role>Agent instructions</multi_agent_role>'}]}}) + '\n')
+        with self.assertRaisesRegex(runner.ProtocolError, 'native_agent_instructions'):
+            runner.validate_native_identity(self.root, THREAD_ID, 'gpt-6-luna', 'high', 1)
+        self.write_rollout(f'rollout-{THREAD_ID}.jsonl')
+        self.assertEqual('disabled', runner.validate_native_identity(
+            self.root, THREAD_ID, 'gpt-6-luna', 'high', 1)['multi_agent_version'])
 
     def test_missing_ambiguous_and_mismatched_native_identity_fail(self):
         with self.assertRaises(runner.ProtocolError):
@@ -214,10 +314,27 @@ class FailureAndCommandTests(unittest.TestCase):
         command = runner.turn_command(base, Path("workspace"), THREAD_ID)
         self.assertEqual(["exec", "resume"], command[len(base):len(base) + 2])
         self.assertEqual([THREAD_ID, "-"], command[-2:])
-        for value in ("never", "read-only", "mcp_servers={}", 'web_search="disabled"', "--ignore-user-config", "--ignore-rules", "--strict-config", "--skip-git-repo-check", "--json"):
+        for value in ("never", "read-only", "mcp_servers={}", 'web_search="disabled"', "project_doc_max_bytes=0", "--ignore-user-config", "--ignore-rules", "--strict-config", "--skip-git-repo-check", "--json"):
             self.assertIn(value, command)
         disabled = [command[index + 1] for index, value in enumerate(command[:-1]) if value == "--disable"]
         self.assertEqual(list(runner.DISABLED_FEATURES), disabled)
+        self.assertIn("features.code_mode.enabled=true", command)
+        self.assertIn('agents.enabled=false', command)
+        self.assertIn('features.code_mode.excluded_tool_namespaces=["functions","collaboration","clock","web","image_gen"]', command)
+        self.assertNotIn("code_mode_host", disabled)
+
+    def test_start_and_resume_use_same_authenticated_https_provider(self):
+        import tomllib
+        base = runner.base_command(Path('codex.exe'), Path('catalog.json'), 'gpt-6-luna', 'high')
+        for thread in (None, THREAD_ID):
+            command = runner.turn_command(base, Path('workspace'), thread)
+            settings = tomllib.loads('\n'.join(command[i + 1] for i, arg in enumerate(command[:-1]) if arg == '-c'))
+            provider = settings['model_providers'][settings['model_provider']]
+            self.assertEqual(provider['base_url'], 'https://chatgpt.com/backend-api/codex')
+            self.assertEqual(provider['wire_api'], 'responses')
+            self.assertTrue(provider['requires_openai_auth'])
+            self.assertFalse(provider['supports_websockets'])
+            self.assertNotIn('experimental_bearer_token', provider)
 
     def test_luna_medium_is_explicit_and_other_pairs_remain_rejected(self):
         command = runner.base_command(Path("codex.exe"), Path("catalog.json"), "gpt-6-luna", "high")
@@ -234,6 +351,8 @@ class TurnBudgetTests(unittest.TestCase):
         for name in ('case-id', 'prompt', 'package-root', 'receipt', 'receipt-member', 'catalog', 'codex', 'output'):
             args.extend(('--' + name, str(root / name)))
         args.extend(('--model', 'gpt-6-luna', '--effort', 'high'))
+        args.extend(('--host-home', str(root), '--register', str(root / 'register.jsonl')))
+        args.extend(('--run-set', 'local-control', '--preparation', str(root / 'preparation.json')))
         for name in ('prompt', 'receipt', 'catalog', 'codex'):
             args.extend(('--expected-' + name + '-sha256', 'a' * 64))
         return args
@@ -252,15 +371,32 @@ class TurnBudgetTests(unittest.TestCase):
         for budget, expected_exit, expected_turns in ((8, 0, 5), (4, 1, 4)):
             with self.subTest(budget=budget), tempfile.TemporaryDirectory() as temp:
                 root = Path(temp)
+                from attempts import initialize
+                initialize(root / 'register.jsonl')
                 (root / 'prompt').write_bytes(b'Case')
+                (root / 'preparation.json').write_text('{}', encoding='utf-8')
+                (root / 'receipt').write_text(json.dumps({'profile': 'codex', 'layout': 'suite'}), encoding='utf-8')
                 calls = []
-                def execute(command, prompt, workspace, timeout, thread_id):
+                def execute(command, prompt, workspace, timeout, thread_id, host_home):
+                    setting = next(value for value in command if value.startswith('model_instructions_file='))
+                    instructions = Path(json.loads(setting.split('=', 1)[1]))
+                    self.assertEqual(root / 'output/model-instructions.md', instructions)
+                    self.assertEqual(RUNNER_PATH.with_name('comprehension-instructions.md').read_bytes(), instructions.read_bytes())
                     calls.append(thread_id)
                     answer = f'READ references/{len(calls)}.md' if len(calls) <= 4 else 'Final answer'
-                    return dict(stdout=event_stream(answer), stderr=b'', returncode=0,
+                    events = [json.loads(line) for line in event_stream(answer).splitlines()]
+                    if len(calls) <= 4:
+                        events.insert(3, {"type": "item.completed", "item": {
+                            "type": "agent_message", "text": answer if len(calls) == 1 else ""}})
+                    stdout = b"".join((json.dumps(event) + "\n").encode() for event in events)
+                    return dict(stdout=stdout, stderr=b'', returncode=0,
                                 timed_out=False, close_error=None, stream_error=None, worker_pid=1)
-                with patch.object(runner, 'verify_hash', return_value='a' * 64), \
-                     patch.object(runner, 'load_receipt', return_value={'SKILL.md': 'a' * 64}), \
+                with patch.object(runner, 'verify_preparation', return_value={'case_binding': {}, 'fixture_root': str(root)}), \
+                     patch.object(runner, 'verify_hash', return_value='a' * 64), \
+                     patch.object(runner, 'load_receipt', return_value={
+                         'SKILL.md': 'a' * 64,
+                         **{f'references/{index}.md': 'a' * 64 for index in range(1, 5)},
+                     }), \
                      patch.object(runner, 'validate_requested_file', return_value=(b'reference', 'a' * 64)), \
                      patch.object(runner, 'execute_turn', side_effect=execute), \
                      patch.object(runner, 'validate_native_identity', return_value={}), \

@@ -5,7 +5,7 @@ cross-runtime template.
 
 ## Classic Settings API
 
-**Surface:** plugin settings. **Support:** supported. **Runtime:** PHP/Core.
+**Surface:** plugin settings. **Support:** supported. **Runtime:** PHP with Core.
 **Shell:** Core. **Spacing:** Core. **Token owner:** none. **Experimental
 policy:** deny.
 

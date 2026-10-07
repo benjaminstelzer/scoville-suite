@@ -5,13 +5,6 @@ Linux x64, macOS Apple Silicon and macOS Intel. Never install Rust or compile
 the native Viewer locally. Download successful workflow artifacts, verify their
 checksums and retain the current build under `skills/temp/release/viewer/`.
 
-Plans, Decisions, run cursors, assignments, results and handoffs must be as
-short as possible and only as long as necessary. Necessary means relevant to
-correctly executing, verifying or continuing the work without hidden context.
-Keep binding constraints, relevant decision reasons, evidence limits and next
-actions. Omit repetition and history that no longer affects the work; preserve
-required historical records in their canonical owners.
-
 Use GPT-6 Astra with high reasoning for requested independent Astra reviews
 unless the user explicitly selects another effort. Executor settings remain
 unchanged.
@@ -62,14 +55,9 @@ Scoville `family` metadata in `suite.json`. Use `{{ include: suite.members }}`,
 in Markdown sources. See `development/shared/build/fragments.md` before changing them.
 Never install template sources directly. Install the built package.
 
-Apply [shared writing rules](development/shared/instruction-writing.md) to all AI-consumed
-content, including AGENTS.md. Write briefly and precisely. Plan uses its compact writing rules. Additional Workflow instructions
-use the selected shared writing profile. Other instructions remain clear for Luna.
-For user-facing and AI-consumed explanations, a TL;DR never replaces the
-necessary explanation. Write as briefly as possible and as fully as needed.
-remove repetition and low-value maintenance detail, not required context or
-safeguards. Prefer a compact diagram when it explains sequence, ownership or
-branching more clearly than long prose. Preserve useful diagrams during edits.
+For all AI-consumed content, including AGENTS.md, read and apply the
+[shared authoring rules](development/shared/instruction-writing.md) and their
+linked runtime writing rules. The runtime file owns general writing requirements.
 
 `suite.json` owns distribution membership, visibility, exact package files and
 README composition. `members/` contains canonical member sources and their

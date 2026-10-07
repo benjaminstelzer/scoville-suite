@@ -10,8 +10,14 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
 import posixpath
 from urllib.parse import unquote, urlsplit
+
+RULE_FRAGMENTS = {
+    'rules.optout': 'runtime/skill_optout.md',
+    'rules.python': 'runtime/python_discovery.md',
+}
 
 
 def shared_root() -> Path:
@@ -276,6 +282,8 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
 
     def replace(match):
         key = match[1].strip()
+        if key in RULE_FRAGMENTS:
+            return within(shared_root(), RULE_FRAGMENTS[key]).read_text(encoding='utf-8').strip()
         if key == 'helper.policy':
             if member is None:
                 raise ValueError('helper.policy requires a member')
@@ -286,8 +294,6 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             if key not in {'family.catalog', 'family.owners', 'family.neighbors', 'family.links', 'family.install'}:
                 raise ValueError('unknown build fragment: ' + key)
             return ''
-        if key == 'prompting.defaults':
-            return within(shared_root(), 'prompting/models.toml').read_text(encoding='utf-8').strip()
         if key == 'member.defaults':
             if member is None:
                 raise ValueError('member.defaults requires a member')
@@ -497,6 +503,10 @@ def helper_policy(member: dict, config: dict) -> str:
 
 def validate_helper_contracts(files: dict[str, bytes], member: dict, config: dict) -> None:
     prefix = member['name'] + '/'
+    outside = [path for path in files if path.endswith('.py')
+               and not path.startswith(prefix + 'scripts/')]
+    if outside:
+        raise ValueError('packaged Python files must be registered under scripts/: ' + ', '.join(sorted(outside)))
     scripts = {path.removeprefix(prefix): data for path, data in files.items()
                if path.startswith(prefix + 'scripts/')}
     rules = member.get('helper_contracts', {})
@@ -639,9 +649,12 @@ def build(root: Path, output: Path, public: bool, selected: list[str], profile: 
             if item['source'].startswith('shared:'):
                 key = item['source'].removeprefix('shared:')
                 shared_sources[key] = hashlib.sha256(file_source(root, item['source']).read_bytes()).hexdigest()
-            elif b'{{ include: prompting.defaults }}' in file_source(root, item['source']).read_bytes():
-                key = 'prompting/models.toml'
-                shared_sources[key] = hashlib.sha256(within(shared_root(), key).read_bytes()).hexdigest()
+            source_text = file_source(root, item['source']).read_bytes()
+            fragments = {value.strip().decode('utf-8') for value in
+                         re.findall(rb'\{\{\s*include:\s*([^{}]+?)\s*\}\}', source_text)}
+            for fragment, key in RULE_FRAGMENTS.items():
+                if fragment in fragments:
+                    shared_sources[key] = hashlib.sha256(within(shared_root(), key).read_bytes()).hexdigest()
         for helper in member.get('shared_helpers', []):
             shared_sources[helper['source']] = hashlib.sha256(within(shared_root(), helper['source']).read_bytes()).hexdigest()
     shared_sources['runtime/skill_composition.md'] = hashlib.sha256(within(shared_root(), 'runtime/skill_composition.md').read_bytes()).hexdigest()
@@ -732,10 +745,41 @@ def verify_shared_helpers(root: Path, output: Path) -> list[str]:
 def verify_packages(root: Path, output: Path) -> list[str]:
     """Detect edited packages and stale projections against current suite sources."""
     receipt = json.loads((output / 'build-receipt.json').read_text(encoding='utf-8'))
+    if not isinstance(receipt, dict):
+        return ['package receipt must be a JSON object']
+    if any(receipt.get(key) is not None and not isinstance(receipt[key], str)
+           for key in ('profile', 'layout')):
+        return ['receipt profile and layout must be strings']
     config = load(root, receipt.get('profile'), receipt.get('layout'))
     members = {m['name']: m for m in config['members']}
     errors = []
-    for built in receipt['members']:
+    built_members = receipt.get('members')
+    if (receipt.get('schema_version') != 1 or receipt.get('suite') != config['name']
+            or receipt.get('manifest_sha256') != hashlib.sha256((root / 'suite.json').read_bytes()).hexdigest()
+            or not isinstance(built_members, list) or not built_members):
+        return ['unsupported, empty or stale package receipt']
+    if any(not isinstance(m, dict) or not isinstance(m.get('name'), str)
+           or not m['name'] or not isinstance(m.get('files'), dict) for m in built_members):
+        return ['receipt members require an object, a nonempty string name and a file hash object']
+    names = [m['name'] for m in built_members]
+    if len(set(names)) != len(names) or set(names) - members.keys():
+        return ['duplicate or unknown receipt member']
+    if config.get('layout') == 'suite' and set(names) != members.keys():
+        return ['suite receipt requires the complete member set']
+    for built in built_members:
+        member = members[built['name']]
+        if built.get('package_path') != package_path(config, member):
+            return ['receipt package path differs from configured member']
+        if receipt.get('public_only') and not member['public_distribution']:
+            return ['receipt contains a member not approved for public distribution']
+    spec = importlib.util.spec_from_file_location('suite_package_inventory', Path(__file__).with_name('verify_package_set.py'))
+    inventory = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(inventory)
+    try:
+        errors.extend(inventory.verify(output, [output / 'build-receipt.json'])['errors'])
+    except (ValueError, KeyError, TypeError, OSError) as error:
+        return ['invalid package inventory: ' + str(error)]
+    for built in built_members:
         member = members[built['name']]
         expected = payload(root, member, config)
         folder = within(output, package_path(config, member))
@@ -748,6 +792,15 @@ def verify_packages(root: Path, output: Path) -> list[str]:
         if actual != expected:
             errors.append(member['name'] + ': package differs from current sources')
     return errors
+
+
+def check_shared_snapshot(root: Path) -> None:
+    result = subprocess.run([sys.executable, str(Path(__file__).with_name('sync_suite_sources.py')),
+                             '--root', str(root), '--source', str(shared_root()), '--check'],
+                            capture_output=True, text=True, encoding='utf-8')
+    if result.returncode:
+        raise ValueError('Shared snapshot is not in sync; run sync_suite_sources.py before release: '
+                         + (result.stderr.strip() or result.stdout.strip()))
 
 
 def main(default_root: Path | None = None) -> int:
@@ -821,6 +874,7 @@ def main(default_root: Path | None = None) -> int:
         if args.output is None:
             parser.error('--output is required for package builds')
         if args.check_release:
+            check_shared_snapshot(args.root)
             if args.viewer_assets is None:
                 raise ValueError('--check-release requires --viewer-assets <release/viewer>')
             dirty = subprocess.run(['git', '-C', str(args.root), 'status', '--porcelain'], check=True, capture_output=True).stdout

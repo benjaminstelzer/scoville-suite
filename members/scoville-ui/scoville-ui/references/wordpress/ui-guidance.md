@@ -56,7 +56,7 @@ Classic page header order:
 
 ## Components and accessibility
 
-Use the owning WordPress group component or native fieldset/legend. Preserve
-Core/component contrast and focus behavior. A necessary custom color requires
+Use the owning WordPress group component or native fieldset with a legend. Preserve
+Core or component contrast and focus behavior. A necessary custom color requires
 measured WCAG AA evidence in the actual theme. Keep all visible and assistive
 text translatable through [internationalization.md](internationalization.md).

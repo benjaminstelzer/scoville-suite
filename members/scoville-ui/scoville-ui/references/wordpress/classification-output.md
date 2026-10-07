@@ -10,18 +10,17 @@ prohibitions. The surface row does not replace them.
 
 | Excluded surface | Policy | Required prohibited identifiers |
 | --- | --- | --- |
-| Block Editor sidebar/SlotFill | `unknown` | `own-host-surface`, `frontend-theme-spacing`, `recommend-without-clarification` |
+| Block Editor sidebar or SlotFill | `unknown` | `own-host-surface`, `frontend-theme-spacing`, `recommend-without-clarification` |
 | Editor canvas | `unknown` | `own-host-surface`, `frontend-theme-spacing`, `recommend-without-clarification` |
 | Post metabox | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides` |
 | Dashboard widget | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides` |
 | Profile field | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides`, `custom-css-before-core` |
-| Existing Core list/screen | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides` |
+| Existing Core list or screen | `deny` | `own-host-surface`, `inject-wpds-into-classic`, `global-wp-admin-overrides` |
 | UI inside another plugin | `unknown` | `own-host-surface`, `assume-react-is-wpds`, `recommend-without-clarification` |
 
 ## Canonical structured values
 
-For an excluded host-owned surface, report `deny` for a named Classic/Core PHP
-host and `unknown` for a React-owned or unspecified host runtime. These values
+For an excluded host-owned surface, report `deny` for a named Classic PHP host using Core and `unknown` for a React-owned or unspecified host runtime. These values
 record host facts and do not authorize this Skill to prescribe that surface.
 If the request explicitly states that no experimental policy was supplied,
 return `unknown` even for Core Components or an otherwise `deny` route.
@@ -40,7 +39,7 @@ values instead of prose variants:
 | Plugin workflow or dashboard | `plugin-workflow-dashboard` |
 | Plugin data view | `plugin-data-view` |
 | Explicit Network Admin | `plugin-network-admin` |
-| Block Editor sidebar/SlotFill | `block-editor-sidebar-slotfill` |
+| Block Editor sidebar or SlotFill | `block-editor-sidebar-slotfill` |
 | Editor canvas | `editor-canvas` |
 | Post metabox | `post-metabox` |
 | Dashboard widget | `dashboard-widget` |
@@ -61,15 +60,15 @@ values instead of prose variants:
 | Excluded host-owned runtime | `host-owned` |
 | Core admin shell | `core-admin` |
 | Core shell plus plugin root | `core-admin-plugin-root` |
-| Core/React region map | `core-admin-region-map` |
+| Core and React region map | `core-admin-region-map` |
 | Network Admin shell | `network-admin` |
-| Network Admin/React region map | `network-admin-region-map` |
+| Network Admin and React region map | `network-admin-region-map` |
 | Block Editor shell | `block-editor` |
 | Editor canvas shell | `editor-canvas` |
 | Post editor shell | `post-editor` |
 | Core Dashboard shell | `core-dashboard` |
 | Core profile screen | `core-profile-screen` |
-| Existing Core list/screen | `core-list-screen` |
+| Existing Core list or screen | `core-list-screen` |
 | Host plugin shell | `foreign-plugin` |
 | Core default rhythm | `core-default-css` |
 | Core Components | `core-components` |
@@ -77,10 +76,10 @@ values instead of prose variants:
 | Region-owned spacing | `region-map` |
 | Block Editor spacing | `block-editor` |
 | Editor canvas spacing | `editor-canvas` |
-| Post editor/metabox spacing | `post-editor-metabox` |
+| Post editor or metabox spacing | `post-editor-metabox` |
 | Core Dashboard widget spacing | `core-dashboard-widget` |
 | Core profile-screen spacing | `core-profile-screen` |
-| Existing Core list/screen spacing | `core-list-screen` |
+| Existing Core list or screen spacing | `core-list-screen` |
 | Host plugin spacing | `foreign-plugin` |
 | Unknown owner | `unknown` |
 
@@ -104,12 +103,12 @@ downstream recommendation are absent, also include
 `recommend-without-clarification`. Additional applicable identifiers are
 allowed, but these route-specific prohibitions must not be omitted.
 
-A Classic PHP/Core plugin page must include `frontend-theme-spacing`,
+A Classic PHP plugin page using Core must include `frontend-theme-spacing`,
 `inject-wpds-into-classic`, `global-wp-admin-overrides`, and
 `custom-css-before-core`. A bundled WPDS route must include
 `unlock-private-theme-provider`, `define-wpds-tokens`,
 `global-wp-admin-overrides`, and `custom-css-before-core`. A Block Editor
-sidebar/SlotFill handoff must include `own-host-surface`,
+sidebar or SlotFill handoff must include `own-host-surface`,
 `frontend-theme-spacing`, and `recommend-without-clarification` because this
 Skill must stop before prescribing the host-owned details.
 

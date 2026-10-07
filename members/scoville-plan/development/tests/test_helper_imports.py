@@ -66,7 +66,7 @@ class HelperImportTests(unittest.TestCase):
                     result = json.loads(run.stdout)
                     self.assertIsNone(result["valid"])
                     diagnostic = result["diagnostics"][0]
-                    self.assertEqual(str(module), diagnostic.get("file", diagnostic.get("path")))
+                    self.assertEqual(str(module.resolve()), diagnostic.get("file", diagnostic.get("path")))
                     self.assertIn("mask_fenced_code", diagnostic["expected"])
                     self.assertIn("same package version", diagnostic.get("suggestion", diagnostic["message"]))
                     self.assertTrue(diagnostic["observed"])

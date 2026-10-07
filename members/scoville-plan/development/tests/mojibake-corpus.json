@@ -1,0 +1,258 @@
+{
+  "frozen_before_implementation": true,
+  "negative": [
+    {
+      "id": "correct-01",
+      "class": "multilingual",
+      "text": "Änderungen erhalten übliche Grüße.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-02",
+      "class": "multilingual",
+      "text": "Preserve ordinary English text.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-03",
+      "class": "multilingual",
+      "text": "Français: café, déjà vu.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-04",
+      "class": "multilingual",
+      "text": "Español: acción y mañana.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-05",
+      "class": "multilingual",
+      "text": "Português: João, Ãngela e coração.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-06",
+      "class": "multilingual",
+      "text": "Íslenska: Ðó, Þingvellir.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-07",
+      "class": "multilingual",
+      "text": "Türkçe: İstanbul, görüş.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-08",
+      "class": "multilingual",
+      "text": "Polski: zażółć gęślą jaźń.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-09",
+      "class": "multilingual",
+      "text": "Čeština: příliš žluťoučký kůň.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-10",
+      "class": "multilingual",
+      "text": "Русский: сохранить текст.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-11",
+      "class": "multilingual",
+      "text": "Українська: зберегти дані.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-12",
+      "class": "multilingual",
+      "text": "Ελληνικά: διατήρηση κειμένου.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-13",
+      "class": "multilingual",
+      "text": "العربية: الحفاظ على النص.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-14",
+      "class": "multilingual",
+      "text": "עברית: שמירת טקסט.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-15",
+      "class": "multilingual",
+      "text": "हिन्दी: पाठ सुरक्षित रखें।",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-16",
+      "class": "multilingual",
+      "text": "বাংলা: লেখা সংরক্ষণ করুন।",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-17",
+      "class": "multilingual",
+      "text": "中文：保留文本。",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-18",
+      "class": "multilingual",
+      "text": "日本語：本文を保持。",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-19",
+      "class": "multilingual",
+      "text": "한국어: 텍스트 보존.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-20",
+      "class": "multilingual",
+      "text": "ไทย: เก็บข้อความ",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-21",
+      "class": "multilingual",
+      "text": "Tiếng Việt: giữ nguyên văn bản.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-22",
+      "class": "multilingual",
+      "text": "Kiswahili: hifadhi maandishi.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-23",
+      "class": "multilingual",
+      "text": "Symbols: ✓ → ∑ ∞ © ™.",
+      "expected_warning": false
+    },
+    {
+      "id": "correct-24",
+      "class": "multilingual",
+      "text": "Emoji: 😀 🌶️ 🧑🏽‍💻.",
+      "expected_warning": false
+    },
+    {
+      "id": "inline-1",
+      "class": "literal-inline",
+      "text": "Encoding example: `Ã¤`.",
+      "expected_warning": false
+    },
+    {
+      "id": "inline-2",
+      "class": "literal-inline",
+      "text": "Literal `â€` remains unchanged.",
+      "expected_warning": false
+    },
+    {
+      "id": "inline-3",
+      "class": "literal-inline",
+      "text": "Example ``ÃŸ and `nested` text``.",
+      "expected_warning": false
+    },
+    {
+      "id": "inline-4",
+      "class": "literal-inline",
+      "text": "Do not repair `Â©` automatically.",
+      "expected_warning": false
+    },
+    {
+      "id": "inline-5",
+      "class": "literal-inline",
+      "text": "Quoted bytes `ðŸ`.",
+      "expected_warning": false
+    },
+    {
+      "id": "inline-6",
+      "class": "literal-inline",
+      "text": "Document `Ã¶ Ã¼` literally.",
+      "expected_warning": false
+    },
+    {
+      "id": "code-1",
+      "class": "code",
+      "text": "```text\nÃ¤ â€\n```",
+      "expected_warning": false
+    },
+    {
+      "id": "code-2",
+      "class": "code",
+      "text": "~~~python\nvalue = \"ÃŸ\"\n~~~",
+      "expected_warning": false
+    },
+    {
+      "id": "code-3",
+      "class": "code",
+      "text": "```\nÂ© ðŸ\n```",
+      "expected_warning": false
+    },
+    {
+      "id": "code-4",
+      "class": "code",
+      "text": "````text\n```\nÃ¶\n```\n````",
+      "expected_warning": false
+    },
+    {
+      "id": "plain-example",
+      "class": "ambiguous-literal",
+      "text": "Encoding example: Ã¤ means an incorrectly decoded umlaut.",
+      "expected_warning": true
+    }
+  ],
+  "positive": [
+    {
+      "id": "damaged-1",
+      "text": "Preserve Ã¤ exactly.",
+      "expected_warning": true
+    },
+    {
+      "id": "damaged-2",
+      "text": "Preserve Ã¶ exactly.",
+      "expected_warning": true
+    },
+    {
+      "id": "damaged-3",
+      "text": "Preserve Ã¼ exactly.",
+      "expected_warning": true
+    },
+    {
+      "id": "damaged-4",
+      "text": "Preserve ÃŸ exactly.",
+      "expected_warning": true
+    },
+    {
+      "id": "damaged-5",
+      "text": "Preserve Â© exactly.",
+      "expected_warning": true
+    },
+    {
+      "id": "damaged-6",
+      "text": "Preserve â€ exactly.",
+      "expected_warning": true
+    },
+    {
+      "id": "damaged-7",
+      "text": "Preserve â€™ exactly.",
+      "expected_warning": true
+    },
+    {
+      "id": "damaged-8",
+      "text": "Preserve ðŸ exactly.",
+      "expected_warning": true
+    }
+  ],
+  "acceptance": "8/8 damaged cases warned; 0/34 multilingual/inline/code false alarms; at most 1/35 total negative warnings, explicitly ambiguous unquoted literal example. No general accuracy inference."
+}

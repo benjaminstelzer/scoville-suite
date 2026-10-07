@@ -97,8 +97,16 @@ def remote_file(commit, name):
 
 def verify(builder, root, run_url, config, selected=()):
     members = [m for m in config['members'] if not selected or m['name'] in selected]
+    required = {}
+    for member in members:
+        for name, data in builder.payload(root, member, config).items():
+            required[member['name'] + '/' + name] = digest(data)
+    package_hash = digest(json.dumps(required, sort_keys=True).encode('utf-8'))
     if not any(m.get('helper_contracts') for m in members):
-        return {'status': 'not_applicable', 'reason': 'no packaged Python runtime helpers'}
+        if any(name.endswith('.py') for name in required):
+            raise ValueError('Unregistered packaged Python file cannot receive a runtime exemption')
+        return {'status': 'not_applicable', 'reason': 'no packaged Python runtime helpers',
+                'packages_sha256': package_hash}
     match = re.fullmatch(r'https://github\.com/' + re.escape(REPOSITORY) + r'/actions/runs/(\d+)', run_url or '')
     if not match:
         raise ValueError('--runtime-run must name a successful private runtime matrix: '
@@ -126,10 +134,6 @@ def verify(builder, root, run_url, config, selected=()):
             raise ValueError(f'Runtime CI tests changed: {name}; rerun the matrix with current tests')
     variant = f'{config["profile"]}-{config["layout"]}'
     tested = metadata.get('variants', {}).get(variant, {})
-    required = {}
-    for member in members:
-        for name, data in builder.payload(root, member, config).items():
-            required[member['name'] + '/' + name] = digest(data)
     # Compare the entire selected package inventory, including prompt/config dependencies.
     names = {m['name'] for m in members}
     observed = {name: value for name, value in tested.get('files', {}).items() if name.split('/')[0] in names}
@@ -147,6 +151,11 @@ def verify(builder, root, run_url, config, selected=()):
 
 def bind_receipt(receipt, proof):
     files = {m['name'] + '/' + name: value for m in receipt['members'] for name, value in m['files'].items()}
-    if proof['status'] == 'passed' and proof['packages_sha256'] != digest(json.dumps(files, sort_keys=True).encode('utf-8')):
+    if proof['status'] not in ('passed', 'not_applicable'):
+        raise ValueError('Runtime proof must be passed or a bound exemption')
+    if proof.get('packages_sha256') != digest(json.dumps(files, sort_keys=True).encode('utf-8')):
         raise ValueError('Package sources changed during the verified build; candidate remains pending, rerun current runtime CI')
+    if proof['status'] == 'not_applicable' and (receipt['runtime_validation']['status'] == 'pending'
+            or any(name.endswith('.py') for name in files)):
+        raise ValueError('Runtime exemption cannot authorize a helper-bearing package; rerun verification')
     receipt['runtime_validation'] = proof

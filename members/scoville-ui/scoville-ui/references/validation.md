@@ -65,11 +65,11 @@ For affected web UI with an AA target, include these applicable checks:
   vertically scrolling content, such as 1280px at 400% zoom. Preserve information
   and functionality; the exception for content requiring two-dimensional layout does not exempt
   the whole page. See [WCAG 1.4.10](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html).
-- Calculate contrast for distinct new, changed or audited text/background pairs
+- Calculate contrast for distinct new, changed or audited text and background pairs
   in their rendered states: 4.5:1, or 3:1 for large text (at least 18pt/24 CSS px,
   or 14pt/18⅔ CSS px bold), retaining
   [WCAG 1.4.3's exceptions](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html).
-- Required non-text control/state cues and authored focus indicators need 3:1
+- Required non-text control and state cues and authored focus indicators need 3:1
   against adjacent colors. Apply [WCAG 1.4.11's scope and exceptions](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html),
   including inactive controls and unmodified browser-owned appearance; do not
   apply the threshold to every decorative surface.
@@ -95,8 +95,11 @@ a representative populated state rather than only an empty, loading, or error
 state. Use realistic information density, content lengths, hierarchy, and at
 least one relevant interaction state. Capture each target viewport named by the
 task as its own observation so a desktop result does not stand in for mobile or
-vice versa. Keep recovery-state evidence separate: a convincing error state
+vice versa.
+
+Keep recovery-state evidence separate: a convincing error state
 does not prove the primary populated surface, and the reverse is equally true.
+
 Compare the rendered emphasis with the primary task: decision-critical values,
 states and actions must remain readily readable and findable, without
 decoration obscuring or competing with them. Judge the task, not a fixed size
@@ -109,7 +112,7 @@ with controlled data and local targets. Do not cause unrequested external or
 durable effects merely to gather interaction evidence:
 
 - Navigation, controls and adaptive view changes: verify orientation, available
-  back/cancel paths, actual change/save timing and preservation of the working
+  back and cancel paths, actual change and save timing and preservation of the working
   context needed for the task. Do not require every value or position to persist.
 - Dialogs: open, reach controls, close or cancel and verify focus returns to the
   invoking control or the appropriate next location. Check that overlays and
@@ -121,7 +124,7 @@ durable effects merely to gather interaction evidence:
   Avoid redundant entry and cognitive-function tests where WCAG 2.2 requires
   alternatives or assistance; preserve the criteria's actual exceptions.
 - Async flows: delay or fail the relevant operation, then observe loading,
-  partial results, duplicate-action prevention, cancellation/retry and stale
+  partial results, duplicate-action prevention, cancellation, retry and stale
   responses. A late old response must not overwrite the current user's result.
 
 When loading or input latency is a concrete risk, observe layout movement and
@@ -137,8 +140,8 @@ implementation guidance, not an additional conformance standard.
 ## Styling exceptions
 
 Before custom styling, including inline styles and styling props, identify the
-unmet requirement, concrete owner API/component checked, why it fails and the
-smallest scope. An official token alone does not justify the exception. Prefer
+unmet requirement and the exact API or component responsible. Explain why its
+supported behavior is insufficient and identify the smallest affected scope. An official token alone does not justify the exception. Prefer
 supported composition and variants. Keep the rationale in the task result or
 an existing project record; no separate document is required. Inspect the final
 diff for unnecessary custom styling and obsolete compensation.
@@ -151,21 +154,21 @@ as needed to guide implementation. Validate at the end of the batch.
 For an audit, inspect and report source defects first, then measure and inspect
 without repairing them. Audit findings never authorize edits.
 
-1. **Source:** Inspect generating markup/components, supported props/variants,
-   styles and their owner. For implementation, correct known in-scope source
+1. **Source:** Inspect generating markup and components, supported props and variants,
+   styles and the framework or design system responsible for them. For implementation, correct known in-scope source
    defects before the first layout measurement or viewed render. For an audit,
    report those defects without correcting them, then continue with measurement
    and sight. Check duplicate spacing owners,
-   arbitrary dimensions/offsets, token bypass, primitive rebuilds and obsolete
+   arbitrary dimensions and offsets, token bypass, primitive rebuilds and obsolete
    overrides. Run relevant existing syntax, lint, component or build checks.
-   A build does not audit design-system ownership. Source/API/stylesheet
+   A build does not prove that the correct design-system components are used. Source, API or stylesheet
    inspection is not a layout measurement.
 2. **Measurement:** After source inspection and any implementation corrections,
    measure the affected
    relationships in the actual runtime against independently established
    references. Follow the measurement contract below.
 3. **Sight:** View the rendered image and apply the visual routine below.
-   Check component contents as well as their outer layout. Page/container
+   Check component contents as well as their outer layout. Page or container
    overflow checks do not prove internal alignment, and numeric equality does
    not establish optical alignment.
 
@@ -186,20 +189,20 @@ unrequested work. Preserve every known required gap in the result.
 Before the evaluated measurement, identify reference elements and edges, the
 expected relationship and its source, and any justified tolerance. Derive these
 from an unchanged owner contract, demonstrably suitable reference, or, for
-greenfield work, requirements and the direction/values chosen from the brief
+greenfield work, requirements and the direction and values chosen from the brief
 before implementation. New candidate CSS alone is not an independent target.
 Do not choose tolerance after seeing the result. An unresolved target stays
 unresolved. There is no universal pixel tolerance.
 
-For each selected relation, report the expected value/relationship and source,
+For each selected relation, report the expected value or relationship and source,
 measured result and conclusion. Identify its target and applicable tolerance;
 revision, state and viewport may be recorded once for a measurement group.
 Use an existing report or task result, without a prescribed table or new file.
 
-Keep the authored unit/expression, computed value and measured distance separate.
+Keep the authored unit or expression, computed value and measured distance separate.
 Preserve `em`, `rem`, `px`, percentages, unitless line-height, token references,
 calculations and logical properties. Equal current pixels do not authorize
-substitution. Record the relevant element/root font or container basis.
+substitution. Record the relevant element or root font or container basis.
 
 Wait for required fonts, content and transitions to settle. Inspect loaded
 styles and final DOM where they affect the claim. Compare peers with the same
@@ -215,7 +218,7 @@ the result observed geometry. A minimum height is not a fixed height.
 ## Inspect with a comparison and a hypothesis
 
 View the scoped region in context first, then details at a consistent scale.
-Keep an unaltered context image/crop when guides help comparison. For each
+Keep an unaltered context image or crop when guides help comparison. For each
 applicable concern, record a located deviation or scoped pass. Explain relevant
 exclusions without producing boilerplate for unrelated lenses.
 
@@ -224,13 +227,13 @@ exclusions without producing boilerplate for unrelated lenses.
 | Grouping and rhythm | Equivalent relationships within and across sections |
 | Content edges and text alignment | Intended shared edge, top, baseline or center, not an assumed universal alignment |
 | Apparent whitespace | Line boxes and glyph position alongside measured box gaps |
-| Components, including status text, controls and icons | Intended internal text/icon placement as well as outer alignment; check unintended parent stretching and wrapped neighbors |
-| Content/state changes | Wrap, clipping, overlap, hidden-content holes and reading order |
+| Components, including status text, controls and icons | Intended internal text and icon placement as well as outer alignment; check unintended parent stretching and wrapped neighbors |
+| Content and state changes | Wrap, clipping, overlap, hidden-content holes and reading order |
 
 **Worked diagnosis:** Two same-variant controls have equal outer heights, but
 the text in B sits visibly lower than in reference A. Mark their shared top
 edge or use a side-by-side crop at the same scale. State that observation first.
-Then inspect font/line-height, internal padding and alignment props. If an icon
+Then inspect font and line-height, internal padding and alignment props. If an icon
 is displaced, inspect its viewBox or font metrics too. Confirm the cause before
 correcting its owner. Do not invent a baseline measurement from outer rectangles.
 If the optical question cannot be resolved, report it unverified.
@@ -242,7 +245,7 @@ their difference as a defect. Do not override native internals for symmetry.
 Recheck relevant widths, expanded text and affected states after the correction
 batch is complete.
 Zoom alone does not test whether `em`, `rem` and fixed pixels behave equivalently.
-Where units are at risk, vary element/root font conditions independently.
+Where units are at risk, vary element or root font conditions independently.
 
 ## Consistency audit coverage
 
@@ -257,23 +260,23 @@ consistency focus. Keep the named page or region as scope. It is not permission
 to redesign, edit, audit unrelated screens or perform a full accessibility audit.
 
 1. Start from source with an inventory of regions, component families, distinct
-   variants and known exceptions. Include headings, body/label/help/status text,
-   actions, controls, icons, containers, toolbars, data and footer/pagination
-   where present. Use stable locators or identifiable labels and owner-backed
-   equivalence groups.
+   variants and known exceptions. Include headings, body, label, help and status text,
+   actions, controls, icons, containers, toolbars, data, footers and pagination
+   where present. Use stable locators or identifiable labels. Group equivalent elements according
+   to their responsible component or design-system contract.
 2. After source findings, reconcile with final rendered DOM. Include content
    below the first viewport, nested scroll areas and relevant same-page tabs,
    disclosures, menus and overlays. Add newly revealed elements to the inventory.
    Use read-only interactions. Do not save, submit, delete or cause external
    effects just to obtain coverage. Name inaccessible states as unverified.
-3. Map every entry to its owner/reference and applicable source, measurement
+3. Map every entry to its responsible source or reference and applicable source, measurement
    and sight evidence. Use `pass`, `defect`, `unverified` or justified
    `not-applicable` for each stage. Compare between as well as within groups.
 4. Reconcile all discovered entries before concluding. An unmapped entry is a
    coverage gap. Report coverage and named gaps separately from prioritized
    findings. Required unverified entries prevent a complete consistency pass.
 
-Repeated/virtualized data may use justified representative samples, but state
+Repeated or virtualized data may use justified representative samples, but state
 the uninspected population and variants. A partial sample supports only a
 coverage-limited result, never an unqualified complete-page or every-row pass.
 Distinct in-scope variants and known exceptions remain inventory requirements.

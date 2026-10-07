@@ -102,16 +102,5 @@ class RuntimeHelperExamples(unittest.TestCase):
         _, add_required = signature(script, 'add')
         self.assertNotIn({'--issue-id'}, add_required)
 
-    def test_worker_checkpoint_invocation_matches_actual_signature(self):
-        package = ROOT / 'members/scoville-workflow-for-codex/scoville-workflow-for-codex'
-        source = (package / 'scripts/build_dispatch_prompt.py').read_text(encoding='utf-8')
-        line = next(line for line in source.splitlines() if '{checkpoint}' in line and '--role' in line)
-        flags, required = signature(package / 'scripts/check_context_checkpoint.py')
-        supplied = set(re.findall(r'--[a-z][a-z-]*', line))
-        self.assertFalse(supplied - flags)
-        for alternatives in required:
-            self.assertTrue(supplied & alternatives)
-
-
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,14 @@
 # Changelog
 
 
+## v2.4.0 - 2026-10-07
+
+- Keep development ahead of bookkeeping. Reuse decisive evidence and test observable results instead of freezing incidental wording in source files.
+- Add read-only Plan ID and start-condition queries, with actionable errors and warnings for likely text-decoding damage.
+- Preserve complete text through compaction or a hashed temporary file when it cannot fit the known output limit. Keep manual helper procedures available only without Python.
+- Use the applicable project rule files on Codex and Claude Code without copying rules between hosts. Remove unused writing-depth settings.
+- Keep long Project and Plan history menus scrollable and their last entries selectable in Plan Viewer 1.4.3.
+
 ## v2.3.6 - 2026-10-03
 
 - Allow Context Cleanup with the tested Luna 6 Medium baseline instead of requiring a recommended frontier model.

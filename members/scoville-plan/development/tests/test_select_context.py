@@ -187,6 +187,39 @@ class SelectContextTests(unittest.TestCase):
         self.assertIn("### W-003 Selected café item", payload["work_item"])
         self.assertEqual("## Goal\n\nPreserve café exactly.", payload["plan"]["goal"])
 
+    def test_index_frontmatter_may_close_at_eof_without_changing_selection(self) -> None:
+        for newline in ("\n", "\r\n"):
+            with self.subTest(newline=repr(newline)):
+                index = newline.join(("---", "format_version: 1", "active_plan: PLAN-0001", "---"))
+                target = self.write("PROJECT_INDEX.md", index)
+                before = target.read_bytes()
+                for args in ((), ("--position",), ("--proposals",)):
+                    with self.subTest(args=args):
+                        completed = self.run_cli(*args)
+                        self.assertEqual(0, completed.returncode, completed.stdout)
+                        payload = json.loads(completed.stdout)
+                        self.assertNotIn("diagnostics", payload)
+                        if not args:
+                            self.assertIn("### W-003 Selected café item", payload["work_item"])
+                            self.assertEqual([DECISION], payload["decisions"])
+                        elif args == ("--position",):
+                            self.assertEqual("PLAN-0001", payload["plan"])
+                self.assertEqual(before, target.read_bytes())
+
+    def test_missing_index_closing_delimiter_then_corrected_eof_selection(self) -> None:
+        target = self.write("PROJECT_INDEX.md", "---\nformat_version: 1\nactive_plan: PLAN-0001")
+        before = target.read_bytes()
+        invalid = self.run_cli()
+        self.assertNotEqual(0, invalid.returncode)
+        failure = json.loads(invalid.stdout)
+        self.assertEqual("FRONTMATTER_CLOSE_MISSING", failure["diagnostics"][0]["code"])
+        self.assertNotIn("work_item", failure)
+        self.assertEqual(before, target.read_bytes())
+        target.write_bytes(before + b"\n---")
+        corrected = self.run_cli()
+        self.assertEqual(0, corrected.returncode, corrected.stdout)
+        self.assertIn("### W-003 Selected café item", json.loads(corrected.stdout)["work_item"])
+
     def test_explicit_item_selection(self) -> None:
         completed = self.run_cli("--work-item", "W-001")
         self.assertEqual(0, completed.returncode, completed.stdout)
@@ -194,6 +227,30 @@ class SelectContextTests(unittest.TestCase):
         self.assertIn("### W-001 First dependency", payload["work_item"])
         self.assertEqual([], payload["direct_dependencies"])
         self.assertEqual([], payload["decisions"])
+
+    def test_root_diagnostics_then_corrected_selection_without_writes(self) -> None:
+        missing = self.root / 'absent Ä 中文'
+        file = self.write('not-a-directory Ä.txt', 'Retain this content.\n')
+        before = {p.relative_to(self.root): p.read_bytes() for p in self.root.rglob('*') if p.is_file()}
+        for path, code in ((missing, 'ROOT_MISSING'), (file, 'ROOT_INVALID')):
+            with self.subTest(code=code):
+                completed = self.run_cli('--root', str(path))
+                self.assertEqual(completed.returncode, 2)
+                result = json.loads(completed.stdout)
+                diagnostic = result['diagnostics'][0]
+                self.assertEqual(diagnostic['code'], code)
+                self.assertEqual(diagnostic['path'], str(path))
+                self.assertEqual(diagnostic['observed'], str(path))
+                self.assertTrue(diagnostic['expected'])
+                self.assertIn('--root', diagnostic['message'])
+                self.assertNotIn('work_item', result)
+        corrected = self.run_cli('--unit', 'W-003/step-2')
+        self.assertEqual(corrected.returncode, 0, corrected.stdout)
+        received = json.loads(corrected.stdout)['work_item']
+        self.assertEqual(received['unit'], 'W-003/step-2')
+        self.assertEqual(received['source_text'], '2. Change only the selected behavior.\n')
+        self.assertFalse(missing.exists())
+        self.assertEqual(before, {p.relative_to(self.root): p.read_bytes() for p in self.root.rglob('*') if p.is_file()})
 
     def test_exact_step_keeps_separate_complete_work_item_context(self) -> None:
         completed = self.run_cli("--unit", "W-003/step-2")
@@ -357,6 +414,17 @@ class SelectContextTests(unittest.TestCase):
         completed = self.run_cli()
         self.assertEqual(1, completed.returncode)
         self.assertEqual("FILE_UTF8_INVALID", json.loads(completed.stdout)["diagnostics"][0]["code"])
+        diagnostic = json.loads(completed.stdout)["diagnostics"][0]
+        self.assertEqual("docs/plans/0001-selector-fixture.md", diagnostic["path"])
+        self.assertEqual("valid UTF-8", diagnostic["expected"])
+        self.assertEqual(path.read_bytes(), b"\xff")
+        original = plan().encode("utf-8")
+        path.write_bytes(original)
+        corrected = self.run_cli()
+        self.assertEqual(0, corrected.returncode, corrected.stdout + corrected.stderr)
+        received = json.loads(corrected.stdout)
+        self.assertIn("Selected café item", received["work_item"])
+        self.assertEqual(path.read_bytes(), original)
 
     def test_crlf_preserves_whole_records_and_dispatch_source_text(self) -> None:
         for path in self.root.rglob("*.md"):
@@ -383,6 +451,17 @@ class SelectContextTests(unittest.TestCase):
                 completed = self.run_cli()
                 self.assertEqual(1, completed.returncode)
                 self.assertEqual(code, json.loads(completed.stdout)["diagnostics"][0]["code"])
+                diagnostic = json.loads(completed.stdout)["diagnostics"][0]
+                self.assertEqual("docs/plans/0001-selector-fixture.md", diagnostic["path"])
+                self.assertEqual("UTF-8 without BOM" if code == "FILE_BOM_FORBIDDEN"
+                                 else "consistent LF or CRLF", diagnostic["expected"])
+                self.assertEqual(path.read_bytes(), data)
+                original = plan().encode("utf-8")
+                path.write_bytes(original)
+                corrected = self.run_cli()
+                self.assertEqual(0, corrected.returncode, corrected.stdout + corrected.stderr)
+                self.assertIn("Selected café item", json.loads(corrected.stdout)["work_item"])
+                self.assertEqual(path.read_bytes(), original)
 
     def test_symlinked_plan_is_rejected_when_supported(self) -> None:
         path = self.root / "docs" / "plans" / "0001-selector-fixture.md"

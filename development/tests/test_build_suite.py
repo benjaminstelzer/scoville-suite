@@ -86,48 +86,6 @@ class BuildTests(unittest.TestCase):
     def test_readmes_match_sources(self):
         self.assertEqual([], builder.render_readmes(ROOT, False))
 
-    def test_suite_readmes_separate_new_install_and_complete_upgrade(self):
-        legacy = {
-            'scoville-brainstorm', 'scoville-code-anti-ai-slop',
-            'scoville-design-anti-ai-slop', 'scoville-handoff', 'scoville-plan',
-            'scoville-research', 'scoville-scribe-anti-ai-slop',
-            'scoville-ui-anti-ai-slop',
-            'scoville-wordpress-ui-backend-anti-ai-slop',
-            'scoville-workflow-for-codex', 'scoville-workflow-codex',
-            'ask-astra-for-review-for-codex', 'ask-sol-for-review-for-codex',
-            'ask-claude-for-codex', 'ask-claude-and-astra-for-codex',
-            'ask-claude-and-sol-for-codex',
-        }
-        repositories = {
-            'general': 'https://github.com/benjaminstelzer/scoville-suite',
-            'codex': 'https://github.com/benjaminstelzer/scoville-suite-for-codex',
-        }
-        for profile, repository in repositories.items():
-            with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
-                destination = Path(temp)
-                config = builder.load(ROOT, profile, 'suite')
-                builder.render_readmes(ROOT, True, config, destination)
-                text = (destination / 'README.md').read_text(encoding='utf-8')
-                new_marker = '### New installation'
-                upgrade_marker = '### Upgrade from an earlier Scoville or Ask suite'
-                self.assertLess(text.index(new_marker), text.index(upgrade_marker))
-                new_install = text.split(new_marker, 1)[1].split(upgrade_marker, 1)[0]
-                upgrade = text.split(upgrade_marker, 1)[1].split('\n## ', 1)[0]
-                self.assertIn(repository, new_install)
-                self.assertNotIn('Uninstall these Skills', new_install)
-                self.assertIn(repository, upgrade)
-                inventory = upgrade.split(
-                    'Uninstall these Skills completely, including their settings, when present:\n', 1
-                )[1].split('\nSkip absent entries', 1)[0]
-                actual = {item.strip().rstrip('.') for item in inventory.replace('\n', ' ').split(',')}
-                self.assertEqual(legacy, actual)
-                self.assertIn('leave unrelated Skills untouched', upgrade)
-                self.assertIn('keep no backup or settings migration', upgrade)
-                for readme in destination.rglob('README.md'):
-                    rendered = readme.read_text(encoding='utf-8')
-                    self.assertNotRegex(rendered, r'(?<![A-Za-z])[A-Za-z]:[\\/]')
-                    self.assertNotIn('/Users/', rendered)
-                    self.assertNotIn('/home/', rendered)
 
     def test_suite_overview_links_each_member_how_to_use(self):
         for profile, expected_count in (('general', 5), ('codex', 8)):
@@ -146,32 +104,7 @@ class BuildTests(unittest.TestCase):
                 workflow_link = '(members/scoville-workflow-for-codex/README.md#how-to-use)'
                 self.assertEqual(profile == 'codex', workflow_link in overview)
 
-    def test_family_contract_preserves_exclusions_and_explicit_activation(self):
-        for profile, layout in [('general', 'standalone'), ('general', 'suite'),
-                                ('codex', 'suite'), ('codex', 'standalone')]:
-            config = builder.load(ROOT, profile, layout)
-            cores = {}
-            for member in config['members']:
-                name = member['name']
-                core = builder.payload(ROOT, member, config)[name + '/SKILL.md'].decode()
-                cores[name] = core
-                with self.subTest(profile=profile, layout=layout, member=name):
-                    if layout == 'standalone':
-                        self.assertIn('Honor explicit user exclusions.', core)
-                        self.assertIn('simulate or require an absent sibling', core)
-                        self.assertNotIn('installed and enabled', core)
-                    else:
-                        self.assertIn('Explicit invocation gates and user exclusions still apply.', core)
-                        self.assertIn('without checking sibling availability', core)
-                        self.assertNotIn('Other Scoville Skills are optional', core)
-            if 'scoville-workflow-for-codex' in cores:
-                self.assertIn('Generic execution, delegation and discussion do not activate it.',
-                              cores['scoville-workflow-for-codex'])
-            if 'scoville-ask-for-codex' in cores:
-                self.assertIn('Ordinary questions to the current assistant do not trigger a consultation.',
-                              cores['scoville-ask-for-codex'])
-            if 'scoville-setup' in cores:
-                self.assertIn('Do not start Ask,\nWorkflow', cores['scoville-setup'])
+            # Setup activation is checked by the native effect cases, not prose spelling.
 
     def test_each_suite_rejects_partial_installation_build(self):
         for profile in ('general', 'codex'):

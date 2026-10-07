@@ -42,7 +42,7 @@ Required prerequisites and consequences precede the action that needs them.
 Disclose rare secondary detail through understandable controls, while keeping
 required fields, errors and critical consequences discoverable in time. Avoid
 repeated disclosure steps that obstruct frequent expert work. Keep needed values
-and object/action terms visible so users recognize rather than recall.
+and object and action terms visible so users recognize rather than recall.
 Remove or demote content only when doing so preserves the user's task and the
 canonical content owner permits it.
 
@@ -60,7 +60,7 @@ and appropriate to the task.
 Use approved product and platform terminology. When none exists, choose terms
 suited to the audience, domain and established conventions.
 
-Follow the explicit language request, then the established product/source
+Follow the explicit language request, then the established product or source
 language and applicable platform conventions; chat language alone does not
 override them. For new UI with no such owner, state the chosen language briefly
 and ask only when the choice materially affects the product outcome.
@@ -84,7 +84,7 @@ dictionary, glossary or separate terminology record.
 
 **Product decision:** The canonical product owner owns intended grouping, hierarchy, density,
 and deliberate visual exceptions. **UI implementation floor:** Implement those
-relations with canonical components/tokens and preserve semantic relationships.
+relations with canonical components and tokens and preserve semantic relationships.
 
 Use the owning system's hierarchy, grouping, alignment, sequence, and emphasis
 mechanisms so related information reads together and distinct concerns remain
@@ -107,7 +107,7 @@ including inventory coverage when auditing a named page.
 
 **Product decision:** The canonical product owner owns typography, spacing roles, and intended
 reading emphasis. **UI implementation floor:** UI retains text scaling, zoom,
-wrapping, truncation access, label association, theme/state contrast, and
+wrapping, truncation access, label association, theme and state contrast, and
 supported fallback mechanics.
 
 Use the project or platform's typography and spacing language while protecting:
@@ -117,7 +117,7 @@ Use the project or platform's typography and spacing language while protecting:
 - wrapping and available space for realistic and localized content;
 - deliberate truncation with a way to access required information;
 - labels and values that remain associated visually and programmatically; and
-- foreground/background relationships that meet the applicable accessibility
+- foreground and background relationships that meet the applicable accessibility
   target across supported states and themes.
 
 Preserve protected copy and facts. Honor wording changes explicitly included in
@@ -128,7 +128,7 @@ fragmenting or inventing text to hide a layout problem.
 
 **Product decision:** The canonical product owner owns intended affordance emphasis, feedback
 priority, and recovery experience. **UI implementation floor:** UI retains
-component semantics, focus/input behavior, announcements, and state transitions.
+component semantics, focus and input behavior, announcements, and state transitions.
 
 Use existing components and platform conventions so affordance and behavior
 agree. Choose controls by meaning: navigation, action, single selection,
@@ -163,7 +163,7 @@ owning component's semantics or state model.
 
 **Product decision:** The canonical product owner owns the intended responsive transformation
 and priority changes. **UI implementation floor:** UI retains framework-valid
-breakpoints, reflow mechanics, content/state persistence, input behavior, and
+breakpoints, reflow mechanics, content and state persistence, input behavior, and
 rendered proof.
 
 Responsive behavior preserves the task as space, content, text size, input
@@ -216,7 +216,7 @@ Explain format, requiredness and consequences before avoidable errors. Associate
 errors with their fields, preserve safe entered values and offer only real
 correction, retry or cancellation. Add an error summary when it helps locate
 multiple errors, not as a universal platform rule. Use the owning group component
-or fieldset/legend for related inputs.
+or fieldset with a legend for related inputs.
 
 Do not manufacture a complete state matrix for an unaffected component. The
 floor is completeness for the requested flow, not ceremonial coverage.

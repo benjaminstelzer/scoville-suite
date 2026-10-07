@@ -2,6 +2,14 @@
 
 ## Runtime helper policy
 
+`rules.optout` expands `runtime/skill_optout.md` for Code and UI. Other Skills
+retain their narrower wording. `rules.python` expands the interpreter discovery
+rule from `runtime/python_discovery.md` for Ask, Setup, Code, Handoff, UI and
+Project Context Cleanup. Use these include
+keys only for the stated consumers. Receipts hash the consumed canonical files;
+snapshots and exports retain them. These rules do not belong in `family.contract`,
+which applies to every suite member.
+
 Register every packaged Python file under `helper_contracts`, keyed by its
 Skill-relative `scripts/<name>.py` path. Use `kind: helper` for executable
 entrypoints and `kind: library` for imported support code. General helpers also
@@ -58,11 +66,6 @@ canonical shared directory. Existing `shared_helpers` entries use the same
 resolver and retain their scripts-only destination constraint. Snapshots and
 receipts include consumed shared files. Installed packages never import them
 from another Skill or a development checkout.
-
-`{{ include: prompting.defaults }}` expands `prompting/models.toml` inside
-Markdown or TOML package sources. Plan installs these defaults as its own
-`assets/prompting.toml`; Workflow embeds them in its own `assets/workflow.toml`.
-Installed configuration edits remain independent.
 
 For suite-only README sections use
 `{"source": "shared:member-development.md", "audience": "suite"}` in the
@@ -141,8 +144,10 @@ Unknown profiles fail. Visibility checks still apply to the selected members.
 Keep short text alternatives beside their owner using flat blocks:
 `{{ profile: general }}portable text{{ /profile }}` and
 `{{ profile: codex }}required-helper text{{ /profile }}`. Empty alternatives may
-be omitted. Unknown, nested or incomplete blocks fail; no expression language
-or runtime conditionals are supported. Built packages contain plain text.
+be omitted. Unknown or incomplete blocks and nesting within the same block kind
+fail. A profile block inside a package block is supported: profile selection
+runs before package selection. No expression language or runtime conditionals
+are supported. Built packages contain plain text.
 
 Default README previews remain in the source tree. Other profile previews
 require `--write-readmes --profile codex --output <new-preview-directory>`.

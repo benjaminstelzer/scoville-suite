@@ -35,14 +35,14 @@ def digest(path):
 
 def local_assets(root, assets):
     viewer = root / VIEWER
-    package = json.loads((viewer / 'package.json').read_text())
+    package = json.loads((viewer / 'package.json').read_text(encoding='utf-8'))
     version = package['version']
-    lock = json.loads((viewer / 'package-lock.json').read_text())
-    cargo = tomllib.loads((viewer / 'src-tauri/Cargo.toml').read_text())
-    cargo_lock = tomllib.loads((viewer / 'src-tauri/Cargo.lock').read_text())
+    lock = json.loads((viewer / 'package-lock.json').read_text(encoding='utf-8'))
+    cargo = tomllib.loads((viewer / 'src-tauri/Cargo.toml').read_text(encoding='utf-8'))
+    cargo_lock = tomllib.loads((viewer / 'src-tauri/Cargo.lock').read_text(encoding='utf-8'))
     native = [p['version'] for p in cargo_lock['package'] if p['name'] == 'scoville-plan-viewer']
     versions = [lock['version'], lock['packages']['']['version'], cargo['package']['version'],
-                json.loads((viewer / 'src-tauri/tauri.conf.json').read_text())['version'], *native]
+                json.loads((viewer / 'src-tauri/tauri.conf.json').read_text(encoding='utf-8'))['version'], *native]
     if len(native) != 1 or any(v != version for v in versions):
         raise ValueError('Viewer version owners must agree: package/locks, Cargo and Tauri')
     names = {f'scoville-plan-viewer-v{version}-{suffix}' for suffix in SUFFIXES}
@@ -52,7 +52,7 @@ def local_assets(root, assets):
                          f'missing={sorted((names | {"SHA256SUMS.txt", "BUILD.json"}) - actual)}, '
                          f'extra={sorted(actual - (names | {"SHA256SUMS.txt", "BUILD.json"}))}')
     sums = {}
-    for line in (assets / 'SHA256SUMS.txt').read_text().splitlines():
+    for line in (assets / 'SHA256SUMS.txt').read_text(encoding='utf-8').splitlines():
         match = re.fullmatch(r'([0-9a-f]{64})  (\S+)', line)
         if not match or match[2] in sums or Path(match[2]).name != match[2]:
             raise ValueError('SHA256SUMS.txt requires unique basenames and lowercase SHA-256 hashes')
@@ -81,7 +81,7 @@ def verify(root, assets, releases=()):
         if len(repositories) != 3 or set(repositories) != required:
             raise ValueError('Post-upload verification requires exactly one --release for Plan and each of the two suites')
     version, names, sums = local_assets(root, assets)
-    build = json.loads((assets / 'BUILD.json').read_text())
+    build = json.loads((assets / 'BUILD.json').read_text(encoding='utf-8'))
     match = re.fullmatch(r'https://github.com/(benjaminstelzer/scoville-suite)/actions/runs/(\d+)', build['workflow_run'])
     if not match or build['version'] != version or sorted(build['platforms']) != sorted(PLATFORMS):
         raise ValueError('BUILD.json must identify the current version, four platforms and canonical suite Actions run')

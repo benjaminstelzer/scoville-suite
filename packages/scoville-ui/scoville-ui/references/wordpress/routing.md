@@ -20,12 +20,12 @@ concerns and the dependencies needed to evaluate them.
 
 | Focus | Inspect | Main reference |
 | --- | --- | --- |
-| Spacing and vertical flow | Parent/child ownership, gap versus margins, internal padding, hidden content, Core defaults, actual rendered distances where available. | [spacing.md](spacing.md) |
-| Core defaults, tokens, and CSS | Runtime owner, reused Core markup/components, token availability and loading when consumed, CSS exceptions. | [spacing.md](spacing.md), [version-compatibility.md](version-compatibility.md) when version-sensitive |
+| Spacing and vertical flow | Parent and child ownership, gap versus margins, internal padding, hidden content, Core defaults, actual rendered distances where available. | [spacing.md](spacing.md) |
+| Core defaults, tokens, and CSS | Runtime owner, reused Core markup and components, token availability and loading when consumed, CSS exceptions. | [spacing.md](spacing.md), [version-compatibility.md](version-compatibility.md) when version-sensitive |
 | Responsive layout | Affected reflow, wrapping, overflow, order, zoom, and relevant widths. | [responsive.md](responsive.md) |
 | User guidance and states | Task hierarchy, actions, feedback, recovery, and states possible in the selected flow. | [ui-guidance.md](ui-guidance.md) |
-| Accessibility | Relevant semantics, keyboard/focus behavior, labels, contrast, targets, and reflow. | [ui-guidance.md](ui-guidance.md), [responsive.md](responsive.md) for layout |
-| i18n-readiness | Strings, domains, formatting, dependencies/loading hooks, expansion, and language-scoped RTL. Translation delivery only when requested. | [internationalization.md](internationalization.md) |
+| Accessibility | Relevant semantics, keyboard and focus behavior, labels, contrast, targets, and reflow. | [ui-guidance.md](ui-guidance.md), [responsive.md](responsive.md) for layout |
+| i18n-readiness | Strings, domains, formatting, dependencies and loading hooks, expansion, and language-scoped RTL. Translation delivery only when requested. | [internationalization.md](internationalization.md) |
 
 For a consistency audit, read [validation.md](validation.md) and reconcile the
 complete scoped element inventory with source, geometry and viewed evidence.
@@ -36,7 +36,7 @@ For a spacing audit, inspect the affected subtree and its actual spacing owner.
 After source inspection, use computed styles and actual geometry for rendered
 spacing claims. Missing runtime evidence is unverified, not an optional pass. A declared `gap`
 alone does not establish the visible distance when margins, padding, or layout
-participate. Compare against Core/component defaults before applying a
+participate. Compare against Core or component defaults before applying a
 Skill-Norm. A native spacing value is not defective merely because it differs
 from the Skill's fallback scale.
 
@@ -62,7 +62,7 @@ access limits rendered claims, not the ability to provide a source audit.
 | Plugin-owned Network Admin page | supported with explicit Multisite context | Network Admin shell |
 | Block Editor sidebar or SlotFill | excluded | Block Editor owner |
 | Editor canvas | excluded | Editor owner |
-| Post metabox | excluded | Post editor/metabox owner |
+| Post metabox | excluded | Post editor or metabox owner |
 | Dashboard widget | excluded | Core Dashboard owner |
 | Profile field | excluded | Core profile-screen owner |
 | Extension of an existing Core list or screen | excluded | Host Core screen |
@@ -75,20 +75,20 @@ plugin-owned page shell, a generic spacing matrix, or global admin CSS.
 
 | Target | Core token stylesheet | Public provider | Routing consequence |
 | --- | --- | --- | --- |
-| 7.0 pinned baseline | No Core `wp-theme` style handle in the verified baseline | Not exported by pinned `@wordpress/theme` 0.7.1 | Preserve Classic/Core defaults. The explicitly opted-in bundled experimental path below remains version-specific. |
+| 7.0 pinned baseline | No Core `wp-theme` style handle in the verified baseline | Not exported by pinned `@wordpress/theme` 0.7.1 | Preserve Classic pages and Core defaults. The explicitly opted-in bundled experimental path below remains version-specific. |
 | 7.1 | Core registers `wp-theme` with semantic tokens for plugin UIs | Public `ThemeProvider` from `@wordpress/theme` through the Core script handle | PHP may consume Core tokens without React. React may use the public provider when needed. Neither requires experimental-component opt-in. |
 
 Check the actual supported installation and minimum supported version. Style
 and script registries are separate even though both use `wp-theme`. Registration
 does not prove enqueue, successful loading, token availability, or rendering.
 Read [version-compatibility.md](version-compatibility.md) when the task depends
-on token/provider availability, loading, or fallback. A spacing check on native
+on token or provider availability, loading, or fallback. A spacing check on native
 Core markup does not require a token-loading audit if it consumes no tokens.
 Do not infer future 7.x contracts or package versions from either row.
 
 ## Runtime owners
 
-### PHP/Core
+### PHP with Core
 
 - Use WordPress APIs, semantic admin markup, Core classes, and Core default CSS.
 - Core owns `.wrap`, the page title, `.wp-header-end`, native Notices,
@@ -100,7 +100,7 @@ Do not infer future 7.x contracts or package versions from either row.
   relationship or domain state inside a plugin-owned region, not for restyling
   native controls. The runtime remains `php-core`.
 
-### React/Core Components
+### React with Core Components
 
 - Use Core-provided `@wordpress/components` and registered WordPress packages.
 - React alone does not authorize bundled experimental WPDS.
@@ -144,7 +144,7 @@ Core's 7.1 token stylesheet and public `ThemeProvider` are not bundled
 experimental components. `deny` does not prohibit their supported use. A
 provider is optional and must never force a PHP page into React.
 
-Use `deny` when the request selects a non-experimental PHP/Core route or a
+Use `deny` when the request selects a non-experimental PHP with Core route or a
 Core-only hybrid route. Use `allow` only for an explicit bundled experimental
 WPDS opt-in. Use `unknown` only when the request leaves a decision-relevant
 experimental policy or runtime fact genuinely unspecified; do not replace a
@@ -155,8 +155,8 @@ requested:
 
 | Surface | Required limits |
 | --- | --- |
-| Block Editor sidebar/SlotFill or editor canvas | Keep host ownership. Do not apply frontend-theme spacing or recommend dependent details without the missing host facts. |
-| Post metabox, Dashboard widget or existing Core list/screen | Keep host ownership. Do not inject experimental WPDS into Classic UI or apply global admin overrides. |
+| Block Editor sidebar or SlotFill or editor canvas | Keep host ownership. Do not apply frontend-theme spacing or recommend dependent details without the missing host facts. |
+| Post metabox, Dashboard widget or existing Core list or screen | Keep host ownership. Do not inject experimental WPDS into Classic UI or apply global admin overrides. |
 | Profile field | Keep host ownership. No experimental WPDS injection, global admin overrides or custom CSS before checking Core. |
 | UI inside another plugin | Keep host ownership. Do not infer WPDS from React or recommend dependent details without the missing owner facts. |
 
@@ -173,8 +173,8 @@ classification report to every finding. For explicitly requested structured
 classification, load [classification-output.md](classification-output.md).
 Its exact output values do not change the boundaries in this router.
 
-For a version-sensitive recommendation, also record supported/observed versions,
-token stylesheet owner, required token names, and loading/fallback evidence.
+For a version-sensitive recommendation, also record supported and observed versions,
+token stylesheet owner, required token names, and loading and fallback evidence.
 These facts do not change a PHP route to `bundled-wpds` just because Core tokens
 are available. Structured field values and prohibition identifiers belong to
 [classification-output.md](classification-output.md).
@@ -191,7 +191,7 @@ within scope without inventing the missing owner or blocking on unrelated facts.
 
 - **Core:** documented API, established admin convention, or explicitly named
   observed implementation with its WordPress version named.
-- **WPDS:** documented or observed token/component behavior with its provider
+- **WPDS:** documented or observed token or component behavior with its provider
   and version named. This label does not by itself mean experimental.
 - **WCAG:** normative accessibility requirement.
 - **Skill-Norm:** an openly identified rule that closes an unspecified gap.

@@ -34,7 +34,7 @@ container. The document must not overflow.
 ## Shells
 
 Classic and hybrid pages inherit `.wrap` and Core gutters. Do not add a second
-page gutter. A bundled WPDS `Page` has its own package/version-specific
+page gutter. A bundled WPDS `Page` has its own package- and version-specific
 padding. Recheck that component source before using its historical 16px block
 and 24px inline values. Never apply them to Classic gutters. Density is not a
 responsive switch.
@@ -52,9 +52,9 @@ responsive switch.
 
 ## Workflow or dashboard
 
-- Separate header, primary task, supporting regions, and status/recovery by
+- Separate header, primary task, supporting regions, and status and recovery by
   meaning.
-- Use the owner-provided Grid/Flex primitive. A custom intrinsic grid requires
+- Use the owner-provided Grid or Flex primitive. A custom intrinsic grid requires
   a documented CSS exception.
 - Use content-aware minimums. Avoid fixed column counts chosen only from device
   labels.

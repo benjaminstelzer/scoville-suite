@@ -53,6 +53,40 @@ def tree_snapshot(root: Path) -> dict[str, str]:
 
 
 class ValidatorTest(unittest.TestCase):
+    def check_unexpected_index_object_then_restored_file(self, make_object, remove_object):
+        index = self.root / 'PROJECT_INDEX.md'
+        known = index.read_bytes()
+        index.unlink()
+        make_object(index)
+        mode = index.lstat().st_mode
+        try:
+            completed = subprocess.run(
+                [sys.executable, '-B', str(SCRIPT), '--root', str(self.root), '--format', 'json'],
+                cwd=REPOSITORY, capture_output=True, text=True, encoding='utf-8', timeout=10)
+            self.assertEqual(1, completed.returncode, completed.stdout + completed.stderr)
+            received = json.loads(completed.stdout)
+            self.assertFalse(received['valid'])
+            diagnostic = next(row for row in received['diagnostics']
+                              if row['file'] == 'PROJECT_INDEX.md'
+                              and row['code'] == 'PROFILE_PATH_NOT_DIRECTORY')
+            self.assertEqual('regular Markdown file', diagnostic['expected'])
+            self.assertTrue(diagnostic['suggestion'])
+            self.assertEqual(mode, index.lstat().st_mode)
+        finally:
+            remove_object(index)
+            index.write_bytes(known)
+        corrected, received = self.run_json()
+        self.assertEqual(0, corrected.returncode, corrected.stdout + corrected.stderr)
+        self.assertTrue(received['valid'])
+        self.assertEqual(index.read_bytes(), known)
+
+    def test_index_directory_is_rejected_then_regular_file_is_consumed(self):
+        self.check_unexpected_index_object_then_restored_file(Path.mkdir, Path.rmdir)
+
+    @unittest.skipUnless(hasattr(os, 'mkfifo'), 'A real FIFO is supported only on POSIX hosts')
+    def test_index_fifo_returns_diagnostic_without_waiting_for_writer(self):
+        self.check_unexpected_index_object_then_restored_file(os.mkfifo, Path.unlink)
+
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory(prefix="scoville-validator-")
         self.root = Path(self.temporary.name) / "project"

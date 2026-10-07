@@ -28,21 +28,15 @@ class DescriptionContractTests(unittest.TestCase):
                             fenced = not fenced
                         lines.append('#'+line if not fenced and re.match(r'^#{1,5} ',line) else line)
                     self.assertIn('\n'.join(lines), combined)
-                    for heading in ('How it works','What it enforces','What it costs'):
-                        section = text.split('## '+heading+'\n',1)[1].split('\n## ',1)[0]
-                        self.assertRegex(section, r'(?m)^- \S')
                     self.assertNotIn('{{', text)
                     self.assertNotIn('## How it was developed', combined)
 
-    def test_workflow_chart_and_both_thresholds_survive(self):
+    def test_workflow_chart_is_rendered(self):
         root=SHARED.parent/'scoville-suite'
         config=builder.load(root, 'codex')
         workflow=next(m for m in config['members'] if m['name']=='scoville-workflow-for-codex')
         text=builder.readme(root,workflow,config=config).decode()
         self.assertRegex(text, r'```mermaid\n(?:%%[^\n]*\n)*flowchart TD\n')
-        thresholds=text.split('## Configuration\n',1)[1].split('\n## ',1)[0]
-        self.assertIn('at 40%',thresholds)
-        self.assertIn('above 60%',thresholds)
 
 
 if __name__=='__main__':

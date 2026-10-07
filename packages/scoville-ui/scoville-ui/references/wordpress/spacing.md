@@ -2,7 +2,7 @@
 
 Classify the owning region before selecting or judging a spacing value.
 
-- **Classic/Core markup:** Read [classic-patterns.md](classic-patterns.md).
+- **Classic with Core markup:** Read [classic-patterns.md](classic-patterns.md).
   Preserve its authored units and context-specific cascade. There is no
   universal Classic 4/8px spacing scale.
 - **A region consuming WPDS tokens:** Read [wpds-tokens.md](wpds-tokens.md)
@@ -100,7 +100,7 @@ a second token stylesheet. A public `ThemeProvider` is optional for scoped React
 theming and does not replace the stylesheet. PHP does not need the provider.
 Keep the actual token-owning document in view for portals, popups, and iframes.
 
-Supported semantic foreground/background/stroke tokens may express a genuine
+Supported semantic foreground, background and stroke tokens may express a genuine
 plugin-specific domain state when no Core component already owns it. Preserve
 native controls, tables, Notices, focus treatment, and existing layout. Verify
 contrast, non-color cues, interaction states, and token resolution. Do not
@@ -114,11 +114,11 @@ Stop at the first suitable owner:
 1. WordPress API and semantic Core markup.
 2. Core class or WordPress component with default CSS.
 3. Semantic token actually supplied by the runtime.
-4. Plugin-owned composition through props, Grid/Flex, `gap`, and logical
+4. Plugin-owned composition through props, Grid or Flex, `gap`, and logical
    properties.
 5. Narrow plugin CSS for a demonstrated gap only.
 
-Before writing an exception, record the DOM/runtime owner, concrete relevant
+Before writing an exception, record the DOM region and runtime owner, concrete relevant
 WordPress options checked, why
 those options fail, why `Flex` fails for a local React stack, the smallest
 plugin scope, token or Skill-Norm source, and checks for reflow, zoom, focus,
@@ -127,4 +127,4 @@ the [language-scope rule](internationalization.md#language-scoped-rtl-checks).
 
 Reject global `.wp-admin`, `.wrap`, `.form-table`, or Core-control overrides,
 copied Core CSS, custom Core-primitive rebuilds, unloaded WPDS references,
-parallel colors/radii/shadows, and undocumented `!important`.
+parallel colors, radii and shadows, and undocumented `!important`.

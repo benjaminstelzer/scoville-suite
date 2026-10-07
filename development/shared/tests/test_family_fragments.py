@@ -33,20 +33,6 @@ class FamilyFragmentsTests(unittest.TestCase):
         self.assertIn('`scoville-handoff`:', rendered)
         self.assertTrue(rendered.endswith('\n\nAfter\n'))
 
-    def test_packaged_family_blocks_have_one_separator(self):
-        for profile, layout in (('general', 'suite'), ('codex', 'suite'),
-                                ('general', 'standalone')):
-            config = builder.load(ROOT, profile, layout)
-            for name in ('scoville-handoff', 'scoville-code', 'scoville-plan', 'scoville-ui'):
-                with self.subTest(profile=profile, layout=layout, member=name):
-                    member = next(m for m in config['members'] if m['name'] == name)
-                    text = builder.payload(ROOT, member, config)[name + '/SKILL.md'].decode()
-                    self.assertNotIn('{{', text)
-                    if layout == 'suite':
-                        self.assertIn('Explicit invocation gates', text)
-                        self.assertRegex(text, r'user exclusions still apply\.\n\n[^\n]')
-                    else:
-                        self.assertIn('works independently', text)
 
     def test_suite_omits_family_projections(self):
         config = builder.load(ROOT, 'codex')
@@ -117,7 +103,8 @@ class FamilyFragmentsTests(unittest.TestCase):
                         self.assertNotIn(b'{{ include:', (output / member['package_path'] / relative).read_bytes())
             altered = output / 'scoville-code/scoville-code/SKILL.md'
             altered.write_bytes(altered.read_bytes() + b'\nDRIFT\n')
-            self.assertEqual(['scoville-code: package differs from current sources'],
+            self.assertEqual(['hash mismatch: scoville-code/scoville-code/SKILL.md',
+                              'scoville-code: package differs from current sources'],
                              builder.verify_packages(ROOT, output))
 
 

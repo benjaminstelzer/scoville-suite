@@ -23,7 +23,7 @@ inheritance, display behavior and media queries can change the result.
 | `wp-admin/css/forms.css:902` form-table | margin-top 0.5em, border-collapse collapse, font-size 14px | Keep table flow. Cell margins do not behave as ordinary block gaps. |
 | `forms.css:916` td | margin-bottom 9px, padding 15px 10px, line-height 1.3, vertical-align middle | Evaluate display and responsive overrides. |
 | `forms.css:931` th | padding 20px 10px 20px 0, width 200px, line-height 1.3, vertical-align top | Different from td by design. |
-| `forms.css:947` ordinary td p | margin-top 4px, margin-bottom 0, font-size 14px from 909 | Actual context-specific pixels. Do not apply this to all help/status text. More-specific Notice paragraphs differ. |
+| `forms.css:947` ordinary td p | margin-top 4px, margin-bottom 0, font-size 14px from 909 | Actual context-specific pixels. Do not apply this to all help and status text. More-specific Notice paragraphs differ. |
 | `wp-includes/css/buttons.css:43` base button | font-size 13px, unitless line-height 2.92307692, min-height 40px, margin 0, padding 0 16px | Minimum height is not fixed rendered height. |
 | `buttons.css:73` compact / 81 small / 98 hero | min-height 32px / 24px / 48px, distinct padding and typography | Preserve deliberate variants. Equalize only where the owner requires the same variant. |
 
@@ -35,7 +35,7 @@ The earlier `.wrap .notice` margin can still win by specificity. Mobile
 `.wrap div.updated` and `.wrap div.error` have their own matching selector
 paths. Inspect the actual Notice kind rather than treating all as equivalent.
 
-`forms.css:1582` and `1651` give matching text inputs/selects a 40px minimum.
+`forms.css:1582` and `1651` give matching text inputs and selects a 40px minimum.
 At 1675, matching form-table headers and cells become blocks. This is Core's
 table transformation, not a universal one-column rule for plugin dashboards.
 `buttons.css:383` changes matching mobile button variants and adds a 4px bottom
@@ -47,13 +47,13 @@ first wrap heading when no marker exists. `.inline` prevents relocation.
 
 ## Prove the actual relationship
 
-Inspect loaded stylesheet URLs/order and the relevant minified rules selected
+Inspect loaded stylesheet URLs and their order and the relevant minified rules selected
 by `SCRIPT_DEBUG` in `wp-includes/script-loader.php:1620`. Registration or a
 matching file on disk is not proof of loading. Check final DOM after scripts,
-then computed cascade and geometry at the relevant wide/narrow conditions.
+then computed cascade and geometry at the relevant wide and narrow conditions.
 
-For a named paragraph/control pair record both authored `margin: 1em 0` and its
-resolved value, the intervening flow/line boxes and actual measured edges.
+For a named paragraph and control pair record both authored `margin: 1em 0` and its
+resolved value, the intervening flow and line boxes and actual measured edges.
 Margin collapsing, table layout, padding and inline line boxes can change the
 visible separation. Do not publish an assumed resulting gap from this table.
 

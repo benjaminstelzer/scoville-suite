@@ -54,7 +54,7 @@ echo esc_html( $message );
 
 - Use `@wordpress/i18n` or the registered `wp-i18n` dependency.
 - Use the same literal domain, complete phrases, positional placeholders,
-  plural/context APIs, and immediate translator comments.
+  plural and context APIs, and immediate translator comments.
 - Translate accessible text too.
 - Rendering through React does not make translated HTML safe.
 
@@ -182,7 +182,7 @@ RTL test or block readiness on that uncertainty. State that RTL was not tested
 without claiming RTL support. Revisit the matrix when an RTL language enters
 scope.
 
-When RTL is in scope, check the affected layouts, controls, focus/source order,
+When RTL is in scope, check the affected layouts, controls, focus and source order,
 and directional content. Controlled RTL direction is sufficient for a
 readiness layout check without catalogs. Actual translation-loading claims
 still require runtime proof. Preserve existing Core direction handling and
@@ -208,6 +208,6 @@ delivery, and actual loading evidence separately.
 Reject variable domains, concatenated grammar, missing placeholder comments,
 unescaped output, accessible source text outside i18n APIs, and wrong handle
 order. When a PO-based delivery workflow is selected, also reject mismatched
-source/build references. Reject any claim of loaded translations without
+source and build references. Reject any claim of loaded translations without
 runtime proof. Do not reject readiness merely because translation files or
 translations have not been produced.

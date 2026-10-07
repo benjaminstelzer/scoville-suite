@@ -2,6 +2,12 @@
 from __future__ import annotations
 
 import re
+import json
+import shlex
+import subprocess
+import os
+import tempfile
+from pathlib import Path
 from uuid import uuid4
 
 
@@ -16,12 +22,19 @@ def takeover_instruction(predecessor: str, manager: str) -> str:
     return (
         'FIRST ACTION: retain the supplied continuation information. If an essential fact '
         'is missing, report it to the manager before project work. Otherwise call '
-        f'send_message with target={manager} and message=HANDOFF_ACCEPTED {predecessor}. '
+        f'collaboration.send_message with target={manager} and message=HANDOFF_ACCEPTED {predecessor}. '
+        'Use native collaboration agent handles, not chat or thread messaging. '
         'The manager owns the retained handoff and completed predecessor. Never send a '
-        'routine receipt to that predecessor. After delivery, wait actively with wait_agent '
-        'for TAKEOVER_COMPLETE from that exact manager, at most 60 seconds. Do no project '
-        'work before this release. A failed send, missing release or user stop blocks '
-        'takeover with its diagnostic. After verified release, continue the remaining '
+        'routine receipt to that predecessor. After delivery, use bounded collaboration.wait_agent '
+        'calls until TAKEOVER_COMPLETE arrives from that exact manager. A wait timeout '
+        'alone does not end the wait or permit project work. Do no project work before '
+        'this release. A failed send, STOP or BLOCKED halts takeover with its diagnostic. '
+        'If a mismatch, uncertain state, user stop or unanswered decision prevents '
+        'release, the manager sends STOP for a stop, or BLOCKED otherwise, to you. '
+        'Accept either signal only from that exact manager. Remain write-inactive '
+        'and return a blocked result with the signal and reason to the manager; '
+        'do not keep waiting after that signal. '
+        'After verified release, continue the remaining '
         'assignment. The predecessor stays write-inactive; no archival or close tool '
         'is required.\n\n')
 
@@ -77,4 +90,94 @@ def validate_creation_options(args) -> None:
     missing = ['--' + name.replace('_', '-') for name in native if getattr(args, name, None) is None]
     if missing:
         raise ValueError('--format create requires ' + ', '.join(missing) +
-                         '; supply the project name, role number and resolved model/effort')
+                         '; supply the project name, role number, resolved model and reasoning effort')
+
+
+def assignment_path(explicit: Path | None, project_root: Path) -> Path:
+    """Choose an external platform temp path; explicit paths keep their contract."""
+    if explicit is None:
+        folder = Path(tempfile.gettempdir()).resolve()
+        if folder.is_relative_to(project_root.resolve()):
+            raise ValueError('system temporary directory is inside --project-root; supply '
+                             '--assignment-file "<new-absolute-file>" in a readable temporary directory outside the project')
+        target = folder / ('scoville-assignment-' + uuid4().hex + '.txt')
+    else:
+        target = explicit
+    if not target.is_absolute() or not target.parent.is_dir():
+        raise ValueError('--assignment-file must name a new file in an existing absolute directory; '
+                         'use --assignment-file "<existing-temp-directory>/<new-name>.txt" or omit it for automatic selection')
+    if target.exists() or target.is_symlink():
+        raise ValueError('--assignment-file already exists; use a new unique path without overwriting an assignment')
+    return target
+
+
+def publish_assignment(target: Path, text: str) -> None:
+    """Publish complete UTF-8 bytes atomically without replacing another file."""
+    data = text.encode('utf-8', errors='strict')
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=target.parent, prefix='.scoville-assignment-',
+                                         suffix='.tmp', delete=False) as stream:
+            temporary = Path(stream.name)
+            stream.write(data)
+            stream.flush()
+        # Both files use the same filesystem. link is atomic and fails if target exists.
+        os.link(temporary, target)
+    except FileExistsError as error:
+        raise ValueError('--assignment-file already exists; use a new unique path without overwriting an assignment') from error
+    except OSError as error:
+        raise ValueError(f'cannot publish --assignment-file {target}: {error}; supply '
+                         '--assignment-file "<new-absolute-file>" in a readable writable temporary directory '
+                         'supporting atomic hard links; do not bypass the consumer sandbox') from error
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def shell_command(arguments: list[str]) -> str:
+    """Quote an unchanged argv for PowerShell on Windows or a POSIX shell."""
+    if os.name == 'nt':
+        # ProcessStartInfo bypasses PowerShell's version-dependent native argv
+        # conversion (Legacy drops empty strings and consumes literal quotes).
+        quote = lambda value: "'" + value.replace("'", "''") + "'"
+        return ("& { $scovilleProcess = New-Object System.Diagnostics.ProcessStartInfo; "
+                "$scovilleProcess.FileName = " + quote(arguments[0]) + "; "
+                "$scovilleProcess.Arguments = " + quote(subprocess.list2cmdline(arguments[1:])) + "; "
+                "$scovilleProcess.UseShellExecute = $false; "
+                "$scovilleChild = [System.Diagnostics.Process]::Start($scovilleProcess); "
+                "$scovilleChild.WaitForExit(); "
+                "if ($scovilleChild.ExitCode -ne 0) { exit $scovilleChild.ExitCode } }")
+    return shlex.join(arguments)
+
+
+def budget_retry(diagnostic: str, arguments: list[str]) -> str:
+    """Suggest a complete corrected invocation, never raise the caller's budget."""
+    try:
+        payload = json.loads(diagnostic)
+    except (ValueError, TypeError):
+        return ''
+    if not isinstance(payload, dict):
+        return ''
+    diagnostics = payload.get('diagnostics')
+    if not isinstance(diagnostics, list):
+        return ''
+    for entry in diagnostics:
+        if not isinstance(entry, dict) or entry.get('code') != 'OUTPUT_BUDGET_EXCEEDED':
+            continue
+        observed = entry.get('observed')
+        required = observed.get('required_bytes') if isinstance(observed, dict) else None
+        if type(required) is not int or required < 1:
+            return ''
+        corrected = []
+        skip = False
+        for value in arguments:
+            if skip:
+                skip = False
+            elif value == '--max-output-bytes':
+                skip = True
+            elif not value.startswith('--max-output-bytes='):
+                corrected.append(value)
+        corrected.extend(['--max-output-bytes', str(required)])
+        return ('\nCorrected invocation (run only within the caller-approved budget; '
+                'otherwise request a decision):\n' + shell_command(corrected))
+    return ''

@@ -38,7 +38,7 @@ class RoutingContractTest(unittest.TestCase):
             self.assertIn(repair_path, package)
             repair_rows = [line for line in core.splitlines() if '](' + 'references/repair.md)' in line]
             self.assertEqual(len(repair_rows), 1)
-            self.assertTrue(repair_rows[0].startswith('| Explicit request to inspect/repair'))
+            self.assertRegex(repair_rows[0], r'(?i)explicit request.*inspect.*repair')
             for path, content in package.items():
                 if path.endswith('.md') and path not in (repair_path, 'scoville-plan/SKILL.md'):
                     self.assertNotRegex(content.decode(), r'\]\([^)]*repair\.md\)')
@@ -94,10 +94,25 @@ class RoutingContractTest(unittest.TestCase):
         for feature in contract["features"]:
             for source in feature["sources"]:
                 self.assertTrue((ROOT / source).is_file(), (feature["id"], source))
-        for file in [ROOT / "SKILL.md", * (ROOT / "references").glob("*.md")]:
-            for target in re.findall(r"\]\(([^)#]+)(?:#[^)]*)?\)", file.read_text(encoding="utf-8")):
-                if "://" not in target:
-                    self.assertTrue((file.parent / target).is_file(), (file.name, target))
+        # Generated references must resolve in the shipped package, not through
+        # development-source files unavailable to its consumer.
+        import importlib.util
+        import posixpath
+        suite = ROOT.parents[2]
+        spec = importlib.util.spec_from_file_location('link_build', suite / 'development/build_suite.py')
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        for profile, layout in (('general', 'standalone'), ('general', 'suite'), ('codex', 'suite')):
+            config = builder.load(suite, profile, layout)
+            member = next(m for m in config['members'] if m['name'] == 'scoville-plan')
+            package = builder.payload(suite, member, config)
+            for name, data in package.items():
+                if not name.startswith('scoville-plan/') or not name.endswith('.md'):
+                    continue
+                for target in re.findall(r"\]\(([^)#]+)(?:#[^)]*)?\)", data.decode('utf-8')):
+                    if '://' not in target:
+                        resolved = posixpath.normpath(posixpath.join(posixpath.dirname(name), target))
+                        self.assertIn(resolved, package, (profile, layout, name, target))
 
 
 if __name__ == "__main__":

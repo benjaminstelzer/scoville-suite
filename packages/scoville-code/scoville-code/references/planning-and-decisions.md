@@ -42,19 +42,23 @@ not treat every checkpoint as a new task.
 
 ## Record material decisions
 
-Use the core's material-choice criteria.
+Use the criteria in SKILL.md's Resolve material choices section.
 
 Record a material decision in the project's existing plan, ADR, decision log,
 authorized commit, or pull-request mechanism. When none exists, preserve it in a
 handoff only if future work depends on it. Do not invent a durable record system.
+Retain the decision's source and status so a later agent can distinguish
+authorization from an observed result.
 Use `scoville-plan` for applicable canonical Plan, Work Item and Decision
-mutation. Load its relevant instructions; this reference supplies Code's
-implementation analysis without duplicating Plan ownership.
+mutation. In its `SKILL.md`, use **Load only the current route** to select the
+operation's contract. Read its `references/planning-granularity.md` only when
+Work Item or Step boundaries need judgment. Code retains engineering analysis
+and the behavior boundaries above; Plan owns its native records.
 
 ## Resolve decision ambiguity
 
 For ordinary details, choose the smallest reversible option that preserves the
-outcome. For an unresolved material choice, follow the core's question rule.
+outcome. For an unresolved material choice, follow the question rule in SKILL.md's Resolve material choices section.
 
 Do independent work first, then ask one specific question before dependent work.
 In unattended work, assumptions may resolve only harmless details or choices
@@ -64,9 +68,12 @@ continue only independent authorized work.
 
 ## Hand off and resume
 
-When Scoville Handoff is active for an explicit transfer, it owns the
-continuation prompt and its required contents. The summary below does not
-restrict that prompt.
+Only when Scoville Handoff is active for an explicit transfer, use its
+`SKILL.md` sections **Read within the transfer scope**, **Preserve continuation
+facts** and **Compose and check the prompt**, with its
+`assets/continuation-prompt.md`. They own source limits, required continuation
+facts and the artifact. The summary below does not restrict that prompt.
+This reference does not activate Handoff.
 
 For existing project records, or a requested handoff when Scoville Handoff is
 inactive, retain the requested outcome, binding constraints, current state,

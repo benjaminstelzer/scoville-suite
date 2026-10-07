@@ -6,7 +6,7 @@ WordPress 7 admin pages. It applies to the plugin's backend UI, never its
 frontend output or theme design. It is not another Skill or a second acceptance process.
 For excluded host-owned surfaces, report the host owner and stop the plugin-page
 route. Do not use the general route to bypass those exclusions. Site frontends
-and themes use their actual product/framework owner, not this admin adapter.
+and themes use their actual product or framework owner, not this admin adapter.
 
 ## Classify the target surface and runtime
 
@@ -15,7 +15,7 @@ Classify three independent axes for the region in scope:
 
 1. the admin surface and whether the version 1 surface-support table in routing.md supports it;
 2. the runtime and component owner for each affected DOM region;
-3. the supported WordPress versions and relevant public token/provider APIs.
+3. the supported WordPress versions and relevant public token or provider APIs.
 
 Record the plugin minimum WordPress version separately from the runtime version
 actually tested. These examples cover stable 7.0 and 7.1; they do not establish
@@ -78,7 +78,7 @@ does not become an i18n audit merely because the markup is PHP or JavaScript.
   matching runtime section. Examples demonstrate ownership and are not
   templates to copy across runtimes.
 - Before asserting that a rule is official, updating the WordPress target, or
-  changing a token/package contract, read [sources.md](sources.md)
+  changing a token or package contract, read [sources.md](sources.md)
   and recheck the relevant source contract when its listed revalidation condition
    applies.
 - For `wp-theme`, public `ThemeProvider`, or older-version fallback, read
@@ -143,7 +143,7 @@ not as a mandatory report or full-audit checklist for every task:
 - WordPress APIs, components, classes, defaults, and provided tokens reused;
 - semantic relationship and its spacing expression;
 - page archetype, responsive transformations, relevant states, and recovery;
-- PHP/JavaScript i18n-readiness, expansion checks, and language-scoped RTL
+- PHP and JavaScript i18n-readiness, expansion checks, and language-scoped RTL
   applicability, with translation artifacts and loading proof only when
   translation delivery is in scope;
 - any CSS exception with checked owners, demonstrated gap, smallest scope, and
