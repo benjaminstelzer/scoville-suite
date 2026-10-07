@@ -150,6 +150,27 @@ def shell_command(arguments: list[str]) -> str:
     return shlex.join(arguments)
 
 
+def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
+    """Prepare a complete pre-read check for file-backed native assignments."""
+    if not checker.is_file():
+        raise ValueError(f'bundled text-size checker is missing at {checker}; use the intact matching package before assigning work')
+    command = shell_command([interpreter, str(checker), '--file', str(target),
+                             '--max-output-tokens', '<limit>'])
+    return (
+        'Before displaying it, check its size with the following command. Replace '
+        '<limit> with the smallest declared or explicitly selected output limit '
+        'of both your command and any outer tool wrapper. ' + command + '\n'
+        'This check emits no assignment text. For this read, use its size and '
+        'recommended_max_utf8_bytes, not its compaction or publication instruction. '
+        'Read the full unchanged file only when it fits; otherwise read all portions '
+        'in order, splitting at character boundaries and keeping each complete output '
+        'including labels within that byte budget. Do not alter or copy the input. '
+        'Never truncate, skip text or start with an oversized full read. The named '
+        'read and size-check commands are permitted even for external assignment, '
+        'interpreter and checker paths; this grants no unrelated inspection or writes. '
+    )
+
+
 def budget_retry(diagnostic: str, arguments: list[str]) -> str:
     """Suggest a complete corrected invocation, never raise the caller's budget."""
     try:

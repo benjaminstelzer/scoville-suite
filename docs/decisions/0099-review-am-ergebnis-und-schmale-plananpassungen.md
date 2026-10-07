@@ -1,11 +1,12 @@
 ---
 format_version: 1
 id: ADR-0099
-status: accepted
+status: superseded
 created: 2026-09-27
 accepted: 2026-09-27
 scope: workflow/dispatch
 supersedes: ADR-0093
+superseded_by: ADR-0174
 ---
 
 # Review am Ergebnis und schmale Plananpassungen

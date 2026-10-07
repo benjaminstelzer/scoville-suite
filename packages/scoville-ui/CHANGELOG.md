@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.1 - 2026-10-07
+
+- Check complete text before large reads and preserve Python launcher arguments when invoking the size checker. Keep records limited to facts needed for further development.
+
 ## v2.1.0 - 2026-10-07
 
 - Preserve complete oversized UI findings through compaction or a hashed temporary file, with the manual helper procedure available only without Python.

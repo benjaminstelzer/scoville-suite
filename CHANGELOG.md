@@ -1,6 +1,11 @@
 # Changelog
 
 
+
+## v2.4.1 - 2026-10-07
+
+- Keep Instructions limited to current conditions beyond the Steps, and Evidence limited to useful results and required review occurrence. Clean old Plans through Maintenance without reconstructing history or retaining review transcripts.
+- Check large inputs before reading them, preserve Python launcher arguments and show the real Plan position fields during recovery.
 ## v2.4.0 - 2026-10-07
 
 - Keep development ahead of bookkeeping. Reuse decisive evidence and test observable results instead of freezing incidental wording in source files.
