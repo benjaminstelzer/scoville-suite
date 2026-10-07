@@ -1,7 +1,8 @@
 # Scoville Project Context Cleanup
 
 Project rules grow. Unfortunately, clarity does not grow automatically with
-them. This Skill adds or revises the rules you request in `AGENTS.md` and
+them. This Skill adds or revises the rules you request in
+`AGENTS.md` or `CLAUDE.md` and
 context in `PROJECT_INDEX.md`, keeping useful information where the next agent
 will find it.
 
@@ -36,7 +37,7 @@ and complete context. Brevity only helps when the meaning survives.
 
 ## Compatibility
 
-Developed and tested in Codex with project-file access and permission for the requested edits. Fable, Astra, SOL or Opus (5.0+) are recommended, while Luna 6 with Medium reasoning is the lowest tested baseline.
+Developed and tested in Codex with project-file access and permission for the requested edits. Fable, Astra, SOL or Opus (5.0+) are recommended. Luna 6 with High reasoning passed the selected comprehension and functional checks in Codex. Other routes and hosts remain unverified.
 
 ## Install
 
@@ -55,9 +56,10 @@ Ask the agent to add or revise project rules:
 Add this to the project rules: edit schemas/ and regenerate docs/generated/.
 ```
 
-Or name `AGENTS.md` or `PROJECT_INDEX.md` explicitly. Requests such as
+Or name `AGENTS.md`, `CLAUDE.md` or `PROJECT_INDEX.md` explicitly. Requests such as
 “Füge das den Projektregeln hinzu” use the same scope.
-At a clear project root, this can create a missing `AGENTS.md`. A missing index
+At a clear project root, this can create a missing
+`AGENTS.md`, or `CLAUDE.md` on a Claude host. A missing index
 follows the requested format. A text addition alone does not create a Plan.
 
 For an explicit call, use `$scoville-project-context-cleanup`. A file mention,
@@ -72,7 +74,7 @@ ordinary README edit or routine Plan progress does not request cleanup.
 
 ## Developer links
 
-[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-project-context-cleanup) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-project-context-cleanup/development/README.md)
+[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-project-context-cleanup) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/development/instruction_tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-project-context-cleanup/development/README.md)
 
 ## License
 

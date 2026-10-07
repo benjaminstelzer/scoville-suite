@@ -1,22 +1,25 @@
 ---
 name: scoville-ui
-description: "Implement or audit UI through its framework and design system. Use for information structure, UI wording and terminology, components, states, interaction, responsiveness, accessibility mechanics and rendered proof. The WordPress adapter applies to implementation or audit of plugin-owned wp-admin backend pages, including hypothetical implementation advice, not pure visual concepts for a future page. Supported pages include settings, tools, workflows, dashboards, data views and explicit Network Admin. It excludes editor canvases, SlotFills, metaboxes, Dashboard widgets, profile fields, Core-screen extensions and UI owned by another plugin. Themes, site frontends and frontend UI produced by plugins use the general route. Excludes non-UI backend work and prose unrelated to interface text."
-compatibility: "Agent Skills host with reference access and the project's framework toolchain. Geometry proof needs DOM or equivalent platform measurement; visual proof needs actually viewed renders, and interaction proof needs an interactive runtime. Source-only or screenshot-only tasks report missing evidence. No bundled scripts or mandatory network access. Developed for Codex and Claude Code; other hosts untested."
+description: "Implement or audit interfaces through their framework and design system. Use for information structure, layout, interface wording, components, states, interactions, responsiveness, accessibility and rendered checks. The WordPress adapter covers plugin-owned wp-admin pages, including hypothetical implementation advice; pure visual concepts keep their design scope. Excludes non-UI backend work and prose unrelated to interface text."
+compatibility: "Agent Skills host with reference access and the project's framework tools. Geometry proof needs DOM or equivalent measurement; visual proof needs viewed renders; interaction proof needs an interactive runtime. Source-only or screenshot-only tasks report missing evidence. No mandatory network. Developed for Codex and Claude Code; other hosts untested. Python 3.11+ for the bundled text-size checker; manual fallback only without suitable Python. Helper errors do not enable fallback."
 ---
 
 # Scoville UI
 
-Implement and verify UI through its canonical framework, platform, and design
-system. Do not silently redesign a settled concern.
+Implement and verify UI through its established framework, platform and design
+system. Do not silently redesign a settled concern. Here, owner means the
+source responsible for a decision or behavior, such as a product requirement for intent,
+a design system for visual rules, or a framework or component for implementation.
+
+When writing instructions, reviews or reports, read and apply the
+[shared writing rules](references/writing.md). Approved interface text retains
+its product contract.
 
 ## Gates and owners
 
-**OPT-OUT:** If the user explicitly excludes this Skill, stop applying it before
-loading its references or making Skill-derived claims. Continue other authorized
-work under its own owner. If higher-authority host/project rules require this
-Skill, report the exact conflict.
+{{ include: rules.optout }}
 
-Apply the highest owner per concern:
+For each concern, follow the highest applicable authority in this order:
 
 1. system, safety, legally binding accessibility;
 2. explicit user request, including informed acceptance of a reported
@@ -24,20 +27,20 @@ Apply the highest owner per concern:
 3. repository instructions;
 4. canonical product requirements, design-system components, wrappers, themes,
    semantic tokens, approved assets;
-5. owning framework/platform for unresolved concerns;
+5. owning framework or platform for unresolved concerns;
 6. deliberate owner-aligned local patterns;
 7. this Skill's standalone principles for the remaining gap.
 
-Lower sources never override higher owners; report material conflicts.
+Lower sources never override higher authorities. Report material conflicts.
 
-- **LOCAL:** A repeated pattern counts only if deliberate, current, and right for
+- **LOCAL:** Reuse a repeated pattern only if it is deliberate, current and right for
   the same surface.
-- **UNKNOWN EXCEPTION:** Ownership is unresolved. Inspect or ask; normalize only
-  with evidence it is accidental or stale.
-- **GREENFIELD:** If no visual owner exists, use this Skill's bounded local
-  direction; framework defaults remain primitives.
-- **ACCESSIBILITY:** No target: web uses WCAG 2.2 AA; elsewhere use current
-  platform guidance; always use supported components and APIs.
+- **UNKNOWN EXCEPTION:** If the source responsible for an exception is unclear,
+  inspect or ask. Normalize it only with evidence that it is accidental or stale.
+- **GREENFIELD:** If no applicable source defines the visual direction,
+  use this Skill's bounded local direction. Framework defaults remain primitives.
+- **ACCESSIBILITY:** If no target is given, use WCAG 2.2 AA on the web and current
+  platform guidance elsewhere. Always use supported components and APIs.
 - **OWNER LIMIT:** Name the responsible canonical component or system and its
   limitation; do not introduce a second visual system to bypass that owner.
   Informed acceptance may waive the reported non-binding target, never higher
@@ -50,7 +53,7 @@ Lower sources never override higher owners; report material conflicts.
 {{ include: family.neighbors }}
 
 UI owns framework-valid implementation, component semantics and states,
-focus/input behavior, responsive mechanics, and rendered/interaction proof.
+focus and input behavior, responsive mechanics, and rendered and interaction proof.
 UI owns new interface wording and terminology consistency within the task,
 including greenfield work. Preserve supplied approved wording and settled
 product decisions; honor requested text changes without another Skill.
@@ -98,7 +101,7 @@ selected. Reuse one inventory and one evidence pass.
 1. Inspect as needed: surface, repository rules, framework version, canonical
    owners, nearest comparable surface.
 2. Identify implementation concerns: affected components and states, content
-   variation, inputs, breakpoints/adaptation mechanisms, semantics, and proof.
+   variation, inputs, breakpoints and adaptation mechanisms, semantics, and proof.
 3. Reuse canonical components, tokens, variants, layouts, breakpoints, and
    interactions. Add a primitive only for a demonstrated owner gap.
 4. Make the smallest framework-valid change. If a real implementation constraint
@@ -113,17 +116,20 @@ selected. Reuse one inventory and one evidence pass.
 
 ## Reference router
 
-**OWNERSHIP-ONLY:** A hypothetical asking only for status and owners loads
-Framework when ownership or fallback is unresolved; it does not load Quality
-or Validation without a quality, implementation, or evidence question. For
-WordPress admin, the adapter's classification replaces general Framework.
-Its exclusions still apply.
+**OWNERSHIP-ONLY:** For a hypothetical question limited to support status and
+responsible systems, read Framework only if responsibility or fallback remains
+unresolved. Do not load Quality or Validation unless the question also concerns
+quality, implementation or evidence. For WordPress admin, use the adapter's
+classification instead of general Framework. Its exclusions still apply.
 
 - **Framework (general route):** Load
   [framework-alignment.md](references/framework-alignment.md) before choosing an
-  owner if stack unfamiliar, ownership ambiguous, UI layers interact, no
-  canonical visual owner exists, customization path is uncertain, or a
-  component limitation prevents the requested target.
+  owner when any of these conditions applies:
+  - The stack is unfamiliar.
+  - Ownership is ambiguous or UI layers interact.
+  - No canonical visual owner exists.
+  - The customization path is uncertain.
+  - A component limitation prevents the requested target.
 - **Quality:** Load [ui-quality.md](references/ui-quality.md) when creating,
   translating, changing or reviewing interface text, or before judging task
   flow, hierarchy, layout, readability, states, accessibility structure, or
@@ -132,7 +138,7 @@ Its exclusions still apply.
 - **Validation:** Load [validation.md](references/validation.md) before an
   interface change, a consistency audit, or evaluating existing proof of
   rendering, responsive behavior, interaction, visual quality, or
-  accessibility. Build/source cannot prove rendering.
+  accessibility. Build or source inspection cannot prove rendering.
 
 **EVIDENCE-ONLY:** When the UI decision is fixed, use Validation to judge what
 existing proof establishes. An existing result or test report can supply that
@@ -142,9 +148,10 @@ accessibility unverified needs no Validation read. Add Quality for an open
 quality, state, accessibility-structure or mechanism question; add Framework
 for unresolved ownership or implementation path.
 
-**SOURCE-ONLY AUDIT:** If structure-only, omit Validation; explicitly mark
-rendered/interactive behavior unverified. Framework and Quality retain their
-normal triggers. Unimplemented direction uses the same evidence boundary.
+**SOURCE-ONLY AUDIT:** When the audit concerns only source structure, omit
+Validation and explicitly report rendered and interactive behavior as unverified.
+Framework and Quality retain their normal triggers. Apply the same evidence
+limit to an unimplemented design direction.
 
 For a page-consistency request, use Audit with a consistency focus and load
 Quality and Validation. Load Framework only under its existing conditions.
@@ -155,10 +162,11 @@ unqualified whole-page pass. Audit alone never authorizes repairs.
 
 ## Integrity floor
 
-Never improve appearance through: parallel visual language; semantic-token
-bypass; accessible-component rebuild; removed focus/input accommodation; hidden
-required content; meaning carried solely by one visual cue; missing changed-state
-recovery; local exception applied through a global theme override.
+Never improve appearance by introducing a parallel visual system, bypassing
+semantic tokens, rebuilding an accessible component, removing focus or input
+support, hiding required content, or conveying meaning through only one visual
+cue. Preserve recovery after state changes. Keep a local exception local rather
+than applying it through a global theme override.
 
 Never impose preferred fonts, palettes, radii, shadows, card patterns,
 breakpoints, pixel values, or fashionable bans. Quantitative rules come only
@@ -167,5 +175,9 @@ For a demonstrated WordPress owner gap, the adapter's explicitly labeled
 Skill-Norm composition may supply a local fallback. It is never an official
 Core rule or a reason to normalize working native spacing.
 
-Audit/advice only: return prioritized findings tied to observed evidence; make
+For an audit or advice only: return prioritized findings tied to observed evidence; make
 no edits.
+
+{{ include: rules.python }}
+
+{{ include: helper.policy }}

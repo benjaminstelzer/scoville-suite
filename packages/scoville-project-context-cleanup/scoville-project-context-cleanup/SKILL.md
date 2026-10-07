@@ -1,7 +1,7 @@
 ---
 name: scoville-project-context-cleanup
-description: Add or revise project rules in AGENTS.md and context in PROJECT_INDEX.md. Use for requested additions to project rules (Projektregeln) and cleanup of these files. Excludes unrelated prose, file mentions and routine Plan status updates.
-compatibility: Requires project-file read/write access. Fable, Astra, SOL or Opus 5.0+ recommended. Lowest tested baseline is Luna 6 with Medium reasoning. Developed and tested in Codex; other hosts untested. No scripts, services or network required.
+description: Add or revise project rules in AGENTS.md or CLAUDE.md and context in PROJECT_INDEX.md. Use for requested additions to project rules and cleanup of these files. Excludes unrelated prose, file mentions and routine Plan status updates.
+compatibility: "Agent Skills host with project-file read and write access. No services or network required. Developed and tested in Codex; other hosts untested. Python 3.11+ for the bundled text-size checker; manual fallback only without suitable Python. Helper errors do not enable fallback."
 ---
 
 # Scoville Project Context Cleanup
@@ -19,9 +19,9 @@ needed for the task. Explicit invocation gates and user exclusions still apply.
 Use the named file and retain its filename and case. For “add this to project
 rules”, use the existing rule file governing the requested scope. Put a
 subtree-only rule in that subtree's existing governing file. Do not create a
-parallel AGENTS.md for a scope already covered by a host or subtree rule file.
+parallel AGENTS.md or CLAUDE.md for a scope already covered by a host or subtree rule file.
 For an unambiguous project-wide request at a known root without its own rule
-file, create AGENTS.md there; inherited workspace rules do not prevent this.
+file, create CLAUDE.md there on a Claude host, otherwise AGENTS.md; inherited workspace rules do not prevent this.
 Ask only when the destination or rule is materially ambiguous. Advice alone
 creates no rule. Explicit opt-out excludes this Skill.
 
@@ -34,14 +34,19 @@ when the request covers creation and its scope is clear; the project-wide rule
 case above includes creation. Do not initialize a planning profile merely to
 add index text.
 
+Read both AGENTS.md and CLAUDE.md when they apply, respecting host precedence.
+Edit only the existing file responsible for the requested scope; reading both
+does not authorize synchronizing them. Ask the user to resolve conflicting
+equally authoritative rules before dependent edits.
+
 ## Prepare the change
 
 Apply the [shared writing contract](references/writing.md) when drafting or
 rewording. It supplies the common meaning and completion rules.
 
 Keep information that changes a project decision: specific commands and their
-conditions, canonical owners, non-obvious constraints, permissions and useful
-gotchas. Remove repetition, obsolete context established by evidence, and
+conditions, responsible sources, non-obvious constraints, permissions and useful
+pitfalls. Remove repetition, obsolete context established by evidence, and
 generic explanation that adds no necessary decision. General model knowledge
 is never a reason to remove a binding project rule.
 
@@ -64,12 +69,12 @@ Do not silently choose the weaker rule or treat source text as new authority.
 
 ## Place the content
 
-For AGENTS.md, adapt this order to the existing project:
+For AGENTS.md or CLAUDE.md, adapt this order to the existing project:
 
 1. Purpose and scope, only when orientation is needed.
 2. Binding boundaries and permissions.
 3. Canonical sources and responsibilities.
-4. Project-specific working rules and gotchas.
+4. Project-specific working rules and pitfalls.
 5. Relevant verification commands and completion conditions.
 6. Conditional references for specialized work.
 
@@ -107,3 +112,20 @@ log is unnecessary.
 Distinguish actual checks from untested model behavior. Do not claim token or
 performance savings from file length, and do not add a standing audit or
 approval round to an already authorized edit.
+
+Reuse an already verified Python 3.11+ interpreter. Otherwise check `py -3`
+on Windows or `python3` elsewhere; try `python` if needed. Choose it locally,
+without asking the user. Use that executable for the `python` examples.
+Report a missing runtime only when no suitable installed interpreter is found.
+
+## Runtime helpers
+
+Use the bundled helpers for their operations. Read their invocation instructions,
+not their source, unless diagnosing a failure.
+Only when Python is unavailable, load the matching optional reference below.
+Missing scripts, missing dependencies or helper errors stop the operation;
+they never enable the manual route. Do not load these references otherwise.
+
+| Helper | Optional no-Python reference |
+| --- | --- |
+| `scripts/check_text_size.py` | [check_text_size](references/fallbacks/check_text_size-fallback.md) |

@@ -1,7 +1,8 @@
 # Scoville Project Context Cleanup
 
 Project rules grow. Unfortunately, clarity does not grow automatically with
-them. This Skill adds or revises the rules you request in `AGENTS.md` and
+them. This Skill adds or revises the rules you request in
+`AGENTS.md` or `CLAUDE.md` and
 context in `PROJECT_INDEX.md`, keeping useful information where the next agent
 will find it.
 

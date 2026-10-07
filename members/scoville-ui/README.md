@@ -44,7 +44,7 @@ of check replaces usability testing with the people who will use the product.
 
 ## Compatibility
 
-Developed for Codex and Claude Code with the project's toolchain and browser or platform access for rendered checks and interactions. Fable, Astra, SOL or Opus (5.0+) are recommended, while Luna 6 with Medium reasoning is the lowest tested baseline.
+Developed for Codex and Claude Code with the project's toolchain and browser or platform access for rendered checks and interactions. Fable, Astra, SOL or Opus (5.0+) are recommended. Luna 6 with High reasoning passed the selected comprehension and functional checks in Codex. Other routes and hosts remain unverified.
 
 ## Install
 
@@ -128,7 +128,7 @@ these principles.
 
 ## Developer links
 
-[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
+[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/development/instruction_tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 
 ## License
 

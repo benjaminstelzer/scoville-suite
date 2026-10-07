@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Preserve complete oversized findings through compaction or a hashed temporary file. Keep the separate manual helper procedure available only without Python.
+- Use the applicable AGENTS.md or CLAUDE.md on general hosts, while Codex packages use AGENTS.md alone.
 - Place rules in their governing subtree file and allow a project's own rule file
   under inherited workspace rules. Preserve independently needed copies and the
   instructions requiring them.

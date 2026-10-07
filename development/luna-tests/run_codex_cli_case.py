@@ -6,6 +6,8 @@ import argparse
 import hashlib
 import json
 import os
+import platform
+import posixpath
 from pathlib import Path
 import queue
 import re
@@ -16,15 +18,19 @@ import threading
 import time
 
 from process_lifetime import WorkerProcess
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "instruction_tests"))
+from attempts import reserve
+from results import failure_class
+from case_binding import verify_preparation
 
 
 CONTINUATION = (
     "Continue the same hypothetical case using only supplied text. Do not use\n"
     "tools or execute project actions. Request any other required packaged text\n"
     "with `READ <relative-path>` lines; otherwise provide the final case answer.\n"
-    "READ paths are relative to the Skill package root. Resolve Markdown links\n"
-    "relative to the supplied file containing them, then request the resulting\n"
-    "package-root-relative path.\n"
+    "Use a package-root-relative path; a Markdown link target as written also works\n"
+    "when it resolves uniquely from one previously supplied file. Suite-root\n"
+    "paths begin with packages/<member>/<member>/.\n"
 )
 DISABLED_FEATURES = (
     "shell_tool", "apps", "hooks", "plugins", "remote_plugin", "plugin_sharing",
@@ -35,6 +41,7 @@ DISABLED_FEATURES = (
     "skill_mcp_dependency_install", "enable_mcp_apps",
     "codex_apps_mcp_2026_07_28", "mcp_2026_07_28", "auth_elicitation",
     "tool_call_mcp_elicitation",
+    "unified_exec", "view_image", "goals", "sleep_tool", "worktrees",
 )
 HASH_PATTERN = re.compile(r"[0-9a-fA-F]{64}\Z")
 READ_PATTERN = re.compile(r"READ ([^\r\n]+)\Z")
@@ -98,6 +105,29 @@ def load_receipt(receipt_path: Path, member_name: str, package_root: Path) -> di
     return manifested
 
 
+def load_package_receipt(receipt_path: Path, member_name: str, package_root: Path) -> dict[str, str]:
+    """A suite root serves verified member payloads under their original paths."""
+    if member_name != "@suite":
+        return load_receipt(receipt_path, member_name, package_root)
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    if receipt.get("layout") != "suite" or receipt.get("suite") != package_root.name:
+        raise ProtocolError("expected_suite_root_and_suite_receipt")
+    manifested = {}
+    names = set()
+    for member in receipt["members"]:
+        name = member["name"]
+        if name in names or not re.fullmatch(r"[a-z0-9-]+", name):
+            raise ProtocolError("invalid_or_duplicate_suite_member")
+        names.add(name)
+        relative = f"packages/{name}/{name}"
+        root = contained_path(package_root, relative, "invalid_suite_member_root")
+        for path, digest in load_receipt(receipt_path, name, root).items():
+            manifested[f"{relative}/{path}"] = digest
+    if not manifested:
+        raise ProtocolError("empty_suite_receipt")
+    return manifested
+
+
 def _is_reparse(path: Path) -> bool:
     info = path.lstat()
     reparse_flag = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
@@ -149,6 +179,25 @@ def validate_requested_file(
     return text.replace("\r\n", "\n").encode("utf-8"), sha256_bytes(raw)
 
 
+def resolve_read_path(request: str, manifested: dict[str, str], supplied_paths: list[str]) -> str:
+    """Resolve a READ against the package or one unambiguous served Markdown file."""
+    if (not request or "\\" in request or "\0" in request or request.startswith("/")
+            or re.match(r"^[A-Za-z]:", request)):
+        raise ProtocolError("unmanifested_request")
+    if request in manifested:
+        return request
+    candidates = set()
+    for source in supplied_paths:
+        candidate = posixpath.normpath(posixpath.join(posixpath.dirname(source), request))
+        if candidate in manifested and not candidate.startswith("../"):
+            candidates.add(candidate)
+    if len(candidates) == 1:
+        return candidates.pop()
+    if len(candidates) > 1:
+        raise ProtocolError("ambiguous_relative_request")
+    raise ProtocolError("unmanifested_request")
+
+
 def parse_read_requests(answer: str) -> list[str] | None:
     # A request keeps the turn open, even when accompanied by an explanation.
     requests = [match.group(1) for line in answer.splitlines()
@@ -180,12 +229,14 @@ class EventValidator:
             self.state = "ready"
         elif self.state == "ready" and kind == "turn.started":
             self.state = "turn"
+        elif self.state == "turn" and kind == "item.started" and event.get("item", {}).get("type") not in (None, "agent_message"):
+            raise ProtocolError("forbidden_model_action")
         elif self.state == "turn" and kind == "item.completed":
             item = event.get("item", {})
-            if item.get("type") != "agent_message" or not isinstance(item.get("text"), str) or not item["text"].strip():
+            if item.get("type") != "agent_message" or not isinstance(item.get("text"), str):
                 raise ProtocolError("unexpected_action_or_empty_response")
             self.answers.append(item["text"])
-        elif self.state == "turn" and kind == "turn.completed" and self.answers:
+        elif self.state == "turn" and kind == "turn.completed":
             self.state = "done"
         else:
             raise ProtocolError("unexpected_event_order")
@@ -194,9 +245,16 @@ class EventValidator:
     def finish(self) -> dict:
         if self.state != "done":
             raise ProtocolError("incomplete_turn")
+        nonempty = [answer for answer in self.answers if answer.strip()]
+        if not nonempty:
+            raise ProtocolError("unexpected_action_or_empty_response")
+        requests = list(dict.fromkeys(
+            path for answer in self.answers for path in (parse_read_requests(answer) or [])
+        ))
         return {
             "thread_id": self.events[0]["thread_id"],
-            "answer": self.answers[-1],
+            "answer": nonempty[-1],
+            "read_requests": requests or None,
             "messages": self.answers,
             "usage": self.events[-1].get("usage"),
             "event_types": [event["type"] for event in self.events],
@@ -210,20 +268,29 @@ def validate_events(stdout: bytes, expected_thread: str | None) -> dict:
     return validator.finish()
 
 
-def base_command(codex: Path, catalog: Path, model: str, effort: str) -> list[str]:
+def base_command(codex: Path, catalog: Path, model: str, effort: str, instructions: Path | None = None) -> list[str]:
     if model not in SUPPORTED_TEST_MODELS or effort != QUALIFIED_EFFORT:
         raise ProtocolError("unqualified_model_or_effort")
     command = [
         str(codex), "--ask-for-approval", "never", "--sandbox", "read-only",
         "--model", model, "-c", f'model_reasoning_effort="{effort}"',
         "-c", f'model_catalog_json="{catalog.as_posix()}"', "-c", "mcp_servers={}",
+        # Keep the qualified ChatGPT endpoint and login, but avoid a WebSocket
+        # negotiation failure before the CLI can return a usable test answer.
+        "-c", 'model_provider="scoville_test_http"',
+        "-c", 'model_providers.scoville_test_http={name="OpenAI HTTPS test transport",base_url="https://chatgpt.com/backend-api/codex",wire_api="responses",requires_openai_auth=true,supports_websockets=false}',
+        "-c", 'sandbox_mode="read-only"',
         "-c", 'web_search="disabled"',
-        "-c", 'features.code_mode=false',
+        "-c", 'features.code_mode.enabled=true',
+        "--enable", "code_mode_host",
+        "-c", 'features.code_mode.excluded_tool_namespaces=["functions","collaboration","clock","web","image_gen"]',
         "-c", 'suppress_unstable_features_warning=true',
         "-c", 'features.skip_host_skill_discovery=true',
         "-c", 'skills.include_instructions=false',
+        "-c", 'project_doc_max_bytes=0',
         "-c", 'include_collaboration_mode_instructions=false',
-        "-c", 'model_instructions_file=' + json.dumps(str(Path(__file__).with_name("comprehension-instructions.md").resolve())),
+        "-c", 'agents.enabled=false',
+        "-c", 'model_instructions_file=' + json.dumps(str((instructions or Path(__file__).with_name("comprehension-instructions.md")).resolve())),
     ]
     for feature in DISABLED_FEATURES:
         command.extend(("--disable", feature))
@@ -265,11 +332,11 @@ def _write_pipe(pipe, payload: bytes, messages: queue.Queue, errors: list[str]) 
 
 def execute_turn(
     command: list[str], prompt: bytes, workspace: Path, timeout: float,
-    expected_thread: str | None = None,
+    expected_thread: str | None = None, host_home: Path | None = None,
 ) -> dict:
     deadline = time.monotonic() + timeout
     worker = WorkerProcess(
-        command, cwd=workspace, env=isolated_environment(), stdin=subprocess.PIPE,
+        command, cwd=workspace, env=isolated_environment(host_home), stdin=subprocess.PIPE,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE,
     )
     stdout_parts: list[bytes] = []
@@ -337,16 +404,26 @@ def execute_turn(
         "stdout": b"".join(stdout_parts), "stderr": b"".join(stderr_parts),
         "returncode": worker.returncode, "timed_out": timed_out,
         "close_error": close_error, "stream_error": stream_error, "worker_pid": worker.pid,
+        "observed_thread_id": validator.events[0]['thread_id'] if validator.events else None,
     }
 
 
-def isolated_environment() -> dict[str, str]:
+def isolated_environment(host_home: Path | None = None) -> dict[str, str]:
     names = (
         "APPDATA", "COMSPEC", "LOCALAPPDATA", "NUMBER_OF_PROCESSORS", "PATH",
         "PATHEXT", "PROCESSOR_ARCHITECTURE", "SystemRoot", "TEMP", "TMP",
         "USERPROFILE", "WINDIR",
     )
-    return {name: os.environ[name] for name in names if name in os.environ}
+    environment = {name: os.environ[name] for name in names if name in os.environ}
+    if host_home is not None:
+        for name, relative in {
+            "HOME": "", "USERPROFILE": "", "CODEX_HOME": ".codex",
+            "CLAUDE_CONFIG_DIR": ".claude", "APPDATA": "AppData/Roaming",
+            "LOCALAPPDATA": "AppData/Local", "XDG_CONFIG_HOME": ".config",
+            "TEMP": "tmp", "TMP": "tmp",
+        }.items():
+            environment[name] = str(host_home / relative)
+    return environment
 
 
 def validate_process_result(result: dict, expected_thread: str | None) -> dict:
@@ -364,13 +441,20 @@ def validate_process_result(result: dict, expected_thread: str | None) -> dict:
 
 
 def validate_native_identity(
-    sessions_root: Path, thread_id: str, model: str, effort: str, expected_turns: int
+    sessions_root: Path, thread_id: str, model: str, effort: str, expected_turns: int,
+    turns: list[dict] | None = None,
 ) -> dict:
     matches = [path for path in sessions_root.rglob(f"*{thread_id}.jsonl") if path.is_file()]
     if len(matches) != 1:
         raise ProtocolError("native_rollout_missing_or_ambiguous")
     session_ids = []
     contexts = []
+    native_tool_calls = []
+    display_output_calls = []
+    native_action_evidence = []
+    ambient_project_instructions = False
+    agent_instructions = False
+    turn_index = 0
     try:
         for line in matches[0].read_text(encoding="utf-8").splitlines():
             record = json.loads(line)
@@ -378,17 +462,51 @@ def validate_native_identity(
             if record.get("type") == "session_meta" and isinstance(payload, dict):
                 session_ids.append(payload.get("id"))
             elif record.get("type") == "turn_context" and isinstance(payload, dict):
+                if payload.get("multi_agent_version") != "disabled":
+                    raise ProtocolError("native_agents_not_disabled")
                 contexts.append({"model": payload.get("model"), "effort": payload.get("effort")})
+                turn_index += 1
+            elif record.get("type") == "response_item" and isinstance(payload, dict) and str(payload.get('type', '')).endswith('_call'):
+                literal = re.fullmatch(r'text\(("(?:\\.|[^"\\])*")\);?', str(payload.get('input', '')).strip())
+                value = None
+                if literal:
+                    try:
+                        value = json.loads(literal.group(1))
+                    except json.JSONDecodeError:
+                        pass
+                if (payload['type'] == 'custom_tool_call' and payload.get('name') == 'exec'
+                        and isinstance(value, str)
+                        and 1 <= turn_index <= expected_turns):
+                    display_output_calls.append({'turn': turn_index, 'text': value})
+                else:
+                    native_tool_calls.append({'type': payload['type'], 'name': payload.get('name')})
+                    native_action_evidence.append(payload)
+            elif record.get("type") == "response_item" and isinstance(payload, dict) and payload.get("type") == "message" and payload.get("role") == "developer":
+                agent_instructions |= any(
+                    '<multi_agent_role>' in part.get('text', '')
+                    or '<multi_agent_mode>' in part.get('text', '')
+                    for part in payload.get('content', [])
+                )
+            elif record.get("type") == "response_item" and isinstance(payload, dict) and payload.get("type") == "message" and payload.get("role") == "user":
+                for part in payload.get("content", []):
+                    if part.get("type") in ("input_text", "text") and part.get("text", "").lstrip().startswith("# AGENTS.md instructions for "):
+                        ambient_project_instructions = True
     except (OSError, UnicodeDecodeError, json.JSONDecodeError, AttributeError) as error:
         raise ProtocolError("invalid_native_rollout") from error
     expected = {"model": model, "effort": effort}
     if session_ids != [thread_id] or len(contexts) != expected_turns or any(item != expected for item in contexts):
         raise ProtocolError("native_identity_or_context_mismatch")
-    return {"rollout": str(matches[0]), "session_meta_ids": session_ids, "turn_contexts": contexts}
+    if ambient_project_instructions:
+        raise ProtocolError("native_ambient_project_instructions")
+    if agent_instructions:
+        raise ProtocolError("native_agent_instructions")
+    return {"rollout": str(matches[0]), "session_meta_ids": session_ids, "turn_contexts": contexts,
+            "native_tool_calls": native_tool_calls, "display_output_calls": display_output_calls,
+            "native_action_evidence": native_action_evidence, "multi_agent_version": "disabled"}
 
 
 def write_json(path: Path, value) -> None:
-    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -401,6 +519,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         parser.add_argument("--expected-" + name + "-sha256", required=True, type=expected_hash)
     parser.add_argument("--timeout-seconds", type=float, default=90)
     parser.add_argument("--max-turns", type=int, default=8)
+    parser.add_argument("--host-home", type=Path, required=True,
+                        help="Dedicated isolated home; provision authentication separately. Never use the real user home.")
+    parser.add_argument("--register", type=Path, required=True,
+                        help="The existing shared attempt register; retain every attempt and obey the current approved pool limits.")
+    parser.add_argument("--run-set", required=True,
+                        help="Evaluation revision label. Use a new label after any candidate, prompt, model catalog, host binary or runner change.")
+    parser.add_argument("--preparation", type=Path, required=True,
+                        help="Private preparation.json from prepare.py; binds this run to its frozen case and generated prompt.")
     args = parser.parse_args(argv)
     if not 1 <= args.max_turns <= 8 or args.timeout_seconds <= 0:
         parser.error("--max-turns must be 1..8 and --timeout-seconds must be positive")
@@ -419,14 +545,28 @@ def main(argv: list[str] | None = None) -> int:
         "catalog": verify_hash(args.catalog, args.expected_catalog_sha256, "catalog"),
         "codex": verify_hash(args.codex, args.expected_codex_sha256, "codex"),
     }
-    manifested = load_receipt(args.receipt, args.receipt_member, args.package_root)
+    host_home = args.host_home.resolve(strict=True)
+    if host_home == Path.home().resolve() or (host_home / ".codex/config.toml").exists():
+        raise ProtocolError("host_home_must_be_isolated_without_user_config")
+    manifested = load_package_receipt(args.receipt, args.receipt_member, args.package_root)
     initial_prompt = args.prompt.read_bytes()
+    receipt_identity = json.loads(args.receipt.read_text(encoding="utf-8"))
+    variant = f'{receipt_identity["profile"]}-{receipt_identity["layout"]}-luna-high'
+    binding = verify_preparation(args.preparation, args.case_id, variant, args.package_root, args.receipt, args.prompt)
+    observed['preparation'] = sha256_file(args.preparation)
+    reservation = reserve(args.register, args.case_id, args.output, variant, args.run_set)
     args.output.mkdir(parents=True)
     workspace = args.output / "workspace"
     workspace.mkdir()
-    base = base_command(args.codex, args.catalog, args.model, args.effort)
+    instructions = args.output / "model-instructions.md"
+    instructions.write_bytes(Path(__file__).with_name("comprehension-instructions.md").read_bytes())
+    base = base_command(args.codex, args.catalog, args.model, args.effort, instructions)
     manifest = {
         "case_id": args.case_id, "hashes": observed, "package_root": str(args.package_root),
+        **binding,
+        "attempt_id": reservation["attempt_id"], "budget_register": str(args.register.resolve()),
+        "run_set": args.run_set,
+        "variant": variant, "host_platform": platform.platform(),
         "inputs": {
             "prompt": str(args.prompt), "receipt": str(args.receipt),
             "receipt_member": args.receipt_member, "catalog": str(args.catalog),
@@ -434,6 +574,12 @@ def main(argv: list[str] | None = None) -> int:
         },
         "package_file_count": len(manifested), "model": args.model, "effort": args.effort,
         "timeout_seconds": args.timeout_seconds, "max_turns": args.max_turns,
+        "host_home": str(host_home),
+        "runner_sha256": sha256_file(Path(__file__)),
+        "instructions_sha256": sha256_file(instructions),
+        "process_lifetime_sha256": sha256_file(Path(__file__).with_name("process_lifetime.py")),
+        "failure_policy_sha256": sha256_file(Path(__file__).resolve().parents[1] / "instruction_tests/results.py"),
+        "binding_helper_sha256": sha256_file(Path(__file__).resolve().parents[1] / "instruction_tests/case_binding.py"),
         "semantic_grade": "pending_manual", "usage_note": "Per-turn values retained; no total inferred.",
     }
     write_json(args.output / "manifest.json", manifest)
@@ -446,7 +592,13 @@ def main(argv: list[str] | None = None) -> int:
     failure = None
     for number in range(1, args.max_turns + 1):
         command = turn_command(base, workspace, thread_id)
-        result = execute_turn(command, prompt, workspace, args.timeout_seconds, thread_id)
+        try:
+            result = execute_turn(command, prompt, workspace, args.timeout_seconds, thread_id, host_home)
+        except OSError as error:
+            failure = f"process_start_failure:{type(error).__name__}"
+            break
+        if thread_id is None:
+            thread_id = result.get('observed_thread_id')
         prefix = f"turn-{number:02d}"
         (args.output / f"{prefix}-prompt.md").write_bytes(prompt)
         (args.output / f"{prefix}-events.jsonl").write_bytes(result["stdout"])
@@ -464,17 +616,17 @@ def main(argv: list[str] | None = None) -> int:
             if thread_id is None:
                 thread_id = event["thread_id"]
             answer = event["answer"]
-            (args.output / f"{prefix}-answer.md").write_text(answer, encoding="utf-8")
-            requests = parse_read_requests(answer)
+            (args.output / f"{prefix}-answer.md").write_text(answer, encoding="utf-8", newline="\n")
+            requests = event["read_requests"]
             if requests is None:
                 final_answer = answer
                 turn["protocol_pass"] = True
                 is_final = True
             else:
-                if len(requests) != len(set(requests)):
-                    raise ProtocolError("duplicate_request")
                 blocks = []
-                for relative in requests:
+                for request in requests:
+                    relative = resolve_read_path(request, manifested,
+                                                 [item["path"] for item in supplied])
                     delivered, original_hash = validate_requested_file(relative, args.package_root, manifested, served)
                     served.add(relative)
                     supplied.append({"turn": number, "path": relative, "sha256": original_hash})
@@ -492,17 +644,26 @@ def main(argv: list[str] | None = None) -> int:
     if final_answer is None and failure is None:
         failure = "turn_limit_without_final_answer"
     native = None
-    if failure is None and thread_id:
+    native_failure = None
+    original_failure = failure
+    observed_behavior_failure = failure if failure_class(failure) == 'behavior' else None
+    if thread_id:
         try:
-            user_profile = Path.home()
-            native = validate_native_identity(user_profile / ".codex" / "sessions", thread_id, args.model, args.effort, len(turns))
+            native = validate_native_identity(host_home / ".codex" / "sessions", thread_id, args.model, args.effort, len(turns), turns)
+            if native.get('native_tool_calls'):
+                failure = observed_behavior_failure = 'forbidden_model_action'
         except (KeyError, ProtocolError) as error:
-            failure = str(error)
+            native_failure = str(error)
+            if failure is None or observed_behavior_failure:
+                failure = native_failure
     summary = {
         "case_id": args.case_id, "thread_id": thread_id, "turn_count": len(turns),
         "served_files": supplied, "turns": turns, "final_answer": final_answer,
         "native": native, "protocol_grade": "PASS" if failure is None else "FAIL",
-        "protocol_failure": failure, "semantic_grade": "pending_manual",
+        "observed_behavior_failure": observed_behavior_failure,
+        "original_failure": original_failure, "native_failure": native_failure,
+        "protocol_failure": failure, "failure_class": failure_class(failure),
+        "semantic_grade": "FAIL" if failure_class(failure) == "behavior" else "pending_group_review",
     }
     write_json(args.output / "summary.json", summary)
     print(json.dumps({key: summary[key] for key in ("case_id", "thread_id", "turn_count", "protocol_grade", "semantic_grade")}), flush=True)
@@ -510,4 +671,8 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except (OSError, ValueError, KeyError, TypeError, ProtocolError) as error:
+        print(f"case runner failed: {error}. Use --help for required inputs; use @suite as --receipt-member for a suite root. Preserve any reserved attempt and its output.", file=sys.stderr)
+        raise SystemExit(3)

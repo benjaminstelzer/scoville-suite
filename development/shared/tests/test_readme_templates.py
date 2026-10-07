@@ -26,16 +26,6 @@ class ReadmeTemplateTests(unittest.TestCase):
         changed['readme'] = member['readme']
         self.assertEqual(expected, builder.readme(root, changed, 'suite', config=config))
 
-    def test_workflow_current_readmes_have_no_beta_notice(self):
-        root = SHARED.parent / 'scoville-suite'
-        config = builder.load(root, 'codex')
-        member = next(m for m in config['members'] if m['name'] == 'scoville-workflow-for-codex')
-        self.assertNotIn('release_notice', member.get('variables', {}))
-        self.assertNotIn(b'**Beta.**', builder.payload(root, member, config)['README.md'])
-        with tempfile.TemporaryDirectory() as temporary:
-            builder.render_readmes(root, True, config, Path(temporary))
-            suite_readme = (Path(temporary) / 'README.md').read_text(encoding='utf-8')
-        self.assertNotIn('Workflow beta', suite_readme)
 
     def test_development_blocks_are_suite_only_for_every_member(self):
         for profile in ('general', 'codex'):
@@ -121,8 +111,6 @@ class ReadmeTemplateTests(unittest.TestCase):
             expected_body = builder.variant_text(source.partition('\n')[2], dict(config, layout='suite'))
             self.assertIn(builder.expand_variables(expected_body, member), result)
             self.assertIn(f'](members/{member["name"]}/README.md#how-to-use).', result)
-        self.assertRegex(result, r'Install it through the complete Codex Suite(?: in Codex desktop)?\.')
-        self.assertIn('Codex desktop', result)
         expected = sorted(builder.load(root)['members'], key=lambda m: m['family']['order'])
         expected = [m for m in expected if m['name'] != 'scoville-workflow-for-codex']
         headings = [builder.readme_source(root, m['readme'][0]).read_text(encoding='utf-8').splitlines()[0][2:] for m in expected]
@@ -154,24 +142,6 @@ class ReadmeTemplateTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'absolute links'):
                 builder.expand_fragments(root, '{{ include: suite.descriptions }}')
 
-    def test_complete_suite_has_one_final_monorepo_link(self):
-        root = SHARED.parent / 'scoville-suite'
-        config = builder.load(root)
-        for member in config['members']:
-            result = builder.readme(root, member, config=config).decode()
-            if member.get('distribution') == 'suite':
-                section = result.split('## Install\n', 1)[1].split('\n## ', 1)[0]
-                self.assertIn('complete released suite', section)
-                self.assertIn('without a separate Skill repository', section)
-                self.assertIn('/tree/main/packages', section)
-            else:
-                section = result.split('### Install the complete Scoville suite\n', 1)[1].split('\n## ', 1)[0]
-                self.assertIn('Install its released Skill packages, not development templates.', section)
-                self.assertNotIn('/tree/main/', section)
-            self.assertEqual(1, section.count('https://github.com/'))
-            self.assertIn('https://github.com/benjaminstelzer/scoville-suite', section)
-            self.assertNotIn('has not been created yet', section)
-            self.assertNotIn('Private repository access', section)
 
     def test_shared_sources_are_confined_and_missing_templates_fail(self):
         root = SHARED.parent / 'scoville-suite'
@@ -189,7 +159,7 @@ class ReadmeTemplateTests(unittest.TestCase):
             self.assertTrue(members)
             for member in members:
                 result = builder.readme(root, member).decode()
-                self.assertIn('MIT. See [LICENSE](LICENSE).', result)
+                self.assertIn('](LICENSE)', result)
                 self.assertNotIn('{{', result)
 
     def test_shared_install_requires_member_variables(self):

@@ -41,6 +41,14 @@ class ViewerReleaseGateTests(unittest.TestCase):
         self.assertEqual(names, set(self.names))
         self.assertEqual(len(sums), 11)
 
+    def test_utf8_metadata_with_non_ascii_content(self):
+        path = self.root / gate.VIEWER / 'package.json'
+        path.write_text(json.dumps({'version': '1.4.0', 'description': 'Menü 日本語'}, ensure_ascii=False),
+                        encoding='utf-8')
+        cargo = self.root / gate.VIEWER / 'src-tauri/Cargo.toml'
+        cargo.write_text('[package]\nversion = "1.4.0"\n# Menü 日本語\n', encoding='utf-8')
+        self.assertEqual('1.4.0', gate.local_assets(self.root, self.assets)[0])
+
     def test_mutated_binary_is_rejected(self):
         (self.assets / self.names[0]).write_bytes(b'wrong source build')
         with self.assertRaisesRegex(ValueError, 'checksum-mismatched'):

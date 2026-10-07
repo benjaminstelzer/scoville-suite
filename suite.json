@@ -72,6 +72,18 @@
         {
           "source": "members/scoville-code/.gitattributes",
           "target": ".gitattributes"
+        },
+        {
+          "source": "shared:prompting/common.md",
+          "target": "scoville-code/references/writing.md"
+        },
+        {
+          "source": "shared:runtime/check_text_size.py",
+          "target": "scoville-code/scripts/check_text_size.py"
+        },
+        {
+          "source": "shared:runtime/check_text_size-fallback.md",
+          "target": "scoville-code/references/fallbacks/check_text_size-fallback.md"
         }
       ],
       "family": {
@@ -92,7 +104,12 @@
         "development/readme/scoville-code/requirements.md",
         "development/readme/scoville-code/costs.md"
       ],
-      "helper_contracts": {},
+      "helper_contracts": {
+        "scripts/check_text_size.py": {
+          "kind": "helper",
+          "fallback": "references/fallbacks/check_text_size-fallback.md"
+        }
+      },
       "distribution": "suite"
     },
     {
@@ -152,6 +169,18 @@
         {
           "source": "members/scoville-handoff/.gitattributes",
           "target": ".gitattributes"
+        },
+        {
+          "source": "shared:prompting/common.md",
+          "target": "scoville-handoff/references/writing.md"
+        },
+        {
+          "source": "shared:runtime/check_text_size.py",
+          "target": "scoville-handoff/scripts/check_text_size.py"
+        },
+        {
+          "source": "shared:runtime/check_text_size-fallback.md",
+          "target": "scoville-handoff/references/fallbacks/check_text_size-fallback.md"
         }
       ],
       "family": {
@@ -172,7 +201,12 @@
         "development/readme/scoville-handoff/requirements.md",
         "development/readme/scoville-handoff/costs.md"
       ],
-      "helper_contracts": {},
+      "helper_contracts": {
+        "scripts/check_text_size.py": {
+          "kind": "helper",
+          "fallback": "references/fallbacks/check_text_size-fallback.md"
+        }
+      },
       "distribution": "suite"
     },
     {
@@ -273,6 +307,18 @@
         {
           "source": "members/scoville-plan/scoville-plan/references/edit.md",
           "target": "scoville-plan/references/edit.md"
+        },
+        {
+          "source": "shared:prompting/common.md",
+          "target": "scoville-plan/references/writing.md"
+        },
+        {
+          "source": "shared:runtime/check_text_size.py",
+          "target": "scoville-plan/scripts/check_text_size.py"
+        },
+        {
+          "source": "shared:runtime/check_text_size-fallback.md",
+          "target": "scoville-plan/references/fallbacks/check_text_size-fallback.md"
         }
       ],
       "family": {
@@ -314,6 +360,10 @@
         "scripts/validate_profile.py": {
           "kind": "helper",
           "fallback": "references/fallbacks/validate_profile-fallback.md"
+        },
+        "scripts/check_text_size.py": {
+          "kind": "helper",
+          "fallback": "references/fallbacks/check_text_size-fallback.md"
         }
       },
       "distribution": "suite"
@@ -322,7 +372,7 @@
       "name": "scoville-ui",
       "development": {
         "source": "members/scoville-ui",
-        "tests": "development/tests/test_build_suite.py",
+        "tests": "development/instruction_tests",
         "notes": "members/scoville-ui/development/README.md"
       },
       "repository": "benjaminstelzer/scoville-suite",
@@ -439,6 +489,18 @@
         {
           "source": "members/scoville-ui/scoville-ui/references/wordpress/wpds-tokens.md",
           "target": "scoville-ui/references/wordpress/wpds-tokens.md"
+        },
+        {
+          "source": "shared:prompting/common.md",
+          "target": "scoville-ui/references/writing.md"
+        },
+        {
+          "source": "shared:runtime/check_text_size.py",
+          "target": "scoville-ui/scripts/check_text_size.py"
+        },
+        {
+          "source": "shared:runtime/check_text_size-fallback.md",
+          "target": "scoville-ui/references/fallbacks/check_text_size-fallback.md"
         }
       ],
       "family": {
@@ -464,14 +526,19 @@
         "development/readme/scoville-ui/requirements.md",
         "development/readme/scoville-ui/costs.md"
       ],
-      "helper_contracts": {},
+      "helper_contracts": {
+        "scripts/check_text_size.py": {
+          "kind": "helper",
+          "fallback": "references/fallbacks/check_text_size-fallback.md"
+        }
+      },
       "distribution": "suite"
     },
     {
       "name": "scoville-project-context-cleanup",
       "development": {
         "source": "members/scoville-project-context-cleanup",
-        "tests": "development/tests/test_build_suite.py",
+        "tests": "development/instruction_tests",
         "notes": "members/scoville-project-context-cleanup/development/README.md"
       },
       "repository": "benjaminstelzer/scoville-suite",
@@ -524,6 +591,14 @@
         {
           "source": "members/scoville-project-context-cleanup/.gitattributes",
           "target": ".gitattributes"
+        },
+        {
+          "source": "shared:runtime/check_text_size.py",
+          "target": "scoville-project-context-cleanup/scripts/check_text_size.py"
+        },
+        {
+          "source": "shared:runtime/check_text_size-fallback.md",
+          "target": "scoville-project-context-cleanup/references/fallbacks/check_text_size-fallback.md"
         }
       ],
       "family": {
@@ -544,7 +619,12 @@
         "development/readme/scoville-project-context-cleanup/requirements.md",
         "development/readme/scoville-project-context-cleanup/costs.md"
       ],
-      "helper_contracts": {}
+      "helper_contracts": {
+        "scripts/check_text_size.py": {
+          "kind": "helper",
+          "fallback": "references/fallbacks/check_text_size-fallback.md"
+        }
+      }
     }
   ],
   "readme": [

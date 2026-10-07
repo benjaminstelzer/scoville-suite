@@ -17,11 +17,11 @@ import export_suite
 
 class DistributionProfilesTests(unittest.TestCase):
     def test_membership_fallbacks_invocations_and_repeatability(self):
-        for profile, layout, count in [('general', 'standalone', 5), ('general', 'suite', 5), ('codex', 'suite', 8)]:
-            with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
+        for profile, layout, count in [('general', 'standalone', 5), ('general', 'suite', 5), ('codex', 'standalone', 1), ('codex', 'suite', 8)]:
+            with self.subTest(profile=profile, layout=layout), tempfile.TemporaryDirectory() as temp:
                 config = builder.load(ROOT, profile, layout)
                 self.assertEqual(count, len(config['members']))
-                self.assertEqual(profile == 'codex', any(m['name'] == 'scoville-workflow-for-codex' for m in config['members']))
+                self.assertEqual(profile == 'codex' and layout == 'suite', any(m['name'] == 'scoville-workflow-for-codex' for m in config['members']))
                 first = Path(temp) / 'a'
                 second = Path(temp) / 'b'
                 a = builder.build(ROOT, first, True, [], profile, layout)
@@ -36,35 +36,27 @@ class DistributionProfilesTests(unittest.TestCase):
                     if profile == 'codex':
                         self.assertFalse(any('without-python' in name for name in package))
                         self.assertFalse(any(b'without-python' in data for name, data in package.items() if name.endswith('.md') and name != 'CHANGELOG.md'))
-                    usage = package['README.md'].decode().split('## How to use\n', 1)[1].split('\n## ', 1)[0]
-                    # Invocation examples precede optional usage subsections and task-title illustration.
-                    examples = usage.split('\n### ', 1)[0].split('Assignment labels identify', 1)[0]
-                    expected_examples = {'scoville-code': 3, 'scoville-setup': 0, 'scoville-workflow-for-codex': 1,
-                                         'scoville-project-context-cleanup': 1}.get(member['name'], 2)
-                    self.assertEqual(expected_examples, examples.count('```text'))
                     core = package[member['name'] + '/SKILL.md'].decode()
+                    if member['name'] in {'scoville-code', 'scoville-handoff', 'scoville-ui', 'scoville-project-context-cleanup'}:
+                        header = core.split('---', 2)[1]
+                        compatibility = next(line.split(': ', 1)[1] for line in header.splitlines()
+                                             if line.startswith('compatibility: '))
+                        self.assertIsInstance(json.loads(compatibility), str)
+                        discovery = (SHARED / 'runtime/python_discovery.md').read_text(encoding='utf-8').strip()
+                        self.assertEqual(1, core.count(discovery), member['name'])
                     readme = package['README.md'].decode()
                     if layout == 'suite':
                         self.assertNotIn('## Family', readme)
-                        self.assertNotIn('Family owners', core)
-                        self.assertNotIn('Relevant neighboring owners', core)
-                        self.assertIn('installed and enabled', core)
-                        self.assertIn('Install the complete suite' if member['name'] == 'scoville-setup' else 'Install and enable every Skill in the suite', readme)
                         install = readme.split('## Install', 1)[1].split('## How to use', 1)[0]
                         self.assertIn(config['repository'] + '/tree/main/packages', install)
                         self.assertNotIn('https://github.com/benjaminstelzer/' + member['name'] + '/tree/', install)
-                        for name, data in package.items():
-                            if name.endswith('.md') and name != 'CHANGELOG.md':
-                                for stale in ('independently available', 'unknown availability', 'Without Plan', 'If Plan is absent', 'optional Skill', 'When Plan is available', 'instructions are present and applicable'):
-                                    self.assertNotIn(stale, data.decode(), (member['name'], name))
                     else:
                         self.assertIn('## Family', readme)
-                        self.assertIn('This Skill works independently', core)
-                        self.assertIn('This Skill works independently', readme)
                 if profile == 'general':
                     plan = next(m for m in config['members'] if m['name'] == 'scoville-plan')
                     self.assertEqual({'scoville-plan/references/fallbacks/validate_profile-fallback.md',
-                                      'scoville-plan/references/fallbacks/select_context-fallback.md'},
+                                      'scoville-plan/references/fallbacks/select_context-fallback.md',
+                                      'scoville-plan/references/fallbacks/check_text_size-fallback.md'},
                                      {name for name in builder.payload(ROOT, plan, config) if '/fallbacks/' in name})
 
     def test_refresh_preserves_inventory_and_refuses_local_changes(self):

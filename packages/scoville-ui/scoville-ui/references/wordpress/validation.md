@@ -13,7 +13,7 @@ DOM after Core Notice relocation. Compare `.notice`, `.updated` and `.error`
 using their actual classes and parent, including narrow-width specificity.
 For Classic audit targets use [classic-patterns.md](classic-patterns.md).
 
-Select widths and content/state variations able to change the scoped result.
+Select widths and content and state variations able to change the scoped result.
 Follow [responsive.md](responsive.md) for Core boundaries and reflow, and retain
 the language-scoped RTL rule. Source-only audits need no browser session.
 Report source, measured, viewed and unverified evidence separately. Existing
