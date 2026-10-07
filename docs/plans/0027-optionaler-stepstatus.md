@@ -39,7 +39,7 @@ Steps:
 2. [status: done] In members/scoville-plan/scoville-plan die optionale erste Annotation [status: VALUE] vor route/execute definieren; Validator und Selector einschließlich --plan PLAN-NNNN --position erweitern: aktuelles W-Item, geschriebene aktive Steps und bei unmarkierter Restarbeit konkrete Anweisung zum Evidence-/Resultatabgleich. Bestehende Modi bleiben gültig; General-Fallbacks spiegeln jeden Modus, Codex enthält keine Fallbacks.
 3. [status: done] Neue Work Items stets mit mindestens einem Step und ohne Next action schreiben; neue Leser/Helper akzeptieren das fehlende Legacy-Feld. Astra Medium prüft ADR-0130 und die ergänzte Auswahl-/Kompatibilitätslogik vor Umsetzung. Planpflege, Wiederaufnahme und members/scoville-workflow-for-codex-Aufträge anpassen; neue Steps markieren, alte nur bei belegtem Stand ergänzen, erledigte/entfallene Arbeit nicht automatisch wieder ausführen.
 4. [status: done] Alte, neue und gemischte Profile mit tatsächlichem Selector und Dispatch-Builder prüfen: normale Ausführung mit unbekannten/erledigten Steps, Review und gezielte Korrektur eines done-Steps sowie Fortsetzung einer gemischten Gruppe. Dokumentation und Paketverträge abgleichen. Luna Medium danach mit dem gebauten Skill und isolierten Rohaufgaben auf Helper-Verwendung, neue Ein-Step-Planpunkte und Step-Progression prüfen.
-Evidence: Astra berücksichtigt; 91 Plan-/49 Workflowtests und Luna-Helperläufe bestanden. Siehe docs/plan0027-implementation-evidence.md.
+Evidence: Astra-Review berücksichtigt; Plan-/Workflow-Checks und Luna-Helperläufe für optionalen Stepstatus bestanden.
 
 ### W-002 Der Viewer zeigt Stepfortschritt und Wiedereinstieg
 
@@ -55,7 +55,7 @@ Steps:
 2. [status: done] In src/App.svelte und src/app.css Next action durch aus geschriebenem Status ermitteltes Next step ersetzen; Altpläne ohne Stepstatus zeigen kein grünes Feld. Vorhandene Statusicons und Tokens nutzen. Nur ausdrücklich markierte aktive Steps anzeigen; ausschließlich lückenlose aktive Bereiche zusammenfassen. Arbeitsbeginn, auch gemeinsamer Gruppenbeginn, wird tatsächlich festgestellt; Zuweisung allein setzt keinen Status. Demo um gemischte und getrennte aktive Steps ergänzen.
 3. [status: done] Reader-Tests, npm run check und npm run build ausführen; betroffene Anzeige im Browser rendern, bedienen, messen und ansehen.
 4. [status: done] Viewer-Nachweise sichern und Gesamtdiff gegen den gesicherten Ausgangsstand prüfen.
-Evidence: 16 Reader-Tests, Svelte/Build und Browserprüfung bei 1440/390 px bestanden. Siehe docs/plan0027-implementation-evidence.md.
+Evidence: Reader, Svelte, Build und gerenderte breite/schmale Viewer-Darstellung geprüft.
 
 ### W-003 Planprüfung korrigiert belegten Fortschritt nachträglich
 
@@ -71,4 +71,4 @@ Steps:
 2. [status: done] Nachweiskriterien für Steps und ganze Work Items festlegen; bei unzureichender Evidence die aufgabenspezifischen Arbeitsresultate gegen Anforderungen prüfen, etwa Code/Tests oder Texte/Dokumente. Nötige gezielte Checks ausführen; bloße Existenz beweist keine Abnahme.
 3. [status: done] Altplan-Nachtrag, Code-/Textresultate, Teilabschluss, Fehler/Abbruch und fehlende/widersprüchliche Evidence prüfen. Überprüfen mit/ohne Korrektur lädt repair.md; normale Pflege/Wiederaufnahme nicht. Resultate werden geprüft, nicht umgeschrieben. Kanonische Dokumentation und Exporte abgleichen.
 4. [status: done] Nach Schreibruhe gegen aktuelle kanonische Quellen abgleichen und nur autorisierte Änderungen übernehmen. Gesamtnachweise sichern und PLAN-0027 über konsistente Lifecycle-Übergänge abschließen; fremden Laufstand erhalten.
-Evidence: Reparatur/Migration und kanonische Übernahme geprüft; fremder Laufstand erhalten. Siehe docs/plan0027-implementation-evidence.md.
+Evidence: Reparatur, Migration und kanonische Übernahme geprüft; fremder Laufstand erhalten.

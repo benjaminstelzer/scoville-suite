@@ -20,7 +20,6 @@ updated: 2026-09-15
 - Merge unrelated requests that need different outcomes, acceptance, dependencies, ownership, authorization, or rollout timing.
 - Rewrite authored fields of a started Work Item or silently broaden the active Plan beyond its Goal and Non-goals.
 - Treat pausing execution for a correction as implicit authority to cancel, rewrite, or switch durable lifecycle state.
-- Implement the Skill change as part of creating this Plan.
 - Impose arbitrary length limits or remove facts needed for scope, decisions, execution, review, recovery, or verification.
 
 ## Work items
@@ -39,7 +38,7 @@ Steps:
 3. Define how queued requests interact with Plan scope, Decisions, blockers, existing successors, acknowledgements, start eligibility, complete_and_advance, and ordinary-lifecycle fallback.
 4. Add focused evaluation cases and feature-contract coverage, then update README.md and CHANGELOG.md with the supported behavior and limits.
 5. Run structural, JSON, and Python checks plus focused model probes, and retain only concise release-linked acceptance evidence.
-Evidence: [2026-09-15 JSON contracts parsed and Python suite passed 50 of 50, 2026-09-15 native profile validation passed with 0 errors and 0 warnings, 2026-09-15 git diff check passed, 2026-09-15 Astra reviews ASTRA-SCOVILLE-QUEUE-IMPLEMENTATION-20260915-03 and ASTRA-SCOVILLE-FINAL-20260915-04 approved the corrected implementation and final activation boundary by source inspection]
+Evidence: Queueing implementation and activation boundary passed structural and focused checks; independent Astra review approved the corrected behavior.
 
 ### W-002 Deferred after W-001: Make planning records compact and execution-ready
 
@@ -55,4 +54,4 @@ Steps:
 3. Define concise Decision facts and rationale boundaries in scoville-plan/references/native-decision-format.md.
 4. Add compact low-reasoning-worker and reviewer cases in development/tests/evaluation-cases.json and focused before-and-after fixtures under development/tests/fixtures/record-writing/.
 5. Update README.md and CHANGELOG.md, run JSON and Python checks, and obtain an independent Astra Low review.
-Evidence: [2026-09-15 JSON contracts parsed and Python suite passed 50 of 50, 2026-09-15 native profile validation passed with 0 errors and 0 warnings, 2026-09-15 git diff check passed, 2026-09-15 compact fixtures reduced characters by 28.2 percent and words by 32.4 percent while retaining required outcomes, 2026-09-15 Astra reviews ASTRA-SCOVILLE-COMPACT-RECORDS-20260915-02 and ASTRA-SCOVILLE-FINAL-20260915-04 approved the corrected compact-record contract and final integrated Skill by source inspection]
+Evidence: Compact-record fixtures retained required outcomes with less repetition; structural and focused checks passed. Independent Astra review approved the corrected contract.

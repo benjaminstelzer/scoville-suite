@@ -18,24 +18,9 @@ Rangfolgen, Ausnahmen und Schutzregeln bleiben erhalten, außer den ausdrücklic
 beschlossenen Änderungen am Schreibregelwerk und an AGENTS.md/CLAUDE.md.
 Sinngleiche Regeln zusammenzuführen erlaubt selbst keine Verhaltensänderung.
 
-ADR-0165 beauftragt nun die Ausführung des gesamten
-Plans nach unabhängigem Astra-high-Review und bestätigten Korrekturen.
-Der vollständig unbegonnene W-015 wurde gemäß ADR-0176 nach PLAN-0035
-übertragen und gehört nicht mehr zum verbleibenden Umfang dieses Plans.
-Die offene finale Restabnahme von W-014 wurde nach ADR-0177 an PLAN-0035/W-009
-übertragen. PLAN-0034 endet als Umsetzung mit erhaltenen Teilergebnissen;
-die vollständige Skill-Abnahme bleibt dort offen.
-
-Der Plan übernimmt den Nutzerprompt vom 04.10.2026 und die gebilligten
-Präzisierungen (ADR-0154). ADR-0156 und ADR-0157 beauftragen die Umsetzung
-von W-002 bis W-013 mit Astra-high-Review nach jedem Arbeitspunkt und Stopp
-vor W-001. ADR-0160 erlaubt anschließend die modellfreie Vorbereitung von W-001.
-Modelltests laufen erst nach allen Skill-Änderungen, nie am
-Ausgangsstand, und brauchen ihre gesonderten Budget- und Live-Freigaben.
-Plan-Review, Umgang mit Befunden und offene Entscheidungen stehen im
-[Review-Bericht](../../development/plan-evidence/0034-plan-review.md), die
-[Laufbudgetschätzung](../../development/plan-evidence/0034-run-budget.md) ist
-keine Ausführungsfreigabe.
+W-015 wurde gemäß ADR-0176 nach PLAN-0035 übertragen, die finale Restabnahme
+von W-014 gemäß ADR-0177 an PLAN-0035/W-009. Die hier belegten Teilergebnisse
+ersetzen keine vollständige Skill-Abnahme.
 
 **Arbeitsvertrag**
 
@@ -189,7 +174,7 @@ Blocked by: []
 Decisions: [ADR-0148, ADR-0150, ADR-0152, ADR-0154, ADR-0156, ADR-0157, ADR-0158]
 Outcome: Ein genehmigter, reproduzierbarer Case-Katalog mit vorab festgelegten Erwartungen deckt die geforderten Verhaltensdimensionen und Varianten ab.
 Acceptance: Vor der ersten Skill-Änderung hat jeder anwendbare Case Erwartungen, Matrix und Wiederholungszahl, und der Katalog ist eingefroren. Es fanden keine Modellläufe statt.
-Instructions: Katalog nach externem Review korrigieren und erneut mit Astra high prüfen; dann bis W-013 fortsetzen, vor W-001 stoppen (ADR-0157).
+Instructions: []
 Steps:
 1. [status: done] Bestehende 164 Given/Expect- und Recovery-Cases von Plan, Code und Handoff unverändert übernehmen, ihre Eignung je Testart festhalten und reale Fixtures separat ableiten.
 2. [status: done] Verständnis-/Befolgungs-Cases für UI/Cleanup anlegen und repository-relative portable Testeinstiege unter development.tests in suite.json registrieren. Private deutsche Case-Daten separat anbinden, nie externe Maschinenpfade ins Manifest schreiben.
@@ -197,7 +182,7 @@ Steps:
 4. [status: done] Je Skill etwa 10–15 Trigger-Cases, mindestens ein Drittel deutsch, mit erforderlichen/zulässigen/verbotenen Aktivierungen anlegen. Paare: Plan/Handoff, Code/Plan, Code/UI, Cleanup/Plan bei PROJECT_INDEX.md, Workflow/Plan, Ask/Code bei Reviews. Explizites Workflow-Gate, gewöhnliche Fragen an Ask und „Füge das den Projektregeln hinzu“ abdecken.
 5. [status: done] Je Skill 3–5 realistische Wirkungsaufgaben mit Erfolgskriterien definieren; Workflow/Ask/Setup gemäß Testvertrag behandeln. Fortführung von Plan oder Handoff ohne fehlenden Kontext prüfen, berechtigte Rückfragen nicht pauschal als Fehler werten.
 6. [status: done] Typische Routen je Skill und Variante sowie die begründete Matrix je Case festlegen und das Laufbudget präzisieren. Katalog und Datenidentitäten einfrieren; spätere Case-Änderungen begründen.
-Evidence: v7: 342 Cases, 105 Hashes, 17 Consumer-Checks; Astra bestätigt Korrekturen zum Opus-Review. Keine Modelltests. development/plan-evidence/0034-w002-result.md.
+Evidence: Cases vor Modellläufen eingefroren; Katalogkorrekturen unabhängig geprüft. In diesem Vorbereitungspunkt keine Modelltests.
 
 ### W-003 Sprachprüfung meldet deutsche Paketinhalte
 
@@ -207,12 +192,12 @@ Blocked by: []
 Decisions: []
 Outcome: Alle gebauten Skill-Verzeichnisse werden auf bekannte deutsche Inhalte geprüft, ohne die Tests mit vollständiger Sprachvalidierung zu verwechseln.
 Acceptance: Der Test meldet das aktuelle „(Projektregeln)“, erfasst Skripte und openai.yaml und lässt nur begründete Ausnahmen zu. Der befristete Eintrag verweist auf W-012.
-Instructions: README/CHANGELOG liegen außerhalb der Sprachregel dieses Plans; deutsches README-Beispiel nur zur Entscheidung melden.
+Instructions: []
 Steps:
 1. [status: done] In ../shared/tests/ einen Package-Test für alle Paketvarianten ergänzen: Umlaute/ß und kuratierte eindeutig deutsche Wörter mit enger Allowlist, keine allgemeine Wortliste mit englischen Kollisionen.
 2. [status: done] Positiv-/Negativfälle und den Fund „(Projektregeln)“ belegen; diesen bis W-012 befristet erlauben. Finale Sichtprüfung als eigenen Nachweis vorsehen.
 3. [status: done] development/readme/scoville-project-context-cleanup/usage.md melden, Shared-Kopie synchronisieren und bestehende Pakettests ausführen.
-Evidence: Vier Sprach-, vier Export-/Profil- und zwei Bytetests bestanden; Astra ohne Befund. development/plan-evidence/0034-w003-result.md.
+Evidence: Sprach- und Paketprüfungen bestanden; Astra-Review durchgeführt. Keine vollständige automatische Sprachvalidierung behauptet.
 
 ### W-004 Ungenutzte Schreibprofile sind ohne Paketänderung entfernt
 
@@ -222,12 +207,12 @@ Blocked by: []
 Decisions: []
 Outcome: Unbenutzte Schreibprofile und ihre Build-Unterstützung entfallen, während jedes ausgelieferte Paket bytegleich bleibt.
 Acceptance: members[].files der Receipts sind vor und nach W-004 für alle Paketvarianten identisch; Sync und betroffene Tests bestehen.
-Instructions: prompting/common.md bleibt bis W-007 einschließlich seines veralteten Schreibprofil-Satzes unverändert.
+Instructions: []
 Steps:
 1. [status: done] Unmittelbaren Vorher-Build sichern. ../shared/prompting/{low,medium,high}.md, models.toml, runtime/resolve_prompt_profile.py und tests/test_prompt_profile.py nach erneuter Nutzungsprüfung entfernen.
 2. [status: done] prompting.defaults-Unterstützung aus expand_fragments() und Receipt-Erzeugung im kanonischen ../shared/build/build_suite.py entfernen. Profilverweise in beiden AGENTS.md, instruction-writing.md und fragments.md bereinigen.
 3. [status: done] Entfallene generierte Dateien entfernen, synchronisieren, Nachher-Builds erstellen und vollständige Paketdatei-Hashes vergleichen; Regelverlagerungen in der Semantik-Diff-Liste erfassen.
-Evidence: 275 Paketdateien in vier Varianten bytegleich; 11 betroffene Tests und Sync bestanden; Astra ohne Befund. development/plan-evidence/0034-w004-result.md.
+Evidence: Ungenutzte Schreibprofile entfernt; ausgelieferte Paketdateien bytegleich, Sync und betroffene Tests bestanden. Astra-Review durchgeführt.
 
 ### W-005 Gemeinsame Regeln haben eine kanonische Quelle
 
@@ -237,13 +222,13 @@ Blocked by: []
 Decisions: [ADR-0149]
 Outcome: Wirklich gemeinsame Opt-out-, Autoritäts- und Python-Regeln werden ohne Bedeutungsänderung geteilt; Code-Planungsregeln folgen der beschlossenen Zuständigkeit.
 Acceptance: Jede Zusammenführung hat gleichen Geltungsbereich, gleiche Rangfolge und Ausnahmen und steht in der Semantik-Diff-Liste; alle Paketvarianten bauen, geladene Routen sind statisch gemessen. Nicht sicher vereinheitlichbare Regeln bleiben begründet getrennt.
-Instructions: family.contract nur für alle acht Skills betreffende Regeln verwenden; designspezifische UI-Rangfolge und ausdrückliche Handoff-Aktivierung erhalten.
+Instructions: []
 Steps:
 1. [status: done] Opt-out-Regeln von Code/UI/Plan/Cleanup, allgemeine Autoritätsregeln von Code/Plan/UI und identische Codex-Python-Erkennung von Ask/Setup abgleichen.
 2. [status: done] Passende Quellen unter ../shared/ anlegen, neue Include-Schlüssel nur bei Bedarf. Python-Regel alternativ im Codex-Zweig von helper.policy. Betroffene Verbraucher explizit binden, neue Quellen in Receipt/Export-Provenienz berücksichtigen.
 3. [status: done] Code references/planning-and-decisions.md gemäß ADR-0149 in suite auf passende Plan-/Handoff-Texte verweisen lassen; standalone behält eine knappe vollständige Fassung. Zusätzliche Referenz-Tokens mitzählen.
 4. [status: done] Synchronisieren, Semantik-Diff ergänzen und alle Paketvarianten bauen. Zusammenführungen, deren Cases in W-014 scheitern, nimmt W-014 zurück und meldet sie.
-Evidence: Gemeinsame Regeln, Semantik-Diff und 47 Routen geprüft; 19 Tests, alle Varianten und Astra-Review bestanden. development/plan-evidence/0034-w005-result.md.
+Evidence: Gemeinsame Regeln und Semantikvergleich geprüft; Paketvarianten und Astra-Review abgeschlossen.
 
 ### W-006 Projektregeldateien folgen dem Build-Profil
 
@@ -253,12 +238,12 @@ Blocked by: []
 Decisions: [ADR-0147, ADR-0148]
 Outcome: General berücksichtigt CLAUDE.md entsprechend der beschlossenen Dateisemantik, Codex behält AGENTS.md.
 Acceptance: Alle sieben Ausgangsfundstellen und alle weiteren Skill-Verweise sind je Paketvariante korrekt und durch den Build-Test belegt. Die Konflikt-, Neuanlage- und Konventions-Cases prüft W-014.
-Instructions: READMEs nicht ändern; neue general-Blöcke für PLAN-0019 dokumentieren. Kein neuer Profilmechanismus.
+Instructions: []
 Steps:
 1. [status: done] Die Fundstellen in Code SKILL.md, Code references/project-conventions.md und Cleanup SKILL.md mittels bestehender general/codex-Blöcke und ADR-0148 anpassen.
 2. [status: done] Profilblock im Package-Block an Codes suite-Stelle durch Build-Test absichern und die zu weit gefasste Verschachtelungsaussage in ../shared/build/fragments.md präzisieren; weiterhin ungültige gleichartige Verschachtelungen ablehnen.
 3. [status: done] Alle Varianten bauen, Verweise je Variante prüfen und README-Fundstellen einschließlich Codes configuration.md sowie neue Profilblöcke im Bericht festhalten.
-Evidence: ADR-0148 projiziert; alle sieben Stellen getestet, Codex bytegleich; sechs Tests und Astra-Nachreview bestanden. development/plan-evidence/0034-w006-result.md.
+Evidence: AGENTS.md-/CLAUDE.md-Semantik nach ADR-0148 projiziert und getestet; Codex bytegleich. Astra-Review durchgeführt.
 
 ### W-007 Ein gemeinsames Schreibregelwerk erreicht alle Verbraucher
 
@@ -268,7 +253,7 @@ Blocked by: []
 Decisions: [ADR-0153, ADR-0155]
 Outcome: Allgemeine Schreibregeln haben einen ausgelieferten Laufzeitteil und einen ergänzenden Autorenteil unter ../shared/; alle betroffenen Texte und Helper verwenden ihre kanonische Quelle.
 Acceptance: Keine allgemeine Schreibregel hat zwei unabhängig gepflegte Quellen. Alle geänderten Helper bestehen lokale modellfreie Funktions-, Diagnose- und Schnittstellentests mit gültigen, ungültigen und korrigierten Aufrufen; vorhandene modellfreie Verbraucher werden direkt geprüft. Betroffene Semantik und Kosten sind geprüft. Modellgestützte Verbraucher prüft W-014.
-Instructions: README-Stilregeln und ADR-0144 bleiben; Ergebnis-/Formatverträge wie adviser.md und Workflow-Statusmeldungen bleiben beim jeweiligen Skill.
+Instructions: []
 Steps:
 1. [status: done] Regeln aus instruction-writing.md, prompting/common.md, Suite-AGENTS.md, Plan/Handoff SKILL.md, Workflow operations.md und build_dispatch_prompt.py abgleichen und Widersprüche auflösen, ohne fremde Verhaltensregeln still zu verändern.
 2. [status: done] Laufzeitteil für Pläne, Decisions, Übergaben, Anweisungen, Agentenkommunikation, Adviser-Prompts, Reviews und Berichte erstellen. Autorenteil ergänzt Skill-/Description-Regeln und Englischpflicht ohne gemeinsame Regeln zu duplizieren.
@@ -276,7 +261,7 @@ Steps:
 4. [status: done] Description-Regel: erst Fähigkeit, dann Anlass in englischen Nutzerwörtern und eine relevante Geschwistergrenze; etwa 500 Zeichen als Richtgröße ohne Gate. Laufzeitteil über shared:-Einträge an schreibende Skills ausliefern und beim Schreiben laden; Einbindung nach tatsächlichen Routenkosten wählen.
 5. [status: done] build_dispatch_prompt.py ersetzt den festen String; ask.py und build_adviser_prompt.py verwenden dieselbe ausgelieferte Datei gemäß ADR-0153; build_manager_handoff.py nennt deren Pfad. Registry/Provenienz und Consumer-Verträge erhalten, Fehlerdiagnosen samt korrigiertem Aufruf testen.
 6. [status: done] Alte allgemeine Schreibstellen entfernen oder verweisen lassen; instruction-writing.md behält ergänzende Autorenregeln. common.md ersetzen/bereinigen, Cleanups Bytegleichheitstest nur wegen dieser gewollten Änderung anpassen und begründen. Synchronisieren und alle Paketvarianten bauen.
-Evidence: development/plan-evidence/0034-w007-result.md; Astra PLAN-0034-W007-1 ohne materielle Befunde.
+Evidence: Gemeinsames Schreibregelwerk eingebunden und lokale Consumer geprüft; Astra-Review ohne materielle Befunde.
 
 ### W-008 Code vermittelt Auftrag und Grenzen verständlich
 
@@ -286,11 +271,11 @@ Blocked by: []
 Decisions: [ADR-0149, ADR-0154]
 Outcome: Code beschreibt seine Aufgaben in Nutzerwörtern und erhält seine Regeln mit weniger schwer verständlicher Prosa.
 Acceptance: Description, Metadaten und Prosa folgen dem Regelwerk; Semantik-Diff und Datei-/Routendeltas liegen vor, alle Paketvarianten bauen. Die Skill-Abnahme prüft W-014.
-Instructions: Überarbeitungsvertrag aus dem Arbeitsvertrag anwenden.
+Instructions: []
 Steps:
 1. [status: done] Description mit bug, fix, debug, refactor, failing test und code review präzisieren, „engineering Plan entries“ auflösen und Zuständigkeiten zu UI/Plan ohne falsche Exklusivität klären. default_prompt von Jargon befreien und vorhandene short_description angleichen.
 2. [status: done] SKILL.md entdichten; core in den Referenzen ersetzen oder einmal definieren.
-Evidence: development/plan-evidence/0034-w008-result.md; Astra PLAN-0034-W008-2 ohne Restbefunde.
+Evidence: Code-Texte vereinfacht; Astra-Review ohne Restbefunde. Skill-Modellabnahme gehörte zu W-014.
 
 ### W-009 UI trennt allgemeine Regeln und Adapterdetails klar
 
@@ -300,12 +285,12 @@ Blocked by: []
 Decisions: [ADR-0154]
 Outcome: UI beschreibt seinen allgemeinen Auftrag und den WordPress-Adapter verständlich; Sonderfälle bleiben auffindbar und wirksam.
 Acceptance: Description und Prosa folgen dem Regelwerk, Sonderfälle bleiben auffindbar, Semantik-Diff und Deltas liegen vor. Die Skill-Abnahme mit Fixture-App und Browser prüft W-014.
-Instructions: Nach Code bearbeiten; Überarbeitungsvertrag aus dem Arbeitsvertrag anwenden.
+Instructions: []
 Steps:
 1. [status: done] WordPress-Scope in der Description in einen Satz fassen. Adapter-Ausschlüsse in references/wordpress/routing.md erhalten, Triggergrenze zu nicht-UI-Backend und interfacefremder Prosa erhalten.
 2. [status: done] SKILL.md und references/validation.md entdichten; owner je tatsächlicher Bedeutung präzisieren. OWNERSHIP-ONLY, EVIDENCE-ONLY und SOURCE-ONLY AUDIT nach Regelwerk verorten, Herkunft nicht erfinden.
 3. [status: done] Regelverstöße in weiteren dichten WordPress-Dateien einschließlich routing.md und classification-output.md beheben.
-Evidence: development/plan-evidence/0034-w009-result.md; Astra PLAN-0034-W009-2 ohne Restbefunde.
+Evidence: UI-Regeln und Adaptertexte vereinfacht; Astra-Review ohne Restbefunde. Skill-Modellabnahme gehörte zu W-014.
 
 ### W-010 Plan bleibt präzise aktiviert und ausführbar
 
@@ -315,12 +300,12 @@ Blocked by: []
 Decisions: [ADR-0154]
 Outcome: Plans Beschreibung und Anweisungen sind verständlicher, ohne Aktivierung, Lebenszyklus oder Kontextbedarf zu verändern.
 Acceptance: Description und Prosa folgen dem Regelwerk; bestehende Datensatzverträge bleiben gültig, Validator und Plan-Tests bestehen. Die Skill-Abnahme einschließlich activation-distinguishes-instruction-from-pure-question prüft W-014.
-Instructions: Nach UI bearbeiten; Überarbeitungsvertrag aus dem Arbeitsvertrag anwenden.
+Instructions: []
 Steps:
 1. [status: done] hand off aus der Description entfernen, format-version-1 projects verständlich ersetzen und messages during active planned work präzisieren statt streichen.
 2. [status: done] SKILL.md, edit.md, repair.md und native-project-lifecycle.md entdichten; Kompaktregel nur aus dem gemeinsamen Regelwerk beziehen. Planungsprofil und Maschinenfelder unverändert erhalten.
 3. [status: done] Bestehende Plan-Tests und den Validator ausführen.
-Evidence: development/plan-evidence/0034-w010-result.md; Astra PLAN-0034-W010-1 ohne Befunde.
+Evidence: Plan-Texte vereinfacht und lokale Prüfungen durchgeführt; Astra-Review ohne Befunde. Skill-Modellabnahme gehörte zu W-014.
 
 ### W-011 Handoff hat einen klaren Übergabeauftrag
 
@@ -330,10 +315,10 @@ Blocked by: []
 Decisions: [ADR-0149, ADR-0154]
 Outcome: Handoff grenzt explizit angeforderte Übertragung gegen Planpflege ab und erhält vollständige Fortsetzungskontexte.
 Acceptance: Die Description grenzt gegen Plan ab, die Kompaktregel stammt aus dem Regelwerk; Aktivierungsgrenzen und erforderliche Inhalte bleiben unverändert. Handoff- und Recovery-Cases prüft W-014.
-Instructions: Nach Plan bearbeiten; Überarbeitungsvertrag aus dem Arbeitsvertrag anwenden.
+Instructions: []
 Steps:
 1. [status: done] Description gegenüber Plan präzisieren, Kompaktregel aus gemeinsamer Quelle beziehen und vorhandene Metadaten konsistent halten.
-Evidence: development/plan-evidence/0034-w011-result.md; Astra PLAN-0034-W011-1 ohne Befunde.
+Evidence: Handoff-Auftrag präzisiert; Astra-Review ohne Befunde. Skill-Modellabnahme gehörte zu W-014.
 
 ### W-012 Cleanup triggert deutsch mit englischen Skill-Inhalten
 
@@ -343,11 +328,11 @@ Blocked by: []
 Decisions: [ADR-0148, ADR-0154]
 Outcome: Cleanup hat eine englische Description ohne Modellempfehlung in compatibility und versteht weiter deutsche Projektregelaufträge.
 Acceptance: Description ohne deutsche Wörter, compatibility ohne Modellempfehlung; der Sprachtest besteht ohne befristeten Projektregeln-Eintrag, Schutzregeln nach ADR-0142 bleiben erhalten. Die Skill-Abnahme mit Luna high und Claude prüft W-014.
-Instructions: Nach Handoff bearbeiten; Überarbeitungsvertrag aus dem Arbeitsvertrag anwenden.
+Instructions: []
 Steps:
 1. [status: done] (Projektregeln) aus der Description und den befristeten W-003-Allowlist-Eintrag entfernen; Modellempfehlung aus compatibility entfernen, vorhandene README-Information erhalten.
 2. [status: done] Allgemeine Regelwerksverstöße gezielt beheben und Schutzregeln nach ADR-0142 erhalten.
-Evidence: development/plan-evidence/0034-w012-result.md; Astra PLAN-0034-W012-1 ohne Befunde.
+Evidence: Cleanup-Description und Profiltexte korrigiert; Astra-Review ohne Befunde. Skill-Modellabnahme gehörte zu W-014.
 
 ### W-013 Workflow, Ask und Setup übernehmen nur die gemeinsamen Änderungen
 
@@ -357,11 +342,11 @@ Blocked by: []
 Decisions: [ADR-0153, ADR-0155]
 Outcome: Die drei Codex-Skills verwenden gemeinsame Regeln und behalten ihre übrige Prosa und Verhaltensgrenzen.
 Acceptance: Gemeinsame Regeln sind übernommen, die übrige Prosa ist unverändert; geänderte Helper bestehen ihre lokalen modellfreien Funktions-, Diagnose- und Schnittstellentests. Trigger-, Verständnis-, modellgestützte Verbraucher- und Live-Nachweise prüft W-014.
-Instructions: Nach Cleanup bearbeiten; außerhalb W-005/W-007 keine Prosa ändern. Setup hat keine openai.yaml.
+Instructions: []
 Steps:
 1. [status: done] Gemeinsame Regeln und beide Ask-Adviser-Pfade übernehmen; übrige Prosa unverändert lassen.
 2. [status: done] Alle betroffenen Helper lokal ohne Modellaufrufe mit gültigen, ungültigen und korrigierten Eingaben prüfen; modellfreie Verbraucher direkt verwenden. Erforderliche modellgestützte Verbraucherprüfungen für W-014 festhalten.
-Evidence: development/plan-evidence/0034-w013-result.md; Astra PLAN-0034-W013-1 ohne Befunde; Stopp vor W-001.
+Evidence: Workflow, Ask und Setup übernahmen gemeinsame Regeln; lokale Consumer geprüft und Astra-Review durchgeführt.
 
 ### W-001 Verlässliche Testwerkzeuge für die erforderlichen Hosts
 
@@ -371,14 +356,14 @@ Blocked by: []
 Decisions: [ADR-0147, ADR-0150, ADR-0154, ADR-0159, ADR-0160, ADR-0161, ADR-0162, ADR-0163, ADR-0164, ADR-0165, ADR-0166]
 Outcome: Isolierte Runner und Bewertungswege unterscheiden Aktivierung, Verständnis, Befolgung und Wirkung mit nachvollziehbarer Identität und Kosten.
 Acceptance: Jeder Runner besteht einen bekannt guten und einen bekannt schlechten Kontrollfall. Host, Modell, Effort, Paket, Referenzen und Runner sind protokolliert; Transportfehler bleiben getrennt. Nicht verfügbare Fähigkeiten sind unverifiziert, nicht bestanden.
-Instructions: ADR-0166 begrenzt W-001 auf die ausgewählten Verständniswege. Weitere Ausführung von Schritt 3 und 4 entfällt; vorhandene Vorbereitungen und unverifizierte Grenzen bleiben erhalten.
+Instructions: []
 Steps:
 1. [status: done] Hostfähigkeiten gegen development/claude-code/capabilities.md und development/luna-tests/codex-cli-execution.md prüfen; Risiko der nutzerweit installierten Skills und externer Tools ausschließen.
 2. [status: done] development/luna-tests/run_codex_cli_case.py mit comprehension-instructions.md um Suite-Paketwurzeln erweitern; Luna läuft nur mit high. Claude-Headless-Verständnis ohne native Tools und Pakettext nur auf Anforderung gleichwertig bereitstellen oder als unverifiziert kennzeichnen.
 3. [status: cancelled] Trigger-Runner mit isoliertem Home/Host-Konfiguration und aktiver Skill-Suche bauen. Codex exec --json läuft read-only mit Shell; beobachtetes Lesen von SKILL.md als Ladesignal validieren. Bei Claude Hooks/Transcript prüfen. Nicht zuverlässig erkennbare Aktivierung als unverifiziert melden.
 4. [status: cancelled] Befolgungs-/Wirkungs-Fixtures aus Plan-Fixtures, Cleanup-Testberichten und UI-Linden-Brief im Projekt Desktop/test bereitstellen; UI-App mit Browserzugriff. Für Setup isolierte Konfiguration und Consumer verwenden, Workflow/Ask nach dem Testvertrag begrenzen.
 5. [status: done] Verblindete Sol-6.1-high-Bewertung gesammelter Testgruppen (ADR-0161), getrennte Erwartungen, vollständige Versuchsaufzeichnung und Budgetzählung prüfen. Bei jedem Resume alle erforderlichen Sandbox-/Tool-Einschränkungen erneut setzen; keine echten Projekt- oder Kontomutationen.
-Evidence: development/plan-evidence/0034-astra-full-result.md und 0034-selected-300.md: drei Befunde korrigiert, Verständnis-Hostkontrollen bestanden; nicht gewählte Wege nach ADR-0166 ausgeschlossen.
+Evidence: Verständnis-Hostkontrollen bestanden; unabhängige Befunde korrigiert. Nicht gewählte Trigger-/Wirkungswege nach ADR-0166 ausgeschlossen.
 
 ### W-014 Gezielte Tests vor Veröffentlichung belegen den gewählten Umfang
 
@@ -388,7 +373,7 @@ Blocked by: []
 Decisions: [ADR-0147, ADR-0149, ADR-0150, ADR-0151, ADR-0152, ADR-0154, ADR-0155, ADR-0159, ADR-0161, ADR-0165, ADR-0166, ADR-0167, ADR-0168, ADR-0169, ADR-0170, ADR-0171, ADR-0172, ADR-0173, ADR-0177]
 Outcome: Der geänderte Stand besteht die vorab begründete gezielte Auswahl innerhalb von 300 Testläufen; Auslassungen und Grenzen sind belegt.
 Acceptance: Alle vorab ausgewählten Cases bestehen am endgültigen Stand nach dem Testvertrag innerhalb von insgesamt 300 Versuchen. Ausgelassene Cases und nicht qualifizierte Testarten sind ausdrücklich unverifiziert. Erforderliche lokale Helper-, Sprach-, Build- und Portabilitätsprüfungen sowie der verifizierte Runtime-CI-Build bestehen. Semantik-Diff, unveränderte W-004-Pakete und statischer Kostenvergleich sind belegt. Keine vollständige Aktivierungs- oder Wirkungsabnahme aus der Auswahl ableiten.
-Instructions: Nach W-016 hier mit erhaltenem Schrittstand fortsetzen (ADR-0172). ADR-0168 erlaubt 200 zusätzliche Korrekturversuche ab Zähler 391, insgesamt höchstens 591 ohne getrennte Poolgrenzen. Vollständige Workflow-Funktionstests mit 15/15-Prozent-Schwellen und die Runner-Benachrichtigungsprobe bleiben beauftragt. ADR-0170 erlaubt private CI-Pushes für korrigierte Testsnapshots. Fehlgeschlagene oder unverifizierte Pflichtprüfungen erlauben keinen Abschluss von W-014. Claude-Aufrufe sind erlaubt (ADR-0159). Keine Installation oder Veröffentlichung. Auf Nutzerauftrag vom 05.10.2026 ist die Restabnahme nach PLAN-0035/W-009 übertragen; dieser Punkt endet ohne vollständige Abnahme cancelled.
+Instructions: []
 Steps:
 1. [status: cancelled] Die vorab festgelegte Auswahl aus W-002 nach ADR-0166 am geänderten Stand ausführen und verblindet in vollständigen Gruppen bewerten. Nicht ausgewählte Testwege bleiben unverifiziert. Erfolgreiche Ausgaben der in W-007/W-013 geänderten Helper unverändert an die tatsächlichen modellgestützten Verbraucher übergeben und deren Ergebnis prüfen. Native Workflow-/Ask-Proben nur nach eigener Freigabe (ADR-0150); fehlende Freigabe lässt diesen Pflichtnachweis offen.
 2. [status: cancelled] Fehlschläge je Skill auf Ursache prüfen und in höchstens drei Überarbeitungsrunden beheben. Descriptions von Workflow, Ask und Setup nur bei belegtem Triggerproblem ändern; bei impliziter Workflow-Aktivierung allow_implicit_invocation: false nur, wenn alle expliziten Aktivierungsformen weiter funktionieren. Zusammenführungen aus W-005 mit scheiternden Cases zurücknehmen und melden. Invalidierte Nachweise erneuern.
@@ -397,7 +382,7 @@ Steps:
 5. [status: cancelled] Alle Paketvarianten als Kandidaten bauen, beide Suiten aus einer Temp-Kopie exportieren und bestehende Tests, run_portability.py, Sprachtest plus sprachliche Sichtprüfung ausführen. Verifizierten CLI-Build nur mit separat freigegebenem privaten Runtime-CI-Push; sonst pending/unverifiziert berichten und skills/temp/release/ nie still verändern.
 6. [status: done] Alle AGENTS.md-Verweise, neue general-Profilblöcke für PLAN-0019, Semantik-Diff und Datei-/Routenkosten gegen den Ausgangsstand vergleichen; jedes Kostenplus begründen.
 7. [status: cancelled] Abschlussbericht je Skill nach Testart, Sprache, Modell/Effort, Runden und Kosten erstellen. Nicht angenommene Skills, externe Case-Hindernisse, unverifizierte Wege, getrennt gebliebene Regeln, README-Beispiel und README-Dateiregelstellen nennen. Offene Befunde vorzulegen bedeutet nicht, dass deren Abnahme bestanden ist.
-Evidence: Teilnachweise: development/plan-evidence/0034-w014-test-corrections.md; finale Restabnahme nach ADR-0177 an PLAN-0035/W-009 übertragen. Kein vollständiger PASS.
+Evidence: Teilnachweise vorhanden; finale Restabnahme gemäß ADR-0177 an PLAN-0035/W-009 übertragen. Dieser Punkt hat keinen vollständigen PASS.
 
 
 
@@ -410,7 +395,7 @@ Blocked by: []
 Decisions: [ADR-0172]
 Outcome: Die 19 konkret benannten Reviewpunkte sind korrigiert; Luna erhält klare Anweisungen mit erhaltenen Verträgen.
 Acceptance: Alle Punkte sind gegen ihre Baseline geprüft und je Datei im Semantik-Diff samt Datei-/Routendeltas erfasst. Profilblöcke und technische Literale bleiben erhalten, außer den zwei ausdrücklich beschlossenen Funktionskorrekturen. Workflow-, Plan-, Ask-, Setup-, gemeinsame und Build-Tests sowie Sync-, README-, Sprach- und vier Paketprüfungen bestehen. Unabhängiges Astra-high-Review enthält keine bestätigten Restbefunde. Modellnachweise gehören danach zu W-014.
-Instructions: Vor neuen Modellläufen bearbeiten; nur kanonische Suite- und Shared-Quellen ändern. Nach Abschluss W-014 an seinen erhaltenen Schritten fortsetzen. Bestehende Daten und Nachweise bleiben historisch erhalten; keine Installation oder Veröffentlichung.
+Instructions: []
 Steps:
 1. [status: done] Plan-Passagen aus Reviewpunkten 1–7 verständlich formulieren und Bedeutung erhalten.
 2. [status: done] UI-Bedingungen sowie Ask- und Setup-Felder aus Punkten 8–10 gliedern.
@@ -418,4 +403,4 @@ Steps:
 4. [status: done] Child-Recovery und frische Create-Dispatches aus Punkten 17–18 korrigieren und tatsächliche Helper-Verbraucher prüfen.
 5. [status: done] Gemeinsamen Satz aus Punkt 19 klarstellen, Quellen synchronisieren und geänderte Pakete lokal prüfen.
 6. [status: done] Semantikvergleich, Deltas und Bericht für alle Punkte erstellen; Astra-high-Review einholen und bestätigte Fehler beheben.
-Evidence: development/plan-evidence/0034-opus-v5-corrections.md: alle zwölf Nachkorrekturen geprüft; frisches Astra W016-2 ohne Quellbefund. Aktuelle Modell- und CI-Nachweise bleiben W-014.
+Evidence: Bestätigte Text- und Recovery-Korrekturen geprüft; Astra-Review ohne Quellbefund. Modell- und CI-Abnahme gehörten zur übertragenen Restabnahme.

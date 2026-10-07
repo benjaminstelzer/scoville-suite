@@ -32,7 +32,7 @@ Steps:
 1. Defaults, öffentliche Beschreibungen, Setup-Test und den ungestarteten Claude-Plan angleichen.
 2. Checkpoint- und Ausgaberegeln knapp ergänzen; Zustandsänderungen ohne feste Patchzahl bündeln.
 3. Grenzfälle testen, Review auswerten und Befunde beheben.
-Evidence: ADR-0098. 205 Tests bestanden. Luna 6 High prüfte Paketfunktionen und Fehlerausgabe erfolgreich. Astra Medium prüfte Plan und finalen Diff ohne offene Befunde.
+Evidence: Kontextgrenzen, Paketfunktionen und Fehlerausgabe gezielt geprüft. Unabhängiges Astra-Review fand keine offenen Befunde; ADR-0098 berücksichtigt.
 
 ### W-002 Eindeutige Quellen und aktuelle Prüfungen
 
@@ -46,7 +46,7 @@ Steps:
 1. Veraltete README-Assertions an die freigegebenen Aussagen anpassen.
 2. Private packages/ und ungenutzte Lifecycle-Dateien entfernen, kanonische Quellen und Historie behalten.
 3. Betroffene Prüfungen ausführen.
-Evidence: Suite 32, Shared 59, Ask 21, Plan 74, Setup 2 und Workflow 17 Tests bestanden. README-, Quell- und Buildprüfungen bestanden.
+Evidence: Betroffene Suite-, Shared- und Member-Checks sowie Quell-, README- und Buildprüfungen bestanden.
 
 ### W-003 Geprüfte Builds lokal und auf GitHub bereitstellen
 
@@ -60,4 +60,4 @@ Steps:
 1. Versionshinweise pflegen, sauber committen und beide Editionen bauen.
 2. Betroffene lokale Installationen aktualisieren und Bytes vergleichen.
 3. Geprüfte Änderungen unter geltenden Veröffentlichungsgates pushen und remote prüfen.
-Evidence: Builds und lokale Installationen abgeglichen. GitHub main beider Suites vollständig gegen Exporte geprüft. Gezielter Luna-High-Test und finales Astra-Medium-Review abgeschlossen.
+Evidence: Builds, lokale Installationen und beide Remote-Suitebäume gegen Exporte geprüft; Luna-Nachtest und unabhängiges Astra-Review durchgeführt.

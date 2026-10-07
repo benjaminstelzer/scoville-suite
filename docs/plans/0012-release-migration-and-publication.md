@@ -33,7 +33,7 @@ Steps:
 1. Prüfe `PROJECT_INDEX.md`, PLAN-0011 und seine vorhandenen Nachweise; bewahre die offenen Punkte W-001 und W-002 und erfasse ihre Abnahmen als Veröffentlichungssperren.
 2. Inventarisiere `suite.json`, `packages/`, `<workspace-root>/skills/private/`, lokale Skillinstallationen und die Live-Repositories von `benjaminstelzer` und ordne jeden aktuellen oder historischen Skill genau einem Ziel zu.
 3. Gleiche frühere Evidenz aus PLAN-0002 und PLAN-0006 bis PLAN-0011 mit den finalen relevanten Bytes ab; übernimm nur weiterhin gültige Nachweise und halte offene Releasegates fest.
-Evidence: [2026-09-25: Quellen und Live-Ziele in docs/release-inventar-2026-09-25.md erfasst; offene Abnahmen bleiben Releasegates., 2026-09-25: Nutzer nimmt ADR-0070 an; vier Altmitglieder ersatzlos ausmustern und erst beim Release privat setzen., General und Codex check-packages gegen plan-0011-w025-final bestanden; Quellenzuordnung und Nachweisgrenzen im Releaseinventar., 2026-09-25: Fünf Ask-Alt-IDs gelten nur für lokale Upgrade-Bereinigung; frühere skills/public-Kopien sind weder Releasequelle noch Ziel.]
+Evidence: Quellen, Ziele und Nachweisgrenzen abgeglichen; Portfolioentscheidung angenommen. Alte Ask-IDs nur für Upgrade-Bereinigung, nicht als Releasequellen.
 
 ### W-002 Aktivierung, Zuständigkeiten und Familienbeziehungen stimmen überein
 
@@ -47,7 +47,7 @@ Steps:
 1. Prüfe alle aktuellen `members/*/*/SKILL.md`, ihre geladenen Referenzen und die Familienmetadaten in `suite.json` auf Aktivierung, Ausschluss, Besitzer, Übergabe und Nachbarschaft.
 2. Prüfe drei eindeutige Projektionen gegen ihren Familienvertrag: Standalone-Pakete mit optionalen Familienmitgliedern sowie General- und Codex-Suite mit vollständiger Pflichtmitgliedschaft ihres jeweiligen Profils; entferne nur veraltete Beziehungen und ergänze fehlende eindeutige Übergaben an ihren kanonischen Besitzern.
 3. Ergänze gezielte Vertragsfälle für mehrdeutige Auslöser, fehlende Standalone-Geschwister und unvollständige Suite-Installationen; prüfe die finalen Projektionen.
-Evidence: [2026-09-25: Familienverträge geprüft; acht Suite- und vier Profiltests unter Windows/Python 3.14 bestanden; Grenzen in docs/release-inventar-2026-09-25.md.]
+Evidence: Familienverträge und Profilgrenzen geprüft.
 
 ### W-003 Scoville-Namen und abgelöste Pakete sind lokal driftfrei vorbereitet
 
@@ -61,7 +61,7 @@ Steps:
 1. Erstelle aus W-001 die verbindliche Altname-zu-Ziel-Zuordnung und prüfe Zielkollisionen auf lokalen Pfaden und GitHub.
 2. Benenne nur aktuelle kanonische Quellen und ihre Manifest-, Paket-, README-, Link- und Testverbraucher um; erhalte historische Aufzeichnungen und Git-Historie.
 3. Prüfe den vollständigen aktiven Quellenbaum auf veraltete IDs und klassifiziere jeden verbleibenden Treffer als aktive Migration, historische Evidenz oder Fehler.
-Evidence: [2026-09-25: Code lokal umbenannt; Profile gebaut und Paketkopien abgeglichen; acht Suite- und fünf Familientests grün; Nachweise und Validatorgrenze im Releaseinventar.]
+Evidence: Code-Quelle umbenannt; Profile, Paketkopien und Familienverträge geprüft. Bekannte Validatorgrenze ausgewiesen.
 
 ### W-004 Private Benjamin-Skills haben einen gemeinsamen lokalen und privaten GitHub-Vertrag
 
@@ -75,7 +75,7 @@ Steps:
 1. Prüfe die zwei bestehenden Git-Roots sowie den bisher nicht versionierten Skillwriter-Quellordner und alle Verbraucher ihrer bisherigen Pfade; bewahre Arbeitsstände und vorhandene Historie.
 2. Verschiebe die vollständigen Quellverzeichnisse nach `<workspace-root>/skills/private/benjaminstelzer/` und aktualisiere ausschließlich belegte Workspace-, Build-, Test- und Dokumentationsverweise.
 3. Vergleiche jedes kanonische Paket vollständig mit seinem privaten GitHub-Ziel und bereite fehlende oder abweichend benannte Ziele unter Erhalt der Sichtbarkeit und Historie vor.
-Evidence: [2026-09-25: Drei Quellen verschoben; 275 Dateien einschließlich Git bytegleich erhalten; Remote-Paketdifferenzen und private Ziele im Releaseinventar dokumentiert.]
+Evidence: Private Quellen mit Git-Historien bytegleich verschoben; private Veröffentlichungsziele abgeglichen.
 
 ### W-005 Buildprofile und Python-Verträge gelten für die finalen Namen und Pakete
 
@@ -89,7 +89,7 @@ Steps:
 1. Prüfe `suite.json`, `development/build_suite.py`, `development/shared/build/build_suite.py` und die kanonischen Profilfragmente gegen die finalen Namen und Mitgliedschaften.
 2. Baue alle vorgesehenen Layouts im einzigen Release-Staging unter `<workspace-root>/skills/temp/release/`; prüfe Receipt, Inventar, Quellenhashes, Links und isolierten Wiederaufbau.
 3. Führe die relevanten General-ohne-Python-, Codex-Helperfehler- und Vollinstallationsfälle auf den finalen Paketbytes aus; trenne fachliche Fallbacks von Python-Ersatzrouten.
-Evidence: [2026-09-25: Vier Layouts und LF geprüft; 53 Shared-Tests grün; gebaute Helfer melden Fehler korrekt; Prüfgrenzen und Profilverträge im Releaseinventar.]
+Evidence: Buildlayouts, LF-Ausgabe, Helperfehler und Profilverträge geprüft.
 
 ### W-006 Suite-Installation entfernt alte Skillvarianten kontrolliert
 
@@ -103,7 +103,7 @@ Steps:
 1. Erzeuge aus der belegten W-001-Zuordnung profilbezogene Altlisten und gleiche jeden Eintrag mit der GitHub-Momentaufnahme sowie dem finalen Nachfolger ab.
 2. Ergänze die kanonischen Installationsfragmente um einen kopierbaren Migrationsprompt mit Bestandsprüfung, Anpassungsschutz, genauer Entfernung und vollständiger Neuinstallation.
 3. Prüfe General- und Codex-Migration in isolierten Skill-Verzeichnissen mit alten, gemischten, angepassten und bereits aktuellen Zuständen; belege fehlende Doppelinstallationen und vollständige Discovery.
-Evidence: [2026-09-25: Nutzer verlangt einfache Deinstallationsliste mit Überspringen fehlender Skills; Prompt entsprechend gekürzt., Acht isolierte Dateimigrations- und echte Discoveryfälle bestanden am vorherigen Entwurf; finaler Kurzprompt noch profilbezogen zu prüfen., Nutzerkorrektur: Auch persönliche Einstellungen der entfernten Installationen löschen; keine Sicherung oder Migration oder Fallback-Kopie., Endprojektionen bestanden; isolierte Löschprüfung vor Prozessstart automatisch mit blocked by policy abgewiesen., Nutzerkorrektur: W-006 liefert den Auftrag an den später installierenden Agenten; keine manuelle Deinstallation der aktuellen Installation und kein Host-Blocker daraus., Frische General- und Codex-Projektionen geprüft: neun gemeinsame und sieben zusätzliche Codex-Alt-IDs sowie vollständige Deinstallation ohne Sicherung und frische Installation; LF-only., Prompt auf zwei Anweisungen plus Listen reduziert; General nennt Python 3.10+ optional und Codex Python 3.11+ samt Paketmanager oder offiziellem Installer., Abschließende Nutzerkorrektur: Codex verwendet sein integriertes Python 3.11+ ohne manuellen Installationsweg; Projektionen stimmen.]
+Evidence: Finale Upgrade-Aufträge vereinfacht und Projektionen geprüft. Kein manueller Eingriff in aktuelle Installationen; Codex nutzt integriertes Python.
 
 ### W-007 READMEs sprechen mit einer Stimme und erklären den finalen Stand
 
@@ -117,7 +117,7 @@ Steps:
 1. Prüfe die finalen kanonischen README-Fragmente aller Scoville-Mitglieder und Suites sowie die READMEs unter `<workspace-root>/skills/private/benjaminstelzer/` auf Fakten, Gruppenkonsistenz und Einbettung gemeinsamer Bausteine.
 2. Überarbeite nur die betroffenen Quellen mit `benjaminstelzer-imitate-me`; erhalte Anforderungen, Grenzen, Installation und technische Identifikatoren.
 3. Erzeuge alle Projektionen über den Builder und prüfe vollständige Dokumente, Links, Beispiele, Gruppenterminologie und Abwesenheit veralteter aktiver Namen.
-Evidence: [README-Arbeit unabhängig von der gesperrten Löschprüfung vorgezogen; W-006 bleibt direkte Voraussetzung von W-008., Sieben Mitglieds- und drei private READMEs geprüft; vierzehn README-Tests grün; beide Profile gebaut; Generatorkopien synchronisiert.]
+Evidence: Kanonische und private READMEs geprüft, Profile neu gebaut und generierte Kopien synchronisiert.
 
 ### W-008 Releasekandidaten und Executables sind aus demselben finalen Stand belegt
 
@@ -132,7 +132,7 @@ Steps:
 2. Baue die vorgesehenen Plan-Viewer-Plattformartefakte aus `members/scoville-plan/development/viewer/` über den kanonischen Buildweg neu und erzeuge die zugehörigen Checksummen.
 3. Synchronisiere die verifizierten Builds in alle von W-001 inventarisierten regulären lokalen Ausgabeziele; vergleiche Inventare und Hashes, entferne ausschließlich obsolete generierte Dateien und erhalte Quellen, persönliche Anpassungen und Git-Historie.
 4. Prüfe Releasepakete und Executables lokal auf Version, Plattform, Startbarkeit soweit vorgesehen, Paketinhalt und Prüfsumme; stelle den vollständigen Uploadsatz je Zielrelease bereit.
-Evidence: [2026-09-25: Viewer v1.3.3 und vier Plattformziele samt gemeinsamem SHA256SUMS.txt statisch geprüft; npm ci sowie npm run check und npm run build grün., 2026-09-25: Kandidatenversionen und direkte profilbezogene GitHub-Installationslinks im Releaseinventar festgelegt; native Rust- und GitHub-Matrix-Builds stehen aus., 2026-09-25: General mit 4 Mitgliedern und 63 Dateien sowie Codex mit 7 Mitgliedern und 111 Dateien frisch gebaut; Receipt- Quellen- Helper- und LF-Prüfungen grün., 2026-09-25: 187 fokussierte Tests grün; git diff --check sowie native Planprüfung mit 0 Fehlern und 0 Warnungen bestanden., 2026-09-25: Vier Buildlayouts samt Standalone-Zielen receipt-genau und LF-only; Builder normalisiert nun auch Receipts und alle sieben `packages/`-Projektionen sind bytegleich., 2026-09-25: Alle vier Kandidaten nennen Commit 10cd737b62c12536310124bc243248fd98b15285 und source_dirty false; Paket- Release- und Helperprüfungen bestanden., 2026-09-25: Nach portabler Pfadkorrektur nennen alle vier neu gebauten Kandidaten eba97cbccfc580394ebbe1b1390b45893833cb28 und source_dirty false; alle drei Prüfungen je Ziel grün., 2026-09-25: Origin main ist 15 Commits zurück und enthält keinen Plan-Viewer-Workflow; die GitHub-Matrix erfordert den vor PLAN-0011 gesperrten öffentlichen Push., 2026-09-25: Viewer-Lauf 36175688109 auf 08bf750 bestand alle vier Plattformjobs und den Checksummenjob; elf heruntergeladene Artefakte stimmen mit SHA256SUMS.txt überein., 2026-09-25: Portabilitätslauf 36178096054 auf d6096a4 bestand alle sechs Windows- Ubuntu- und macOS-Jobs mit Python 3.11 und aktuell., 2026-09-25: Vier Kandidaten aus 19a91cb mit source_dirty false gebaut; Paket- und Helperprüfungen bestanden., 2026-09-25: Suite-Exporte mit 547 und 705 Dateien stimmen vollständig mit ihren Export-Receipts überein., 2026-09-25: Windows-Viewer 1.3.3 startete lokal; Linux und macOS sind durch die erfolgreichen nativen Buildjobs belegt., 2026-09-25: Nutzer korrigiert den Installationsvertrag; W-012 trennt Neuinstallation und vollständige Bereinigung früherer Scoville- oder Ask-Suites., 2026-09-25: Gelöschtes Release-Staging wird aus dem finalen sauberen Quellenstand vollständig neu erzeugt., 2026-09-25: ADR-0073 hält docs und development öffentlich; 30 Quelltexte nutzen neutrale Pfade und der Quellbaumtest ist grün., 2026-09-25: Aktive Ask-Texte verwenden konsistent Ask; ASK bleibt nur als markierter Legacy-Titel oder historisches Literal erhalten., 2026-09-25: Vier Kandidaten aus 234ea1b melden source_dirty false; Paket- und Helperprüfungen sind grün., 2026-09-25: Exporte mit 550 und 708 Dateien sind receipt-genau und die Public-Ziele stimmen exakt; maschinenspezifische Pfade fehlen., 2026-09-25: Elf Viewer-Artefakte stimmen mit SHA256SUMS.txt überein; beide Exportprofile bestehen die Planprüfung mit 0 Fehlern und 0 Warnungen.]
+Evidence: Saubere Kandidaten und Exporte bytegleich geprüft. Viewer-Artefakte mit Actions-Herkunft und Hashes verifiziert; Windows-Start beobachtet, Linux/macOS durch Buildjobs belegt.
 
 ### W-012 Bereinigung früherer Suites und Neuinstallation sind getrennt erklärt
 
@@ -146,7 +146,7 @@ Steps:
 1. Überarbeite `development/readme/suite-install.md` und `docs/release-preflight-audit-2026-09-25.md` gemäß ADR-0071 zu getrennten Anleitungen mit einer gemeinsamen vollständigen Alt-ID-Liste.
 2. Ergänze `development/tests/test_build_suite.py` um General- und Codex-Prüfungen für Reihenfolge vollständige Alt-ID-Liste Einstellungen fehlende Einträge und direkte Repository-Installation.
 3. Erzeuge alle README-Projektionen neu und prüfe beide Profile sowie die Abwesenheit rechnerbezogener Pfade in ausgelieferten Nutzertexten.
-Evidence: [2026-09-25: General- und Codex-README trennen Neuinstallation und Upgrade; beide enthalten exakt 16 Alt-IDs samt fünf Ask-IDs und die direkte Profil-URL., 2026-09-25: Neun Suite- und vier kanonische Profiltests grün; README-Projektionen aktuell und Hostpfadprüfung grün.]
+Evidence: Neuinstallation und Upgrade getrennt; vollständige Alt-ID-Liste und direkte Profilinstallation geprüft.
 
 ### W-013 Prioritized after W-012: Suite-Übersicht erklärt die Nutzung jedes Skills
 
@@ -160,7 +160,7 @@ Steps:
 1. Prüfe die vorhandenen Nutzungsfragmente und `suite.descriptions` in `suite.json` sowie `development/shared/build/build_suite.py`; bestimme den kurzen kanonischen Teil vor dem ersten Nutzungs-Unterabschnitt.
 2. Erweitere die Suite-Komposition um diesen kurzen `How to use`-Teil ohne eine zweite Textquelle und erhalte die vollständigen Einzel-READMEs.
 3. Ergänze gezielte General- und Codex-README-Tests und erzeuge alle Projektionen neu.
-Evidence: [2026-09-25: Nutzer ersetzt eingebettete Nutzungstexte durch direkte Links zur vollständigen README; der begonnene Einbettungsentwurf wurde nicht übernommen.]
+Evidence: Nutzer ersetzte eingebettete Nutzungstexte durch README-Links; Einbettungsentwurf nicht übernommen.
 
 ### W-014 Prioritized after W-013: Suite-Übersicht verlinkt die Nutzung jedes Skills
 
@@ -174,7 +174,7 @@ Steps:
 1. Ergänze `suite.descriptions` in `development/shared/build/build_suite.py` um genau einen profilabhängigen relativen Link je Mitglied und prüfe das vorhandene `How to use`-Ziel der Mitglieds-README.
 2. Ergänze `development/shared/tests/test_readme_templates.py` und `development/tests/test_build_suite.py` um Anzahl Zielauflösung Profilmitgliedschaft und Workflow-Link.
 3. Synchronisiere die Shared-Projektion und erzeuge alle README-Projektionen neu.
-Evidence: [2026-09-25: General enthält vier und Codex sieben direkte README.md#how-to-use-Links; Workflow steht in Codex an erster Stelle., 2026-09-25: Kanonischer Shared-Test gezielter Suite-Linktest und README-Projektionsprüfung grün.]
+Evidence: Direkte How-to-use-Links je Profilmitglied generiert und Zielauflösung geprüft.
 
 ### W-015 Deferred after W-014: Workflow wird nicht mehr als Beta bezeichnet
 
@@ -188,7 +188,7 @@ Steps:
 1. Entferne die aktuelle Beta-Kennzeichnung aus `development/readme/suite-intro.md` und den kanonischen Workflow-README-Quellen sowie die zugehörige Manifestvariable in `suite.json`.
 2. Passe ausschließlich Tests an die die aktuelle Beta-Projektion prüfen; erhalte historische Changelog-Texte.
 3. Erzeuge README- und Paketprojektionen neu und prüfe aktive Nutzertexte auf verbleibende Workflow-Beta-Aussagen.
-Evidence: [2026-09-25: Aktive Nutzertexte enthalten keine Workflow-Beta-Kennzeichnung; generierte Workflow-READMEs sind bytegleich und 14 Shared- sowie 10 Suite-Tests sind grün.]
+Evidence: Aktuelle Beta-Kennzeichnung entfernt; Paket- und README-Projektionen geprüft. Historische Changelogs erhalten.
 
 ### W-011 Prioritized after W-008: Gesamten finalen Release unabhängig prüfen
 
@@ -200,7 +200,7 @@ Outcome: Eine unabhängige Astra-Medium-Prüfung bestätigt den vollständigen f
 Acceptance: Eine frische Astra-Aufgabe prüft Quellenstand, Releasepakete, Viewer-Artefakte, Checksummen, Releaseinventar und geplante GitHub-Mutationen read-only. Jeder Befund mit Auswirkung auf Korrektheit oder Veröffentlichung ist vor W-009 behoben und nachgeprüft; Ergebnis und Grenzen sind belegt.
 Steps:
 1. [execute: model=gpt-6-astra; reasoning=medium] Prüfe den vollständigen finalen Releasekandidaten und die geplanten GitHub-Mutationen unabhängig gegen PLAN-0012 und die weiterhin geltenden Releasegates.
-Evidence: [2026-09-25: Nutzer bestätigt Übernahme von PLAN-0013 sowie Neubau und frische Astra-Medium-Prüfung., 2026-09-25: Vier Vorbereitungsbuilds und sieben Paketkopien geprüft; 74 Plan- und 55 Shared-Tests grün; Grenzen in docs/release-inventar-2026-09-25.md., Astra 01a0da87-3b50-7d13-862a-18aa35776db3 meldet zwei Befunde; 4162f42 korrigiert beide mit lokal geprüften Builds., Nutzer verzichtet gemäß ADR-0080 auf die zweite unabhängige Prüfung; keine weitere Astra-Abnahme behauptet.]
+Evidence: Astra-Review durchgeführt; bestätigte Befunde behoben und lokal geprüft. Nutzer verzichtete auf zweite unabhängige Prüfung.
 
 ### W-009 GitHub-Ziele sind ohne Namens- oder Sichtbarkeitsdrift veröffentlicht
 
@@ -214,7 +214,7 @@ Steps:
 1. Führe für jedes aktuelle Ziel und die vier Repositories aus ADR-0070 den autorisierten GitHub-Preflight aus und vergleiche Branch, Schutz, Sichtbarkeit, Historie, aktuelle Releases, Tags, Themen und Zielnamen mit W-001 und W-008.
 2. Veröffentliche die verifizierten Paketbäume und privaten Skills; benenne aktuelle Repositories um und setze ausschließlich die vier Repositories aus ADR-0070 privat. Erstelle die erforderlichen Releases und lade den zugeordneten Assetsatz hoch.
 3. Aktualisiere das Profil und alle betroffenen öffentlichen Metadaten aus den finalen Namen und überprüften Installationswegen; bewahre bestehende unbeteiligte Einträge.
-Evidence: Zehn Releases samt 56 hashgeprüften Assets veröffentlicht; Profil und Pins aktualisiert. Belege: docs/release-result-2026-09-26.md.
+Evidence: Freigegebene Releases und Assets veröffentlicht; Profil und Pins aktualisiert.
 
 ### W-010 Remote-Ergebnis und Neuinstallation sind vollständig verifiziert
 
@@ -228,7 +228,7 @@ Steps:
 1. Vergleiche jeden veröffentlichten Remote-Baum und Release mit dem zugehörigen Receipt, Commit, Tag, Assetinventar und lokalen Prüfsummen; lade Assets zur Identitätsprüfung erneut herunter.
 2. Führe General- und Codex-Migration in getrennten isolierten Installationswurzeln mit repräsentativen Altbeständen aus; prüfe Discovery und die Entfernung der persönlichen Einstellungen aus den deinstallierten Altinstallationen ohne Sicherung oder Übernahme, für unverändert benannte Bestandsmitglieder jeweils genau eine aktuelle verifizierte Installation sowie die Abwesenheit aller umbenannten oder entfallenen Legacy-IDs.
 3. Dokumentiere pro Repository und Suite den verifizierten Endstand sowie jede verbleibende Abweichung; schließe den Plan nur bei vollständiger Acceptance.
-Evidence: docs/release-result-2026-09-26.md: zehn Remote-Audits bestanden; 56 Downloads hashgleich; SOL-Migration mit 4/7 Skills und nativer Codex-Discovery bestanden.
+Evidence: Remote-Releases und Asset-Hashes verifiziert; isolierte Migration und native Codex-Discovery bestanden.
 
 ### W-016 Lokale Suites vor dem GitHub-Release vollständig neu installieren
 
@@ -242,7 +242,7 @@ Steps:
 1. Prüfe beide Public-Ausgaben gegen ihre Exportreceipts und ermittle die betroffenen globalen Installationen.
 2. Deinstalliere die benannten Skillgruppen und installiere die vollständigen passenden Pakete aus skills/public/.
 3. Vergleiche Dateiinventare und Hashes; prüfe verfügbare Discovery und kehre vor GitHub-Veröffentlichung zu W-011 zurück.
-Evidence: [2026-09-25: Nutzer priorisiert reale Neuinstallation vor weiterem GitHub-Release für den Workflow im DIVI-5-Projekt., 2026-09-25: Automatische Hostprüfung verweigert Deinstallationsprozess vor Start mit blocked by policy; keine Installation oder Entfernung ausgeführt., 2026-09-25: Nutzer entfernt Altinstallationen; Abwesenheit vor Installation geprüft., 2026-09-25: Codex sieben und Claude vier Skills aus Public installiert; alle Dateien hashgleich; 107 beziehungsweise 27 fremde Dateien unverändert.]
+Evidence: Nutzer entfernte Altinstallationen; vollständige Codex-/Claude-Suites danach bytegleich installiert. Fremde Dateien erhalten.
 
 ### W-017 Workflow delegiert sparsam und Suite-Helper sind mit Luna geprüft
 
@@ -257,4 +257,4 @@ Steps:
 2. Korrigiere die kanonischen Dispatch- und Warteverträge sowie belegte Helper-Aufruffehler suiteweit.
 3. Führe für alle inventarisierten Helper und die korrigierten Workflow-Verträge Luna-6-Medium-Tests mit isolierten Fixtures aus; prüfe die beobachteten Ergebnisse.
 4. Baue die betroffenen Pakete neu und aktualisiere die Installation erst an einer sicheren inaktiven Grenze; erhalte den DIVI-Stopp bis zur ausdrücklichen Fortsetzung.
-Evidence: PLAN-0014 samt Astra und SOL abgeschlossen. Nutzer erlaubt Installation trotz DIVI ohne Workflow: Codex 7 Skills mit 78 Dateien; Claude 4 mit 43 Dateien hashgleich.
+Evidence: PLAN-0014 mit Astra- und Sol-Prüfung abgeschlossen. Nutzer erlaubte anschließende Installation; Codex-/Claude-Pakete bytegleich.

@@ -106,4 +106,4 @@ Steps:
 1. [status: done] Externen Review mit Astra High gegen Quellen und Nachweise prüfen.
 2. [status: done] Aus beiden Antworten PLAN-0029 erstellen und separat mit Astra High prüfen.
 3. [status: in_progress] Plan-Findings korrigieren und den freigegebenen Umsetzungsstand festhalten.
-Evidence: Auftrag ergänzt: Astra High, keine Release-Prüfung. Quelle: Nutzeranhang Eingefügter Text.txt. Nachweise: temp/2026-10-01-workflow-plan-state/external-review-question.txt.
+Evidence: Auftrag um Astra-High-Prüfung ergänzt; Release-Prüfung ausdrücklich ausgeschlossen.

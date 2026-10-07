@@ -26,11 +26,6 @@ zu `../shared/instruction-writing.md` und dessen Referenzen. Der neue Skill
 ergänzt deren Anwendung auf Projektkontext, ohne einen zweiten Regelbestand
 zu pflegen. Scoville Plan besitzt weiter Indexformat, Verweise und Lebenszyklus.
 
-Der Nutzer hat nach Planerstellung und GPT-6.1-Review am 30.09.2026 die
-Umsetzung des Plans beauftragt. Das Review und seine Grenzen stehen in
-`docs/plan0024-review.md`, Umsetzungsnachweise in
-`docs/plan0024-implementation-evidence.md`.
-
 Recherche vom 30.09.2026: kurze relevante Regeln, bedarfsgesteuerte Verweise und
 klare Zuständigkeiten statt pauschaler Prozessrezepte. Die Gliederung in W-001
 ist eine abgeleitete Empfehlung, kein empirisch bewiesenes Optimum.
@@ -67,7 +62,7 @@ Steps:
 1. [status: done] SKILL.md und nötige Metadaten unter members/scoville-project-context-cleanup/scoville-project-context-cleanup/ mit Skill Creator und Skillwriter verfassen. Die unten verlinkte Recherche und die kanonischen Shared-Schreibregeln nutzen. Nur tatsächlich benötigte Referenzen ergänzen, keine pauschale Quellenladepflicht oder spekulativen Helper.
 2. [status: done] Für AGENTS.md eine anpassbare Ordnung vermitteln: Zweck/Geltungsbereich, verbindliche Grenzen, kanonische Quellen/Zuständigkeiten, projektspezifische Arbeit, Prüfung/Abschluss, bedingte Verweise. Leere Abschnitte vermeiden. Voraussetzungen vor Aktionen, Ausnahmen bei der Regel, einzelne lokale Regeln bei ihrem Bereich erhalten. Ausführliche Verfahren nur bei Bedarf referenzieren; notwendige Schutzregeln nicht unzugänglich auslagern.
 3. [status: done] Mit isolierten Beispielen echte Ergänzung, vorhandene Dublette, lange mehrdeutige Regel, relevante Ausnahme, widersprüchliche Ergänzung, bereits geeignete Datei und Indexpflege prüfen. Explizite neue Nutzerentscheidungen dürfen frühere Regeln im beauftragten Umfang ersetzen; ungelöste materielle Widersprüche benötigen eine gezielte Rückfrage. Fehlende Orientierung nicht durch erfundene Regeln oder Ordnerpfade ersetzen. Einen zweiten unveränderten Durchlauf als Stabilitätsfall prüfen und tatsächlich beobachtete Ergebnisse samt Modell/Host festhalten.
-Evidence: docs/plan0024-implementation-evidence.md: Skill Creator, acht Luna-Dateifälle und drei bytegleiche Wiederholungen bestanden.
+Evidence: Skillstruktur und Luna-Dateifälle bestanden; unveränderte Wiederholung blieb bytegleich.
 
 ### W-002 Die gebaute Suite liefert den Skill und routet passende Schreibaufträge
 
@@ -82,4 +77,4 @@ Steps:
 2. [status: done] suite.json und development/readme/scoville-project-context-cleanup/ ergänzen, gemeinsame Templates nutzen und README-Vorschauen regenerieren. Ohne neues Standalone-Repository in die vorhandenen Layouts einpassen. Shared-Buildcode nur bei einer belegten Vertragslücke kanonisch ändern und Kopien bauen. Falls Runtime-Helper nötig werden, helper_contracts-/Fallback-Regeln vollständig anwenden. Ein erstes verwendbares Suite-Paket bauen, bevor Verhaltensfälle beginnen.
 3. [status: done] Mit den gebauten Suite-Anweisungen positive Aufträge ohne Skillnamen und die Negativfälle prüfen. Beobachtete Auswahl und Schreibhandlung samt Modell/Host dokumentieren; keine garantierte Host-Aktivierung aus einer Beschreibung ableiten. Korrekturen beim kanonischen Owner vornehmen, neu bauen und betroffene Fälle erneut prüfen.
 4. [status: done] Relevante Tests unter development/tests/ beziehungsweise ../shared/tests/ ergänzen und ausführen. Beide General-Layouts und Codex-Suite samt isolierten Exporten prüfen. Buildausgaben ausschließlich unter skills/temp/release/ führen. Vor Refresh bestehende Leser und Inventar prüfen. Veröffentlichung, Synchronisierung öffentlicher Ziele und Installation bleiben außerhalb dieses Plans. Keine feste historische CLI-Testreihe wieder einführen, siehe ADR-0118.
-Evidence: docs/plan0024-implementation-evidence.md: 13 Buildtests, vier Profil-/Exporttests, drei Builds und sieben implizite Auswahlfälle bestanden.
+Evidence: Builds, Profiltrennung, isolierte Exporte und implizite Auswahlfälle bestanden.

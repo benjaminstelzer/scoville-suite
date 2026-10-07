@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 ## Goal
 
-Der Codex-Workflow liefert verlässliche Prüfergebnisse, hält Rollen und Fortsetzungsdaten korrekt und vermeidet doppelte Aufträge sowie wiederholtes Kontextladen. Grundlage ist die lesende Analyse von DIVI PLAN-0012, Managern #5–#7 und Workern #6–#8 am 2026-09-26. Korrekturen bleiben klein und nutzen bestehende native Werkzeuge. Bereits funktionierende Nachrichten, geordnete Steps und Kontextübergaben bleiben erhalten. PLAN-0014 bleibt abgeschlossene Historie.
+Der Codex-Workflow liefert verlässliche Prüfergebnisse, hält Rollen und Fortsetzungsdaten korrekt und vermeidet doppelte Aufträge sowie wiederholtes Kontextladen. Korrekturen bleiben klein und nutzen bestehende native Werkzeuge. Funktionierende Nachrichten, geordnete Steps und Kontextübergaben bleiben erhalten.
 
 ## Non-goals
 
@@ -33,7 +33,7 @@ Acceptance: Ein isolierter Versuch mit fehlgeschlagener Prüfung und nachfolgend
 Steps:
 1. [status: done] Prüfe die betroffenen bestehenden Regeln unter members/scoville-code/scoville-code/references/ und den Workflow-Dispatch gegen die beobachteten Befehlsfolgen. Präzisiere beim zuständigen Owner kurz: Einzelstatus auswerten oder bei Fehler abbrechen; vorhandene Zeilenenden außerhalb des Edits erhalten. Berücksichtige im Fixture bereits gemischte Repository-Zeilenenden und aktiviertes core.autocrlf; ändere keine globale Git-Konfiguration. Kopiere diese Regeln nicht in alle Skills.
 2. [status: done] Prüfe beide Fehlerfälle in einem isolierten Fixture mit den dokumentierten Aufrufen und dem tatsächlich konsumierenden Agenten. Halte Aufruf, Einzelstatus und unveränderte Dateibereiche als knappe Evidenz fest.
-Evidence: SOL 6 Medium erkannte Exit 7 und 0 und erreichte nach dem begrenzten Edit zweimal Exit 0. Bytevergleich und Testnachweis unter development/luna-tests/workflow-fixplan16-evidence.md.
+Evidence: SOL erkannte getrennte Fehler-/Erfolgsstatus; begrenzter Edit und Bytevergleich bestanden.
 
 ### W-002 Manager hält Rollen und aktuellen Laufzeiger eindeutig
 
@@ -46,7 +46,7 @@ Acceptance: Im isolierten Ablauf übernimmt der Manager keine Produktänderung, 
 Steps:
 1. [status: done] Präzisiere members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md und die betroffenen Dispatch-/Rollover-Regeln nur an den vorhandenen Zuständigkeits- und Schreibstellen. Behalte das einfache Cursor-Format bei.
 2. [status: done] Prüfe Dispatch, Ergebnisübernahme und Rollover mit einem absichtlich veralteten Cursor-Feld sowie einer notwendigen Quellkorrektur. Belege eindeutigen Folgezustand und eingehaltene Rollen ohne zusätzlichen Kontrollaufruf.
-Evidence: SOL 6 Medium besteht Rollenprobe und native Fortsetzung; Abschlusscursor nach gezielter Korrektur eindeutig. Nachweis unter development/luna-tests/workflow-fixplan16-evidence.md.
+Evidence: SOL-Rollenprobe und native Fortsetzung bestanden; korrigierter Abschlusscursor eindeutig.
 
 ### W-003 Aufträge und Übernahmen verbrauchen nur nötigen Kontext
 
@@ -59,7 +59,7 @@ Acceptance: Das Toolprotokoll enthält keine zusätzliche vollständige Builder-
 Steps:
 1. [status: done] Bewahre die bereits korrekte direkte Build-und-Start-Codezelle in references/operations-dispatch.md. Entferne nur belegte Kontextwiederholungen und gleiche operations.md, operations-rollover.md sowie scripts/build_dispatch_prompt.py damit ab; kein neuer Dispatch-Wrapper.
 2. [status: done] Prüfe einen Erstauftrag und eine Fortsetzung mit einem real konsumierenden Agenten. Vergleiche den tatsächlich übergebenen Auftrag mit dem Builder-Ergebnis und kontrolliere den Toolverlauf auf Doppel-Ausgaben, wiederholte Auswahl und unnötige Vorgängerlektüre.
-Evidence: Fünf native Dispatches ohne zusätzliche Auftragsausgabe; Rohprotokoll korrigiert früheren Doppel-Ausgabebefund. Nachweis unter development/luna-tests/workflow-fixplan16-evidence.md.
+Evidence: Native Dispatches ohne zusätzliche vollständige Auftragsausgabe belegt; früherer Doppel-Ausgabebefund durch Rohprotokoll korrigiert.
 
 ### W-004 Gemeinsamer Ablauf bestätigt Korrekturen und Kosten
 
@@ -72,4 +72,4 @@ Acceptance: Ein zusammenhängender Versuch umfasst geordnete Arbeit, einen sicht
 Steps:
 1. [status: done] Baue einen isolierten Kandidaten aus den kanonischen Quellen. Verwende ein kleines Fixture für den gemeinsamen Versuch; wiederhole keine unveränderten Einzelprüfungen und führe keinen vollständigen Release-Gate-Lauf aus.
 2. [status: done] Werte die tatsächlichen Aktionen und Ausgaben gegen W-001 bis W-003 aus. Halte Befunde und Kosten knapp unter development/luna-tests/ fest. Behebe nur nachgewiesene Abweichungen und wiederhole nur betroffene Fälle.
-Evidence: Native SOL-6-Medium-Prüfungen mit Reviews bestanden; Bytevergleich und Fortsetzung korrekt. Kosten und Testgrenzen unter development/luna-tests/workflow-fixplan16-evidence.md.
+Evidence: Native SOL-Prüfungen mit Reviews bestanden; Bytevergleich und Fortsetzung korrekt. Kostenbeobachtung belegt keine allgemeine Einsparung.

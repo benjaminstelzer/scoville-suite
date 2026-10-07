@@ -33,7 +33,7 @@ Steps:
 1. [route: medium] Implement `scoville-plan/scripts/select_context.py` as a read-only parser over canonical format-version-1 files with deterministic JSON and structured errors.
 2. [route: medium] Add focused fixtures and tests under `development/tests/` for current and named selection, dependency and Decision projection, one-MiB isolation, ambiguity, path safety, and output-budget failure.
 3. [route: low] Update `scoville-plan/references/read-only.md`, `SKILL.md`, and `README.md` so selection uses the exact selector projection while proposal, preflight, graph, and successor semantics retain separate bounded reads and a bounded manual fallback.
-Evidence: [Fourteen selector tests passed including one-MiB isolation exact headings path safety and recovery-only exclusions, Full 66-test repository suite passed after the Astra correction set, Live selector on the active development profile emitted only plan work_item direct_dependencies and decisions, All five JSON contract files parsed successfully, Native profile validator passed with zero errors and warnings after the Astra correction set]
+Evidence: Lossless selector, isolation, path safety and recovery checks passed after Astra corrections; live selection emitted only the intended semantic context.
 
 ### W-005 Define guarded Workflow Step-bundle compatibility
 
@@ -47,7 +47,7 @@ Steps:
 1. [route: medium] Resolve ADR-0003 and, only if accepted, update `scoville-plan/SKILL.md` and `scoville-plan/references/native-work-items.md` with the compatibility boundary.
 2. [route: medium] Add focused contract tests for compatible adjacency and every mandatory bundle boundary.
 3. [route: low] Document the unchanged default and explicit Workflow-only exception in `README.md` and `CHANGELOG.md`.
-Evidence: [Accepted ADR-0003 is reflected in SKILL.md and native-work-items.md with one-Step default behavior and guarded bundle boundaries, README and CHANGELOG document the public compatibility contract without adding Plan fields, Three focused evaluation cases cover default compatible and boundary behavior, Full 61-test repository suite passed after the contract update, Native profile validator passed with zero errors and warnings]
+Evidence: Accepted ADR-0003 implemented with one-Step default and guarded bundle boundaries; documentation and focused checks agree, without new Plan fields.
 
 ### W-004 Qualify and publish deterministic Plan selection
 
@@ -61,4 +61,4 @@ Steps:
 1. [route: medium] Run the complete selector, Step compatibility, recovery, validator, and repository-structure suite on the final tree.
 2. [route: medium] Obtain an independent review of deterministic projection, dispatch compatibility, and recovery behavior.
 3. [route: low] Install the exact reviewed package locally, publish the approved repository update and release, and verify package, tag, release assets, and remote commit parity.
-Evidence: [Public 67-test suite passed after the real DIVI boundary fix, Fresh Terra Medium agents used select_context.py for DIVI PLAN-0012 W-003 and EMPCO PLAN-0001 W-290 without raw Plan fallback, Direct selector values and corrected semantic fingerprints matched both Terra reports, Astra High consultation 04 found no material issue in both Skills all Python helpers or the real-project boundary fix, Canonical scoville-plan package and installed package matched 15 files by relative path and SHA-256, Commit 2d0afe397d89929bf325a97f592ab8fc0eaec460 was pushed to public main and annotated tag v1.5.0 peeled to that commit, Published v1.5.0 contained 14 verified assets with matching names sizes and SHA-256 digests, Final publication audit passed with one release one release-version tag complete package structure family alignment and profile alignment]
+Evidence: Independent Astra review and real-project selector probes passed; installed package and verified public release matched the corrected source. Practical token impact remains downstream-owned.

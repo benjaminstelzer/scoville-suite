@@ -35,7 +35,7 @@ Acceptance: Für jede Datei des Entwurfs ist festgehalten, welcher Befund adress
 Steps:
 1. Vergleiche die unkommittierten Änderungen in members/scoville-workflow-for-codex/scoville-workflow-for-codex/SKILL.md, references/operations.md, references/operations-dispatch.md, references/operations-rollover.md und scripts/build_dispatch_prompt.py mit den Befunden der Analyse und ergänze deren Statusspalte.
 2. Lege das Rollout-Analyseskript unter development/luna-tests/ ab, das Tool-Aufrufe nach Name, Warteabstände, Meldungsarten, input_tokens, Ausgaben über 10k Zeichen, Doppel-Lesen, Helper-Fehler und Dispatch-Dauer zählt, und prüfe es gegen die drei Läufe der Analyse.
-Evidence: [ADR-0086 erlaubt korrigierte Ausgangswerte; development/luna-tests/token-overhead-implementation.md dokumentiert Entwurfsabgleich und reproduzierte Kernwerte.]
+Evidence: Entwurf abgeglichen und korrigierte Ausgangswerte gemäß ADR-0086 reproduziert.
 
 ### W-002 Coordinator wartet idle und wird vom Worker geweckt
 
@@ -49,7 +49,7 @@ Steps:
 1. Prüfe mit einem isolierten nativen Task Erstellung, Turn-Ende, Nachricht und Aufwecken. Sichere Task-IDs und Ergebnis unter development/luna-tests/suite-simplification-comparison.md. Bei fehlendem Nachweis bleibt die Umstellung offen.
 2. Ersetze nach bestandenem Versuch in members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations.md den normalen Warte- und Leseablauf durch direkte Nachrichtenübernahme. Passe scripts/build_dispatch_prompt.py an; ein fehlgeschlagener Versand löst keine automatische Wiederholung aus.
 3. Stelle die in e5fe414 entfernten Regeln gegen Polling, wiederholte Kommentare und Sichtbarkeitsprüfungen kurz in operations.md und im Worker-Prompt wieder her, soweit sie mit den aktuellen Hostvorgaben vereinbar sind.
-Evidence: [development/luna-tests/token-overhead-implementation.md: Zwei native Zustellproben bestanden; direkte Übernahme umgesetzt; acht Workflow-Vertragstests bestanden.]
+Evidence: Native Zustellung und direkte Ergebnisübernahme praktisch geprüft; fokussierte Workflow-Checks bestanden.
 
 ### W-003 Workflow ruft native Aufgabenwerkzeuge ohne Zwischenschichten auf
 
@@ -63,7 +63,7 @@ Steps:
 1. Entferne in references/operations.md, references/operations-dispatch.md und SKILL.md unter members/scoville-workflow-for-codex/scoville-workflow-for-codex/ alle Lifecycle-Helper-Operationen und ersetze sie durch die direkten nativen Aufrufe mit einem kurzen Beispiel für die gemeinsame Code-Zelle.
 2. Entferne task_lifecycle.py und task_lifecycle.md aus den shared_helpers von Workflow in suite.json, sofern kein verbleibender Laufzeitaufruf sie braucht, und halte parse_role_result.py aus dem beschriebenen Ablauf heraus.
 3. Prüfe die direkte Ergebnisannahme mit einem gültigen Ergebnis sowie fehlenden Pflichtfeldern und unzulässigem Status. Erhalte die bestehende Fehlerbehandlung ohne neue Bestätigungskette.
-Evidence: [Direkte native Aufrufe dokumentiert; Lifecycle-Manifestabhängigkeit und Builder-Parserimport entfernt; acht Workflow-Vertragstests bestanden.]
+Evidence: Native Aufrufe ersetzen die Lifecycle-Zwischenschicht; Builder-Abhängigkeit entfernt und Workflow-Checks bestanden.
 
 ### W-004 Worker erhält nur seinen Step und wird schnell erstellt
 
@@ -77,7 +77,7 @@ Steps:
 1. Beschränke members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/build_dispatch_prompt.py auf die kompakte Auftragszusammenstellung. Leite bekannte Pfade ab und dokumentiere unvermeidbare Eingaben vollständig; füge keine Lifecycle- oder Modellauflösungsschicht hinzu.
 2. Dokumentiere in references/operations-dispatch.md den direkten create_thread-Aufruf mit dem Auftrag und dem bestehenden konfigurierten Modellpaar. Entferne doppelte Prompt-Ausgaben und unnötige Zwischenschritte.
 3. Prüfe einen Step, dessen entscheidende Anforderung ausschließlich in Acceptance steht, und einen Reviewer-Auftrag. Beide müssen ohne Nachladen des Plans vollständig verständlich sein. Projekt- und Code-Regeln bleiben anwendbar.
-Evidence: [Builder liefert direktes Prompt-JSON mit Outcome und Acceptance; gebündelter Selector und acht Vertragstests einschließlich Unicode und CRLF bestanden.]
+Evidence: Builder-Auftrag mit Outcome und Acceptance direkt verwendbar; Selector-, Unicode- und CRLF-Fälle bestanden.
 
 ### W-005 Kleiner Laufdatensatz ermöglicht Rollover und Wiederaufnahme
 
@@ -90,7 +90,7 @@ Acceptance: .scoville/workflow.md hält aktive Task-ID mit nötiger Hostzuordnun
 Steps:
 1. Kürze members/scoville-workflow-for-codex/scoville-workflow-for-codex/references/operations-rollover.md auf Skill-Aufruf, Laufdatensatz und Vorgänger-ID. Sichere die Fortsetzung vor create_thread und danach ausschließlich die zurückgegebene Nachfolger-ID; archiviere den beendeten Vorgänger einmal direkt.
 2. Beschreibe in references/operations.md die Wiederaufnahme anhand des kleinen Laufdatensatzes. Fehlende Zustellung und unklarer Taskstatus erlauben gezielte native Abfragen; ungelöster Zustand bleibt sichtbar und blockiert weitere schreibende Tasks.
-Evidence: [operations-rollover.md und operations.md behalten kleinen Laufdatensatz; direkte Ergebnisübernahme und einmalige Übernahmeprüfung ohne Vorgängerchat; reale Gesamtprüfung folgt W-009.]
+Evidence: Kleiner Laufdatensatz und direkte Übernahme ohne Vorgängerchat umgesetzt; Gesamtprüfung gehörte W-009.
 
 ### W-011 Übergaben verwenden Klartext mit Ausnahme von Ask Claude
 
@@ -103,7 +103,7 @@ Acceptance: AGENTS.md hält die Regel fest. Builder-Aufträge und optionale Zusa
 Steps:
 1. Korrigiere build_dispatch_prompt.py und operations-dispatch.md auf Klartextausgabe und Klartextdateien für Rollenresultate sowie Restarbeit; passe die betroffenen Vertragstests an.
 2. Korrigiere die native resolve-Rückgabe von ask.py und die Aufrufdokumentation auf Klartext, ohne Ask Claude zu ändern. Prüfe die gezielten Ausgabeverträge.
-Evidence: [ADR-0088 begrenzt die Formatkorrektur auf Dispatch; acht Workflow-Tests und drei Claude-Timeouttests bestanden; technische Ask-JSON-Rückgabe erhalten.]
+Evidence: Dispatch-Formatkorrektur gemäß ADR-0088 geprüft; technische Ask-JSON-Schnittstelle und Claude-Route erhalten.
 
 ### W-006 Integrierte Ask-Skills nutzen eigene native Chats
 
@@ -116,7 +116,7 @@ Acceptance: Die integrierten Ask-Quellen unter members/scoville-ask-for-codex un
 Steps:
 1. Erfasse die integrierten Ask-Quellen anhand von suite.json und gemeinsame Helper in ../shared; ändere deren kanonische Quellen statt generierter Kopien. Ersetze in members/scoville-ask-for-codex/scoville-ask-for-codex/SKILL.md und references/native.md den prepare-, creation_result- und Warteablauf durch direkten create_thread-Aufruf je Adviser mit adviser.md-Rolle und Frage und idle Warten auf die Adviser-Nachrichten.
 2. Beschränke scripts/ask.py im nativen Weg auf das Auflösen der Konfiguration und entferne den Pflichtaufruf von list_models.py vor jedem Dispatch.
-Evidence: [Native Ask verwendet direkte eigene Chats; Auflösung startet keinen Katalogprozess; Lifecycle-Abhängigkeit entfernt; 21 Ask-Tests einschließlich Claude-Route bestanden.]
+Evidence: Native Ask-Chats und direkte Kommunikation geprüft; Katalogprozess und Lifecycle-Abhängigkeit entfallen. Claude-Route geprüft.
 
 ### W-007 Verbleibende Helper haben eindeutige kurze Verträge
 
@@ -129,7 +129,7 @@ Acceptance: Jeder Helper aus Scoville einschließlich der integrierten Ask-Skill
 Steps:
 1. Setze in members/scoville-plan/scoville-plan/scripts/select_context.py den Default von --format auf json und passe die zugehörigen Tests an.
 2. Ergänze unter development/tests einen Test, der alle dokumentierten Helper-Aufrufe in Laufzeit-Markdown und Worker-Prompt gegen die argparse-Signaturen prüft, und entferne die Legacy-guard.json-Anweisung aus members/scoville-workflow-for-codex/scoville-workflow-for-codex/SKILL.md.
-Evidence: [Helper-Verträge und Setup-Serialisierung dokumentiert; zwei Signaturtests sowie 31 Suite- und 55 Shared-Tests bestanden; private-helper-inventory.md erfasst Quellen.]
+Evidence: Helper-Verträge, dokumentierte Signaturen und Setup-Serialisierung geprüft; betroffene Suite-/Shared-Checks bestanden.
 
 ### W-008 Jeder Helper besteht einen Luna-6-Medium-Einzeltest
 
@@ -143,7 +143,7 @@ Steps:
 1. Baue den korrigierten Codex-Kandidaten mit development/build_suite.py unter skills/temp/release/ im Workspace und installiere ihn isoliert. Die integrierten Ask-Skills gehören zu diesem Kandidaten. Verändere keine reguläre Skill-Installation.
 2. Lege je inventarisierter Aufrufart einen Fall für development/luna-tests/run_codex_cli_case.py an. Führe ihn mit der isolierten Paketversion, ihrer Skill-Anweisung und gpt-6-luna medium aus.
 3. Werte die Läufe mit dem Analyseskript aus W-001 aus und trage Paketstand, Aufrufe, Fehler und Tokens in development/luna-tests/suite-simplification-comparison.md ein. Nach relevanten Korrekturen neu bauen und betroffene Prüfungen wiederholen.
-Evidence: development/luna-tests/suite-simplification-comparison.md und private-helper-inventory.md ordnen Luna-Helpertests und finale SOL-Verbraucher zu; nativer Gruppenlauf samt beiden Rollovern bestanden.
+Evidence: Luna-Helperprüfungen und finale SOL-Verbraucher zugeordnet; nativer Gruppenlauf mit beiden Rollovern bestanden.
 
 ### W-009 Nativer Ablauf und gezielte Wiederaufnahme sind belegt
 
@@ -156,7 +156,7 @@ Acceptance: Ein reales Fixture mit mindestens drei Steps zeigt Delegation, Idle,
 Steps:
 1. Verwende den isolierten Kandidaten aus W-008. Führe den normalen Fixture-Ablauf und einen gezielten Unterbrechungsfall aus; dokumentiere tatsächliches Hostverhalten und Grenzen statt simulierten Erfolg.
 2. Vergleiche einen isolierten Ausgangsstand und den Kandidaten mit demselben Fixture und Modellpaar. Werte mit dem Skript aus W-001 aus und ergänze docs/token-overhead-analyse-2026-09-26.md um Ergebnisse und getrennte Recovery-Aufrufe. Ersetze dort überholte Zielgrenzen durch Verweise auf diesen Plan; historische Messwerte bleiben erhalten.
-Evidence: docs/token-overhead-analyse-2026-09-26.md: gleicher SOL-Vergleich 84 auf 41 Coordinator-Aufrufe; native Übergaben, Rollover und gezielte Wiederaufnahme belegt; Grenzen separat dokumentiert.
+Evidence: Vergleichbarer SOL-Lauf benötigte weniger Coordinator-Aufrufe; native Übergaben, Rollover und gezielte Wiederaufnahme belegt. Keine allgemeine Einsparungsquote.
 
 ### W-012 Alle geänderten Skills sind mit SOL 6 Medium geprüft
 
@@ -169,7 +169,7 @@ Acceptance: Der finale isolierte Paketstand wird getestet. Workflow umfasst nati
 Steps:
 1. Ermittle die geänderten Skills aus dem tatsächlichen Diff und formuliere je Skill einen realistischen Fall im bestehenden isolierten Testbereich.
 2. Führe die Fälle mit gpt-6-sol medium aus; prüfe Dateien, Tool-Aufrufe und Ergebnisse, sichere die Nachweise und korrigiere belegte Fehler vor gezielter Wiederholung.
-Evidence: development/luna-tests/suite-simplification-comparison.md ordnet Workflow, Ask, Plan und Setup den finalen SOL-Tests zu; 104 Paketdateien bytegleich zum geprüften Staging.
+Evidence: Geänderte Workflow-, Ask-, Plan- und Setup-Pakete mit SOL geprüft; Paketbytes entsprachen dem geprüften Staging.
 
 ### W-010 Nachweise gehen an den bestehenden Releaseplan zurück
 
@@ -182,7 +182,7 @@ Acceptance: Ergebnisse aus W-008 und W-009 sind mit Paketstand, Task-IDs und Fun
 Steps:
 1. Fasse die Nachweise und verbleibenden Grenzen in docs/token-overhead-analyse-2026-09-26.md zusammen und ordne sie PLAN-0012 W-017 zu.
 2. Ergänze dort Evidence und Next action nach den Plan-Regeln, ohne gestartete Aufträge umzuschreiben. Reguläre Installation erfolgt erst an einer sicheren inaktiven Grenze unter W-017; Veröffentlichung bleibt bis zu dessen Abschluss und den bestehenden Releasegates gesperrt.
-Evidence: PLAN-0012 W-017 verweist auf docs/token-overhead-analyse-2026-09-26.md und die SOL-/Luna-Nachweise; sichere reguläre Installation sowie bestehende Releasegates bleiben dort offen.
+Evidence: Nachweise an PLAN-0012 W-017 übergeben; Installation und Release blieben dessen gesonderte Abnahme.
 
 ### W-013 Alle privaten Skill-Helper bestehen die Verbraucherprüfung
 
@@ -196,7 +196,7 @@ Steps:
 1. Erfasse kanonische Skills und Helper im gesamten privaten Verzeichnis; ordne gemeinsam erzeugte Kopien ihrem Owner zu.
 2. Prüfe alle zusätzlich gefundenen Helper mit isolierten Fixtures und tatsächlichen Verbrauchern; sichere Befehle sowie Ergebnisse und Modellnachweise.
 3. Korrigiere belegte Defekte an ihren kanonischen Quellen und wiederhole betroffene Tests.
-Evidence: development/luna-tests/private-helper-inventory.md: alle Laufzeitpfade zugeordnet; echter sauberer Testbuild besteht release-Verifier; Live-Familienabweichungen als externe Releasegrenze dokumentiert.
+Evidence: Laufzeithelper und Verbraucher geprüft; sauberer Testbuild bestand Verifier. Live-Familienabweichungen blieben externe Releasegrenze.
 
 ### W-014 Coordinator-Rollover archiviert den Vorgänger per Nachricht
 
@@ -209,7 +209,7 @@ Acceptance: Der Vorgänger schreibt nach create_thread nicht mehr ins Projekt. D
 Steps:
 1. Korrigiere operations-rollover.md und operations.md ohne neue Helper oder Laufzeitschicht.
 2. Baue den Kandidaten und prüfe den echten nativen Rollover einschließlich Absenderidentität und Archivierungsaufruf ohne Nachprüfung.
-Evidence: development/luna-tests/suite-simplification-comparison.md: PLAN-0003 belegt Übernahme und einmalige Selbstarchivierung ohne Rollover-waits, Bestätigung oder Nachprüfung.
+Evidence: Native Übernahme und einmalige Selbstarchivierung ohne Rollover-Warteabfrage gemäß ADR-0092 belegt.
 
 ### W-015 Ask-Chattitel verwenden S-ASK und Großbuchstaben
 
@@ -222,7 +222,7 @@ Acceptance: Neu erzeugte native Ask-Chats beginnen mit S-ASK. Die Modell-ID steh
 Steps:
 1. Nach der aktuellen Suite-Abnahme die kanonische Ask-Titelanweisung und betroffene Tests aktualisieren; abgeleitete Dateien bauen.
 2. Den tatsächlichen Titel eines neuen Ask-Chats prüfen, ohne laufende Chats umzubenennen.
-Evidence: development/luna-tests/ask-title-final.md belegt SOL-Medium-Prüfung des echten Titels und native Rückzustellung; 18 Ask-Tests und Paketprüfung bestehen.
+Evidence: Tatsächlicher Ask-Titel und native Rückzustellung mit SOL geprüft; betroffene Checks bestanden.
 
 ### W-016 Workflow, Plan und Ask gegen die Projektregeln prüfen
 
@@ -235,7 +235,7 @@ Acceptance: Die kanonischen Anweisungen und dokumentierten Helper-Abläufe aller
 Steps:
 1. Prüfe die aktuellen kanonischen Workflow-, Plan- und Ask-Anweisungen samt verwendeten Helpern gegen die geltenden Projektregeln und verfügbaren Codex-Bordmittel.
 2. Teile dem Nutzer konkrete Abweichungen und kleinste sinnvolle Korrekturen knapp mit; unterscheide notwendige Absicherungen von vermeidbarer Komplexität. Keine Befunde selbstständig umsetzen.
-Evidence: development/luna-tests/project-rules-review.md dokumentiert mitgeteilte Findings, ausdrückliche Freigaben und geprüfte Korrekturen; finale SOL-Paketzuordnung in suite-simplification-comparison.md.
+Evidence: Findings mitgeteilt und ausdrücklich freigegebene Korrekturen geprüft; finale Pakete den SOL-Verbrauchertests zugeordnet.
 
 ### W-017 Plan und Step-Gruppen sind kurz erklärt und im Titel sichtbar
 
@@ -248,7 +248,7 @@ Acceptance: Die Startmeldung nennt Plan, Gruppen und Grund in ein bis zwei Sätz
 Steps:
 1. Ergänze Plan planning-granularity.md sowie Workflow SKILL.md und operations.md knapp; baue den isolierten Kandidaten.
 2. Prüfe Formulierung und Titelregeln mit SOL 6 Medium sowie die tatsächliche native Meldung und Chat-Erstellung im Kandidatenvergleich.
-Evidence: development/luna-tests/suite-simplification-comparison.md: native Startmeldung in zwei Sätzen; Worker-, Reviewer- und Repair-Titel zeigen STEPS-1-3; keine nachträgliche Titelkorrektur.
+Evidence: Native kurze Startmeldung und korrekte Worker-, Reviewer- und Repair-Titel für die gesamte Step-Gruppe belegt.
 
 ### W-018 Astra Medium prüft alle Änderungen vor Planabschluss
 
@@ -261,4 +261,4 @@ Acceptance: Astra Medium prüft Quellen und Abnahmebelege auf materielle Fehler 
 Steps:
 1. Native Ask-Prüfung mit gpt-6-astra medium ausführen und Antwort sichern.
 2. Befunde verifizieren und berechtigte Fehler mit der einfachsten ausreichenden Lösung beheben.
-Evidence: development/luna-tests/astra-final-review.md belegt zwei behobene Findings; Astra ohne materiellen Restbefund; SOL-Verbrauchertest aller drei Ausgabepfade bestanden.
+Evidence: Unabhängiges Astra-Review durchgeführt; bestätigte Findings behoben. SOL-Verbrauchertests der Ausgabepfade bestanden.

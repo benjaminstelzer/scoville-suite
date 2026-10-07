@@ -12,14 +12,12 @@ updated: 2026-09-25
 
 Eine gemeinsame Entwicklungsgrundlage erzeugt eine allgemeine Scoville Suite und eine Codex-Suite. Planpunkte und zusätzliche Workflow-Anweisungen verwenden einfache Schreibprofile bei vollständigem Kontext. Scoville Ask ersetzt die bisherigen Ask-Varianten als Codex-Suite-Mitglied und zusätzlich einzeln installierbares Codex-Paket gemäß ADR-0042. Beide Ausgaben erhalten knappe, zutreffende Nutzungs- und Konfigurationshinweise.
 
-**Verbindliche Reihenfolge**
-
-1. Zuerst gemeinsame Schreibgrundlage, Plan und Workflow korrigieren.
-2. Danach beide Suite-Ausgaben, Python-Fallback-Trennung und alle aktuellen How-to-use-Abschnitte fertigstellen. Suite-Pakete setzen sämtliche enthaltenen Skills als installiert und aktiviert voraus; nur Standalone-Pakete enthalten Familienblöcke und optionale Geschwister-Behandlung. Diese Ergänzung wird vor den nächsten Tests umgesetzt. Vor vollständiger Prüfung erfolgt kein Release.
-3. Erst wenn sämtliche Punkte vor Ask abgearbeitet und die abschließenden Reviews bestanden sind, Plan-/Workflow-Korrekturen und die Codex-Suite veröffentlichen sowie die GitHub-Profilseite aktualisieren. Die allgemeine Ausgabe bleibt Bestandteil der Build-/Exportprüfung.
-4. Der Auftrag vom 2026-09-25 erlaubt den unabhängigen Ask-Umbau und SOL-6-Medium-Tests parallel zum UI-Update gemäß ADR-0043. Gemeinsame Dateien werden gegen parallele Änderungen abgeglichen; laufende UI-Arbeit und deren Veröffentlichung bleiben eigenständig.
-
-Die neue read-only Astra-High-Session `01a0d295-31c2-7bd0-9e98-8e1af4f3ddcc` hat die konkrete Umsetzung geprüft; relevante Befunde werden korrigiert und lokal nachgeprüft. Der aktuelle Auftrag verlangt vor W-010 ein Astra-Gesamtreview des finalen Nicht-Ask-Stands einschließlich PLAN-0006 in derselben gültigen Session. Der frühere Reviewverzicht bleibt in W-009 als Historie erhalten. Die frühere Session ist geschlossen und wird nicht wiederverwendet. Ein vorbereiteter Build oder bestandenes Teilreview autorisiert keinen vorgezogenen Release. Ausgenommen ist ausschließlich der Ask-Umbau (W-001/W-002): Er ist gemäß ADR-0043 unabhängig beauftragt und blockiert diese nicht; Ask bleibt read-only.
+Suite-Pakete setzen sämtliche enthaltenen Skills als installiert und aktiviert
+voraus; nur Standalone-Pakete enthalten Familienblöcke und optionale
+Geschwister-Behandlung. Die allgemeine Ausgabe gehört zur Build-/Exportprüfung.
+Ask ist gemäß ADR-0043 unabhängig vom UI-Update beauftragt; gemeinsame Dateien
+werden gegen parallele Änderungen abgeglichen. Veröffentlichung setzt die
+vollständige Prüfung und die in den Steps festgelegten Voraussetzungen voraus.
 
 ## Non-goals
 
@@ -44,7 +42,7 @@ Steps:
 2. Ergänze nur die notwendige Buildgrundlage: erweitere den vorhandenen Source-Resolver um deklarierte `shared:`-Dateiquellen, bilde `shared_helpers` darauf ab und erfasse Prompting-Quellen im Snapshot samt Wrappern und Quellenhashes. Prüfe den isolierten Paketbuild ohne den späteren Zwei-Profil-Umbau vorauszusetzen. Erzeuge Regeln unter `references/prompting/` und den Helper unter `scripts/` beider Pakete. Erzeuge die unabhängig bearbeitbare Plan-Konfiguration unter `scoville-plan/assets/prompting.toml` und integriere Workflows eigene `[prompting]`-Einstellungen in `scoville-workflow-for-codex/assets/workflow.toml`. Baue die gemeinsame Standard-Modellliste in beide Einstellungen ein; spätere lokale Änderungen wirken nur im jeweiligen Skill. Lege keine globale Konfiguration oder Laufzeitabhängigkeit zwischen den Skills an.
 3. Lies in ADR-0014 den Abschnitt Gemeinsame Schreibregeln und übernimm diese Regeln und Profildifferenzen aus den beiden Originalquellen ohne zusätzliche Skillhilfe. `common.md` besitzt alle invarianten Schreibregeln; Profile beschreiben nur die Anleitungstiefe. `../shared/instruction-writing.md` verweist auf diesen Besitzer. Rollen, Risiko, Ergebnisformate und Guards bleiben in ihren bisherigen Verträgen. `models.toml` ist reine Buildquelle; pro Skill gibt es genau eine Runtime-Konfiguration, ohne Rollenmatrix, Umgebungsvariable oder zusätzliche Override-Datei.
 4. Prüfe die Auswahlreihenfolge samt explizitem Geltungsumfang und getrennten Einstellungen. Ein unbekanntes vorhandenes Zielmodell ergibt immer `medium`, auch bei hoher Aufgabenklasse. Plan liefert nur ohne Modell die vorhandene Klasse, Workflow das tatsächliche Empfängermodell. Nenne die Python-Mindestversion des Parsers (`tomllib`: 3.11). Der bestehende portable Plan-Paketweg bündelt einen nur bei fehlendem Python geladenen Auswahlersatz; zu altes Python und Helperfehler lösen ihn nicht aus. Workflow nutzt ausschließlich den Helper. Erst W-004 ordnet diese Dateien und Texte general/codex zu.
-Evidence: [Shared-Tests r3: 42 bestanden; Auswahlreihenfolge und unabhängige Konfigurationen geprüft, Astra-Review -04 ohne weitere Befunde im geprüften Umfang, Nachweise gelten vor dem Zwei-Profil-Umbau; dessen Abschlussprüfung bleibt W-009]
+Evidence: Profilauflösung und getrennte Konfigurationen geprüft; Astra-Review abgeschlossen. Nachweise vor dem Zwei-Profil-Umbau, dessen Abschlussprüfung bei W-009.
 
 ### W-006 Stufe 2: Plan schreibt jeden Arbeitspunkt passend zum Empfänger
 
@@ -58,7 +56,7 @@ Steps:
 1. Passe `members/scoville-plan/scoville-plan/SKILL.md` und die betroffenen Referenzen zu Granularität, Format und Work Items an. Vereinbare die bisher pauschalen Luna-/Lower-Reasoning-Vorgaben in den Projektanweisungen und `../shared/instruction-writing.md` mit den bewusst gewählten Schreibprofilen, ohne Kontextvollständigkeit zu schwächen.
 2. Korrigiere die bereits im Arbeitsbaum angepasste `references/read-only.md` endgültig: die manuelle Auswahl steht ausschließlich in der nur ohne Python geladenen Referenz. Ändere die Decision-Lektüre bewusst: IDs und Status vorgeschlagener Entscheidungen bleiben auffindbar; Inhalte und Empfehlungen werden bei Betroffenheit oder Gesamtaudit gelesen und berichtet. Abhängige offene Entscheidungen blockieren weiterhin nur betroffene Arbeiten. Ordne zusätzliche Erläuterungen dem bestehenden Verhaltenseinheitsprinzip unter, damit Low nicht mehr Worker erzeugt.
 3. Prüfe einen gemischten Plan und explizite Low-Vorgaben auf erhaltene Anforderungen, klare Reihenfolge, konkrete Prüfung und unveränderte Anzahl fachlich begründeter Arbeitseinheiten. Lade beim Schreiben nur die gemeinsamen Regeln und das benötigte Profil.
-Evidence: [Plan-Tests r2: 75 bestanden, Fünf ausgewählte Luna-Fälle r3 protokollseitig und inhaltlich geprüft; Plan-Paket r4 bytegleich, Python fehlt oder ist zu alt sowie Helperfehler korrekt unterschieden, Astra-Review -04 ohne weitere Befunde im geprüften Umfang]
+Evidence: Plan-Profile, Luna-Fälle und Python-/Helperfehler geprüft; Paketabgleich und Astra-Review abgeschlossen.
 
 ### W-007 Stufe 3: Workflow übergibt Planpunkte unverändert
 
@@ -72,7 +70,7 @@ Steps:
 1. Definiere den kanonischen Planpunkt als ausgewählten Step-Quelltext bzw. zusammenhängenden Step-Bereich oder vollständigen Work-Item-Block ohne Steps. Ergänze einen Quelltextwert im bestehenden Kontextobjekt von Plans `scripts/select_context.py`; gleiche `references/read-only.md` und Workflows Promptvalidierung ab. Definiere Ausschnittgrenzen für bestehende einzeilige Steps, zusammenhängende Step-Bereiche und vollständige Work-Item-Blöcke sowie UTF-8/LF-Normalisierung. Übertrage den Ausschnitt danach unverändert; liefere erforderlichen Eltern- und Entscheidungskontext separat. Passe den bisherigen Evidence-Ausschluss für vollständige Items ausdrücklich an.
 2. Ergänze Workflows `scripts/build_dispatch_prompt.py` um getrennten `supplemental_context`. Referenzen müssen für den Empfänger lesbar sein; notwendige Inhalte gesperrter Plan-/Decision-Quellen werden direkt geliefert. Stelle Profilzusätze vor der bestehenden Digest-/Guard-Bindung zusammen und binde den aufgelösten Regeltext samt wirksamen Eingaben mit. Ergänze Koordinatorübergaben in `references/operations-rollover.md` am vorhandenen Besitzer mit denselben Schreibregeln; keine neue Workerrolle oder zweiter Helper.
 3. Prüfe Executor-, Reviewer-, Reparatur- und Koordinatorübergaben mit unterschiedlichen Empfängerprofilen, fehlender Gesprächshistorie und Modellwechsel. Vergleiche den dekodierten Punkttext mit dem definierten Quellausschnitt und prüfe, dass geänderte wirksame Profilregeln eine andere Bindung erzeugen. Führe doppelte Workflow-Routingregeln an einem vorhandenen Besitzer zusammen; Guard, Lifecycle und Selector behalten ihre unterschiedlichen Aufgaben.
-Evidence: [Workflow-Tests r4: 73 bestanden; source_text und Zusatzkontext sowie Digest-Bindung geprüft, Fünf ausgewählte Luna-Fälle r4 protokollseitig bestanden; Abschlussantworten am 2026-09-24 inhaltlich geprüft, Aktivierung und Routing sowie Worker-/Koordinatorübergabe korrekt; Referenzpfad-Präzisierung durch Luna r4 geprüft, Astra-Review -04 ohne weitere Befunde im geprüften Umfang]
+Evidence: Unveränderter Punkttext, Zusatzkontext und Digest-Bindung geprüft. Luna-Fälle für Aktivierung und Übergaben bestanden; Astra-Review abgeschlossen.
 
 ### W-003 Stufe 4: Zwei reproduzierbare Suite-Buildprofile
 
@@ -85,7 +83,7 @@ Acceptance: Der Builder und Suite-Exporter wählen über `general` oder `codex` 
 Steps:
 1. Erweitere `../shared/build/build_suite.py`, `export_suite.py`, `sync_suite_sources.py`, ihre Wrapper und `fragments.md`. Ein `suite.json` und eine aufgelöste Manifestansicht pro Profil steuern Paket, Includes, README, Snapshot, Verifikation und Exportmanifest. Nutze zwei einfache Profilobjekte und Auswahlfelder; keine Manifestvererbung oder Ausdruckssprache. Berücksichtige `featured_member` und optionale Familiennachbarn, wenn Workflow in `general` fehlt.
 2. Verwende die in W-005 ergänzten gemeinsamen Dateiquellen und Snapshot-Verträge auch für die effektive Profilansicht; führe keine zweite Dateiliste ein. Erzeuge getrennte Profil-Ausgaben ohne gegenseitiges Überschreiben der README-Vorschauen. Prüfe identische Builds und den erneuten isolierten Build beider exportierter Quellen mit ihren effektiven Manifesten. Synchronisiere die erzeugten Werkzeugkopien; Sichtbarkeitsgates gelten auch für exportierte Quellen.
-Evidence: [45 Shared-Tests bestanden (shared-profiles-r3); beide Profile reproduzierbar gebaut, Beide exportierten Quellbäume isoliert bytegleich nachgebaut; ausgeschlossene Mitglieder und alte packages ersetzt, Profil in Manifest und Receipts; Sichtbarkeits- und Fehlerprüfungen erhalten]
+Evidence: Beide Profile reproduzierbar gebaut und exportierte Quellen isoliert bytegleich nachgebaut; Sichtbarkeits- und Fehlergrenzen geprüft.
 
 ### W-004 Stufe 5: Python-Fallbacks nur in der allgemeinen Ausgabe
 
@@ -98,7 +96,7 @@ Acceptance: Alle Mitglieds-Skills sind auf Python-Ersatzrouten geprüft. Die dre
 Steps:
 1. Bewahre die in W-006 bereits implementierte Trennung in `members/scoville-plan/scoville-plan/references/read-only.md` und prüfe ihre Semantik gegen `select-context-without-python.md`. Erfasse die übrigen Python-Routen in Plan sowie die Pflichthelper in Workflow.
 2. Lege vollständige profilabhängige Anweisungsbausteine und Manifest-Dateifilter an. Ersetze reine Fallback-Blöcke in `codex` durch leeren Text, aber vollständige Verzweigungen durch eine gültige Helper-Anweisung. Prüfe beide Paketsätze auf vorhandenes/fehlendes Python und Helperfehler, ohne Fehler in Erfolg umzudeuten.
-Evidence: [Alle Skill-Python-Routen inventarisiert; sechs No-Python-Referenzen nur general zugeordnet, General lädt Ersatzrouten nur bei fehlendem Python; Codex-Pakete ohne entsprechende Dateien oder Verweise gebaut, Pflichthelper und Fehlerdiagnosen in Codex erhalten; fachliche Fallbacks unverändert, Paketgrenzen und eigenständige Abhängigkeiten durch Shared-Tests geprüft; finale Modellprüfungen folgen in W-009]
+Evidence: Python-Fallbacks nur bei fehlendem Python in general; Codex ohne Ersatzrouten. Paketgrenzen geprüft; abschließende Modellprüfung bei W-009.
 
 ### W-008 Stufe 6: Alle How-to-use-Abschnitte kürzen und Konfiguration erklären
 
@@ -111,7 +109,7 @@ Acceptance: Jeder aktuelle Skill beider erzeugten Suites hat genau zwei Beispiel
 Steps:
 1. Inventarisiere die How-to-use-Quellen anhand der aktuellen Mitgliedschaft in `suite.json`. Der spätere neue Ask wird in W-002 nach denselben Regeln dokumentiert und hält diesen Release nicht auf. Kürze die kanonischen Nutzungsfragmente, darunter `development/readme/*/usage.md`, statt erzeugte READMEs separat zu pflegen.
 2. Ergänze Plan-/Workflow-Konfiguration und die Workflow-Ausnahme; generiere beide Dokumentationsausgaben und prüfe Beispielzahl, tatsächliche Trigger, Links und profilgerechte Voraussetzungen.
-Evidence: [Alle zehn aktuellen Nutzungsfragmente geprüft; neun Skills mit benanntem und unbenanntem gültigem Beispiel, Workflow mit einem ausdrücklich benannten Aufruf; allgemeine Aufträge aktivieren ihn weiterhin nicht, Plan und Workflow erklären getrennte Konfiguration sowie auto und lokale Modellzuordnung, Beide Paketprofile prüfen Beispielzahlen und Codex-Installationsziel in den 45 bestandenen Shared-Tests]
+Evidence: Gültige Aufrufbeispiele und getrennte Plan-/Workflow-Konfigurationen umgesetzt und in beiden Profilen geprüft.
 
 ### W-012 Ergänzung vor Abschlussprüfung: Suite-Installation setzt alle Mitglieder voraus
 
@@ -125,7 +123,7 @@ Steps:
 1. Ergänze den bestehenden Builder und Export um eine eindeutige Standalone-/Suite-Paketprojektion. Nutze den vorhandenen Familienblock-Besitzer für die zentrale Auswahl; bewahre general/codex unabhängig davon als Laufzeitprofil. Erzeuge die eigentlichen Suite-Pakete direkt mit Suite-Vertrag statt Standalone-Pakete unverändert einzusammeln.
 2. Inventarisiere Skill-Cores und geladene Referenzen auf Geschwister-Verfügbarkeit und optionale Koordination. Ersetze in Suite-Paketen allein die Installations-/Aktivierungsbedingungen; bewahre fachliche Anwendbarkeit und Autorisierung. Lege gemeinsame README-Textbausteine für beide Installationsverträge an: Suites setzen sämtliche enthaltenen Skills als installiert und aktiviert voraus; Einzel-Skills funktionieren jeweils allein. Passe Suite- und Einzelpaket-READMEs samt Installationsanweisung an; dieselbe Buildauswahl steuert diese Texte und die Runtime-Blöcke.
 3. Ergänze vor dem nächsten Lauf Paketprüfungen für vorhandene Familienblöcke in Standalone sowie deren Abwesenheit und vollständige Suite-Voraussetzung in beiden Suites. Baue neue Testpakete; r2-Pakete erfüllen diese neue Anforderung noch nicht. Beziehe diese Änderung in W-009 und die Astra-High-Nachprüfung ein.
-Evidence: [Shared 46 Tests und Suite 23 Tests bestanden am 2026-09-24; Layoutgrenzen sowie isolierte Exporte geprüft, Drei aktuelle Paketausgaben unter skills/temp/release gegen kanonische Quellen geprüft; kein Drift, Gemeinsame Installationsblöcke umgesetzt; Suites ohne Familienlisten; Standalone unabhängig; Review -05 Dokumentationsbefunde korrigiert]
+Evidence: Suite- und Standalone-Installationsverträge getrennt; Paketgrenzen und isolierte Exporte geprüft. Dokumentationsbefunde korrigiert.
 
 ### W-013 Ergänzung vor Abschlussprüfung: Ein temporärer Release-Build
 
@@ -139,7 +137,7 @@ Steps:
 1. Aktualisiere Build-/Releaseanweisungen und die betroffenen lokalen Stagingaufrufe auf skills/temp/release. Berücksichtige Suite- und Standalone-Artefakte innerhalb desselben Builds; keine Kandidatenverzeichnisse mit fortlaufenden Suffixen.
 2. Erzeuge den aktuellen Build dort. Prüfe vor jeder Entfernung oder Verschiebung die aufgelösten absoluten Zielpfade und laufende Nutzer; entferne nach der Umstellung ausschließlich die inventarisierten alten Release-/Korrekturbauten. Bewahre bestehende Einzelpaket-Kopien bei nötiger Verzeichnisbereinigung außerhalb des Veröffentlichungsordners ohne Änderungen an ihren Repositories.
 3. Bereite die vollständige Synchronisation aller erzeugten Skill-Ausgaben einschließlich der festen Suite-Ziele samt Inventar- und Hashvergleich für W-010/W-011 vor. Synchronisiere ausschließlich aus dem geprüften temporären Build und entferne entfallene generierte Dateien; im regulären Skill-Ordner dürfen keine veralteten Builds verbleiben. Quellen und Git-Historie sind keine Build-Ausgaben. Veröffentlichung und endgültiger Abgleich folgen erst nach W-009 und Astra-Gesamtreview.
-Evidence: [Einziger Stagingbaum mit drei Paketprojektionen eingerichtet; Refresh und Inventarschutz getestet, Alte Release- und Rollover-Ordner nach manueller Nutzerbereinigung nicht mehr vorhanden; Bestand am 2026-09-24 geprüft, Vollständiger Zielabgleich in development/release-preflight.md vorbereitet; tatsächliche Synchronisierung folgt mit W-010 und W-011]
+Evidence: Einziger Stagingbaum und Refresh-Schutz eingerichtet, alte Bauten entfernt. Zielabgleich vorbereitet; Synchronisierung gehörte zu W-010/W-011.
 
 ### W-009 Stufe 7: Beide Ausgaben vollständig prüfen und Release vorbereiten
 
@@ -153,7 +151,7 @@ Steps:
 1. Prüfe die Integration und den isolierten Wiederaufbau beider Exporte auf dem finalen Quellenstand. Verwende noch gültige Einzelprüfungen der vorherigen Stufen; wiederhole sie nur bei betroffenen Änderungen oder vorgeschriebenen Gates. Prüfe Abschnitte, Dateien, Manifeste und Buildnachweise beider Ausgaben.
 2. Erstelle den knapp dokumentierten Veröffentlichungs- und Wechselstand für beide Suites mit betroffenen Zielpfaden, Konfigurationserhalt und noch offenen Freigaben. Führe keine Veröffentlichung oder Repository-Umstellung allein wegen dieses Vorbereitungsschritts aus.
 3. Beauftrage die offene Astra-High-Session `01a0d221-82c7-7222-9ba1-4bd8f2737ceb` mit dem vollständigen Nicht-Ask-Quellenstand und diesem Plan. Verlange einen Fehler- und Vollständigkeitsreview samt Anforderungsabgleich; prüfe außerdem gemeinsame High-Schreibregeln gegen die beiden ursprünglichen Prompting-Guides und unnötige Komplexität in Build und Skills. Korrigiere relevante Befunde und lasse die Korrekturen nachprüfen. Dokumentiere Review-Referenz und Ergebnis vor W-010; die Session bleibt offen.
-Evidence: [Neues Astra-Gesamtreview scoville-w009-astra-20260924-new-01; alte Session geschlossen; Befunde in development/release-preflight.md, Plan-Default und Helperpflicht präzisiert; Handoff-Redaktion korrigiert; Quellen in allen drei Stagingprojektionen gebaut, 46 Shared und 75 Plan sowie 73 Workflow Tests bestanden; finale vier Distributionstests samt isoliertem Wiederaufbau bestanden, 16 gezielte Korrekturfälle lokal bewertet; 31 native Luna-Medium-Turns samt Hashbindung geprüft; Default-Fixture und frühere Fehlversuche dokumentiert, Nutzer verzichtet ausdrücklich auf erneutes Review; finale Korrekturen lokal geprüft; Release und Installation nicht durchgeführt]
+Evidence: Astra-Review durchgeführt, Befunde korrigiert und lokal nachgeprüft. Luna-Nachweise geprüft; Nutzer verzichtete auf erneuten Review. Kein Release oder Installation.
 
 ### W-010 Stufe 8: Plan und allgemeine Suite veröffentlichen
 
@@ -166,7 +164,7 @@ Acceptance: Betroffene Paket-, Selector-, Prompt-, Konfigurations- und Releasepr
 Steps:
 1. Schließe zuvor PLAN-0006 vollständig ab. Beauftrage die gültige Astra-High-Session 01a0d295-31c2-7bd0-9e98-8e1af4f3ddcc mit dem finalen gesamten Nicht-Ask-Stand einschließlich der bereinigten Mitgliedschaft und PLAN-0006; korrigiere relevante Befunde und prüfe sie nach. Prüfe die korrigierten Pakete einschließlich fehlender Gesprächshistorie, unverändertem Punkttext und getrennten Einstellungen; aktualisiere die zugehörigen Nutzungsfragmente und erfülle die bestehenden Releasegates.
 2. Veröffentliche die Korrekturen im autorisierten Releaseablauf über die vorhandenen zulässigen Ziele und dokumentiere die tatsächlichen Veröffentlichungsnachweise. Der unabhängig beauftragte Ask-Umbau ist bereits umgesetzt; keine Wiederholung dieser Implementierung.
-Evidence: [Nutzerauftrag vom 2026-09-25 ersetzt diesen Releasepunkt durch PLAN-0012 nach PLAN-0011 gemäß ADR-0068.]
+Evidence: Durch Nutzerauftrag und ADR-0068 ersetzt; Veröffentlichung bei PLAN-0012 nach PLAN-0011.
 
 ### W-011 Stufe 9: Reine Codex-Suite veröffentlichen
 
@@ -179,7 +177,7 @@ Acceptance: Die veröffentlichten Pakete enthalten die bereits freigegebenen Pla
 Steps:
 1. Prüfe die Codex-Releaseartefakte aus W-009 gegen Profil, Mitgliedschaft und Quellenhashes; erfülle die geltenden Veröffentlichungs- und Sichtbarkeitsgates.
 2. Veröffentliche die Codex-Suite im autorisierten Releaseablauf und ergänze oder aktualisiere anschließend ihren Eintrag im kanonischen README des GitHub-Profilrepositories `benjaminstelzer/BenjaminStelzer`. Prüfe den veröffentlichten Link und Inhalt; dokumentiere Suite-Release und Profil-Commit. Beende den Veröffentlichungsauftrag nach vollständigem Nachweis; die gemäß ADR-0043 separat beauftragte ASK-Entwicklung ist bereits abgeschlossen.
-Evidence: [Nutzerauftrag vom 2026-09-25 ersetzt diesen Releasepunkt durch PLAN-0012 nach PLAN-0011 gemäß ADR-0068.]
+Evidence: Durch Nutzerauftrag und ADR-0068 ersetzt; Veröffentlichung bei PLAN-0012 nach PLAN-0011.
 
 ### W-001 Stufe 10: Ein Scoville Ask mit konfigurierbarer Beraterauswahl
 
@@ -195,7 +193,7 @@ Steps:
 3. Ermittle die unterstützten Sidebar-Sortiermöglichkeiten des Codex-Hosts. Implementiere Titelbildung und Zuordnung zur aufrufenden Task-ID im zuständigen Task-Helper; ordne neue ASK-Aufgaben nach Möglichkeit direkt oberhalb dieser Aufgabe ein. Bewahre die relative Reihenfolge fremder Aufgaben und ändere keine globale Sortierpräferenz stillschweigend. Prüfe exakte Titel, mehrere gleichnamige Berateraufgaben und den Fall ohne unterstützte Sortierung.
 4. [execute: model=gpt-6-sol; reasoning=medium] Prüfe die funktionalen Helperverträge und realistische Skill-Anwendung mit einem unabhängigen Subagenten; unterscheide simulierte Hostfälle von echten Provideraufrufen.
 5. Lasse den finalen Skill mit Astra High abnehmen und prüfe den Claude-CLI-Weg samt Sitzungsfortsetzung tatsächlich. Dokumentiere Provider- oder Anmeldefehler als offene Nachweise; beende keine laufenden Claude-Sitzungen.
-Evidence: [Kandidat unter members/scoville-ask-for-codex implementiert; 17 SOL-6-Medium-Tests bestanden; Details in members/scoville-ask-for-codex/development/test-evidence.md, Astra-High-Befunde zur Konfigurationspriorität und Testportabilität korrigiert; Astra-Nachabnahme ohne weitere funktionale Befunde, Claude Code offiziell auf 2.1.282 aktualisiert; reale Claude- sowie SOL-/Astra-Aufrufe und Fortsetzungen erfolgreich; IDs und Grenzen in der Testevidenz, Reale Provider- und Follow-up-Nachweise in members/scoville-ask-for-codex/development/test-evidence.md; Statusdrift geschlossen]
+Evidence: Ask implementiert; Tests und Astra-Nachreview abgeschlossen. Reale Claude-, Sol- und Astra-Aufrufe samt Fortsetzung erfolgreich.
 
 ### W-002 Stufe 11: Scoville Ask integrieren und einzeln anbieten
 
@@ -211,4 +209,4 @@ Steps:
 3. [execute: model=gpt-6-sol; reasoning=medium] Prüfe mit einem unabhängigen Subagenten isolierte Pakete, Profilgrenzen, README-Projektionen und Migration.
 4. Bereite die betroffenen Installations- und GitHub-Ziele mit Versions- und Kompatibilitätsnachweis für eine gesondert autorisierte Veröffentlichung vor.
 5. Sichere nach vollständiger Übernahme und bestandenen Prüfungen die Git-Historie sowie lokale Änderungen von ../ask-suite-for-codex unter dem Workspace-Bereich state/. Prüfe verbleibende aktive Verbraucher und entferne den ausdrücklich freigegebenen alten Quellordner erst nach Auflösung seiner Abhängigkeiten.
-Evidence: [Drei Paketprojektionen und 46 Shared-Tests bestanden; allgemeiner Katalog bietet ASK einzeln als Codex online an, Benannte Defaults und eigener Claude-Code-Einrichtungsblock in kanonischen README-Quellen und Mitgliedsvorschau ergänzt, Integration und Pakete geprüft; alte Gesamtstufe geschlossen; noch nicht entfernte Altquelle ausschließlich bei PLAN-0011/W-013 gemäß ADR-0053]
+Evidence: Ask-Integration und Paketprojektionen geprüft. Restliche Entfernung der Altquelle an PLAN-0011/W-013 gemäß ADR-0053 übergeben.

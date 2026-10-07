@@ -12,7 +12,9 @@ updated: 2026-09-28
 
 Weniger wiederholte Einarbeitung, Reviews, Versionspflege und Testvorbereitung bei gleicher fachlicher Abnahme. Workflow besitzt Rollen und Übergaben, Plan besitzt Arbeitsnachweise, der DIVI-Projektvertrag ergänzt nur projektspezifische Anforderungen. Explizite Nutzer- und Projektvorgaben zum Review-Rhythmus gelten vor Skill-Defaults.
 
-Der Nutzer hat die Umsetzung beauftragt, beginnend mit dem DIVI-Projektvertrag. Suite-Quellen liegen hier, DIVI-Dateien im bereits gespeicherten Projekt DIVI5 Plugin. Auf ausdrückliche Nutzerkorrektur setzt diese Session die DIVI-Vertragsarbeit mit einem zugeordneten Source-Worker um. Der DIVI-Manager bleibt Besitzer von PLAN-0012 und den Produktentscheidungen; er startet währenddessen keine konkurrierenden Vertrags-/Helper-Änderungen. Vorher seinen aktuellen Stand und die bereits beauftragten Astra-Ergebnisse zu Neutral-Reset, Testpreset und M10-Lücken übernehmen.
+Suite-Quellen liegen hier, DIVI-Dateien im gespeicherten Projekt DIVI5 Plugin.
+Der DIVI-Manager besitzt PLAN-0012 und die Produktentscheidungen;
+Vertrags-/Helper-Änderungen erfolgen ohne konkurrierende Schreiber.
 
 ## Non-goals
 
@@ -32,7 +34,7 @@ Steps:
 2. Einen Versionswechsel für einen zusammengehörigen Kandidaten vor dessen erstem Build/Installation vorsehen. Weitere Produktkorrekturen nach Installation brauchen erneut eine eindeutig unterscheidbare Kandidatenidentität und korrekte Cache-Invalidierung. Existiert dafür keine geeignete einfache Hash-/Buildbindung, weiterhin die Version erhöhen; kein neues Identitätssystem bauen.
 3. `tools/playwright/final-product-test/data/m10-final-preset-snapshots.json` prüfen: `pluginVersion` und `setupResetPresets.generated_from.plugin_version` sind derzeit an die Produktversion gekoppelt. Versions-Provenienz aus Verhaltensvergleichen trennen, ohne erwartete Werte aus dem zu prüfenden Produkt selbst zu erzeugen oder echte Import-/Export-Verträge zu ignorieren.
 4. Nachweisen: mehrere Edits desselben noch nicht installierten Kandidaten; neuer Kandidat nach Installation; reine Versionsänderung ohne falschen Verhaltensfehler; absichtlich geänderter Presetwert wird erkannt; kein Wiederverwenden ungültiger Cache- oder alter Testnachweise.
-Evidence: ../../../temp/2026-09-27-plan18/version-check-results.json: Identität und Provenienz geprüft; candidate-reader prüft unveränderte Erwartungen. Finalreview folgt in W-005.
+Evidence: Kandidatenidentität und Provenienz geprüft; Reader behält unabhängige Erwartungen. Zusammenhängendes Review gehörte W-005.
 
 ### W-004 M10-Vertrag bündeln und nachgewiesen saubere Folgetests beschleunigen
 Status: cancelled
@@ -46,7 +48,7 @@ Steps:
 2. In `docs/general-rules/project-workflow-contract.md` nur Ziele, Zuständigkeit, berechtigte Testsysteme, geschützte Daten, Kandidatenidentität, Editionskonfiguration und Abnahmegrenzen behalten. Ausführungsdetails in `tools/playwright/final-product-test/M10-RUNBOOK.md` bündeln und von Vertrag, README und betroffenen Helfern eindeutig referenzieren. Keine erforderliche Schutzregel ersatzlos streichen.
 3. Bestehende Helfer auf einmalige vollständige Vorbereitung, schnelle saubere Folgetests und nötige Abschlusswiederherstellung ausrichten. Ein neuer Prozess oder Worker macht die Erstvorbereitung nicht automatisch ungültig. Echte Zustands-, Fixture- oder Kandidatenänderungen gezielt berücksichtigen; keine zusätzliche Ablaufverwaltung einführen.
 4. Repräsentativ auf D4 und D5 nachweisen: verschmutzte Testseite wird vollständig zurückgesetzt; Testwerte wirken im Frontend; unbeteiligte Inhalte bleiben erhalten; Fehler verlassen keinen unklaren Testzustand. Vorhandene erfolgreiche Erstvorbereitung wiederverwenden. Vorbereitungszeiten vor/nach Änderung vergleichen und die tatsächlich betroffenen Reset-/Editionsvarianten abdecken, ohne Gesamtlauf.
-Evidence: Auf Nutzerwunsch am 2026-09-28 abgebrochen. D5-Importeffekt bleibt unbelegt; bisherige Nachweise: ../../../temp/2026-09-27-plan18/divi-evidence.md.
+Evidence: Auf Nutzerwunsch abgebrochen; D5-Importeffekt bleibt unbelegt.
 
 ### W-001 Review und Worker-Fortsetzung am zusammengehörigen Ergebnis ausrichten
 Status: done
@@ -60,7 +62,7 @@ Steps:
 2. Zusammengehörige Steps weiterhin in Reihenfolge bündeln. Vorhandenen Worker für notwendige Korrekturen weiterverwenden, sofern er verfügbar ist und ausreichenden Kontext besitzt; das unabhängige Review bleibt separat. Bei Kontextbedarf den normalen Rollover nutzen. Rollenauftrag, `build_dispatch_prompt.py` und Tests nur soweit nötig anpassen.
 3. Normale Infrastrukturfehler im lokalen Ablaufnachweis behalten. Nur konkrete Blockaden oder Auswirkungen auf die Abnahme in den Plan aufnehmen. Kein erneuter Dispatch bei unklarer Erstellung und keine Reparaturrunde wegen bloßer Formatunterschiede.
 4. Fälle prüfen: drei zusammengehörige Steps mit einem Abschlussreview; begründetes Zwischenreview; Korrektur mit anschließend nötigem Review; Rollover ohne Wiederholung; unklarer Dispatch ohne doppelten Worker.
-Evidence: Umgesetzt; SOL-Helperfälle und Luna 6 High bestanden; Astra ohne Skill-Findings. development/luna-tests/plan18-results.md.
+Evidence: Review- und Fortsetzungsregeln umgesetzt; SOL-/Luna-Fälle bestanden und Astra-Review ohne Skill-Findings durchgeführt.
 
 ### W-002 Planänderungen und Evidence ohne Ersatzpunkt-Ketten ermöglichen
 Status: done
@@ -74,7 +76,7 @@ Steps:
 2. Acceptance auf Verhalten und Verträge ausrichten. Versions- oder Zählwerte nur festschreiben, wenn genau der Wert Vertragsbestandteil ist. Tatsächliche Kandidatenidentität im Nachweis erhalten; Gleichheit allein durch dieselbe Versionsnummer nie behaupten.
 3. Lange bestehende Evidence bei ausdrücklich beauftragter Bereinigung verlustfrei in einen lokalen Bericht auslagern und knapp verlinken. Keine neue Berichtsdatenbank. Im laufenden DIVI-Plan führt das ausschließlich dessen Coordinator durch.
 4. Fälle prüfen: ADR-Ergänzung ohne Ersatzpunkt; formale Versionsreferenz; verweigerte materielle Abnahmelockerung; Testreparatur im selben Punkt; eigenständiger Befund; Wiederaufnahme mit kurzen, erreichbaren Nachweisen.
-Evidence: Umgesetzt; SOL-Validatorfälle und Luna 6 High bestanden; Astra ohne Skill-Findings. development/luna-tests/plan18-results.md.
+Evidence: Planpflege ohne Ersatzpunktketten umgesetzt; SOL-/Luna-Fälle bestanden und Astra-Review ohne Skill-Findings durchgeführt.
 
 ### W-005 Zusammenspiel gezielt prüfen und Änderungen geordnet übergeben
 Status: done
@@ -87,7 +89,7 @@ Steps:
 1. Betroffene Quellen und installierbare Builds strukturell prüfen. SOL 6 Medium führt die geänderten Workflow-/Plan-Fälle mit realistischen zusammengehörigen Steps, Korrektur, kurzem Nachweis und Rollover aus. Externe Wirkungen simulieren; bestehende Testumgebung und Runner nutzen.
 2. Nach allen Änderungen die betroffenen Workflow-/Plan-Fälle gezielt mit GPT-6 Luna High gegen gebaute Pakete prüfen. Tatsächliches Modell und Effort festhalten. Keine neue pauschale 45-Fall-Serie; der Nutzer hat für diesen Abschluss gezielte Tests beauftragt. Fehler ursächlich klären und betroffene Fälle erneut prüfen.
 3. Ein unabhängiges Astra-Medium-Review prüft den finalen zusammenhängenden Regelstand einschließlich SOL-/Luna-Befunden auf widersprüchliche Zuständigkeiten, unnötige Prozessschritte und verlorene Schutzwirkung. Findings gezielt korrigieren und nur betroffene Nachweise erneuern. Lokale Installation und Veröffentlichung folgen in W-006.
-Evidence: SOL und Luna je sechs Fälle; Astra prüfte Regelstand ohne Blocker. D5-Effekt offen; development/luna-tests/plan18-results.md.
+Evidence: Zusammenspiel mit SOL und Luna geprüft; unabhängiges Astra-Review ohne Blocker. D5-Produktwirkung bleibt offen.
 
 ### W-006 Lokale Skills aktualisieren, DIVI fortsetzen und Releases veröffentlichen
 Status: done
@@ -100,7 +102,7 @@ Steps:
 1. Vor dem Release die Aussage „The Skill requires no network access.“ einschließlich gleichlautender Varianten aus den kanonischen Scoville-README-Fragmenten entfernen und READMEs neu erzeugen. Nach bestandenen gezielten Luna-Tests und finalem Review die betroffenen Skills aus den geprüften Builds lokal installieren und ihre Dateibestände prüfen; aktive DIVI-Aufträge an sicherer Grenze halten.
 2. Dem bekannten DIVI-Manager die geänderten Skills und Vertragsregeln nennen, erneutes Laden und Wiederaufnahme ausdrücklich beauftragen. Seine tatsächlich beobachtete Reaktion festhalten, Zustellung allein nicht als Neustart melden. Nur von offenen Entscheidungen unabhängige Arbeit starten.
 3. Nach dem GitHub-Skill alle geänderten veröffentlichten Ziele aus den kanonischen Quellen bauen, committen, pushen und mit neuen Releases veröffentlichen. Workflow ausschließlich in der Codex-Suite. Neue Downloads und vollständige Remote-Bäume prüfen, dann abgelöste Releases/Tags bereinigen und lokale öffentliche Projektionen synchronisieren.
-Evidence: Lokal installiert; fünf Releases samt Downloads verifiziert. Manager hat neu geladen, Nutzerstopp bleibt. ../../../temp/2026-09-27-plan18/release-completed.md.
+Evidence: Lokale Pakete installiert und Releases samt Downloads verifiziert; Manager lud neu. Nutzerstopp bleibt erhalten.
 
 ### W-007 Workflow-Aufträge und Fortsetzungen knapp und eindeutig machen
 Status: done
@@ -114,7 +116,7 @@ Steps:
 2. Die beiden bestätigten Astra-High-Befunde korrigieren: Konfigurationsverbote in Dispatch-Referenz und Builder ausdrücklich auf Workflow-/Modellsteuerung begrenzen; Produkt-/Testkonfiguration nur im autorisierten Umfang erlauben. In der Rollover-Referenz Dateihandoffs wie im Builder nur Executor/Repair erlauben; Reviewer übergeben als Nachricht und bleiben read-only. Die bereits ergänzte Kürzeregel befolgen: aktuelle Tatsachen und Grenzen direkt nennen, Berichte für Details referenzieren, Ablaufhistorie weglassen. Keine zusätzliche Kürzevorschrift oder Wortgrenze.
 3. Im bestehenden Testbestand realistische Fälle prüfen: veralteter Cursor mit akzeptierter Entscheidung und aktivem Nachfolger; Rollover nach teilweise bestandenen Tests und fehlenden ursprünglichen Restore-Nachweisen; autorisierte Produkt-/Testkonfiguration bei unveränderter Workflow-Konfiguration; Reviewer-Rollover ohne Dateischreiben und Executor-/Repair-Dateihandoff; ein Abschlussreview über mehrere geordnete Gruppen. Originale Befugnisse und Ergebnisformate bleiben gültig. Betroffene Helper mit ihrem tatsächlichen Empfänger prüfen, nicht nur auf Exitcode oder Textmuster.
 4. Geänderte Fälle mit GPT-6 Luna High gegen gebaute Pakete testen und anschließend von Astra High prüfen lassen. Vorher/nachher Übergabeumfang, Aufrufe und verfügbare Tokenwerte erfassen; Kontextbelegung nicht als gesamten Verbrauch ausgeben. Fehler gezielt beheben und nur betroffene Fälle wiederholen. Die aktuelle Prüfung von neun Helper-Vertragstests ersetzt diese Modelltests nicht.
-Evidence: 17 Workflowtests, fünf lokale Luna-High-Fälle und Astra High PASS; Grenzen und Outputs: ../../../../../temp/2026-09-27-workflow-review/acceptance.md.
+Evidence: Workflow- und Luna-Fälle bestanden; unabhängiges Astra-Review durchgeführt. Nachweis bleibt auf die geprüften Fälle begrenzt.
 
 ### W-008 DIVI-Steuerung und Prüfvorgaben an den tatsächlichen Stand anpassen
 Status: done
@@ -128,7 +130,7 @@ Steps:
 2. Den Koordinator `.scoville/workflow.md` auf den aktuellen Fortsetzungszustand reduzieren lassen; historische Ergebnisse über bestehende Nachweise erhalten. Die Fehlerkorrektur-Ausnahme in der tatsächlichen kanonischen Regelquelle, derzeit `AGENTS.md` Product Guardrails, und betroffenen Verweisen widerspruchsfrei festhalten. Bereits genehmigte ADRs nicht erneut vorlegen.
 3. W-063 in `docs/plans/0012-consolidated-maintenance-performance-and-divi5-save.md` beim Deaktivierungsnachweis auf Restore Everything korrigieren. Bereits akzeptierte W-062-Belege zuerst zuordnen; verbleibende zusammengehörige Schritte so gruppieren, dass sie ein prüfbares Ergebnis liefern und ihre Reihenfolge erhalten bleibt. Kleine Regelkorrekturen brauchen keinen neuen Produkt-Work-Item.
 4. In den verbleibenden Prüfschritten zuerst einen repräsentativen echten Benutzerpfad belegen, dann unabhängige Varianten. Fehlende Endzustands-/Wiederherstellungsnachweise explizit lassen. Falsche Selektoren/Formzuordnung und der PowerShell-Cleanup-Fehler gehören in ihre vorhandenen Testhelper; bereits behobene Ursachen nur anhand der gezielten Nachweise bestätigen. Kein allgemeines Browsergebot im Workflow-Skill.
-Evidence: Koordinator korrigierte Cursor, Bugfix-Regel und Testziele; Astra High bestätigt P2 geschlossen und PASS. ../../../../../temp/2026-09-27-workflow-review/acceptance.md.
+Evidence: Koordinator korrigierte Cursor, Bugfix-Regel und Testziele; unabhängiges Astra-Review bestätigte den geschlossenen Befund.
 
 ### W-009 Ausführungsrelevante Kürze durch einen simulierten Lauf belegen
 Status: done
@@ -142,7 +144,7 @@ Steps:
 2. Einen zusammenhängenden realistischen Lauf mit getrennten Modellkontexten und echten weitergereichten Ergebnissen durchführen. Lange Ausgangshistorie, bereits angenommene Entscheidung, teilweise bestandene Prüfungen, fehlender Wiederherstellungsnachweis, fremde Änderungen und ein Reviewbefund bilden die entscheidenden Grenzen.
 3. Plan-/Decision-Ausgaben mit den echten Planhelpers prüfen, Worker-/Reviewaufträge mit dem echten Dispatch-Builder erzeugen. Kürze, Informationsverlust und Wiederholungen anhand vorher festgelegter Erwartungen bewerten; Ausgabelängen und verfügbare Nutzung messen, keine Einsparung aus Dateigröße ableiten.
 4. Betroffene Fehler korrigieren und nachtesten. Astra High prüft die finalen Regeln samt Rohantworten und Prüfgrenzen. Ergebnisse behalten; W-004 bleibt als eigener Produktnachweis offen.
-Evidence: Luna High und Astra Medium bestätigen direkte Fortsetzung; Grenzen: ../../../../../temp/2026-09-27-workflow-simplify/acceptance.md.
+Evidence: Luna und Astra bestätigten direkte Fortsetzung im simulierten Lauf; kein nativer Mehrchat- oder Tokengewinn daraus abgeleitet.
 
 ### W-010 Direkte Übergaben und selbst erklärende Validator-Diagnosen
 Status: done
@@ -155,7 +157,7 @@ Steps:
 1. Workflow-Kern, Operations, Dispatch, Rollover, Builder und kanonische README-Fragmente mechanism.md/usage.md gemeinsam vereinfachen; README-Projektionen bauen. Benötigte Chat-IDs und nächste Aktion in der Übergabe behalten. Überholte Ergebnisparser und Reparaturmechanik samt aktiven Aufrufern entfernen; technische Konfiguration und Modellwahl erhalten.
 2. Planvalidator auf unklare Diagnosen prüfen. Evidence-Länge und Zeichenfehler konkret unterscheiden, Sollwerte und direkte Korrekturen ausgeben; keine semantischen Änderungen vorschlagen. Negative Fixtures und tatsächliche korrigierte Profile prüfen.
 3. Betroffene gebaute Helper und Empfänger prüfen. Realistische Luna-High-Fälle für direkte Fortsetzung, unterbrochenen Start, offene Prüfnachweise, neuen Korrekturworker und Validator-Korrektur ausführen. Fortlaufende Workernummern, zugeordnete Reviewernummer samt gesamtem Sammelreviewbereich und Review ohne Rückfragen prüfen. Astra Medium abschließend prüfen lassen und belegte Fehler gezielt beheben.
-Evidence: 80 Plan-/16 Workflowtests; sechs Luna-Fälle und Astra Medium PASS. Details: ../../../../../temp/2026-09-27-workflow-simplify/acceptance.md.
+Evidence: Plan-/Workflow-Checks und Luna-Fälle bestanden; unabhängiges Astra-Review durchgeführt. Native Mehrchat-Abnahme und Tokengewinn daraus nicht belegt.
 
 ### W-011 Konkrete Fehlerhilfe für alle verwendeten Skillhelper
 Status: done
@@ -167,7 +169,7 @@ Acceptance: Projektregel gilt für alle gepflegten Skills. Aktuelle dokumentiert
 Steps:
 1. Vorhandenes Helperinventar mit kanonischen Quellen und dokumentierten Aufrufen abgleichen, einschließlich GitHub-Skill und gemeinsamer Ask-/Setup-Module. Keine externen Schreibaktionen für Diagnosetests durchführen.
 2. Unklare Meldungen gezielt verbessern und negative Fälle plus korrigierte Aufrufe testen. Tatsächlich getestete Modi, Umgebungsgrenzen und offene Pfade dokumentieren.
-Evidence: Negative/Korrekturtests und Astra Medium PASS; Umfang und Grenzen: ../../../../../temp/2026-09-27-workflow-simplify/helper-diagnostics.md.
+Evidence: Negative Aufrufe und tatsächliche Korrekturen bestanden; unabhängiges Astra-Review durchgeführt. Nachweis gilt für geprüfte Modi.
 
 ### W-012 Geprüfte Vereinfachungen lokal und auf GitHub veröffentlichen
 Status: done
@@ -179,7 +181,7 @@ Acceptance: Geänderte Pakete bestehen gezielte Tests und finales Astra-Review. 
 Steps:
 1. Finale Testnachweise und Astra-Abnahme sichern, kanonische README-Projektionen bauen und geänderte Distributionsziele bestimmen.
 2. Nach GitHub-Skill prüfen, bauen, lokal installieren und veröffentlichen; Remote-Dateien, Tags und Assets gegen den Kandidaten verifizieren.
-Evidence: Lokal und sechs GitHub-Releases samt Assets verifiziert; siehe ../../../../../temp/2026-09-27-workflow-simplify/release-evidence.md.
+Evidence: Lokale Pakete und veröffentlichte GitHub-Releases samt Assets verifiziert.
 
 ### W-013 Lange Workflow-Einheiten an sicheren Grenzen fortsetzen und prüfen
 Status: done
@@ -192,7 +194,7 @@ Steps:
 1. Bestehende Operations-, Rollover-, Dispatch-, Checkpoint- und Planregeln minimal präzisieren; README-Fragmente generieren. Keine neue Laufzeitschicht.
 2. Helper und alle beauftragten Tests ausführen. Reale Modellantworten gegen vorher festgelegte Erwartungen bewerten und nur belegte Fehler gezielt korrigieren.
 3. Evidence knapp unter development/luna-tests ablegen, gebaute Pakete vergleichen und lokal installieren. Danach zum unverändert pausierten W-004 zurückkehren.
-Evidence: 223 Tests grün, Luna High/SOL Medium gezielt bestanden, lokal installiert; Grenzen: ../../development/luna-tests/2026-09-28-workflow-boundaries/results.md.
+Evidence: Technische Checks und gezielte Luna-/SOL-Fälle bestanden; lokal installiert. Modellnachweis bleibt auf die ausgewählten Abläufe begrenzt.
 
 ### W-014 Reviewkorrekturen und getesteten Stand veröffentlichen
 Status: done
@@ -205,4 +207,4 @@ Steps:
 1. K1/K2 und DIVI-Verweis korrigieren; Nutzerfassung des Kostenhinweises erhalten. WordPress-Konzeptgrenze präzisieren und gezielt testen; unterstütztes compatibility-Feld mit Referenzvalidator prüfen.
 2. Release-Gate für geänderte Pakete aktualisieren, unveränderte Nachweise anhand Paketinhalt wiederverwenden. Quellen committen, Distributionen bauen und lokale Pakete aktualisieren.
 3. Geänderte Zielrepos veröffentlichen und neue Releases samt Viewer-Assets verifizieren; erst danach alte Releases bereinigen und öffentliche Projektionen synchronisieren. W-004 bleibt pausiert.
-Evidence: Lokal, Remote-Bäume und vier Releases samt Assets verifiziert; ../../../../../temp/2026-09-28-workflow-release/release-evidence.md. Modelltestgrenzen bleiben dokumentiert.
+Evidence: Lokale Pakete, Remote-Dateibäume und Releases samt Assets verifiziert; Modellnachweis bleibt auf geprüfte Fälle begrenzt.

@@ -35,7 +35,7 @@ Steps:
 1. Prüfe die vorhandene Benutzer- und Prozessvariable PYTHONPYCACHEPREFIX sowie die tatsächlichen Cachepfade in members/ und ../shared/. Setze den freigegebenen externen Benutzerpfad nur nach den Freigabegrenzen und Betriebssystembefehlen im Abschnitt „Ausführungsgrundlage für W-001“ der verlinkten Reviewauswertung. Bestehendes externes Ziel erhalten; bei bestehendem Ziel innerhalb Dropbox vor Änderung fragen. Andere Systemeinstellungen und Ordner sind ausgeschlossen.
 2. Prüfe die aufgelösten Löschziele und entferne ausschließlich die benannten __pycache__-Ordner. Richte die freigegebenen Ignore-Attribute für members/scoville-plan/development/viewer/node_modules und src-tauri/target ein; prüfe ihre Haltbarkeit bei Neuerstellung.
 3. Ergänze die kanonische Entwicklungsdokumentation um plattformspezifische Einrichtung und Python -B. Nutze die vorhandene Root-.gitignore; zusätzliche Member-Dateien nur für echte Distributionsanforderungen.
-Evidence: [2026-09-25: Sieben Cacheordner gefunden; System-/Cachebefehl vor Ausführung mit blocked by policy abgewiesen., 2026-09-25: Benutzervariable auf %LOCALAPPDATA%\pycache gesetzt; neuer Kindprozess meldet denselben externen sys.pycache_prefix., 2026-09-25: Viewer node_modules behielt com.dropbox.ignored=1 nach npm ci; src-tauri/target trägt denselben Wert., 2026-09-25: Einzeln geprüfte Löschung eines der sieben Cacheordner erneut mit blocked by policy abgewiesen; alle sieben bleiben bestehen., 2026-09-25: README-Quelle und generierte Suite-README dokumentieren Plattformwerte Python -B Ignore-Attribute und Neustartbedarf., 2026-09-25: Nutzer bestätigt alle Viewer-Plattformbuilds in GitHub; lokaler Cargo-Build im Dropbox-Baum entfällt., 2026-09-25: Nutzer streicht W-001 ausdrücklich als Releaseblocker.]
+Evidence: Externer Python-Cache und Viewer-Ignore geprüft. Cachelöschung blieb durch Policy gesperrt; Nutzer strich den Punkt als Releaseblocker. Viewer-Builds nur über Actions.
 
 ### W-006 Handoff-Vorlage bleibt eindeutig und vollständig kopierbar
 
@@ -48,7 +48,7 @@ Acceptance: Innere Dreier- und Vierer-Fences zerstören den äußeren Block nich
 Steps:
 1. Passe members/scoville-handoff/scoville-handoff/assets/continuation-prompt.md und die Kompositionsregel in SKILL.md an: äußerer Fence länger als innere Folgen.
 2. Präzisiere nur die noch mehrdeutigen Aussagen über Task-Arbeitsort und optionale Labels. Ergänze gezielte Fälle in development/tests/evaluation-cases.json und bewahre vorhandene Recoveryfälle.
-Evidence: [2026-09-25: Fence-/Ordner-/Labelregeln am vollständigen Vertrag geprüft; drei Fälle ergänzt; beide Paketprofile samt Links geprüft., quick_validate lehnt das bestehende compatibility-Feld ab; bekannter Konflikt in W-007. Kein neuer Modelltest.]
+Evidence: Fence-, Ordner- und Labelregeln korrigiert, Paketprofile geprüft. Bekannter compatibility-Validator-Konflikt blieb bei W-007; kein neuer Modelltest.
 
 ### W-003 Claude-Aufrufe haben eine nachvollziehbare Zeitgrenze
 
@@ -61,7 +61,7 @@ Acceptance: Default 1800 Sekunden, expliziter Override und ungültige Werte sind
 Steps:
 1. Ergänze den Default in members/scoville-ask-for-codex/scoville-ask-for-codex/config.default.json und die Auflösung in scripts/ask.py.
 2. Erhalte den vorhandenen Fehlerpfad und ergänze den stabilen Code. Beende bei Timeout die zu diesem Aufruf gehörenden Prozesse, unter Windows einschließlich PowerShell-/Node-Kindern, unter POSIX mittels einer für den Aufruf angelegten Prozessgruppe. Wähle einen vorhandenen einfachen Prozessmechanismus; bloßes subprocess.run(timeout=...) reicht für Wrapperkinder nicht. Prüfe echtes Timeoutverhalten und verständliche Ausgabe. Aktualisiere die betroffene CLI-/Konfigurationsanleitung.
-Evidence: [2026-09-25: Nutzerkorrektur berücksichtigt lange Fable-Reviews; Standard wird auf 3600 Sekunden statt der ursprünglichen 1800 gesetzt., 2026-09-25: 20 Ask-Tests bestanden inklusive echtem Windows-Prozessbaum und unberührtem Kontrollprozess; POSIX hier nicht ausgeführt.]
+Evidence: Claude-Timeout auf Nutzerkorrektur mit 3600 Sekunden umgesetzt. Windows-Prozessbaum und Kontrollprozess geprüft; POSIX hier nicht ausgeführt.
 
 ### W-012 WordPress-Beispiele zeigen ihre tatsächliche Versionsgrenze
 
@@ -74,7 +74,7 @@ Acceptance: 7.0-/7.1-Beispiele und unbekannte Minor-/Prerelease-Versionen sind e
 Steps:
 1. Präzisiere members/scoville-ui/scoville-ui/references/wordpress/version-compatibility.md und adapter.md am bestehenden 7.0/7.1-Support. Ergänze die fehlende unbekannt-Version-Zeile und einen Kommentar unmittelbar an der kopierbaren Verzweigung: Andere Versionen sind ungeprüft, der Zahlenpfad ist kein Supportnachweis. Keine neue Debug-Warnung oder Laufzeitdiagnose allein für das Dokumentationsbeispiel.
 2. Prüfe die Verzweigung für 7.0, 7.1, 7.2, Prerelease und fehlenden/fremden Handle. Reale neue Versionen nur nach gesondertem Versionsnachweis als unterstützt nennen.
-Evidence: [2026-09-25: 12 PHP-Version-/Handlefälle bestanden; unbekannte Version im Kommentar und in Matrix benannt; Mindestversion getrennt. Kein neuer gerenderter Supportnachweis.]
+Evidence: Versions-/Handle-Verzweigungen geprüft; unbekannte Versionen bleiben ungeprüft. Kein neuer gerenderter Supportnachweis.
 
 ### W-015 Ask steht im Titel vorne und verzichtet auf Sidebar-Platzierung
 
@@ -88,7 +88,7 @@ Steps:
 1. Übergebe das tatsächlich ausgewählte Modell vom Ask-Aufrufer an die Titelerzeugung und setze die neue Ask-Titelform in ../shared/runtime/task_lifecycle.py und seiner kanonischen Anleitung um. Workflow-Titel bleiben unverändert.
 2. Entferne die Sidebar-Operation und ihre Aufrufer aus members/scoville-ask-for-codex/scoville-ask-for-codex/scripts/ask.py, den betroffenen Referenzen und README-Fragmenten. Keine Opt-in-Einstellung oder Ersatzsortierung einführen.
 3. Passe Titel-/Ablauftests an, erzeuge betroffene Shared-Kopien und Pakete über den bestehenden Buildweg und prüfe Titel, fehlende Platzierungsaufrufe und erhaltene ID-Zuordnung.
-Evidence: [2026-09-25: 20 Ask-Tests samt gebautem Einzel-/Suitepaket und sechs gemeinsame Titeltests bestanden; Platzierungsoperation entfernt; aktive Aufrufer-/Dokumentationssuche ohne Treffer.]
+Evidence: Ask-Titelform und ID-Zuordnung geprüft; Sidebar-Platzierung vollständig entfernt.
 
 ### W-014 Vorhandener Runner ist für die gezielten Vergleiche vorbereitet
 
@@ -101,7 +101,7 @@ Acceptance: Eine kleine Probe mit development/luna-tests/run_codex_cli_case.py o
 Steps:
 1. Prüfe den vorhandenen Runner und seine Ergebnisformate für die ausgewählten Vergleichsfälle. Ergänze nur eine tatsächlich fehlende kleine Funktion oder verwende eine knappe gemeinsame Auswertungsvorlage. Halte Fallauswahl, gleiche Bedingungen und getrennte Schlussfälle vor Läufen fest.
 2. Prüfe an einer vorhandenen Ausgabe die Auswertbarkeit; eine neue begrenzte Probe nur bei fehlendem Nachweis. Die echten Ausgangsmessungen vor Änderungen bleiben Bestandteil von W-008, W-010 und W-011.
-Evidence: [2026-09-25: Vorhandenes Ergebnisformat geprüft; 18 Runner-Tests bestanden. Gemeinsame Auswertung in development/luna-tests/suite-simplification-comparison.md; echte Messungen folgen vor Umbauten.]
+Evidence: Vorhandener Vergleichsweg und Ergebnisformat geprüft; echte Ausgangsmessungen den jeweiligen Umbauten zugeordnet.
 
 ### W-002 Helper verarbeiten Unicode und Pfade portabel
 
@@ -115,7 +115,7 @@ Steps:
 1. Korrigiere die CLI-Grenzen in ../shared/runtime/task_lifecycle.py und den betroffenen Plan-/Workflow-Helpern. Verwende vorhandene Streamkonfiguration oder eine kleine gemeinsame Funktion nur bei tatsächlicher Mehrfachnutzung.
 2. Ersetze uneindeutige Interpreter-/Pfadbeispiele an ihren kanonischen Fragmenten und Referenzen durch eine einmal erklärte Auswahl und korrekt gequotete Aufrufe. Prüfe echte Versionsausgabe statt Dateiname: Windows-Store-Alias ohne nutzbaren Interpreter überspringen; vorhandenes Python 3.9/3.10 bei einem 3.11+-Helper als zu alt melden. Keine feste Python-Version aller macOS-Installationen behaupten.
 3. Prüfe betroffene gebaute Pakete und die relevanten Verbraucher von shared. Ergänze die genannte GitHub-Actions-Matrix im vorhandenen Testaufbau; Veröffentlichung oder Push ist durch diesen Planpunkt nicht automatisch erlaubt. CRLF-Vertragsänderungen gehören ausschließlich zu W-009.
-Evidence: [Linux Python 3.12: Plan 82 bestanden; Ask 20 mit einem Windows-Skip; Workflow 89 bestanden und ein Test wegen fehlendem Node nicht ausgefuehrt, 2026-09-25: Python 3.11 lokal zusätzlich geprüft; Plan 78 und Ask 20 Tests bestanden., 2026-09-25: Ask 20 und Workflow 90 sowie Plan 78 Tests bestanden; sieben Titeltests inklusive UTF-8/cp1252 und ungültiger Eingabe bestanden., Befehlsbeispiele auf unquotierte Platzhalter geprüft; README-Prüfung und beide Git-Diffprüfungen fehlerfrei. CI-Matrix für drei Systeme und Python 3.11/aktuell vorbereitet; Läufe offen., Aktueller Workflow: 14 Tests Windows 3.11 und Linux 3.12 bestanden; Python 3.9/3.10 liefern Versionsdiagnose; Store-Alias Exit 9009 erkannt; Details im Pruefbericht, 2026-09-25: GitHub-Lauf 36178096054 auf d6096a4 bestand alle sechs Jobs für Windows Ubuntu und macOS mit Python 3.11 und aktuell., 2026-09-25: GitHub-Lauf 36179075576 auf 3946a41 bestand erneut alle sechs Jobs für Windows Ubuntu und macOS mit Python 3.11 und aktueller 3.x.]
+Evidence: UTF-8-, Pfad- und Interpretergrenzen geprüft. Actions-Matrix für Windows, Linux und macOS mit Python 3.11 und aktueller 3.x bestanden.
 
 ### W-008 Plan wird ein deutlich einfacheres System für geordnete Arbeit
 
@@ -132,7 +132,7 @@ Steps:
 4. Behebe F-01 durch direkte Entfernung der Plan-Modellprofilpflicht gemäß angenommener ADR-0048; prüfe den general-Endzustand unter Python 3.10. Setze die Profilvereinfachung um und bereinige Imports/Manifest nur für entfallene Planabhängigkeiten. Workflow-Verbraucher des gemeinsamen Helpers getrennt erhalten.
 5. Vereinfache Decision-Batch-Identität auf eine gewöhnliche ID mit bestehender Mitgliederliste, sofern die Consumerprüfung v1-Bestandskompatibilität bestätigt. Alte Hash-IDs weiter lesen; keine neue Ersatzmaschine schaffen.
 6. Prüfe typische Planhandlungen, Mehrdateiabschluss und Wiederaufnahme gegen bestehenden Validator/Selector und tatsächliche Consumer. Ergänze nur fehlende entscheidende Fälle und beobachte einen begrenzten Verständlichkeitsvergleich.
-Evidence: [78 Plan-Tests und finale General-/Codex-Pakete bestanden; Wiederaufnahme unter Python 3.10 validiert, General-Paket nach Next-action-Edit unter Python 3.10.20 validiert, Vergleich in development/luna-tests/suite-simplification-comparison.md; kein belegter Kosten- oder Geschwindigkeitsgewinn]
+Evidence: Plan vereinfacht, beide Profile und General unter Python 3.10 geprüft. Kein belegter Kosten- oder Geschwindigkeitsgewinn.
 
 ### W-009 Evidence und Windows-Zeilenenden werden ohne Informationsverlust gelesen
 
@@ -145,7 +145,7 @@ Acceptance: Alte Fixtures bleiben gültig. Neue Evidence mit Sonderzeichen und C
 Steps:
 1. Prüfe alle Parser und Formatverbraucher unter members/scoville-plan/ einschließlich Viewer und betroffener Batchlogik. Entscheide anhand veröffentlichter Reader, ob format_version 1 erweiterbar ist.
 2. Setze erst nach Annahme die gemeinsame Evidence-/Zeilenendenregel im Parser und in den manuellen Formatreferenzen um. Prüfe Daten aus alten und neuen Profilen sowie die bestehenden Workflow-Consumer. W-010 übernimmt anschließend diesen geprüften Formatstand.
-Evidence: [ADR-0065 konkretisiert Nutzerkorrektur: Klartext-Evidence ohne JSON; historischer ADR-0049-Verweis bleibt erhalten, 82 Python-Tests bestanden; alte Syntax unveraendert lesbar; alter Reader lehnt Erweiterungen erwartungsgemaess ab, 13 Viewer-Parser-Rust-Tests unter Linux bestanden; Pakete und 90 Windows-Workflowtests bestanden; Details in docs/suite-review-pruefung-2026-09-25.md]
+Evidence: Klartext-Evidence und CRLF samt alten Fixtures geprüft; alte Reader lehnen Erweiterungen ab. Viewer-Parser und Workflow-Consumer geprüft.
 
 ### W-005 Eine Konfigurationsdatei überschreibt importierte Skill-Defaults
 
@@ -159,7 +159,7 @@ Steps:
 1. Prüfe vorhandene Ask config.json und den bisherigen Workflow-Konfigurationsweg auf zu übernehmende Abweichungen. Entferne die persönliche Ladeebene ohne Dateien zu löschen; führe keine workflow.local.toml ein.
 2. Implementiere den kleinen gemeinsamen Loader für .scoville/config.json in ../shared/runtime/ und binde ihn über suite.json in Ask und Workflow ein. Bewahre deren Einstellungsstrukturen und Adviser-Mergeverhalten. Prüfe bestehende explizite Aufrufparameter getrennt von gespeicherter Konfiguration.
 3. Prüfe fehlende Datei, partielle Overrides, ungültige Werte und Modelle zwischen Läufen. Präzisiere die Reparaturfehlermeldung. Dokumentiere nur Datei vor Default und unveränderte Einstellungen während eines Laufs.
-Evidence: [Eine Datei vor Defaults ohne persoenliche Ladeebene umgesetzt; 21 Ask- und 92 Workflowtests sowie zwei Schreibprofiltests bestanden, Teilwerte und einmalige Overrides ueber echte Verbraucher geprueft; Lesen legt keine Datei an; Details in docs/suite-review-pruefung-2026-09-25.md, W-002-Plattformabnahme bleibt offen; vorhandenes persoenliches Claude-Budget 50 statt Default 10 USD benannt und nicht ungefragt uebernommen]
+Evidence: Projektkonfiguration vor Defaults über echte Consumer geprüft; Lesen erzeugt keine Datei. Persönliches Claude-Budget nicht ungefragt übernommen.
 
 ### W-017 Prioritized after W-005: Scoville Setup verwaltet die Konfigurationsdatei
 
@@ -173,7 +173,7 @@ Steps:
 1. Prüfe nach W-005 die bestehenden Ask-/Workflow-Ladeverträge und ihre Validierung. Prüfe als Setup-Felder Ask-Adviserauswahl und Presets einschließlich Modell/Effort sowie Claude-Budget, Sitzungspersistenz, Customizations und die durch W-003/W-004 hinzukommenden Timeout-/Web-Einstellungen. Für Workflow bleiben Executor-/Reviewer-Modellpaare je Route. Übernimm die Context-Thresholds für Koordinator und Worker aus den importierten Defaults gemäß ADR-0064 als konfigurierbare Werte; prüfe erlaubte Prozentwerte. Entfernte Coordinator-Modell-/Titelsettings und Plan-Schreibprofile nicht wieder einführen. Optionale Workflow-Schreibprofile erst nach W-010 auf verbleibenden Nutzen prüfen. Verwende bestehende Verträge für Rangfolge und Prüfung; verwende ausschließlich die Konfigurationsdatei vor den Skill-Defaults.
 2. Erstelle den eng begrenzten Skill unter members/scoville-setup/scoville-setup/ und registriere ihn über suite.json ausschließlich als Suite-Bestandteil; keine eigenständige Distribution. Pflege Dokumentation in development/readme/scoville-setup/; verwende den vorhandenen Buildweg für Projektionen und Paketprüfung.
 3. Prüfe Anzeigen ohne Datei, gezielte Speicherung in der Konfigurationsdatei, Erhalt fremder Werte und ungültige Eingaben. Prüfe anhand tatsächlicher Ask-/Workflowverbraucher die wirksamen Werte und den Start ohne Setup.
-Evidence: [Setup ist nur im Codex-Suitepaket; gemeinsame Verbraucherpruefung und importierte Defaults statt zweiter Ladelogik, Zwei gebaute Setup-Verbrauchertests bestanden; 21 Ask- und 92 Workflowtests sowie sechs Buildertests bestanden; Kurzvalidator akzeptiert Setup, Anzeige ohne Dateierzeugung und Erhalt fremder Werte geprueft; Defaults 25/75 umgesetzt; Details in docs/suite-review-pruefung-2026-09-25.md]
+Evidence: Suite-only Setup nutzt gemeinsame Loader; Anzeige ohne Dateierzeugung, Speicherung, Werterhalt und echte Consumer geprüft.
 
 ### W-010 Workflow führt mit weniger Zuständen und Übergabeaufwand aus
 
@@ -189,7 +189,7 @@ Steps:
 3. Baue direkten Dispatch und einen kleinen Datensatz für aktuelle Einheit, Task und Ergebnis. Entferne zusätzliche Konfliktabsicherung für parallele Schreiber sowie unnötige Park-/Generations-/Transportzeremonien entsprechend ADR-0064 und ADR-0052. Erkläre den Einzelbetrieb in den kanonischen Workflow-README-Fragmenten. Erhalte check_context_checkpoint.py und die tatsächlich benötigte Übergabe an Nachfolgetasks für Koordinator und Worker. Verwende die vereinfachte Handoff-Struktur mit Arbeitsstand, offenen Punkten und nächstem Schritt; keine Hash-/Empfangsbelege. Defaults sind Koordinator ab 25 Prozent und Worker über 75 Prozent. Rollover-Schwellen kommen aus .scoville/config.json oder bei fehlendem Wert aus den importierten Skill-Defaults. Vereinfache den Ablauf ohne Rollover abzuschaffen. Bewahre zunächst Resultatformat und Routewerte, damit keine unnötige zweite Migration entsteht.
 4. Setze die beauftragten Titel in ../shared/runtime/task_lifecycle.py und den Workflow-Aufrufern um; übergib den unveränderten Aufrufertitel und die laufende Runnummer aus dem Workflowstand. Bewahre den ursprünglichen Titel ohne wiederholte SCW-Präfixe. Prüfe die bisher sichtbare Hash-/Run-Kennung auf tatsächliche Verbraucher und entferne unnötige Ausgabe samt Anweisungen. Erzeuge keinen zusätzlichen Manager-Task allein für dessen Titel; ADR-0064 behält den aufrufenden Task als Koordinator. Prüfe Titel und weiterhin eindeutige ID-Zuordnung.
 5. Prüfe tatsächlichen Diff vor Review/Commit, nutze vorhandene Commitautorität und melde Archivierungsfehler ohne fachliche Blockade. Teste Normalablauf, Reparaturgrenze, automatischen Koordinator-/Worker-Rollover, Stopp/Wiederaufnahme und belegte vorherige Fehler.
-Evidence: [Neues Titelschema gemaess ADR-0066; 19 Lifecycle-/Titeltests bestanden, Nativer Rollover erfolgt; Snapshot-Verwechslung bei Ergebnisuebernahme korrigiert; Wiederholungspruefung nach externem Review offen. Details im Pruefbericht, Nutzer genehmigt Abbruch und Uebertragung aller offenen Abnahmepflichten an W-026; bisherige Nachweise bleiben erhalten]
+Evidence: Titel und nativer Rollover geprüft, Snapshot-Verwechslung korrigiert. Nutzer brach den Punkt ab und übertrug offene Abnahme an W-026.
 
 ### W-011 Code- und UI-Sprache führt zu eindeutigen Handlungen
 
@@ -204,7 +204,7 @@ Steps:
 2. Prüfe die im Review benannten verdichteten Sätze, Ausnahmefolgen und Beispiele in Code und UI gegen ihre vollständigen aktuellen Regeln. Formuliere jede verbleibende Mehrdeutigkeit als konkreten Vorher/nachher-Fall.
 3. Vereinfache Code SKILL.md auf klare Handlungen und geordnete Bedingungen; bewahre den aktuellen PLAN-0010-Vertrag. Verschiebe in UI nur ausdrücklich strukturierte Ausgabeformate in bedarfsweise geladene Referenzen.
 4. Prüfe betroffene Routingfälle und typische Leserfragen. Für F-22 die bereits vorhandenen Greenfield-Regeln auf Verständlichkeit prüfen; zusätzliche Regeln nur bei benannter Lücke. Frühere praktische UI-Nachweise und ihre Grenzen bleiben beim nach ADR-0053 abgeschlossenen PLAN-0006; keine Wiederöffnung.
-Evidence: [Code-/UI-Routing im Luna-Vergleich geprueft; zwei konkrete WordPress-Mehrdeutigkeiten im Schlussfall behoben, Finale strukturierte Klassifikation mit sechs Feldern und fuenf Verboten korrekt; General-/Codex-Paketlinks bestanden, Details und Fehlversuche in development/luna-tests/suite-simplification-comparison.md; keine belegte Geschwindigkeitsersparnis]
+Evidence: Code-/UI-Routing mit Luna geprüft, WordPress-Mehrdeutigkeiten korrigiert und Pakete abgeglichen. Keine belegte Geschwindigkeitsersparnis.
 
 ### W-004 Ask benennt und begrenzt seine tatsächlichen Fähigkeiten
 
@@ -217,7 +217,7 @@ Acceptance: Default und Opt-in entsprechen der angenommenen Decision. Kein Dokum
 Steps:
 1. Setze nach Annahme ADR-0047 in scripts/ask_claude.py, scripts/ask.py, config.default.json und references/claude.md um.
 2. Präzisiere Einstieg und kanonische README-Fragmente: Native Adviser erhalten einen Read-only-Auftrag, aber keine technische Schreibsperre durch den aktuellen Host. Bestehende Adviser- und Fehlerverträge erhalten.
-Evidence: [21 Ask-Tests bestanden; Default und Opt-in erreichen beide CLI-Toolflags; ungueltige Werte abgelehnt; beide Codex-Layouts geprueft, Native Read-only als Auftrag ohne technische Schreibsperre dokumentiert; keine Live-Modellabfrage fuer diese Adapterpruefung]
+Evidence: Webtool-Default und Opt-in geprüft. Native Read-only ist ein Auftrag ohne technische Schreibsperre; keine Live-Modellabfrage für den Adaptercheck.
 
 ### W-007 Dokumentation beschreibt Distribution und Unterstützung korrekt
 
@@ -231,7 +231,7 @@ Steps:
 1. Korrigiere die Ask-Installation in development/readme/scoville-ask-for-codex/ und den zuständigen Shared-README-Fragmenten; erzeuge Member-/Release-Projektionen über den Builder.
 2. Prüfe compatibility-Feld und Hostformulierungen anhand des tatsächlich verwendeten Paketvalidators. Kläre den bekannten quick_validate-Konflikt, ohne dessen Prüfung für grüne Ausgabe umzuschreiben.
 3. Prüfe die in F-07 benannten Berichte auf kanonisches Wissen, Rohdaten und Releasebindung. Bereinige veränderliche Berichte und Exporte gezielt; terminale Plan-/Decision-Historie nicht als Nebenwirkung umschreiben.
-Evidence: [Ask-Standalone und Workflow-Hostangaben korrigiert; README-Projektionen durch Builder erzeugt; sechs Buildtests bestanden, Zehn Payloads auf Spezifikationsfelder und Feldlaengen geprueft; quick_validate-Abweichung zu compatibility mit offizieller Quelle dokumentiert, Drei benannte Ergebnisberichte von persoenlichen Maschinenpfaden bereinigt; kanonisches Wissen und terminale Historie erhalten]
+Evidence: Distribution und Hostangaben korrigiert, Paketmetadaten geprüft. Alter compatibility-Validator-Konflikt erklärt; persönliche Berichtspfade entfernt.
 
 ### W-013 Ask hat nur noch eine gepflegte Quelle
 
@@ -244,7 +244,7 @@ Acceptance: Backup und seitdem mögliche Änderungen sind abgeglichen. Der exakt
 Steps:
 1. Prüfe den in members/scoville-ask-for-codex/development/test-evidence.md bezeichneten Backupbestand und aktuellen Zustand von ../ask-suite-for-codex. Sichere neue relevante Änderungen vor Entfernung.
 2. Prüfe Zielgrenze und aktive Leser, entferne nur den autorisierten Altordner und dokumentiere einen knappen migrationsbezogenen Nachweis. Eine neue Policy-Sperre melden, nicht umgehen.
-Evidence: [Nutzer erlaubt ausdruecklich Abschluss von W-013 mit einer Desktop-Batchdatei zur manuellen Loeschung statt automatischer Entfernung, 437 Altquellen- und Backupdateien aktuell bytegleich; Git sauber und HEAD 59d50932b02e024f85a4bf7d68716dbb37d48297 unveraendert, Desktop/Scoville-Altquelle-loeschen.bat erstellt und nur syntaktisch geprueft; Altordner wurde durch den Agenten nicht geloescht]
+Evidence: Altquelle und Backup bytegleich; Nutzer akzeptierte manuelle Lösch-Batchdatei. Agent prüfte nur deren Syntax und löschte den Altordner nicht.
 
 ### W-016 Größenberichte machen den Ladeumfang sichtbar
 
@@ -257,7 +257,7 @@ Acceptance: Der Report nennt Größen pro Member und geladener Route. Warnungen 
 Steps:
 1. Ergänze informative Größen-/Ladeumfangsausgabe im vorhandenen Buildreport; unterscheide komplette Pakete und für typische Handlungen tatsächlich geladene Dateien.
 2. Vergleiche eine Berichtsausgabe mit den gemessenen Dateien.
-Evidence: [Builder meldet Datei- und Paketbytes sowie beobachtete Referenzrouten; sechs Buildtests bestanden, Reale Kandidatenspur mit aktuellen Dateigroessen verglichen; geaenderte Dateien korrekt als nicht mehr exakt gemessen gekennzeichnet, Anleitung in development/luna-tests/build-evidence.md; keine Groessensperre oder Tokenschaetzung]
+Evidence: Builder-Größenbericht und beobachtete Lesewege geprüft. Geänderte Dateien als nicht mehr exakt gemessen markiert; keine Größensperre oder Tokenschätzung.
 
 
 ### W-018 Bestehende Pläne bleiben im installierten Viewer lesbar
@@ -271,7 +271,7 @@ Acceptance: Schreibanleitung verlangt vorerst Legacy-Listen und LF; einzelne Ein
 Steps:
 1. Korrigiere die voreilige Klartext-Schreibvorgabe in members/scoville-plan/scoville-plan/references/native-plan-format.md und ihren direkten Schreibreferenzen; erhalte die neue Lesefunktion.
 2. Erstelle ein temporäres Testprofil mit mehreren Legacy-Evidence-Einträgen und prüfe es mit dem aktuellen Validator sowie Klartext-/CRLF-Fixtures mit dem aktuellen Reader. Übergib dem Nutzer den absoluten Profilpfad und eine kurze Prüfanleitung: Profil im installierten Viewer öffnen und bestätigen dass Plan und sämtliche Evidence-Einträge ohne Fehlermeldung lesbar sind; Viewer-Version angeben. Der Nutzer führt diese Desktopprüfung aus. Halte seine Rückmeldung als Abnahmenachweis fest; bis dahin bleibt nur diese manuelle Abnahme offen und Parsertests ersetzen sie nicht.
-Evidence: [Schreibregel auf Legacy-Listen und LF korrigiert, Windows Python 3.14: 46 Validator- und 21 Selectortests bestanden, Testprofil temp/2026-09-25-plan-0011-fixes/viewer-profile valide; Viewer v1.3.2 Anzeige per Nutzer-Screenshot bestätigt]
+Evidence: Legacy-Schreibregel und Reader geprüft. Nutzer bestätigte Anzeige im installierten Viewer; keine neue Viewer-Veröffentlichung erforderlich.
 
 ### W-019 Workflow startet und übergibt mit eindeutiger Identität
 
@@ -285,7 +285,7 @@ Steps:
 1. Richte in members/scoville-workflow-for-codex/scoville-workflow-for-codex/SKILL.md die bestehende aufrufende Aufgabe ausdrücklich als Manager Nummer 1 ein; begrenze das Umbenennungsverbot in ../shared/runtime/task_lifecycle.md auf fremde oder durch Reconciliation gefundene Aufgaben. Speichere Nummer und Task-ID im bestehenden Laufdatensatz. Ergänze in task_lifecycle.py nur die notwendige ID-Formatprüfung.
 2. Prüfe mit dem echten Selector dass W-019 und der Abnahmenachfolger W-026 ADR-0066 liefern. Dispatch erfolgt nur aus diesen aktuellen Aufträgen; W-010 wird nicht erneut dispatcht und seine gestarteten Decisions/Steps/Acceptance werden nicht geändert.
 3. Ergänze in references/operations-rollover.md den Pflichtkopf scoville_role=coordinator ab Byte 0 und den ausdrücklichen Skillaufruf mit Pfad. Beschreibe in references/operations.md lokalen Laufzustand und gezieltes Aufräumen erst nach Ergebnissicherung und abgeschlossener Übergabe; keine neue Setup-Funktion.
-Evidence: [Windows Python 3.14: 20 Titel- und Lifecycletests grün, Echte Selector-Aufrufe für W-019 und W-026 liefern ADR-0066, Koordinator-Prompt durch Lifecycle akzeptiert; Host-Titelwechsel bestätigt, Details docs/suite-review-pruefung-2026-09-25.md]
+Evidence: Titel, echte Selector-Decision-Ausgabe und Lifecycle-Übergabe geprüft; Host-Titelwechsel bestätigt.
 
 ### W-020 Reasoning-Stufen gelten einheitlich für Plan und Ausführung
 
@@ -298,7 +298,7 @@ Acceptance: none/minimal/low/medium/high/xhigh/max/ultra werden syntaktisch einh
 Steps:
 1. Gleiche members/scoville-plan/scoville-plan/scripts/select_context.py und validate_profile.py sowie members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/workflow_settings.py und resolve_model_pair.py mit Ask- und Setup-Verbrauchern ab.
 2. Vereinheitliche die zulässigen Werte in deren bestehendem Konfigurations-/Validierungsweg und den zugehörigen Referenzen. Bewahre eigenständig installierbare Pakete; keine neue Laufzeitabhängigkeit zwischen Skills.
-Evidence: [Windows Python 3.14: 15 Workflowtests und 2 Setuptests grün, Ask-Modellprüfung für alle acht Werte bestanden, Nutzerpräzisierung ADR-0067 umgesetzt; Plan-README erklärt Annotationen und reguläre Auswahl]
+Evidence: Reasoning-Werte über Plan, Setup, Ask und Workflow geprüft; tatsächliche Modellunterstützung bleibt getrennt.
 
 ### W-021 Ask verwendet keinerlei Legacy-Konfiguration mehr
 
@@ -311,7 +311,7 @@ Acceptance: Keine Legacy-Erkennung, Warnung, Ladeebene oder automatische Migrati
 Steps:
 1. Ermittle ausschließlich die alten persönlichen Ask-Konfigurationsdateien und ihre aktiven Verweise über members/scoville-ask-for-codex/scoville-ask-for-codex/references/configuration.md und scripts/ask.py. Prüfe Zielpfade und Inhalt vor Entfernung. Berichte dem Nutzer vor dem Löschen die exakten Pfade und vom Default abweichende nicht geheime Werte einschließlich des bekannten 50-USD-Budgets; keine Zugangsdaten ausgeben. Bestehende Policy-Sperren nicht umgehen.
 2. Entferne die bestätigten Legacy-Dateien und aktive Erhaltungs-/Migrationsanweisungen. Übernimm alte Werte wie das 50-USD-Budget nicht ungefragt in .scoville/config.json und baue keinen Warnmechanismus ein.
-Evidence: [Altdatei <codex-home>/skills/ask-claude-for-codex/config.json nach Wertbericht entfernt; Abwesenheit geprüft, Windows Python 3.14: Default-/Override-Test bestanden; Lesen erzeugt keine Datei]
+Evidence: Benannte Ask-Legacy-Datei nach Wertbericht entfernt; Abwesenheit und Default-/Override-Verhalten geprüft. Lesen erzeugt keine Datei.
 
 ### W-022 Tests und Laufzeitaufrufe funktionieren ohne lokale Sonderumgebung
 
@@ -326,7 +326,7 @@ Steps:
 2. Korrigiere die Home-Verwendung in development/luna-tests/run_codex_cli_case.py und ergänze .github/workflows/python-portability.yml um Shared-, Suite- und Setup-Abdeckung ohne Push oder CI-Start.
 3. Verankere die Interpreterwahl in den tatsächlich geladenen Ask-/Workflow-/Setup-Laufzeitreferenzen. Verlange Python 3.11 nur bei Verbrauchern die es brauchen; Plan bleibt ohne Python nutzbar und seine optionalen Helfer behalten belegte Unterstützung.
 4. Ergänze gezielte Regressionen für Originalresultat statt Snapshot und den gültigen Koordinator-Übergabeprompt. Prüfe die Rückgaberegel aller drei Arbeitsrollen; Textprüfungen ersetzen nicht den späteren nativen Ablauf unter W-026.
-Evidence: [Windows 3.14 und Ubuntu 3.12.3: Shared 53 Suite 24 Plan 68 Ask 22 Workflow 16 Setup 2 grün; Ubuntu 1 Windows-Test ausgelassen, Details docs/suite-review-pruefung-2026-09-25.md]
+Evidence: Betroffene Tests auf Windows und Ubuntu bestanden; Windows-spezifischer Test unter Ubuntu ausgelassen.
 
 ### W-023 Aktive Dokumentation und Quellbestand beschreiben nur den gültigen Betrieb
 
@@ -339,7 +339,7 @@ Acceptance: Workflow ist klar als suite-only beschrieben. Links zeigen auf beleg
 Steps:
 1. Korrigiere M7/L2 in development/readme/scoville-workflow-codex/, development/readme/scoville-ask-for-codex/ und den Plan-/Workflow-CHANGELOGs. Erzeuge README-Projektionen über den Builder und erhalte Änderungen der separaten Release-Session.
 2. Prüfe die in L1 genannten compute_decision_batch.py- und resolve_prompt_profile.py-Kopien samt Tests gegen suite.json und tatsächliche Aufrufer. Entferne nur tote Pfade; korrigiere L6 in members/scoville-plan/scoville-plan/references/native-decision-batches.md.
-Evidence: [Aktuelle READMEs und Unreleased korrigiert; 4 ungenutzte Helper-/Testdateien entfernt; historische Releases erhalten, Details docs/suite-review-pruefung-2026-09-25.md]
+Evidence: Aktive Dokumentation korrigiert und ungenutzte Helper entfernt; historische Releaseeinträge erhalten.
 
 ### W-024 Installierbare Pakete entsprechen den Quellen und verwenden LF
 
@@ -353,7 +353,7 @@ Steps:
 1. Prüfe ../shared/build/build_suite.py: package_bytes normalisiert bereits CRLF. Sichere alle weiteren Textausgabewege einschließlich README und Fragmentexpansion mit einem gezielten Buildtest ab; ergänze nur fehlende Normalisierung.
 2. Synchronisiere kanonische Shared-Quellen und erzeuge Pakete mit development/build_suite.py im vorgeschriebenen Release-Temporärverzeichnis. Gleiche anschließend packages/ mit dem vorgesehenen Build ab und entferne nur obsolete generierte Dateien nach Prüfung der Zielgrenze.
 3. Prüfe die tatsächlichen Ausgabebytes und Paketinventare; erhalte den CRLF-Lesevertrag vorhandener Planrecords. Stelle den geprüften Paketstand für den anschließenden nativen W-026-Lauf bereit.
-Evidence: [Beide Distributionsprofile gebaut; 7 Paketkopien und 113 Dateien entsprechen Payload, Alle erzeugten Textbytes LF; Binärvertrag geprüft, Aktueller Workflow enthält Ergebnis-/Checkpoint-/Titelkorrekturen]
+Evidence: Beide Profile mit aktuellen Korrekturen gebaut; Pakete entsprechen Payload. LF-Ausgabe und unveränderte Binärbytes geprüft.
 
 ### W-026 Workflow erfüllt die aktuelle native Abnahme
 
@@ -367,7 +367,7 @@ Steps:
 1. Gleiche den unter docs/suite-review-pruefung-2026-09-25.md dokumentierten Fixturestand mit dem nach W-024 gebauten Paket ab. Übernimm weiterhin gültige W-010-Nachweise mit genauer Standangabe und führe abgeschlossene Arbeit nicht blind erneut aus.
 2. Setze den unterbrochenen nativen Ablauf mit Originaltextübernahme fort und prüfe die noch unbeobachteten Review-/Reparatur-, Rollover- und Stopp-/Wiederaufnahmefälle. Verwende das bestehende Fixture und die vorhandenen Werkzeuge statt eines neuen Runners.
 3. Sichere knappe Ergebnisse und Task-IDs im vorhandenen Prüfbericht, prüfe die erforderliche Archivierung und gleiche die ADR-0064-Umfangstabelle sowie aktuelle Titel gegen tatsächliches Verhalten ab. Benenne offene Grenzen statt sie mit Helpertests als bestanden auszugeben.
-Evidence: [SOL 6 Medium: Originalresultate und reale Manager-/Worker-Rollover bestanden, Nativer Stopp und Wiederaufnahme derselben Aufgabe ohne doppelte Effekte bestanden, Drei Reparaturen mit kontrollierter Fehlerrückkehr; keine vierte; Entscheidungsstopp beobachtet, Archivierung und zwölf ADR-0064-Bereiche geprüft; Details im Prüfbericht]
+Evidence: Nativer Sol-Lauf bestand Originalübernahme, Manager-/Worker-Rollover, Stopp/Wiederaufnahme und Reparaturgrenze. Archivierung und ADR-0064-Umfang geprüft.
 
 ### W-025 Plan lädt für gewöhnliche Änderungen weniger Regeln
 
@@ -380,4 +380,4 @@ Acceptance: Vorher/nachher-Vergleich benennt tatsächlich geladene Dateien für 
 Steps:
 1. Prüfe M5 in members/scoville-plan/scoville-plan/SKILL.md und references/native-work-items.md auf doppelte und selten benötigte Regeln; berücksichtige die bereits gekürzte native-editing.md.
 2. Kürze die häufigen Routen und synchronisiere betroffene Referenzen ohne neue Profile, Hashpflichten oder Planverwaltungsschicht. Prüfe die genannten Fälle und aktualisiere anschließend die betroffenen Pakete über den vorhandenen Buildweg.
-Evidence: [Vier Standardleserouten enthalten 15.8 bis 18.4 Prozent weniger Quelltext; tatsächliche Lesewege separat gemessen, Zwei SOL-6-Medium-Läufe bestanden fünf Zwischenstände; ADR und gestartete Inhalte erhalten, Windows Python 3.14: Plan 68 und Suite 24 grün; beide Profile gebaut; Plan-Paket synchronisiert, Umfang und Messgrenzen stehen im Prüfbericht]
+Evidence: Lesewege verkürzt; echte Sol-Planänderungen und Endzustände geprüft. Entscheidungen und gestartete Inhalte erhalten; keine allgemeine Effizienzbehauptung.

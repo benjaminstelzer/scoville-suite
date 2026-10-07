@@ -10,7 +10,7 @@ updated: 2026-09-29
 
 ## Goal
 
-Scoville Workflow for Codex wartet ohne regelmäßige Statusabfragen, erhält beim Kontextwechsel seine tatsächlichen Einstellungen und offenen Entscheidungen und beauftragt zusammenhängende Korrekturen vollständig. Grundlage ist der EMPCO-Lauf ab 28.09.2026 mit acht Managern, 17 Workern und elf Reviewern im ausgewerteten Stand. Umsetzung am 29.09.2026 vom Nutzer beauftragt.
+Scoville Workflow for Codex wartet ohne regelmäßige Statusabfragen, erhält beim Kontextwechsel seine tatsächlichen Einstellungen und offenen Entscheidungen und beauftragt zusammenhängende Korrekturen vollständig.
 
 Zusätzlich autorisiert ein ausdrücklicher Nutzeraufruf von Scoville Ask nach ADR-0115 die benötigten Berater-Chats und die auftragsbezogene Kommunikation mit dem aufrufenden Chat ohne getrennte Bestätigungen.
 
@@ -36,7 +36,7 @@ Steps:
 1. Aktuellen Host-Vertrag gegen operations.md und dispatch abgleichen. An einem konkreten fehlgeschlagenen Ablauf unterscheiden, ob Handlungsdetails fehlen, eine Host-Grenze wirkt oder eine vorhandene Regel nicht befolgt wurde. Der beobachtete Stand enthält 144 wait_threads-Aufrufe, davon 80 wiederholte Zielabfragen mit Timeout; die Zahlen allein beweisen weder Ursache noch durchgehende Inaktivität.
 2. Eine knappe Ablaufregel beim bestehenden Owner formulieren: Erststart, Timeout, Rückkehr zum Nutzer und Fortsetzung durch Ergebnis oder Nutzereingabe. Widersprechende Anweisungen ersetzen.
 3. Verhalten mit kontrollierten Host-Ereignissen prüfen; erlaubte Wiederherstellung von Polling unterscheiden.
-Evidence: docs/plan0020-implementation-evidence.md: Timeout-Fall mit Luna bestanden, technische Workflow-Tests bestanden.
+Evidence: Timeout-Fall mit Luna und technische Workflow-Checks bestanden.
 
 ### W-002 Rollover erhält Modell, Effort und offene Rückfragen
 
@@ -50,7 +50,7 @@ Steps:
 1. operations-rollover.md und den tatsächlich verwendeten Erstellungsweg prüfen. Manager 1–7 liefen mit gpt-6-sol/high; Manager 8 wurde ausdrücklich mit gpt-6-astra/medium erstellt. Sechs frühere Übergaben ohne explizite Parameter behielten dasselbe Paar. Vor zusätzlichen Regeln die konkrete Lücke gegenüber dem bereits vorgeschriebenen Erhalt des gestarteten Paars bestimmen.
 2. Herkunft und Weitergabe des tatsächlichen Manager-Paars sowie offene Frage, Antwortstand und nächste zulässige Aktion im bestehenden kompakten Handoff präzisieren, ohne neue Zustandsdatei.
 3. Modellwechsel, fehlende Metadaten, unbeantwortete Frage und Antwort während der Übergabe mit erhaltenen Stops prüfen.
-Evidence: docs/plan0020-implementation-evidence.md: Modell-/Frageübernahme in Luna-Fällen bestanden; Herkunft und Parameter präzisiert.
+Evidence: Modell- und Frageübernahme in Luna-Fällen bestanden; Herkunft und Parameter präzisiert.
 
 ### W-003 Korrekturaufträge erfassen den betroffenen fachlichen Zusammenhang
 
@@ -64,7 +64,7 @@ Steps:
 1. Bestehende Regeln zu Ursache, zwei Korrekturversuchen und Deltareview gegen die W-315-Kette prüfen. Die zwischenzeitliche Nutzerpräzisierung gehört zur Ursache der Umfangsänderung.
 2. Im Dispatch-/Korrekturvertrag eine begrenzte Prüfung der betroffenen Zustandsunterscheidung und direkten Verbraucher verankern; nötigenfalls eine kleine Falltabelle im Auftrag, keine neue globale Prozessstufe.
 3. Zusammenhängende Fehlerkette, isolierten Fehler und veränderte Nutzeranforderung als Gegenfälle prüfen.
-Evidence: docs/plan0020-implementation-evidence.md: Zusammenhängende Korrektur und neue Nutzeranforderung im Modellfall korrekt abgegrenzt.
+Evidence: Zusammenhängende Korrektur und neue Nutzeranforderung im Modellfall korrekt abgegrenzt.
 
 ### W-004 Deployment-Zuständigkeit ist entscheidungsreif beschrieben
 
@@ -91,7 +91,7 @@ Steps:
 1. Unter members/scoville-plan/ die kanonischen Instruktionen, Helper-Owner und Tests prüfen. Die aktuelle Regel fordert beim Abschluss einen zulässigen genauen Nachfolger. EMPCO ADR-0245 klärte nachträglich die Gesamtfreigabe; dies ist kein universeller Vorrang vor allen Stopps.
 2. Prüfen, ob präzisere Fortsetzungs-/Prioritätsregeln genügen oder ob fachlicher Abschluss und Nachfolgerwahl entkoppelt werden sollten. Minimalen Fix mit konkreten Zustandsübergängen, betroffenen Dateien und überprüfbarer Acceptance ausarbeiten; erforderliche Nutzerentscheidungen kennzeichnen.
 3. Materielle Semantikänderungen vor Umsetzung mit Alternativen und Migration/Kompatibilität als vorgeschlagene Decision vorlegen. Nach deren Annahme Instruktionen und gegebenenfalls Selector/Validator samt gezielten Tests gemeinsam anpassen; bereits autorisierte semantisch unveränderte Präzisierungen benötigen keine weitere Freigaberunde. Bestehende Planhistorie und Profile bleiben gültig oder erhalten eine ausdrücklich entschiedene Migration.
-Evidence: docs/plan0020-implementation-evidence.md: Plan-Fälle bestanden; 80 Tests und Lifecycle-Test grün, Statusmodell unverändert.
+Evidence: Plan-Fälle und Lifecycle-Checks bestanden; Statusmodell unverändert.
 
 ### W-006 Gezielte Verhaltensprüfung belegt Fixes und erhaltene Abläufe
 
@@ -105,7 +105,7 @@ Steps:
 1. Bestehende Tests und Modellfall-Harness wiederverwenden. Gezielte Fälle aus W-001 bis W-003 und W-005 sowie Gegenfälle für die zu erhaltenden Abläufe auswählen.
 2. Nach Umsetzungsfreigabe die betroffenen technischen Tests und gezielte Luna-Verhaltensfälle nach Repository-Vorgaben ausführen; bei Helperänderungen erfolgreiche Ausgabe direkt am vorgesehenen Consumer prüfen.
 3. Ergebnisse, Grenzen und gegebenenfalls README-Auswirkungen dokumentieren. Kein Release oder Installation ohne entsprechenden Auftrag.
-Evidence: docs/plan0020-implementation-evidence.md und docs/plan0020-helper-audit.md: gezielte technische und Luna-Vergleiche bestanden, Grenzen dokumentiert.
+Evidence: Gezielte technische und Luna-Vergleiche bestanden; daraus keine allgemeine Host- oder Modellqualifikation abgeleitet.
 
 ### W-007 Ask-Aufruf autorisiert Berater-Chats und ihre Kommunikation
 
@@ -119,7 +119,7 @@ Steps:
 1. In members/scoville-ask-for-codex/scoville-ask-for-codex/ SKILL.md, references/native.md, native-delivery.md, adviser.md und agents/openai.yaml die separaten Genehmigungsregeln entfernen. Eine Regel genügt: Der Nutzeraufruf beauftragt alle zur Beratung nötigen Schritte einschließlich Chat-Erstellung und Kommunikation. Der Berater braucht Auftrag und Beratungsreferenz, keinen Autorisierungsnachweis. Er antwortet normal im eigenen Chat; der Caller übernimmt Ergebnis und Rückfragen nach ADR-0117.
 2. Die kanonischen README-Fragmente unter development/readme/scoville-ask-for-codex/ und vorhandene Tests unter members/scoville-ask-for-codex/development/tests/ nachführen. Generierte Dateien ausschließlich bauen.
 3. Den vollständigen Ablauf sowie Nichtaufruf und ausdrücklichen Nutzerstopp gezielt prüfen; ohne neue Polling-Schleife oder Empfangsbestätigung.
-Evidence: docs/plan0020-implementation-evidence.md: Native Astra-Rückfrage und Ergebnisabholung nach ADR-0117 bestanden.
+Evidence: Native Astra-Rückfrage und Ergebnisabholung gemäß ADR-0117 bestanden.
 
 ### W-008 Ask erzeugt den nativen Beraterprompt direkt verwendbar
 
@@ -133,7 +133,7 @@ Steps:
 1. scripts/build_adviser_prompt.py beim Ask-Member ergänzen und über suite.json ausliefern; Frage aus UTF-8-Datei, Modus, Umfang und Referenz als Parameter, optionale Caller-Herkunft aus CODEX_THREAD_ID oder explizitem Override. Native Startargumente übernehmen aufgelöste Berater-ID, Modell und Effort; Titel SC-ASK-ADVISER: Text ohne Nummer oder Projekt.
 2. Native Aufrufanleitung auf Helper plus direkten create_thread-Aufruf reduzieren; README und gezielte Tests nachführen.
 3. Erfolgreichen Output direkt in einem beauftragten nativen Beratungsfall verwenden und Fehler-/Unicodefälle testen.
-Evidence: docs/plan0020-implementation-evidence.md: Unverändertes Helper-JSON nativ verwendet; 33 Ask-Tests einschließlich finalem Titel bestanden.
+Evidence: Unveränderte Helper-Ausgabe nativ verwendet; Ask-Checks einschließlich finalem Titel bestanden.
 
 ### W-009 Gesamtablauf zeigt sinnvolle Helper-Grenzen und erhält die Profiltrennung
 
@@ -147,7 +147,7 @@ Steps:
 1. Reale Helper in einem Wegwerfprojekt über Auswahl, Review, Korrektur, Handoff und Planabschluss verbinden; keine Live-Produktarbeit.
 2. Modellfälle mit erzeugten Prompts prüfen und manuell zusammengesetzte Übergänge identifizieren.
 3. Codex-/General-Ausgaben vergleichen und begründete Helper-Empfehlungen dokumentieren, ohne neue Ablaufverwaltung einzuführen.
-Evidence: docs/plan0020-implementation-evidence.md: Gesamtablauf geprüft; native/simulierte Checks und Hostgrenzen im Bericht getrennt.
+Evidence: Gesamtablauf geprüft; ausgeführte native Fälle und Simulation getrennt. Nicht erzeugbare Hostzustände bleiben unverifiziert.
 
 ### W-010 Native Startargumente und Manager-Übergaben werden deterministisch gebaut
 
@@ -160,7 +160,7 @@ Acceptance: Worker, Reviewer, Korrektur und Fortsetzung behalten die bestehenden
 Steps:
 1. Manager-Übergabe-Builder beim Workflow-Member ergänzen und die vorhandenen Ask-/Dispatch-Builder um native Erstellungsargumente erweitern.
 2. Aufrufreferenzen und kanonische README-Fragmente nachführen, aus den Quellen bauen und Regressionen einschließlich falscher Manager-Einstellungen prüfen.
-Evidence: docs/plan0020-implementation-evidence.md: Native Consumer, eigene Manager-Einstellungen und finale Titel/Rollover-Reihenfolge geprüft.
+Evidence: Native Consumer, eigene Manager-Einstellungen sowie finale Titel und Rollover-Reihenfolge geprüft.
 
 ### W-011 Jeder Helper hat einen strikt geprüften profilspezifischen Fallback-Vertrag
 
@@ -173,4 +173,4 @@ Acceptance: General-Einzelpakete und allgemeiner Suite-Build haben pro aufrufbar
 Steps:
 1. Helper-Inventar im Manifest erfassen, vorhandene Plan-Fallbacks vereinheitlichen und gemeinsame Routingtexte daraus erzeugen.
 2. Kanonische Build-/Verify-Wege und Projektregeln ergänzen, beide General-Layouts und Codex mit positiven und mutierten negativen Fällen prüfen.
-Evidence: docs/plan0020-implementation-evidence.md: 37 Suite- und 4 Profiltests bestanden, einschließlich isolierter Exporte und negativer Fallback-Verträge.
+Evidence: Isolierte Exporte und negative Fallback-Verträge bestanden; profilspezifische Helper-Zuordnung geprüft.

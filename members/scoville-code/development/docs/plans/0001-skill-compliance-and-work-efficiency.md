@@ -10,7 +10,7 @@ updated: 2026-09-12
 
 ## Goal
 
-Improve instruction application and reduce avoidable search, recovery and verification cycles using the September 12 session audit. Obtain Astra's explicit approval of this implementation plan before changing Skill behavior; revise and resubmit actionable objections until approved. Use Astra Low for behavioral tests. Preserve required evidence and report measured work separately from account quota or causal savings.
+Improve instruction application and reduce avoidable search, recovery and verification cycles. Preserve required evidence and distinguish measured work from account quota or causal savings. Behavioral checks use Astra Low; W-001 owns the required prior approval.
 
 ## Non-goals
 
@@ -30,7 +30,7 @@ Steps:
 1. Secure Astra approval of the complete plan and freeze relevant source baselines and fixtures in the task temp directory.
 2. Replace the existing location paragraph with concise operational search and read boundaries; preserve justified expansion and explicit-source exceptions.
 3. Run bounded baseline and changed behavioral checks and inspect the required actual read and recovery traces; text-only answers do not satisfy this gate.
-Evidence: [Astra approved consultation 02; skill-fix-review-2026-09-12.md, Paired actual read and edit traces passed; skill-fix-acceptance-2026-09-12.md Code section]
+Evidence: Independent Astra review approved the fixes; paired actual read and edit traces passed.
 
 ### W-002 Compose one UI verification batch
 
@@ -43,7 +43,7 @@ Acceptance: Astra Low tool-capable fixture cases record verification scheduling 
 Steps:
 1. Reconcile the WordPress core and validation reference subsequent-edit wording with current UI batching and evidence reuse.
 2. Test ownership and batch behavior with baseline and changed composed instructions using identical fixture inputs.
-Evidence: [Paired executed scheduling and owner fixtures passed; skill-fix-acceptance-2026-09-12.md WordPress section]
+Evidence: Paired scheduling and ownership fixtures passed; actual browser rendering remained deferred.
 
 ### W-003 Restore necessary Plan context without redundant reloads
 
@@ -57,7 +57,7 @@ Steps:
 1. Replace the per-operation Skill-reference hash prescription with availability and change-aware reuse: retain a known source identity and reload on observed edits, version changes or a stale-source signal; inspect the relevant source when freshness is uncertain. Preserve exact-byte guards for mutable Plan writes.
 2. Add subject-scoped restriction handling only where the existing Plan contract lacks it.
 3. Run paired fixture checks and the existing Plan structural test suite once after changes.
-Evidence: [Paired three-turn actual read traces passed; skill-fix-acceptance-2026-09-12.md Plan section, Existing Plan suite passed 50 tests]
+Evidence: Paired actual read traces and existing Plan checks passed; missing context reloaded without redundant reads.
 
 ### W-004 Qualify and activate the bounded fixes
 
@@ -72,4 +72,4 @@ Steps:
 2. Use isolated tool-capable fixtures; on unavailable or denied required tools preserve incomplete status and block installation. Changing this gate requires an explicit user-approved scope change before installation.
 3. Resolve observed regressions before installation; preserve a concise result and review metadata in this development owner and remove disposable evidence only through permitted cleanup.
 4. Synchronize changed files into existing Codex and Claude packages while preserving unrelated files and local configuration.
-Evidence: [Ten installed readbacks match five tested source files; skill-fix-acceptance-2026-09-12.md Local activation, Cleanup denied by automatic policy; temporary evidence remains]
+Evidence: Installed changed files matched tested sources. Automatic policy denied temporary cleanup; native discovery, real compaction, rendering and interruption remained unqualified.

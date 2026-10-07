@@ -15,7 +15,6 @@ Laufzeit- und Speicherkosten. Es nutzt geeignete vorhandene Caches korrekt,
 schlägt neue nur begründet vor und überlässt deren Einführung dem Nutzer.
 Scoville Ask sammelt beauftragte native Reviews auch nach Warte-Timeouts
 vollständig ein und präsentiert sie im aufrufenden Chat.
-Der Nutzer hat die Umsetzung beider Arbeitspunkte beauftragt.
 
 ## Non-goals
 
@@ -38,7 +37,7 @@ Steps:
 2. [status: done] In `members/scoville-code/scoville-code/SKILL.md` unter „Resolve material choices“ die Cache-Entscheidungsgrenze mit bestehender Autorisierung und unabhängiger Weiterarbeit verankern. Risiko bleibt verhaltensbezogen; ein Cache allein eskaliert es nicht.
 3. [status: done] In `members/scoville-code/scoville-code/references/validation.md` unter „Select proportional checks“ gezielte Kostennachweise und Cache-Korrektheit einordnen. Keine doppelte Regelpflege und keine Ausweitung bestehender Prüfpflichten ohne konkreten Anlass.
 4. [status: done] Gesamte betroffene Anweisungskette gegen Ausgangsstand und Prüffälle lesen, Skill-Struktur validieren und kleine isolierte Verhaltensprüfungen für die geänderten Entscheidungen durchführen. Modell, Fälle, Ergebnisse und Grenzen im Umsetzungsnachweis festhalten; fehlende Modellbelege nicht als Erfolg ausweisen. README-Aussagen nur bei betroffener Beschreibung aus `development/readme/scoville-code/` konsistent nachführen; generierte Dateien nur über den Buildpfad ändern.
-Evidence: Desktop/test/plan0023/code-probe/result.md: Luna 6 High prüfte acht Fälle, sechs ausführbare Tests bestanden. YAML-/README-Prüfung bestanden; kein Performancevergleich behauptet.
+Evidence: Luna-Kosten-/Cache-Fälle und ausführbare Checks bestanden; Metadaten geprüft. Kein Performancevergleich behauptet.
 
 ### W-002 Native Ask-Ergebnisse nach Warte-Timeout vollständig abholen
 
@@ -52,4 +51,4 @@ Steps:
 1. [status: done] In `members/scoville-ask-for-codex/scoville-ask-for-codex/SKILL.md` und `references/native.md` den Widerspruch zwischen vollständiger Sammlung, Pollingverbot und Turn-Ende nach Timeout beseitigen. Begrenztes ereignisbasiertes Warten ausdrücklich von engem Status-Polling unterscheiden. Vorhandene parallele Änderungen erhalten.
 2. [status: done] `references/native-delivery.md`, `scripts/build_adviser_prompt.py` und betroffene Tests auf Konsistenz prüfen. Adviser liefert weiterhin seine vollständige finale Antwort im eigenen Chat; der Aufrufer besitzt die Abholung. Keine zusätzliche Callback- oder Autorisierungsarchitektur einführen. Betroffene README-Aussagen nur an ihren kanonischen Quellen anpassen.
 3. [status: done] Den beobachteten Ablauf mit kurzem erstem Timeout und späterer Antwort gezielt nachstellen. Nachweisen, dass der Aufrufer aktiv bleibt, das vollständige Review abholt und präsentiert und erst danach die Abschlussfrage stellt. Tatsächliche Beobachtung von reiner Text-/Helperprüfung unterscheiden.
-Evidence: Desktop/test/plan0023/result.md: nativer Timeout mit Cursor fortgesetzt, vollständiges Review abgeholt; Luna-Szenarien und Metadatenkorrektur geprüft. README-Testabweichung separat dokumentiert.
+Evidence: Nativer Timeout mit Cursor fortgesetzt und Review vollständig abgeholt; Luna-Szenarien und Metadatenkorrektur geprüft. Separate README-Testabweichung blieb ausgewiesen.

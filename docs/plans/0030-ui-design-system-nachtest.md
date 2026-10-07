@@ -38,7 +38,7 @@ Instructions: []
 Steps:
 1. [status: done] Owner-Verträge, Ausgangsvorlagen und getrennte Sollauswertung vorbereiten; WordPress-Quelle und Runtime nachweisen.
 2. [status: done] Beide Vorlagen seriell mit frischem Luna Medium auditieren und tatsächliche Erkennung gegen die Sollauswertung prüfen.
-Evidence: Luna erkannte 8/8 allgemeine und 6/6 Classic-Verstöße ohne Fehlbefund; Grenzen erhalten. ../../../temp/2026-10-01-ui-design-system-tests/ui-baseline-assessment.md
+Evidence: Luna erkannte die vorgegebenen allgemeinen und Classic-Verstöße ohne Fehlbefund; keine darüber hinausgehende Wirkungsgarantie.
 
 ### W-004 Rückfragen und Blocker im sichtbaren Runner
 
@@ -53,7 +53,7 @@ Steps:
 1. [status: done] DIVI-Runner und Regeln prüfen, Weiterleitung mit Frage und Grund am kanonischen Skill korrigieren.
 2. [status: done] Gebaute Regeln seriell mit gpt-6-luna Medium auf sichtbare Ausgabe prüfen und Astra Medium den gesamten Skill reviewen lassen; belegte Fehler korrigieren und nachtesten.
 3. [status: done] Verifiziert lokal installieren, Fluid Base sowie EMPCO informieren und Codex-Suite auf GitHub veröffentlichen.
-Evidence: Luna/Astra geprüft; 0.8.3 lokal, beide Workflows informiert, Suite 2.3.6 veröffentlicht. ../../../temp/2026-10-01-ui-design-system-tests/workflow-feedback-assessment.md
+Evidence: Luna-Prüfung und unabhängiges Astra-Review durchgeführt; lokal aktualisiert, beide Workflows informiert und Codex-Suite veröffentlicht.
 
 ### W-002 Astra analysiert tatsächliche Prüflücken
 
@@ -67,7 +67,7 @@ Instructions: []
 Steps:
 1. [status: done] Astra Medium die Ausgangsläufe unabhängig analysieren lassen und Befunde am vollständigen relevanten Vertrag prüfen.
 2. [status: done] Belegte Korrekturen an members/scoville-ui/scoville-ui umsetzen, Referenzen und gebaute Projektionen validieren.
-Evidence: Astra bestätigt 14/14 ohne Fehlbefund; keine Skill-Korrektur belegt, Nachweise separat ergänzt. ../../../temp/2026-10-01-ui-design-system-tests/ui-baseline-assessment.md
+Evidence: Astra bestätigte die erkannten Verstöße ohne Fehlbefund; keine Skill-Korrektur belegt.
 
 ### W-003 Nachtest und lokale Aktualisierung
 
@@ -81,4 +81,4 @@ Instructions: []
 Steps:
 1. [status: done] Gebauten Kandidaten seriell nachtesten, Auswertung und verbliebene Grenzen prüfen.
 2. [status: done] Falls geändert, Skill sauber committen, verifizierte lokale Pakete aktualisieren und beide vorhandenen Workflow-Chats informieren; Plan mit Nachweisen abschließen.
-Evidence: Frisches Luna erkannte 28/28 A/B-Verstöße ohne Fehlbefund; Skill unverändert, Plugin/Sitzung entfernt. ../../../temp/2026-10-01-ui-design-system-tests/ui-retest-assessment.md
+Evidence: Frischer Luna-Nachtest erkannte ursprüngliche und neue Verstöße ohne Fehlbefund; Skill unverändert. Testplugin und Sitzung entfernt.

@@ -34,7 +34,7 @@ Steps:
 1. [status: done] Konfiguration, Setup und Start-/Nachfolgervertrag in den kanonischen Member-Quellen ergänzen.
 2. [status: done] Gebaute Setup-Ausgabe im Starthelper konsumieren und gültige sowie fehlerhafte Varianten prüfen.
 3. [status: done] Verifizierte lokale Pakete installieren, Fluid Base und EMPCO über das Update informieren und Ergebnis committen.
-Evidence: Gebaute Helper geprüft; Setup 8 und Workflow 18 Dateien lokal identisch, beide Hinweise zugestellt. ../../../temp/2026-10-02-manager-configuration/assessment.md
+Evidence: Gebaute Helper geprüft; lokale Setup-/Workflow-Pakete identisch, beide Hinweise zugestellt.
 
 ### W-002 Nachrichten bleiben im zugehörigen Workflow
 
@@ -47,4 +47,4 @@ Acceptance: Initialstart, Nachfolger, Kinder, Fragen, Antworten und Abschlussber
 Instructions: []
 Steps:
 1. [status: done] Empfängerbindung und Berichtpfade im vollständigen betroffenen Vertrag prüfen, getrennte Projekt-/Runneridentitäten in Helpertests verwenden und Befund festhalten.
-Evidence: Zwei Projektidentitäten geprüft, fremder Bericht abgelehnt; Regelbindung ausdrücklich, kein neuer Agentenlauf. ../../../temp/2026-10-02-manager-configuration/assessment.md
+Evidence: Getrennte Projektidentitäten geprüft und fremder Bericht abgelehnt; Empfängerbindung ausdrücklich. Kein neuer nativer Agentenlauf.

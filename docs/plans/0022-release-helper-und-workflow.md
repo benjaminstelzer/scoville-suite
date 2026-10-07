@@ -31,7 +31,7 @@ Acceptance: Manifest-Ziele und Remote-Zustand erfasst. Geänderte Pakete geprüf
 Steps:
 1. Ziele, Releasehistorie und Asset-Provenienz prüfen.
 2. Versionsangaben und Nachweise ergänzen, gültige Pakete aus committed Quellen bauen.
-Evidence: fa6a684; vier Build-Varianten validiert. Release-Inventar, Viewer-Provenienz und Tests unter temp/2026-09-29-suite-release und docs/plan0021-evidence.md.
+Evidence: Profilgetrennte Builds, Release-Zielmenge und Viewer-Provenienz geprüft.
 
 ### W-002 Betroffene Ziele sind veröffentlicht und verifiziert
 
@@ -44,4 +44,4 @@ Acceptance: Remote-Trees entsprechen Exporten; Tags, Release-Inhalte, herunterge
 Steps:
 1. Distributionen committen/pushen und annotierte Tags mit Releases erzeugen.
 2. Remote-Bytes und Assets prüfen, vorhandene Releasehistorie sichern und finalen Zustand dokumentieren.
-Evidence: docs/plan0022-release-evidence.md: vier Releases und Remote-Assets verifiziert; lokale Codex-/Claude-Skills und public-Projektionen synchronisiert.
+Evidence: Releases und Remote-Assets verifiziert; lokale Codex-/Claude-Skills und öffentliche Projektionen synchronisiert.
