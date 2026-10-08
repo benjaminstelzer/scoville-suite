@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.2 - 2026-10-08
+
+- Read complete UTF-8 input in bounded parts and preserve command status through safe output capture. Keep the manual route available without Python.
+
 ## v2.1.1 - 2026-10-07
 
 - Check complete text before large reads and preserve Python launcher arguments when invoking the size checker. Keep records limited to facts needed for further development.

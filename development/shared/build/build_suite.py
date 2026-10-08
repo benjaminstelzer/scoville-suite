@@ -484,6 +484,21 @@ def helper_policy(member: dict, config: dict) -> str:
     lines = ['## Runtime helpers', '',
              'Use the bundled helpers for their operations. Read their invocation instructions,',
              'not their source, unless diagnosing a failure.']
+    if 'scripts/check_text_size.py' in helpers:
+        lines += ['', 'Before reading Skill references or other large inputs, apply any declared or',
+                  'explicitly selected output limit. With Python, use',
+                  '`<verified-python> -X utf8 "<skill-directory>/scripts/check_text_size.py" --file "<file>" --max-output-tokens <limit> --part 1`.',
+                  'Follow each `next=M` label with `--part M`; read every unchanged UTF-8 part',
+                  'through `last`, where end equals total. Measure the complete rendered output, including labels;',
+                  'combine files or parts only when that combined output fits. Otherwise use',
+                  'separate, individually checked outer tool calls; a script joining reads',
+                  'returns one combined output. With no applicable limit, read',
+                  'complete UTF-8 directly; do not invent a budget.']
+        if config.get('profile') == 'general':
+            lines += ['Without Python, first read only the check_text_size reference below. Use',
+                      'a native UTF-8 reader and ordered unchanged parts, measuring each complete',
+                      'output including labels before display against `floor(limit * 4 / 5)` bytes.',
+                      'With no limit, read it completely. Without a safe reader, stop dependent work.']
     if config.get('profile') == 'general':
         lines += ['Only when Python is unavailable, load the matching optional reference below.',
                   'Missing scripts, missing dependencies or helper errors stop the operation;',

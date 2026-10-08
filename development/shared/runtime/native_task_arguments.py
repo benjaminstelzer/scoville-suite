@@ -151,20 +151,24 @@ def shell_command(arguments: list[str]) -> str:
 
 
 def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
-    """Prepare a complete pre-read check for file-backed native assignments."""
+    """Prepare a complete bounded UTF-8 read for file-backed native assignments."""
     if not checker.is_file():
         raise ValueError(f'bundled text-size checker is missing at {checker}; use the intact matching package before assigning work')
-    command = shell_command([interpreter, str(checker), '--file', str(target),
-                             '--max-output-tokens', '<limit>'])
+    command = shell_command([interpreter, '-X', 'utf8', str(checker), '--file', str(target),
+                             '--max-output-tokens', '<limit>', '--part', '1'])
     return (
-        'Before displaying it, check its size with the following command. Replace '
+        'Read with this bounded UTF-8 command. Replace '
         '<limit> with the smallest declared or explicitly selected output limit '
         'of both your command and any outer tool wrapper. ' + command + '\n'
-        'This check emits no assignment text. For this read, use its size and '
-        'recommended_max_utf8_bytes, not its compaction or publication instruction. '
-        'Read the full unchanged file only when it fits; otherwise read all portions '
-        'in order, splitting at character boundaries and keeping each complete output '
-        'including labels within that byte budget. Do not alter or copy the input. '
+        'It emits a part=N bytes=start:end/total next=M label and unchanged file bytes. '
+        'Follow next=M with --part M; last marks end equal to total. Read every part through last in order '
+        'before dependent work. Each invocation includes its label in the byte budget. '
+        'Use separate outer tool calls unless their complete combined output has '
+        'been measured and fits; a script joining reads returns one combined output. '
+        'Use the same command, changing only --file, for Skill references and '
+        'other potentially large files. Markdown is documentation, not a Python program. '
+        'A nonzero exit leaves this read incomplete, even with an empty diagnostic '
+        'when the declared budget cannot fit it. Do not alter or copy the input. '
         'Never truncate, skip text or start with an oversized full read. The named '
         'read and size-check commands are permitted even for external assignment, '
         'interpreter and checker paths; this grants no unrelated inspection or writes. '
@@ -199,6 +203,9 @@ def budget_retry(diagnostic: str, arguments: list[str]) -> str:
             elif not value.startswith('--max-output-bytes='):
                 corrected.append(value)
         corrected.extend(['--max-output-bytes', str(required)])
-        return ('\nCorrected invocation (run only within the caller-approved budget; '
-                'otherwise request a decision):\n' + shell_command(corrected))
+        return ('\nCorrected invocation (one effect-free input correction only):\n' + shell_command(corrected)
+                + '\nThis is an internal selection budget, not the tool display limit. '
+                  'An agent-chosen budget may be explicitly corrected to the required size. '
+                  'A binding user, Plan or host cap still requires a decision if exceeded. '
+                  'Never raise it automatically or display unchecked output.')
     return ''

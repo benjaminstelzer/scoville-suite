@@ -6,7 +6,7 @@ W-001 ist mit erhaltenem Stand pausiert. Danach gilt die Rückkehr zu W-001
 und PLAN-0035/W-009; W-015 bleibt zuletzt.
 
 Die vollständige externe Quelle liegt unter
-`C:/Users/benja/.codex/attachments/4dc68d1b-9c20-4a4a-b5eb-cd9f4335cb7c/Eingefügter Text.txt`.
+`<private-attachment-root>/4dc68d1b-9c20-4a4a-b5eb-cd9f4335cb7c/Eingefügter Text.txt`.
 Ihre statistischen Angaben wurden hier nicht neu gezählt.
 
 Astra/high prüft die Vorschläge gemeinsam, read-only, vor Source-Änderungen.

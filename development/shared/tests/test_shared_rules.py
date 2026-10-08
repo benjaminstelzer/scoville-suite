@@ -13,10 +13,11 @@ import build_suite as builder
 
 class SharedRulesTests(unittest.TestCase):
     def test_all_writing_consumers_bundle_the_same_standalone_file(self):
-        expected = (SHARED / 'prompting/common.md').read_text(encoding='utf-8')
+        source = (SHARED / 'prompting/common.md').read_text(encoding='utf-8')
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),
                                 ('codex', 'suite'), ('codex', 'standalone')]:
             config = builder.load(ROOT, profile, layout)
+            expected = builder.variant_text(source, config)
             for member in config['members']:
                 files = builder.payload(ROOT, member, config)
                 path = member['name'] + '/references/writing.md'

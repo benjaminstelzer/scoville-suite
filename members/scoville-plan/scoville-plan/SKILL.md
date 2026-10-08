@@ -68,10 +68,13 @@ requirements remain governed by this Skill.
 
 ## Proposal inventory
 
-Follow Runtime helpers below for availability and failures. Run:
+Follow Runtime helpers below for availability and failures. Start Python with
+`-X utf8` and capture this invocation's complete output before display under the
+shared writing rules, including diagnostics. The selector's byte budget bounds
+successful context only. Run:
 
 ```text
-python "<skill-directory>/scripts/select_context.py" --root "<project-root>" --proposals --format json
+python -X utf8 "<skill-directory>/scripts/check_text_size.py" --max-output-tokens <limit> --run -- python -X utf8 "<skill-directory>/scripts/select_context.py" --root "<project-root>" --proposals --format json
 ```
 
 Read relevant Decisions from the returned paths. The inventory includes unlinked
