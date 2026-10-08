@@ -13,6 +13,11 @@ Never truncate text, including command and combined tool output. The checker
 measures the complete emitted text, not opaque host framing or exact provider
 token counts.
 
+Attribute truncation only to the layer supported by the evidence. A shortened
+later query does not prove that the original capture was truncated. If the
+model-visible output or effective host cap is unknown, leave the host cause
+unconfirmed and use the existing complete-output recovery.
+
 {{ include: rules.reader }}
 
 {{ profile: general }}Without suitable Python 3.11+, use

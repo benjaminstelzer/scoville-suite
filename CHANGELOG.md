@@ -2,6 +2,10 @@
 
 
 
+## v2.4.5 - 2026-10-08
+
+- Diagnose shortened output from the observed failing layer; a later shortened query does not prove that the original capture lost information.
+
 ## v2.4.4 - 2026-10-08
 
 - Start only named .py files as Python programs and pass documents to the bundled reader. Helper instructions consistently require Python 3.11+.
