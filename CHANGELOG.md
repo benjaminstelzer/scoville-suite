@@ -2,6 +2,10 @@
 
 
 
+## v2.4.7 - 2026-10-08
+
+- Make read and edit prerequisites explicit in ordered instructions. Create usable handoff snapshots after permitted recovery while keeping missing facts visible and dependent receiver actions blocked.
+
 ## v2.4.6 - 2026-10-08
 
 - Follow shorter ordered instructions for document reads, Plan edits and code changes, with required context and safeguards kept in place.

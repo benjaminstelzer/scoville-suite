@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.6 - 2026-10-08
+
+- Make UI implementation and verification sequences explicit, keeping framework, user-state and rendered-result conditions beside the action they govern.
+
 ## v2.1.5 - 2026-10-08
 
 - Clarify the shared writing and document-reading instructions so the next action and its prerequisites are easier to identify.
