@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0043
-status: active
+status: completed
 created: 2026-10-08
 updated: 2026-10-08
-current_item: W-001
 ---
 
 # Abschlussfix ausliefern
@@ -21,7 +20,7 @@ Keine zusätzlichen EMPCO-Freigaben oder Änderungen seiner Abnahmekriterien. Ke
 
 ### W-001 Pakete bauen und lokal installieren
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: []
@@ -29,12 +28,13 @@ Outcome: Codex und Claude verwenden die aktualisierten, eigenständigen Pakete.
 Acceptance: Build und Paketstruktur stimmen mit den kanonischen Quellen überein; passende Runtime-CI besteht. Lokale Pakete stimmen bytegleich mit dem Build überein; persönliche Anpassungen bleiben erhalten.
 Instructions: []
 Steps:
-1. [status: in_progress] Quellen und Versionen sichern, Pakete bauen und installieren.
-Evidence: [Erster Paketstand lokal installiert und Runtime-CI 37796688286 erfolgreich. Nach externem Review durch Sol 6.1/high drei gezielte Korrekturen vor Release aufgenommen: expandierter Shared-Testvergleich; hostneutraler limitabhängiger Readertext; Ask-Rollenbeschreibung mit Lieferausnahme. Aktualisierte Abnahme und Installation ausstehend.]
+1. [status: done] Quellen und Versionen sichern, Pakete bauen und installieren.
+2. [status: done] Sol 6.1/high und Astra/high prüfen die finalen generierten Skills vor der erneuten lokalen Installation.
+Evidence: [Shared-Testvergleich; Readertext und Ask-Lieferausnahme korrigiert. Windows/Linux-Nachtests und Runtime-CI 37798132556 bestanden., Sol 6.1/high und Astra/high prüften den finalen Stand ohne relevante Findings. Alle acht Codex- und fünf Claude-Pakete bytegleich installiert; persönliche Einstellungen erhalten.]
 
 ### W-002 EMPCO neu laden und fortsetzen
 
-Status: todo
+Status: done
 Depends on: [W-001]
 Blocked by: []
 Decisions: []
@@ -42,12 +42,12 @@ Outcome: Der bestehende EMPCO-Thread nimmt seinen lokalen Auftrag mit aktualisie
 Acceptance: Neuladen und tatsächliche Wiederaufnahme sind im Thread beobachtet; bestehende Freigabegrenzen bleiben erhalten.
 Instructions: []
 Steps:
-1. [status: todo] Autorisierte Nachricht senden und Wiederaufnahme beobachten.
-Evidence: [EMPCO-Turn 01a11c08-baf9-7211-aacd-796f32563878 aktiv; liest aktualisierte Workflow-Skilldatei. Bestehende Freigabegrenzen ausdrücklich erhalten.]
+1. [status: done] Autorisierte Nachricht senden und Wiederaufnahme beobachten.
+Evidence: [Neuladen und Managerstart bestätigt: 01a11c1b-0e01-7583-a22a-8b630c392ed5. Sol 6.1/medium; bestehende Remote-Sperren und Abnahmekriterien erhalten.]
 
 ### W-003 GitHub veröffentlichen
 
-Status: todo
+Status: done
 Depends on: [W-002]
 Blocked by: []
 Decisions: []
@@ -55,5 +55,5 @@ Outcome: Alle geänderten öffentlichen Distributionsziele enthalten das Update.
 Acceptance: Veröffentlichte Dateien, annotierte Tags und Release-Assets stimmen mit dem geprüften Stand überein; Sichtbarkeit und Historie bleiben erhalten.
 Instructions: []
 Steps:
-1. [status: todo] Geänderte Ziele veröffentlichen und Remote-Ergebnis verifizieren.
-Evidence: []
+1. [status: done] Geänderte Ziele veröffentlichen und Remote-Ergebnis verifizieren.
+Evidence: [Sieben Releases veröffentlicht; Remote-Dateien und annotierte Tags sowie alle Asset-Prüfsummen verifiziert. Suite 2.4.5; Codex-Suite 2.4.6. Vorversionen und alte Staging-Archive entfernt.]

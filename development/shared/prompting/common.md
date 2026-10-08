@@ -95,38 +95,34 @@ Apart from the delivery-artifact exception above, these rules grant no additiona
 command or write permission. If a known cap on that result channel itself
 prevents complete delivery, report the concrete transport limitation.
 
-Preserve the result, scope, prerequisites, decisions, permissions, boundaries
-and acceptance criteria. Supply needed facts directly or through exact,
-accessible sources with an explicit reading instruction. Never assume hidden
-conversation history. Keep current state, dependencies, binding constraints,
-decision reasons, evidence limits and next actions when needed to assess or
-continue correctly.
+Preserve results, scope, prerequisites, decisions, permissions, boundaries and
+acceptance criteria. Supply needed facts directly or through exact accessible
+sources with an explicit reading instruction; assume no hidden history. Include
+state, dependencies, binding constraints, decision reasons, evidence limits and
+next actions needed for assessment or continuation.
 
-Say whether the entire requested task is complete. Report the required checks
-and their actual results. Name any specific missing inputs or decisions.
-Continue authorized work. Apart from the explicit delivery-artifact exception,
-a question or assessment alone authorizes no change, and writing rules change
-no task risk, required model, role or authority.
+Report whether the whole requested task is complete, required checks and actual
+results, and specific missing inputs or decisions. Continue authorized work.
+During longer work, briefly report meaningful findings and next actions. Make
+the final result, checks and remaining limits understandable on their own.
+Writing rules change no task risk, required model, role or authority. Apart from
+the explicit delivery-artifact exception, questions and assessments authorize
+no changes.
 
-Use the shortest wording Luna can understand on first reading. Write complete
-sentences with a verb or imperative. Use one term per meaning and plain words
-before jargon. Avoid slash chains in prose; preserve literal paths, commands,
-field names and other technical syntax.
+Use the shortest wording Luna understands on first reading: complete sentences
+with a verb or imperative, one term per meaning and plain words before jargon.
+Avoid slash chains in prose; preserve literal paths, commands, field names and
+technical syntax. Length alone proves neither effectiveness nor performance.
 
 Keep each rule at its responsible source. Remove repetition and low-value
-maintenance detail, not required context or safeguards. Keep records only when
-needed for further development or an independently binding requirement. Reviews
-serve development; do not archive their text. A concise record that a required
-review occurred is sufficient. Do not reconstruct a complete project history,
-duplicate Steps as prose, or create documentation solely to prove bookkeeping.
-A TL;DR cannot replace necessary explanation. Use paragraphs, lists or
-a compact diagram when they clarify the decision; preserve useful diagrams.
+maintenance detail while preserving required context and safeguards. Retain
+records only when needed for development or an independently binding requirement.
+Record that required reviews occurred; do not archive their text, reconstruct a
+complete history, duplicate Steps as prose or document solely for bookkeeping.
+A TL;DR cannot replace necessary explanation. Use paragraphs, lists or compact
+diagrams when they clarify decisions; preserve useful diagrams.
 
-For longer work, briefly report meaningful findings and next actions. Make the
-final result, actual checks and remaining limits understandable on their own.
-Length alone proves neither effectiveness nor performance.
-
-For adviser work, these rules govern generated framing and answers. Do not
+For adviser work, apply these rules to generated framing and answers. Do not
 stylistically rewrite literal user questions, quotations, technical data or
-hidden expectation keys. Explicitly requested content edits and required secret
-redaction retain their own authority.
+hidden expectation keys. Explicitly requested edits and required secret redaction
+retain their own authority.

@@ -2,6 +2,10 @@
 
 
 
+## v2.4.6 - 2026-10-08
+
+- Follow shorter ordered instructions for document reads, Plan edits and code changes, with required context and safeguards kept in place.
+
 ## v2.4.5 - 2026-10-08
 
 - Diagnose shortened output from the observed failing layer; a later shortened query does not prove that the original capture lost information.
