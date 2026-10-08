@@ -157,17 +157,23 @@ def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
     command = shell_command([interpreter, '-X', 'utf8', str(checker), '--file', str(target),
                              '--max-output-tokens', '<limit>', '--part', '1'])
     return (
-        'Read with this bounded UTF-8 command. Replace '
+        f'Program: run {checker} exactly as shown. Document: only the --file value. '
+        'Start only named .py files as Python program files; Skills, references and '
+        'assignments are documents, never programs. Read with this bounded UTF-8 command. Replace '
         '<limit> with the smallest declared or explicitly selected output limit '
         'of both your command and any outer tool wrapper. ' + command + '\n'
         'It emits a part=N bytes=start:end/total next=M label and unchanged file bytes. '
         'Follow next=M with --part M; last marks end equal to total. Read every part through last in order '
-        'before dependent work. Each invocation includes its label in the byte budget. '
+        'before dependent work. Keep the same budget for the whole sequence; if it changes, restart at part 1. '
+        'Each invocation includes its label in the byte budget. '
         'Use separate outer tool calls unless their complete combined output has '
         'been measured and fits; a script joining reads returns one combined output. '
-        'Use the same command, changing only --file, for Skill references and '
-        'other potentially large files. Markdown is documentation, not a Python program. '
-        'A nonzero exit leaves this read incomplete, even with an empty diagnostic '
+        'For another document, change only the --file value and --part number, preserving '
+        'the generated shell quoting and other arguments. '
+        + ('In the Windows command, double any apostrophe inside its single-quoted PowerShell strings. '
+           'Put a replacement --file value containing spaces in double quotes inside the Arguments string. '
+           if os.name == 'nt' else '')
+        + 'A nonzero exit leaves this read incomplete, even with an empty diagnostic '
         'when the declared budget cannot fit it. Do not alter or copy the input. '
         'Never truncate, skip text or start with an oversized full read. The named '
         'read and size-check commands are permitted even for external assignment, '

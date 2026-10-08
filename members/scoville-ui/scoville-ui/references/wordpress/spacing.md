@@ -63,7 +63,9 @@ Specialized components own their internals. The following explicit prop
 combination is Skill-Norm composition for a new generic group, not the
 component defaults. Select its gap only after confirming that the existing
 owner cannot express the required relationship. `GAP_PX` is the chosen distance
-in pixels. Divide it by four to obtain the numeric `Flex` gap value:
+in pixels. Stable `Flex` multiplies its numeric gap by four pixels, so divide
+`GAP_PX` by four. This recipe remains the default when experimental policy is
+`allow`, `deny` or `unknown`:
 
 ```jsx
 <Flex

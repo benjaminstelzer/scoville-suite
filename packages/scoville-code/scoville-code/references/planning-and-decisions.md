@@ -51,6 +51,11 @@ planning owner's explicit maintenance route when asked to clean up old records.
 
 ## Record material decisions
 
+For an assigned review of native Plan or Decision fields, use the bundled
+Scoville Plan. Read its read-only route and applicable field
+rules, not just Code's engineering criteria. Stay within the assigned source
+boundary; this grants no maintenance, selectors, tests or record writes.
+
 Use the criteria in SKILL.md's Resolve material choices section.
 
 Record a material decision in the project's existing plan, ADR, decision log,

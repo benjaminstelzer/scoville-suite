@@ -34,7 +34,9 @@ size checks and complete-file publication are permitted. This exception
 grants no task edits, tests or other task commands.
 
 For each source, retain its exact path and whether the read was complete,
-partial or failed. Finish a truncated read through its missing range or cursor.
+partial or failed. Read permitted partial sources through ordered ranges or
+cursors within their limits; never attempt an oversized read or rely on
+retrieving text after truncation.
 Retry a failed range once only if the error is plausibly transient. Stop on no
 progress or repeated failure; explicit user read limits take precedence.
 Complete permitted recovery before rendering rather than assigning that read
@@ -122,13 +124,11 @@ exactly the fenced artifact with no surrounding text, or the specified path,
 hash and reading instruction for complete-file delivery. Leave no placeholders,
 secrets, invented facts or tool details used only to prepare the snapshot.
 
-Handoff owns the snapshot.
+Handoff owns the snapshot; preserve active sibling state in it.
 
 {{ include: family.contract }}
 
 {{ include: family.owners }}
-
-Preserve active sibling state in the snapshot.
 
 {{ include: rules.python }}
 

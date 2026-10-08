@@ -66,7 +66,7 @@ permissions. A future task or a risk label adds no reading requirement.
 
 | Current operation | Required reference |
 | --- | --- |
-| Change planning records, coordinate dependent outcomes across interruption, preserve engineering continuation state, or resolve a material choice left open by inspection | [Planning](references/planning-and-decisions.md) |
+| Change planning records, review assigned native Plan or Decision fields, coordinate dependent outcomes across interruption, preserve engineering continuation state, or resolve a material choice left open by inspection | [Planning](references/planning-and-decisions.md) |
 | Explore or change code, locate ownership or root cause, or review implementation | [Change](references/change-workflow.md) |
 | Choose, run or interpret checks, or judge completion evidence | [Validation](references/validation.md) |
 | Write instructions, reviews or a completion report | [Writing](references/writing.md) |
@@ -93,17 +93,14 @@ silently add fallback paths. Existing authorization for the change remains valid
 
 ## Failure consequences
 
-Scale safeguards to who a failure affects, how promptly it is detected and how
-readily its effects can be reversed. Internal tooling is neither inherently
-harmless nor inherently critical; its actual consequences decide.
-Add a safeguard only for a requirement or credible failure consequence that
-the existing failure behavior does not adequately cover. Assess the consequence
-and why a visible failure is insufficient internally; explain them in a review
-finding when relevant. A plausible failure need not occur first. If a native
-exception or failed command already surfaces clearly without
-material harm or a broken guarantee, use that failure path. Choose the simplest
-response that meets the contract. Risk selects what to examine, not a preset
-amount of machinery.
+Scale safeguards to who a failure affects, how quickly it is detected and how
+easily it is reversed; internal tooling is neither harmless nor critical by
+category. Add a safeguard only for a requirement or a credible consequence
+existing failure behavior does not cover; the failure need not have occurred.
+If a native exception or failed command surfaces clearly without material harm
+or a broken guarantee, use it. Choose the simplest response meeting the contract;
+risk selects what to examine, not a preset amount of machinery. Assess why
+visible failure is insufficient internally and explain it in a relevant review finding.
 
 Name the concrete failure and affected boundary, such as lost data,
 unauthorized access, incompatible output or duplicated external effects.

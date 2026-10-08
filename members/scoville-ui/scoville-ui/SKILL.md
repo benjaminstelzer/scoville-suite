@@ -70,26 +70,19 @@ a redesign or a whole-product audit.
 
 ## Select the platform route
 
-For WordPress admin classification, read the routing contract below, including
-when the result may be an excluded host-owned surface. Its implementation and
-audit rules apply only to supported plugin-owned backend pages in `wp-admin`.
-Themes, site frontends and frontend output from plugins use the general UI
-route. Excluded host-owned admin surfaces retain their host's contract.
+WordPress admin route: for any request about a `wp-admin` surface, including
+classification and hypothetical implementation advice, first read the
+[routing contract](references/wordpress/routing.md). For a supported plugin-owned
+page, also read [the WordPress adapter](references/wordpress/adapter.md) before
+dependent advice or work. Classify surface, runtime per DOM region and supported
+versions separately; React does not imply WPDS. For an excluded host-owned
+surface, name its host owner and stop the plugin-page route; do not fall back to
+the general route. Resolve unknown ownership from accessible source first, then
+ask for the remaining decision-relevant fact.
 
-For pure visual concepts for a future page, keep the requested design scope
-without activating the WordPress implementation or acceptance rules.
-For a plugin backend implementation or audit request, including hypothetical implementation advice, read
-[the WordPress adapter](references/wordpress/adapter.md) and its required
-[routing contract](references/wordpress/routing.md) before dependent advice or
-implementation. Classify the surface, actual runtime per DOM region and supported
-versions separately. React does not imply WPDS. Unsupported host-owned surfaces
-stay with their host owner; do not apply the plugin-page shell or silently fall
-back to the general route. Unknown ownership requires source inspection or the
-remaining decision-relevant fact.
-
-For other surfaces, follow the general Framework route below. WordPress site
-frontends and themes follow their own framework and product contract. Do not
-load admin references for them or for unrelated frameworks.
+General route: themes, site frontends, plugin frontend output and non-WordPress
+surfaces; do not load admin references for them. Pure visual concepts keep their
+design scope without WordPress implementation or acceptance rules.
 
 Both routes use the same Quality and Validation contracts below. WordPress adds
 its local platform rules when their triggers apply, including
