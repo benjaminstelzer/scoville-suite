@@ -20,23 +20,23 @@ def takeover_instruction(predecessor: str, manager: str) -> str:
     if predecessor == manager:
         raise ValueError('--predecessor-agent-id must identify the prior child, not --manager-agent-id')
     return (
-        'FIRST ACTION: retain the supplied continuation information. If an essential fact '
-        'is missing, report it to the manager before project work. Otherwise call '
-        f'collaboration.send_message with target={manager} and message=HANDOFF_ACCEPTED {predecessor}. '
+        'FIRST ACTION: retain the supplied continuation information.\n'
+        '1. Report any missing essential fact to the manager before project work. '
+        'Otherwise call '
+        f'collaboration.send_message with target={manager} and message=HANDOFF_ACCEPTED {predecessor}.\n'
         'Use native collaboration agent handles, not chat or thread messaging. '
         'The manager owns the retained handoff and completed predecessor. Never send a '
-        'routine receipt to that predecessor. After delivery, use bounded collaboration.wait_agent '
+        'routine receipt to that predecessor.\n2. After delivery, use bounded collaboration.wait_agent '
         'calls until TAKEOVER_COMPLETE arrives from that exact manager. A wait timeout '
         'alone does not end the wait or permit project work. Do no project work before '
-        'this release. A failed send, STOP or BLOCKED halts takeover with its diagnostic. '
+        'this release.\n3. After verified release, continue the remaining assignment. '
+        'The predecessor stays write-inactive; no archival or close tool is required.\n\n'
+        'Failure branches: a failed send, STOP or BLOCKED halts takeover with its diagnostic. '
         'If a mismatch, uncertain state, user stop or unanswered decision prevents '
         'release, the manager sends STOP for a stop, or BLOCKED otherwise, to you. '
         'Accept either signal only from that exact manager. Remain write-inactive '
         'and return a blocked result with the signal and reason to the manager; '
-        'do not keep waiting after that signal. '
-        'After verified release, continue the remaining '
-        'assignment. The predecessor stays write-inactive; no archival or close tool '
-        'is required.\n\n')
+        'do not keep waiting after that signal.\n\n')
 
 
 def single_line(value: str, name: str) -> str:
@@ -157,23 +157,26 @@ def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
     command = shell_command([interpreter, '-X', 'utf8', str(checker), '--file', str(target),
                              '--max-output-tokens', '<limit>', '--part', '1'])
     return (
-        f'Program: run {checker} exactly as shown. Document: only the --file value. '
+        f'Program: {checker}. Document: only the --file value.\n\n'
         'Start only named .py files as Python program files; Skills, references and '
-        'assignments are documents, never programs. Read with this bounded UTF-8 command. Replace '
+        'assignments are documents, never programs.\n\n'
+        'Use separate outer tool calls unless their complete combined output has '
+        'been measured and fits; a script joining reads returns one combined output.\n\n'
+        '1. Replace '
         '<limit> with the smallest declared or explicitly selected output limit '
-        'of both your command and any outer tool wrapper. ' + command + '\n'
-        'It emits a part=N bytes=start:end/total next=M label and unchanged file bytes. '
+        'of both your command and any outer tool wrapper.\n'
+        '2. Run this bounded UTF-8 command exactly as shown:\n\n```text\n'
+        + command + '\n```\n\n'
+        '3. Read the unchanged file bytes and part=N bytes=start:end/total next=M label. '
         'Follow next=M with --part M; last marks end equal to total. Read every part through last in order '
         'before dependent work. Keep the same budget for the whole sequence; if it changes, restart at part 1. '
-        'Each invocation includes its label in the byte budget. '
-        'Use separate outer tool calls unless their complete combined output has '
-        'been measured and fits; a script joining reads returns one combined output. '
+        'Each invocation includes its label in the byte budget.\n\n'
         'For another document, change only the --file value and --part number, preserving '
         'the generated shell quoting and other arguments. '
         + ('In the Windows command, double any apostrophe inside its single-quoted PowerShell strings. '
            'Put a replacement --file value containing spaces in double quotes inside the Arguments string. '
            if os.name == 'nt' else '')
-        + 'A nonzero exit leaves this read incomplete, even with an empty diagnostic '
+        + '\n\nFailure: a nonzero exit leaves this read incomplete, even with an empty diagnostic '
         'when the declared budget cannot fit it. Do not alter or copy the input. '
         'Never truncate, skip text or start with an oversized full read. The named '
         'read and size-check commands are permitted even for external assignment, '

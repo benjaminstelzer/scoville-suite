@@ -47,10 +47,11 @@ first wrap heading when no marker exists. `.inline` prevents relocation.
 
 ## Prove the actual relationship
 
-Inspect loaded stylesheet URLs and their order and the relevant minified rules selected
-by `SCRIPT_DEBUG` in `wp-includes/script-loader.php:1620`. Registration or a
-matching file on disk is not proof of loading. Check final DOM after scripts,
-then computed cascade and geometry at the relevant wide and narrow conditions.
+1. Inspect loaded stylesheet URLs, order and relevant minified rules selected by
+   `SCRIPT_DEBUG` in `wp-includes/script-loader.php:1620`. Registration or a file
+   on disk is not loading proof.
+2. Inspect final DOM after scripts, then the computed cascade.
+3. Measure geometry at relevant wide and narrow conditions.
 
 For a named paragraph and control pair record both authored `margin: 1em 0` and its
 resolved value, the intervening flow and line boxes and actual measured edges.

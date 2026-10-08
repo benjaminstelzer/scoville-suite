@@ -125,15 +125,19 @@ use `isRoot` in a plugin subtree inside the Core document, unlock private APIs,
 author `--wpds-*` assignments, or assume all props in moving package docs are
 available in 7.1. Preserve the existing component owner.
 
-Build against a package version compatible with the target. With WordPress
-dependency extraction, verify that `build/index.asset.php` includes the
-`wp-theme` script dependency and that the built entry does not bundle another
-provider runtime. Enqueue `wp-theme` as a **style** dependency as well. Register
-the script using the generated dependency list and bind translations as shown
-in [examples.md](examples.md). Do not import the CSS subpath into the JS entry.
-If supporting 7.0 too, select a separately built no-provider entry on that
-version. A conditional JSX branch around a missing static export is not a
-compatible fallback.
+| Target | Provider entry |
+| --- | --- |
+| Supported 7.1 package | Public `@wordpress/theme` export shown above. |
+| Pinned 7.0 | Separately built no-provider entry; no public export assumed. |
+
+A conditional JSX branch around a missing static export is not a compatible fallback.
+
+1. Build against a package version compatible with the target.
+2. With WordPress dependency extraction, verify `build/index.asset.php` includes
+   the `wp-theme` script dependency and the entry bundles no second provider runtime.
+3. Enqueue `wp-theme` as a **style** dependency too. Register the script with its
+   generated dependencies and bind translations under [examples.md](examples.md).
+4. Keep the CSS subpath out of the JS entry.
 
 The provider does not replace the token stylesheet. CSS inheritance follows
 the DOM, so check portals at their destination. Iframes and popup documents

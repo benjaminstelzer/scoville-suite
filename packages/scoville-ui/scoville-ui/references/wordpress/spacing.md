@@ -120,12 +120,14 @@ Stop at the first suitable owner:
    properties.
 5. Narrow plugin CSS for a demonstrated gap only.
 
-Before writing an exception, record the DOM region and runtime owner, concrete relevant
-WordPress options checked, why
-those options fail, why `Flex` fails for a local React stack, the smallest
-plugin scope, token or Skill-Norm source, and checks for reflow, zoom, focus,
-text expansion, empty content, and affected states. Add RTL checks only under
-the [language-scope rule](internationalization.md#language-scoped-rtl-checks).
+Before writing an exception, record:
+
+- DOM region and runtime owner.
+- Relevant WordPress options checked and why they fail; for a local React stack,
+  why `Flex` fails too.
+- Smallest plugin scope and token or Skill-Norm source.
+- Checks for reflow, zoom, focus, text expansion, empty content and affected states.
+  Add RTL only under the [language-scope rule](internationalization.md#language-scoped-rtl-checks).
 
 Reject global `.wp-admin`, `.wrap`, `.form-table`, or Core-control overrides,
 copied Core CSS, custom Core-primitive rebuilds, unloaded WPDS references,

@@ -494,9 +494,10 @@ def helper_policy(member: dict, config: dict) -> str:
                       'output including labels before display against `floor(limit * 4 / 5)` bytes.',
                       'With no limit, read it completely. Without a safe reader, stop dependent work.']
     if config.get('profile') == 'general':
-        lines += ['Only when suitable Python 3.11+ is unavailable, load the matching optional reference below.',
-                  'Missing scripts, missing dependencies or helper errors stop the operation;',
-                  'they never enable the manual route. Do not load these references otherwise.', '',
+        lines += ['', '| Condition | Required route |', '| --- | --- |',
+                  '| Suitable Python 3.11+ is available | Use the bundled helper; do not load manual references. |',
+                  '| No suitable Python 3.11+ | Read only the matching optional reference below. |',
+                  '| Missing script, missing dependency or helper error | Stop the affected operation; this never enables the manual route. |', '',
                   '| Helper | Optional no-Python reference |', '| --- | --- |']
         for path in helpers:
             fallback = member['helper_contracts'][path].get('fallback')
@@ -504,8 +505,9 @@ def helper_policy(member: dict, config: dict) -> str:
                 raise ValueError(f'{member["name"]}: noncanonical fallback for {path}')
             lines.append(f'| `{path}` | [{Path(path).stem}]({fallback}) |')
     else:
-        lines += ['Python and every named helper are required. Missing dependencies or helper',
-                  'errors stop the affected operation. Do not substitute manual execution.', '',
+        lines += ['', '| Condition | Required route |', '| --- | --- |',
+                  '| Python and every named helper are available | Use the bundled helper. |',
+                  '| Missing Python, script, dependency or helper error | Stop the affected operation; do not substitute manual execution. |', '',
                   'Helpers: ' + ', '.join(f'`{p}`' for p in helpers) + '.']
     return '\n'.join(lines)
 

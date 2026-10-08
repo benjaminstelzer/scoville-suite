@@ -130,7 +130,7 @@ def verify(root, assets, releases=()):
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__, epilog='Preupload: python verify_viewer_assets.py --suite-root <suite-source> --assets-root <release/viewer>. Postupload: add --release benjaminstelzer/scoville-plan=v1.11.0 --release benjaminstelzer/scoville-suite=v2.3.0 --release benjaminstelzer/scoville-suite-for-codex=v2.3.0')
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter, epilog='Preupload: python verify_viewer_assets.py --suite-root <suite-source> --assets-root <release/viewer>.\nPostupload: add --release benjaminstelzer/scoville-plan=v1.11.0 --release benjaminstelzer/scoville-suite=v2.3.0 --release benjaminstelzer/scoville-suite-for-codex=v2.3.0')
     parser.add_argument('--suite-root', required=True, type=Path)
     parser.add_argument('--assets-root', required=True, type=Path)
     parser.add_argument('--release', action='append', default=[])
