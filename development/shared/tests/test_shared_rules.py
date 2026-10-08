@@ -17,7 +17,7 @@ class SharedRulesTests(unittest.TestCase):
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),
                                 ('codex', 'suite'), ('codex', 'standalone')]:
             config = builder.load(ROOT, profile, layout)
-            expected = builder.variant_text(source, config)
+            expected = builder.expand_fragments(ROOT, source, config=config)
             for member in config['members']:
                 files = builder.payload(ROOT, member, config)
                 path = member['name'] + '/references/writing.md'
