@@ -26,13 +26,14 @@ while (r.session_id !== undefined) {
 text(output);
 ```
 
-Check completeness separately from command success. A running `session_id`
-is unfinished; the loop retains its ID and every output chunk until completion.
-Never restart a running command. A successful
-`--part` result starts with `part=` and requires all parts through `last`.
-A complete `--run` capture starts with `exit=` and includes both streams;
-its child exit status still determines whether the command succeeded.
-A nonzero child exit can provide valid failure evidence. Complete-file metadata
-requires reading the entire supplied file. Empty output, capture or reader
-failure, or `output_complete=false` leaves required input unread and stops
-dependent work. Never discard a failure's stdout or stderr.
+Check completeness separately from command success:
+
+| Result | Completion condition |
+| --- | --- |
+| Running `session_id` | Retain its ID and every chunk until completion; never restart the command. |
+| `part=` from `--part` | Read all unchanged parts through `last`. |
+| `exit=` from `--run` | Both streams are captured; the child exit status determines command success. A nonzero exit can supply valid failure evidence. |
+| Complete-file metadata | Read the entire supplied file. |
+| Empty output, capture or reader failure, `output_complete=false` | Required input remains unread; stop dependent work. |
+
+Never discard a failure's stdout or stderr.

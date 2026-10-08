@@ -1,7 +1,7 @@
 # Suite project context
 
 Scoville Suite owns checks and procedures. This file contains only
-project-specific source ownership and boundaries.
+project-specific source ownership, boundaries and release-test scope.
 
 ## Canonical sources
 
@@ -27,3 +27,14 @@ Installed Skills contain their own runtime dependencies. They depend on neither
 shared source directory and do not import installed siblings as helper libraries.
 
 GitHub-facing README and CHANGELOG wording uses Benjamin's voice.
+
+## Release-test scope
+
+Choose release tests from changed behavior and affected dependencies. Test a
+changed file and its consumers only where the change can affect their results.
+An unchanged Python helper needs no new test merely because a release is being
+prepared. Reuse applicable verified results when its code, dependencies and
+runtime contract are unchanged. Instruction or documentation edits alone do
+not justify rerunning every Python helper. A changed package hash alone is no
+reason for new runtime tests. Check the current package structure,
+file completeness, generated copies and published artifacts separately.

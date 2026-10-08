@@ -186,13 +186,21 @@ unrequested work. Preserve every known required gap in the result.
 
 ## Measure relationships, not declarations
 
-Before the evaluated measurement, identify reference elements and edges, the
-expected relationship and its source, and any justified tolerance. Derive these
-from an unchanged owner contract, demonstrably suitable reference, or, for
-greenfield work, requirements and the direction and values chosen from the brief
-before implementation. New candidate CSS alone is not an independent target.
-Do not choose tolerance after seeing the result. An unresolved target stays
-unresolved. There is no universal pixel tolerance.
+For each selected relationship:
+
+1. Before measurement, identify reference elements and edges, expected relationship,
+   source and justified tolerance. Use an unchanged owner contract, suitable
+   reference or, for greenfield work, requirements and direction chosen from the
+   brief before implementation. Candidate CSS alone is not an independent target.
+2. Settle required fonts, content and transitions. Inspect loaded styles and final
+   DOM where relevant. Compare peers with the same role, variant, state, typography
+   and layout conditions; explain deliberate differences.
+3. Measure against that target. Report expected relationship and source, measured
+   result and conclusion; evaluate optical alignment separately under Sight.
+
+Never choose tolerance after seeing the result. An unresolved target stays
+unresolved; there is no universal pixel tolerance. Equally wrong peer overrides
+do not establish a correct target.
 
 For each selected relation, report the expected value or relationship and source,
 measured result and conclusion. Identify its target and applicable tolerance;
@@ -203,11 +211,6 @@ Keep the authored unit or expression, computed value and measured distance separ
 Preserve `em`, `rem`, `px`, percentages, unitless line-height, token references,
 calculations and logical properties. Equal current pixels do not authorize
 substitution. Record the relevant element or root font or container basis.
-
-Wait for required fonts, content and transitions to settle. Inspect loaded
-styles and final DOM where they affect the claim. Compare peers with the same
-relevant role, variant, state, typography and layout conditions. Explain
-deliberate differences. Peers sharing a wrong override can be equally wrong.
 
 For vertically ordered non-overlapping boxes, `B.top - A.bottom` measures their
 border-box separation. It does not measure glyph whitespace or a baseline.

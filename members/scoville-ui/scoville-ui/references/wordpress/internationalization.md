@@ -131,17 +131,18 @@ Use this chain only when producing bundled translations is part of the task
 and the project chooses a PO-based workflow. It is not a readiness checklist
 or the only supported way to deliver translations.
 
+Before extraction, align PO source references with the registered `build/index.js`,
+not `src/index.js`. Generated filenames use the MD5 of the registered relative
+build path unless the documented handle filename form is deliberately used.
+
 1. After the JavaScript build, `wp i18n make-pot` extracts PHP and the
    registered build JavaScript to POT. Exclude `src` so the PO cannot acquire a
    source-path reference that disagrees with the registered script path.
 2. Maintain `<domain>-<locale>.po` against the POT.
 3. `wp i18n make-mo` creates `<domain>-<locale>.mo` in `languages/`.
 4. `wp i18n make-json --no-purge` creates Jed JSON from the same PO.
-5. PO source references use the registered `build/index.js`, not `src/index.js`.
-   The generated filename uses the MD5 of the registered relative build path
-   unless the documented handle filename form is deliberately used.
-6. Set site locale, then admin-user locale, and verify `determine_locale()`.
-7. Assert one genuinely translated PHP string and one translated React string
+5. Set site locale, then admin-user locale, and verify `determine_locale()`.
+6. Assert one genuinely translated PHP string and one translated React string
    in a browser.
 
 When translation delivery is in scope, keep the target project's authored POT

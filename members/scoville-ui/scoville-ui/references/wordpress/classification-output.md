@@ -20,68 +20,68 @@ prohibitions. The surface row does not replace them.
 
 ## Canonical structured values
 
-For an excluded host-owned surface, report `deny` for a named Classic PHP host using Core and `unknown` for a React-owned or unspecified host runtime. These values
-record host facts and do not authorize this Skill to prescribe that surface.
-If the request explicitly states that no experimental policy was supplied,
-return `unknown` even for Core Components or an otherwise `deny` route.
-Unknown policy still forbids introducing experimental APIs. If page placement
-or the host boundary is unspecified, use `unknown` for `shell_owner`.
-When the router cannot resolve a decision-relevant ownership fact, set
-`support_status` to `needs-clarification`; a supported surface category alone
-does not resolve that fact.
+| Classification condition | Required value or boundary |
+| --- | --- |
+| Request explicitly says no experimental policy was supplied | `experimental_components_policy: unknown`, even for Core Components or an otherwise deny route. |
+| Excluded named Classic PHP host using Core, without that override | Policy `deny`; records host facts, grants no right to prescribe the surface. |
+| Excluded React-owned or unspecified host runtime | Policy `unknown`; grants no right to prescribe the surface. |
+| Page placement or host boundary unspecified | `shell_owner: unknown`. |
+| Decision-relevant ownership unresolved | `support_status: needs-clarification`; supported surface category alone does not resolve it. |
+
+Unknown policy still forbids introducing experimental APIs.
 
 When a caller requests structured classification, emit these exact stable
 values instead of prose variants:
 
-| Meaning | Canonical value |
-| --- | --- |
-| Plugin settings or tool | `plugin-settings-tool` |
-| Plugin workflow or dashboard | `plugin-workflow-dashboard` |
-| Plugin data view | `plugin-data-view` |
-| Explicit Network Admin | `plugin-network-admin` |
-| Block Editor sidebar or SlotFill | `block-editor-sidebar-slotfill` |
-| Editor canvas | `editor-canvas` |
-| Post metabox | `post-metabox` |
-| Dashboard widget | `dashboard-widget` |
-| Profile field | `profile-field` |
-| Extension of an existing Core screen | `core-screen-extension` |
-| UI inside another plugin | `foreign-plugin-surface` |
-| Plugin-owned page with unspecified runtime | `plugin-owned-unspecified` |
-| Admin surface with unspecified placement | `unknown-admin-surface` |
-| Supported stable route | `supported` |
-| Supported bundled experimental route | `supported-experimental-opt-in` |
-| Supported Network Admin route | `supported-explicit-multisite` |
-| Excluded host-owned route | `excluded-route-to-host-owner` |
-| Missing decision-relevant fact | `needs-clarification` |
-| PHP with Core admin | `php-core` |
-| React with Core Components | `react-core-components` |
-| Bundled experimental WPDS | `bundled-wpds` |
-| Region-owned mixed page | `hybrid` |
-| Excluded host-owned runtime | `host-owned` |
-| Core admin shell | `core-admin` |
-| Core shell plus plugin root | `core-admin-plugin-root` |
-| Core and React region map | `core-admin-region-map` |
-| Network Admin shell | `network-admin` |
-| Network Admin and React region map | `network-admin-region-map` |
-| Block Editor shell | `block-editor` |
-| Editor canvas shell | `editor-canvas` |
-| Post editor shell | `post-editor` |
-| Core Dashboard shell | `core-dashboard` |
-| Core profile screen | `core-profile-screen` |
-| Existing Core list or screen | `core-list-screen` |
-| Host plugin shell | `foreign-plugin` |
-| Core default rhythm | `core-default-css` |
-| Core Components | `core-components` |
-| WPDS Stack and exported tokens | `wpds-stack-and-exported-token-stylesheet` |
-| Region-owned spacing | `region-map` |
-| Block Editor spacing | `block-editor` |
-| Editor canvas spacing | `editor-canvas` |
-| Post editor or metabox spacing | `post-editor-metabox` |
-| Core Dashboard widget spacing | `core-dashboard-widget` |
-| Core profile-screen spacing | `core-profile-screen` |
-| Existing Core list or screen spacing | `core-list-screen` |
-| Host plugin spacing | `foreign-plugin` |
-| Unknown owner | `unknown` |
+| Field | Meaning | Canonical value |
+| --- | --- | --- |
+| surface | Plugin settings or tool | `plugin-settings-tool` |
+| surface | Plugin workflow or dashboard | `plugin-workflow-dashboard` |
+| surface | Plugin data view | `plugin-data-view` |
+| surface | Explicit Network Admin | `plugin-network-admin` |
+| surface | Block Editor sidebar or SlotFill | `block-editor-sidebar-slotfill` |
+| surface | Editor canvas | `editor-canvas` |
+| surface | Post metabox | `post-metabox` |
+| surface | Dashboard widget | `dashboard-widget` |
+| surface | Profile field | `profile-field` |
+| surface | Extension of an existing Core screen | `core-screen-extension` |
+| surface | UI inside another plugin | `foreign-plugin-surface` |
+| surface | Plugin-owned page with unspecified runtime | `plugin-owned-unspecified` |
+| surface | Admin surface with unspecified placement | `unknown-admin-surface` |
+| support_status | Supported stable route | `supported` |
+| support_status | Supported bundled experimental route | `supported-experimental-opt-in` |
+| support_status | Supported Network Admin route | `supported-explicit-multisite` |
+| support_status | Excluded host-owned route | `excluded-route-to-host-owner` |
+| support_status | Missing decision-relevant fact | `needs-clarification` |
+| runtime_owner | PHP with Core admin | `php-core` |
+| runtime_owner | React with Core Components | `react-core-components` |
+| runtime_owner | Bundled experimental WPDS | `bundled-wpds` |
+| runtime_owner | Region-owned mixed page | `hybrid` |
+| runtime_owner | Excluded host-owned runtime | `host-owned` |
+| shell_owner | Core admin shell | `core-admin` |
+| shell_owner | Core shell plus plugin root | `core-admin-plugin-root` |
+| shell_owner | Core and React region map | `core-admin-region-map` |
+| shell_owner | Network Admin shell | `network-admin` |
+| shell_owner | Network Admin and React region map | `network-admin-region-map` |
+| shell_owner | Block Editor shell | `block-editor` |
+| shell_owner | Editor canvas shell | `editor-canvas` |
+| shell_owner | Post editor shell | `post-editor` |
+| shell_owner | Core Dashboard shell | `core-dashboard` |
+| shell_owner | Core profile screen | `core-profile-screen` |
+| shell_owner | Existing Core list or screen | `core-list-screen` |
+| shell_owner | Host plugin shell | `foreign-plugin` |
+| spacing_owner | Core default rhythm | `core-default-css` |
+| spacing_owner | Core Components | `core-components` |
+| spacing_owner | WPDS Stack and exported tokens | `wpds-stack-and-exported-token-stylesheet` |
+| spacing_owner | Region-owned spacing | `region-map` |
+| spacing_owner | Block Editor spacing | `block-editor` |
+| spacing_owner | Editor canvas spacing | `editor-canvas` |
+| spacing_owner | Post editor or metabox spacing | `post-editor-metabox` |
+| spacing_owner | Core Dashboard widget spacing | `core-dashboard-widget` |
+| spacing_owner | Core profile-screen spacing | `core-profile-screen` |
+| spacing_owner | Existing Core list or screen spacing | `core-list-screen` |
+| spacing_owner | Host plugin spacing | `foreign-plugin` |
+| runtime_owner / shell_owner / spacing_owner | Unknown owner | `unknown` |
 
 For structured `prohibited_recommendations`, use only the applicable stable
 identifiers: `assume-react-is-wpds`, `custom-css-before-core`,

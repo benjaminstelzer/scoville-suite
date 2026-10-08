@@ -14,14 +14,15 @@ proof of better instructions.
 
 ## Target and scope
 
-Use the named file and retain its filename and case. For “add this to project
-rules”, use the existing rule file governing the requested scope. Put a
-subtree-only rule in that subtree's existing governing file. Do not create a
-parallel AGENTS.md or CLAUDE.md for a scope already covered by a host or subtree rule file.
-For an unambiguous project-wide request at a known root without its own rule
-file, create CLAUDE.md there on a Claude host, otherwise AGENTS.md; inherited workspace rules do not prevent this.
-Ask only when the destination or rule is materially ambiguous. Advice alone
-creates no rule. Explicit opt-out excludes this Skill.
+| Requested target | Destination |
+| --- | --- |
+| Named file | Preserve its filename and case. |
+| Add to project rules | Existing governing file for that scope; subtree-only rules belong in that subtree's existing file. |
+| Unambiguous project-wide request at known root without its own rule file | Create CLAUDE.md on a Claude host, otherwise AGENTS.md there. Inherited workspace rules do not prevent this. |
+| Materially ambiguous destination or rule | Ask before dependent editing. |
+
+Create no parallel AGENTS.md or CLAUDE.md for a scope already covered by a host or subtree file.
+Advice alone creates no rule. Explicit opt-out excludes this Skill.
 
 Read the target and relevant governing instructions before editing. Inspect a
 specific cited source when it can establish ownership, meaning or whether a
@@ -51,14 +52,15 @@ is never a reason to remove a binding project rule.
 State an action with its condition and scope. Keep exceptions and any necessary
 reason next to the rule. Keep independently needed copies and the instructions
 requiring them; merge other duplicates only when their meaning and scope match.
-Replace a long procedure with an exact reference and reading trigger only when
-that reference already contains it completely. Unless the request covers extraction,
-leave an incomplete reference unchanged and keep the complete procedure in the
-target. Cleanup, shortening or use of existing references alone does not authorize
-extraction. When requested, move the complete procedure into a suitable existing
-or new reference. Even when referencing or extracting a procedure, keep existing
-approval requirements and prohibitions for external actions in the target rule
-file, with their conditions and exceptions.
+| Procedure or reference | Treatment |
+| --- | --- |
+| Existing reference contains the complete procedure | Replace duplication with its exact reference and reading trigger. |
+| Incomplete reference; extraction not requested | Leave reference unchanged and retain the complete procedure in the target. |
+| Extraction explicitly requested | Move the complete procedure to a suitable existing or new reference. |
+
+Cleanup, shortening or referencing alone does not authorize extraction.
+Keep existing external-action approvals and prohibitions in the target rule
+file, with their conditions and exceptions, even when referencing or extracting.
 
 Check the proposed addition against existing rules. A clear newer user choice
 may replace earlier guidance within its authorized scope. If the intended
