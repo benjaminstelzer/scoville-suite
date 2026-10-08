@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.4 - 2026-10-08
+
+- Diagnose shortened output from the observed failing layer; a later shortened query does not prove that the original capture lost information.
+
 ## v2.1.3 - 2026-10-08
 
 - Route WordPress admin work to its adapter before classification and keep unknown ownership from falling into the general route.
