@@ -73,26 +73,19 @@ a redesign or a whole-product audit.
 
 ## Select the platform route
 
-For WordPress admin classification, read the routing contract below, including
-when the result may be an excluded host-owned surface. Its implementation and
-audit rules apply only to supported plugin-owned backend pages in `wp-admin`.
-Themes, site frontends and frontend output from plugins use the general UI
-route. Excluded host-owned admin surfaces retain their host's contract.
+WordPress admin route: for any request about a `wp-admin` surface, including
+classification and hypothetical implementation advice, first read the
+[routing contract](references/wordpress/routing.md). For a supported plugin-owned
+page, also read [the WordPress adapter](references/wordpress/adapter.md) before
+dependent advice or work. Classify surface, runtime per DOM region and supported
+versions separately; React does not imply WPDS. For an excluded host-owned
+surface, name its host owner and stop the plugin-page route; do not fall back to
+the general route. Resolve unknown ownership from accessible source first, then
+ask for the remaining decision-relevant fact.
 
-For pure visual concepts for a future page, keep the requested design scope
-without activating the WordPress implementation or acceptance rules.
-For a plugin backend implementation or audit request, including hypothetical implementation advice, read
-[the WordPress adapter](references/wordpress/adapter.md) and its required
-[routing contract](references/wordpress/routing.md) before dependent advice or
-implementation. Classify the surface, actual runtime per DOM region and supported
-versions separately. React does not imply WPDS. Unsupported host-owned surfaces
-stay with their host owner; do not apply the plugin-page shell or silently fall
-back to the general route. Unknown ownership requires source inspection or the
-remaining decision-relevant fact.
-
-For other surfaces, follow the general Framework route below. WordPress site
-frontends and themes follow their own framework and product contract. Do not
-load admin references for them or for unrelated frameworks.
+General route: themes, site frontends, plugin frontend output and non-WordPress
+surfaces; do not load admin references for them. Pure visual concepts keep their
+design scope without WordPress implementation or acceptance rules.
 
 Both routes use the same Quality and Validation contracts below. WordPress adds
 its local platform rules when their triggers apply, including
@@ -181,9 +174,12 @@ Core rule or a reason to normalize working native spacing.
 For an audit or advice only: return prioritized findings tied to observed evidence; make
 no edits.
 
-Reuse an already verified Python 3.11+ interpreter. Otherwise check `py -3`
+Reuse an already verified interpreter meeting this Skill's Python 3.11+
+requirement. Otherwise check `py -3`
 on Windows or `python3` elsewhere; try `python` if needed. Choose it locally,
-without asking the user. Use that executable for the `python` examples.
+without asking the user. Verify its version before the first helper operation.
+Use that executable wherever examples say `python` or `<verified-python>`,
+including Python commands after `--run --`.
 Report a missing runtime only when no suitable installed interpreter is found.
 
 ## Runtime helpers
@@ -191,20 +187,29 @@ Report a missing runtime only when no suitable installed interpreter is found.
 Use the bundled helpers for their operations. Read their invocation instructions,
 not their source, unless diagnosing a failure.
 
-Before reading Skill references or other large inputs, apply any declared or
-explicitly selected output limit. With Python, use
-`<verified-python> -X utf8 "<skill-directory>/scripts/check_text_size.py" --file "<file>" --max-output-tokens <limit> --part 1`.
-Follow each `next=M` label with `--part M`; read every unchanged UTF-8 part
-through `last`, where end equals total. Measure the complete rendered output, including labels;
-combine files or parts only when that combined output fits. Otherwise use
-separate, individually checked outer tool calls; a script joining reads
-returns one combined output. With no applicable limit, read
-complete UTF-8 directly; do not invent a budget.
-Without Python, first read only the check_text_size reference below. Use
+Before a potentially large read, use the verified Python interpreter and the
+bundled reader:
+`<verified-python> -X utf8 "<skill-directory>/scripts/check_text_size.py" --file "<document>" --max-output-tokens <limit> --part 1`.
+The program is `scripts/check_text_size.py`; the document is only the `--file`
+value. Start only named `.py` files as Python program files. SKILL.md, references
+and assignments are documents, never programs.
+
+Use the smallest declared or explicitly selected command and outer output limit.
+The reader validates the complete UTF-8 file and budgets its labels too.
+Follow `part=N bytes=start:end/total next=M` with `--part M` through `last`,
+where end equals total. Read every unchanged part in order before dependent
+work. Keep the same budget throughout; if it changes, restart at part 1.
+Use separate outer calls unless their complete combined output, including
+labels and metadata, has been measured and fits. Multiple reads or `text()`
+calls in one outer call share its budget. A reader error leaves the read
+incomplete, even if the budget cannot fit its diagnostic. Do not alter or copy
+the input, truncate it or recover omitted text after an oversized read.
+Without an applicable limit, read complete UTF-8 directly; invent no budget.
+Without suitable Python 3.11+, first read only the check_text_size reference below. Use
 a native UTF-8 reader and ordered unchanged parts, measuring each complete
 output including labels before display against `floor(limit * 4 / 5)` bytes.
 With no limit, read it completely. Without a safe reader, stop dependent work.
-Only when Python is unavailable, load the matching optional reference below.
+Only when suitable Python 3.11+ is unavailable, load the matching optional reference below.
 Missing scripts, missing dependencies or helper errors stop the operation;
 they never enable the manual route. Do not load these references otherwise.
 

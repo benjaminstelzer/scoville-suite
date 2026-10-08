@@ -2,6 +2,12 @@
 
 
 
+## v2.4.4 - 2026-10-08
+
+- Start only named .py files as Python programs and pass documents to the bundled reader. Helper instructions consistently require Python 3.11+.
+- Preserve binding Acceptance conditions when remaining work changes owner. Make manual Plan inspection use exact records and the current profile.
+- Clarify Skill routes and failure handling so checks and handoffs stay focused on the assigned outcome.
+
 ## v2.4.3 - 2026-10-08
 
 - Read complete UTF-8 input in bounded parts and capture command output before display, including diagnostics and original failure status.

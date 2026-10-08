@@ -213,7 +213,7 @@ ingredients that made the rules useful.
 
 ## Compatibility
 
-Developed for Codex and Claude Code, with Python 3.10+ needed only for optional helpers. Fable, Astra, SOL or Opus (5.0+) are recommended. Selected Luna 6 High checks in Codex are described in each Skill's Compatibility notes; they do not establish a suite-wide baseline.
+Developed for Codex and Claude Code, with Python 3.11+ needed only for optional helpers. Fable, Astra, SOL or Opus (5.0+) are recommended. Selected Luna 6 High checks in Codex are described in each Skill's Compatibility notes; they do not establish a suite-wide baseline.
 
 ## Install the suite
 

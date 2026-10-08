@@ -80,7 +80,7 @@ does not become an i18n audit merely because the markup is PHP or JavaScript.
 - Before asserting that a rule is official, updating the WordPress target, or
   changing a token or package contract, read [sources.md](sources.md)
   and recheck the relevant source contract when its listed revalidation condition
-   applies.
+  applies.
 - For `wp-theme`, public `ThemeProvider`, or older-version fallback, read
   [version-compatibility.md](version-compatibility.md).
 
@@ -91,14 +91,9 @@ between direct children. Preserve existing native margin-based flow. Children do
 same outer margin. Cards own internal padding, while their parent owns the gap
 between cards. Hidden or empty children leave no gap slot.
 
-In Core Components, specialized components own their internal rhythm. The
-following generic stack recipe is Skill-Norm composition, not Core defaults. A new
-generic vertical group uses stable `Flex` with `direction="column"`,
-`align="stretch"`, `justify="flex-start"`, `wrap={ false }`,
-`expanded={ true }`, and a numeric `gap` equal to the chosen Skill-Norm distance in pixels divided
-by four. `Flex` multiplies that numeric value by four pixels; the Skill-Norm
-is this Skill's composition rule, not a Core default. This remains the
-default when experimental policy is `allow`, `deny`, or `unknown`.
+Core Components own their internal rhythm. Use the generic `Flex` recipe in
+[spacing.md](spacing.md#core-components) only for a new plugin-owned group;
+it is Skill-Norm composition, not Core defaults.
 
 ## Keep every UI translatable
 

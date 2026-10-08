@@ -4,7 +4,7 @@ Read [common UI quality](../ui-quality.md) for information order, actions,
 forms, states and accessibility. Apply these WordPress mappings within the same
 scope. A local spacing audit does not activate unrelated concerns.
 
-## Headings and navigation
+## Headings
 
 Use exactly one primary page title. Heading levels follow content hierarchy, not
 desired visual size.

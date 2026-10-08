@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.1.3 - 2026-10-08
+
+- Route WordPress admin work to its adapter before classification and keep unknown ownership from falling into the general route.
+- Clarify spacing ownership and document reads while preserving the existing layout and access boundaries.
+
 ## v2.1.2 - 2026-10-08
 
 - Read complete UTF-8 input in bounded parts and preserve command status through safe output capture. Keep the manual route available without Python.

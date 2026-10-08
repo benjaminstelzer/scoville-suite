@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0037
-status: active
+status: completed
 created: 2026-10-07
 updated: 2026-10-08
-current_item: W-003
 ---
 
 # Scoville im laufenden EMPCO-Projekt beobachten
@@ -57,7 +56,7 @@ Evidence: Opus/Astra nehmen Fixes und Nachtests ab. F-012-Leser Windows/Linux vo
 
 ### W-003 Korrigierte Skills installieren und veröffentlichen
 
-Status: in_progress
+Status: done
 Depends on: [W-002]
 Blocked by: []
 Decisions: [ADR-0202]
@@ -65,8 +64,8 @@ Outcome: Die geprüften korrigierten Skills sind lokal für Codex und Claude ins
 Acceptance: Kanonischer Build und betroffene Paketstruktur bestehen; lokale Installationen entsprechen den freigegebenen Paketen. Geänderte autorisierte Distributionen besitzen verifizierte neue GitHub-Releases. Sichtbarkeit und Codex-only-Grenzen bleiben erhalten.
 Instructions: Genau ein aktueller Build unter skills/temp/release. EMPCO bleibt bis zur verifizierten Auslieferung gestoppt.
 Steps:
-1. [status: in_progress] Versionen und Changelogs der tatsächlich betroffenen Pakete fortschreiben; aus kanonischen Quellen bauen und relevante Struktur-/Helperchecks durchführen.
-2. [status: todo] Verifizierte Exporte an die festen Distributionen synchronisieren und betroffene lokale Codex-/Claude-Installationen aktualisieren; Paketbytes prüfen.
-3. [status: todo] Autorisierte geänderte Distributionen pushen, Releases erstellen und den veröffentlichten Stand sowie ersetzte Release-Tags prüfen.
-4. [status: todo] Nach verifizierter Auslieferung den bestehenden EMPCO-Runner auffordern, aktuelle installierte Workflow-Regeln zu laden, Agenten-/Schreib-/Entscheidungszustände protokollgerecht zu klären und denselben gestoppten Umfang fortzusetzen. Fortgesetzte Manager lesen nötige aktualisierte Referenzen vor der nächsten Fachaktion neu. Tatsächliche Zustellung prüfen und Plan abschließen.
-Evidence: []
+1. [status: done] Versionen und Changelogs der tatsächlich betroffenen Pakete fortschreiben; aus kanonischen Quellen bauen und relevante Struktur-/Helperchecks durchführen.
+2. [status: done] Verifizierte Exporte an die festen Distributionen synchronisieren und betroffene lokale Codex-/Claude-Installationen aktualisieren; Paketbytes prüfen.
+3. [status: done] Autorisierte geänderte Distributionen pushen, Releases erstellen und den veröffentlichten Stand sowie ersetzte Release-Tags prüfen.
+4. [status: done] Nach verifizierter Auslieferung den bestehenden EMPCO-Runner auffordern, aktuelle installierte Workflow-Regeln zu laden, Agenten-/Schreib-/Entscheidungszustände protokollgerecht zu klären und denselben gestoppten Umfang fortzusetzen. Fortgesetzte Manager lesen nötige aktualisierte Referenzen vor der nächsten Fachaktion neu. Tatsächliche Zustellung prüfen und Plan abschließen.
+Evidence: Paketbindung Windows/Linux bestanden; 13 Skills lokal bytegleich. Sieben Releases/Tags verifiziert, Vorgänger bereinigt. EMPCO-Runner bestätigt Neuladen/Wiederaufnahme. Details im Befundbericht.
