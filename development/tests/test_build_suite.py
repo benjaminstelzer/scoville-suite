@@ -153,9 +153,13 @@ class BuildTests(unittest.TestCase):
                 self.assertEqual(receipt['suite'] + '/packages/' + name, member['package_path'])
                 package = output / member['package_path'] / name
                 self.assertTrue((package / 'agents/openai.yaml').is_file())
-                self.assertEqual(shared_rule.read_text(encoding='utf-8'),
+                config = builder.load(ROOT, profile, layout)
+                source_member = next(m for m in config['members'] if m['name'] == name)
+                self.assertEqual(builder._module.variant_text(shared_rule.read_text(encoding='utf-8'), config),
                                  (package / 'references/writing.md').read_text(encoding='utf-8'))
-                self.assertFalse((package / 'scripts').exists())
+                actual_scripts = {path.relative_to(package).as_posix()
+                                  for path in (package / 'scripts').rglob('*') if path.is_file()}
+                self.assertEqual(set(source_member['helper_contracts']), actual_scripts)
                 for path in package.rglob('*.md'):
                     text = path.read_text(encoding='utf-8')
                     self.assertNotIn('{{', text)

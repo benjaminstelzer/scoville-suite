@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Read complete bounded UTF-8 input and capture command output before display while preserving its failure status.
 - Preserve complete oversized findings through compaction or a hashed temporary file. Keep the separate manual helper procedure available only without Python.
 - Use the host's applicable project rules in general packages, while Codex packages use AGENTS.md alone.
 - Place rules in their governing subtree file and allow a project's own rule file

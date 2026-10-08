@@ -1,10 +1,12 @@
 """Exercise built Skills as isolated consumers, without network or real advisers."""
 import hashlib
+import importlib.util
 import json
 import os
 import re
 from pathlib import Path
 import shutil
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -265,7 +267,10 @@ Evidence: []
                 self.assertIn('OUTPUT_BUDGET_EXCEEDED', failed.stderr)
                 if script == 'build_dispatch_prompt.py':
                     self.assertFalse(assignment.exists())
-                correction = failed.stderr.split('otherwise request a decision):\n', 1)[1].strip()
+                prefix = '& {' if os.name == 'nt' else shlex.quote(sys.executable) + ' '
+                commands = [line for line in failed.stderr.splitlines() if line.startswith(prefix)]
+                self.assertEqual(len(commands), 1)
+                correction = commands[0]
                 command = ([shell, '-NoProfile', '-NonInteractive', '-Command', correction]
                            if os.name == 'nt' else [shell, '-c', correction])
                 corrected = subprocess.run(command, capture_output=True, text=True, encoding='utf-8', timeout=25)
@@ -757,6 +762,187 @@ Evidence: []
                 self.assertEqual(hashlib.sha256(received).hexdigest(), unmeasured['sha256'])
                 self.assertEqual(received, combined)
                 self.assertFalse(list(retained.parent.glob('tmp*')))
+
+    def test_bounded_utf8_parts_reconstruct_complete_input_and_reject_bad_reads(self):
+        source = self.base / 'parts ä →.txt'
+        samples = [b'', 'ASCII\r\nä → 😀\r\n' .encode('utf-8'),
+                   ('long ' + '😀ä' * 100 + '\nFINAL →\n\n').encode('utf-8')]
+        for package in packages('scoville-code'):
+            for data in samples:
+                source.write_bytes(data)
+                for limit in (100, 10000):
+                    received = b''
+                    part = 1
+                    while True:
+                        result = subprocess.run([sys.executable, '-X', 'utf8', str(package / 'scripts/check_text_size.py'),
+                            '--file', str(source), '--max-output-tokens', str(limit), '--part', str(part)],
+                            capture_output=True, timeout=25)
+                        self.assertEqual(result.returncode, 0, result.stderr)
+                        self.assertLessEqual(len(result.stdout) + len(result.stderr), limit * 4 // 5)
+                        label, payload = result.stdout.split(b'\n', 1)
+                        match = re.fullmatch(rb'part=(\d+) bytes=(\d+):(\d+)/(\d+) (last|next=(\d+))', label)
+                        self.assertIsNotNone(match)
+                        number, start, end, total = map(int, match.groups()[:4])
+                        self.assertEqual((number, start, total), (part, len(received), len(data)))
+                        self.assertEqual(end - start, len(payload))
+                        payload.decode('utf-8', errors='strict')
+                        self.assertTrue(payload or not data)
+                        received += payload
+                        if end == total:
+                            self.assertEqual(match.group(5), b'last')
+                            break
+                        self.assertEqual(int(match.group(6)), part + 1)
+                        part = int(match.group(6))
+                    self.assertEqual(received, data)
+                    self.assertEqual(source.read_bytes(), data)
+            # Tiny budgets, malformed input, out-of-range parts and incompatible
+            # modes never emit partial content or publish an input copy.
+            for data, limit, extra in [(b'a', 1, []), (b'\xff', 100, []),
+                    (b'a', 100, ['--part', '2']), (b'a', 100, ['--part', '0']),
+                    (b'a', 100, ['--publish-full', '--project-root', str(self.project)])]:
+                source.write_bytes(data)
+                result = subprocess.run([sys.executable, str(package / 'scripts/check_text_size.py'),
+                    '--file', str(source), '--max-output-tokens', str(limit), '--part', '1', *extra], capture_output=True)
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(result.stdout, b'')
+                self.assertLessEqual(len(result.stderr), limit * 4 // 5)
+                self.assertFalse((self.project / '.scoville/temp').exists())
+            source.write_bytes(b'a')
+            for limit, expected in ((31, 2), (32, 0)):
+                result = subprocess.run([sys.executable, str(package / 'scripts/check_text_size.py'),
+                    '--file', str(source), '--max-output-tokens', str(limit), '--part', '1'], capture_output=True)
+                self.assertEqual(result.returncode, expected)
+                self.assertLessEqual(len(result.stdout) + len(result.stderr), limit * 4 // 5)
+                if expected == 0:
+                    self.assertEqual(result.stdout, b'part=1 bytes=0:1/1 last\na')
+            # The final frame fits, while the longer nonfinal label does not.
+            source.write_bytes(b'ab')
+            result = subprocess.run([sys.executable, '-X', 'utf8', str(package / 'scripts/check_text_size.py'),
+                '--file', str(source), '--max-output-tokens', '33', '--part', '1'], capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(result.stdout, b'part=1 bytes=0:2/2 last\nab')
+            self.assertEqual(len(result.stdout), 26)
+
+    def test_generated_part_read_and_memory_capture_reach_host_shell(self):
+        shells = ([value for name in ('powershell', 'pwsh') if (value := shutil.which(name))]
+                  if os.name == 'nt' else [shutil.which('sh')])
+        self.assertTrue(shells and all(shells))
+        source = self.base / "Required input ü ' $().txt"
+        data = ('Required → 😀\r\n' * 20).encode('utf-8')
+        source.write_bytes(data)
+        package = next(packages('scoville-workflow-for-codex'))
+        spec = importlib.util.spec_from_file_location('case_native_arguments', package / 'scripts/native_task_arguments.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        instruction = module.file_read_instruction(source, package / 'scripts/check_text_size.py', sys.executable)
+        prefix = '& {' if os.name == 'nt' else shlex.quote(sys.executable)
+        command = instruction[instruction.index(prefix):].splitlines()[0].replace('<limit>', '100')
+        producer = self.base / 'producer.py'
+        producer.write_text("import sys\nsys.stdout.buffer.write('Grüße → 😀\\n\\n'.encode('utf-8'))\nsys.stderr.buffer.write('Fehler ä\\n\\n'.encode('utf-8'))\nsys.exit(7)\n", encoding='utf-8')
+        out, err = 'Grüße → 😀\n\n'.encode('utf-8'), 'Fehler ä\n\n'.encode('utf-8')
+        expected = f'exit=7 stdout_bytes={len(out)} stderr_bytes={len(err)}\n'.encode('ascii') + b'stdout:\n' + out + b'\nstderr:\n' + err
+        for shell in shells:
+            flags = ['-NoProfile', '-NonInteractive', '-Command'] if os.name == 'nt' else ['-c']
+            read = subprocess.run([shell, *flags, command], capture_output=True, timeout=25)
+            self.assertEqual(read.returncode, 0, read.stderr)
+            label, body = read.stdout.split(b'\n', 1)
+            self.assertRegex(label, rb' next=2$')
+            self.assertLessEqual(len(read.stdout) + len(read.stderr), 80)
+            self.assertEqual(body, data[:len(body)])
+            body.decode('utf-8', errors='strict')
+            captured = subprocess.run([shell, *flags, module.shell_command([sys.executable, '-X', 'utf8', str(package / 'scripts/check_text_size.py'),
+                '--max-output-tokens', '1000', '--run', '--', sys.executable, '-X', 'utf8', str(producer)])], capture_output=True, timeout=25)
+            self.assertEqual(captured.returncode, 7, captured.stderr)
+            self.assertEqual(captured.stdout, expected)
+            self.assertEqual(captured.stderr, b'')
+            self.assertLessEqual(len(captured.stdout), 800)
+            argv = [sys.executable, '-X', 'utf8', str(package / 'scripts/check_text_size.py'),
+                    '--max-output-tokens', '1000', '--run', '--', sys.executable, '-X', 'utf8', str(producer)]
+            if os.name == 'nt':
+                quote = lambda value: "'" + value.replace("'", "''") + "'"
+                typed = '& ' + ' '.join(quote(value) for value in argv) + '\nexit $LASTEXITCODE'
+            else:
+                typed = shlex.join(argv)
+            documented = subprocess.run([shell, *flags, typed], capture_output=True, timeout=25)
+            self.assertEqual(documented.returncode, 7, documented.stderr)
+            self.assertEqual(documented.stdout, expected)
+            self.assertEqual(documented.stderr, b'')
+
+    def test_command_capture_withheld_publication_and_prestart_errors(self):
+        package = next(packages('scoville-code'))
+        checker = package / 'scripts/check_text_size.py'
+        producer = self.base / 'one-execution.py'
+        counter = self.base / 'execution-count.txt'
+        producer.write_text("import sys\nfrom pathlib import Path\np=Path(sys.argv[1]); p.write_text(p.read_text()+'x' if p.exists() else 'x')\nsys.stdout.buffer.write(('ü→😀'*100).encode('utf-8'))\nsys.stderr.buffer.write(b'failure\\n\\n')\nsys.exit(7)\n", encoding='utf-8')
+        child = [sys.executable, '-X', 'utf8', str(producer), str(counter)]
+        def invoke(limit, extra=(), command=None):
+            return subprocess.run([sys.executable, '-X', 'utf8', str(checker), '--max-output-tokens', str(limit),
+                *map(str, extra), '--run', '--', *(child if command is None else command)], capture_output=True, timeout=25)
+        withheld = invoke(100)
+        self.assertEqual(withheld.returncode, 7)
+        self.assertIn(b'output_complete=false', withheld.stdout)
+        self.assertNotIn('ü→😀'.encode('utf-8'), withheld.stdout)
+        self.assertLessEqual(len(withheld.stdout) + len(withheld.stderr), 80)
+        self.assertEqual(counter.read_text(), 'x')
+        counter.unlink()
+        published = invoke(1000, ['--publish-full', '--project-root', self.project])
+        self.assertEqual(published.returncode, 7, published.stderr)
+        meta = json.loads(published.stdout)
+        self.assertFalse(meta['output_complete'])
+        self.assertEqual(meta['exit_code'], 7)
+        received = Path(meta['full_file']).read_bytes()
+        self.assertEqual(hashlib.sha256(received).hexdigest(), meta['sha256'])
+        out, err = ('ü→😀'*100).encode('utf-8'), b'failure\n\n'
+        self.assertEqual(received, f'exit=7 stdout_bytes={len(out)} stderr_bytes={len(err)}\n'.encode('ascii') + b'stdout:\n' + out + b'\nstderr:\n' + err)
+        self.assertEqual(counter.read_text(), 'x')
+        counter.unlink()
+        child_two = invoke(1000, command=[sys.executable, '-c', 'import sys;sys.exit(2)'])
+        self.assertEqual(child_two.returncode, 2)
+        self.assertIn(b'exit=2 ', child_two.stdout)
+        abbreviated = subprocess.run([sys.executable, str(checker), '--max-output-tokens', '1000',
+            '--ru', '--', *child], capture_output=True, timeout=25)
+        self.assertNotEqual(abbreviated.returncode, 0)
+        self.assertNotIn(b'Traceback', abbreviated.stdout + abbreviated.stderr)
+        self.assertFalse(counter.exists())
+        for limit, extra in [(1, []), (100, ['--part', '1']), (100, ['--file', str(producer)]),
+                             (100, ['--publish-full', '--project-root', self.project])]:
+            invalid = invoke(limit, extra)
+            self.assertEqual(invalid.returncode, 125)
+            self.assertFalse(counter.exists(), 'invalid options must fail before child effects')
+            self.assertLessEqual(len(invalid.stdout) + len(invalid.stderr), limit * 4 // 5)
+        binary = invoke(1000, command=[sys.executable, '-c', 'import sys;sys.stdout.buffer.write(bytes([255]));sys.exit(7)'])
+        self.assertEqual(binary.returncode, 125)
+        self.assertEqual(binary.stdout, b'')
+        self.assertNotIn(b'\xff', binary.stderr)
+        self.assertIn(b'exit=7', binary.stderr)
+        missing = invoke(1000, command=[str(self.base / 'absent-executable')])
+        self.assertEqual(missing.returncode, 125)
+        self.assertIn(b'output_complete=false', missing.stderr)
+        for blocked in ('.scoville', '.scoville/temp'):
+            root = self.base / ('blocked-' + blocked.replace('/', '-'))
+            root.mkdir()
+            target = root / blocked
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(b'existing regular file')
+            invalid = invoke(1000, ['--publish-full', '--project-root', root])
+            self.assertEqual(invalid.returncode, 125)
+            self.assertFalse(counter.exists(), 'known publication failure must precede child effects')
+            self.assertEqual(target.read_bytes(), b'existing regular file')
+        if os.name != 'nt':
+            signal = invoke(1000, command=[sys.executable, '-c', 'import os,signal;os.kill(os.getpid(),signal.SIGTERM)'])
+            self.assertEqual(signal.returncode, 143)
+            self.assertIn(b'exit=-15', signal.stdout)
+
+    def test_startup_location_reaches_status_consumer_with_complete_arguments(self):
+        for package in packages('scoville-workflow-for-codex'):
+            bad = self.run_cli(package, 'run_feedback.py', 'status', '--kind', 'blocked',
+                '--project', 'Unicode ä →', '--plan', 'PLAN-0001', '--point', 'Startup',
+                '--text', 'Interpreter unavailable; waiting for setup.', ok=False, raw=True)
+            self.assertEqual(bad.stdout, '')
+            good = self.run_cli(package, 'run_feedback.py', 'status', '--kind', 'blocked',
+                '--project', 'Unicode ä →', '--text', 'Interpreter unavailable; waiting for setup.')
+            self.assertIn('Startup', good['text'])
+            self.assertIn('Interpreter unavailable', good['message'])
 
     def test_text_preflight_invalid_and_corrected_cli_without_overwrite(self):
         package = next(packages('scoville-code'))

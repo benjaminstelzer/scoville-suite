@@ -2,6 +2,12 @@
 
 
 
+## v2.4.3 - 2026-10-08
+
+- Read complete UTF-8 input in bounded parts and capture command output before display, including diagnostics and original failure status.
+- Tie stateful checks to the actual application store and keep evidence focused on decisions.
+- Preserve the manual helper route without Python.
+
 ## v2.4.2 - 2026-10-07
 
 - Keep Acceptance focused on distinct required results and binding checks, without turning it into an implementation recipe or test catalog.
