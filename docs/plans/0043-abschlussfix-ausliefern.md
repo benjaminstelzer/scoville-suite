@@ -2,9 +2,9 @@
 format_version: 1
 id: PLAN-0043
 status: active
-current_item: W-001
 created: 2026-10-08
 updated: 2026-10-08
+current_item: W-001
 ---
 
 # Abschlussfix ausliefern
@@ -30,7 +30,7 @@ Acceptance: Build und Paketstruktur stimmen mit den kanonischen Quellen überein
 Instructions: []
 Steps:
 1. [status: in_progress] Quellen und Versionen sichern, Pakete bauen und installieren.
-Evidence: []
+Evidence: [Erster Paketstand lokal installiert und Runtime-CI 37796688286 erfolgreich. Nach externem Review durch Sol 6.1/high drei gezielte Korrekturen vor Release aufgenommen: expandierter Shared-Testvergleich; hostneutraler limitabhängiger Readertext; Ask-Rollenbeschreibung mit Lieferausnahme. Aktualisierte Abnahme und Installation ausstehend.]
 
 ### W-002 EMPCO neu laden und fortsetzen
 
@@ -43,7 +43,7 @@ Acceptance: Neuladen und tatsächliche Wiederaufnahme sind im Thread beobachtet;
 Instructions: []
 Steps:
 1. [status: todo] Autorisierte Nachricht senden und Wiederaufnahme beobachten.
-Evidence: []
+Evidence: [EMPCO-Turn 01a11c08-baf9-7211-aacd-796f32563878 aktiv; liest aktualisierte Workflow-Skilldatei. Bestehende Freigabegrenzen ausdrücklich erhalten.]
 
 ### W-003 GitHub veröffentlichen
 
