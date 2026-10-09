@@ -2,7 +2,13 @@ For native Codex calls, forward rendered checker output unchanged as text.
 Do not JSON-encode it again or add unchecked status lines. Structured helper
 results and native tool arguments keep their own interfaces.
 
-Use one checked read or capture per outer call. This template selects 20000;
+Keep the complete `exec_command` result until the command ends, including
+`session_id`, every output chunk and the final exit status. Never shorten the
+call to `text((await tools.exec_command(...)).output)`: that discards process
+metadata. A completed outer script does not prove child completion. Use the
+template below for checked reads and captures, one per outer call.
+
+This template selects 20000;
 use the same smallest applicable limit in the generated command, both tools and
 outer directive. Before execution, replace `<command_json>` with one JSON string
 literal encoding the complete generated command, including quotes and backslashes.

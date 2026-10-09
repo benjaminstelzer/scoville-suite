@@ -2,6 +2,11 @@
 
 
 
+## v2.4.10 - 2026-10-09
+
+- Reuse completed work and passing checks when their inputs and requirements are unchanged. A new Step, role or release phase alone is no reason to repeat them.
+- Keep reader commands intact when moving between document parts or Skills. Limit guards to the requirements and failure risks they actually protect.
+
 ## v2.4.9 - 2026-10-09
 
 - Use a complete reader command when continuing document reads, and an existing directory with a file filter when searching. Prefer direct shell commands for simple file inventories.
