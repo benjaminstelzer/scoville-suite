@@ -2,6 +2,11 @@
 
 
 
+## v2.4.14 - 2026-10-10
+
+- Save temporary read captures only when the current role and phase permit that specific file. Keep takeover and complete-reading safeguards.
+- Check exported Shared snapshots against canonical sources when present; keep isolated published builds self-contained.
+
 ## v2.4.13 - 2026-10-09
 
 - Use exact search paths and keep filename patterns in rg's -g filters. Existing files, directories and regular expressions remain available.

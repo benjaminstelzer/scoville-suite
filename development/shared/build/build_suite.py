@@ -27,6 +27,14 @@ def shared_root() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
+def reference_source(root: Path, fallback: Path) -> Path:
+    """Use canonical sibling sources when the suite entrypoint would."""
+    canonical = root.resolve().parent / 'shared'
+    if (canonical / 'build' / 'build_suite.py').is_file():
+        return canonical
+    return fallback
+
+
 def runtime_ci():
     spec = importlib.util.spec_from_file_location('suite_runtime_ci', Path(__file__).with_name('runtime_ci.py'))
     module = importlib.util.module_from_spec(spec)
@@ -807,7 +815,7 @@ def verify_packages(root: Path, output: Path) -> list[str]:
 
 def check_shared_snapshot(root: Path) -> None:
     result = subprocess.run([sys.executable, str(Path(__file__).with_name('sync_suite_sources.py')),
-                             '--root', str(root), '--source', str(shared_root()), '--check'],
+                             '--root', str(root), '--source', str(reference_source(root, shared_root())), '--check'],
                             capture_output=True, text=True, encoding='utf-8')
     if result.returncode:
         raise ValueError('Shared snapshot is not in sync; run sync_suite_sources.py before release: '

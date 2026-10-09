@@ -3,8 +3,8 @@ format_version: 1
 id: PLAN-0053
 status: active
 created: 2026-10-09
-updated: 2026-10-09
-current_item: W-009
+updated: 2026-10-10
+current_item: W-011
 ---
 
 # Kurzen Workflow-Abschluss ausliefern und neuen EMPCO-Lauf beobachten
@@ -62,7 +62,7 @@ Steps:
 1. [status: done] Automation alle fünf Minuten für Thread 01a120d7-5fcf-7122-b741-76eb3a203fc5 einrichten. Erstes Fenster ab Startturn 01a120d7-6328-79c3-bc8e-adf922ea306e tatsächlich prüfen; danach nur neue relevante Ereignisse. Aktuellen Stand unter temp/2026-10-09-empco-abschluss-beobachtung/state.json überschreiben.
 2. [status: in_progress] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
 3. [status: todo] Nur diesen Lauf bis Ende oder Nutzerstopp beobachten, tatsächlich geprüften Umfang abschließend bewerten und Automation löschen.
-Evidence: Reader- und Helferaufruf-Fixes ausgeliefert; Runner informiert. Aktueller Reload und Live-Wirkung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+Evidence: Reader-, Helferaufruf- und Suchpfad-Fixes ausgeliefert; Runner informiert. Aktueller Reload und Live-Wirkung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
 
 ### W-004 Offene Skillfixes und Wiederverwendung umsetzen
 
@@ -141,7 +141,7 @@ Evidence: Sol/Opus-Abnahme, fünf klare Luna-Entscheidungen, 13 lokale Pakete un
 
 ### W-009 Wiederholte Suchpfadfehler gezielt korrigieren
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0209]
@@ -151,5 +151,35 @@ Instructions: Überwachung während der Fixphase pausiert. Keine EMPCO-Änderung
 Steps:
 1. [status: done] Beide bestehenden Reviewer zu tatsächlichen Aufrufen, geladenem rg-Text und kleinstem begründetem Ersatz beraten lassen; vollständige Ergebnisse zum Konsens austauschen.
 2. [status: done] Nötigen kanonischen Fix umsetzen, gezielt und mit Luna Medium prüfen und tatsächlichen Patch von beiden Reviewern abnehmen lassen.
+3. [status: done] Nötigen Build lokal und auf GitHub ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
+Evidence: Sol/Opus-Abnahme, fünf gezielte Luna-Entscheidungen mit Testgrenzen, 13 lokale Pakete und sieben Releases geprüft; Runner informiert: [Auslieferung](../testing/0053-abschluss-auslieferung.md).
+
+### W-010 Temporäre Veröffentlichung während Managerübernahme klären
+
+Status: paused
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0209]
+Outcome: Die Selektor-Veröffentlichung vor TAKEOVER_COMPLETE ist unabhängig bewertet und ein nötiger allgemeiner Fix geprüft ausgeliefert.
+Acceptance: Sol und Opus erreichen nach vollständigem Austausch Konsens und nehmen einen nötigen kurzen Patch ab; Eigentümerschaft und vollständige Reads bleiben erhalten; gezielte Luna-Proben, Build, lokale Updates, Runnerhinweis und nötige GitHub-Releases sind verifiziert, Grenzen benannt.
+Instructions: Überwachung während der Fixphase pausiert. Keine EMPCO-Änderungen oder Tests; temporäre Ausgabe von Produktwirkung unterscheiden.
+Steps:
+1. [status: done] Tatsächliche Übernahmeaktionen und geladene Regeln von beiden bestehenden Reviewern beurteilen lassen; vollständige Ergebnisse zum Konsens austauschen.
+2. [status: done] Nötigen kleinen kanonischen Fix umsetzen, gezielt mit Luna Medium prüfen und tatsächlichen Patch abnehmen lassen.
 3. [status: in_progress] Nötigen Build lokal und auf GitHub ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
-Evidence: Zwei vollständige Fehlerdiagnosen nach geladener Suchanleitung; Auswertung und Fixabnahme offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+Evidence: Patch abgenommen, gezielte Luna-Fälle geprüft. Installation stoppte vor Writes wegen früherer Build-/Exportabweichung; 13 lokale Pakete entsprechen dem alten Build. Neue Beratung läuft.
+
+### W-011 Build und veröffentlichten Export konsistent halten
+
+Status: in_progress
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0209]
+Outcome: Ein bestätigter Auslieferungsfehler ist korrigiert; Build, lokale Pakete und veröffentlichte Exporte stimmen überein.
+Acceptance: Sol und Opus erreichen nach vollständigem Austausch Konsens über Ursache und kleinste allgemeine Sicherung; ein nötiger Patch ist abgenommen und gezielt geprüft. Lokale Anpassungen bleiben geschützt; verifizierter Build, lokale Updates, Runnerhinweis und GitHub-Releases sind vollständig abgeschlossen.
+Instructions: Mit W-010s nötiger Auslieferung bündeln; Überwachung bleibt pausiert. Keine EMPCO-Änderungen oder Tests.
+Steps:
+1. [status: done] Tatsächliche ältere Build-/Exportabweichung unabhängig beurteilen lassen und kleinste allgemeine Korrektur vereinbaren.
+2. [status: done] Nötigen Fix abnehmen und gezielt prüfen; nur betroffene veraltete Build-/Exportnachweise erneuern.
+3. [status: in_progress] Zusammen mit W-010 verifiziert ausliefern und Überwachung desselben Laufs fortsetzen.
+Evidence: Beide nehmen den korrigierten Stand in R4 ab. Exporttests 2, Buildtests 6, Luna-Erstentscheidungen 3 bestehen; unbekannte Spiegeldatei stoppt jeden Sync. [Befunde](../testing/0053-empco-abschluss-befunde.md).

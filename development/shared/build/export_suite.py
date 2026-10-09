@@ -5,7 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
-from build_suite import load, payload, within, variant_text, render_readmes
+from build_suite import load, payload, within, variant_text, render_readmes, reference_source
 from sync_suite_sources import sync
 
 
@@ -21,7 +21,7 @@ def export(root, output, profile=None):
     if git(root, 'status', '--porcelain').strip():
         raise ValueError('Commit and inspect suite sources before export')
     revision = git(root, 'rev-parse', '--verify', 'HEAD').decode().strip()
-    source = Path(__file__).resolve().parents[1]
+    source = reference_source(root, Path(__file__).resolve().parents[1])
     if sync(root, source, check=True):
         raise ValueError('Shared snapshot is stale')
     config = load(root, profile, 'suite')
