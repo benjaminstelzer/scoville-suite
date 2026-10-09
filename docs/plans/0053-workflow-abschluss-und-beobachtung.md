@@ -4,7 +4,7 @@ id: PLAN-0053
 status: active
 created: 2026-10-09
 updated: 2026-10-09
-current_item: W-001
+current_item: W-003
 ---
 
 # Kurzen Workflow-Abschluss ausliefern und neuen EMPCO-Lauf beobachten
@@ -21,7 +21,7 @@ Keine EMPCO-Projektänderungen, Tests, Stopps oder Nachrichten an dessen Kinder.
 
 ### W-001 Abschlussvorgabe ausliefern
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: []
@@ -29,15 +29,30 @@ Outcome: Der geprüfte Build enthält die kurze Abschlussvorgabe, ist lokal inst
 Acceptance: Abschluss nennt knapp den tatsächlich erledigten Umfang und wichtige offene Grenzen mit klickbarem Reportlink; vollständiger Reportread, Quieszenz und unmittelbare Problemweitergabe bleiben erhalten; alle Manifestziele verglichen, nur geänderte veröffentlicht; lokale Pakete und Remote-Dateien entsprechen dem Build; neue Releases, Tags und notwendige Assets verifiziert.
 Instructions: []
 Steps:
-1. [status: in_progress] Abschlussregeln in Workflow-SKILL.md und references/run-feedback.md prüfen, passende Changelogversion eintragen und Quellen committen. Bestehende Abschlusseinträge von PLAN-0052 erhalten.
-2. [status: todo] Einzigen Build unter skills/temp/release aktualisieren, betroffene Paketprojektionen und Metadaten prüfen, unveränderte Laufzeit- und Viewer-Nachweise wiederverwenden und lokale Installationen aktualisieren.
-3. [status: todo] Runner 01a120d7-5fcf-7122-b741-76eb3a203fc5 auf Host local zur Neuladung informieren, geänderte Distributionen pushen und Releases veröffentlichen. Remote-Bytes und Assets vor Ersatzrelease-Bereinigung prüfen.
-Evidence: Neue Abschlussvorgabe an den tatsächlich aktiven Runner zugestellt. Die frühere Session 01a116ce-ac9b-77f0-a6cc-db641fb26f4b ist beendet.
+1. [status: done] Abschlussregeln in Workflow-SKILL.md und references/run-feedback.md prüfen, passende Changelogversion eintragen und Quellen committen. Bestehende Abschlusseinträge von PLAN-0052 erhalten.
+2. [status: done] Einzigen Build unter skills/temp/release aktualisieren, betroffene Paketprojektionen und Metadaten prüfen, unveränderte Laufzeit- und Viewer-Nachweise wiederverwenden und lokale Installationen aktualisieren.
+3. [status: done] Runner 01a120d7-5fcf-7122-b741-76eb3a203fc5 auf Host local zur Neuladung informieren, geänderte Distributionen pushen und Releases veröffentlichen. Remote-Bytes und Assets vor Ersatzrelease-Bereinigung prüfen.
+Evidence: 13 Skills bytegleich; Runner informiert. v2.4.11 / 112f698 mit Dateien und 14 Assets verifiziert; ein Release/Tag. Details: [Auslieferung](../testing/0053-abschluss-auslieferung.md).
+
+### W-003 Neuen Lauf von alter Übernahme unterscheiden
+
+Status: in_progress
+Depends on: [W-001]
+Blocked by: []
+Decisions: []
+Outcome: Der neue EMPCO-Lauf setzt nach geklärter Startup-Sperre fort; die ausgelieferte Skillvorgabe verhindert pauschale rückwirkende Agentnachweise.
+Acceptance: Neue Aktivierung verlangt keine alten Agent-IDs oder Abschaltnachweise; konkrete konkurrierende Writer und Same-run-Recovery bleiben abgesichert; Runner erhält Nutzerkorrektur und lokalen Reloadstand; neuer Build, lokale Pakete, Push und Release verifiziert.
+Instructions: []
+Steps:
+1. [status: done] Tatsächlichen Runnerstart und eingefügten Auftrag prüfen, Ursache belegen und Nutzerkorrektur an denselben Runner zur Fortsetzung übermitteln.
+2. [status: in_progress] Neue Aktivierung und Same-run-Recovery in Workflow-SKILL.md und references/operations.md knapp unterscheiden, Folgen prüfen und Quellen committen.
+3. [status: todo] Neuen Build unter skills/temp/release verifizieren, lokal aktualisieren und Reloadnachricht zustellen; geänderte GitHub-Ziele pushen und passendes neues Release samt Assets prüfen.
+Evidence: Startup-Sperre auf Nutzerkorrektur aufgehoben; W-386/step-1 gemeldet. Ursache und Grenze: [Befunde](../testing/0053-empco-abschluss-befunde.md).
 
 ### W-002 Anwendung im neuen Lauf beobachten
 
 Status: todo
-Depends on: [W-001]
+Depends on: [W-003]
 Blocked by: []
 Decisions: []
 Outcome: Neue bestätigte Scoville-Defekte und wiederholte Anwendungsfehler sind mit Ursache, kleinstem Fixvorschlag und Sichtbarkeitsgrenze dokumentiert.
