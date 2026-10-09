@@ -2,6 +2,10 @@
 
 
 
+## v2.4.12 - 2026-10-09
+
+- Keep the verified Python interpreter and all required arguments when capturing a helper command. Small direct calls remain available.
+
 ## v2.4.11 - 2026-10-09
 
 - Clarify the reader's two paths: Python runs the checker; documents and source files are read through `--file`. Keep the complete command when continuing or switching documents.
