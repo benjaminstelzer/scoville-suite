@@ -79,8 +79,7 @@ restrictions or Workflow ownership and takeover gates.
 Run complete commands in the current tool shell without nesting another shell.
 For direct calls in PowerShell, quote the interpreter path and prefix it with `&`.
 If a shell change is necessary, use the known suitable absolute launcher.
-Pass `rg` an existing directory and `-g "<pattern>"`; `--run` does not expand globs.
-For example: `rg -n -g "*.php" -- "search text" "<existing-directory>"`.
+Pass `rg` exact existing file or directory paths, never wildcard paths. Select files with `-g "<pattern>"`, for example `rg -n -g "queue*.php" -- "search text" "<existing-directory>"`; `--run` does not expand wildcards.
 For simple inventories, use shell commands instead of nested `python -c` and `exec`.
 
 Capture potentially large command output, including diagnostics, before display.
@@ -100,7 +99,7 @@ Choose capture before execution:
 | Command or role | Capture route |
 | --- | --- |
 | Effects or nonreproducible output | Configure UTF-8 and choose allowed `--publish-full --project-root "<workspace>"` before the first `--run`. Never repeat effects to save output. |
-| Safely repeatable read-only query | One rerun with that option is allowed when the role may save it. |
+| Safely repeatable read-only query | One rerun with that option is allowed only when the current role and phase permit writing this temporary capture file. |
 | Saving is not permitted | Narrow only while retaining every required fact, or report the missing input. |
 | Reviewer reading sources | Use the bounded reader; do not save source captures. The manager supplies large inputs. |
 
