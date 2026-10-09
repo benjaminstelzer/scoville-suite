@@ -719,6 +719,123 @@ Evidence: []
                     self.assertTrue(not state or state.startswith('Z'), f'owned process {pid} survived: {state}')
 
 
+    def test_expected_hash_is_read_only_bounded_and_keeps_other_modes(self):
+        source = self.base / 'Expected hash Grüße.txt'
+        data = ('Required Grüße 中文\r\n' * 300).encode('utf-8')
+        source.write_bytes(data)
+        for package in packages('scoville-code'):
+            checker = package / 'scripts/check_text_size.py'
+            command = [sys.executable, '-X', 'utf8', str(checker), '--file', str(source), '--sha256']
+            no_limit = subprocess.run(command, capture_output=True)
+            self.assertNotEqual(no_limit.returncode, 0)
+            self.assertEqual(no_limit.stdout, b'')
+            self.assertIn(b'--sha256 requires --file <artifact> --max-output-tokens <limit>', no_limit.stderr)
+            result = subprocess.run([*command, '--max-output-tokens', '200'], capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(json.loads(result.stdout), {'utf8_bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
+            self.assertLessEqual(len(result.stdout) + len(result.stderr), 160)
+            self.assertEqual(source.read_bytes(), data)
+            self.assertFalse((self.project / '.scoville/temp').exists())
+            size = self.run_cli(package, 'check_text_size.py', '--file', source, '--max-output-tokens', '200')
+            self.assertEqual(size['status'], 'compact_required')
+            self.assertNotIn('sha256', size)
+            changed = data + b'x'
+            source.write_bytes(changed)
+            altered = self.run_cli(package, 'check_text_size.py', '--file', source, '--sha256', '--max-output-tokens', '200')
+            self.assertNotEqual(altered['sha256'], hashlib.sha256(data).hexdigest())
+            source.write_bytes(data)
+            for limit, extra in [(1, []), (1000, ['--part', '1']), (1000, ['--publish-full']),
+                                 (1000, ['--project-root', str(self.project)]),
+                                 (1000, ['--run', '--', sys.executable, '-c', 'raise SystemExit(0)']),
+                                 (1, ['--unknown-option'])]:
+                rejected = subprocess.run([*command, '--max-output-tokens', str(limit), *extra], capture_output=True)
+                self.assertNotEqual(rejected.returncode, 0)
+                self.assertEqual(rejected.stdout, b'')
+                self.assertLessEqual(len(rejected.stderr), limit * 4 // 5)
+            source.write_bytes(b'\xff')
+            invalid = subprocess.run([*command, '--max-output-tokens', '1000'], capture_output=True)
+            self.assertNotEqual(invalid.returncode, 0)
+            self.assertEqual(invalid.stdout, b'')
+            self.assertIn(b'UTF-8', invalid.stderr)
+            self.assertIn(b'do not alter or copy the artifact', invalid.stderr)
+            source.unlink()
+            missing = subprocess.run([*command, '--max-output-tokens', '1000'], capture_output=True)
+            self.assertNotEqual(missing.returncode, 0)
+            self.assertEqual(missing.stdout, b'')
+            self.assertIn(source.name.encode(), missing.stderr)
+            self.assertIn(b'do not alter or copy the artifact', missing.stderr)
+            source.write_bytes(data)
+
+    def test_generated_process_preserves_argv_exit_and_successful_shell(self):
+        package = next(packages('scoville-workflow-for-codex'))
+        spec = importlib.util.spec_from_file_location('process_arguments', package / 'scripts/native_task_arguments.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        probe = self.base / 'argv probe.py'
+        probe.write_text('import json, sys\nprint(json.dumps(sys.argv[1:]))\n', encoding='utf-8')
+        values = ['', 'with spaces', "apostrophe's", 'literal"quote', 'trailing\\', '$() ` ${value}']
+        shells = ([value for name in ('powershell', 'pwsh') if (value := shutil.which(name))]
+                  if os.name == 'nt' else [shutil.which('sh')])
+        self.assertTrue(shells and all(shells))
+        for shell in shells:
+            flags = ['-NoProfile', '-NonInteractive', '-Command'] if os.name == 'nt' else ['-c']
+            command = module.shell_command([sys.executable, '-X', 'utf8', str(probe), *values])
+            continuation = '; Write-Output SHELL_CONTINUES' if os.name == 'nt' else '; printf "SHELL_CONTINUES\\n"'
+            good = subprocess.run([shell, *flags, command + continuation], capture_output=True, timeout=25)
+            self.assertEqual(good.returncode, 0, good.stderr)
+            lines = good.stdout.decode('utf-8').splitlines()
+            self.assertEqual(json.loads(lines[0]), values)
+            self.assertEqual(lines[1], 'SHELL_CONTINUES')
+            for code, stderr in [(0, 'child stderr'), (3, '')]:
+                invocation = module.shell_command([sys.executable, '-X', 'utf8', '-c',
+                    f'import sys; sys.stderr.write({stderr!r}); sys.exit({code})'])
+                result = subprocess.run([shell, *flags, invocation], capture_output=True, timeout=25)
+                self.assertEqual(result.returncode, code, result.stderr)
+                self.assertEqual(result.stderr.decode('utf-8'), stderr)
+            missing = self.base / 'missing interpreter Grüße 中文'
+            # The catch must produce UTF-8 even in a legacy console encoding.
+            prefix = "[Console]::OutputEncoding = [Text.Encoding]::GetEncoding(437); " if os.name == 'nt' else ''
+            failed = subprocess.run([shell, *flags, prefix + module.shell_command([str(missing)])], capture_output=True, timeout=25)
+            self.assertNotEqual(failed.returncode, 0)
+            self.assertIn(str(missing), failed.stderr.decode('utf-8', errors='strict'))
+            if os.name == 'nt':
+                self.assertEqual(failed.returncode, 125)
+
+    def test_manager_generated_document_commands_read_actual_complete_inputs(self):
+        self.profile()
+        request = self.project / 'request.txt'
+        request.write_text(QUESTION, encoding='utf-8')
+        package = next(packages('scoville-workflow-for-codex'))
+        report = self.run_cli(package, 'run_feedback.py', 'create', '--project-root', self.project)['report_file']
+        assignment = self.base / 'manager assignment.txt'
+        result = self.run_cli(package, 'build_manager_handoff.py', '--mode', 'start',
+            '--runner-id', 'runner', '--project-name', 'Example', '--manager-number', '1',
+            '--report-file', report, '--project-root', self.project, '--request-file', request,
+            '--assignment-file', assignment)
+        documents = [package / 'references/manager-protocol.md', assignment,
+                     package / 'references/operations.md', package.parents[1] / 'scoville-plan/scoville-plan/SKILL.md',
+                     package / 'references/writing.md', package / 'references/operations-rollover.md',
+                     package / 'references/run-feedback.md']
+        commands = re.findall(r'```text\n([^\n]+)\n```', result['message'])
+        commands += re.findall(r'```text\n([^\n]+)\n```', assignment.read_text(encoding='utf-8'))
+        self.assertEqual(len(commands), len(documents))
+        shell = shutil.which('pwsh') or shutil.which('powershell') if os.name == 'nt' else shutil.which('sh')
+        flags = ['-NoProfile', '-NonInteractive', '-Command'] if os.name == 'nt' else ['-c']
+        for command, document in zip(commands, documents):
+            received = b''
+            part = 1
+            while True:
+                current = command.replace('<limit>', '20000').replace('--part 1', f'--part {part}')
+                read = subprocess.run([shell, *flags, current], capture_output=True, timeout=25)
+                self.assertEqual(read.returncode, 0, read.stderr)
+                label, payload = read.stdout.split(b'\n', 1)
+                self.assertLessEqual(len(read.stdout) + len(read.stderr), 16000)
+                received += payload
+                if label.endswith(b' last'):
+                    break
+                part += 1
+            self.assertEqual(received, document.read_bytes())
+
     def test_text_preflight_and_complete_unicode_file_consumer(self):
         text_file = self.base / 'Complete Grüße 中文.txt'
         # One actual packaged consumer per build variant; all copies are covered by inventory hashes.

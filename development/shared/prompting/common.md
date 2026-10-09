@@ -40,6 +40,11 @@ execute tests or change project files beyond these delivery artifacts. This
 exception permits no other project writes and does not override host tool
 restrictions or Workflow ownership and takeover gates.
 
+Run complete commands in the current tool shell without nesting another shell.
+For direct calls in PowerShell, quote the interpreter path and prefix it with `&`.
+If a shell change is necessary, use the known suitable absolute launcher.
+Pass `rg` an existing directory and `-g "<pattern>"`; `--run` does not expand globs.
+
 Capture potentially large command output, including diagnostics, before display.
 For a permitted command use:
 `<verified-python> -X utf8 "<skill-directory>/scripts/check_text_size.py" --max-output-tokens <limit> --run -- <command> <arguments>`.
@@ -57,7 +62,7 @@ Choose capture before execution:
 | Effects or nonreproducible output | Configure UTF-8 and choose allowed `--publish-full --project-root "<workspace>"` before the first `--run`. Never repeat effects to save output. |
 | Safely repeatable read-only query | One rerun with that option is allowed when the role may save it. |
 | Saving is not permitted | Narrow only while retaining every required fact, or report the missing input. |
-| Reviewer reading sources | Do not save source captures; the manager supplies large inputs. |
+| Reviewer reading sources | Use the bounded reader; do not save source captures. The manager supplies large inputs. |
 
 Publication saves complete UTF-8 from that execution. Invalid UTF-8 fails with
 125 without saving.
@@ -77,7 +82,6 @@ Prepare large text for delivery:
    or permissibly prepared file use:
    `<verified-python> -X utf8 "<skill-directory>/scripts/check_text_size.py" --file "<text>" --max-output-tokens <limit>`.
    Keep each quoted path one argument and launcher tokens such as `py -3` separate.
-   Quote an executable path and prefix it with `&` in PowerShell.
 
 4. If exceeded, compact wording and remove irrelevant material while preserving
    required facts and safeguards.

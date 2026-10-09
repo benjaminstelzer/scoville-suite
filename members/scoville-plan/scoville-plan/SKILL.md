@@ -56,7 +56,7 @@ requirements remain governed by this Skill.
 5. At work start, except for an assigned read-only field review, run the proposal
    inventory below and read relevant proposals
    (all proposals for a full audit). Preserve unresolved choices at handoff.
-6. Mark done only after observing every Acceptance criterion and recording its
+6. Mark a Work Item done only after observing every Acceptance criterion and recording its
    concise result. Failed or partial work remains unfinished. Report observed checks
    separately from unverified behavior.
 7. Stop affected execution on an explicit stop or invalidating correction.

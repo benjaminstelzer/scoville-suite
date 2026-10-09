@@ -78,10 +78,10 @@ user need not name it again. If no task location is established, include
 location. Include temporary workspace or host state only when established as
 task state.
 
-Replace every secret value with `[redacted]` before composing any response,
-including warnings, quotations and redaction instructions. For each established
-secret-bearing variable in scope, retain its name with `[redacted]` as the value;
-never omit its name merely because the value is secret.
+Output secret-bearing facts only in redacted form: `NAME=[redacted]`.
+Keep each established variable name. Redact every secret occurrence in quotes,
+warnings and replacement instructions too; never show the original value
+when explaining its removal.
 
 For a tight output limit, remove repetition and unrelated history first, then
 shorten explanations. Preserve authority, ownership, hazards, evidence limits
@@ -93,13 +93,12 @@ entire file before continuing.
 
 ## Compose and check the prompt
 
-Fill the continuation template, keeping its four H2 sections, the meaning of
-every Receiver Instruction and three Resume Steps. Keep the template's
-Receiver Instructions intact apart from translation and secret redaction;
-they are required instructions, not optional State labels. Use the user's requested
-output language, otherwise the conversation language. Translate headings,
-labels and Receiver Instructions consistently; preserve technical identifiers,
-literal markers such as `unknown`, and exact quotations except secret values.
+Keep the template's four H2 sections: Receiver Instructions, Objective, State
+and Resume Steps, with all three Resume Steps. Keep Receiver Instructions
+intact except for translation and secret redaction. Use the requested language,
+otherwise the conversation language; translate headings, labels and instructions
+consistently. Preserve technical identifiers, literal markers such as `unknown`
+and exact quotations except secret values.
 Use one outer Markdown fence with at least four backticks and more backticks
 than any run inside the prompt; match its opening and closing length, including
 when saving the artifact to a file.
