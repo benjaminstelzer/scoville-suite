@@ -4,7 +4,7 @@ id: PLAN-0053
 status: active
 created: 2026-10-09
 updated: 2026-10-09
-current_item: W-005
+current_item: W-007
 ---
 
 # Kurzen Workflow-Abschluss ausliefern und neuen EMPCO-Lauf beobachten
@@ -15,7 +15,7 @@ Den kurzen Workflow-Abschluss ausliefern, seine Anwendung beobachten und die aus
 
 ## Non-goals
 
-Keine EMPCO-Projektänderungen, Tests, Stopps oder Nachrichten an dessen Kinder. Nur die beauftragten Runner-Nachrichten zur Änderung und Neuladung. Keine Zugriffe auf XMAPI, XMTEST, Holzbau oder Zugangsdaten. Keine allgemeinen Fortschrittsmeldungen aus der Beobachtung. Keine automatischen Skillfixes oder Releases aus Beobachtungsbefunden.
+Keine EMPCO-Projektänderungen, Tests, Stopps oder Nachrichten an dessen Kinder. Nur die beauftragten Runner-Nachrichten zur Änderung und Neuladung. Keine Zugriffe auf XMAPI, XMTEST, Holzbau oder Zugangsdaten. Keine allgemeinen Fortschrittsmeldungen aus der Beobachtung. Keine Fixes aus ungeklärten Beobachtungen oder reinen Produkt-/Fixturefehlern.
 
 ## Work items
 
@@ -54,15 +54,15 @@ Evidence: Workerstart belegt; 13 lokale Skills aktualisiert, Reload zugestellt. 
 Status: paused
 Depends on: [W-003]
 Blocked by: []
-Decisions: []
+Decisions: [ADR-0209]
 Outcome: Neue bestätigte Scoville-Defekte und wiederholte Anwendungsfehler sind mit Ursache, kleinstem Fixvorschlag und Sichtbarkeitsgrenze dokumentiert.
 Acceptance: Tatsächliche Aktionen des benannten neuen Laufs einschließlich Rollen, geladener Regeln, Übergaben, Reviews, zielgerechter Checks und Planfortschritt geprüft; neue relevante Befunde durch Ask mit Sol 6.1/high bewertet; Nutzer nur bei neuen bestätigten Ablauffehlern, notwendiger Entscheidung, Beobachtungsfehler oder Abschluss informiert; bei Laufende oder Nutzerstopp Schlussbewertung und Automation gelöscht.
-Instructions: Beobachtung während der ausdrücklich beauftragten Auslieferung pausieren; danach W-002 fortsetzen.
+Instructions: Während Fixphasen Überwachung pausieren; danach für denselben Lauf fortsetzen. Bestätigte neue Befunde nach ADR-0209 autonom bis zur geprüften Auslieferung bearbeiten.
 Steps:
 1. [status: done] Automation alle fünf Minuten für Thread 01a120d7-5fcf-7122-b741-76eb3a203fc5 einrichten. Erstes Fenster ab Startturn 01a120d7-6328-79c3-bc8e-adf922ea306e tatsächlich prüfen; danach nur neue relevante Ereignisse. Aktuellen Stand unter temp/2026-10-09-empco-abschluss-beobachtung/state.json überschreiben.
 2. [status: in_progress] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
 3. [status: todo] Nur diesen Lauf bis Ende oder Nutzerstopp beobachten, tatsächlich geprüften Umfang abschließend bewerten und Automation löschen.
-Evidence: Vier Anwendungsfehler geprüft; Quellenfixes abgenommen. Kein weiterer Ritualbefund. Wirkung und Auslieferung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+Evidence: Reload aktueller Rollen belegt; erneute Reader-Fehlanwendung durch Ask bestätigt. Ersatztext ungeprüft: [Befunde](../testing/0053-empco-abschluss-befunde.md).
 
 ### W-004 Offene Skillfixes und Wiederverwendung umsetzen
 
@@ -81,7 +81,7 @@ Evidence: Sol/Opus nehmen Patch an; Sync und Reader-Test bestehen. Validatorgren
 
 ### W-005 Abgenommene Skillfixes ausliefern
 
-Status: in_progress
+Status: done
 Depends on: [W-004]
 Blocked by: []
 Decisions: []
@@ -89,7 +89,37 @@ Outcome: Die abgenommenen Fixes sind gebaut, lokal installiert und auf den geän
 Acceptance: Quellen und Paketprojektionen stimmen überein; lokale Skills entsprechen dem Build bei erhaltenen Einstellungen; alle manifestierten Ziele verglichen, geänderte mit passender Version veröffentlicht; Remote-Bäume, Tags und erforderliche Assets verifiziert. Keine ungetestete Luna- oder Live-Wirkung behauptet.
 Instructions: []
 Steps:
-1. [status: in_progress] Quellen und Versionsnotizen committen, einzigen Releasebuild aktualisieren und betroffene Paket-/Kompatibilitätsgrenzen prüfen; unveränderte Runtime- und Viewer-Nachweise wiederverwenden.
-2. [status: todo] Lokale Codex-/Claude-Skills aus geprüften Paketen aktualisieren und bytegleich prüfen, persönliche Einstellungen erhalten.
-3. [status: todo] Geänderte manifestierte GitHub-Ziele pushen und Releases mit passenden Assets veröffentlichen; Remote-Bytes und Ersatzreleases vor Bereinigung prüfen.
-Evidence: []
+1. [status: done] Quellen und Versionsnotizen committen, einzigen Releasebuild aktualisieren und betroffene Paket-/Kompatibilitätsgrenzen prüfen; unveränderte Runtime- und Viewer-Nachweise wiederverwenden.
+2. [status: done] Lokale Codex-/Claude-Skills aus geprüften Paketen aktualisieren und bytegleich prüfen, persönliche Einstellungen erhalten.
+3. [status: done] Geänderte manifestierte GitHub-Ziele pushen und Releases mit passenden Assets veröffentlichen; Remote-Bytes und Ersatzreleases vor Bereinigung prüfen.
+Evidence: 13 lokale Pakete bytegleich, sieben Releases mit Remote-Bäumen und Assets verifiziert; je ein Release/Tag. Luna-Wirkung offen: [Auslieferung](../testing/0053-abschluss-auslieferung.md).
+
+### W-006 Reload mitteilen und Luna-Verständnis prüfen
+
+Status: done
+Depends on: [W-005]
+Blocked by: []
+Decisions: []
+Outcome: Der Runner kennt den neuen Reloadstand; gezielte Luna-Medium-Fälle zeigen Verständnis und verbleibende Grenzen der vier Korrekturen.
+Acceptance: Reloadnachricht an den benannten Runner zugestellt; frische Luna 6/Medium-Kontexte beantworten konkrete Fälle am installierten Text ohne Umsetzung oder sichtbare Musterantworten; Ergebnisse gegen vorher festgelegte Erwartungen bewertet, Testprobleme von Skillproblemen unterschieden; keine allgemeine Wirksamkeit behauptet.
+Instructions: []
+Steps:
+1. [status: done] Runner 01a120d7-5fcf-7122-b741-76eb3a203fc5 über v2.4.13 und Reload am sicheren Übergabepunkt informieren.
+2. [status: done] Durch Scoville Ask frische Luna-Medium-Verständnisblöcke zu Wiederverwendung, Prozessende, Reader-Aufrufen und Guardgrenzen prüfen; positive und begründete Stop-/Wiederholungsfälle trennen.
+3. [status: done] Vollständige native Ergebnisse auswerten und knappe Befunde mit verbleibenden Grenzen im bestehenden Befundbericht festhalten; danach Beobachtung fortsetzen.
+Evidence: Runner informiert, writing.md neu gelesen. 21 klare Luna-Erstentscheidungen korrekt; Test- und Antwortgrenzen getrennt: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+
+### W-007 Reader-Folgefehler korrigieren und ausliefern
+
+Status: in_progress
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0209]
+Outcome: Der Readertext trennt Pythonprogramm und Dokument an ihren Argumentpositionen verständlich; geprüfte Pakete sind lokal und auf geänderten GitHub-Zielen ausgeliefert und der Runner kennt den Reloadstand.
+Acceptance: Sol 6.1/high und Opus 5.5/high erreichen nach gegenseitigem Ergebnisaustausch Konsens und nehmen den tatsächlichen Patch ab; erforderliche Reader-, Limit-, UTF-8-, Recovery- und Quotinggarantien bleiben erhalten; gezielte technische und Luna-Medium-Proben bestehen mit ehrlich benannten Grenzen; lokale Pakete und Remote-Dateien entsprechen dem verifizierten Build, Releases und notwendige Assets sind geprüft, Runner informiert und Beobachtung wieder aktiv.
+Instructions: Überwachung bleibt während der Fixphase pausiert. Keine EMPCO-Projektänderungen oder Tests.
+Steps:
+1. [status: done] Beide bestehenden Reviewer zum Reader-Folgefehler und kürzesten allgemeinen Ersatz in shared/runtime/document_reader.md und native_task_arguments.py beraten lassen und vollständige Ergebnisse bis zum Konsens austauschen.
+2. [status: done] Kanonische Texte gezielt ersetzen, betroffene Kopien erzeugen, erforderliche technische und Luna-Medium-Verständnisproben prüfen und den tatsächlichen Patch von beiden Reviewern abnehmen lassen.
+3. [status: in_progress] Quellen committen, einzigen Releasebuild aktualisieren und lokal installieren; Runner zum sicheren Reload informieren, geänderte Manifestziele pushen und Releases samt Remote-Bytes und Assets verifizieren; Überwachung für denselben Lauf fortsetzen.
+Evidence: Automation pausiert; gemeinsamer Patch abgenommen, betroffener Consumer-Test und neun Luna-Verständnisfälle bestehen. Auslieferung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).

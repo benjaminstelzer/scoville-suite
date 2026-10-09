@@ -169,10 +169,9 @@ def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
         raise ValueError(f'bundled text-size checker is missing at {checker}; use the intact matching package before assigning work')
     command = file_read_command(target, checker, interpreter)
     return (
-        f'Program: {checker}. Keep this checker path and the verified launcher unchanged. '
-        'Document: only the --file value, including documents of other Skills.\n\n'
-        'Start only named .py files as Python program files; Skills, references and '
-        'assignments are documents, never programs.\n\n'
+        f'Python runs {checker} after -X utf8. The checker reads every document only through --file, '
+        'including SKILL.md files and references of any Skill, assignments, and .py files read as text. '
+        'Keep the verified launcher, checker path and quoting unchanged.\n\n'
         'Use separate outer tool calls unless their complete combined output has '
         'been measured and fits; a script joining reads returns one combined output.\n\n'
         '1. Replace '

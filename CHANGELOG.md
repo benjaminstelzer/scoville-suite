@@ -2,6 +2,10 @@
 
 
 
+## v2.4.11 - 2026-10-09
+
+- Clarify the reader's two paths: Python runs the checker; documents and source files are read through `--file`. Keep the complete command when continuing or switching documents.
+
 ## v2.4.10 - 2026-10-09
 
 - Reuse completed work and passing checks when their inputs and requirements are unchanged. A new Step, role or release phase alone is no reason to repeat them.
