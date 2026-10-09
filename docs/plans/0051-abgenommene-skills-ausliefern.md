@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0051
-status: active
+status: completed
 created: 2026-10-09
 updated: 2026-10-09
-current_item: W-001
 ---
 
 # Abgenommene Skills lokal und auf GitHub ausliefern
@@ -21,15 +20,15 @@ Keine neue Skillentwicklung, pauschalen Testserien, neuen Viewer-Binaries oder E
 
 ### W-001 Abgenommenen Stand ausliefern
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: []
-Outcome: Lokale Skills und alle geänderten deklarierten GitHub-Ziele enthalten denselben geprüften Stand; EMPCO erhält die sichere Wiederaufnahme-Anleitung.
-Acceptance: Releasebuild aus committed Quellen strukturell und gegen seine Quellen verifiziert; Codex-/Claude-Skills bytegleich installiert und persönliche Anpassungen erhalten; EMPCO-Nachricht mit Neuladung und bestätigter Schreiber-Ruhe als Startbedingung zugestellt; alle geänderten deklarierten Ziele gepusht und neue Releases samt benötigten Assets remote verifiziert; ersetzte Releases und Versionstags erst danach entfernt; bestehende passende Windows-/Linux-Nachweise korrekt wiederverwendet und Grenzen benannt.
+Outcome: Lokale Skills und alle geänderten deklarierten GitHub-Ziele enthalten denselben geprüften Stand; EMPCO setzt mit neuem Manager am bestätigten Planschritt fort.
+Acceptance: Releasebuild aus committed Quellen strukturell und gegen seine Quellen verifiziert; Codex-/Claude-Skills bytegleich installiert und persönliche Anpassungen erhalten; EMPCO-Neuladung und Wiederaufnahme am tatsächlichen Schritt auf Grundlage der ausdrücklichen Nutzerbestätigung zur Worker-Ruhe bestätigt; alle geänderten deklarierten Ziele gepusht und neue Releases samt benötigten Assets remote verifiziert; ersetzte Releases und Versionstags erst danach entfernt; bestehende passende Windows-/Linux-Nachweise korrekt wiederverwendet und Grenzen benannt.
 Instructions: []
 Steps:
-1. [status: in_progress] Ziele und Änderungen prüfen, Versionen und Changelogs aktualisieren, passende vorhandene Abnahmen zuordnen, Quellen committen und den einzigen Releasebuild verifizieren.
-2. [status: todo] Alle vorhandenen lokalen Suite-Skills aktualisieren und verifizieren; dem EMPCO-Thread die Neuladung und sichere Wiederaufnahme am tatsächlichen Stand mitteilen.
-3. [status: todo] Parallel zur EMPCO-Wiederaufnahme geänderte Distributionen pushen und releasen; Remote-Dateien, Tags, Assets und anschließende Bereinigung prüfen.
-Evidence: PLAN-0049 und PLAN-0050 enthalten technische und Verständnisabnahmen. Aktueller Auslieferungsnachweis: docs/testing/0051-skills-auslieferung.md.
+1. [status: done] Ziele und Änderungen prüfen, Versionen und Changelogs aktualisieren, passende vorhandene Abnahmen zuordnen, Quellen committen und den einzigen Releasebuild verifizieren.
+2. [status: done] Alle vorhandenen lokalen Suite-Skills aktualisieren und verifizieren; EMPCO nach ausdrücklicher Crash-Recovery-Freigabe beim tatsächlichen verbleibenden Schritt wieder aufnehmen lassen.
+3. [status: done] Parallel zur EMPCO-Wiederaufnahme geänderte Distributionen pushen und releasen; Remote-Dateien, Tags, Assets und anschließende Bereinigung prüfen.
+Evidence: 320 Builddateien, 13 lokale Installationen und sieben Releases verifiziert; EMPCO-Manager 3 bestätigt W-370/Schritt 3. Nachweis: [Auslieferung](../testing/0051-skills-auslieferung.md).

@@ -2,6 +2,10 @@
 
 
 
+## v2.4.9 - 2026-10-09
+
+- Use a complete reader command when continuing document reads, and an existing directory with a file filter when searching. Prefer direct shell commands for simple file inventories.
+
 ## v2.4.8 - 2026-10-09
 
 - Preserve literal arguments and original failure status in generated reader commands. Restart complete reads at part 1 when a binding output limit changes, and redact secrets throughout handoff text.
