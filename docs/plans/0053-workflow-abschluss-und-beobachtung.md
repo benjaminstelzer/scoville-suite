@@ -4,7 +4,7 @@ id: PLAN-0053
 status: active
 created: 2026-10-09
 updated: 2026-10-10
-current_item: W-011
+current_item: W-012
 ---
 
 # Kurzen Workflow-Abschluss ausliefern und neuen EMPCO-Lauf beobachten
@@ -51,7 +51,7 @@ Evidence: Workerstart belegt; 13 lokale Skills aktualisiert, Reload zugestellt. 
 
 ### W-002 Anwendung im neuen Lauf beobachten
 
-Status: paused
+Status: todo
 Depends on: [W-003]
 Blocked by: []
 Decisions: [ADR-0209]
@@ -60,7 +60,7 @@ Acceptance: Tatsächliche Aktionen des benannten neuen Laufs einschließlich Rol
 Instructions: Während Fixphasen Überwachung pausieren; danach für denselben Lauf fortsetzen. Bestätigte neue Befunde nach ADR-0209 autonom bis zur geprüften Auslieferung bearbeiten.
 Steps:
 1. [status: done] Automation alle fünf Minuten für Thread 01a120d7-5fcf-7122-b741-76eb3a203fc5 einrichten. Erstes Fenster ab Startturn 01a120d7-6328-79c3-bc8e-adf922ea306e tatsächlich prüfen; danach nur neue relevante Ereignisse. Aktuellen Stand unter temp/2026-10-09-empco-abschluss-beobachtung/state.json überschreiben.
-2. [status: in_progress] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
+2. [status: todo] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
 3. [status: todo] Nur diesen Lauf bis Ende oder Nutzerstopp beobachten, tatsächlich geprüften Umfang abschließend bewerten und Automation löschen.
 Evidence: Reader-, Helferaufruf- und Suchpfad-Fixes ausgeliefert; Runner informiert. Aktueller Reload und Live-Wirkung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
 
@@ -156,7 +156,7 @@ Evidence: Sol/Opus-Abnahme, fünf gezielte Luna-Entscheidungen mit Testgrenzen, 
 
 ### W-010 Temporäre Veröffentlichung während Managerübernahme klären
 
-Status: paused
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0209]
@@ -166,12 +166,12 @@ Instructions: Überwachung während der Fixphase pausiert. Keine EMPCO-Änderung
 Steps:
 1. [status: done] Tatsächliche Übernahmeaktionen und geladene Regeln von beiden bestehenden Reviewern beurteilen lassen; vollständige Ergebnisse zum Konsens austauschen.
 2. [status: done] Nötigen kleinen kanonischen Fix umsetzen, gezielt mit Luna Medium prüfen und tatsächlichen Patch abnehmen lassen.
-3. [status: in_progress] Nötigen Build lokal und auf GitHub ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
-Evidence: Patch abgenommen, gezielte Luna-Fälle geprüft. Installation stoppte vor Writes wegen früherer Build-/Exportabweichung; 13 lokale Pakete entsprechen dem alten Build. Neue Beratung läuft.
+3. [status: done] Nötigen Build lokal und auf GitHub ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
+Evidence: Aus b0a8b5e ausgeliefert: 13 lokale Pakete, sieben GitHub-Ziele samt Assets verifiziert; Reload zugestellt. [Auslieferung](../testing/0053-abschluss-auslieferung.md).
 
 ### W-011 Build und veröffentlichten Export konsistent halten
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0209]
@@ -181,5 +181,20 @@ Instructions: Mit W-010s nötiger Auslieferung bündeln; Überwachung bleibt pau
 Steps:
 1. [status: done] Tatsächliche ältere Build-/Exportabweichung unabhängig beurteilen lassen und kleinste allgemeine Korrektur vereinbaren.
 2. [status: done] Nötigen Fix abnehmen und gezielt prüfen; nur betroffene veraltete Build-/Exportnachweise erneuern.
-3. [status: in_progress] Zusammen mit W-010 verifiziert ausliefern und Überwachung desselben Laufs fortsetzen.
-Evidence: Beide nehmen den korrigierten Stand in R4 ab. Exporttests 2, Buildtests 6, Luna-Erstentscheidungen 3 bestehen; unbekannte Spiegeldatei stoppt jeden Sync. [Befunde](../testing/0053-empco-abschluss-befunde.md).
+3. [status: done] Zusammen mit W-010 verifiziert ausliefern und Überwachung desselben Laufs fortsetzen.
+Evidence: Aus b0a8b5e ausgeliefert: 13 lokale Pakete, sieben GitHub-Ziele samt Assets verifiziert; Reload zugestellt. [Auslieferung](../testing/0053-abschluss-auslieferung.md).
+
+### W-012 Wiederholten Python-Aufruffehler allgemein korrigieren
+
+Status: in_progress
+Depends on: [W-008, W-011]
+Blocked by: []
+Decisions: [ADR-0209]
+Outcome: Der erneut falsch gestartete Pythonhelper und vermeidbare Recovery-Verwaltung sind unabhängig bewertet; ein nötiger kleiner allgemeiner Fix ist geprüft ausgeliefert.
+Acceptance: Sol und Opus tauschen vollständige Vorschläge und Patchreviews bis zum Konsens aus; nötiger Fix erhält vollständige Ausgabe, ehrliche Fehler, Rollen und Freigabegrenzen. Gezielte Checks und Luna-Medium-Verständnis, nötiger Build, lokale Updates, Runnerhinweis und GitHub-Releases sind verifiziert. Keine Wirkung ohne Nachweis behauptet.
+Instructions: Überwachung während der Fixphase pausiert. Keine EMPCO-Änderungen oder Tests; reine Fixturebefunde getrennt halten.
+Steps:
+1. [status: done] Manager14s tatsächlichen WinError-193-Aufruf nach geladenem W-008-Text sowie Recovery-Aufwand von beiden bestehenden Reviewern beurteilen lassen; vollständige Ergebnisse zum Konsens austauschen.
+2. [status: done] Nötigen kleinsten kanonischen Fix umsetzen, gezielt und mit Luna Medium prüfen; tatsächlichen Patch von beiden abnehmen lassen.
+3. [status: in_progress] Nötigen Build lokal und auf GitHub ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
+Evidence: Sol/Opus-Patchkonsens, Checks und sechs Luna-Entscheidungen bestehen. Runtime-Matrix und Auslieferung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).

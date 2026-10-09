@@ -995,6 +995,30 @@ Evidence: []
         def invoke(limit, extra=(), command=None):
             return subprocess.run([sys.executable, '-X', 'utf8', str(checker), '--max-output-tokens', str(limit),
                 *map(str, extra), '--run', '--', *(child if command is None else command)], capture_output=True, timeout=25)
+        guarded_root = self.base / 'Guarded capture ü 中文'
+        guarded_root.mkdir()
+        uppercase = self.base / 'one-execution.PY'
+        uppercase.write_bytes(producer.read_bytes())
+        diagnostic = (b'output_complete=false error=PYTHON_INTERPRETER_REQUIRED child_started=false: '
+            b'insert the verified Python executable and -X utf8 before the script; '
+            b'keep all existing arguments exit=None\n')
+        for script, extra in [(producer, []), (uppercase, ['--publish-full', '--project-root', guarded_root])]:
+            guarded = invoke(1000, extra, command=[str(script), str(counter)])
+            self.assertEqual(guarded.returncode, 125)
+            self.assertEqual(guarded.stdout, b'')
+            self.assertEqual(guarded.stderr, diagnostic)
+            self.assertFalse(counter.exists(), 'direct script must not start the marker child')
+            self.assertEqual(list(guarded_root.iterdir()), [], 'guard must precede publication preparation')
+        short = invoke(100, command=[str(producer), str(counter)])
+        self.assertEqual(short.returncode, 125)
+        self.assertEqual(short.stdout, b'')
+        self.assertEqual(short.stderr, b'output_complete=false error=capture exit=None\n')
+        self.assertFalse(counter.exists())
+        source_read = subprocess.run([sys.executable, '-X', 'utf8', str(checker), '--file', str(producer),
+            '--max-output-tokens', '1000', '--part', '1'], capture_output=True, timeout=25)
+        self.assertEqual(source_read.returncode, 0, source_read.stderr)
+        self.assertEqual(source_read.stdout.split(b'\n', 1)[1], producer.read_bytes())
+        self.assertFalse(counter.exists(), 'reading Python source must not execute it')
         withheld = invoke(100)
         self.assertEqual(withheld.returncode, 7)
         self.assertIn(b'output_complete=false', withheld.stdout)
