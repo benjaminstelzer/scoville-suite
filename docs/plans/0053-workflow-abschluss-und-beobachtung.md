@@ -4,14 +4,14 @@ id: PLAN-0053
 status: active
 created: 2026-10-09
 updated: 2026-10-09
-current_item: W-007
+current_item: W-008
 ---
 
 # Kurzen Workflow-Abschluss ausliefern und neuen EMPCO-Lauf beobachten
 
 ## Goal
 
-Den kurzen Workflow-Abschluss ausliefern, seine Anwendung beobachten und die ausdrücklich beauftragten offenen Skillfixes gegen Informationsverlust und doppelte Arbeit umsetzen.
+Den benannten EMPCO-Lauf bis zu seinem Ende beobachten und bestätigte Scoville-Fehler nach Reviewer-Konsens autonom bis zur geprüften Auslieferung korrigieren; während Fixphasen die Überwachung pausieren.
 
 ## Non-goals
 
@@ -62,7 +62,7 @@ Steps:
 1. [status: done] Automation alle fünf Minuten für Thread 01a120d7-5fcf-7122-b741-76eb3a203fc5 einrichten. Erstes Fenster ab Startturn 01a120d7-6328-79c3-bc8e-adf922ea306e tatsächlich prüfen; danach nur neue relevante Ereignisse. Aktuellen Stand unter temp/2026-10-09-empco-abschluss-beobachtung/state.json überschreiben.
 2. [status: in_progress] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
 3. [status: todo] Nur diesen Lauf bis Ende oder Nutzerstopp beobachten, tatsächlich geprüften Umfang abschließend bewerten und Automation löschen.
-Evidence: Reload aktueller Rollen belegt; erneute Reader-Fehlanwendung durch Ask bestätigt. Ersatztext ungeprüft: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+Evidence: Reader-Folgefix geprüft und ausgeliefert; Runner informiert. Aktueller Reload und Live-Wirkung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
 
 ### W-004 Offene Skillfixes und Wiederverwendung umsetzen
 
@@ -111,7 +111,7 @@ Evidence: Runner informiert, writing.md neu gelesen. 21 klare Luna-Erstentscheid
 
 ### W-007 Reader-Folgefehler korrigieren und ausliefern
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0209]
@@ -121,5 +121,20 @@ Instructions: Überwachung bleibt während der Fixphase pausiert. Keine EMPCO-Pr
 Steps:
 1. [status: done] Beide bestehenden Reviewer zum Reader-Folgefehler und kürzesten allgemeinen Ersatz in shared/runtime/document_reader.md und native_task_arguments.py beraten lassen und vollständige Ergebnisse bis zum Konsens austauschen.
 2. [status: done] Kanonische Texte gezielt ersetzen, betroffene Kopien erzeugen, erforderliche technische und Luna-Medium-Verständnisproben prüfen und den tatsächlichen Patch von beiden Reviewern abnehmen lassen.
-3. [status: in_progress] Quellen committen, einzigen Releasebuild aktualisieren und lokal installieren; Runner zum sicheren Reload informieren, geänderte Manifestziele pushen und Releases samt Remote-Bytes und Assets verifizieren; Überwachung für denselben Lauf fortsetzen.
-Evidence: Automation pausiert; gemeinsamer Patch abgenommen, betroffener Consumer-Test und neun Luna-Verständnisfälle bestehen. Auslieferung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+3. [status: done] Quellen committen, einzigen Releasebuild aktualisieren und lokal installieren; Runner zum sicheren Reload informieren, geänderte Manifestziele pushen und Releases samt Remote-Bytes und Assets verifizieren; Überwachung für denselben Lauf fortsetzen.
+Evidence: Sol/Opus-Abnahme, Consumer-Test und neun Luna-Fälle bestehen; 13 Pakete und sieben Releases geprüft, Runner informiert: [Auslieferung](../testing/0053-abschluss-auslieferung.md).
+
+### W-008 Python-Helferaufruf klären und nötigen Fix ausliefern
+
+Status: in_progress
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0209]
+Outcome: Der beobachtete direkte Start einer Pythondatei nach --run wird unabhängig bewertet und ein begründeter allgemeiner Fix geprüft ausgeliefert.
+Acceptance: Sol und Opus tauschen vollständige Ergebnisse bis zum Konsens aus; nur bestätigte Ursachen führen zu einem kurzen Ersatztext; nötige Garantien bleiben erhalten; tatsächlicher Patch, gezielte Checks, Luna-Verständnis und gegebenenfalls Build, lokale Installation, Runnerhinweis und GitHub-Releases sind geprüft.
+Instructions: Überwachung während dieser Fixphase pausiert. Keine EMPCO-Projektänderungen oder Tests; keine erneute Beratung unveränderter bekannter Befunde.
+Steps:
+1. [status: done] Den tatsächlichen WinError-193-Aufruf und erfolgreiche Korrektur von beiden bestehenden Reviewern unabhängig beurteilen lassen und vollständige Ergebnisse austauschen.
+2. [status: done] Begründeten minimalen Fix umsetzen, gezielt technisch und mit Luna Medium prüfen und von beiden Reviewern abnehmen lassen.
+3. [status: in_progress] Nötigen Build lokal und auf GitHub ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
+Evidence: Sol/Opus-Patchabnahme, Sync und fünf klare Luna-Erstentscheidungen bestehen. Auslieferung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
