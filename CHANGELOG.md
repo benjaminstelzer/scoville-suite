@@ -2,6 +2,10 @@
 
 
 
+## v2.4.15 - 2026-10-10
+
+- Reject direct Python script capture before execution with an actionable no-start diagnostic; preserve explicit interpreter calls and source reads.
+
 ## v2.4.14 - 2026-10-10
 
 - Save temporary read captures only when the current role and phase permit that specific file. Keep takeover and complete-reading safeguards.
