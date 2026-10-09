@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.7 - 2026-10-09
+
+- Classify a plugin page independently from its runtime. Keep unknown placement and host ownership explicit, even when the experimental runtime was selected.
+
 ## v2.1.6 - 2026-10-08
 
 - Make UI implementation and verification sequences explicit, keeping framework, user-state and rendered-result conditions beside the action they govern.

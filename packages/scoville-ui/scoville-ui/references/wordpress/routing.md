@@ -123,7 +123,7 @@ Do not infer future 7.x contracts or package versions from either row.
 
 ### Hybrid
 
-Record one owner per DOM region. A common boundary is:
+Record one observed owner per DOM region. This example assumes a verified Core shell:
 
 | Region | Owner |
 | --- | --- |

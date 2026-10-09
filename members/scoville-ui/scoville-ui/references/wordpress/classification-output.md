@@ -3,6 +3,23 @@
 Load only when structured classification was explicitly requested, after
 [routing.md](routing.md). The router owns the semantic boundaries.
 
+## Classification output
+
+Return a structured object with all eight fields:
+
+1. `surface`
+2. `support_status`
+3. `runtime_owner`
+4. `shell_owner`
+5. `spacing_owner`
+6. `experimental_components_policy`
+7. `evidence`: observed facts supporting the values.
+8. `prohibited_recommendations`: every applicable stable identifier below.
+
+Use the canonical values and precedence below. Examples do not establish ownership.
+For ordinary findings, report only ownership facts needed to explain the
+scoped result, not a full classification report.
+
 Use this handoff matrix for the excluded version-1 surfaces. Combine its
 required prohibitions with every applicable runtime rule below. For example,
 a React SlotFill with an unknown package owner also requires the unknown-React
@@ -25,8 +42,8 @@ prohibitions. The surface row does not replace them.
 | Request explicitly says no experimental policy was supplied | `experimental_components_policy: unknown`, even for Core Components or an otherwise deny route. |
 | Excluded named Classic PHP host using Core, without that override | Policy `deny`; records host facts, grants no right to prescribe the surface. |
 | Excluded React-owned or unspecified host runtime | Policy `unknown`; grants no right to prescribe the surface. |
-| Page placement or host boundary unspecified | `shell_owner: unknown`. |
-| Decision-relevant ownership unresolved | `support_status: needs-clarification`; supported surface category alone does not resolve it. |
+| Page placement or host boundary not established by supplied facts | `shell_owner: unknown`; neither Hybrid nor runtime opt-in establishes a Core shell. |
+| Page placement or another decision-relevant owner unresolved | `support_status: needs-clarification`; runtime opt-in does not resolve placement. |
 
 Unknown policy still forbids introducing experimental APIs.
 
@@ -46,7 +63,7 @@ values instead of prose variants:
 | surface | Profile field | `profile-field` |
 | surface | Extension of an existing Core screen | `core-screen-extension` |
 | surface | UI inside another plugin | `foreign-plugin-surface` |
-| surface | Plugin-owned page with unspecified runtime | `plugin-owned-unspecified` |
+| surface | Plugin-owned page with unspecified category | `plugin-owned-unspecified` |
 | surface | Admin surface with unspecified placement | `unknown-admin-surface` |
 | support_status | Supported stable route | `supported` |
 | support_status | Supported bundled experimental route | `supported-experimental-opt-in` |
@@ -111,20 +128,3 @@ A Classic PHP plugin page using Core must include `frontend-theme-spacing`,
 sidebar or SlotFill handoff must include `own-host-surface`,
 `frontend-theme-spacing`, and `recommend-without-clarification` because this
 Skill must stop before prescribing the host-owned details.
-
-## Classification output
-
-For an explicit classification request, return:
-
-- `surface` and `support_status`;
-- `runtime_owner`;
-- `shell_owner`;
-- `spacing_owner`;
-- `experimental_components_policy`;
-- supporting source or repository evidence;
-- prohibited recommendations for this route.
-
-When structured output was requested, use the canonical values above for all
-six fields and for each prohibited-recommendation identifier. Otherwise use
-these facts to establish ownership and report only those needed to explain the
-scoped result. Do not add a full classification report to every finding.

@@ -140,22 +140,34 @@ def shell_command(arguments: list[str]) -> str:
         # ProcessStartInfo bypasses PowerShell's version-dependent native argv
         # conversion (Legacy drops empty strings and consumes literal quotes).
         quote = lambda value: "'" + value.replace("'", "''") + "'"
-        return ("& { $scovilleProcess = New-Object System.Diagnostics.ProcessStartInfo; "
+        return ("& { $ErrorActionPreference = 'Stop'; try { "
+                "$scovilleProcess = New-Object System.Diagnostics.ProcessStartInfo; "
                 "$scovilleProcess.FileName = " + quote(arguments[0]) + "; "
                 "$scovilleProcess.Arguments = " + quote(subprocess.list2cmdline(arguments[1:])) + "; "
                 "$scovilleProcess.UseShellExecute = $false; "
                 "$scovilleChild = [System.Diagnostics.Process]::Start($scovilleProcess); "
-                "$scovilleChild.WaitForExit(); "
+                "if ($null -eq $scovilleChild) { throw 'Process.Start returned no process' }; "
+                "$scovilleChild.WaitForExit() "
+                "} catch { $scovilleDiagnostic = [Text.Encoding]::UTF8.GetBytes('Process start or wait failed for ' + "
+                + quote(arguments[0]) + " + ': ' + $_.Exception.ToString() + [Environment]::NewLine); "
+                "$scovilleError = [Console]::OpenStandardError(); "
+                "$scovilleError.Write($scovilleDiagnostic, 0, $scovilleDiagnostic.Length); "
+                "$scovilleError.Flush(); exit 125 }; "
                 "if ($scovilleChild.ExitCode -ne 0) { exit $scovilleChild.ExitCode } }")
     return shlex.join(arguments)
+
+
+def file_read_command(target: Path, checker: Path, interpreter: str) -> str:
+    """Prepare the complete argv for one document without rebuilding shell quoting."""
+    return shell_command([interpreter, '-X', 'utf8', str(checker), '--file', str(target),
+                          '--max-output-tokens', '<limit>', '--part', '1'])
 
 
 def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
     """Prepare a complete bounded UTF-8 read for file-backed native assignments."""
     if not checker.is_file():
         raise ValueError(f'bundled text-size checker is missing at {checker}; use the intact matching package before assigning work')
-    command = shell_command([interpreter, '-X', 'utf8', str(checker), '--file', str(target),
-                             '--max-output-tokens', '<limit>', '--part', '1'])
+    command = file_read_command(target, checker, interpreter)
     return (
         f'Program: {checker}. Document: only the --file value.\n\n'
         'Start only named .py files as Python program files; Skills, references and '
@@ -164,12 +176,14 @@ def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
         'been measured and fits; a script joining reads returns one combined output.\n\n'
         '1. Replace '
         '<limit> with the smallest declared or explicitly selected output limit '
-        'of both your command and any outer tool wrapper.\n'
-        '2. Run this bounded UTF-8 command exactly as shown:\n\n```text\n'
+        'of the command and every enclosing tool output.\n'
+        '2. Run this complete command directly in the current tool shell; do not wrap it '
+        'in another shell, which can change quoting or variables:\n\n```text\n'
         + command + '\n```\n\n'
         '3. Read the unchanged file bytes and part=N bytes=start:end/total next=M label. '
         'Follow next=M with --part M; last marks end equal to total. Read every part through last in order '
-        'before dependent work. Keep the same budget for the whole sequence; if it changes, restart at part 1. '
+        'before dependent work. Use one limit for the whole sequence. If an applicable limit changes, '
+        'restart at part 1 with the new smallest limit; never raise a binding limit to keep the old sequence. '
         'Each invocation includes its label in the byte budget.\n\n'
         'For another document, change only the --file value and --part number, preserving '
         'the generated shell quoting and other arguments. '
@@ -177,7 +191,9 @@ def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
            'Put a replacement --file value containing spaces in double quotes inside the Arguments string. '
            if os.name == 'nt' else '')
         + '\n\nFailure: a nonzero exit leaves this read incomplete, even with an empty diagnostic '
-        'when the declared budget cannot fit it. Do not alter or copy the input. '
+        'when the declared budget cannot fit it. Correct a visible cause and restart at part 1. '
+        'Do not repeat an unchanged failed call or raise a binding limit. Otherwise report the unread '
+        'document and stop dependent work. Do not alter or copy the input. '
         'Never truncate, skip text or start with an oversized full read. The named '
         'read and size-check commands are permitted even for external assignment, '
         'interpreter and checker paths; this grants no unrelated inspection or writes. '
