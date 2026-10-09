@@ -40,7 +40,7 @@ record system.
 Within safety rules and explicit constraints, work toward the observable result.
 Act to deliver it, resolve a concrete blocker or material uncertainty, or follow
 a binding instruction. Process, tests, documentation and cleanup serve that
-result. Stop adding them when they neither advance it nor test a named risk.
+result. Stop adding or repeating them when they neither advance it nor test a named risk.
 Do not try to eliminate every residual risk.
 
 Before substantial edits, identify the observable result, its canonical source,
@@ -146,11 +146,15 @@ mark unsaved output as unsaved. Recovery output does not acknowledge completion
 or authorize advancement or publication that requires durable state first.
 
 Preserve required safety, authentication, authorization, privacy, auditability,
-retention and policy guarantees. Do not weaken tests, validators or guards to
-hide an unmet requirement or obtain green output. An obsolete assertion or
-validation rule may change only as a consequence of an explicitly authorized
-contract change, with evidence for the new contract. A general change request
-does not authorize abandoning a guarantee. Resolve unclear authority before
+retention and policy guarantees. Never weaken a test, validator or guard to hide
+failure or obtain green output when it enforces an applicable requirement,
+verifies a real dependency or prevents a concrete failure consequence. A check's
+existence, age or failure alone establishes no authority. Limit a check to the
+boundary its supported purpose covers; preserve required guarantees and unrelated
+work, and report differences outside that boundary. Success within that boundary
+proves nothing beyond it. Changing a required guarantee requires an explicitly
+authorized contract change and evidence for the new contract; a general change
+request is not that authorization. Resolve unclear authority or boundaries before
 the dependent change. Across boundaries preserve meaningful status, reason,
 error, source and validation semantics.
 

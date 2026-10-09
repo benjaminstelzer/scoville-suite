@@ -169,7 +169,8 @@ def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
         raise ValueError(f'bundled text-size checker is missing at {checker}; use the intact matching package before assigning work')
     command = file_read_command(target, checker, interpreter)
     return (
-        f'Program: {checker}. Document: only the --file value.\n\n'
+        f'Program: {checker}. Keep this checker path and the verified launcher unchanged. '
+        'Document: only the --file value, including documents of other Skills.\n\n'
         'Start only named .py files as Python program files; Skills, references and '
         'assignments are documents, never programs.\n\n'
         'Use separate outer tool calls unless their complete combined output has '
@@ -178,7 +179,7 @@ def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
         '<limit> with the smallest declared or explicitly selected output limit '
         'of the command and every enclosing tool output.\n'
         '2. Reader command: copy the whole command into the current tool shell. '
-        'For the next part, copy it again and change only --part to the reported next value. '
+        'For the next part, copy the last correct complete command and change only --part to the reported next value. '
         'Do not nest another shell:\n\n```text\n'
         + command + '\n```\n\n'
         '3. Read the unchanged file bytes and part=N bytes=start:end/total next=M label. '
@@ -186,8 +187,8 @@ def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
         'before dependent work. Use one limit for the whole sequence. If an applicable limit changes, '
         'restart at part 1 with the new smallest limit; never raise a binding limit to keep the old sequence. '
         'Each invocation includes its label in the byte budget.\n\n'
-        'For another document, change only the --file value and --part number, preserving '
-        'the generated shell quoting and other arguments. '
+        'For another document, change only the --file value and reset --part to 1. '
+        'Preserve the generated shell quoting and all other arguments. '
         + ('In the Windows command, double any apostrophe inside its single-quoted PowerShell strings. '
            'Put a replacement --file value containing spaces in double quotes inside the Arguments string. '
            if os.name == 'nt' else '')
