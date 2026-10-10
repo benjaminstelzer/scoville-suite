@@ -68,7 +68,8 @@ class RuntimeHelperExamples(unittest.TestCase):
     def test_dispatch_signature_includes_generated_options_and_required_inputs(self):
         script = ROOT / 'members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/build_dispatch_prompt.py'
         flags, required = signature(script)
-        self.assertTrue({'--executor-result', '--reviewer-result', '--context-handoff', '--supplemental-context'} <= flags)
+        self.assertTrue({'--executor-result', '--reviewer-result', '--supplemental-context'} <= flags)
+        self.assertFalse({'--context-handoff', '--predecessor-agent-id'} & flags)
         self.assertNotIn('--context', flags)
         self.assertIn({'--manager-agent-id'}, required)
 
@@ -91,16 +92,11 @@ class RuntimeHelperExamples(unittest.TestCase):
                     checked += 1
         self.assertGreaterEqual(checked, 10, 'runtime examples unexpectedly disappeared')
 
-    def test_subcommands_keep_their_own_required_arguments(self):
-        script = ROOT / 'members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/run_feedback.py'
-        create_flags, create_required = signature(script, 'create')
-        self.assertEqual(create_required, [{'--project-root'}])
-        self.assertNotIn('--project', create_flags)
-        _, resolve_required = signature(script, 'resolve')
-        self.assertIn({'--issue-id'}, resolve_required)
-        self.assertNotIn({'--project-root'}, resolve_required)
-        _, add_required = signature(script, 'add')
-        self.assertNotIn({'--issue-id'}, add_required)
+    def test_removed_lifecycle_helpers_are_absent_from_active_package(self):
+        scripts = ROOT / 'members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts'
+        for name in ('run_feedback.py', 'build_manager_handoff.py',
+                     'check_context_checkpoint.py', 'inspect_native_context.py'):
+            self.assertFalse((scripts / name).exists(), name)
 
 if __name__ == '__main__':
     unittest.main()

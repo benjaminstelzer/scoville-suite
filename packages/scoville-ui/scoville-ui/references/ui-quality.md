@@ -1,20 +1,16 @@
 # UI Quality
 
-Apply only the lenses that can change the requested outcome. These are outcome
-tests, not a visual recipe.
+Apply the common task, readability and accessibility rules below. Read each
+complete topic file only when its concern can change the requested outcome.
 
-## Contents
+| Concern | Reference |
+| --- | --- |
+| New, translated, changed or reviewed interface text | [Wording](ui-wording.md) |
+| Grouping, hierarchy, layout, responsive adaptation or changed composition | [Layout](ui-layout.md) |
+| Navigation, controls, focus, input, feedback, states or recovery | [Interactions](ui-interactions.md) |
 
-- Start with the user task
-- Navigation and orientation
-- UI wording and terminology
-- Make relationships perceptible
-- Preserve readable content
-- Make interaction predictable
-- Adapt instead of merely shrinking
-- Reassess composition after changes
-- Design states as part of the same interface
-- Keep accessibility structural
+These are outcome tests, not a visual recipe. A settled unrelated concern adds
+no topic read. Preserve canonical decisions and all affected implementation guarantees.
 
 ## Start with the user task
 
@@ -46,63 +42,6 @@ and object and action terms visible so users recognize rather than recall.
 Remove or demote content only when doing so preserves the user's task and the
 canonical content owner permits it.
 
-## Navigation and orientation
-
-Structure navigation around user tasks and content relationships. Distinguish
-global destinations from local views and actions. Make the current location
-and available back or cancel paths understandable and accessible through
-platform conventions. Avoid unnecessary hierarchy depth and detours between
-related content. Preserve needed working context across navigation when safe
-and appropriate to the task.
-
-## UI wording and terminology
-
-Use approved product and platform terminology. When none exists, choose terms
-suited to the audience, domain and established conventions.
-
-Follow the explicit language request, then the established product or source
-language and applicable platform conventions; chat language alone does not
-override them. For new UI with no such owner, state the chosen language briefly
-and ask only when the choice materially affects the product outcome.
-
-- Use one term per concept within each language, across settings, navigation,
-  help, errors and confirmations. Do not vary terms for stylistic variety or
-  collapse meaningful distinctions. Consistent naming allows grammatical and
-  contextual variation; it does not require every label to be identical.
-- Make headings and labels describe their topic or purpose. Name buttons by
-  their actual action and relevant effect, fields by the value collected, and
-  toggles by the property controlled. Add the object, unit or consequence when
-  context would otherwise leave the meaning ambiguous.
-- Preserve meaning, conceptual distinctions and established technical terms
-  in translations. Follow the target language's conventions and approved
-  terminology rather than translating technical terms mechanically.
-
-These rules apply to new and changed interface text without requiring a
-dictionary, glossary or separate terminology record.
-
-## Make relationships perceptible
-
-**Product decision:** The canonical product owner owns intended grouping, hierarchy, density,
-and deliberate visual exceptions. **UI implementation floor:** Implement those
-relations with canonical components and tokens and preserve semantic relationships.
-
-Use the owning system's hierarchy, grouping, alignment, sequence, and emphasis
-mechanisms so related information reads together and distinct concerns remain
-distinct. Visual difference must represent a real difference in meaning or
-interaction. Avoid adding containers, decoration, or emphasis that creates no
-new relationship.
-
-Consistency means that the same meaning and behavior receive the same treatment
-within the relevant product context. It does not mean making unlike tasks look
-identical. Preserve a deliberate exception when it communicates a genuine
-difference. Fix accidental drift at the canonical owner when the fix is in
-scope; otherwise report it without expanding the task.
-
-For consistency, compare owner-backed equivalent relationships and component
-variants. Native differences are not defects merely because they break a
-numeric scale. Use Validation's geometry and optical diagnosis separately,
-including inventory coverage when auditing a named page.
-
 ## Preserve readable content
 
 **Product decision:** The canonical product owner owns typography, spacing roles, and intended
@@ -124,103 +63,6 @@ Preserve protected copy and facts. Honor wording changes explicitly included in
 the task; otherwise fix the presentation constraint instead of shortening,
 fragmenting or inventing text to hide a layout problem.
 
-## Make interaction predictable
-
-**Product decision:** The canonical product owner owns intended affordance emphasis, feedback
-priority, and recovery experience. **UI implementation floor:** UI retains
-component semantics, focus and input behavior, announcements, and state transitions.
-
-Use existing components and platform conventions so affordance and behavior
-agree. Choose controls by meaning: navigation, action, single selection,
-multiple selection or activation. Follow the owning component's contract;
-presentation and feedback must make clear when changes take effect or are saved.
-Prefer native semantics and supported existing primitives to custom widgets.
-When the task needs a custom composite control, verify its relevant focus and
-keyboard sequence in the interactive runtime.
-
-Use modal interruptions for bounded content or interactions that need attention
-before continuing. Keep ordinary editing and local field errors in their
-working context; do not put complex routine flows in dialogs by default.
-
-For the states introduced or changed by the task, preserve the cues and
-recovery needed to answer:
-
-- What can I act on?
-- What has focus or selection?
-- Did the action start, succeed, fail, or become unavailable?
-- What changed, and can I recover or retry?
-- What input method and interaction sequence does this control support?
-
-Do not depend on hover for required information or operation. Keep focus order,
-keyboard behavior, touch behavior, programmatic relationships, announcements,
-and motion accommodations intact. Provide a nearby associated reason for
-disabled actions. Confirm consequential actions
-that cannot easily be undone; offer undo only when restoration exists.
-A custom visual treatment must not weaken the
-owning component's semantics or state model.
-
-## Adapt instead of merely shrinking
-
-**Product decision:** The canonical product owner owns the intended responsive transformation
-and priority changes. **UI implementation floor:** UI retains framework-valid
-breakpoints, reflow mechanics, content and state persistence, input behavior, and
-rendered proof.
-
-Responsive behavior preserves the task as space, content, text size, input
-method, orientation, or window mode changes. Determine transformations from the
-content and the project's supported breakpoints rather than imposing a fixed
-device matrix.
-
-Depending on the task and owner, adaptation may change flow, grouping,
-disclosure, navigation, ordering, density, or interaction form. Preserve
-meaning, required controls, status, and recovery. Do not clip, hide, or collapse
-required content simply to eliminate overflow. Avoid separate interaction logic
-for each viewport when one semantic flow can adapt through canonical layout
-mechanisms.
-
-Give sequential tasks a clear order. Where frequent comparison or switching
-benefits from simultaneous views, use the available space for related panes.
-On smaller surfaces, preserve those relationships and needed working context
-through a coherent sequence of views.
-
-## Reassess composition after changes
-
-When adding, removing or changing UI elements, reassess the affected group and
-task flow, not just the edited element. Check whether hierarchy, grouping,
-available space and responsive transitions still support the task. If the
-existing arrangement no longer works, adapt that local composition through its
-owner rather than merely making the element fit. Preserve needed functions
-and settled product decisions. Report conflicts requiring a broader redesign;
-a local edit does not authorize a whole-surface redesign.
-
-## Design states as part of the same interface
-
-**Product decision:** The canonical product owner owns intended state presentation, priority,
-and recovery. **UI implementation floor:** UI retains component state coverage,
-semantics, focus, announcements, transitions, and implementation proof.
-
-Review only states affected by the change, including relevant initial, empty,
-loading, partial, success, error, unavailable, and permission-dependent states.
-Keep structure stable enough for orientation while making the state change
-perceptible through more than one fragile cue. Place feedback where the user can
-associate it with the action, and preserve a clear next step or recovery path.
-
-Distinguish no data from filtered zero results and incomplete results. Preserve
-usable partial results and name what is missing. Keep feedback discoverable for
-as long as its consequence requires. Never report success after a failed action.
-For missing permission, explain unavailable access without sensitive details,
-keep unavailable actions consistent and provide a safe return to the task.
-
-Use persistent visible labels, with placeholder text only as a supplement.
-Explain format, requiredness and consequences before avoidable errors. Associate
-errors with their fields, preserve safe entered values and offer only real
-correction, retry or cancellation. Add an error summary when it helps locate
-multiple errors, not as a universal platform rule. Use the owning group component
-or fieldset with a legend for related inputs.
-
-Do not manufacture a complete state matrix for an unaffected component. The
-floor is completeness for the requested flow, not ceremonial coverage.
-
 ## Keep accessibility structural
 
 **Product decision:** The canonical product owner owns inclusive communication and equivalent
@@ -230,8 +72,7 @@ platform, scaling, input-alternative, status, and rendered mechanics.
 Accessibility is not a final color pass. Confirm that required names, labels,
 roles, values, relationships, reading order, focus behavior, input alternatives,
 scaling, and status communication survive the chosen component and layout.
-Use approved wording where supplied; otherwise apply UI wording and terminology
-above. Verify that the interface exposes and presents it correctly.
+Use approved wording where supplied; otherwise apply the [wording rules](ui-wording.md). Verify that the interface exposes and presents it correctly.
 
 Visible control text belongs in its accessible name, preferably at the start.
 Name icon-only controls by purpose. Do not convey meaning solely through color,

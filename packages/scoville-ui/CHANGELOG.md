@@ -2,6 +2,8 @@
 
 ## Unreleased - 2026-10-10
 
+- Load command capture and large-result delivery only when needed; preserve complete outputs and role permissions.
+- Route wording, layout, interaction, geometry, consistency audit and optional translation delivery to dedicated references while retaining applicable validation requirements.
 - Keep agent messages and internal commentary compact. Reference readable source text instead of copying it; preserve required facts and exact controls.
 - Keep the full reading procedure in one reference and load host command details when needed. Preserve complete reads and existing permissions.
 

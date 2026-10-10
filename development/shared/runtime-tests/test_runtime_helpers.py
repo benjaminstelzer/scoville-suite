@@ -16,9 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 INPUT = json.loads((ROOT / 'runtime-input.json').read_text(encoding='utf-8'))
 KNOWN = {
     'scoville-plan': {'select_context.py', 'validate_profile.py', 'markdown_structure.py'},
-    'scoville-workflow-for-codex': {'build_dispatch_prompt.py', 'build_manager_handoff.py',
-        'check_context_checkpoint.py', 'inspect_native_context.py', 'resolve_model_pair.py',
-        'workflow_settings.py', 'run_feedback.py', 'scoville_config.py',
+    'scoville-workflow-for-codex': {'build_dispatch_prompt.py', 'resolve_model_pair.py',
+        'workflow_settings.py', 'scoville_config.py',
         'native_task_arguments.py', 'select_context.py', 'markdown_structure.py'},
     'scoville-ask-for-codex': {'ask.py', 'ask_settings.py', 'ask_claude.py',
         'build_adviser_prompt.py', 'scoville_config.py'},
@@ -230,24 +229,6 @@ Evidence: []
             plan.write_text(original, encoding='utf-8', newline='\n')
             self.assertTrue(self.run_cli(package, 'validate_profile.py', '--root', self.project)['valid'])
 
-    def test_complete_output_is_consumed_and_repeat_preserves_report(self):
-        for package in packages('scoville-workflow-for-codex'):
-            report = Path(self.run_cli(package, 'run_feedback.py', 'create', '--project-root', self.project)['report_file'])
-            arguments = ['complete', '--report-file', report, '--project', 'Grüße 中文',
-                         '--plan', 'PLAN-0001', '--point', 'W-001', '--text', QUESTION]
-            before = report.read_bytes()
-            failed = self.run_cli(package, 'run_feedback.py', *arguments, ok=False, raw=True)
-            self.assertEqual(failed.stdout, '')
-            self.assertIn('--completed', failed.stderr)
-            self.assertEqual(report.read_bytes(), before)
-            completed = self.run_cli(package, 'run_feedback.py', *arguments, '--completed')
-            self.assertTrue(completed['message'].startswith('COMPLETED\n'))
-            read = self.run_cli(package, 'run_feedback.py', 'read', '--report-file', report)
-            self.assertEqual(read['text'], report.read_text(encoding='utf-8'))
-            before, mtime = report.read_bytes(), report.stat().st_mtime_ns
-            self.assertEqual(self.run_cli(package, 'run_feedback.py', *arguments, '--completed'), completed)
-            self.assertEqual(report.read_bytes(), before)
-            self.assertEqual(report.stat().st_mtime_ns, mtime)
 
     def test_budget_corrections_execute_unchanged_in_host_shell(self):
         self.profile()
@@ -263,9 +244,7 @@ Evidence: []
             calls = [('build_dispatch_prompt.py', ['--project-root', self.project, '--unit', 'W-001/step-1',
                 '--role', 'executor', '--format', 'create', '--manager-agent-id', 'manager',
                 '--project-name', project_name, '--worker-number', '1', '--model', 'gpt-6-luna',
-                '--thinking', 'high', '--assignment-file', assignment, '--max-output-bytes=512']),
-                ('run_feedback.py', ['progress', '--project', project_name, '--project-root', self.project,
-                '--point', 'W-001/step-1', '--previous-key', 'a' * 64, '--max-output-bytes', '512'])]
+                '--thinking', 'high', '--assignment-file', assignment, '--max-output-bytes=512'])]
             for script, arguments in calls:
                 failed = self.run_cli(package, script, *arguments, ok=False, raw=True)
                 self.assertEqual(failed.stdout, '')
@@ -285,29 +264,10 @@ Evidence: []
                     self.assertEqual(set(payload), {'task_name', 'message', 'fork_turns', 'model', 'reasoning_effort'})
                     self.assertIn(str(assignment), payload['message'])
                     self.assertIn(project_name, assignment.read_text(encoding='utf-8'))
-                else:
-                    direct = self.run_cli(package, script, *arguments[:-1], '65536')
-                    self.assertEqual(payload, direct)
 
-    def test_workflow_report_settings_dispatch_and_manager_consumers(self):
+    def test_workflow_settings_and_dispatch_consumers(self):
         self.profile()
-        request = self.project / 'request.txt'
-        request.write_text(QUESTION, encoding='utf-8')
         for package_number, package in enumerate(packages('scoville-workflow-for-codex')):
-            report = self.run_cli(package, 'run_feedback.py', 'create', '--project-root', self.project)['report_file']
-            issue = self.run_cli(package, 'run_feedback.py', 'add', '--report-file', report,
-                '--kind', 'problem', '--location', 'PLAN-0001 / W-001', '--text-file', request)
-            self.run_cli(package, 'run_feedback.py', 'resolve', '--report-file', report,
-                '--issue-id', issue['issue_id'], '--text-file', request)
-            complete = self.run_cli(package, 'run_feedback.py', 'finish', '--report-file', report, '--completed')
-            self.assertIn('Grüße 中文', complete['display_text'])
-            read = self.run_cli(package, 'run_feedback.py', 'read', '--report-file', report)
-            self.assertEqual(read['text'], Path(report).read_text(encoding='utf-8'))
-            self.run_cli(package, 'run_feedback.py', 'read', '--report-file', self.project / 'wrong', ok=False)
-            progress = self.run_cli(package, 'run_feedback.py', 'progress', '--project', 'Grüße 中文', '--project-root', self.project)
-            self.assertIn('W-001/step-1', progress['message'])
-            status = self.run_cli(package, 'run_feedback.py', 'status', '--kind', 'blocked', '--project', 'Grüße 中文', '--text', QUESTION)
-            self.assertIn(QUESTION.strip(), status['text'])
             pair = self.run_cli(package, 'resolve_model_pair.py', '--role', 'executor', '--route', 'medium', '--project-root', self.project)
             self.run_cli(package, 'resolve_model_pair.py', '--project-root', self.project, ok=False)
             assignment = self.run_cli(package, 'build_dispatch_prompt.py', '--role', 'executor',
@@ -317,98 +277,10 @@ Evidence: []
                 '--assignment-file', self.project / f'worker-{package_number}.txt')
             self.assertEqual(assignment['model'], pair['model'])
             self.assertIn('Grüße 中文', assignment['message'])
-            common = ['--runner-id', 'runner', '--project-name', 'Grüße 中文', '--manager-number', '1', '--report-file', report]
-            start_file = self.project / f'manager-start-{package_number}.txt'
-            start = self.run_cli(package, 'build_manager_handoff.py', '--mode', 'start', *common,
-                '--project-root', self.project, '--request-file', request, '--assignment-file', start_file)
-            successor_file = self.project / f'manager-successor-{package_number}.txt'
-            successor = self.run_cli(package, 'build_manager_handoff.py', '--mode', 'successor', *common,
-                '--predecessor-id', 'old-manager', '--model', start['model'],
-                '--thinking', start['reasoning_effort'], '--assignment-file', successor_file)
-            self.assertEqual(successor['model'], start['model'])
-            self.run_cli(package, 'build_manager_handoff.py', '--mode', 'start', ok=False)
-            for payload in (assignment, start, successor):
-                self.assertEqual(set(payload), {'task_name', 'message', 'fork_turns', 'model', 'reasoning_effort'})
-                self.assertEqual(payload['fork_turns'], 'none')
-            for payload, assignment_file in ((start, start_file), (successor, successor_file)):
-                self.assertIn(str(assignment_file), payload['message'])
-                paths = [line.removeprefix('Plan Skill: ') for line in assignment_file.read_text(encoding='utf-8').splitlines()
-                         if line.startswith('Plan Skill: ')]
-                self.assertEqual(len(paths), 1)
-                plan = Path(paths[0])
-                self.assertTrue(plan.read_text(encoding='utf-8').strip())
-                selected = self.run_cli(plan.parent, 'select_context.py', '--root', self.project, '--unit', 'W-001/step-1')
-                self.assertEqual(selected['work_item']['unit'], 'W-001/step-1')
-                self.assertTrue(self.run_cli(plan.parent, 'validate_profile.py', '--root', self.project)['valid'])
-
-    def test_recovery_assignments_keep_selected_constraints_without_completed_procedure(self):
-        self.profile()
-        plan = self.project / 'docs/plans/0001-runtime.md'
-        original = 'First write the approved text, then transfer its document check.'
-        constraint = 'Preserve approved wording and unchanged tests.'
-        plan.write_text(plan.read_text(encoding='utf-8').replace('Instructions: []',
-            'Instructions: ' + original + ' ' + constraint), encoding='utf-8')
-        handoff = self.project / 'handoff.txt'
-        handoff.write_text('Approved text is saved and checked. Only its document check remains.', encoding='utf-8')
-        facts = self.project / 'facts.txt'
-        facts.write_text(constraint + ' Check the saved document only. No external work.', encoding='utf-8')
-        assignments = self.base / "Recovery Aufträge ü 中文"
-        assignments.mkdir()
-        for package_number, package in enumerate(packages('scoville-workflow-for-codex')):
-            for role in ('executor', 'reviewer'):
-                assignment = assignments / f'{package_number}-{role}.txt'
-                arguments = ['--role', role, '--project-root', self.project,
-                    '--unit', 'W-001/step-1', '--manager-agent-id', 'manager',
-                    '--context-handoff', handoff,
-                    '--supplemental-context', facts, '--predecessor-agent-id', 'previous-worker']
-                payload = self.run_cli(package, 'build_dispatch_prompt.py', '--role', role,
-                    '--project-root', self.project, '--unit', 'W-001/step-1', '--manager-agent-id', 'manager',
-                    '--format', 'create', '--project-name', 'Recovery', '--worker-number', '1',
-                    '--model', 'gpt-6-luna', '--thinking', 'high', '--context-handoff', handoff,
-                    '--supplemental-context', facts, '--predecessor-agent-id', 'previous-worker',
-                    '--assignment-file', assignment)
-                complete = assignment.read_text(encoding='utf-8')
-                self.assertIn(str(assignment), payload['message'])
-                self.assertIn(handoff.read_text(encoding='utf-8'), complete)
-                self.assertIn(facts.read_text(encoding='utf-8'), complete)
-                self.assertNotIn(original, complete)
-                self.assertIn('HANDOFF_ACCEPTED previous-worker', complete)
-                self.assertIn('TAKEOVER_COMPLETE', complete)
-                self.assertEqual((payload['model'], payload['reasoning_effort']), ('gpt-6-luna', 'high'))
-                self.assertEqual(set(payload), {'message', 'task_name', 'fork_turns', 'model', 'reasoning_effort'})
-                self.assertIn(f'scoville_role={role}', complete.splitlines())
-                self.assertTrue(payload['task_name'].startswith(f'scoville_{role}_1_'))
-                direct = self.run_cli(package, 'build_dispatch_prompt.py', *arguments,
-                    '--format', 'prompt', raw=True)
-                label = next(line for line in payload['message'].splitlines() if line.startswith('Assignment: '))
-                self.assertEqual(complete, direct.stdout + '\n' + label + '\n')
-
-    def test_recovery_assignment_rejects_invalid_format_and_collision(self):
-        self.profile()
-        handoff = self.project / 'handoff.txt'
-        handoff.write_text('Initial effects are checked. Only document review remains.', encoding='utf-8')
-        facts = self.project / 'facts.txt'
-        facts.write_text('Review the checked document only. No external work.', encoding='utf-8')
-        for number, package in enumerate(packages('scoville-workflow-for-codex')):
-            assignment = self.base / f'recovery-{number}.txt'
-            arguments = ['--role', 'reviewer', '--project-root', self.project,
-                '--unit', 'W-001/step-1', '--manager-agent-id', 'manager', '--project-name', 'Recovery',
-                '--worker-number', '1', '--model', 'gpt-6-luna', '--thinking', 'high',
-                '--context-handoff', handoff, '--supplemental-context', facts,
-                '--predecessor-agent-id', 'previous-worker', '--assignment-file', assignment]
-            failed = self.run_cli(package, 'build_dispatch_prompt.py', *arguments,
-                '--format', 'prompt', ok=False, raw=True)
-            self.assertEqual(failed.stdout, '')
-            self.assertIn('--format create', failed.stderr)
-            self.assertFalse(assignment.exists())
-            payload = self.run_cli(package, 'build_dispatch_prompt.py', *arguments, '--format', 'create')
-            self.assertIn(str(assignment), payload['message'])
-            retained = assignment.read_bytes()
-            collision = self.run_cli(package, 'build_dispatch_prompt.py', *arguments,
-                '--format', 'create', ok=False, raw=True)
-            self.assertEqual(collision.stdout, '')
-            self.assertIn('--assignment-file', collision.stderr)
-            self.assertEqual(assignment.read_bytes(), retained)
+            self.assertEqual(set(assignment), {'task_name', 'message', 'fork_turns', 'model', 'reasoning_effort'})
+            self.assertEqual(assignment['fork_turns'], 'none')
+            selected = self.run_cli(package, 'select_context.py', '--root', self.project, '--unit', 'W-001/step-1')
+            self.assertEqual(selected['work_item']['unit'], 'W-001/step-1')
 
     def test_fresh_review_rejects_missing_and_blank_context_before_publication(self):
         self.profile()
@@ -450,7 +322,6 @@ Evidence: []
         facts.write_text('Initial review of W-001/step-1 against its Acceptance. No earlier assessments.', encoding='utf-8')
         paths = []
         for package in packages('scoville-workflow-for-codex'):
-            report = self.run_cli(package, 'run_feedback.py', 'create', '--project-root', self.project)['report_file']
             payloads = []
             for role in ('executor', 'reviewer'):
                 extra = ['--executor-result', result, '--supplemental-context', facts] if role == 'reviewer' else []
@@ -458,12 +329,6 @@ Evidence: []
                     '--project-root', self.project, '--unit', 'W-001/step-1', '--manager-agent-id', 'manager',
                     '--format', 'create', '--project-name', 'Grüße "quoted" 中文', '--worker-number', '1',
                     '--model', 'gpt-6-luna', '--thinking', 'high', *extra, env=environment))
-            common = ['--runner-id', 'runner', '--project-name', 'Grüße 中文', '--manager-number', '1', '--report-file', report]
-            start = self.run_cli(package, 'build_manager_handoff.py', '--mode', 'start', *common,
-                '--project-root', self.project, '--request-file', request, env=environment)
-            payloads.append(start)
-            payloads.append(self.run_cli(package, 'build_manager_handoff.py', '--mode', 'successor', *common,
-                '--predecessor-id', 'old-manager', '--model', start['model'], '--thinking', start['reasoning_effort'], env=environment))
             for payload in payloads:
                 self.assertEqual(set(payload), {'task_name', 'message', 'fork_turns', 'model', 'reasoning_effort'})
                 match = re.search(r'assignment from (.+) before any (?:other )?project work', payload['message'])
@@ -479,114 +344,30 @@ Evidence: []
                 self.assertTrue(content.endswith('\n'))
                 self.assertIn(str(self.project), content)
                 self.assertIn('Grüße', content)
-                if 'manager assignment from' in payload['message']:
-                    self.assertLess(payload['message'].index('START'), payload['message'].index('read the complete'))
-                else:
-                    self.assertEqual(content.count('## Non-goals'), 1)
-                    self.assertNotIn('## Plan-wide exclusions', content)
+                self.assertEqual(content.count('## Non-goals'), 1)
+                self.assertNotIn('## Plan-wide exclusions', content)
+                for obsolete in ('check_context_checkpoint', 'TAKEOVER_COMPLETE', 'rollover_pending'):
+                    self.assertNotIn(obsolete, content)
             original = paths[-1].read_bytes()
-            self.run_cli(package, 'build_manager_handoff.py', '--mode', 'start', *common,
-                '--project-root', self.project, '--request-file', request, '--assignment-file', paths[-1], ok=False)
+            self.run_cli(package, 'build_dispatch_prompt.py', '--role', 'executor',
+                '--project-root', self.project, '--unit', 'W-001/step-1', '--manager-agent-id', 'manager',
+                '--format', 'create', '--project-name', 'Collision', '--worker-number', '2',
+                '--model', 'gpt-6-luna', '--thinking', 'high', '--assignment-file', paths[-1], ok=False)
             self.assertEqual(paths[-1].read_bytes(), original)
-
-    def test_checkpoint_consumes_native_events(self):
-        usage = {'input_tokens': 10}
-        events = [
-            {'ordinal': 1, 'type': 'session_meta', 'payload': {'id': 'test-thread'}},
-            {'ordinal': 2, 'type': 'turn_context', 'payload': {'turn_id': 'turn'}},
-            {'ordinal': 3, 'type': 'token_usage_record', 'payload': {'thread_id': 'test-thread', 'turn_id': 'turn', 'usage': usage}},
-            {'ordinal': 4, 'type': 'event_msg', 'payload': {'type': 'token_count', 'info': {'last_token_usage': usage, 'model_context_window': 100}}},
-        ]
-        home = self.base / 'codex-home'
-        (home / 'sessions').mkdir(parents=True)
-        (home / 'sessions/rollout-test-thread.jsonl').write_text(''.join(json.dumps(e) + '\n' for e in events), encoding='utf-8')
-        env = dict(os.environ, CODEX_HOME=str(home), CODEX_THREAD_ID='test-thread')
-        for package in packages('scoville-workflow-for-codex'):
-            result = self.run_cli(package, 'check_context_checkpoint.py', '--role', 'executor', '--project-root', self.project, env=env)
-            self.assertEqual(result['telemetry'], 'fresh')
-            self.assertEqual(result['action'], 'continue')
-            self.run_cli(package, 'check_context_checkpoint.py', '--role', 'coordinator', '--project-root', self.project, ok=False)
-
-    def test_generated_checkpoint_command_reaches_host_shell(self):
-        shell = (shutil.which('pwsh') or shutil.which('powershell')) if os.name == 'nt' else shutil.which('sh')
-        self.assertIsNotNone(shell, 'The runtime matrix must provide its host shell')
-        self.project = self.base / "Project's $value with spaces"
-        self.project.mkdir()
-        self.profile()
-        result_file = self.project / 'result.txt'
-        result_file.write_text('completed: assigned fixture checked', encoding='utf-8')
-        facts = self.project / 'review-facts.txt'
-        facts.write_text('Initial review of the W-001/step-1 fixture change against its Acceptance. No earlier assessments.', encoding='utf-8')
-        home = self.base / 'empty-test-home'
-        home.mkdir()
-        environment = dict(os.environ, CODEX_HOME=str(home), CODEX_THREAD_ID='checkpoint-shell-fixture')
-        for package_number, package in enumerate(packages('scoville-workflow-for-codex')):
-            for role in ('executor', 'reviewer'):
-                extra = ['--executor-result', result_file, '--supplemental-context', facts] if role == 'reviewer' else []
-                assignment_file = self.project / f'checkpoint-{package_number}-{role}.txt'
-                assignment = self.run_cli(package, 'build_dispatch_prompt.py', '--role', role,
-                    '--project-root', self.project, '--unit', 'W-001/step-1',
-                    '--manager-agent-id', 'manager', '--format', 'create', '--project-name', 'fixture',
-                    '--worker-number', '1', '--model', 'gpt-6-luna', '--thinking', 'high',
-                    '--assignment-file', assignment_file, *extra)
-                self.assertIn(str(assignment_file), assignment['message'])
-                commands = [line for line in assignment_file.read_text(encoding='utf-8').splitlines() if 'check_context_checkpoint.py' in line]
-                self.assertEqual(len(commands), 1)
-                invocation = ([shell, '-NoProfile', '-NonInteractive', '-Command', commands[0]]
-                              if os.name == 'nt' else [shell, '-c', commands[0]])
-                observed = subprocess.run(invocation, cwd=self.project, env=environment,
-                    text=True, encoding='utf-8', capture_output=True, timeout=25)
-                self.assertEqual(observed.returncode, 0, observed.stdout + observed.stderr)
-                checkpoint = json.loads(observed.stdout)
-                self.assertEqual(checkpoint['role'], role)
-                self.assertEqual(checkpoint['thread_id'], 'checkpoint-shell-fixture')
-                self.assertEqual(checkpoint['telemetry'], 'unavailable')
-                config = self.project / '.scoville/config.json'
-                config.parent.mkdir(exist_ok=True)
-                config.write_text(json.dumps({'workflow': {'context': {'worker_percent': 'invalid'}}}), encoding='utf-8')
-                invalid = subprocess.run(invocation, cwd=self.project, env=environment,
-                    text=True, encoding='utf-8', capture_output=True, timeout=25)
-                self.assertNotEqual(invalid.returncode, 0)
-                self.assertEqual(json.loads(invalid.stdout)['reason'], 'configuration_invalid')
-                config.unlink()
-
-    def test_redirected_report_directory_is_rejected_without_external_write(self):
-        outside = self.base / 'outside'
-        outside.mkdir()
-        link = self.project / '.scoville'
-        if os.name == 'nt':
-            # Fixed fixture paths; no shell receives source or user-controlled text.
-            subprocess.run(['cmd.exe', '/d', '/c', 'mklink', '/J', str(link), str(outside)],
-                           check=True, capture_output=True)
-        else:
-            link.symlink_to(outside, target_is_directory=True)
-        try:
-            for package in packages('scoville-workflow-for-codex'):
-                error = self.run_cli(package, 'run_feedback.py', 'create', '--project-root', self.project, ok=False)
-                self.assertIn('redirected path', error)
-            self.assertEqual(list(outside.iterdir()), [])
-        finally:
-            if os.name == 'nt':
-                os.rmdir(link)
-            else:
-                link.unlink()
-        for package in packages('scoville-workflow-for-codex'):
-            report = self.run_cli(package, 'run_feedback.py', 'create', '--project-root', self.project)
-            self.assertTrue(Path(report['report_file']).is_file())
 
     def test_setup_saved_settings_reach_workflow_consumer(self):
         for package in packages('scoville-setup'):
             self.run_cli(package, 'setup.py', 'set', '--project-root', self.project,
                          request={'workflow': {'manager': {'reasoning': 'invalid'}}}, ok=False)
             saved = self.run_cli(package, 'setup.py', 'set', '--project-root', self.project,
-                         request={'workflow': {'manager': {'model': 'test-model', 'reasoning': 'high'}},
+                         request={'workflow': {'execute': {'low': {'model': 'test-model', 'reasoning': 'high'}}},
                                   'ask': {'presets': {'sol': {'name': 'Prüfung 東京 🌶'}}}})
             self.assertTrue(saved['saved'])
             shown = self.run_cli(package, 'setup.py', 'show', '--project-root', self.project)
             workflow = package.parent.parent / 'scoville-workflow-for-codex/scoville-workflow-for-codex'
             consumed = self.run_cli(workflow, 'resolve_model_pair.py', '--show-config', '--project-root', self.project)
-            self.assertEqual(consumed['config']['manager'], shown['effective']['workflow']['manager'])
-            self.assertEqual(consumed['config']['manager'], {'model': 'test-model', 'reasoning': 'high'})
+            self.assertEqual(consumed['config']['execute']['low'], shown['effective']['workflow']['execute']['low'])
+            self.assertEqual(consumed['config']['execute']['low'], {'model': 'test-model', 'reasoning': 'high'})
             ask = package.parent.parent / 'scoville-ask-for-codex/scoville-ask-for-codex'
             advice = self.run_cli(ask, 'ask.py', '--project-root', self.project, '--adviser', 'sol')
             self.assertEqual(advice['config']['advisers'][0]['name'], 'Prüfung 東京 🌶')
@@ -806,40 +587,6 @@ Evidence: []
             if os.name == 'nt':
                 self.assertEqual(failed.returncode, 125)
 
-    def test_manager_generated_document_commands_read_actual_complete_inputs(self):
-        self.profile()
-        request = self.project / 'request.txt'
-        request.write_text(QUESTION, encoding='utf-8')
-        package = next(packages('scoville-workflow-for-codex'))
-        report = self.run_cli(package, 'run_feedback.py', 'create', '--project-root', self.project)['report_file']
-        assignment = self.base / 'manager assignment.txt'
-        result = self.run_cli(package, 'build_manager_handoff.py', '--mode', 'start',
-            '--runner-id', 'runner', '--project-name', 'Example', '--manager-number', '1',
-            '--report-file', report, '--project-root', self.project, '--request-file', request,
-            '--assignment-file', assignment)
-        documents = [package / 'references/manager-protocol.md', assignment,
-                     package / 'references/operations.md', package.parents[1] / 'scoville-plan/scoville-plan/SKILL.md',
-                     package / 'references/writing.md', package / 'references/operations-rollover.md',
-                     package / 'references/run-feedback.md']
-        commands = re.findall(r'```text\n([^\n]+)\n```', result['message'])
-        commands += re.findall(r'```text\n([^\n]+)\n```', assignment.read_text(encoding='utf-8'))
-        self.assertEqual(len(commands), len(documents))
-        shell = shutil.which('pwsh') or shutil.which('powershell') if os.name == 'nt' else shutil.which('sh')
-        flags = ['-NoProfile', '-NonInteractive', '-Command'] if os.name == 'nt' else ['-c']
-        for command, document in zip(commands, documents):
-            received = b''
-            part = 1
-            while True:
-                current = command.replace('<limit>', '20000').replace('--part 1', f'--part {part}')
-                read = subprocess.run([shell, *flags, current], capture_output=True, timeout=25)
-                self.assertEqual(read.returncode, 0, read.stderr)
-                label, payload = read.stdout.split(b'\n', 1)
-                self.assertLessEqual(len(read.stdout) + len(read.stderr), 16000)
-                received += payload
-                if label.endswith(b' last'):
-                    break
-                part += 1
-            self.assertEqual(received, document.read_bytes())
 
     def test_text_preflight_and_complete_unicode_file_consumer(self):
         text_file = self.base / 'Complete Grüße 中文.txt'
@@ -1079,16 +826,6 @@ Evidence: []
             self.assertEqual(signal.returncode, 143)
             self.assertIn(b'exit=-15', signal.stdout)
 
-    def test_startup_location_reaches_status_consumer_with_complete_arguments(self):
-        for package in packages('scoville-workflow-for-codex'):
-            bad = self.run_cli(package, 'run_feedback.py', 'status', '--kind', 'blocked',
-                '--project', 'Unicode ä →', '--plan', 'PLAN-0001', '--point', 'Startup',
-                '--text', 'Interpreter unavailable; waiting for setup.', ok=False, raw=True)
-            self.assertEqual(bad.stdout, '')
-            good = self.run_cli(package, 'run_feedback.py', 'status', '--kind', 'blocked',
-                '--project', 'Unicode ä →', '--text', 'Interpreter unavailable; waiting for setup.')
-            self.assertIn('Startup', good['text'])
-            self.assertIn('Interpreter unavailable', good['message'])
 
     def test_text_preflight_invalid_and_corrected_cli_without_overwrite(self):
         package = next(packages('scoville-code'))

@@ -4,6 +4,12 @@
 
 ## Unreleased - 2026-10-10
 
+- Load command capture and large-result delivery only when needed; preserve complete outputs and role permissions.
+- Clarify Plan and Decision language: task language for new Plans, owning Plan language for related records.
+
+
+- Align Plan group continuation with host compaction in the same assignment.
+- Load Code cost/review and UI wording/layout/interaction/validation topics only when relevant; preserve their checks in dedicated references.
 - Keep agent messages and internal commentary compact. Reference readable source text instead of copying it; preserve required facts and exact controls.
 - Load the full reading procedure and host command guidance only when needed. Keep delivery permissions with their owning roles.
 - Check all member, Shared and packaged runtime tests before each source commit.
