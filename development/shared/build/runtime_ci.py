@@ -16,6 +16,22 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def runtime_scope_digest(files, scope):
+    """Use one representation for verification and current receipt binding."""
+    if (not isinstance(files, dict) or not isinstance(scope, dict)
+            or set(scope) != {'instruction_files', 'helper_contracts'}):
+        raise ValueError('Invalid runtime scope metadata')
+    instructions, contracts = scope['instruction_files'], scope['helper_contracts']
+    if (not isinstance(instructions, list) or any(not isinstance(p, str) for p in instructions)
+            or instructions != sorted(set(instructions)) or not set(instructions) <= files.keys()
+            or any(not p.endswith('.md') for p in instructions) or not isinstance(contracts, dict)
+            or any(not isinstance(p, str) or not p.endswith('.py') or p not in files
+                   or kind not in ('helper', 'library') for p, kind in contracts.items())):
+        raise ValueError('Invalid runtime scope metadata')
+    protected = {name: value for name, value in files.items() if name not in instructions}
+    return digest(json.dumps({'runtime_inputs': protected, **scope}, sort_keys=True).encode('utf-8'))
+
+
 def assets():
     source = Path(__file__).resolve().parents[1] / 'runtime-tests'
     return {WORKFLOW: (source / 'runtime-helpers.yml').read_bytes(),
@@ -31,15 +47,14 @@ def candidates(builder, root):
     result = {}
     for profile, layout in variants:
         config = builder.load(root, profile, layout)
-        files, contracts = {}, {}
+        files = {}
         # Complete packages retain real dependencies such as the Code Skill.
         for member in config['members']:
             for name, data in builder.payload(root, member, config).items():
                 files[member['name'] + '/' + name] = data
-            for script, contract in member.get('helper_contracts', {}).items():
-                contracts[member['name'] + '/' + member['name'] + '/' + script] = contract['kind']
-        if contracts:
-            result[f'{profile}-{layout}'] = (files, contracts)
+        scope = builder.runtime_scope(config['members'])
+        if scope['helper_contracts']:
+            result[f'{profile}-{layout}'] = (files, scope)
     return result
 
 
@@ -49,13 +64,16 @@ def prepare(builder, root, destination, refresh=False):
         raise ValueError('--prepare-runtime-ci requires a new directory outside the source tree')
     files = assets()
     variants = {}
-    for variant, (payload, contracts) in candidates(builder, root).items():
-        variants[variant] = {'files': {name: digest(data) for name, data in sorted(payload.items())},
-                             'helper_contracts': contracts}
+    for variant, (payload, scope) in candidates(builder, root).items():
+        hashes = {name: digest(data) for name, data in sorted(payload.items())}
+        runtime_scope_digest(hashes, scope)
+        variants[variant] = {'files': hashes, **scope,
+                             'runtime_inputs': {p: h for p, h in hashes.items()
+                                                if p not in scope['instruction_files']}}
         files.update({f'packages/{variant}/{name}': data for name, data in payload.items()})
     if not variants:
         raise ValueError('No packaged runtime helpers were found in suite.json')
-    metadata = {'schema_version': 1, 'variants': variants,
+    metadata = {'schema_version': 2, 'variants': variants,
                 'test_assets': {name: digest(data) for name, data in assets().items()}}
     files['runtime-input.json'] = (json.dumps(metadata, sort_keys=True, indent=2) + '\n').encode('utf-8')
     files['.gitattributes'] = b'* -text\n'
@@ -127,26 +145,54 @@ def verify(builder, root, run_url, config, selected=()):
     commit = run['head_sha']
     metadata_bytes = remote_file(commit, 'runtime-input.json')
     metadata = json.loads(metadata_bytes)
-    if metadata.get('schema_version') != 1:
+    if metadata.get('schema_version') not in (1, 2):
         raise ValueError('Unsupported runtime CI input schema; prepare a current snapshot')
-    for name, data in assets().items():
-        if metadata.get('test_assets', {}).get(name) != digest(data) or remote_file(commit, name) != data:
+    if set(metadata) != {'schema_version', 'variants', 'test_assets'}:
+        raise ValueError('Unknown runtime CI input metadata')
+    current_assets = assets()
+    if metadata.get('test_assets') != {name: digest(data) for name, data in current_assets.items()}:
+        raise ValueError('Runtime CI tests changed: test asset inventory; rerun the matrix with current tests')
+    for name, data in current_assets.items():
+        if remote_file(commit, name) != data:
             raise ValueError(f'Runtime CI tests changed: {name}; rerun the matrix with current tests')
     variant = f'{config["profile"]}-{config["layout"]}'
     tested = metadata.get('variants', {}).get(variant, {})
-    # Compare the entire selected package inventory, including prompt/config dependencies.
+    expected_keys = {'files', 'helper_contracts'}
+    if metadata['schema_version'] == 2:
+        expected_keys |= {'instruction_files', 'runtime_inputs'}
+    if set(tested) != expected_keys:
+        raise ValueError('Unknown or missing runtime scope metadata')
     names = {m['name'] for m in members}
     observed = {name: value for name, value in tested.get('files', {}).items() if name.split('/')[0] in names}
-    if observed != required:
+    scope = builder.runtime_scope(members)
+    instructions = scope['instruction_files']
+    if metadata['schema_version'] == 2:
+        tested_scope = {key: tested[key] for key in ('instruction_files', 'helper_contracts')}
+        runtime_scope_digest(tested['files'], tested_scope)
+        protected = {p: h for p, h in tested['files'].items() if p not in tested['instruction_files']}
+        if tested['runtime_inputs'] != protected:
+            raise ValueError('Inconsistent runtime scope metadata')
+        observed_instructions = [p for p in tested['instruction_files'] if p.split('/')[0] in names]
+        if observed_instructions != instructions:
+            raise ValueError('Runtime instruction classification changed; prepare and test the current build')
+        mismatch = (set(observed) != set(required)
+                    or any(observed[p] != h for p, h in required.items() if p not in instructions))
+    else:
+        # Old proof has no reviewed exclusions: accept only the exact whole inventory.
+        mismatch = observed != required
+    if mismatch:
         raise ValueError(f'Runtime CI packages differ from current {variant} sources; prepare and test the current build')
-    contracts = {m['name'] + '/' + m['name'] + '/' + name: contract['kind']
-                 for m in members for name, contract in m.get('helper_contracts', {}).items()}
+    contracts = scope['helper_contracts']
     observed_contracts = {name: kind for name, kind in tested.get('helper_contracts', {}).items() if name.split('/')[0] in names}
     if contracts != observed_contracts:
         raise ValueError('Runtime helper registry changed; prepare and test the current build')
+    deltas = sorted(p for p in instructions if observed[p] != required[p])
     return {'status': 'passed', 'run': run_url, 'attempt': run['run_attempt'],
             'commit': commit, 'input_sha256': digest(metadata_bytes), 'variant': variant,
-            'packages_sha256': digest(json.dumps(required, sort_keys=True).encode('utf-8'))}
+            'packages_sha256': package_hash,
+            'tested_packages_sha256': digest(json.dumps(observed, sort_keys=True).encode('utf-8')),
+            'runtime_inputs_sha256': runtime_scope_digest(required, scope),
+            'evidence': 'reused' if deltas else 'exact', 'instruction_deltas': deltas}
 
 
 def bind_receipt(receipt, proof):
@@ -155,6 +201,15 @@ def bind_receipt(receipt, proof):
         raise ValueError('Runtime proof must be passed or a bound exemption')
     if proof.get('packages_sha256') != digest(json.dumps(files, sort_keys=True).encode('utf-8')):
         raise ValueError('Package sources changed during the verified build; candidate remains pending, rerun current runtime CI')
+    if proof['status'] == 'passed':
+        scope = receipt.get('runtime_scope')
+        if proof.get('runtime_inputs_sha256') != runtime_scope_digest(files, scope):
+            raise ValueError('Runtime scope changed during the verified build; candidate remains pending')
+        deltas = proof.get('instruction_deltas')
+        if (not isinstance(deltas, list) or any(not isinstance(p, str) for p in deltas)
+                or deltas != sorted(set(deltas)) or not set(deltas) <= set(scope['instruction_files'])
+                or proof.get('evidence') != ('reused' if deltas else 'exact')):
+            raise ValueError('Inconsistent runtime reuse proof')
     if proof['status'] == 'not_applicable' and (receipt['runtime_validation']['status'] == 'pending'
             or any(name.endswith('.py') for name in files)):
         raise ValueError('Runtime exemption cannot authorize a helper-bearing package; rerun verification')

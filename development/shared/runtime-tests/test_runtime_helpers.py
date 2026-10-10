@@ -117,13 +117,18 @@ Evidence: []
         return env
 
     def test_exact_inventory_and_every_registered_helper_has_coverage(self):
-        self.assertEqual(INPUT['schema_version'], 1)
+        self.assertEqual(INPUT['schema_version'], 2)
         self.assertTrue(INPUT['variants'])
         for variant, meta in INPUT['variants'].items():
             folder = ROOT / 'packages' / variant
             observed = {p.relative_to(folder).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                         for p in folder.rglob('*') if p.is_file()}
             self.assertEqual(observed, meta['files'], variant)
+            instructions = meta['instruction_files']
+            self.assertEqual(instructions, sorted(set(instructions)))
+            self.assertTrue(set(instructions) <= observed.keys())
+            self.assertEqual(meta['runtime_inputs'],
+                             {p: h for p, h in observed.items() if p not in instructions})
             registered = set(meta['helper_contracts'])
             self.assertEqual({p for p in observed if p.endswith('.py')}, registered)
             for member in {p.split('/')[0] for p in registered}:

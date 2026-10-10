@@ -78,12 +78,12 @@ class BuildAcceptanceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'registered under scripts'):
             builder.validate_helper_contracts(files, member, {'profile': 'general'})
         with self.assertRaisesRegex(ValueError, 'Unregistered'):
-            gate.verify(SimpleNamespace(payload=lambda *args: files), self.root, None,
+            gate.verify(SimpleNamespace(payload=lambda *args: files, runtime_scope=builder.runtime_scope), self.root, None,
                         {'members': [member]})
 
     def test_exemption_binds_the_exact_candidate_and_cannot_replace_pending(self):
         payload = {'example/SKILL.md': b'current'}
-        proof = gate.verify(SimpleNamespace(payload=lambda *args: payload), self.root, None,
+        proof = gate.verify(SimpleNamespace(payload=lambda *args: payload, runtime_scope=builder.runtime_scope), self.root, None,
                             {'members': [{'name': 'example', 'helper_contracts': {}}]})
         receipt = {'members': [{'name': 'example', 'files': {k: gate.digest(v) for k,v in payload.items()}}],
                    'runtime_validation': {'status': 'not_applicable'}}
