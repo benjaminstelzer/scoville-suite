@@ -1,13 +1,12 @@
 {
-  "build/build_suite.py": "bfe27d0c01b35a6f3f3c4cfd4f226f6133951dc711cff3678e9c23f68769435a",
+  "build/build_suite.py": "7d7f84ebb4495bf9f9d5a3627a63b30cfbbe30258ed90bd497119a48416ffbf2",
   "build/export_suite.py": "996879e3eb0250be23a57ced8a2ef864809321371f457fcfb5b126a80f237f58",
-  "build/fragments.md": "398640ef3affb9e7a428189980caf3d678a05e99c45c883ac265bc8dd49b1c4c",
+  "build/fragments.md": "bd49b426c05834c4c9d1116acac47c1f20bf04165b915bd06d52e7638cea2a6b",
   "build/run_portability.py": "bab2bec299bef8c4e0014ec97e355308597c3a01e761c5c3e8e6b135e6d0907e",
   "build/runtime_ci.py": "81f430434de321edf83a8a8f568c9b9f6c70bbead03858e763d0e4b5e33baafd",
   "build/sync_suite_sources.py": "24b35b7ec11cc72f4c5f49d6f455401a1d7d4f3b4dcd388e6ee56efd448ebb53",
   "build/test_verify_package_set.py": "9445f05e2d3ea799baf9f31d84ebb0d79bbfd0c6364f71566e0ea6fea8d0d510",
   "build/verify_package_set.py": "5a323b787974819c7279b46765c7a039cd669a140d64c34925222e59d8f52b65",
-  "build/verify_viewer_assets.py": "96798a61a581ec764dd923d0b542b454abe1dacc65e971e989ba461659cb61fa",
   "instruction-writing.md": "0c63f147d5dd6b2c1bcc321c40bcef288ee74760dad3977d0e81a83260cafc2a",
   "luna-release-gate.md": "cfdd1d71efc836947bf11ed58d633e71ad6cf0ffd375fe49840a9784f6d2ecc6",
   "prompting/common.md": "801b350fba1999edc1ba88b3dd5360df99a94c7822c69af75d65c8897bc7dc40",
@@ -53,12 +52,12 @@
   "tests/test_portability_runner.py": "885097a86bdb9616c3a9398e17a0bd302ebe1b5543fefeb0ccd66ee3f3931743",
   "tests/test_portable_sources.py": "71613f91126298b7f66757a2597b38c3b62b84e1a992b5313eb7baccc16889ec",
   "tests/test_project_rule_profiles.py": "9bf8c3aa32a833594e86bec883b315752b74640a5f687e0ff6b627b57ef595bf",
+  "tests/test_publication_gate.py": "530e9bff4c82102428390e94bf47215685f3bc3e69162afd843d5e3e8cded3b6",
   "tests/test_readme_templates.py": "51837d8154e4f7a41e8d3d43f406aa8c7c5dcac200f47e4318bb14dfc32f61a6",
   "tests/test_runtime_ci.py": "cfe15e7d01f6dda1eeb3a0368abfcb46735679c7d70493ce7099c34af78b021c",
   "tests/test_scoville_config.py": "19ab949582cac6357bb81ce4b6c99c1c03e422706b94e43044bf897b3ca417f4",
   "tests/test_shared_rules.py": "2bef7fb412813218a21734a5de10a8182e68f23f61af1ac2cd767941a6182d5a",
   "tests/test_suite_export.py": "553a9fd58f7b0859af104d6053c13a0505d6cfd9f2236a5ec3a0294d0f53eb1c",
   "tests/test_task_lifecycle.py": "d690b9816917ec822b4f705932b1b532a631452fe3de9957fc0c9211cb1f1405",
-  "tests/test_task_titles.py": "6903d0f9a7df9b6d530d16f9c837efd1f2e225778767d690ea79a69cec88d388",
-  "tests/test_viewer_release_gate.py": "33d79c0fb67f385d854271feb0edfc0f5156aa98fec314b0e48d69af75abbc74"
+  "tests/test_task_titles.py": "6903d0f9a7df9b6d530d16f9c837efd1f2e225778767d690ea79a69cec88d388"
 }

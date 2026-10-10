@@ -10,6 +10,6 @@ then run `python development/build_suite.py --write-readmes`. The manifest
 [Development notes]({{ include: suite.repository }}/blob/main/docs/README.md)
 explain the problems behind the suite. The
 [build guide](development/shared/build/fragments.md) covers package generation,
-runtime checks and Viewer assets. Installed Skills need only their own packages.
+runtime checks and Skill publication integrity. Installed Skills need only their own packages.
 
 </details>

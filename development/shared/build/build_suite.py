@@ -856,9 +856,7 @@ def main(default_root: Path | None = None) -> int:
     modes.add_argument('--write-readmes', action='store_true')
     modes.add_argument('--check-helpers', action='store_true')
     modes.add_argument('--check-packages', action='store_true')
-    modes.add_argument('--check-release', action='store_true', help='Verify packages and matching Actions Viewer assets before publication')
-    parser.add_argument('--viewer-assets', type=Path)
-    parser.add_argument('--release', action='append', default=[], help='Verify uploaded Viewer files: benjaminstelzer/<plan-or-suite>=vX.Y.Z')
+    modes.add_argument('--check-publication', action='store_true', help='Verify clean source, package receipt and runtime evidence before a Skill push')
     modes.add_argument('--check-sources', action='store_true')
     modes.add_argument('--write-sources', action='store_true')
     parser.add_argument('--refresh', action='store_true', help='Refresh an intact staging build with the same inventory; never delete files')
@@ -878,8 +876,6 @@ def main(default_root: Path | None = None) -> int:
                 raise ValueError('--prepare-runtime-ci cannot combine with --output or --runtime-run')
             print(json.dumps(runtime_ci().prepare(builder_api, args.root, args.prepare_runtime_ci, args.refresh)))
             return 0
-        if (args.viewer_assets or args.release) and not args.check_release:
-            raise ValueError('--viewer-assets and --release require --check-release; use --check-release --output <packages> --viewer-assets <release/viewer>')
         if args.load_trace and not args.size_report:
             raise ValueError('--load-trace requires --size-report')
         if args.size_report:
@@ -913,17 +909,15 @@ def main(default_root: Path | None = None) -> int:
             return int(bool(changed) and args.check_readmes)
         if args.output is None:
             parser.error('--output is required for package builds')
-        if args.check_release:
+        if args.check_publication:
             check_shared_snapshot(args.root)
-            if args.viewer_assets is None:
-                raise ValueError('--check-release requires --viewer-assets <release/viewer>')
             dirty = subprocess.run(['git', '-C', str(args.root), 'status', '--porcelain'], check=True, capture_output=True).stdout
             if dirty.strip():
-                raise ValueError('Commit and inspect current sources before --check-release')
+                raise ValueError('Commit and inspect current sources before --check-publication')
             receipt = json.loads((args.output / 'build-receipt.json').read_text(encoding='utf-8'))
             revision = subprocess.run(['git', '-C', str(args.root), 'rev-parse', 'HEAD'], check=True, capture_output=True, text=True).stdout.strip()
             if receipt.get('source_dirty') or receipt.get('source_commit') != revision:
-                raise ValueError('Release package receipt must identify the current clean source commit; rebuild from committed sources')
+                raise ValueError('Publication package receipt must identify the current clean source commit; rebuild from committed sources')
             errors = verify_packages(args.root, args.output)
             if errors:
                 raise ValueError('Package verification failed: ' + '; '.join(errors))
@@ -931,10 +925,7 @@ def main(default_root: Path | None = None) -> int:
                 args.runtime_run or receipt.get('runtime_validation', {}).get('run'),
                 load(args.root, receipt.get('profile'), receipt.get('layout')),
                 [m['name'] for m in receipt['members']])
-            spec = importlib.util.spec_from_file_location('viewer_release_gate', Path(__file__).with_name('verify_viewer_assets.py'))
-            gate = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(gate)
-            print(json.dumps({'valid': True, 'runtime': runtime, 'viewer': gate.verify(args.root.resolve(), args.viewer_assets.resolve(), args.release)}))
+            print(json.dumps({'valid': True, 'runtime': runtime}))
             return 0
         if args.check_helpers or args.check_packages:
             check = verify_packages if args.check_packages else verify_shared_helpers

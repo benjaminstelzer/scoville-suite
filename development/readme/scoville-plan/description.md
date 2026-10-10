@@ -11,5 +11,5 @@ useful, and revise the Plan when the facts change. A contained fix can stay smal
 Scoville measures chili heat. Plan keeps the direction from being diluted by
 one more perfectly reasonable detour.
 
-[Plan Viewer](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
+[Plan Viewer](https://github.com/benjaminstelzer/scoville-plan-viewer/releases/latest)
 shows these records on Windows, macOS and Linux.

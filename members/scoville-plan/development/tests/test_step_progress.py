@@ -115,26 +115,6 @@ class StepProgressTests(unittest.TestCase):
         run, context = self.call("select_context.py", "--unit", "W-001/step-1")
         self.assertEqual(context["work_item"]["source_text"], "1. [status: todo] Perform the single action.\n")
 
-    def test_viewer_and_position_helper_agree_for_progress_edges(self):
-        viewer = ROOT.parent / "development/viewer/src/lib/step-progress.ts"
-        cases = [
-            ["todo"], [None, "in_progress"], ["done", "in_progress", "in_progress", None, "in_progress"],
-            ["done", None, "todo"], ["done", "cancelled"], [None, None],
-        ]
-        script = "const {stepPosition}=await import(process.argv[1]); let input=''; for await(const chunk of process.stdin) input+=chunk; console.log(JSON.stringify(stepPosition(JSON.parse(input))));"
-        for statuses in cases:
-            lines = [f"[status: {status}] Action {i}." if status else f"Legacy action {i}." for i, status in enumerate(statuses, 1)]
-            self.steps(lines)
-            run, position = self.call("select_context.py", "--position")
-            self.assertEqual(run.returncode, 0, run.stdout)
-            item = {"status": "in_progress", "steps": lines, "step_statuses": [{"number": i, "status": status} for i, status in enumerate(statuses, 1)]}
-            front = subprocess.run(["node", "--experimental-strip-types", "--input-type=module", "-e", script, viewer.as_uri()], input=json.dumps(item), capture_output=True, text=True, encoding="utf-8")
-            self.assertEqual(front.returncode, 0, front.stderr)
-            result = json.loads(front.stdout)
-            self.assertEqual(result["numbers"], position["current_steps"] or ([position["next_step"]] if position["next_step"] else []))
-            self.assertEqual(result["untracked"], position["untracked_steps"])
-            self.assertEqual(result["reason"], position["reason"])
-
     def test_instructions_paused_returns_and_open_decisions_are_explicit_context(self):
         self.steps(["[status: in_progress] Validate current records."])
         text = self.plan.read_text(encoding="utf-8").replace("Steps:\n", "Instructions: Before completion, obtain independent review.\nSteps:\n", 1)

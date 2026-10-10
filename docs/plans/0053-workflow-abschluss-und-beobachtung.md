@@ -4,14 +4,14 @@ id: PLAN-0053
 status: active
 created: 2026-10-09
 updated: 2026-10-10
-current_item: W-014
+current_item: W-015
 ---
 
 # Kurzen Workflow-Abschluss ausliefern und neuen EMPCO-Lauf beobachten
 
 ## Goal
 
-Den benannten EMPCO-Lauf bis zu seinem Ende beobachten und bestätigte Scoville-Fehler nach Reviewer-Konsens autonom bis zur geprüften Auslieferung korrigieren; während Fixphasen die Überwachung pausieren.
+Die beauftragten Scoville-Korrekturen ausliefern und die Veröffentlichung vereinfachen. Die EMPCO-Beobachtung ist beendet. Den Plan Viewer als unabhängige Anwendung lokal und auf GitHub pflegen.
 
 ## Non-goals
 
@@ -51,18 +51,18 @@ Evidence: Workerstart belegt; 13 lokale Skills aktualisiert, Reload zugestellt. 
 
 ### W-002 Anwendung im neuen Lauf beobachten
 
-Status: paused
+Status: cancelled
 Depends on: [W-003]
 Blocked by: []
 Decisions: [ADR-0209]
 Outcome: Neue bestätigte Scoville-Defekte und wiederholte Anwendungsfehler sind mit Ursache, kleinstem Fixvorschlag und Sichtbarkeitsgrenze dokumentiert.
 Acceptance: Tatsächliche Aktionen des benannten neuen Laufs einschließlich Rollen, geladener Regeln, Übergaben, Reviews, zielgerechter Checks und Planfortschritt geprüft; neue relevante Befunde durch Ask mit Sol 6.1/high bewertet; Nutzer nur bei neuen bestätigten Ablauffehlern, notwendiger Entscheidung, Beobachtungsfehler oder Abschluss informiert; bei Laufende oder Nutzerstopp Schlussbewertung und Automation gelöscht.
-Instructions: Während Fixphasen Überwachung pausieren; danach für denselben Lauf fortsetzen. Bestätigte neue Befunde nach ADR-0209 autonom bis zur geprüften Auslieferung bearbeiten.
+Instructions: Nutzerstopp am 2026-10-10. Keine weitere EMPCO-Beobachtung oder Agentennachricht.
 Steps:
 1. [status: done] Automation alle fünf Minuten für Thread 01a120d7-5fcf-7122-b741-76eb3a203fc5 einrichten. Erstes Fenster ab Startturn 01a120d7-6328-79c3-bc8e-adf922ea306e tatsächlich prüfen; danach nur neue relevante Ereignisse. Aktuellen Stand unter temp/2026-10-09-empco-abschluss-beobachtung/state.json überschreiben.
-2. [status: in_progress] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
-3. [status: todo] Nur diesen Lauf bis Ende oder Nutzerstopp beobachten, tatsächlich geprüften Umfang abschließend bewerten und Automation löschen.
-Evidence: W-012 geprüft ausgeliefert; Runner informiert. Auditgrenzen erhalten, neuer Reload und Live-Wirkung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+2. [status: cancelled] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
+3. [status: done] Nur diesen Lauf bis Ende oder Nutzerstopp beobachten, tatsächlich geprüften Umfang abschließend bewerten und Automation löschen.
+Evidence: Nutzerstopp; Automation gelöscht. Audit bis 01:09 UTC, spätere Aktionen ungeprüft. Nötige Fixes ausgeliefert: [Befunde](../testing/0053-empco-abschluss-befunde.md).
 
 ### W-004 Offene Skillfixes und Wiederverwendung umsetzen
 
@@ -201,7 +201,7 @@ Evidence: Sol/Opus-Konsens, Checks, Luna und Runtime-Matrix bestehen; 13 lokale 
 
 ### W-013 Vollständige unveränderte Kontextabfragen wiederverwenden
 
-Status: paused
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0209]
@@ -211,12 +211,12 @@ Instructions: Überwachung pausiert. Keine EMPCO-Änderungen oder Tests; bekannt
 Steps:
 1. [status: done] Die identischen erfolgreichen Manager15-Aufrufe von den bestehenden Reviewern beurteilen lassen und vollständige Ergebnisse zum Konsens austauschen.
 2. [status: done] Nötigen kleinsten kanonischen Ersatz umsetzen, gezielt und mit Luna Medium prüfen und den tatsächlichen Patch von beiden abnehmen lassen.
-3. [status: todo] Nötigen Build lokal und auf GitHub geprüft ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
-Evidence: Sol/Opus nehmen den Satz und gegenseitige Reviews an; vier Luna-Medium-Erstentscheidungen korrekt. Auslieferung wartet auf W-014: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+3. [status: done] Nötigen Build lokal und auf GitHub geprüft ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
+Evidence: Beide Reviews, Checks und nötige Matrix bestanden; lokal und zwei Releases geprüft, Reload zugestellt: [Auslieferung](../testing/0053-abschluss-auslieferung.md).
 
 ### W-014 Runtime-Nachweise für geprüfte reine Instruktionen wiederverwenden
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0209]
@@ -226,5 +226,20 @@ Instructions: Nur geprüfte reine Instruktionen einstufen; zunächst operations.
 Steps:
 1. [status: done] Vollständige Vorschläge austauschen und konservativen Daten- und Gate-Vertrag vereinbaren.
 2. [status: done] Kanonischen Gate-Fix umsetzen, gezielt prüfen und tatsächlichen Patch von beiden Reviewern mit Ergebnisaustausch abnehmen lassen.
-3. [status: in_progress] Nötige frische Runtime-Matrix und gemeinsame Auslieferung mit W-013 verifizieren; danach Beobachtung desselben Laufs fortsetzen.
-Evidence: Sol/Opus-Abnahme und 15 gezielte Checks bestanden; Matrix und Auslieferung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+3. [status: done] Nötige frische Runtime-Matrix und gemeinsame Auslieferung mit W-013 verifizieren; danach Beobachtung desselben Laufs fortsetzen.
+Evidence: Beide Reviews, Checks und nötige Matrix bestanden; lokal und zwei Releases geprüft, Reload zugestellt: [Auslieferung](../testing/0053-abschluss-auslieferung.md).
+
+### W-015 Skill-Veröffentlichung ohne GitHub-Releases
+
+Status: in_progress
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0210, ADR-0211]
+Outcome: Skills werden ohne Releases veröffentlicht. Der Plan Viewer besitzt ein unabhängiges lokales Quellrepository und das GitHub-Repository scoville-plan-viewer mit geprüften Downloads.
+Acceptance: Viewer-Quellhistorie, eigenständige Builds, Plan-Kompatibilität und Downloadprüfungen bleiben erhalten; keine zweite gepflegte Viewer-Kopie. GitHub-Skill, Workspace-Regeln und Buildprozess stimmen überein; Branch-, Paket- und Runtimeprüfungen erhalten. Beide Reviewer nehmen den tatsächlichen Patch nach Ergebnisaustausch ab; gezielte Checks und Luna-Verständnis bestehen. Lokale Quellen, generierte Distributionen und Installationen stimmen überein. Neues Viewer-Release verifiziert, danach zehn alte Skill-Releases entfernt; Tags, Sichtbarkeit, Einstellungen und fremde Produkt-Releases erhalten.
+Instructions: EMPCO-Überwachung beendet. Keine EMPCO-Zugriffe. Nur benannte Skill-Repositories ändern; Produkt-Releases und Git-Historie erhalten.
+Steps:
+1. [status: done] Viewer-Historie nach projects/scoville-plan-viewer extrahieren; eigenständige Actions und Viewer-Gate, Releasepolitik und Skill-Publikationsgate umstellen; beide Reviewer beraten und Patch abnehmen lassen.
+2. [status: in_progress] Gezielte Checks und Luna-Proben ausführen; vorhandene Viewer-Binaries mit identischen Anwendungsquellen und ursprünglichem Buildnachweis übernehmen, ohne nativen Neubuild. Erst nach geprüftem Release und Downloads generierte Skillquellen und Builds prüfen, lokal aktualisieren und geänderte Distributionen mit Downloadlinks pushen.
+3. [status: todo] Nach verifiziertem Ersatz zehn alte Skill-Releases löschen, neues Viewer-Release, Downloadlinks und Remote-Bäume prüfen; Plan schließen.
+Evidence: Beide Reviewer haben nach vollständigem gegenseitigem Patchreview Konsens; Checks und vier Luna-Erstentscheidungen bestanden. [Quellenabnahme und Auslieferungsstand](../testing/0053-viewer-trennung.md).

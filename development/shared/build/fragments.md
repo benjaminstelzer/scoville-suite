@@ -219,38 +219,20 @@ The builder verifies GitHub run/job status, tested commit, exact package files,
 helper registry and test/workflow hashes before producing a verified build.
 Changed packages or tests require a new run. Missing, failed, skipped or stale
 evidence blocks the build. Authenticated `gh` access to private CI is required.
-`--check-release` rechecks the run retained in `build-receipt.json`.
+`--check-publication --output <package-build>` verifies the current clean source,
+shared snapshot, exact package receipt and runtime run before a Skill push.
 The Python `build()` function remains a local candidate constructor for tests;
 its receipt says `runtime_validation.status: pending`, never runtime acceptance.
 
-## Viewer release gate
+## Independent Plan Viewer
 
-Package checks alone do not approve a release. For Plan and both suites:
+The application source, native Actions builds and release gate belong to
+`benjaminstelzer/scoville-plan-viewer`, maintained locally under
+`projects/scoville-plan-viewer`. Follow its `development/README.md` and
+`scripts/verify_release.py` when publishing applications or installers.
 
-1. Build the current Viewer only through the canonical suite's `Plan Viewer`
-   Actions workflow.
-2. Download its four platform artifacts and `SHA256SUMS.txt` unchanged to
-   `skills/temp/release/viewer/`.
-3. Add `BUILD.json` with `version`, `platforms`, `workflow_run` and `source_commit`
-   from that successful run.
-4. Before publication, run for each suite package build:
-
-   ```text
-   python development/build_suite.py --check-release --output <package-build> --viewer-assets <release/viewer>
-   ```
-
-   This checks package freshness, all five version owners, the exact eleven
-   binaries and checksums, successful platform/checksum jobs, current Viewer and
-   workflow source identity, and bytes downloaded from the Actions artifacts.
-   Its JSON `viewer.assets` is the exact attachment list for the release consumer.
-5. Attach every listed file directly to Plan and both suite releases.
-
-6. After upload, repeat with all three `--release owner/repository=vX.Y.Z`
-   arguments. Check upload state, exact attachment names, sizes and GitHub's SHA-256
-   digests against the approved files.
-
-Never download release attachments again,
-including drafts and final audits. Initial Actions artifact downloads remain
-required. Keep both successful results as release evidence.
-Missing assets, source drift or failed provenance checks stop publication or
-installation. A renamed old binary is never a current build.
+Skill publication and installation need no Viewer build or GitHub Release.
+Publish every changed verified Skill target by branch push. Keep Viewer binaries
+out of Git and installable Skill packages. Download links point only to the
+application repository. Preserve existing downloads until a replacement passes
+the application's provenance, inventory and upload checks.
