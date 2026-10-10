@@ -33,7 +33,9 @@ Encoding-Beispiele in PLAN-0035 bleiben Warnungen.
 
 Verifier-only-PRs lösen keine vier unveränderten nativen Builds aus. Der vor jedem
 Neubuild nötige Dispatch prüft Gate, echten Planvergleich und alle Plattformen.
-Unveränderte erfolgreiche Ergebnisse werden wiederverwendet.
+Unveränderte erfolgreiche Ergebnisse werden wiederverwendet. Nach Nutzerkorrektur
+gelten Luna-Verständnisproben für öffentliche Skilltexte; private Skills und
+Buildtools erhalten gezielte technische Checks ohne routinemäßige Modellreviews.
 
 ## Auslieferungsgrenze
 
@@ -43,14 +45,31 @@ Nutzerkorrektur: vorhandene elf Binaries und Prüfsummen ohne nativen Neubuild
 Originaler Buildnachweis bleibt erhalten; Gate vergleicht ursprüngliche Jobs und
 Artefaktbytes. Der neue native Workflow ist noch nicht in Actions ausgeführt.
 
-Quellenabnahme und lokale Checks abgeschlossen. Downloadübernahme, Runtimeproof,
-Exports, lokale Updates, Remote-Verifikation und Releasebereinigung sind noch
-offen. Neue Downloads werden getrennt von alten Dateien bereitgestellt; erst nach
-Pre-/Postupload-Gate werden Skill-Downloadlinks gepusht und zehn alte Releases
-entfernt. Ihre Tags und Sichtbarkeit bleiben erhalten. Die beiden zusätzlichen
-alten Planassets sind Skill-ZIP und dessen Prüfsumme; ihre Entfernung ist beauftragt.
+Ausgeliefert: [Viewer v1.4.3](https://github.com/benjaminstelzer/scoville-plan-viewer/releases/tag/v1.4.3)
+enthält elf unveränderte Programme/Installer und Prüfsummen. Originale Actionsbytes,
+Versionen und Inputs geprüft; nach Upload exakt zwölf Namen, Status, Größen und
+SHA-256-Digests bestätigt. Erfolgreichen Actionsbyte-Nachweis beim Uploadcheck
+wiederverwendet. Sol und Opus haben die Übernahme nach vollständigem Austausch
+angenommen. Kein nativer Neubuild gestartet. Release-Tag: `a59909b`; Branch
+`57847a3` ist nur durch das Entfernen von „What it costs“ in README fortgeschritten.
+
+Runtime-Matrix `38027886534` erfolgreich, mit aktuellen 19 Paketprojektionen
+gebunden; 13 Exportpakete und lokale Suite-Skills geprüft. GitHub-Skill in Codex
+und Claude bytegleich installiert; persönliche Einstellungen erhalten. Beide
+Suite-Distributionen, Standalone-Plan, privater GitHub-Skill und Profil gepusht;
+vollständige Remote-Bäume und Sichtbarkeit bestätigt. Vier unveränderte
+Standalone-Ziele übersprungen. README-Downloadlinks führen zu `/releases/latest`.
+Zehn alte Skill-Releaseobjekte und ihre Assets entfernt; alle exakten alten
+Tagobjekte, Branches und Sichtbarkeiten erhalten. Materiale Änderungsnotizen
+stehen weiter in Changelogs; alte Skill-ZIPs sind auf Nutzerauftrag entfernt.
 
 Profil-Eintrag verlinkt `/releases/latest` unter Applications. Fremde lokale
 Profil-README-Änderungen bleiben unberührt. EMPCO-Überwachung wurde gelöscht;
 nach Nutzerstopp keine EMPCO-Zugriffe. Neue native Starts, Signierung und
 Notarisierung werden durch diese Migration nicht nachgewiesen.
+
+Alte Stagingdateien entfernt oder nach `Desktop/_delete` verschoben. Unter
+`skills/temp/release/export-prepared-codex` bleiben nur gesperrte leere Ordner
+(keine Dateien). Zusätzliches rekursives Löschen wurde mit „blocked by policy“
+abgelehnt; die Ausweichverschiebung scheiterte an einer Dateisperre. Das aktuelle
+Build liegt weiter ausschließlich unter `skills/temp/release`.

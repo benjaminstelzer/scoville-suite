@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0053
-status: active
+status: completed
 created: 2026-10-09
 updated: 2026-10-10
-current_item: W-015
 ---
 
 # Kurzen Workflow-Abschluss ausliefern und neuen EMPCO-Lauf beobachten
@@ -231,7 +230,7 @@ Evidence: Beide Reviews, Checks und nötige Matrix bestanden; lokal und zwei Rel
 
 ### W-015 Skill-Veröffentlichung ohne GitHub-Releases
 
-Status: in_progress
+Status: done
 Depends on: []
 Blocked by: []
 Decisions: [ADR-0210, ADR-0211]
@@ -240,6 +239,6 @@ Acceptance: Viewer-Quellhistorie, eigenständige Builds, Plan-Kompatibilität un
 Instructions: EMPCO-Überwachung beendet. Keine EMPCO-Zugriffe. Nur benannte Skill-Repositories ändern; Produkt-Releases und Git-Historie erhalten.
 Steps:
 1. [status: done] Viewer-Historie nach projects/scoville-plan-viewer extrahieren; eigenständige Actions und Viewer-Gate, Releasepolitik und Skill-Publikationsgate umstellen; beide Reviewer beraten und Patch abnehmen lassen.
-2. [status: in_progress] Gezielte Checks und Luna-Proben ausführen; vorhandene Viewer-Binaries mit identischen Anwendungsquellen und ursprünglichem Buildnachweis übernehmen, ohne nativen Neubuild. Erst nach geprüftem Release und Downloads generierte Skillquellen und Builds prüfen, lokal aktualisieren und geänderte Distributionen mit Downloadlinks pushen.
-3. [status: todo] Nach verifiziertem Ersatz zehn alte Skill-Releases löschen, neues Viewer-Release, Downloadlinks und Remote-Bäume prüfen; Plan schließen.
-Evidence: Beide Reviewer haben nach vollständigem gegenseitigem Patchreview Konsens; Checks und vier Luna-Erstentscheidungen bestanden. [Quellenabnahme und Auslieferungsstand](../testing/0053-viewer-trennung.md).
+2. [status: done] Gezielte Checks und Luna-Proben ausführen; vorhandene Viewer-Binaries mit identischen Anwendungsquellen und ursprünglichem Buildnachweis übernehmen, ohne nativen Neubuild. Erst nach geprüftem Release und Downloads generierte Skillquellen und Builds prüfen, lokal aktualisieren und geänderte Distributionen mit Downloadlinks pushen.
+3. [status: done] Nach verifiziertem Ersatz zehn alte Skill-Releases löschen, neues Viewer-Release, Downloadlinks und Remote-Bäume prüfen; Plan schließen.
+Evidence: Viewer, lokale Pakete und Branch-Pushes geprüft; zehn Releases entfernt, Tags erhalten. Gesperrte leere Altordner verbleiben: [Auslieferung](../testing/0053-viewer-trennung.md).
