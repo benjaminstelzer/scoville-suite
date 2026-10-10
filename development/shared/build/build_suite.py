@@ -516,7 +516,8 @@ def helper_policy(member: dict, config: dict) -> str:
              'Use the bundled helpers for their operations. Read their invocation instructions,',
              'not their source, unless diagnosing a failure.']
     if 'scripts/check_text_size.py' in helpers:
-        lines += ['', within(shared_root(), 'runtime/document_reader.md').read_text(encoding='utf-8').strip()]
+        lines += ['', 'When a host output limit applies and a file may exceed it, read it with the bundled reader.',
+                  'Follow the [large-read rules](references/writing.md#large-reads) before the first such read.']
         if config.get('profile') == 'general':
             lines += ['Without suitable Python 3.11+, first read only the check_text_size reference below. Use',
                       'a native UTF-8 reader and ordered unchanged parts, measuring each complete',

@@ -42,7 +42,7 @@ Outcome: Codex und Claude verwenden die jeweils passenden geprüften Pakete.
 Acceptance: Installierte Dateien stimmen vollständig mit dem passenden Build überein. Persönliche Anpassungen und Einstellungen bleiben erhalten. Codex enthält keine manuellen Python-Fallbacks.
 Instructions: []
 Steps:
-1. [status: done] Bestehende Installationen auf lokale Abweichungen prüfen. Codex unter C:/Users/benja/.codex/skills und Claude unter C:/Users/benja/.claude/skills aktualisieren. Die festen öffentlichen Suiteverzeichnisse aus geprüften Exporten synchronisieren.
+1. [status: done] Bestehende Installationen auf lokale Abweichungen prüfen. Codex unter `<Codex home>/skills` und Claude unter `<Claude home>/skills` aktualisieren. Die festen öffentlichen Suiteverzeichnisse aus geprüften Exporten synchronisieren.
 2. [status: done] Dateibestand und Bytes der Installationen mit den Paketen vergleichen und die tatsächliche lokale Verfügbarkeit prüfen.
 Evidence: Acht Codex- und fünf Claude-Skills bytegleich in den Hostverzeichnissen verfügbar. Keine lokalen Abweichungen; Einstellungen erhalten. Öffentliche Verzeichnisse exportgleich; Laden im nächsten Turn.
 

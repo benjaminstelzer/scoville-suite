@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Keep the full reading procedure in one reference and load host command details when needed. Preserve complete reads and existing permissions.
+
 - Read complete bounded UTF-8 input and capture command output before display while preserving its failure status.
 - Preserve complete oversized findings through compaction or a hashed temporary file. Keep the separate manual helper procedure available only without Python.
 - Use the host's applicable project rules in general packages, while Codex packages use AGENTS.md alone.

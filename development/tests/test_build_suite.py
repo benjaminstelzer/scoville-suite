@@ -35,6 +35,27 @@ class BuildTests(unittest.TestCase):
             with self.subTest(path=path.relative_to(ROOT)):
                 self.assertIsNone(private_root.search(text))
 
+    def test_public_packages_have_no_machine_specific_paths(self):
+        private_root = re.compile(
+            r'(?i)(?:[a-z]:[/\\](?:users|dropbox|projekts)(?:[/\\]|$)|/(?:users|home)/[^/\s]+/)'
+        )
+        # Rendered public packages complement the complete tracked-source check,
+        # which conservatively covers every profile-filtered suite export source.
+        for profile, layout in [('general', 'standalone'), ('general', 'suite'),
+                                ('codex', 'suite'), ('codex', 'standalone')]:
+            config = builder.load(ROOT, profile, layout)
+            for member in config['members']:
+                if not member['public_distribution']:
+                    continue
+                for relative, data in builder.payload(ROOT, member, config).items():
+                    try:
+                        text = data.decode('utf-8')
+                    except UnicodeDecodeError:
+                        continue
+                    with self.subTest(profile=profile, layout=layout,
+                                      member=member['name'], path=relative):
+                        self.assertIsNone(private_root.search(text))
+
     def test_reproducible_public_packages_and_exact_inventory(self):
         with tempfile.TemporaryDirectory() as temp:
             a = builder.build(ROOT, Path(temp) / 'a', True, [])
@@ -155,7 +176,7 @@ class BuildTests(unittest.TestCase):
                 self.assertTrue((package / 'agents/openai.yaml').is_file())
                 config = builder.load(ROOT, profile, layout)
                 source_member = next(m for m in config['members'] if m['name'] == name)
-                self.assertEqual(builder._module.variant_text(shared_rule.read_text(encoding='utf-8'), config),
+                self.assertEqual(builder._module.expand_fragments(ROOT, shared_rule.read_text(encoding='utf-8'), config=config),
                                  (package / 'references/writing.md').read_text(encoding='utf-8'))
                 actual_scripts = {path.relative_to(package).as_posix()
                                   for path in (package / 'scripts').rglob('*') if path.is_file()}

@@ -28,7 +28,7 @@ Outcome: Neue relevante Befunde und kleinste allgemeine Fixvorschläge sind knap
 Acceptance: Tatsächliche neue Aktionen und geladene Regeln wurden verglichen; bestätigte Befunde nennen Quelle, Wirkung, zuständigen Skill und offene Grenzen; bei Ende ist der beobachtete Umfang abgeschlossen und die Automation gelöscht.
 Instructions: []
 Steps:
-1. [status: cancelled] Alle fünf Minuten neue Aktionen der tatsächlichen Manager, Worker und Reviewer in C:/Users/benja/Desktop/EMPCO Check lesen; Rollen, unabhängige Reviews, Informationsübertragung, Findings, Ergebnisprüfungen und Planfortschritt mit den geladenen Regeln vergleichen.
+1. [status: cancelled] Alle fünf Minuten neue Aktionen der tatsächlichen Manager, Worker und Reviewer in `<EMPCO project>` lesen; Rollen, unabhängige Reviews, Informationsübertragung, Findings, Ergebnisprüfungen und Planfortschritt mit den geladenen Regeln vergleichen.
 2. [status: done] Nur neue relevante Befunde gebündelt über Scoville Ask mit Sol 6.1/high prüfen; bestätigte Probleme samt Fixvorschlägen in einem knappen, in Evidence verlinkten Befundbericht sammeln.
 3. [status: done] Beim Ende oder Nutzerstopp eine knappe Schlussbewertung schreiben und die Automation löschen.
 Evidence: Nutzerstopp; Automation gelöscht. Historische Auditlücke bleibt offen. Fixkonsens in PLAN-0048 übernommen. [Befunde](../testing/0047-empco-beobachtungsbefunde.md).

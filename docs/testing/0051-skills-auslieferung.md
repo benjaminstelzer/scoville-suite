@@ -30,7 +30,7 @@ unverändert; geprüft wurden ihre Dateimetadaten, keine Zugangsinhalte.
 Die beiden festen öffentlichen Suiteverzeichnisse entsprechen ihren Exports.
 Ein aktueller Build verbleibt unter `skills/temp/release/`. Gesperrte Reste
 des alten CI-Kandidaten wurden mit eindeutigen Namen nach
-`C:/Users/benja/Desktop/_delete/` verschoben; kein Rest bleibt im Staging.
+`<delete directory>/` verschoben; kein Rest bleibt im Staging.
 
 ## GitHub
 

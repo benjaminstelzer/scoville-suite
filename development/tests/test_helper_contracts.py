@@ -27,8 +27,8 @@ class HelperContractTests(unittest.TestCase):
                 self.assertEqual(path in files, profile == 'general')
                 self.assertEqual(f'](references/fallbacks/{stem}-fallback.md)' in core, profile == 'general')
             if profile == 'general':
-                self.assertIn('Only when Python is unavailable', core)
-                self.assertIn('Do not load these references otherwise', core)
+                self.assertIn('| No suitable Python 3.11+ | Read only the matching optional reference below. |', core)
+                self.assertIn('| Missing script, missing dependency or helper error | Stop the affected operation;', core)
             builder.validate_helper_contracts(files, member, config)
 
     def test_missing_registration_and_library_misclassification_fail_build(self):
@@ -52,7 +52,10 @@ class HelperContractTests(unittest.TestCase):
             if change == 'missing_file': del files[fallback]
             elif change == 'wrong_identity': files[fallback] = files[fallback].replace(b'select_context.py', b'other.py', 1)
             elif change == 'wrong_link': files[core] = files[core].replace(b'fallbacks/select_context-fallback.md', b'fallbacks/validate_profile-fallback.md')
-            elif change == 'unconditional': files[core] = files[core].replace(b'Only when Python is unavailable', b'Always')
+            elif change == 'unconditional':
+                original = files[core]
+                files[core] = original.replace(b'| No suitable Python 3.11+ |', b'| Always |')
+                self.assertNotEqual(original, files[core], 'The mutation must alter the current route.')
             elif change == 'inline': files[core] += b'\n' + files[fallback]
             elif change == 'new_script': files['scoville-plan/scripts/unregistered.py'] = b'print("new")'
             else: files[core] += b'\nRun scripts/missing.py to complete selection.\n'

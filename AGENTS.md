@@ -38,3 +38,12 @@ runtime contract are unchanged. Instruction or documentation edits alone do
 not justify rerunning every Python helper. A changed package hash alone is no
 reason for new runtime tests. Check the current package structure,
 file completeness, generated copies and published artifacts separately.
+
+Fix failures at their narrowest responsible source. Keep shared instructions
+general and applicable to every consuming Skill. Tool and host mechanics belong
+in helpers or conditional host references; one project case is not a shared rule.
+
+Before each canonical source commit, run `python development/check_all.py`.
+Commit only on exit 0. This aggregate gate complements the focused checks above.
+Generated distributions use the verified build of that gated source. Include a
+Changelog entry in every changed distribution before its GitHub push.
