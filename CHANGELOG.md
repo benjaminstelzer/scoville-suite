@@ -2,6 +2,10 @@
 
 
 
+## v2.4.16 - 2026-10-10
+
+- Reuse runtime evidence for explicitly reviewed instruction changes while binding current package bytes and dependencies.
+
 ## v2.4.15 - 2026-10-10
 
 - Reject direct Python script capture before execution with an actionable no-start diagnostic; preserve explicit interpreter calls and source reads.

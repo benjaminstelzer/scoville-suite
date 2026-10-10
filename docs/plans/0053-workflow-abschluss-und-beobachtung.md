@@ -4,7 +4,7 @@ id: PLAN-0053
 status: active
 created: 2026-10-09
 updated: 2026-10-10
-current_item: W-012
+current_item: W-014
 ---
 
 # Kurzen Workflow-Abschluss ausliefern und neuen EMPCO-Lauf beobachten
@@ -51,7 +51,7 @@ Evidence: Workerstart belegt; 13 lokale Skills aktualisiert, Reload zugestellt. 
 
 ### W-002 Anwendung im neuen Lauf beobachten
 
-Status: todo
+Status: paused
 Depends on: [W-003]
 Blocked by: []
 Decisions: [ADR-0209]
@@ -60,9 +60,9 @@ Acceptance: Tatsächliche Aktionen des benannten neuen Laufs einschließlich Rol
 Instructions: Während Fixphasen Überwachung pausieren; danach für denselben Lauf fortsetzen. Bestätigte neue Befunde nach ADR-0209 autonom bis zur geprüften Auslieferung bearbeiten.
 Steps:
 1. [status: done] Automation alle fünf Minuten für Thread 01a120d7-5fcf-7122-b741-76eb3a203fc5 einrichten. Erstes Fenster ab Startturn 01a120d7-6328-79c3-bc8e-adf922ea306e tatsächlich prüfen; danach nur neue relevante Ereignisse. Aktuellen Stand unter temp/2026-10-09-empco-abschluss-beobachtung/state.json überschreiben.
-2. [status: todo] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
+2. [status: in_progress] Neue relevante Befunde gebündelt über Scoville Ask beurteilen und knapp in docs/testing/0053-empco-abschluss-befunde.md erfassen. Ohne neue Befunde keine Konsultation oder Planänderung.
 3. [status: todo] Nur diesen Lauf bis Ende oder Nutzerstopp beobachten, tatsächlich geprüften Umfang abschließend bewerten und Automation löschen.
-Evidence: Reader-, Helferaufruf- und Suchpfad-Fixes ausgeliefert; Runner informiert. Aktueller Reload und Live-Wirkung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+Evidence: W-012 geprüft ausgeliefert; Runner informiert. Auditgrenzen erhalten, neuer Reload und Live-Wirkung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
 
 ### W-004 Offene Skillfixes und Wiederverwendung umsetzen
 
@@ -186,7 +186,7 @@ Evidence: Aus b0a8b5e ausgeliefert: 13 lokale Pakete, sieben GitHub-Ziele samt A
 
 ### W-012 Wiederholten Python-Aufruffehler allgemein korrigieren
 
-Status: in_progress
+Status: done
 Depends on: [W-008, W-011]
 Blocked by: []
 Decisions: [ADR-0209]
@@ -196,5 +196,35 @@ Instructions: Überwachung während der Fixphase pausiert. Keine EMPCO-Änderung
 Steps:
 1. [status: done] Manager14s tatsächlichen WinError-193-Aufruf nach geladenem W-008-Text sowie Recovery-Aufwand von beiden bestehenden Reviewern beurteilen lassen; vollständige Ergebnisse zum Konsens austauschen.
 2. [status: done] Nötigen kleinsten kanonischen Fix umsetzen, gezielt und mit Luna Medium prüfen; tatsächlichen Patch von beiden abnehmen lassen.
-3. [status: in_progress] Nötigen Build lokal und auf GitHub ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
-Evidence: Sol/Opus-Patchkonsens, Checks und sechs Luna-Entscheidungen bestehen. Runtime-Matrix und Auslieferung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+3. [status: done] Nötigen Build lokal und auf GitHub ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
+Evidence: Sol/Opus-Konsens, Checks, Luna und Runtime-Matrix bestehen; 13 lokale Pakete, sieben Releases samt Assets geprüft, Reload zugestellt: [Auslieferung](../testing/0053-abschluss-auslieferung.md).
+
+### W-013 Vollständige unveränderte Kontextabfragen wiederverwenden
+
+Status: paused
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0209]
+Outcome: Die unmittelbar doppelte erfolgreiche Kontextabfrage ist unabhängig bewertet; eine begründete allgemeine Verbesserung vermeidet Wiederholung bei erhaltenen Aktualitäts- und Reviewgrenzen.
+Acceptance: Sol und Opus erreichen nach vollständigem Ergebnisaustausch Konsens. Ein nötiger kleiner Quellenfix ist von beiden abgenommen, gezielt und mit Luna Medium geprüft, gebaut, lokal installiert und auf allen geänderten Manifestzielen veröffentlicht und verifiziert; Runner informiert. Kein neuer Prüfrhythmus oder unbelegte Live-Wirkung. Bei begründetem Konsens ohne Quellenfix dessen Grenze festhalten und Beobachtung fortsetzen.
+Instructions: Überwachung pausiert. Keine EMPCO-Änderungen oder Tests; bekannte unveränderte Befunde nicht neu beraten. W-002 nach Abschluss fortsetzen und Auditgrenzen erhalten.
+Steps:
+1. [status: done] Die identischen erfolgreichen Manager15-Aufrufe von den bestehenden Reviewern beurteilen lassen und vollständige Ergebnisse zum Konsens austauschen.
+2. [status: done] Nötigen kleinsten kanonischen Ersatz umsetzen, gezielt und mit Luna Medium prüfen und den tatsächlichen Patch von beiden abnehmen lassen.
+3. [status: todo] Nötigen Build lokal und auf GitHub geprüft ausliefern, Runner zum sicheren Reload informieren und Beobachtung desselben Laufs fortsetzen.
+Evidence: Sol/Opus nehmen den Satz und gegenseitige Reviews an; vier Luna-Medium-Erstentscheidungen korrekt. Auslieferung wartet auf W-014: [Befunde](../testing/0053-empco-abschluss-befunde.md).
+
+### W-014 Runtime-Nachweise für geprüfte reine Instruktionen wiederverwenden
+
+Status: in_progress
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0209]
+Outcome: Das Runtime-Gate entspricht dem bestehenden Release-Test-Scope und erhält geschützte Abhängigkeiten sowie vollständige aktuelle Paketintegrität.
+Acceptance: Beide Reviewer vereinbaren eine positive Einstufung mit geschütztem Standard, unveränderten Plattformnachweisen und gebundenem Scope; tatsächlicher Patch und gegenseitige Reviews bestanden. Gezielte Kontrasttests und frische Matrix bestehen; zusammen mit W-013 gebaut, lokal installiert und auf geänderten Manifestzielen verifiziert veröffentlicht, Runner informiert. Alte Evidenz erhält keinen unbelegten Wiederverwendungs-Pass.
+Instructions: Nur geprüfte reine Instruktionen einstufen; zunächst operations.md. Überwachung bleibt bis zur gemeinsamen Auslieferung pausiert.
+Steps:
+1. [status: done] Vollständige Vorschläge austauschen und konservativen Daten- und Gate-Vertrag vereinbaren.
+2. [status: done] Kanonischen Gate-Fix umsetzen, gezielt prüfen und tatsächlichen Patch von beiden Reviewern mit Ergebnisaustausch abnehmen lassen.
+3. [status: in_progress] Nötige frische Runtime-Matrix und gemeinsame Auslieferung mit W-013 verifizieren; danach Beobachtung desselben Laufs fortsetzen.
+Evidence: Sol/Opus-Abnahme und 15 gezielte Checks bestanden; Matrix und Auslieferung offen: [Befunde](../testing/0053-empco-abschluss-befunde.md).

@@ -111,6 +111,7 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
         if not name or any(c not in 'abcdefghijklmnopqrstuvwxyz0123456789-' for c in name):
             raise ValueError('invalid member name')
     for member in data['members']:
+        runtime_scope([member])
         if data.get('profile') == 'codex':
             for rule in member.get('helper_contracts', {}).values():
                 rule.pop('fallback', None)
@@ -145,6 +146,26 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
         member.setdefault('variables', {})['contract_url'] = (
             'https://github.com/' + member['repository'] + '/blob/main/' + prefix + member['name'] + '/SKILL.md')
     return data
+
+
+def runtime_scope(members: list[dict]) -> dict:
+    """Only reviewed Markdown instructions can be excluded; other files stay protected."""
+    instructions, contracts = [], {}
+    for member in members:
+        for item in member.get('files', []):
+            if 'runtime_role' not in item:
+                continue
+            if (item['runtime_role'] != 'instruction' or not item['target'].endswith('.md')
+                    or item.get('template')):
+                raise ValueError('runtime_role requires a reviewed Markdown instruction, not executable data or a template')
+            instructions.append(member['name'] + '/' + item['target'])
+        if any('runtime_role' in item for item in member.get('shared_helpers', [])):
+            raise ValueError('shared_helpers cannot have runtime_role')
+        contracts.update({member['name'] + '/' + member['name'] + '/' + path: rule['kind']
+                          for path, rule in member.get('helper_contracts', {}).items()})
+    if len(instructions) != len(set(instructions)):
+        raise ValueError('duplicate runtime instruction classification')
+    return {'instruction_files': sorted(instructions), 'helper_contracts': contracts}
 
 
 def substitute_template(text: str, pattern: str, replace, flags: int = 0) -> str:
@@ -682,7 +703,7 @@ def build(root: Path, output: Path, public: bool, selected: list[str], profile: 
                'shared_sources': shared_sources,
                'source_dirty': bool(dirty.stdout), 'public_only': public,
                'runtime_validation': {'status': 'pending' if any(m.get('helper_contracts') for m in members) else 'not_applicable'},
-               'members': []}
+               'runtime_scope': runtime_scope(members), 'members': []}
     if output.exists():
         receipt_path = within(output, 'build-receipt.json')
         old = json.loads(receipt_path.read_text(encoding='utf-8'))
@@ -851,7 +872,7 @@ def main(default_root: Path | None = None) -> int:
     try:
         # Modules loaded by the suite-local entrypoint are not necessarily in sys.modules.
         from types import SimpleNamespace
-        builder_api = SimpleNamespace(load=load, payload=payload, within=within)
+        builder_api = SimpleNamespace(load=load, payload=payload, within=within, runtime_scope=runtime_scope)
         if args.prepare_runtime_ci:
             if args.output or args.runtime_run:
                 raise ValueError('--prepare-runtime-ci cannot combine with --output or --runtime-run')
