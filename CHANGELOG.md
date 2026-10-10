@@ -4,6 +4,7 @@
 
 ## Unreleased - 2026-10-10
 
+- Keep agent messages and internal commentary compact. Reference readable source text instead of copying it; preserve required facts and exact controls.
 - Load the full reading procedure and host command guidance only when needed. Keep delivery permissions with their owning roles.
 - Check all member, Shared and packaged runtime tests before each source commit.
 

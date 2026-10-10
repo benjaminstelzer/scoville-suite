@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Keep agent messages and internal commentary compact. Reference readable source text instead of copying it; preserve required facts and exact controls.
 - Keep the full reading procedure in one reference and load host command details when needed. Preserve complete reads and existing permissions.
 
 - Read complete bounded UTF-8 input and capture command output before display while preserving its failure status.
