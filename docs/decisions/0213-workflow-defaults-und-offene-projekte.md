@@ -28,6 +28,22 @@ Manager: gpt-6.1-sol / high. Kontextschwellen, Ask-Einstellungen und sonstige Pr
 
 Die spätere Projektzuordnung wurde nicht als Paketdefault übernommen. Das Zurücksetzen auf die gebündelten Werte stellte daher die ältere Zuordnung her.
 
+## Drivers
+
+[]
+
+## Considered alternatives
+
+[]
+
+## Consequences
+
+[]
+
 ## Confirmation
 
 Workflow besitzt die Defaultquelle; Setup und Distributionen werden daraus gebaut. Aufgelöste Defaultpaare und gespeicherte Einstellungen der ermittelten offenen Projektwurzeln mit den tatsächlichen Verbrauchern prüfen. Bestehenden Paketbuild und lokale Installationspfade nutzen; geprüfte geänderte Distributionen ohne neue Releases veröffentlichen.
+
+## Revisit when
+
+[]
