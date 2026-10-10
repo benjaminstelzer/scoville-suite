@@ -73,7 +73,7 @@ useful, and revise the Plan when the facts change. A contained fix can stay smal
 Scoville measures chili heat. Plan keeps the direction from being diluted by
 one more perfectly reasonable detour.
 
-[Plan Viewer](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
+[Plan Viewer](https://github.com/benjaminstelzer/scoville-plan-viewer/releases/latest)
 shows these records on Windows, macOS and Linux.
 
 ### How it works
@@ -304,7 +304,7 @@ then run `python development/build_suite.py --write-readmes`. The manifest
 [Development notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/docs/README.md)
 explain the problems behind the suite. The
 [build guide](development/shared/build/fragments.md) covers package generation,
-runtime checks and Viewer assets. Installed Skills need only their own packages.
+runtime checks and Skill publication integrity. Installed Skills need only their own packages.
 
 </details>
 

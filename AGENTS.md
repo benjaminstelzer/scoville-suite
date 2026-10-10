@@ -19,9 +19,9 @@ project-specific source ownership, boundaries and release-test scope.
 
 ## Project boundaries
 
-Plan Viewer binaries come from GitHub Actions for Windows x64, Linux x64,
-macOS Apple Silicon and macOS Intel. Local Rust installation and native Viewer
-compilation are prohibited.
+Plan Viewer source and native builds belong to the independent
+`projects/scoville-plan-viewer` repository. Suite builds contain Skills only.
+Do not maintain a Viewer source copy or native build workflow here.
 
 Installed Skills contain their own runtime dependencies. They depend on neither
 shared source directory and do not import installed siblings as helper libraries.

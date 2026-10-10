@@ -10,4 +10,4 @@ The [source](../scoville-plan/) and tests live in the suite. Install the built p
 
 From this member directory, run `python -B -m unittest discover -s development/tests`.
 
-See the [Viewer guide](viewer/README.md) for its checks and GitHub-only native builds.
+The independent [Plan Viewer](https://github.com/benjaminstelzer/scoville-plan-viewer) owns application development, native builds and downloads. For Step-progress changes in `select_context.py`, run its `scripts/check_plan_compatibility.py` against the changed Plan package and the `development/tests/fixtures/valid-profile` fixture.

@@ -31,7 +31,7 @@ without a correction request stays read-only.
 
 ### Companion app
 
-[Plan Viewer downloads](https://github.com/benjaminstelzer/scoville-plan/releases/latest)
+[Plan Viewer downloads](https://github.com/benjaminstelzer/scoville-plan-viewer/releases/latest)
 include a portable EXE and installers for Windows x64, DMGs and zipped apps for
 macOS Apple Silicon and Intel, and a portable binary, AppImage, DEB and RPM for
 Linux x64.
@@ -43,8 +43,8 @@ repository untouched.
 
 Portable copies keep the project list in `scoville-plan-viewer.xml` beside the
 application. An installed copy in a read-only folder uses the platform's user
-configuration directory. Keep the Skill and Viewer updated together: older
-readers do not understand all current progress fields.
+configuration directory. Skill and Viewer updates are independent; use a
+Viewer that supports the progress fields in your Plan records.
 
 The [record guide](scoville-plan/references/edit.md) covers Step annotations,
 field formats and helper commands. Plan uses `format_version: 1`.
