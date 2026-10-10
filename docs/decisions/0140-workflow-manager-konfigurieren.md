@@ -1,11 +1,12 @@
 ---
 format_version: 1
 id: ADR-0140
-status: accepted
+status: superseded
 created: 2026-10-02
 accepted: 2026-10-02
 scope: workflow/model-defaults
 supersedes: ADR-0121
+superseded_by: ADR-0213
 ---
 
 # Manager-Modell im Projekt festlegen
