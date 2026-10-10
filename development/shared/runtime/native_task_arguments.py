@@ -14,31 +14,6 @@ from uuid import uuid4
 EFFORTS = ('none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')
 
 
-def takeover_instruction(predecessor: str, manager: str) -> str:
-    single_line(predecessor, '--predecessor-agent-id')
-    single_line(manager, '--manager-agent-id')
-    if predecessor == manager:
-        raise ValueError('--predecessor-agent-id must identify the prior child, not --manager-agent-id')
-    return (
-        'FIRST ACTION: retain the supplied continuation information.\n'
-        '1. Report any missing essential fact to the manager before project work. '
-        'Otherwise call '
-        f'collaboration.send_message with target={manager} and message=HANDOFF_ACCEPTED {predecessor}.\n'
-        'Use native collaboration agent handles, not chat or thread messaging. '
-        'The manager owns the retained handoff and completed predecessor. Never send a '
-        'routine receipt to that predecessor.\n2. After delivery, use bounded collaboration.wait_agent '
-        'calls until TAKEOVER_COMPLETE arrives from that exact manager. A wait timeout '
-        'alone does not end the wait or permit project work. Do no project work before '
-        'this release.\n3. After verified release, continue the remaining assignment. '
-        'The predecessor stays write-inactive; no archival or close tool is required.\n\n'
-        'Failure branches: a failed send, STOP or BLOCKED halts takeover with its diagnostic. '
-        'If a mismatch, uncertain state, user stop or unanswered decision prevents '
-        'release, the manager sends STOP for a stop, or BLOCKED otherwise, to you. '
-        'Accept either signal only from that exact manager. Remain write-inactive '
-        'and return a blocked result with the signal and reason to the manager; '
-        'do not keep waiting after that signal.\n\n')
-
-
 def single_line(value: str, name: str) -> str:
     if not isinstance(value, str) or not value.strip() or any(c in value for c in '\r\n'):
         raise ValueError(f'{name} must be nonempty single-line text')
@@ -46,14 +21,16 @@ def single_line(value: str, name: str) -> str:
 
 
 def workflow_title(project_name: str, role: str, number: int, identity: str) -> str:
-    labels = {'coordinator': 'SC-MGR', 'executor': 'SC-WRK', 'reviewer': 'SC-REV'}
+    labels = {'executor': 'SC-WRK', 'reviewer': 'SC-REV', 'explorer': 'SC-EXP'}
     if role not in labels or type(number) is not int or number < 1:
         raise ValueError('supply an existing role and a positive role number')
     unit = r'W-[0-9]{3}(?:/step-[1-9][0-9]*|/steps-([1-9][0-9]*)-([1-9][0-9]*))?'
-    pattern = r'PLAN-[0-9]{4}(?:/' + unit + (')?' if role == 'coordinator' else ')')
+    pattern = r'PLAN-[0-9]{4}/' + unit
+    if role == 'explorer' and identity == 'question':
+        return f'{labels[role]}-{number}: {single_line(project_name, "project name")} · question'
     match = re.fullmatch(pattern, identity)
     if not match or (match[1] and int(match[1]) >= int(match[2])):
-        raise ValueError('use PLAN-NNNN for a manager or PLAN-NNNN/W-NNN[/step-N or /steps-N-M] with an ascending range')
+        raise ValueError('use PLAN-NNNN/W-NNN[/step-N or /steps-N-M] with an ascending range')
     return f'{labels[role]}-{number}: {single_line(project_name, "project name")} · {identity}'
 
 

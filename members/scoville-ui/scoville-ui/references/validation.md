@@ -1,21 +1,16 @@
 # Rendered UI Validation
 
-Use the ordered gates below for affected implementation and audit concerns.
-Select relevant conditions by scope and risk, without skipping an applicable gate.
+Apply the common claim, scope and evidence gates below. Read the complete
+additional reference when the requested claim needs it:
 
-## Contents
+| Claim or mechanism | Reference |
+| --- | --- |
+| Geometry, layout, alignment, responsive composition or optical comparison | [Geometry and sight](ui-geometry-validation.md) |
+| Navigation, controls, dialogs, forms, authentication or asynchronous transitions | [Interaction and transitions](ui-interactions.md) |
+| Consistency across a named page or region | [Audit coverage](ui-consistency-audit.md) |
 
-- Establish the claim
-- Derive the test surface
-- Exercise affected transitions
-- Styling exceptions
-- Source first, then measurement, then sight
-- Measure relationships, not declarations
-- Inspect with a comparison and a hypothesis
-- Consistency audit coverage
-- Use automation as supporting evidence
-- Handle reviews and missing renderers
-- Report the result
+Select relevant conditions by scope and risk; preserve every applicable gate.
+Source or build checks never replace required rendered or interactive proof.
 
 ## Establish the claim
 
@@ -105,38 +100,6 @@ states and actions must remain readily readable and findable, without
 decoration obscuring or competing with them. Judge the task, not a fixed size
 hierarchy or a prescribed visual style.
 
-## Exercise affected transitions
-
-When the requested flow includes these mechanisms, operate the relevant path
-with controlled data and local targets. Do not cause unrequested external or
-durable effects merely to gather interaction evidence:
-
-- Navigation, controls and adaptive view changes: verify orientation, available
-  back and cancel paths, actual change and save timing and preservation of the working
-  context needed for the task. Do not require every value or position to persist.
-- Dialogs: open, reach controls, close or cancel and verify focus returns to the
-  invoking control or the appropriate next location. Check that overlays and
-  sticky regions do not obscure focused controls.
-- Dragging: complete the same task without dragging unless an applicable WCAG
-  exception applies. Exercise cancellation and preserve the resulting state.
-- Forms and authentication: preserve relevant paste, autofill and password
-  manager support. Check error association, safe value retention and correction.
-  Avoid redundant entry and cognitive-function tests where WCAG 2.2 requires
-  alternatives or assistance; preserve the criteria's actual exceptions.
-- Async flows: delay or fail the relevant operation, then observe loading,
-  partial results, duplicate-action prevention, cancellation, retry and stale
-  responses. A late old response must not overwrite the current user's result.
-
-When loading or input latency is a concrete risk, observe layout movement and
-input responsiveness during the transition, not only its settled end state.
-Use focused local measurements when needed. Lab observations, emulation and
-real-device interaction remain distinct; field performance claims require
-matching field data. Do not introduce backend tuning or a universal benchmark.
-
-These are scoped triggers, not a requirement to add every mechanism or test
-unaffected flows. WCAG is the normative source where applicable; APG is
-implementation guidance, not an additional conformance standard.
-
 ## Styling exceptions
 
 Before custom styling, including inline styles and styling props, identify the
@@ -166,8 +129,8 @@ without repairing them. Audit findings never authorize edits.
 2. **Measurement:** After source inspection and any implementation corrections,
    measure the affected
    relationships in the actual runtime against independently established
-   references. Follow the measurement contract below.
-3. **Sight:** View the rendered image and apply the visual routine below.
+   references. For geometry claims, follow [the measurement contract](ui-geometry-validation.md).
+3. **Sight:** View the rendered image and for optical or composition claims, apply [the comparison routine](ui-geometry-validation.md).
    Check component contents as well as their outer layout. Page or container
    overflow checks do not prove internal alignment, and numeric equality does
    not establish optical alignment.
@@ -183,111 +146,6 @@ cannot be skipped for convenience. Missing tools or source limit the conclusion,
 never create a pass.
 Source-only and screenshot-only requests retain those limits without requiring
 unrequested work. Preserve every known required gap in the result.
-
-## Measure relationships, not declarations
-
-For each selected relationship:
-
-1. Before measurement, identify reference elements and edges, expected relationship,
-   source and justified tolerance. Use an unchanged owner contract, suitable
-   reference or, for greenfield work, requirements and direction chosen from the
-   brief before implementation. Candidate CSS alone is not an independent target.
-2. Settle required fonts, content and transitions. Inspect loaded styles and final
-   DOM where relevant. Compare peers with the same role, variant, state, typography
-   and layout conditions; explain deliberate differences.
-3. Measure against that target. Report expected relationship and source, measured
-   result and conclusion; evaluate optical alignment separately under Sight.
-
-Never choose tolerance after seeing the result. An unresolved target stays
-unresolved; there is no universal pixel tolerance. Equally wrong peer overrides
-do not establish a correct target.
-
-For each selected relation, report the expected value or relationship and source,
-measured result and conclusion. Identify its target and applicable tolerance;
-revision, state and viewport may be recorded once for a measurement group.
-Use an existing report or task result, without a prescribed table or new file.
-
-Keep the authored unit or expression, computed value and measured distance separate.
-Preserve `em`, `rem`, `px`, percentages, unitless line-height, token references,
-calculations and logical properties. Equal current pixels do not authorize
-substitution. Record the relevant element or root font or container basis.
-
-For vertically ordered non-overlapping boxes, `B.top - A.bottom` measures their
-border-box separation. It does not measure glyph whitespace or a baseline.
-Account for margins and collapsing, padding, borders, line boxes, wrapping,
-intervening elements and fractional rounding. Do not sum declarations and call
-the result observed geometry. A minimum height is not a fixed height.
-
-## Inspect with a comparison and a hypothesis
-
-View the scoped region in context first, then details at a consistent scale.
-Keep an unaltered context image or crop when guides help comparison. For each
-applicable concern, record a located deviation or scoped pass. Explain relevant
-exclusions without producing boilerplate for unrelated lenses.
-
-| Look for | Compare |
-| --- | --- |
-| Grouping and rhythm | Equivalent relationships within and across sections |
-| Content edges and text alignment | Intended shared edge, top, baseline or center, not an assumed universal alignment |
-| Apparent whitespace | Line boxes and glyph position alongside measured box gaps |
-| Components, including status text, controls and icons | Intended internal text and icon placement as well as outer alignment; check unintended parent stretching and wrapped neighbors |
-| Content and state changes | Wrap, clipping, overlap, hidden-content holes and reading order |
-
-**Worked diagnosis:** Two same-variant controls have equal outer heights, but
-the text in B sits visibly lower than in reference A. Mark their shared top
-edge or use a side-by-side crop at the same scale. State that observation first.
-Then inspect font and line-height, internal padding and alignment props. If an icon
-is displaced, inspect its viewBox or font metrics too. Confirm the cause before
-correcting its owner. Do not invent a baseline measurement from outer rectangles.
-If the optical question cannot be resolved, report it unverified.
-
-**Valid difference:** A compact control and a standard control have different
-native heights and padding. Verify their intended variants before treating
-their difference as a defect. Do not override native internals for symmetry.
-
-Recheck relevant widths, expanded text and affected states after the correction
-batch is complete.
-Zoom alone does not test whether `em`, `rem` and fixed pixels behave equivalently.
-Where units are at risk, vary element or root font conditions independently.
-
-## Consistency audit coverage
-
-For new or changed interface text and consistency audits, compare concept names
-across affected views, states and in-scope languages using Quality's wording
-rules. Check that labels describe actual behavior and that accessible names
-contain visible control text. Inspect wording in source and in rendered context;
-source alone does not prove its presentation or the action's runtime behavior.
-
-An ordinary request to check page X for consistency selects Audit with a
-consistency focus. Keep the named page or region as scope. It is not permission
-to redesign, edit, audit unrelated screens or perform a full accessibility audit.
-
-1. Start from source with an inventory of regions, component families, distinct
-   variants and known exceptions. Include headings, body, label, help and status text,
-   actions, controls, icons, containers, toolbars, data, footers and pagination
-   where present. Use stable locators or identifiable labels. Group equivalent elements according
-   to their responsible component or design-system contract.
-2. After source findings, reconcile with final rendered DOM. Include content
-   below the first viewport, nested scroll areas and relevant same-page tabs,
-   disclosures, menus and overlays. Add newly revealed elements to the inventory.
-   Use read-only interactions. Do not save, submit, delete or cause external
-   effects just to obtain coverage. Name inaccessible states as unverified.
-3. Map every entry to its responsible source or reference and applicable source, measurement
-   and sight evidence. Use `pass`, `defect`, `unverified` or justified
-   `not-applicable` for each stage. Compare between as well as within groups.
-4. Reconcile all discovered entries before concluding. An unmapped entry is a
-   coverage gap. Report coverage and named gaps separately from prioritized
-   findings. Required unverified entries prevent a complete consistency pass.
-
-Repeated or virtualized data may use justified representative samples, but state
-the uninspected population and variants. A partial sample supports only a
-coverage-limited result, never an unqualified complete-page or every-row pass.
-Distinct in-scope variants and known exceptions remain inventory requirements.
-Do not enumerate every virtual row merely to simulate completeness.
-
-When Skills compose, reuse one compatible inventory and evidence set. Retain
-the platform owner's comparisons and valid exceptions. A DOM count, screenshot
-or claimed percentage alone proves neither coverage nor correctness.
 
 ## Use automation as supporting evidence
 
@@ -327,3 +185,11 @@ grouping. A broad caveat does not preserve a narrower evidence gap.
 
 Avoid generic claims such as "responsive," "accessible," or "looks good" when
 the evidence covers only a narrower condition.
+
+## Interface text evidence
+
+For new or changed interface text and consistency audits, compare concept names
+across affected views, states and in-scope languages using Quality's wording
+rules. Check that labels describe actual behavior and that accessible names
+contain visible control text. Inspect wording in source and in rendered context;
+source alone does not prove its presentation or the action's runtime behavior.

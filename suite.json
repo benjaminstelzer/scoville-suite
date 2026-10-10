@@ -88,6 +88,14 @@
         {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-code/references/shell-commands.md"
+        },
+        {
+          "source": "members/scoville-code/scoville-code/references/cost-and-cache.md",
+          "target": "scoville-code/references/cost-and-cache.md"
+        },
+        {
+          "source": "members/scoville-code/scoville-code/references/implementation-review.md",
+          "target": "scoville-code/references/implementation-review.md"
         }
       ],
       "family": {
@@ -517,6 +525,30 @@
         {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-ui/references/shell-commands.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/ui-wording.md",
+          "target": "scoville-ui/references/ui-wording.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/ui-layout.md",
+          "target": "scoville-ui/references/ui-layout.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/ui-interactions.md",
+          "target": "scoville-ui/references/ui-interactions.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/ui-geometry-validation.md",
+          "target": "scoville-ui/references/ui-geometry-validation.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/ui-consistency-audit.md",
+          "target": "scoville-ui/references/ui-consistency-audit.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/translation-delivery.md",
+          "target": "scoville-ui/references/wordpress/translation-delivery.md"
         }
       ],
       "family": {

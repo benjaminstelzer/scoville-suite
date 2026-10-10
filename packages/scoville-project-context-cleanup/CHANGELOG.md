@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased - 2026-10-10
+
+- Load command capture and large-result delivery only when needed; preserve complete outputs and role permissions.
 ## Unreleased
 
 - Keep agent messages and internal commentary compact. Reference readable source text instead of copying it; preserve required facts and exact controls.

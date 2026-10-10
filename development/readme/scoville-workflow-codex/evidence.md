@@ -1,12 +1,7 @@
-### Development experience
+### Evidence from earlier versions
 
-The native Workflow carried work through review, repair, pauses and manager
-handoffs. Successors waited for their predecessors to finish and for the active
-manager to release them. Unfinished worker assignments also continued through
-handoffs.
-
-The runs exposed a wrong Skill path, an unnecessary follow-up to a finished
-reviewer and a conflicting file hash. The path and lifecycle rules were
-corrected, and the managers resolved the conflict before continuing. A status
-query still exposed a child result. A capacity-refusal probe stalled before
-it was ready.
+Historical native runs exercised review, repairs, pauses and manager handoffs.
+They exposed a wrong Skill path, an unnecessary follow-up to a finished reviewer
+and conflicting file hashes. Those observations informed later corrections.
+They do not establish acceptance or performance of the current direct-manager
+workflow; its changed execution and stop behavior require new checks.
