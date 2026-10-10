@@ -6,9 +6,9 @@
 retain their narrower wording. `rules.python` expands the interpreter discovery
 rule from `runtime/python_discovery.md` for Ask, Setup, Code, Plan, Workflow,
 Handoff, UI and Project Context Cleanup. `rules.reader` expands
-`runtime/document_reader.md` for helper policy and shared writing rules;
-`rules.native_output` expands `runtime/native_output.md` inside the Codex writing
-profile. These raw fragments contain no profile blocks or relative links. Use these include
+`runtime/document_reader.md` only in shared writing rules. Helper policy links
+to that procedure when a large read is needed;
+`rules.native_output` expands `runtime/native_output.md` inside the conditional Codex shell reference. `rules.python` links to `references/shell-commands.md` relative to SKILL.md; include it only in Skill entrypoints. Raw fragments contain no profile blocks. Use these include
 keys only for the stated consumers. Receipts hash the consumed canonical files;
 snapshots and exports retain them. These rules do not belong in `family.contract`,
 which applies to every suite member.

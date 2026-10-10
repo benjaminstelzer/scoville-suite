@@ -2,6 +2,11 @@
 
 
 
+## Unreleased - 2026-10-10
+
+- Load the full reading procedure and host command guidance only when needed. Keep delivery permissions with their owning roles.
+- Check all member, Shared and packaged runtime tests before each source commit.
+
 ## v2.4.16 - 2026-10-10
 
 - Reuse runtime evidence for explicitly reviewed instruction changes while binding current package bytes and dependencies.
