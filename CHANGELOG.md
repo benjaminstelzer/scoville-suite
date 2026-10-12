@@ -4,6 +4,12 @@
 
 ## Unreleased - 2026-10-12
 
+- Keep tests open to equivalent implementations: justify internal-work bounds,
+  verify measurements and preserve exact contractual guarantees.
+
+- Write each Plan Step's own completion condition and checks; preserve them
+  during repair and cleanup without adding unrequested requirements.
+
 - Classify Plan profiles before proposal inventory, remove obsolete reading
   instructions and fix the UI authored-unit link.
 - Keep declared private planning and test records out of public source exports.
