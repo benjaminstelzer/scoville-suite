@@ -22,8 +22,11 @@ class BuildTests(unittest.TestCase):
         tracked = subprocess.run(
             ['git', 'ls-files', '-z'], cwd=ROOT, check=True, capture_output=True
         ).stdout.split(b'\0')
+        private_records = builder._module.private_record_paths(ROOT)
         for relative in tracked:
             if not relative:
+                continue
+            if relative.decode('utf-8') in private_records:
                 continue
             path = ROOT / relative.decode('utf-8')
             if not path.exists():  # A tracked file may be deleted or renamed in this change.

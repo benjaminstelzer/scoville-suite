@@ -24,26 +24,26 @@ def workflow_title(project_name: str, role: str, number: int, identity: str) -> 
     labels = {'executor': 'SC-WRK', 'reviewer': 'SC-REV', 'explorer': 'SC-EXP'}
     if role not in labels or type(number) is not int or number < 1:
         raise ValueError('supply an existing role and a positive role number')
-    unit = r'W-[0-9]{3}(?:/step-[1-9][0-9]*|/steps-([1-9][0-9]*)-([1-9][0-9]*))?'
+    unit = r'W-[0-9]{3}(?:/step-[1-9][0-9]*)?'
     pattern = r'PLAN-[0-9]{4}/' + unit
     if role == 'explorer' and identity == 'question':
         return f'{labels[role]}-{number}: {single_line(project_name, "project name")} · question'
     match = re.fullmatch(pattern, identity)
-    if not match or (match[1] and int(match[1]) >= int(match[2])):
-        raise ValueError('use PLAN-NNNN/W-NNN[/step-N or /steps-N-M] with an ascending range')
+    if not match:
+        raise ValueError('use PLAN-NNNN/W-NNN[/step-N]; Workflow does not assign Step ranges')
     return f'{labels[role]}-{number}: {single_line(project_name, "project name")} · {identity}'
 
 
-def unique_task_name(base: str) -> str:
+def validate_task_name(base: str) -> str:
     if not re.fullmatch(r'[a-z0-9_]+', base):
         raise ValueError('task_name must use lowercase letters, digits and underscores')
-    return f'{base}_{uuid4().hex}'
+    return base
 
 
 def creation_arguments(prompt: str, task_name: str, model: str, thinking: str) -> dict:
     if not prompt.strip():
         raise ValueError('the assignment must be nonempty')
-    task_name = unique_task_name(task_name)
+    task_name = validate_task_name(task_name)
     if thinking not in EFFORTS:
         raise ValueError('thinking must be one of: ' + ', '.join(EFFORTS))
     return {'message': prompt, 'task_name': task_name, 'fork_turns': 'none',
@@ -132,50 +132,6 @@ def shell_command(arguments: list[str]) -> str:
                 "$scovilleError.Flush(); exit 125 }; "
                 "if ($scovilleChild.ExitCode -ne 0) { exit $scovilleChild.ExitCode } }")
     return shlex.join(arguments)
-
-
-def file_read_command(target: Path, checker: Path, interpreter: str) -> str:
-    """Prepare the complete argv for one document without rebuilding shell quoting."""
-    return shell_command([interpreter, '-X', 'utf8', str(checker), '--file', str(target),
-                          '--max-output-tokens', '<limit>', '--part', '1'])
-
-
-def file_read_instruction(target: Path, checker: Path, interpreter: str) -> str:
-    """Prepare a complete bounded UTF-8 read for file-backed native assignments."""
-    if not checker.is_file():
-        raise ValueError(f'bundled text-size checker is missing at {checker}; use the intact matching package before assigning work')
-    command = file_read_command(target, checker, interpreter)
-    return (
-        f'Python runs {checker} after -X utf8. The checker reads every document only through --file, '
-        'including SKILL.md files and references of any Skill, assignments, and .py files read as text. '
-        'Keep the verified launcher, checker path and quoting unchanged.\n\n'
-        'Use separate outer tool calls unless their complete combined output has '
-        'been measured and fits; a script joining reads returns one combined output.\n\n'
-        '1. Replace '
-        '<limit> with the smallest declared or explicitly selected output limit '
-        'of the command and every enclosing tool output.\n'
-        '2. Reader command: copy the whole command into the current tool shell. '
-        'For the next part, copy the last correct complete command and change only --part to the reported next value. '
-        'Do not nest another shell:\n\n```text\n'
-        + command + '\n```\n\n'
-        '3. Read the unchanged file bytes and part=N bytes=start:end/total next=M label. '
-        'Follow next=M with --part M; last marks end equal to total. Read every part through last in order '
-        'before dependent work. Use one limit for the whole sequence. If an applicable limit changes, '
-        'restart at part 1 with the new smallest limit; never raise a binding limit to keep the old sequence. '
-        'Each invocation includes its label in the byte budget.\n\n'
-        'For another document, change only the --file value and reset --part to 1. '
-        'Preserve the generated shell quoting and all other arguments. '
-        + ('In the Windows command, double any apostrophe inside its single-quoted PowerShell strings. '
-           'Put a replacement --file value containing spaces in double quotes inside the Arguments string. '
-           if os.name == 'nt' else '')
-        + '\n\nFailure: a nonzero exit leaves this read incomplete, even with an empty diagnostic '
-        'when the declared budget cannot fit it. Correct a visible cause and restart at part 1. '
-        'Do not repeat an unchanged failed call or raise a binding limit. Otherwise report the unread '
-        'document and stop dependent work. Do not alter or copy the input. '
-        'Never truncate, skip text or start with an oversized full read. The named '
-        'read and size-check commands are permitted even for external assignment, '
-        'interpreter and checker paths; this grants no unrelated inspection or writes. '
-    )
 
 
 def budget_retry(diagnostic: str, arguments: list[str]) -> str:

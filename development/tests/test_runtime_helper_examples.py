@@ -71,7 +71,8 @@ class RuntimeHelperExamples(unittest.TestCase):
         self.assertTrue({'--executor-result', '--reviewer-result', '--supplemental-context'} <= flags)
         self.assertFalse({'--context-handoff', '--predecessor-agent-id'} & flags)
         self.assertNotIn('--context', flags)
-        self.assertIn({'--manager-agent-id'}, required)
+        self.assertNotIn('--manager-agent-id', flags)
+        self.assertIn({'--communication-language'}, required)
 
     def test_markdown_invocations_use_existing_flags_and_supply_required_ones(self):
         checked = 0

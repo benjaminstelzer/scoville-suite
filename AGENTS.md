@@ -10,6 +10,8 @@ project-specific source ownership, boundaries and release-test scope.
 - `members/`: canonical Skill sources and member development material,
   not separate Git repositories.
 - Root Plan profile: suite planning. Member profiles: historical member records.
+- `suite.json.private_records`: internal native planning and test records excluded
+  from public source exports. Never use it to hide package or README dependencies.
 - `../shared/`: shared build tools and runtime-helper sources.
   Suite-local copies, including `development/shared/`, are generated snapshots.
 - `development/readme/`: README fragments. Member READMEs are generated previews.

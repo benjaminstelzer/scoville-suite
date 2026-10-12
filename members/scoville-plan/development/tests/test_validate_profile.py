@@ -652,6 +652,12 @@ class ValidatorTest(unittest.TestCase):
         self.add_decision("ADR-0002", "accepted", ["supersedes: ADR-0001"])
         self.assert_code("DECISION_SUPERSESSION_ASYMMETRIC")
 
+    def test_unsupported_current_status_does_not_redirect_selection(self) -> None:
+        self.replace("docs/plans/0001-validate-profile.md", "Status: in_progress", "Status: invalid")
+        result = self.assert_code("STATUS_INVALID")
+        self.assertFalse(result["valid"])
+        self.assertNotIn("PLAN_CURRENT_ITEM_STATUS", self.codes(result))
+
     def test_cross_record_invariants_have_isolated_fixtures(self) -> None:
         plan = "docs/plans/0001-validate-profile.md"
         decision = "docs/decisions/0001-use-read-only-validation.md"

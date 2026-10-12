@@ -17,7 +17,6 @@ from urllib.parse import unquote, urlsplit
 RULE_FRAGMENTS = {
     'rules.optout': 'runtime/skill_optout.md',
     'rules.python': 'runtime/python_discovery.md',
-    'rules.reader': 'runtime/document_reader.md',
     'rules.native_output': 'runtime/native_output.md',
 }
 
@@ -25,6 +24,22 @@ RULE_FRAGMENTS = {
 def shared_root() -> Path:
     """Use the sources beside this builder, including published snapshots."""
     return Path(__file__).resolve().parents[1]
+
+
+def private_record_paths(root: Path) -> set[str]:
+    """Declared local planning/evidence records never become public source."""
+    values = json.loads((root / 'suite.json').read_text(encoding='utf-8')).get('private_records', [])
+    if not isinstance(values, list) or any(not isinstance(p, str) for p in values):
+        raise ValueError('private_records must be a list of relative record paths')
+    if len(values) != len(set(values)):
+        raise ValueError('duplicate private record path')
+    for name in values:
+        if (not name.startswith(('docs/plans/', 'docs/decisions/', 'docs/testing/'))
+                or Path(name).suffix not in ('.md', '.json') or '\\' in name
+                or ':' in name or any(p in ('', '.', '..') for p in name.split('/'))):
+            raise ValueError('private_records may exclude only native planning/evidence files: ' + name)
+        within(root, name)
+    return set(values)
 
 
 def reference_source(root: Path, fallback: Path) -> Path:
@@ -515,14 +530,6 @@ def helper_policy(member: dict, config: dict) -> str:
     lines = ['## Runtime helpers', '',
              'Use the bundled helpers for their operations. Read their invocation instructions,',
              'not their source, unless diagnosing a failure.']
-    if 'scripts/check_text_size.py' in helpers:
-        lines += ['', 'When a host output limit applies and a file may exceed it, read it with the bundled reader.',
-                  'Follow the [large-read rules](references/writing.md#large-reads) before the first such read.']
-        if config.get('profile') == 'general':
-            lines += ['Without suitable Python 3.11+, first read only the check_text_size reference below. Use',
-                      'a native UTF-8 reader and ordered unchanged parts, measuring each complete',
-                      'output including labels before display against `floor(limit * 4 / 5)` bytes.',
-                      'With no limit, read it completely. Without a safe reader, stop dependent work.']
     if config.get('profile') == 'general':
         lines += ['', '| Condition | Required route |', '| --- | --- |',
                   '| Suitable Python 3.11+ is available | Use the bundled helper; do not load manual references. |',

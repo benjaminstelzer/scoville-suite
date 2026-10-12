@@ -3,9 +3,10 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 import subprocess
-from build_suite import load, payload, within, variant_text, render_readmes, reference_source
+from build_suite import load, payload, within, variant_text, render_readmes, reference_source, private_record_paths
 from sync_suite_sources import sync
 
 
@@ -32,8 +33,11 @@ def export(root, output, profile=None):
     raw = json.loads((root / 'suite.json').read_text(encoding='utf-8'))
     kept = {m['name'] for m in config['members']}
     excluded_roots = []
-    excluded_files = set()
+    private_records = private_record_paths(root)
+    excluded_files = set(private_records)
     selected_sources = {f['source'] for m in config['members'] for f in m.get('files', [])}
+    if private_records & selected_sources:
+        raise ValueError('private record is required by a public package')
     for member in raw['members']:
         if member['name'] not in kept:
             excluded_roots.append('members/' + member['name'] + '/')
@@ -49,7 +53,10 @@ def export(root, output, profile=None):
     for member in config['members']:
         retained_readmes.extend(member.get('readme', []))
     for ref in retained_readmes:
-        excluded_files.discard(ref if isinstance(ref, str) else ref['source'])
+        name = ref if isinstance(ref, str) else ref['source']
+        if name in private_records:
+            raise ValueError('private record is required by a public README: ' + name)
+        excluded_files.discard(name)
     for entry in git(root, 'ls-files', '--stage', '-z').split(b'\0'):
         if not entry:
             continue
@@ -87,6 +94,17 @@ def export(root, output, profile=None):
         offset = end + 1
     if offset != len(objects):
         raise ValueError('Unexpected trailing source objects')
+    if 'PROJECT_INDEX.md' in files:
+        public_plans = set()
+        for name, data in files.items():
+            if name.startswith('docs/plans/'):
+                parts = data.split(b'---', 2)
+                header = parts[1] if len(parts) == 3 and not parts[0].strip() else b''
+                public_plans.update(re.findall(rb'(?m)^id:[ \t]*(PLAN-\d+)[ \t]*\r?$', header))
+        files['PROJECT_INDEX.md'] = re.sub(rb'(?m)^(active_plan:[ \t]*)(PLAN-\d+)([ \t]*\r?)$',
+            lambda m: m.group(1) + (m.group(2) if m.group(2) in public_plans else b'null') + m.group(3),
+            files['PROJECT_INDEX.md'])
+    config.pop('private_records', None)
     files['suite.json'] = (json.dumps(config, indent=2) + '\n').encode('utf-8')
     for member in config['members']:
         for relative, data in payload(root, member, config).items():
