@@ -711,6 +711,22 @@ Evidence: []
             self.assertEqual(documented.stdout, expected)
             self.assertEqual(documented.stderr, b'')
 
+    def test_small_publish_enabled_capture_stays_inline_without_artifact(self):
+        package = next(packages('scoville-code'))
+        producer = self.base / 'small-once.py'
+        marker = self.base / 'small-count.txt'
+        producer.write_text("from pathlib import Path; import sys\nPath(sys.argv[1]).write_text('executed')\nsys.stdout.buffer.write('Grüße\\n'.encode('utf-8'))\nsys.stderr.buffer.write(b'notice\\n')\nsys.exit(7)\n", encoding='utf-8')
+        result = subprocess.run([sys.executable, '-X', 'utf8', str(package/'scripts/check_text_size.py'),
+            '--max-output-tokens', '1000', '--publish-full', '--project-root', str(self.project),
+            '--run', '--', sys.executable, '-X', 'utf8', str(producer), str(marker)], capture_output=True)
+        out, err = 'Grüße\n'.encode('utf-8'), b'notice\n'
+        expected = f'exit=7 stdout_bytes={len(out)} stderr_bytes={len(err)}\n'.encode('ascii') + b'stdout:\n' + out + b'\nstderr:\n' + err
+        self.assertEqual(result.returncode, 7, result.stderr)
+        self.assertEqual(result.stdout, expected)
+        self.assertEqual(result.stderr, b'')
+        self.assertEqual(marker.read_text(), 'executed')
+        self.assertFalse(list((self.project/'.scoville/temp').glob('*.txt')))
+
     def test_command_capture_withheld_publication_and_prestart_errors(self):
         package = next(packages('scoville-code'))
         checker = package / 'scripts/check_text_size.py'
