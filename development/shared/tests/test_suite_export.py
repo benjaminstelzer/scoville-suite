@@ -15,6 +15,14 @@ import sync_suite_sources
 
 
 class SuiteExportTests(unittest.TestCase):
+    def test_private_records_cannot_hide_public_code_or_escape_the_tree(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for path in ('../secret.md', 'members/skill/SKILL.md', 'docs/testing/../code.py', 'docs/testing/probe.py'):
+                (root / 'suite.json').write_text(json.dumps({'private_records': [path]}), encoding='utf-8')
+                with self.subTest(path=path), self.assertRaises(ValueError):
+                    build_suite.private_record_paths(root)
+
     def test_snapshot_entrypoints_use_canonical_sources_or_isolated_fallback(self):
         with tempfile.TemporaryDirectory() as temporary:
             base = Path(temporary)
@@ -90,6 +98,12 @@ class SuiteExportTests(unittest.TestCase):
             (root / 'development').mkdir()
             (root / 'development/test.py').write_text('# retained development\n')
             config = {'name': 'test-suite', 'members': [{'name': 'test-skill', 'public_distribution': True}]}
+            config['private_records'] = ['docs/plans/0001-private.md', 'docs/testing/local.md']
+            (root / 'docs/plans').mkdir(parents=True)
+            (root / 'docs/testing').mkdir()
+            (root / 'docs/plans/0001-private.md').write_text('---\nid: PLAN-0001\n---\nPrivate plan\n')
+            (root / 'docs/testing/local.md').write_text('Private local evidence\n')
+            (root / 'PROJECT_INDEX.md').write_text('---\nformat_version: 1\nactive_plan: PLAN-0001\n---\n')
             (root / 'suite.json').write_text(json.dumps(config))
             git('add', '.')
             git('-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '-m', 'fixture')
@@ -104,6 +118,15 @@ class SuiteExportTests(unittest.TestCase):
                 self.assertEqual(b'skill', (output / 'packages/test-skill/test-skill/SKILL.md').read_bytes())
                 self.assertFalse((output / 'private.local').exists())
                 self.assertFalse((output / '.git').exists())
+                self.assertFalse((output / 'docs/plans/0001-private.md').exists())
+                self.assertFalse((output / 'docs/testing/local.md').exists())
+                self.assertIn('active_plan: null', (output / 'PROJECT_INDEX.md').read_text())
+                self.assertNotIn('private_records', json.loads((output / 'suite.json').read_text()))
+                config['members'][0]['files'] = [{'source': 'docs/testing/local.md', 'target': 'test-skill/private.md'}]
+                with self.assertRaisesRegex(ValueError, 'private record is required by a public package'):
+                    export_suite.export(root, Path(temporary) / 'blocked-private-package')
+                self.assertFalse((Path(temporary) / 'blocked-private-package').exists())
+                config['members'][0]['files'] = []
                 (root / 'uncommitted.txt').write_text('dirty')
                 with self.assertRaisesRegex(ValueError, 'Commit and inspect'):
                     export_suite.export(root, Path(temporary) / 'blocked')

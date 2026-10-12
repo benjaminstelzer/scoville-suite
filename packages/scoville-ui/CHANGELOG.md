@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased - 2026-10-12
+
+- Point the authored-unit styling contract directly to its geometry rules.
+
+## Unreleased - 2026-10-11
+
+- Put reference-routing conditions in one table while preserving progressive reads and evidence limits.
+
+- Read required files completely with an agent-chosen method. Remove the document-reading helper and multipart protocol; keep output capture and result delivery separate.
+
 ## Unreleased - 2026-10-10
 
 - Load command capture and large-result delivery only when needed; preserve complete outputs and role permissions.

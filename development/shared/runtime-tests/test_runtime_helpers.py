@@ -17,8 +17,8 @@ INPUT = json.loads((ROOT / 'runtime-input.json').read_text(encoding='utf-8'))
 KNOWN = {
     'scoville-plan': {'select_context.py', 'validate_profile.py', 'markdown_structure.py'},
     'scoville-workflow-for-codex': {'build_dispatch_prompt.py', 'resolve_model_pair.py',
-        'workflow_settings.py', 'scoville_config.py',
-        'native_task_arguments.py', 'select_context.py', 'markdown_structure.py'},
+        'workflow_settings.py', 'scoville_config.py', 'check_agent_context.py',
+        'native_task_arguments.py', 'select_context.py', 'validate_profile.py', 'markdown_structure.py'},
     'scoville-ask-for-codex': {'ask.py', 'ask_settings.py', 'ask_claude.py',
         'build_adviser_prompt.py', 'scoville_config.py'},
     'scoville-setup': {'setup.py', 'ask_settings.py', 'workflow_settings.py', 'scoville_config.py'},
@@ -138,7 +138,7 @@ Evidence: []
 
     def test_plan_valid_invalid_and_selected_context(self):
         self.profile()
-        for package in packages('scoville-plan'):
+        for package in (*packages('scoville-plan'), *packages('scoville-workflow-for-codex')):
             with self.subTest(package=str(package)):
                 verdict = self.run_cli(package, 'validate_profile.py', '--root', self.project)
                 self.assertTrue(verdict['valid'], verdict)
@@ -241,10 +241,10 @@ Evidence: []
         project_name = 'Fixture "quoted" ü \' $() \\"tail'
         for number, package in enumerate(packages('scoville-workflow-for-codex')):
             assignment = self.base / f"assignment {number} ü ' $().txt"
-            calls = [('build_dispatch_prompt.py', ['--project-root', self.project, '--unit', 'W-001/step-1',
-                '--role', 'executor', '--format', 'create', '--manager-agent-id', 'manager',
-                '--project-name', project_name, '--worker-number', '1', '--model', 'gpt-6-luna',
-                '--thinking', 'high', '--assignment-file', assignment, '--max-output-bytes=512'])]
+            calls = [('build_dispatch_prompt.py', ['--communication-language', 'German', '--project-root', self.project, '--unit', 'W-001/step-1',
+                '--role', 'executor', '--format', 'create', '--project-name', project_name, '--worker-number', '1', '--model', 'gpt-6-luna',
+                '--thinking', 'high', '--override-reason', 'Fixture explicit role choice',
+                '--assignment-file', assignment, '--max-output-bytes=512'])]
             for script, arguments in calls:
                 failed = self.run_cli(package, script, *arguments, ok=False, raw=True)
                 self.assertEqual(failed.stdout, '')
@@ -270,10 +270,9 @@ Evidence: []
         for package_number, package in enumerate(packages('scoville-workflow-for-codex')):
             pair = self.run_cli(package, 'resolve_model_pair.py', '--role', 'executor', '--route', 'medium', '--project-root', self.project)
             self.run_cli(package, 'resolve_model_pair.py', '--project-root', self.project, ok=False)
-            assignment = self.run_cli(package, 'build_dispatch_prompt.py', '--role', 'executor',
-                '--workspace-root', self.project, '--unit', 'W-001/step-1', '--manager-agent-id', 'manager',
-                '--format', 'create', '--project-name', 'Grüße 中文', '--worker-number', '1',
-                '--model', pair['model'], '--thinking', pair['thinking'],
+            assignment = self.run_cli(package, 'build_dispatch_prompt.py', '--communication-language', 'German', '--role', 'executor',
+                '--workspace-root', self.project, '--unit', 'W-001/step-1', '--format', 'create', '--project-name', 'Grüße 中文', '--worker-number', '1',
+                '--route', 'medium',
                 '--assignment-file', self.project / f'worker-{package_number}.txt')
             self.assertEqual(assignment['model'], pair['model'])
             self.assertIn('Grüße 中文', assignment['message'])
@@ -282,31 +281,34 @@ Evidence: []
             selected = self.run_cli(package, 'select_context.py', '--root', self.project, '--unit', 'W-001/step-1')
             self.assertEqual(selected['work_item']['unit'], 'W-001/step-1')
 
-    def test_fresh_review_rejects_missing_and_blank_context_before_publication(self):
+    def test_fresh_review_requires_executor_result_and_rejects_free_context(self):
         self.profile()
         result = self.project / 'checked-result.txt'
         result.write_text('completed: initial fixture change checked.', encoding='utf-8')
         facts = self.project / 'review-facts.txt'
         assignment = self.base / 'fresh-review.txt'
         for package in packages('scoville-workflow-for-codex'):
-            args = ['--role', 'reviewer', '--project-root', self.project,
-                '--unit', 'W-001/step-1', '--manager-agent-id', 'manager', '--format', 'create',
-                '--project-name', 'Review', '--worker-number', '1', '--model', 'gpt-6-luna',
-                '--thinking', 'high', '--executor-result', result, '--assignment-file', assignment]
+            args = ['--communication-language', 'German', '--role', 'reviewer', '--project-root', self.project,
+                '--unit', 'W-001/step-1', '--format', 'create',
+                '--project-name', 'Review', '--worker-number', '1', '--route', 'low',
+                '--assignment-file', assignment]
             for content in (None, '', ' \n\t'):
                 extra = []
                 if content is not None:
-                    facts.write_text(content, encoding='utf-8')
-                    extra = ['--supplemental-context', facts]
+                    result.write_text(content, encoding='utf-8')
+                    extra = ['--executor-result', result]
                 failed = self.run_cli(package, 'build_dispatch_prompt.py', *args, *extra, ok=False, raw=True)
                 self.assertEqual(failed.stdout, '')
-                self.assertIn('--supplemental-context', failed.stderr)
-                self.assertIn('review boundary', failed.stderr)
+                self.assertIn('--executor-result', failed.stderr)
                 self.assertFalse(assignment.exists())
             facts.write_text('Initial review of the completed W-001/step-1 change against its Acceptance. No earlier assessments.', encoding='utf-8')
-            payload = self.run_cli(package, 'build_dispatch_prompt.py', *args, '--supplemental-context', facts)
+            result.write_text('done; changed_paths: owner.py; checks: pass', encoding='utf-8')
+            self.run_cli(package, 'build_dispatch_prompt.py', *args, '--executor-result', result,
+                         '--supplemental-context', facts, ok=False)
+            self.assertFalse(assignment.exists())
+            payload = self.run_cli(package, 'build_dispatch_prompt.py', *args, '--executor-result', result)
             self.assertIn(str(assignment), payload['message'])
-            self.assertIn(facts.read_text(encoding='utf-8'), assignment.read_text(encoding='utf-8'))
+            self.assertIn(result.read_text(encoding='utf-8'), assignment.read_text(encoding='utf-8'))
             assignment.unlink()
 
     def test_automatic_assignments_are_complete_unique_external_files(self):
@@ -324,11 +326,10 @@ Evidence: []
         for package in packages('scoville-workflow-for-codex'):
             payloads = []
             for role in ('executor', 'reviewer'):
-                extra = ['--executor-result', result, '--supplemental-context', facts] if role == 'reviewer' else []
-                payloads.append(self.run_cli(package, 'build_dispatch_prompt.py', '--role', role,
-                    '--project-root', self.project, '--unit', 'W-001/step-1', '--manager-agent-id', 'manager',
-                    '--format', 'create', '--project-name', 'Grüße "quoted" 中文', '--worker-number', '1',
-                    '--model', 'gpt-6-luna', '--thinking', 'high', *extra, env=environment))
+                extra = ['--executor-result', result] if role == 'reviewer' else []
+                payloads.append(self.run_cli(package, 'build_dispatch_prompt.py', '--communication-language', 'German', '--role', role,
+                    '--project-root', self.project, '--unit', 'W-001/step-1', '--format', 'create', '--project-name', 'Grüße "quoted" 中文', '--worker-number', '1',
+                    '--route', 'low', *extra, env=environment))
             for payload in payloads:
                 self.assertEqual(set(payload), {'task_name', 'message', 'fork_turns', 'model', 'reasoning_effort'})
                 match = re.search(r'assignment from (.+) before any (?:other )?project work', payload['message'])
@@ -350,9 +351,8 @@ Evidence: []
                     self.assertNotIn(obsolete, content)
             original = paths[-1].read_bytes()
             self.run_cli(package, 'build_dispatch_prompt.py', '--role', 'executor',
-                '--project-root', self.project, '--unit', 'W-001/step-1', '--manager-agent-id', 'manager',
-                '--format', 'create', '--project-name', 'Collision', '--worker-number', '2',
-                '--model', 'gpt-6-luna', '--thinking', 'high', '--assignment-file', paths[-1], ok=False)
+                '--project-root', self.project, '--unit', 'W-001/step-1', '--format', 'create', '--project-name', 'Collision', '--worker-number', '2',
+                '--route', 'low', '--assignment-file', paths[-1], ok=False)
             self.assertEqual(paths[-1].read_bytes(), original)
 
     def test_setup_saved_settings_reach_workflow_consumer(self):
@@ -371,6 +371,41 @@ Evidence: []
             ask = package.parent.parent / 'scoville-ask-for-codex/scoville-ask-for-codex'
             advice = self.run_cli(ask, 'ask.py', '--project-root', self.project, '--adviser', 'sol')
             self.assertEqual(advice['config']['advisers'][0]['name'], 'Prüfung 東京 🌶')
+
+    def test_native_context_snapshot_binds_agent_and_threshold_in_every_package(self):
+        sessions = self.base / 'sessions'
+        sessions.mkdir()
+        thread, agent = 'runtime-child', '/root/manager/executor'
+        rollout = sessions / ('rollout-' + thread + '.jsonl')
+        config = self.project / '.scoville/config.json'
+        config.parent.mkdir()
+        config.write_text('{"workflow":{"context_threshold_percent":20}}', encoding='utf-8')
+        for package in packages('scoville-workflow-for-codex'):
+            for used, expected in ((19, 'reuse'), (20, 'spawn')):
+                usage = {'input_tokens': used - 1, 'output_tokens': 1, 'total_tokens': used}
+                records = [
+                    ('session_meta', {'id': thread, 'source': {'subagent': {'thread_spawn': {'agent_path': agent, 'parent_thread_id': 'runtime-parent'}}}}),
+                    ('session_meta', {'id': 'runtime-parent', 'source': 'vscode'}),
+                    ('event_msg', {'type': 'task_started', 'turn_id': 'turn-1'}),
+                    ('turn_context', {'turn_id': 'turn-1', 'model': 'gpt-6-luna', 'effort': 'medium'}),
+                    ('token_usage_record', {'thread_id': thread, 'turn_id': 'turn-1', 'usage': usage}),
+                    ('event_msg', {'type': 'token_count', 'info': {'last_token_usage': usage, 'model_context_window': 100}}),
+                    ('event_msg', {'type': 'task_complete', 'turn_id': 'turn-1'}),
+                ]
+                rollout.write_text('\n'.join(json.dumps({'ordinal': n, 'type': kind, 'payload': payload})
+                    for n, (kind, payload) in enumerate(records)) + '\n', encoding='utf-8')
+                args = ['--project-root', self.project, '--sessions-root', sessions]
+                environment = dict(os.environ, CODEX_THREAD_ID='runtime-parent')
+                result = self.run_cli(package, 'check_agent_context.py', '--agent-id', agent, *args, env=environment)
+                self.assertEqual((result['action'], result['threshold_percent']), (expected, 20))
+                self.assertEqual((result['model'], result['reasoning_effort']), ('gpt-6-luna', 'medium'))
+                invalid = self.run_cli(package, 'check_agent_context.py', '--agent-id', '/root/other', *args, env=environment, ok=False)
+                self.assertEqual(invalid['action'], 'blocked')
+            spec = importlib.util.spec_from_file_location('runtime_title', package / 'scripts/native_task_arguments.py')
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            with self.assertRaises(ValueError):
+                module.workflow_title('test', 'executor', 1, 'PLAN-0001/W-001/step-1..step-2')
 
     def test_ask_prompt_and_claude_request_reach_actual_cli(self):
         env = self.launcher('claude', "import json,sys\nsys.stdin.reconfigure(encoding='utf-8'); sys.stdout.reconfigure(encoding='utf-8')\nprompt=sys.stdin.read()\nprint(json.dumps({'result':prompt,'session_id':'test-session'},ensure_ascii=False))\n")
@@ -632,93 +667,32 @@ Evidence: []
                 self.assertEqual(received, combined)
                 self.assertFalse(list(retained.parent.glob('tmp*')))
 
-    def test_bounded_utf8_parts_reconstruct_complete_input_and_reject_bad_reads(self):
-        source = self.base / 'parts ä →.txt'
-        samples = [b'', 'ASCII\r\nä → 😀\r\n' .encode('utf-8'),
-                   ('long ' + '😀ä' * 100 + '\nFINAL →\n\n').encode('utf-8')]
+    def test_retired_reader_flag_cannot_return_source_content(self):
+        source = self.base / 'Required source Grüße.txt'
+        data = b'REQUIRED CONTENT MUST NOT BE EMITTED BY AN OUTPUT CHECK'
+        source.write_bytes(data)
         for package in packages('scoville-code'):
-            for data in samples:
-                source.write_bytes(data)
-                for limit in (100, 10000):
-                    received = b''
-                    part = 1
-                    while True:
-                        result = subprocess.run([sys.executable, '-X', 'utf8', str(package / 'scripts/check_text_size.py'),
-                            '--file', str(source), '--max-output-tokens', str(limit), '--part', str(part)],
-                            capture_output=True, timeout=25)
-                        self.assertEqual(result.returncode, 0, result.stderr)
-                        self.assertLessEqual(len(result.stdout) + len(result.stderr), limit * 4 // 5)
-                        label, payload = result.stdout.split(b'\n', 1)
-                        match = re.fullmatch(rb'part=(\d+) bytes=(\d+):(\d+)/(\d+) (last|next=(\d+))', label)
-                        self.assertIsNotNone(match)
-                        number, start, end, total = map(int, match.groups()[:4])
-                        self.assertEqual((number, start, total), (part, len(received), len(data)))
-                        self.assertEqual(end - start, len(payload))
-                        payload.decode('utf-8', errors='strict')
-                        self.assertTrue(payload or not data)
-                        received += payload
-                        if end == total:
-                            self.assertEqual(match.group(5), b'last')
-                            break
-                        self.assertEqual(int(match.group(6)), part + 1)
-                        part = int(match.group(6))
-                    self.assertEqual(received, data)
-                    self.assertEqual(source.read_bytes(), data)
-            # Tiny budgets, malformed input, out-of-range parts and incompatible
-            # modes never emit partial content or publish an input copy.
-            for data, limit, extra in [(b'a', 1, []), (b'\xff', 100, []),
-                    (b'a', 100, ['--part', '2']), (b'a', 100, ['--part', '0']),
-                    (b'a', 100, ['--publish-full', '--project-root', str(self.project)])]:
-                source.write_bytes(data)
-                result = subprocess.run([sys.executable, str(package / 'scripts/check_text_size.py'),
-                    '--file', str(source), '--max-output-tokens', str(limit), '--part', '1', *extra], capture_output=True)
-                self.assertEqual(result.returncode, 2)
-                self.assertEqual(result.stdout, b'')
-                self.assertLessEqual(len(result.stderr), limit * 4 // 5)
-                self.assertFalse((self.project / '.scoville/temp').exists())
-            source.write_bytes(b'a')
-            for limit, expected in ((31, 2), (32, 0)):
-                result = subprocess.run([sys.executable, str(package / 'scripts/check_text_size.py'),
-                    '--file', str(source), '--max-output-tokens', str(limit), '--part', '1'], capture_output=True)
-                self.assertEqual(result.returncode, expected)
-                self.assertLessEqual(len(result.stdout) + len(result.stderr), limit * 4 // 5)
-                if expected == 0:
-                    self.assertEqual(result.stdout, b'part=1 bytes=0:1/1 last\na')
-            # The final frame fits, while the longer nonfinal label does not.
-            source.write_bytes(b'ab')
-            result = subprocess.run([sys.executable, '-X', 'utf8', str(package / 'scripts/check_text_size.py'),
-                '--file', str(source), '--max-output-tokens', '33', '--part', '1'], capture_output=True)
-            self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(result.stdout, b'part=1 bytes=0:2/2 last\nab')
-            self.assertEqual(len(result.stdout), 26)
+            rejected = subprocess.run([sys.executable, str(package / 'scripts/check_text_size.py'),
+                '--file', str(source), '--max-output-tokens', '1000', '--part', '1'], capture_output=True)
+            self.assertEqual(rejected.returncode, 2)
+            self.assertEqual(rejected.stdout, b'')
+            self.assertIn(b'unrecognized arguments: --part 1', rejected.stderr)
+            self.assertEqual(source.read_bytes(), data)
 
-    def test_generated_part_read_and_memory_capture_reach_host_shell(self):
+    def test_generated_memory_capture_reaches_host_shell(self):
         shells = ([value for name in ('powershell', 'pwsh') if (value := shutil.which(name))]
                   if os.name == 'nt' else [shutil.which('sh')])
         self.assertTrue(shells and all(shells))
-        source = self.base / "Required input ü ' $().txt"
-        data = ('Required → 😀\r\n' * 20).encode('utf-8')
-        source.write_bytes(data)
         package = next(packages('scoville-workflow-for-codex'))
         spec = importlib.util.spec_from_file_location('case_native_arguments', package / 'scripts/native_task_arguments.py')
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        instruction = module.file_read_instruction(source, package / 'scripts/check_text_size.py', sys.executable)
-        prefix = '& {' if os.name == 'nt' else shlex.quote(sys.executable)
-        command = instruction[instruction.index(prefix):].splitlines()[0].replace('<limit>', '100')
         producer = self.base / 'producer.py'
         producer.write_text("import sys\nsys.stdout.buffer.write('Grüße → 😀\\n\\n'.encode('utf-8'))\nsys.stderr.buffer.write('Fehler ä\\n\\n'.encode('utf-8'))\nsys.exit(7)\n", encoding='utf-8')
         out, err = 'Grüße → 😀\n\n'.encode('utf-8'), 'Fehler ä\n\n'.encode('utf-8')
         expected = f'exit=7 stdout_bytes={len(out)} stderr_bytes={len(err)}\n'.encode('ascii') + b'stdout:\n' + out + b'\nstderr:\n' + err
         for shell in shells:
             flags = ['-NoProfile', '-NonInteractive', '-Command'] if os.name == 'nt' else ['-c']
-            read = subprocess.run([shell, *flags, command], capture_output=True, timeout=25)
-            self.assertEqual(read.returncode, 0, read.stderr)
-            label, body = read.stdout.split(b'\n', 1)
-            self.assertRegex(label, rb' next=2$')
-            self.assertLessEqual(len(read.stdout) + len(read.stderr), 80)
-            self.assertEqual(body, data[:len(body)])
-            body.decode('utf-8', errors='strict')
             captured = subprocess.run([shell, *flags, module.shell_command([sys.executable, '-X', 'utf8', str(package / 'scripts/check_text_size.py'),
                 '--max-output-tokens', '1000', '--run', '--', sys.executable, '-X', 'utf8', str(producer)])], capture_output=True, timeout=25)
             self.assertEqual(captured.returncode, 7, captured.stderr)
@@ -766,11 +740,6 @@ Evidence: []
         self.assertEqual(short.stdout, b'')
         self.assertEqual(short.stderr, b'output_complete=false error=capture exit=None\n')
         self.assertFalse(counter.exists())
-        source_read = subprocess.run([sys.executable, '-X', 'utf8', str(checker), '--file', str(producer),
-            '--max-output-tokens', '1000', '--part', '1'], capture_output=True, timeout=25)
-        self.assertEqual(source_read.returncode, 0, source_read.stderr)
-        self.assertEqual(source_read.stdout.split(b'\n', 1)[1], producer.read_bytes())
-        self.assertFalse(counter.exists(), 'reading Python source must not execute it')
         withheld = invoke(100)
         self.assertEqual(withheld.returncode, 7)
         self.assertIn(b'output_complete=false', withheld.stdout)

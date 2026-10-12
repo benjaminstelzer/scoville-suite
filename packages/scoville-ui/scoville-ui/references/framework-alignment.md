@@ -33,8 +33,8 @@ runtime. Prefer installed source and version-matched official documentation.
 
 Before custom styling, follow Validation's
 [styling exception contract](validation.md#styling-exceptions).
-When changing style values, follow its
-[authored-unit contract](validation.md#measure-relationships-not-declarations).
+When changing style values, follow the
+[authored-unit contract](ui-geometry-validation.md#measure-relationships-not-declarations).
 
 ## Classify the stack
 

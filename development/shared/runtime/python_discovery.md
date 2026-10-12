@@ -6,4 +6,4 @@ Use that executable wherever examples say `python` or `<verified-python>`,
 including Python commands after `--run --`.
 Report a missing runtime only when no suitable installed interpreter is found.
 
-Before shell calls, follow [shell command rules](references/shell-commands.md).
+Before helper calls, follow [shell command rules](references/shell-commands.md).

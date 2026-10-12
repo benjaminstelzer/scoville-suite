@@ -109,46 +109,25 @@ selected. Reuse one inventory and one evidence pass.
 
 ## Reference router
 
-**OWNERSHIP-ONLY:** For a hypothetical question limited to support status and
-responsible systems, read Framework only if responsibility or fallback remains
-unresolved. Do not load Quality or Validation unless the question also concerns
-quality, implementation or evidence. For WordPress admin, use the adapter's
-classification instead of general Framework. Its exclusions still apply.
+Use matching rows only. Ownership-only questions use the first row instead of
+the other triggers; add their normal routes only when the question also concerns
+quality, implementation or evidence.
 
-- **Framework (general route):** Load
-  [framework-alignment.md](references/framework-alignment.md) before choosing an
-  owner when any of these conditions applies:
-  - The stack is unfamiliar.
-  - Ownership is ambiguous or UI layers interact.
-  - No canonical visual owner exists.
-  - The customization path is uncertain.
-  - A component limitation prevents the requested target.
-- **Quality:** Load [ui-quality.md](references/ui-quality.md) when creating,
-  translating, changing or reviewing interface text, or before judging task
-  flow, hierarchy, layout, readability, states, accessibility structure, or
-  responsive behavior not settled by a canonical product decision, or
-  when implementation mechanics could violate the settled intent.
-- **Validation:** Load [validation.md](references/validation.md) before an
-  interface change, a consistency audit, or evaluating existing proof of
-  rendering, responsive behavior, interaction, visual quality, or
-  accessibility. Build or source inspection cannot prove rendering.
+| Concern | Reference and trigger |
+| --- | --- |
+| Hypothetical support status and responsible systems only | [Framework](references/framework-alignment.md) only if responsibility or fallback remains unresolved. For WordPress admin, use the adapter classification instead. No Quality or Validation unless the question extends to those concerns. |
+| General-route implementation owner | Before choosing an owner, read Framework when the stack is unfamiliar, ownership is ambiguous, layers interact, no canonical visual owner exists, customization is uncertain or a component limitation prevents the target. |
+| Open quality or implementation question | [Quality](references/ui-quality.md) when creating, translating, changing or reviewing interface text; judging unsettled flow, hierarchy, layout, readability, states, accessibility structure or responsive behavior; or mechanics could violate settled intent. |
+| Interface change, consistency audit or judgment of existing proof | Before an interface change, a consistency audit or judging existing proof, read [Validation](references/validation.md) for rendering, responsive behavior, interaction, visual quality or accessibility. Build and source checks do not prove rendering. |
+| UI decision fixed; proof only | Validation. Add Quality only for an open quality, state, accessibility-structure or mechanism question; Framework only for unresolved ownership or implementation path. Reuse existing proof; repeat no check without a concrete gap. |
+| Source-structure audit or unimplemented design direction | Framework and Quality keep their normal triggers. Omit Validation; report rendered and interactive behavior as unverified. |
+| Page consistency | Audit with consistency focus; Quality and Validation with its coverage contract. Framework keeps its normal triggers. |
 
-**EVIDENCE-ONLY:** When the UI decision is fixed, use Validation to judge what
-existing proof establishes. An existing result or test report can supply that
-proof; do not repeat checks without a concrete gap. Merely stating that
-unimplemented or source-only work leaves rendering, interaction and
-accessibility unverified needs no Validation read. Add Quality for an open
-quality, state, accessibility-structure or mechanism question; add Framework
-for unresolved ownership or implementation path.
+Merely stating that source-only or unimplemented work leaves rendering,
+interaction and accessibility unverified needs no Validation read. WordPress
+exclusions still apply.
 
-**SOURCE-ONLY AUDIT:** When the audit concerns only source structure, omit
-Validation and explicitly report rendered and interactive behavior as unverified.
-Framework and Quality retain their normal triggers. Apply the same evidence
-limit to an unimplemented design direction.
-
-For a page-consistency request, use Audit with a consistency focus and load
-Quality and Validation. Load Framework only under its existing conditions.
-Build and reconcile an inventory through source, measurement and sight results,
+For page consistency, build and reconcile an inventory through source, measurement and sight results,
 including lower scroll regions and relevant same-page variants. Follow
 Validation's coverage contract. Missing entries and partial samples prevent an
 unqualified whole-page pass. Audit alone never authorizes repairs.
@@ -179,19 +158,12 @@ Use that executable wherever examples say `python` or `<verified-python>`,
 including Python commands after `--run --`.
 Report a missing runtime only when no suitable installed interpreter is found.
 
-Before shell calls, follow [shell command rules](references/shell-commands.md).
+Before helper calls, follow [shell command rules](references/shell-commands.md).
 
 ## Runtime helpers
 
 Use the bundled helpers for their operations. Read their invocation instructions,
 not their source, unless diagnosing a failure.
-
-When a host output limit applies and a file may exceed it, read it with the bundled reader.
-Follow the [large-read rules](references/writing.md#large-reads) before the first such read.
-Without suitable Python 3.11+, first read only the check_text_size reference below. Use
-a native UTF-8 reader and ordered unchanged parts, measuring each complete
-output including labels before display against `floor(limit * 4 / 5)` bytes.
-With no limit, read it completely. Without a safe reader, stop dependent work.
 
 | Condition | Required route |
 | --- | --- |

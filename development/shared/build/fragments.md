@@ -5,9 +5,8 @@
 `rules.optout` expands `runtime/skill_optout.md` for Code and UI. Other Skills
 retain their narrower wording. `rules.python` expands the interpreter discovery
 rule from `runtime/python_discovery.md` for Ask, Setup, Code, Plan, Workflow,
-Handoff, UI and Project Context Cleanup. `rules.reader` expands
-`runtime/document_reader.md` only in shared writing rules. Helper policy links
-to that procedure when a large read is needed;
+Handoff, UI and Project Context Cleanup. File reading is defined in the shared
+writing rules; agents choose their permitted method.
 `rules.native_output` expands `runtime/native_output.md` inside the conditional Codex shell reference. `rules.python` links to `references/shell-commands.md` relative to SKILL.md; include it only in Skill entrypoints. Raw fragments contain no profile blocks. Use these include
 keys only for the stated consumers. Receipts hash the consumed canonical files;
 snapshots and exports retain them. These rules do not belong in `family.contract`,

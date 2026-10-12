@@ -15,21 +15,17 @@ token counts.
 Attribute truncation only to the layer supported by the evidence. A shortened
 later query does not prove that the original capture was truncated. If the
 model-visible output or effective host cap is unknown, leave the host cause
-unconfirmed and use the existing complete-output recovery.
+unconfirmed and recover complete content under the applicable reading or output rule.
 
-## Large reads
+## File reading
 
-{{ include: rules.reader }}
+Read every required file completely before dependent work. Choose a permitted
+method yourself. If a read is incomplete or fails, obtain the missing content.
+If this is impossible, name the unread input and stop dependent work.
 
-{{ profile: general }}Without suitable Python 3.11+, use
-the manual fallback listed in [Runtime helpers](../SKILL.md#runtime-helpers). A missing helper
-or helper error does not enable it.{{ /profile }}
-If commands are forbidden, use the host's permitted UTF-8 reader in ordered
-ranges within its limits. This replaces no required helper operation. Name any
-required unread input and stop the work depending on it.
-
-Before shell commands, complete-file preparation or output that may exceed an
-applicable limit, read [command and output-delivery rules](shell-commands.md).
+For operations other than file reading, read [command and output-delivery rules](shell-commands.md)
+before shell commands, complete-file preparation or output that may exceed an
+applicable limit.
 These procedures grant no additional permissions.
 
 If your role cannot run commands or write files, compact your answer without

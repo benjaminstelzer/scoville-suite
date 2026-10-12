@@ -4,7 +4,7 @@ results and native tool arguments keep their own interfaces.
 
 Keep the complete `exec_command` result until the command ends, including
 `session_id`, every output chunk and the final exit status. A completed outer script does not prove child completion. Use the
-template below for checked reads and captures, one per outer call.
+template below for captures, one per outer call.
 
 This template selects 20000;
 use the same smallest applicable limit in the generated command, both tools and
@@ -35,9 +35,8 @@ Check completeness separately from command success:
 | Result | Completion condition |
 | --- | --- |
 | Running `session_id` | Retain its ID and every chunk until completion; never restart the command. |
-| `part=` from `--part` | Read all unchanged parts through `last`. |
 | `exit=` from `--run` | Both streams are captured; the child exit status determines command success. A nonzero exit can supply valid failure evidence. |
 | Complete-file metadata | Read the entire supplied file. |
-| Empty output, capture or reader failure, `output_complete=false` | Required input remains unread; stop dependent work. |
+| Empty output, capture failure, `output_complete=false` | Required input remains unread; stop dependent work. |
 
 Never discard a failure's stdout or stderr.

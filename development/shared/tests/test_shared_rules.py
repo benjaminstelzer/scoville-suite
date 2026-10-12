@@ -22,6 +22,10 @@ class SharedRulesTests(unittest.TestCase):
                 files = builder.payload(ROOT, member, config)
                 path = member['name'] + '/references/writing.md'
                 self.assertEqual(expected, files[path].decode('utf-8'))
+                for name, data in files.items():
+                    if name.endswith(('.md', '.py')):
+                        for obsolete in (b'--part', b'rules.reader', b'document_reader', b'bundled reader'):
+                            self.assertNotIn(obsolete, data, name)
                 self.assertTrue(any(b'writing.md' in data for name, data in files.items()
                                     if name != path and name.endswith(('.md', '.py'))))
 

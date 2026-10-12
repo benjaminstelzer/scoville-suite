@@ -2,6 +2,18 @@
 
 
 
+## Unreleased - 2026-10-12
+
+- Classify Plan profiles before proposal inventory, remove obsolete reading
+  instructions and fix the UI authored-unit link.
+- Keep declared private planning and test records out of public source exports.
+- Let agents choose how to read required files completely; remove the reading
+  helper and multipart protocol while preserving output capture and permissions.
+- Make Plan transitions and relevant UI checks easier to follow with ordered
+  steps and decision tables.
+- Update the minimum-Python check after removing the reader; verify that its
+  selected runtime tests exist before publication.
+
 ## Unreleased - 2026-10-10
 
 - Load command capture and large-result delivery only when needed; preserve complete outputs and role permissions.
