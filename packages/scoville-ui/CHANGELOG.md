@@ -2,6 +2,10 @@
 
 ## Unreleased - 2026-10-12
 
+- Return complete command output directly when it fits; save only oversized
+  captures. Verify supplied artifacts once and compare saved native Finals
+  directly, avoiding repeated hash checks for unchanged text.
+
 - Point the authored-unit styling contract directly to its geometry rules.
 
 ## Unreleased - 2026-10-11
