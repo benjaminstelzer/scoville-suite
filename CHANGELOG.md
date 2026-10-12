@@ -5,6 +5,8 @@
 ## Unreleased - 2026-10-12
 
 - Align Plan closure-correction wording with the required review cadence.
+- Apply test-expectation criteria to affected existing assertions as well as new
+  tests, preserving independent contracts and required guarantees.
 - Keep tests open to equivalent implementations: justify internal-work bounds,
   verify measurements and preserve exact contractual guarantees.
 
