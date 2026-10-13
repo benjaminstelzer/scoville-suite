@@ -162,7 +162,7 @@ def budget_retry(diagnostic: str, arguments: list[str]) -> str:
             elif not value.startswith('--max-output-bytes='):
                 corrected.append(value)
         corrected.extend(['--max-output-bytes', str(required)])
-        return ('\nCorrected invocation (one effect-free input correction only):\n' + shell_command(corrected)
+        return ('\nCorrected invocation (before publication or dispatch):\n' + shell_command(corrected)
                 + '\nThis is an internal selection budget, not the tool display limit. '
                   'An agent-chosen budget may be explicitly corrected to the required size. '
                   'A binding user, Plan or host cap still requires a decision if exceeded. '

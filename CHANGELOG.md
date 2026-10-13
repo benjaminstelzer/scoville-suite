@@ -4,6 +4,9 @@
 
 ## Unreleased - 2026-10-13
 
+- Validate ordinary generated and copied outputs proportionally, without
+  routine full-content or hash comparisons.
+
 - Keep saved oversized results out of Git status with `.scoville/temp/.gitignore`;
   existing ignore files and tracked files stay unchanged.
 - Send oversized results as a file path only; recipients read the whole file
