@@ -1,11 +1,12 @@
 ---
 format_version: 1
 id: ADR-0174
-status: accepted
+status: superseded
 created: 2026-10-05
 accepted: 2026-10-05
 scope: workflow/dispatch
 supersedes: ADR-0099
+superseded_by: ADR-0222
 ---
 
 # Plan-Non-goals automatisch, sonstiger Dispatch-Vertrag erhalten
