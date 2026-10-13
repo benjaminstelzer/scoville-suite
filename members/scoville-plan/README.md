@@ -31,7 +31,7 @@ shows these records on Windows, macOS and Linux.
   Changes of direction preserve completed work, binding constraints and material decisions.
 
 Edit records from one session at a time. Concurrent edits need reconciliation.
-See the [full instructions](https://github.com/benjaminstelzer/scoville-plan/blob/main/scoville-plan/SKILL.md).
+See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md).
 
 ## What it costs
 
@@ -123,7 +123,7 @@ application. An installed copy in a read-only folder uses the platform's user
 configuration directory. Skill and Viewer updates are independent; use a
 Viewer that supports the progress fields in your Plan records.
 
-The [record guide](scoville-plan/references/edit.md) covers Step annotations,
+The [authoring guide](scoville-plan/references/authoring.md) covers Step annotations,
 field formats and helper commands. Plan uses `format_version: 1`.
 
 ## Sources

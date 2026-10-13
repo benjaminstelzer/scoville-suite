@@ -10,23 +10,44 @@ expressions. Resolved pixels in verification are evidence for a named state,
 not replacement source declarations. See [classic-patterns.md](classic-patterns.md)
 for native relationships and [wpds-tokens.md](wpds-tokens.md) for token facts.
 
+## WordPress version and capabilities
+
+| Target | Core token stylesheet | Public provider | Routing consequence |
+| --- | --- | --- | --- |
+| 7.0 pinned baseline | No Core `wp-theme` style handle in the verified baseline | Not exported by pinned `@wordpress/theme` 0.7.1 | Preserve Classic pages and Core defaults. The explicitly opted-in bundled experimental path below remains version-specific. |
+| 7.1 | Core registers `wp-theme` with semantic tokens for plugin UIs | Public `ThemeProvider` from `@wordpress/theme` through the Core script handle | PHP may consume Core tokens without React. React may use the public provider when needed. Neither requires experimental-component opt-in. |
+
+Check the actual supported installation and minimum supported version. Style
+and script registries are separate even though both use `wp-theme`. Registration
+does not prove enqueue, successful loading, token availability, or rendering.
+A spacing check on native
+Core markup does not require a token-loading audit if it consumes no tokens.
+Do not infer future 7.x contracts or package versions from either row.
+
 ## Compatibility rules
 
-1. Keep native markup, default spacing, buttons, inputs, tables, and Notices.
-   No new stylesheet or provider is needed when these already meet the task.
-2. For a genuine plugin-owned layout gap on 7.1, use supported semantic tokens
-   from Core `wp-theme`. This does not introduce experimental components.
-3. Inside WordPress, use its registered stylesheet. Do not ship a second token
-   copy or deregister/replace the Core handle. Registration of a script called
-   `wp-theme` does not establish registration of the stylesheet, or vice versa.
-4. Verify the stylesheet in the actual document and every required token at
-   the consuming element. A registered or queued handle alone is not proof.
-5. For older supported versions without the stylesheet, preserve Core defaults.
-   Only missing plugin layout relationships receive an explicitly tested,
-   narrowly scoped Skill-Norm fallback. Never add an unregistered dependency.
-6. On 7.1, `ThemeProvider` is public. On the pinned 7.0 package it is not.
-   Private API unlocking is forbidden in both cases. A PHP page needs no React
-   conversion, and a React page needs no provider without a theming requirement.
+```mermaid
+flowchart TD
+  native{"Native markup, defaults and supported components meet the task?"}
+  native -->|yes| keep["Preserve defaults; no new stylesheet, provider or migration"]
+  native -->|no| need{"Genuine plugin-owned layout/domain-state gap or React theming need?"}
+  need -->|no| owner["Resolve the owning component's requirement; do not restyle native primitives"]
+  need -->|yes| version{"Verified supported target?"}
+  version -->|stable 7.1| tokens["Depend on Core wp-theme STYLE; verify actual document and each consumed token"]
+  tokens --> valid{"Core handle, request and required tokens valid?"}
+  valid -->|no| fail["Fail token acceptance; investigate even if numeric layout fallback looks correct"]
+  valid -->|yes| react{"React region with actual theming requirement?"}
+  react -->|yes| provider["Use public provider plus STYLE; verify generated SCRIPT dependency"]
+  react -->|no| done["Retain runtime owner; PHP needs no React or provider"]
+  version -->|verified older version without Core stylesheet| fallback["Preserve Core defaults; no public provider at the 7.0 pin; test only missing local relationship with explicit Skill-Norm fallback"]
+  version -->|other minor, prerelease or unknown| unverified["Unverified; establish that version's contract separately"]
+```
+
+Never bundle a second Core token copy, replace/deregister its handle or add an
+unregistered dependency. Private API unlocking is forbidden
+on all versions; pinned 7.0 has no public provider. An approved older-version
+backport needs its own tested provenance/capability branch, not handle presence.
+No provider or PHP-to-React conversion follows from token availability alone.
 
 ## PHP layout with a Core-token and older-version branch
 

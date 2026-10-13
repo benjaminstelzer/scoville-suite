@@ -8,53 +8,17 @@ For excluded host-owned surfaces, report the host owner and stop the plugin-page
 route. Do not use the general route to bypass those exclusions. Site frontends
 and themes use their actual product or framework owner, not this admin adapter.
 
-## Classify the target surface and runtime
+## Respect the classified owner
 
-Read [routing.md](routing.md) first for focus selection and ownership.
-Classify three independent axes for the region in scope:
-
-1. the admin surface and whether the version 1 surface-support table in routing.md supports it;
-2. the runtime and component owner for each affected DOM region;
-3. the supported WordPress versions and relevant public token or provider APIs.
-
-Record the plugin minimum WordPress version separately from the runtime version
-actually tested. These examples cover stable 7.0 and 7.1; they do not establish
-6.x support or support for every version at or above 7.1. Unknown minors and
-prereleases require their own evidence.
-
-React does not imply WPDS. A page can be Classic, Core Components, bundled
-experimental WPDS, or hybrid. For hybrid pages, classify portals and overlays
-at their actual render destination.
-
-If the surface is excluded, name its host owner and do not apply this adapter's
-plugin-page shell or spacing rules. Resolve an unknown owner first from supplied
-context and accessible source or runtime evidence within the authorized scope.
-Ask only for a remaining decision-relevant fact that those sources cannot
-establish, before recommending dependent components, tokens, spacing, or CSS.
-Continue independent checks without inventing the missing owner.
-
-## Follow the owning WordPress layer
-
-For each region, stop at the first layer that can express the requirement:
-
-1. WordPress API and semantic Core admin markup.
-2. Existing Core class or WordPress component with its default CSS.
-3. Semantic token actually supplied by the selected runtime.
-4. Plugin-owned composition of those primitives.
-5. New narrowly scoped plugin CSS for a demonstrated gap only.
-
-Never rebuild a WordPress button, control, Notice, table, shell, color system,
-focus treatment, radius, or shadow merely to change its appearance. Never
-author CSS that defines, overrides, or imitates `--wpds-*`. A supported public
-`ThemeProvider` may generate scoped overrides through its documented API.
-Do not load experimental components merely to restyle a Classic or
-Core-Components page. WordPress 7.1's Core `wp-theme` stylesheet is a separate,
-public capability, also usable for missing layout relationships on PHP pages.
-
-Preserve existing Classic pages. Neither WordPress 7.1 nor token availability
-requires a migration to React, WPDS components, or token-based styling. Keep
-working native markup, controls, tables, and default spacing. Introduce a token
-only for an actual requirement the existing owner cannot express.
+Use [routing.md](routing.md)'s surface, region-runtime and version classification.
+Resolve unknown ownership before dependent advice; continue independent checks.
+Before choosing composition or CSS, read [spacing.md](spacing.md) and stop at the
+first suitable layer in its ownership ladder. Never rebuild native buttons,
+controls, Notices, tables, shell, colors, focus, radii or shadows just for appearance.
+Never author --wpds-* definitions, overrides or imitations. Supported public
+provider props may generate scoped overrides through their documented API.
+No experimental component injection, React conversion or token migration follows
+from a WordPress upgrade. Keep functioning Classic markup and native spacing.
 
 ## Load only the relevant contract
 
@@ -84,35 +48,14 @@ does not become an i18n audit merely because the markup is PHP or JavaScript.
 - For `wp-theme`, public `ThemeProvider`, or older-version fallback, read
   [version-compatibility.md](version-compatibility.md).
 
-## Preserve the vertical-flow invariant
-
-Within new plugin-owned gap compositions, the direct parent owns spacing
-between direct children. Preserve existing native margin-based flow. Children do not add the
-same outer margin. Cards own internal padding, while their parent owns the gap
-between cards. Hidden or empty children leave no gap slot.
-
-Core Components own their internal rhythm. Use the generic `Flex` recipe in
-[spacing.md](spacing.md#core-components) only for a new plugin-owned group;
-it is Skill-Norm composition, not Core defaults.
-
 ## Keep every UI translatable
 
-All visible and assistive strings use WordPress i18n APIs with one literal text
-domain matching the plugin slug. Use complete phrases, positional placeholders,
-plural and context APIs, translator comments, and context-aware escaping. Bind
-registered JavaScript handles with `wp_set_script_translations()`. Treat text
-expansion and locale-formatted values as normal responsive inputs. Require RTL
-checks only when a supported or explicitly planned UI language uses RTL. An
-LTR-only or unspecified language scope does not require an RTL test merely
-because the plugin is i18n-ready. Do not claim untested RTL support.
-
-Require i18n-readiness, not a translation-production workflow. Source strings,
-domains, placeholders, dependencies, and loading hooks must allow translations
-to be added later. Creating or maintaining POT, PO, MO, or Jed JSON files and
-proving loaded translations are required only when translation delivery is in
-scope. Missing catalogs alone are not a readiness defect. Layout checks may use
-synthetic expanded text and, when RTL is in scope, controlled RTL direction
-without creating translations.
+All visible and assistive strings use WordPress i18n APIs and one literal text
+domain matching the plugin slug. Require i18n-readiness; catalogs and proof of
+loaded translations are required only when translation delivery is in scope.
+Before strings, locale values, translation loading or localized-layout work,
+read [internationalization.md](internationalization.md), including its scoped
+RTL rule.
 
 ## Result contract
 
@@ -127,23 +70,15 @@ the inspected scope. Never claim whole-UI compliance from a targeted check.
 Do not modify the implementation unless correction was also requested. Writing
 an explicitly requested audit report is allowed and does not authorize fixes.
 
-For **Implement**, report what was designed or changed and the relevant checks
-and limits. Use the following items only where they affect the requested work,
-not as a mandatory report or full-audit checklist for every task:
-
-- surface, support status, runtime, shell, spacing owner, and experimental
-  policy;
-- supported and observed WordPress versions, token stylesheet owner, required
-  token names, enqueue evidence, and fallback when relevant;
-- WordPress APIs, components, classes, defaults, and provided tokens reused;
-- semantic relationship and its spacing expression;
-- page archetype, responsive transformations, relevant states, and recovery;
-- PHP and JavaScript i18n-readiness, expansion checks, and language-scoped RTL
-  applicability, with translation artifacts and loading proof only when
-  translation delivery is in scope;
-- any CSS exception with checked owners, demonstrated gap, smallest scope, and
-  reflow, zoom, focus, content, and state checks, plus RTL when in scope;
-- rendered, source-only, and unverified evidence kept separate.
+For **Implement**, report the changes, relevant checks and limits. Include only
+facts needed for this task: surface/support/runtime/shell/spacing/experimental
+owners; supported and tested versions, token names and loading/fallback proof;
+reused APIs/components/defaults; relationship and spacing expression; archetype,
+responsive states and recovery; i18n-readiness/expansion and applicable RTL;
+translation artifacts/loading only for delivery scope; and CSS exceptions with
+checked owners, demonstrated gap, smallest scope and relevant reflow, zoom,
+focus, content and state evidence. Distinguish rendered, source-only and
+unverified results. This is not a mandatory full-audit checklist.
 
 When the caller requests structured classification, use the canonical field
 values and prohibited-recommendation identifiers from

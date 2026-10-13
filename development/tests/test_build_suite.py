@@ -130,6 +130,21 @@ class BuildTests(unittest.TestCase):
 
             # Setup activation is checked by the native effect cases, not prose spelling.
 
+    def test_progressive_references_are_packaged_for_each_supported_variant(self):
+        for profile, layout in [('general', 'standalone'), ('general', 'suite'),
+                                ('codex', 'standalone'), ('codex', 'suite')]:
+            config = builder.load(ROOT, profile, layout)
+            for member in config['members']:
+                with self.subTest(profile=profile, layout=layout, member=member['name']):
+                    files = builder.payload(ROOT, member, config)
+                    prefix = member['name'] + '/references/'
+                    self.assertIn(prefix + 'shell-commands.md', files)
+                    self.assertIn(prefix + 'output-delivery.md', files)
+                    if member['name'] == 'scoville-plan':
+                        self.assertIn(prefix + 'progress.md', files)
+                        self.assertIn(prefix + 'authoring.md', files)
+                        self.assertNotIn(prefix + 'edit.md', files)
+
     def test_each_suite_rejects_partial_installation_build(self):
         for profile in ('general', 'codex'):
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
@@ -152,7 +167,8 @@ class BuildTests(unittest.TestCase):
                 package = output / member['package_path'] / name
                 self.assertEqual([package / 'SKILL.md'], list(package.rglob('SKILL.md')))
                 for relative in ('references/wordpress/adapter.md', 'references/wordpress/routing.md',
-                                 'references/validation.md', 'references/wordpress/validation.md'):
+                                 'references/validation.md', 'references/wordpress/validation.md',
+                                 'references/wordpress/experimental-policy.md'):
                     self.assertTrue((package / relative).is_file(), relative)
                 self.assertIn('$' + name, (package / 'agents/openai.yaml').read_text(encoding='utf-8'))
                 for path in package.rglob('*.md'):

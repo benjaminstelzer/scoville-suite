@@ -76,13 +76,11 @@ a redesign or a whole-product audit.
 | Surface or request | Route and boundary |
 | --- | --- |
 | Any `wp-admin` concern, including classification and hypothetical advice | First read [routing](references/wordpress/routing.md). For supported plugin-owned pages, also read [adapter](references/wordpress/adapter.md) before dependent advice or work. |
-| Excluded host-owned admin surface | Name host owner and stop the plugin-page route; no general-route fallback. |
-| Unknown admin ownership | Inspect accessible source first, then ask for the remaining decision-relevant fact. |
 | Themes, site frontends, plugin frontend output, non-WordPress surfaces | General route; no admin references. |
 | Pure visual concept | Preserve design scope; no WordPress implementation or acceptance rules. |
 
-Classify admin surface, runtime per DOM region and supported versions separately;
-React does not imply WPDS.
+The WordPress router owns classification and exclusions; unknown ownership
+blocks dependent advice and excluded surfaces have no general-route fallback.
 
 Both routes use the same Quality and Validation contracts below. WordPress adds
 its local platform rules when their triggers apply, including
@@ -118,7 +116,7 @@ quality, implementation or evidence.
 | Hypothetical support status and responsible systems only | [Framework](references/framework-alignment.md) only if responsibility or fallback remains unresolved. For WordPress admin, use the adapter classification instead. No Quality or Validation unless the question extends to those concerns. |
 | General-route implementation owner | Before choosing an owner, read Framework when the stack is unfamiliar, ownership is ambiguous, layers interact, no canonical visual owner exists, customization is uncertain or a component limitation prevents the target. |
 | Open quality or implementation question | [Quality](references/ui-quality.md) when creating, translating, changing or reviewing interface text; judging unsettled flow, hierarchy, layout, readability, states, accessibility structure or responsive behavior; or mechanics could violate settled intent. |
-| Interface change, consistency audit or judgment of existing proof | Before an interface change, a consistency audit or judging existing proof, read [Validation](references/validation.md) for rendering, responsive behavior, interaction, visual quality or accessibility. Build and source checks do not prove rendering. |
+| Interface change, consistency audit or judgment of existing proof | Before an interface change, a consistency audit or judging existing proof, read [Validation](references/validation.md) for rendering, responsive behavior, interaction, visual quality or accessibility. Use its evidence boundaries. |
 | UI decision fixed; proof only | Validation. Add Quality only for an open quality, state, accessibility-structure or mechanism question; Framework only for unresolved ownership or implementation path. Reuse existing proof; repeat no check without a concrete gap. |
 | Source-structure audit or unimplemented design direction | Framework and Quality keep their normal triggers. Omit Validation; report rendered and interactive behavior as unverified. |
 | Page consistency | Audit with consistency focus; Quality and Validation with its coverage contract. Framework keeps its normal triggers. |
@@ -127,10 +125,8 @@ Merely stating that source-only or unimplemented work leaves rendering,
 interaction and accessibility unverified needs no Validation read. WordPress
 exclusions still apply.
 
-For page consistency, build and reconcile an inventory through source, measurement and sight results,
-including lower scroll regions and relevant same-page variants. Follow
-Validation's coverage contract. Missing entries and partial samples prevent an
-unqualified whole-page pass. Audit alone never authorizes repairs.
+For page consistency, read Validation's coverage contract before a whole-page
+claim; a partial sample cannot establish it. Audit never authorizes repairs.
 
 ## Integrity floor
 

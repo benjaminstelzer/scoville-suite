@@ -86,14 +86,8 @@ subtree unless a functional requirement justifies changing it.
 
 ### Bundled WPDS at the 7.0 pin
 
-Bundle the public `@wordpress/ui` API and the exported
-`@wordpress/theme/design-tokens.css`, then select the semantic token. At this
-pin `ThemeProvider` is not a public runtime export; never unlock
-`@wordpress/theme` private APIs from plugin code. `Stack` has neither a default
-direction nor a default gap, so set `direction="column"` and the semantic gap
-explicitly for vertical flow. The stylesheet supplies the default-density
-tokens. Never define, override, or imitate the `--wpds-*` namespace. Primitive
-tokens are implementation details.
+Before this route, read [experimental-policy.md](experimental-policy.md) for
+public APIs, token ownership and explicit Stack props at the pin.
 
 ### Core tokens and public theming in 7.1
 

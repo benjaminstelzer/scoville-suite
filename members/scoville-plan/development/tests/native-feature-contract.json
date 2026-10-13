@@ -43,14 +43,14 @@
       "sources": [
         "references/native-project-lifecycle.md",
         "references/fallbacks/validate_profile-fallback.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "classify-partial-foreign-unsupported-invalid",
       "sources": [
         "references/native-project-lifecycle.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
@@ -65,61 +65,62 @@
       "sources": [
         "SKILL.md",
         "references/native-project-lifecycle.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "activate-plan-from-idle-or-active",
       "sources": [
         "references/native-project-lifecycle.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "complete-final-work-and-enter-idle",
       "sources": [
         "references/native-project-lifecycle.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "insert-update-move-delete-work-item",
       "sources": [
-        "references/edit.md",
-        "references/fallbacks/validate_profile-fallback.md"
+        "references/progress.md",
+        "references/fallbacks/validate_profile-fallback.md",
+        "references/authoring.md"
       ]
     },
     {
       "id": "set-current-and-next-action",
       "sources": [
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "add-and-resolve-blocker",
       "sources": [
-        "references/edit.md",
+        "references/progress.md",
         "references/fallbacks/validate_profile-fallback.md"
       ]
     },
     {
       "id": "start-pause-resume-complete-cancel-work",
       "sources": [
-        "references/edit.md",
+        "references/progress.md",
         "references/fallbacks/validate_profile-fallback.md"
       ]
     },
     {
       "id": "complete-select-and-validate",
       "sources": [
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "direct-plan-maintenance-without-recursion",
       "sources": [
         "SKILL.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
@@ -127,54 +128,55 @@
       "sources": [
         "SKILL.md",
         "references/planning-granularity.md",
-        "references/edit.md"
+        "references/progress.md",
+        "references/authoring.md"
       ]
     },
     {
       "id": "create-update-delete-decision-proposal",
       "sources": [
         "references/native-decision-format.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "accept-reject-deprecate-supersede-decision",
       "sources": [
         "references/native-decision-format.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "read-historical-batches-write-single-transitions",
       "sources": [
         "references/native-decision-format.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "preserve-record-history-and-relations",
       "sources": [
         "references/native-decision-format.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "dependency-order-blocker-evidence-and-date-invariants",
       "sources": [
         "references/fallbacks/validate_profile-fallback.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "narrow-format-repair",
       "sources": [
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
       "id": "transaction-incomplete-stop",
       "sources": [
-        "references/edit.md",
+        "references/progress.md",
         "references/native-project-lifecycle.md",
         "references/native-decision-format.md"
       ]
@@ -189,7 +191,7 @@
       "id": "guarded-workflow-step-bundles",
       "sources": [
         "SKILL.md",
-        "references/edit.md"
+        "references/progress.md"
       ]
     },
     {
@@ -204,8 +206,9 @@
       "id": "step-execution-annotations",
       "sources": [
         "references/fallbacks/validate_profile-fallback.md",
-        "references/edit.md",
-        "scripts/validate_profile.py"
+        "references/progress.md",
+        "scripts/validate_profile.py",
+        "references/authoring.md"
       ]
     },
     {
@@ -214,15 +217,16 @@
         "SKILL.md",
         "references/fallbacks/validate_profile-fallback.md",
         "references/planning-granularity.md",
-        "references/edit.md",
-        "references/native-decision-format.md"
+        "references/progress.md",
+        "references/native-decision-format.md",
+        "references/authoring.md"
       ]
     },
     {
       "id": "read-only-profile-validator",
       "sources": [
         "SKILL.md",
-        "references/edit.md",
+        "references/progress.md",
         "scripts/validate_profile.py"
       ]
     }

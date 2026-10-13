@@ -111,41 +111,44 @@ diff for unnecessary custom styling and obsolete compensation.
 
 ## Source first, then measurement, then sight
 
-For implementation, batch related UI changes and complete the planned edits
-before running these gates in order within the affected scope. Inspect source
-as needed to guide implementation. Validate at the end of the batch.
-For an audit, inspect and report source defects first, then measure and inspect
-without repairing them. Audit findings never authorize edits.
+```mermaid
+flowchart TD
+  mode{"Implement or Audit?"}
+  mode -->|Implement| batch["Complete planned related edits; inspect source as needed"]
+  mode -->|Audit| source["Inspect available generating source and owners within scope"]
+  batch --> source
+  source --> defect{"Known in-scope source defect?"}
+  defect -->|Implement: yes| fix["Correct source before first measurement or viewed render"]
+  defect -->|Audit: yes| note["Report source defect; make no repair"]
+  defect -->|no| measure["Measure claimed relationships in actual runtime when in scope and available"]
+  fix --> measure
+  note --> measure
+  measure --> sight["View render; compare optical composition where claimed"]
+  sight --> interact["Exercise claimed interactions and transitions where applicable"]
+  interact --> result{"Implement with an in-scope defect requiring correction?"}
+  result -->|yes| correct["Collect and implement related corrections as one batch"]
+  correct --> refresh["Repeat only affected source, measurement, sight and interaction checks"]
+  refresh --> result
+  result -->|no, or Audit| report["Report observations, defects and every required evidence gap"]
+```
 
-1. **Source:** Inspect generating markup and components, supported props and variants,
-   styles and the framework or design system responsible for them. For implementation, correct known in-scope source
-   defects before the first layout measurement or viewed render. For an audit,
-   report those defects without correcting them, then continue with measurement
-   and sight. Check duplicate spacing owners,
-   arbitrary dimensions and offsets, token bypass, primitive rebuilds and obsolete
-   overrides. Run relevant existing syntax, lint, component or build checks.
-   A build does not prove that the correct design-system components are used. Source, API or stylesheet
-   inspection is not a layout measurement.
-2. **Measurement:** After source inspection and any implementation corrections,
-   measure the affected
-   relationships in the actual runtime against independently established
-   references. For geometry claims, follow [the measurement contract](ui-geometry-validation.md).
-3. **Sight:** View the rendered image and for optical or composition claims, apply [the comparison routine](ui-geometry-validation.md).
-   Check component contents as well as their outer layout. Page or container
-   overflow checks do not prove internal alignment, and numeric equality does
-   not establish optical alignment.
+At Source, inspect markup/components, supported props and variants, styles and
+owning framework/design system. Check duplicate spacing owners, arbitrary
+sizes/offsets, token bypass, primitive rebuilds and obsolete overrides. Run
+relevant existing syntax, lint, component or build checks. Build success does
+not establish correct component ownership, rendering or geometry.
+For Measurement and Sight use [geometry and comparison](ui-geometry-validation.md):
+independent targets, actual distances and viewed component contents as well as
+outer layout. Container overflow alone proves no internal alignment; numeric
+equality proves no optical alignment. Images prove no interaction.
 
-Do not run measurements, screenshots or sight checks after each small layout
-edit. Validate the completed change batch once. If validation reveals defects,
-collect and implement the related corrections before repeating affected source
-checks, measurements and sight checks at the end of that correction batch.
-Later edits invalidate only the affected evidence. Refresh it after those edits
-are complete, before reporting completion. Associate final measurements and
-viewed images with the same revision, content and state. Available usable tools
-cannot be skipped for convenience. Missing tools or source limit the conclusion,
-never create a pass.
-Source-only and screenshot-only requests retain those limits without requiring
-unrequested work. Preserve every known required gap in the result.
+These gates follow the requested claim and available evidence, not an expanded
+scope. Source-only and screenshot-only requests retain their limits. Missing
+source/tools limit the conclusion; continue the permitted available observations
+and report every required gap, never a pass. Usable tools cannot be skipped for
+convenience. Final measurements and viewed images
+must represent the same revision, content and state; unchanged evidence remains
+usable. Refresh invalidated evidence before claiming completion.
 
 ## Use automation as supporting evidence
 

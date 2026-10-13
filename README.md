@@ -52,7 +52,7 @@ fix acquires its own framework.
 
 Keep personal conventions outside the installed Skill so updates preserve them.
 See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions)
-and [full instructions](https://github.com/benjaminstelzer/scoville-code/blob/main/scoville-code/SKILL.md).
+and [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md).
 
 ### What it costs
 
@@ -93,7 +93,7 @@ shows these records on Windows, macOS and Linux.
   Changes of direction preserve completed work, binding constraints and material decisions.
 
 Edit records from one session at a time. Concurrent edits need reconciliation.
-See the [full instructions](https://github.com/benjaminstelzer/scoville-plan/blob/main/scoville-plan/SKILL.md).
+See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md).
 
 ### What it costs
 
@@ -133,7 +133,7 @@ the user sweat.
 - **Rendered proof.** Source checks alone cannot establish that the interface
   works. Unchecked rendering or interaction stays explicitly unverified.
 
-See the [full instructions](https://github.com/benjaminstelzer/scoville-ui/blob/main/scoville-ui/SKILL.md).
+See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ### What it costs
 
@@ -170,7 +170,7 @@ A targeted GPT-6 Luna High test turned a preference into a requirement. Check
 that distinction in a generated handoff. Later testing has not disproved the
 observation.
 
-See the [full instructions](https://github.com/benjaminstelzer/scoville-handoff/blob/main/scoville-handoff/SKILL.md).
+See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
 
 ### What it costs
 
@@ -213,7 +213,7 @@ ingredients that made the rules useful.
 
 ## Compatibility
 
-Developed for Codex and Claude Code, with Python 3.11+ needed only for optional helpers. Fable, Astra, SOL or Opus (5.0+) are recommended. Selected Luna 6 High checks in Codex are described in each Skill's Compatibility notes; they do not establish a suite-wide baseline.
+Developed for Codex and Claude Code. Python helpers require Python 3.11+. Manual alternatives apply only when suitable Python is unavailable. Helper errors remain errors. Fable, Astra, SOL or Opus (5.0+) are recommended. Selected Luna 6 High checks in Codex are described in each Skill's Compatibility notes; they do not establish a suite-wide baseline.
 
 ## Install the suite
 
