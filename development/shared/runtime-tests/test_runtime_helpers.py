@@ -540,53 +540,6 @@ Evidence: []
                     self.assertTrue(not state or state.startswith('Z'), f'owned process {pid} survived: {state}')
 
 
-    def test_expected_hash_is_read_only_bounded_and_keeps_other_modes(self):
-        source = self.base / 'Expected hash Grüße.txt'
-        data = ('Required Grüße 中文\r\n' * 300).encode('utf-8')
-        source.write_bytes(data)
-        for package in packages('scoville-code'):
-            checker = package / 'scripts/check_text_size.py'
-            command = [sys.executable, '-X', 'utf8', str(checker), '--file', str(source), '--sha256']
-            no_limit = subprocess.run(command, capture_output=True)
-            self.assertNotEqual(no_limit.returncode, 0)
-            self.assertEqual(no_limit.stdout, b'')
-            self.assertIn(b'--sha256 requires --file <artifact> --max-output-tokens <limit>', no_limit.stderr)
-            result = subprocess.run([*command, '--max-output-tokens', '200'], capture_output=True)
-            self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(json.loads(result.stdout), {'utf8_bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
-            self.assertLessEqual(len(result.stdout) + len(result.stderr), 160)
-            self.assertEqual(source.read_bytes(), data)
-            self.assertFalse((self.project / '.scoville/temp').exists())
-            size = self.run_cli(package, 'check_text_size.py', '--file', source, '--max-output-tokens', '200')
-            self.assertEqual(size['status'], 'compact_required')
-            self.assertNotIn('sha256', size)
-            changed = data + b'x'
-            source.write_bytes(changed)
-            altered = self.run_cli(package, 'check_text_size.py', '--file', source, '--sha256', '--max-output-tokens', '200')
-            self.assertNotEqual(altered['sha256'], hashlib.sha256(data).hexdigest())
-            source.write_bytes(data)
-            for limit, extra in [(1, []), (1000, ['--part', '1']), (1000, ['--publish-full']),
-                                 (1000, ['--project-root', str(self.project)]),
-                                 (1000, ['--run', '--', sys.executable, '-c', 'raise SystemExit(0)']),
-                                 (1, ['--unknown-option'])]:
-                rejected = subprocess.run([*command, '--max-output-tokens', str(limit), *extra], capture_output=True)
-                self.assertNotEqual(rejected.returncode, 0)
-                self.assertEqual(rejected.stdout, b'')
-                self.assertLessEqual(len(rejected.stderr), limit * 4 // 5)
-            source.write_bytes(b'\xff')
-            invalid = subprocess.run([*command, '--max-output-tokens', '1000'], capture_output=True)
-            self.assertNotEqual(invalid.returncode, 0)
-            self.assertEqual(invalid.stdout, b'')
-            self.assertIn(b'UTF-8', invalid.stderr)
-            self.assertIn(b'do not alter or copy the artifact', invalid.stderr)
-            source.unlink()
-            missing = subprocess.run([*command, '--max-output-tokens', '1000'], capture_output=True)
-            self.assertNotEqual(missing.returncode, 0)
-            self.assertEqual(missing.stdout, b'')
-            self.assertIn(source.name.encode(), missing.stderr)
-            self.assertIn(b'do not alter or copy the artifact', missing.stderr)
-            source.write_bytes(data)
-
     def test_generated_process_preserves_argv_exit_and_successful_shell(self):
         package = next(packages('scoville-workflow-for-codex'))
         spec = importlib.util.spec_from_file_location('process_arguments', package / 'scripts/native_task_arguments.py')
@@ -650,20 +603,19 @@ Evidence: []
                 self.assertTrue(retained.is_absolute())
                 self.assertEqual(retained.parent, self.project / '.scoville/temp')
                 self.assertEqual(retained.name, hashlib.sha256(combined).hexdigest() + '.txt')
-                # Intended next consumer uses metadata unchanged, verifies and reads the ENTIRE bytes.
+                self.assertEqual((retained.parent / '.gitignore').read_text(encoding='utf-8').splitlines(), ['*'])
+                # Intended next consumer uses metadata unchanged and reads the ENTIRE bytes.
                 received = retained.read_bytes()
-                self.assertEqual(hashlib.sha256(received).hexdigest(), published['sha256'])
                 self.assertEqual(received, combined)
                 self.assertIn('END REQUIRED Grüße 中文', received.decode('utf-8'))
                 again = self.run_cli(package, 'check_text_size.py', '--file', text_file, '--max-output-tokens', 10000, '--publish-full', '--project-root', self.project)
                 self.assertEqual(again['full_file'], str(retained))
                 # An authenticated transfer may require a file independently of size.
                 unmeasured = self.run_cli(package, 'check_text_size.py', '--file', text_file, '--publish-full', '--project-root', self.project)
-                self.assertEqual(set(unmeasured), {'status', 'utf8_bytes', 'full_file', 'sha256', 'instruction'})
+                self.assertEqual(set(unmeasured), {'status', 'utf8_bytes', 'full_file', 'instruction'})
                 self.assertEqual(unmeasured['status'], 'complete_file')
                 self.assertEqual(unmeasured['utf8_bytes'], len(combined))
                 received = Path(unmeasured['full_file']).read_bytes()
-                self.assertEqual(hashlib.sha256(received).hexdigest(), unmeasured['sha256'])
                 self.assertEqual(received, combined)
                 self.assertFalse(list(retained.parent.glob('tmp*')))
 
@@ -726,6 +678,7 @@ Evidence: []
         self.assertEqual(result.stderr, b'')
         self.assertEqual(marker.read_text(), 'executed')
         self.assertFalse(list((self.project/'.scoville/temp').glob('*.txt')))
+        self.assertFalse((self.project/'.scoville/temp/.gitignore').exists())
 
     def test_command_capture_withheld_publication_and_prestart_errors(self):
         package = next(packages('scoville-code'))
@@ -769,7 +722,7 @@ Evidence: []
         self.assertFalse(meta['output_complete'])
         self.assertEqual(meta['exit_code'], 7)
         received = Path(meta['full_file']).read_bytes()
-        self.assertEqual(hashlib.sha256(received).hexdigest(), meta['sha256'])
+        self.assertNotIn('sha256', meta)
         out, err = ('ü→😀'*100).encode('utf-8'), b'failure\n\n'
         self.assertEqual(received, f'exit=7 stdout_bytes={len(out)} stderr_bytes={len(err)}\n'.encode('ascii') + b'stdout:\n' + out + b'\nstderr:\n' + err)
         self.assertEqual(counter.read_text(), 'x')
@@ -844,7 +797,6 @@ Evidence: []
         corrected_publication = self.run_cli(package, 'check_text_size.py', '--file', missing, '--publish-full', '--project-root', self.project)
         received = Path(corrected_publication['full_file']).read_bytes()
         self.assertEqual(received, missing.read_bytes())
-        self.assertEqual(hashlib.sha256(received).hexdigest(), corrected_publication['sha256'])
         digest = hashlib.sha256(missing.read_bytes()).hexdigest()
         target = self.project / '.scoville/temp' / (digest + '.txt')
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -860,7 +812,6 @@ Evidence: []
                                  '--publish-full', '--project-root', safe)
         received = Path(corrected['full_file']).read_bytes()
         self.assertEqual(received, missing.read_bytes())
-        self.assertEqual(hashlib.sha256(received).hexdigest(), corrected['sha256'])
         self.assertEqual(target.read_bytes(), b'existing content must survive')
 
     def test_text_preflight_rejects_path_escape_before_writing(self):
@@ -885,7 +836,6 @@ Evidence: []
                                  '--publish-full', '--project-root', safe)
         received = Path(corrected['full_file']).read_bytes()
         self.assertEqual(received, source.read_bytes())
-        self.assertEqual(hashlib.sha256(received).hexdigest(), corrected['sha256'])
         self.assertEqual(list(outside.iterdir()), [])
 
 
