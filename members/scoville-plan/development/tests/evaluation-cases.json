@@ -380,7 +380,7 @@
       "id": "validator-routes-unambiguous-format-correction",
       "given": "The validator exits 1 and reports one Work Item field-order defect whose correction changes no authored content or lifecycle fact.",
       "expect": [
-        "Use SKILL.md and edit.md with the file/field diagnostic; no additional format guide with Python.",
+        "Use SKILL.md and progress.md with the file/field diagnostic; no additional format guide with Python.",
         "Correct only field order without changing meaning, then run the validator again.",
         "Do not load unrelated Decision or Plan lifecycle guidance."
       ]
@@ -389,7 +389,7 @@
       "id": "validator-routes-ambiguous-lifecycle-conflict",
       "given": "The validator exits 1 because current_item and the in-progress Work Item disagree after a partial lifecycle change.",
       "expect": [
-        "Report the conflicting records and use edit.md plus lifecycle guidance only when needed.",
+        "Report the conflicting records and use progress.md plus lifecycle guidance only when needed.",
         "Ask which lifecycle result is intended, preserving evidence and current state.",
         "Do not mutate merely to obtain exit 0."
       ]
@@ -648,6 +648,24 @@
         "Compare both obligations before completion.",
         "Keep W-003 nonterminal and both targets unchanged; ask which target should follow.",
         "Observed Acceptance can be recorded but grants no successor choice."
+      ]
+    },
+    {
+      "id": "maintain-accepted-adr-remove-nonbinding-alternative",
+      "given": "The user explicitly requests editorial maintenance of an accepted ADR. Its choice and binding requirements are unambiguous. A discarded alternative and discussion chronology neither explain that choice, constrain implementation nor determine revisit, and no independent retention rule requires them.",
+      "expect": [
+        "Remove this nonbinding alternative and discussion history within the requested ADR scope.",
+        "Preserve identity, lifecycle, the choice, authority, evidence status and every binding condition without adding a superseding ADR or separate approval.",
+        "This editorial removal neither changes permissions nor claims new acceptance."
+      ]
+    },
+    {
+      "id": "maintain-adr-preserve-rationale-and-confirmation",
+      "given": "During explicitly requested maintenance of an accepted or deprecated ADR, a reason explains why the chosen option is necessary, an exception constrains implementation, and Confirmation requires a specific verification. Revisit names a material trigger. The text also contains redundant discussion history.",
+      "expect": [
+        "Retain the choice-explaining reason, complete exception, required Confirmation check and material revisit trigger in self-contained owning sections; retain authority, evidence status, values and guarantees.",
+        "Remove only nonbinding history and equivalent repetition. If semantic equivalence is uncertain, retain the text and resolve the material choice before the affected edit.",
+        "An intended change to any binding requirement uses the authorized supersession route, not editorial maintenance."
       ]
     }
   ]

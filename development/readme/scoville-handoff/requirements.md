@@ -11,4 +11,4 @@ A targeted GPT-6 Luna High test turned a preference into a requirement. Check
 that distinction in a generated handoff. Later testing has not disproved the
 observation.
 
-See the [full instructions](https://github.com/benjaminstelzer/scoville-handoff/blob/main/scoville-handoff/SKILL.md).
+See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).

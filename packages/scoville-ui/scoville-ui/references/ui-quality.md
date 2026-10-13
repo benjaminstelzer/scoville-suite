@@ -12,12 +12,21 @@ complete topic file only when its concern can change the requested outcome.
 These are outcome tests, not a visual recipe. A settled unrelated concern adds
 no topic read. Preserve canonical decisions and all affected implementation guarantees.
 
-## Start with the user task
+## Product ownership and UI guarantees
 
-**Product decision:** Primary-task priority, information sequence, and intended
-action hierarchy belong to the canonical product owner. Consume its record when supplied.
-**UI implementation floor:** Required controls, content, semantics, and task
-completion remain available through the owning framework.
+Read the supplied product record and preserve its decisions; UI implements them through their owner.
+
+| Concern | Product owns | UI preserves |
+| --- | --- | --- |
+| Primary task | Priority, information sequence, action hierarchy | Required controls/content, semantics and task completion |
+| Reading | Typography, spacing roles, emphasis | Scaling, zoom, wrapping, truncation access, labels, theme/state contrast, supported fallbacks |
+| Accessibility | Inclusive communication and equivalent meaning | Semantic, interaction, platform, scaling, input-alternative, status and rendered mechanics |
+| Layout | Grouping, hierarchy, density, deliberate exceptions | Canonical components/tokens and semantic relationships |
+| Responsive intent | Transformation and priority changes | Valid breakpoints, reflow, content/state persistence, input behavior and rendered proof |
+| Interaction | Affordance emphasis, feedback priority, recovery experience | Component semantics, focus/input, announcements and transitions |
+| State | Presentation, priority and recovery | Component state coverage, semantics, focus, announcements, transitions and proof |
+
+## Start with the user task
 
 Make the primary task and its next meaningful action understandable from the
 interface, not from implementation knowledge. Secondary actions and supporting
@@ -44,11 +53,6 @@ canonical content owner permits it.
 
 ## Preserve readable content
 
-**Product decision:** The canonical product owner owns typography, spacing roles, and intended
-reading emphasis. **UI implementation floor:** UI retains text scaling, zoom,
-wrapping, truncation access, label association, theme and state contrast, and
-supported fallback mechanics.
-
 Use the project or platform's typography and spacing language while protecting:
 
 - a clear reading order and heading structure;
@@ -64,10 +68,6 @@ the task; otherwise fix the presentation constraint instead of shortening,
 fragmenting or inventing text to hide a layout problem.
 
 ## Keep accessibility structural
-
-**Product decision:** The canonical product owner owns inclusive communication and equivalent
-meaning. **UI implementation floor:** UI retains semantic, interactive,
-platform, scaling, input-alternative, status, and rendered mechanics.
 
 Accessibility is not a final color pass. Confirm that required names, labels,
 roles, values, relationships, reading order, focus behavior, input alternatives,

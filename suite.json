@@ -90,6 +90,10 @@
           "target": "scoville-code/references/shell-commands.md"
         },
         {
+          "source": "shared:prompting/output-delivery.md",
+          "target": "scoville-code/references/output-delivery.md"
+        },
+        {
           "source": "members/scoville-code/scoville-code/references/cost-and-cache.md",
           "target": "scoville-code/references/cost-and-cache.md"
         },
@@ -197,6 +201,10 @@
         {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-handoff/references/shell-commands.md"
+        },
+        {
+          "source": "shared:prompting/output-delivery.md",
+          "target": "scoville-handoff/references/output-delivery.md"
         }
       ],
       "family": {
@@ -321,8 +329,12 @@
           "target": ".gitattributes"
         },
         {
-          "source": "members/scoville-plan/scoville-plan/references/edit.md",
-          "target": "scoville-plan/references/edit.md"
+          "source": "members/scoville-plan/scoville-plan/references/progress.md",
+          "target": "scoville-plan/references/progress.md"
+        },
+        {
+          "source": "members/scoville-plan/scoville-plan/references/authoring.md",
+          "target": "scoville-plan/references/authoring.md"
         },
         {
           "source": "shared:prompting/common.md",
@@ -339,6 +351,10 @@
         {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-plan/references/shell-commands.md"
+        },
+        {
+          "source": "shared:prompting/output-delivery.md",
+          "target": "scoville-plan/references/output-delivery.md"
         }
       ],
       "family": {
@@ -527,6 +543,10 @@
           "target": "scoville-ui/references/shell-commands.md"
         },
         {
+          "source": "shared:prompting/output-delivery.md",
+          "target": "scoville-ui/references/output-delivery.md"
+        },
+        {
           "source": "members/scoville-ui/scoville-ui/references/ui-wording.md",
           "target": "scoville-ui/references/ui-wording.md"
         },
@@ -549,6 +569,10 @@
         {
           "source": "members/scoville-ui/scoville-ui/references/wordpress/translation-delivery.md",
           "target": "scoville-ui/references/wordpress/translation-delivery.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/wordpress/experimental-policy.md",
+          "target": "scoville-ui/references/wordpress/experimental-policy.md"
         }
       ],
       "family": {
@@ -651,6 +675,10 @@
         {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-project-context-cleanup/references/shell-commands.md"
+        },
+        {
+          "source": "shared:prompting/output-delivery.md",
+          "target": "scoville-project-context-cleanup/references/output-delivery.md"
         }
       ],
       "family": {

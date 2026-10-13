@@ -4,6 +4,12 @@
 
 ## Unreleased - 2026-10-13
 
+- Separate progress updates from authoring. Explicit maintenance can shorten old Goals and Decisions while preserving the choice, binding conditions and required checks.
+- Clarify WordPress ownership and version routing. Unknown runtimes require clarification, and older pins keep their tested fallback limits.
+- Load detailed command capture and full-file delivery only when needed. Keep complete output, failure diagnostics and role permissions.
+
+- Exclude internal audit records from public source exports.
+
 - Validate ordinary generated and copied outputs proportionally, without
   routine full-content or hash comparisons.
 

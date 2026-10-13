@@ -89,24 +89,12 @@ merely because they are all installed.
 
 ## Distinguish convention from accident
 
-A repeated local pattern can resolve an otherwise open decision when it is
-clearly intentional, current, and appropriate to the same surface. Check its
-source, frequency, and relationship to canonical wrappers or tokens. Do not
-promote one copied exception, stale screen, or workaround into product policy.
-
-If a deliberate local convention diverges from a lower-level framework default,
-treat it as project-level evidence. If ownership remains material and unclear,
-ask or report the conflict instead of normalizing the interface in either
-direction.
-
-Apply this invariant before normalizing a local exception:
-
-- Evidence establishes deliberate, current intent: preserve the exception as
-  project-level evidence when it is appropriate to the surface.
-- Evidence establishes an accidental or stale exception: normalize through the
-  canonical owner.
-- Intent is unknown or conflicting: ownership remains unresolved. Inspect or
-  ask for intent; never infer that the exception is accidental.
+Apply the entrypoint's LOCAL and UNKNOWN EXCEPTION rules. Inspect a pattern's
+source, frequency and relationship to canonical wrappers/tokens; a copied
+exception, stale screen or workaround is not product policy. A deliberate
+current convention is project-level evidence above a lower framework default.
+Normalize only an established accidental/stale exception through its owner;
+uncertain or conflicting intent requires inspection or the remaining choice.
 
 ## Handle true greenfield work
 
@@ -115,9 +103,8 @@ groups and task flow from user tasks, content relationships and usage frequency.
 Apply Quality's principles even without a supplied product structure. Preserve
 settled decisions; this does not authorize new features or a wider redesign.
 
-For visual direction, use an approved product direction when supplied. When
-there is no design system, theme, token set, approved precedent or visual owner,
-use the bounded fallback below.
+For an unresolved visual owner, apply the entrypoint's GREENFIELD rule through
+the bounded procedure below.
 
 When polished presentation is requested, the requested surface owns a
 deliberate local direction. Framework defaults may supply compatible primitives
@@ -146,13 +133,7 @@ outcome.
 
 ## Resolve accessibility conflicts
 
-Use WCAG 2.2 Level AA as the web fallback when the project declares no target;
-for native, desktop, and terminal UI, use the owning platform's current
-accessibility guidance. Implement the requirement through supported framework
-and project mechanisms.
-
-If the canonical design system cannot meet the floor, identify the exact owner
-and limitation. Do not work around it with an isolated parallel visual language.
-An explicit, informed user decision may accept a reported limitation against a
-non-binding target, but never overrides system, safety, or legally binding
-requirements.
+Apply the entrypoint's ACCESSIBILITY and OWNER LIMIT rules through supported
+framework/project mechanisms. Name the exact canonical owner and unmet floor;
+only informed acceptance of a non-binding limitation may waive that target.
+System, safety and legal requirements remain binding.

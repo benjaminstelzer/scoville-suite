@@ -1,22 +1,17 @@
 # Task, surface, and runtime routing
 
-Read this router before dependent recommendations or actions. It owns the
-supported surfaces, owners and prohibitions. Load
+Read before any wp-admin recommendation, including hypothetical advice. This
+router owns support boundaries; use the mode in Scoville UI. Read
 [classification-output.md](classification-output.md) only for an explicitly
-requested structured classification. Ordinary advice needs these routing
-boundaries, not the output protocol.
-
-Use the working mode defined in [Scoville UI](../../SKILL.md#mode-and-scope).
-Within the selected scope, classify the surface before the runtime. Do not
-infer either from the other.
+requested structured report, never for ordinary advice.
 
 ## Select the focus
 
-Take the target page or region and concerns from the request. Combine concerns
-when requested or causally necessary, not merely because they share a file.
-An unqualified page audit covers that page's applicable UI concerns. It does
-not cover every plugin screen. A targeted audit covers only the selected
-concerns and the dependencies needed to evaluate them.
+Take the page/region and concerns from the request. Combine concerns only when
+requested or causally necessary. A page audit covers that page's applicable
+concerns, not every plugin screen; a targeted audit covers the selected concern
+and needed dependencies. Implement applies relevant contracts to the new page
+or changed region, not unrelated screens.
 
 | Focus | Inspect | Main reference |
 | --- | --- | --- |
@@ -27,165 +22,84 @@ concerns and the dependencies needed to evaluate them.
 | Accessibility | Relevant semantics, keyboard and focus behavior, labels, contrast, targets, and reflow. | [ui-guidance.md](ui-guidance.md), [responsive.md](responsive.md) for layout |
 | i18n-readiness | Strings, domains, formatting, dependencies and loading hooks, expansion, and language-scoped RTL. Translation delivery only when requested. | [internationalization.md](internationalization.md) |
 
-For a consistency audit, read [validation.md](validation.md) and reconcile the
-complete scoped element inventory with source, geometry and viewed evidence.
-Include distinct variants, known exceptions, lower scroll areas and relevant
-read-only same-page states. Do not infer complete coverage from a sample.
-
-For a spacing audit, inspect the affected subtree and its actual spacing owner.
-After source inspection, use computed styles and actual geometry for rendered
-spacing claims. Missing runtime evidence is unverified, not an optional pass. A declared `gap`
-alone does not establish the visible distance when margins, padding, or layout
-participate. Compare against Core or component defaults before applying a
-Skill-Norm. A native spacing value is not defective merely because it differs
-from the Skill's fallback scale.
-
-Check responsive or state variants when they can change the spacing conclusion,
-such as wrapped controls or a hidden child. Do not automatically add catalog
-generation, RTL tests, navigation redesign, or every application state. For a
-source-only request, report source findings and the unverified rendering
-boundary rather than requiring a browser or claiming visual proof.
-
-In Implement, new pages apply all relevant design-system concerns to that page.
-An isolated fix applies them to the changed region and affected behavior, not
-unrelated screens. Preserve functioning Classic elements and Core defaults.
-Stop when the requested outcome has proportionate evidence. Missing browser
-access limits rendered claims, not the ability to provide a source audit.
+For consistency, load validation.md and its complete inventory-coverage contract.
+For spacing, inspect the affected subtree's actual owner, then measure computed
+styles and geometry for rendered claims; gap alone proves no visible distance.
+Compare Core/component defaults before a Skill-Norm. Native spacing is not defective
+merely for differing from the fallback scale. Add responsive/state cases only
+when they can change the conclusion, such as wrapped controls or hidden children.
+Do not automatically add catalogs, RTL, navigation redesign or every state.
+Source-only work reports its unverified rendering boundary and needs no browser;
+missing runtime evidence never creates a rendered pass. Stop at proportionate
+proof of the requested outcome.
 
 ## Surface support
 
-| Surface | Version 1 status | Shell owner |
+| Surface | Support and shell owner | Boundaries |
 | --- | --- | --- |
-| Plugin-owned single-site settings or tool page | supported | Core admin shell |
-| Plugin-owned workflow or dashboard page | supported | Core shell plus explicit plugin root |
-| Plugin-owned data view | supported | Core shell plus explicit plugin root |
-| Plugin-owned Network Admin page | supported with explicit Multisite context | Network Admin shell |
-| Block Editor sidebar or SlotFill | excluded | Block Editor owner |
-| Editor canvas | excluded | Editor owner |
-| Post metabox | excluded | Post editor or metabox owner |
-| Dashboard widget | excluded | Core Dashboard owner |
-| Profile field | excluded | Core profile-screen owner |
-| Extension of an existing Core list or screen | excluded | Host Core screen |
-| UI inside another plugin | excluded | Host plugin |
+| Plugin single-site settings/tool | Supported; Core shell | Preserve working Classic elements and defaults. |
+| Plugin workflow/dashboard/data view | Supported; Core shell plus explicit plugin root | One owner per region. |
+| Plugin Network Admin page | Supported with explicit Multisite context; Network Admin shell | Establish placement separately from runtime. |
+| Block Editor sidebar/SlotFill or editor canvas | Excluded; Block Editor or Editor owner | No frontend-theme spacing or dependent recommendations without host facts. |
+| Post metabox, Dashboard widget, existing Core list/screen | Excluded; corresponding Core host | No experimental WPDS injection or global admin overrides. |
+| Profile field | Excluded; Core profile screen | No experimental injection, global overrides or CSS before checking Core. |
+| UI inside another plugin | Excluded; host plugin | React proves no WPDS ownership; no dependent recommendations without owner facts. |
 
-For an excluded surface, route to its host and stop. Do not apply a
-plugin-owned page shell, a generic spacing matrix, or global admin CSS.
+Excluded surfaces stop the plugin route: no plugin-page shell, generic spacing
+matrix, global admin CSS or general-route bypass. Unknown placement leaves shell
+ownership unresolved; runtime opt-in never establishes a Core shell.
 
-## WordPress version and capabilities
+## Choose the runtime per region
 
-| Target | Core token stylesheet | Public provider | Routing consequence |
-| --- | --- | --- | --- |
-| 7.0 pinned baseline | No Core `wp-theme` style handle in the verified baseline | Not exported by pinned `@wordpress/theme` 0.7.1 | Preserve Classic pages and Core defaults. The explicitly opted-in bundled experimental path below remains version-specific. |
-| 7.1 | Core registers `wp-theme` with semantic tokens for plugin UIs | Public `ThemeProvider` from `@wordpress/theme` through the Core script handle | PHP may consume Core tokens without React. React may use the public provider when needed. Neither requires experimental-component opt-in. |
+```mermaid
+flowchart TD
+  surface{"Supported plugin-owned admin page?"}
+  surface -->|excluded| host["Name host owner; stop plugin route"]
+  surface -->|unknown| inspect["Inspect supplied context and accessible source/runtime within scope"]
+  inspect --> known{"Decision-relevant facts established, including runtime for supported regions?"}
+  known -->|no| clarify["needs-clarification: name missing fact; withhold only dependent advice"]
+  known -->|yes| surface
+  surface -->|yes| adapter["Read adapter.md; classify runtime and supported versions separately"]
+  adapter --> runtime{"Observed runtime of each DOM region?"}
+  runtime -->|PHP with Core| php["Core APIs, markup, classes and defaults"]
+  runtime -->|Core React| react["Core Components and registered packages; no inferred WPDS opt-in"]
+  runtime -->|bundled experimental| experimental["Read experimental-policy.md; explicit opt-in for additions; verify target compatibility"]
+  runtime -->|mixed| hybrid["Map shell, mounts and actual portal/overlay destinations separately"]
+  runtime -->|unknown| inspect
+  php --> focus["Load only the focus contracts needed"]
+  react --> focus
+  experimental --> focus
+  hybrid --> focus
+```
 
-Check the actual supported installation and minimum supported version. Style
-and script registries are separate even though both use `wp-theme`. Registration
-does not prove enqueue, successful loading, token availability, or rendering.
-Read [version-compatibility.md](version-compatibility.md) when the task depends
-on token or provider availability, loading, or fallback. A spacing check on native
-Core markup does not require a token-loading audit if it consumes no tokens.
-Do not infer future 7.x contracts or package versions from either row.
+Core owns .wrap, title, .wp-header-end, page Notices, native .form-table,
+controls and p.submit. Preserve Classic pages; token availability requires no
+React rewrite, token migration or primitive replacement. Use tokens only for an
+actual plugin-owned gap/domain state, never to restyle native controls.
+Core Components own their internal spacing; stable Flex owns a new generic group.
+A plugin gap stack and .form-table never own the same subtree.
 
-## Runtime owners
+An explicitly unspecified experimental policy stays unknown even for Core
+Components; it permits no experimental additions. Known non-experimental PHP/Core
+or Core-only hybrid requests use deny.
+New experimental APIs require explicit opt-in; unknown behaves as deny. An existing
+experimental subtree retains its owner absent a functional reason to change it.
+Read [experimental-policy.md](experimental-policy.md) before experimental changes
+or advice. Core tokens/public provider are distinct capabilities, not experimental
+component opt-in. React alone establishes neither WPDS nor shell ownership.
 
-### PHP with Core
+For token/provider availability, loading, fallback or version-sensitive advice,
+read [version-compatibility.md](version-compatibility.md). Native regions consuming
+no tokens need no token audit. Distinguish minimum supported from actually tested
+WordPress version; stable 7.0/7.1 examples prove neither 6.x nor future/prerelease
+support. Registration is not loading; version-sensitive results name supported
+and observed versions, token stylesheet owner/names, loading and fallback evidence.
+These facts do not turn PHP with Core tokens into bundled-wpds.
 
-- Use WordPress APIs, semantic admin markup, Core classes, and Core default CSS.
-- Core owns `.wrap`, the page title, `.wp-header-end`, native Notices,
-  `.form-table`, controls, and `p.submit` where those structures are used.
-- Preserve existing Classic pages. No mandatory token conversion, React rewrite,
-  or replacement of native elements follows from a WordPress upgrade.
-- Do not add experimental WPDS components or a second spacing owner over the
-  same subtree. Core `wp-theme` tokens are allowed for a demonstrated missing
-  relationship or domain state inside a plugin-owned region, not for restyling
-  native controls. The runtime remains `php-core`.
-
-### React with Core Components
-
-- Use Core-provided `@wordpress/components` and registered WordPress packages.
-- React alone does not authorize bundled experimental WPDS.
-- Specialized components own their internal spacing. Stable `Flex` owns a new
-  generic vertical group.
-
-### Bundled experimental WPDS
-
-- Requires an explicit project choice, exact package versions, public package
-  APIs, and the exported design-token stylesheet.
-- `@wordpress/ui`, `@wordpress/theme`, and `@wordpress/admin-ui` are an
-  experimental bundled path at the WordPress 7.0 target.
-- `ThemeProvider` is not a public runtime export at this pin. Never unlock
-  `@wordpress/theme` private APIs from plugin code.
-- Consume semantic tokens only when the selected exported stylesheet supplies
-  them. The supported baseline uses default density.
-- These package pins describe 7.0, not all WordPress 7 releases. On 7.1 use
-  Core's token stylesheet instead of a second copy, and independently verify
-  compatibility of any opted-in bundled component package.
-
-### Hybrid
-
-Record one observed owner per DOM region. This example assumes a verified Core shell:
-
-| Region | Owner |
-| --- | --- |
-| `#wpcontent`, `.wrap`, title, `.wp-header-end`, page Notices | Core |
-| Plugin React mount and descendants | selected React runtime |
-| Portal or overlay | runtime and token stylesheet at actual render root |
-
-`.form-table` and a plugin gap stack never own the same subtree.
-
-## Experimental policy
-
-Use `allow`, `deny`, or `unknown`. `unknown` behaves as `deny` for introducing a
-new experimental API. Availability alone is not opt-in. A pre-existing
-experimental subtree remains its owner unless the task has a functional reason
-to change it. Stable `Flex` remains available for all three values.
-
-Core's 7.1 token stylesheet and public `ThemeProvider` are not bundled
-experimental components. `deny` does not prohibit their supported use. A
-provider is optional and must never force a PHP page into React.
-
-Use `deny` when the request selects a non-experimental PHP with Core route or a
-Core-only hybrid route. Use `allow` only for an explicit bundled experimental
-WPDS opt-in. Use `unknown` only when the request leaves a decision-relevant
-experimental policy or runtime fact genuinely unspecified; do not replace a
-known non-experimental route with `unknown`.
-
-For excluded surfaces, keep these boundaries even when no structured report is
-requested:
-
-| Surface | Required limits |
-| --- | --- |
-| Block Editor sidebar or SlotFill or editor canvas | Keep host ownership. Do not apply frontend-theme spacing or recommend dependent details without the missing host facts. |
-| Post metabox, Dashboard widget or existing Core list or screen | Keep host ownership. Do not inject experimental WPDS into Classic UI or apply global admin overrides. |
-| Profile field | Keep host ownership. No experimental WPDS injection, global admin overrides or custom CSS before checking Core. |
-| UI inside another plugin | Keep host ownership. Do not infer WPDS from React or recommend dependent details without the missing owner facts. |
-
-An explicitly unspecified experimental policy stays unresolved even with a
-known Core Components runtime; it does not permit experimental additions.
-Unspecified page placement leaves shell ownership unresolved, not implicitly
-Core plugin-owned. Exact output precedence belongs to
-[classification-output.md](classification-output.md).
-
-## Explain the selected route
-
-Report the ownership facts needed for the scoped result. Do not add a full
-classification report to every finding. For explicitly requested structured
-classification, load [classification-output.md](classification-output.md).
-Its exact output values do not change the boundaries in this router.
-
-For a version-sensitive recommendation, also record supported and observed versions,
-token stylesheet owner, required token names, and loading and fallback evidence.
-These facts do not change a PHP route to `bundled-wpds` just because Core tokens
-are available. Structured field values and prohibition identifiers belong to
-[classification-output.md](classification-output.md).
-
-First seek needed surface, runtime, token-style, or ownership evidence in the
-supplied context and accessible source or runtime within the authorized scope.
-If a decision-relevant fact remains unresolved after that inspection, return
-`needs-clarification`, name the missing fact, and emit no downstream spacing or
-component recommendation that depends on it. A token-style fact is not needed
-for a native Core region that consumes no tokens. Continue independent checks
-within scope without inventing the missing owner or blocking on unrelated facts.
+Continue independent checks when a needed fact remains unknown. Ask only for the
+remaining decision-relevant fact after inspecting accessible sources. No complete
+classification report is required for ordinary findings. Structured values and
+precedence belong to classification-output.md.
 
 ## Fact labels
 

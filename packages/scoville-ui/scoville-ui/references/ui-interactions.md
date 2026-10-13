@@ -1,5 +1,11 @@
 # Interaction and states
 
+Product owns affordance, feedback/state priority and recovery intent. Preserve
+component semantics/state coverage, focus/input, announcements, transitions and
+implementation proof. This floor also applies on a direct Validation route;
+[Quality's ownership table](ui-quality.md#product-ownership-and-ui-guarantees)
+collects the other concerns without requiring unrelated topic reads.
+
 ## Navigation and orientation
 
 Structure navigation around user tasks and content relationships. Distinguish
@@ -10,10 +16,6 @@ related content. Preserve needed working context across navigation when safe
 and appropriate to the task.
 
 ## Make interaction predictable
-
-**Product decision:** The canonical product owner owns intended affordance emphasis, feedback
-priority, and recovery experience. **UI implementation floor:** UI retains
-component semantics, focus and input behavior, announcements, and state transitions.
 
 Use existing components and platform conventions so affordance and behavior
 agree. Choose controls by meaning: navigation, action, single selection,
@@ -46,10 +48,6 @@ owning component's semantics or state model.
 
 ## Design states as part of the same interface
 
-**Product decision:** The canonical product owner owns intended state presentation, priority,
-and recovery. **UI implementation floor:** UI retains component state coverage,
-semantics, focus, announcements, transitions, and implementation proof.
-
 Review only states affected by the change, including relevant initial, empty,
 loading, partial, success, error, unavailable, and permission-dependent states.
 Keep structure stable enough for orientation while making the state change
@@ -71,7 +69,6 @@ or fieldset with a legend for related inputs.
 
 Do not manufacture a complete state matrix for an unaffected component. The
 floor is completeness for the requested flow, not ceremonial coverage.
-
 
 ## Exercise affected transitions
 

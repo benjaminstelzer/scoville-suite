@@ -11,8 +11,7 @@ For each selected relationship:
 2. Settle required fonts, content and transitions. Inspect loaded styles and final
    DOM where relevant. Compare peers with the same role, variant, state, typography
    and layout conditions; explain deliberate differences.
-3. Measure against that target. Report expected relationship and source, measured
-   result and conclusion; evaluate optical alignment separately under Sight.
+3. Measure against that target; evaluate optical alignment separately under Sight.
 
 Never choose tolerance after seeing the result. An unresolved target stays
 unresolved; there is no universal pixel tolerance. Equally wrong peer overrides
@@ -61,7 +60,7 @@ If the optical question cannot be resolved, report it unverified.
 native heights and padding. Verify their intended variants before treating
 their difference as a defect. Do not override native internals for symmetry.
 
-Recheck relevant widths, expanded text and affected states after the correction
-batch is complete.
+Refresh affected widths, expanded text and states under
+[Validation's batch rule](validation.md#source-first-then-measurement-then-sight).
 Zoom alone does not test whether `em`, `rem` and fixed pixels behave equivalently.
 Where units are at risk, vary element or root font conditions independently.

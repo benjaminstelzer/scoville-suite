@@ -1,10 +1,10 @@
 # Layout and adaptation
 
-## Make relationships perceptible
+Apply [Quality's ownership table](ui-quality.md#product-ownership-and-ui-guarantees).
+Preserve intended grouping and responsive priorities through canonical components,
+semantic relationships, valid reflow, persistent content/state and input behavior.
 
-**Product decision:** The canonical product owner owns intended grouping, hierarchy, density,
-and deliberate visual exceptions. **UI implementation floor:** Implement those
-relations with canonical components and tokens and preserve semantic relationships.
+## Make relationships perceptible
 
 Use the owning system's hierarchy, grouping, alignment, sequence, and emphasis
 mechanisms so related information reads together and distinct concerns remain
@@ -24,11 +24,6 @@ numeric scale. Use Validation's geometry and optical diagnosis separately,
 including inventory coverage when auditing a named page.
 
 ## Adapt instead of merely shrinking
-
-**Product decision:** The canonical product owner owns the intended responsive transformation
-and priority changes. **UI implementation floor:** UI retains framework-valid
-breakpoints, reflow mechanics, content and state persistence, input behavior, and
-rendered proof.
 
 Responsive behavior preserves the task as space, content, text size, input
 method, orientation, or window mode changes. Determine transformations from the
