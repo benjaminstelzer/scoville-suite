@@ -34,7 +34,7 @@
   "runtime/check_text_size-fallback.md": "525295b59c004b6fc5731b7f5dfd2900e63f3b6583f9c5e9302823ba3134760d",
   "runtime/check_text_size.py": "81213fa23d8b9bebfa865a09c80b9b591fe9f34ad6b7d8b45a681cfde2ea102f",
   "runtime/native_output.md": "30ab50c2ae767ec5e9a91d4c7d5eedcc0daea6ce420b987a3cb9bcc57a8c6d1c",
-  "runtime/native_task_arguments.py": "147c112ceb8b6ac4fc48a2e9f72b15f06d0f574964a215961dea4308b80f0db5",
+  "runtime/native_task_arguments.py": "0275f01dfe0c934e2901530bedd0fece05044f7c370c6d099121a87171c36e7a",
   "runtime/python_discovery.md": "395db619f4fea197a456d86f7b5e2b1ac10de70b074019d91d094b822f31f747",
   "runtime/rollover_readiness.md": "2bf23fe34d709e52a781edd9d051b214eca6d2c0e09a422d4512ce9775049e49",
   "runtime/scoville_config.py": "65f044f8d1c637e24f5489e5b6efbc0cb5967f7c87326e412b9c8d750fbfec9d",
