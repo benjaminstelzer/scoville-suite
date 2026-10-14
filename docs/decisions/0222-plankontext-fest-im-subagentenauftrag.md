@@ -1,11 +1,12 @@
 ---
 format_version: 1
 id: ADR-0222
-status: accepted
+status: superseded
 created: 2026-10-13
 accepted: 2026-10-13
 scope: workflow/dispatch
 supersedes: ADR-0174
+superseded_by: ADR-0224
 ---
 
 # Plankontext fest im Subagentenauftrag, ohne zusätzliche Befugnisse
