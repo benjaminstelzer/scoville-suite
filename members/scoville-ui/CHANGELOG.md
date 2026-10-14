@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - 2026-10-14
+
+- Parse machine reports completely and display checked facts and all in-scope deviations. Reuse fully read shared rules across Skills without hiding required inputs.
+
 ## Unreleased - 2026-10-13
 
 - Clarify WordPress ownership and version routing. Unknown runtimes require clarification, and older pins keep their tested fallback limits.
