@@ -8,7 +8,7 @@ import subprocess
 
 REPOSITORY = 'benjaminstelzer/scoville-runtime-ci'
 WORKFLOW = '.github/workflows/runtime-helpers.yml'
-SYSTEMS = ('windows-latest', 'macos-latest', 'ubuntu-latest')
+SYSTEMS = ('windows-latest', 'macos-26-intel', 'ubuntu-latest')
 PYTHONS = ('3.11', '3.x')
 
 

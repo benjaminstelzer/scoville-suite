@@ -23,6 +23,16 @@ spec.loader.exec_module(builder)
 
 
 class RuntimeGateTests(unittest.TestCase):
+    def test_workflow_and_gate_cover_the_same_platforms_and_python_versions(self):
+        workflow = (SHARED / 'runtime-tests/runtime-helpers.yml').read_text(encoding='utf-8')
+        systems = tuple(part.strip() for part in re.search(r'^\s+os: \[(.+)\]$', workflow, re.M)[1].split(','))
+        pythons = tuple(ast.literal_eval(re.search(r'^\s+python: (\[.+\])$', workflow, re.M)[1]))
+        self.assertEqual(gate.SYSTEMS, systems)
+        self.assertEqual({'windows', 'macos', 'ubuntu'}, {name.split('-')[0] for name in systems})
+        self.assertEqual(3, len(systems))
+        self.assertEqual(('3.11', '3.x'), pythons)
+        self.assertEqual(gate.PYTHONS, pythons)
+
     def test_minimum_python_workflow_selects_existing_tests(self):
         workflow = (SHARED / 'runtime-tests/runtime-helpers.yml').read_text(encoding='utf-8')
         selection = re.search(r'names = (\[.*?\]);', workflow, re.S)
