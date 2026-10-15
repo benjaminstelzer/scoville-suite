@@ -1,4 +1,7 @@
-For native Codex calls, forward rendered checker output unchanged as text.
+Apply the shared reading rule before native delivery. Process machine data in
+code, whether returned directly or as a capture file. Display its checked result,
+not the capture. Use the template below only for output already selected under
+that rule; forward rendered checker output unchanged as text.
 Do not JSON-encode it again or add unchecked status lines. Structured helper
 results and native tool arguments keep their own interfaces.
 
@@ -36,7 +39,7 @@ Check completeness separately from command success:
 | --- | --- |
 | Running `session_id` | Retain its ID and every chunk until completion; never restart the command. |
 | `exit=` from `--run` | Both streams are captured; the child exit status determines command success. A nonzero exit can supply valid failure evidence. |
-| Complete-file metadata | Read the entire supplied file. |
-| Empty output, capture failure, `output_complete=false` | Required input remains unread; stop dependent work. |
+| Complete-file metadata | Use the complete-file distinction above and process the supplied file under the shared reading rule: machine data in code, required prose in full. |
+| Empty output, capture failure, or missing output without a complete-file route | Required input remains unread; stop dependent work. |
 
 Never discard a failure's stdout or stderr.

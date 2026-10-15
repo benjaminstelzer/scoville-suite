@@ -37,9 +37,10 @@ class SharedRulesTests(unittest.TestCase):
                 receipt = builder.build(ROOT, Path(temp) / 'build', True, [], profile, layout)
                 for member in config['members']:
                     name = member['name']
-                    rule = ('rules.optout' if name in ('scoville-code', 'scoville-ui') else
-                            'rules.python' if name in ('scoville-ask-for-codex', 'scoville-setup') else None)
-                    if rule:
+                    entrypoint = (ROOT / 'members' / name / name / 'SKILL.md').read_text(encoding='utf-8')
+                    rules = [rule for rule in ('rules.optout', 'rules.python')
+                             if '{{ include: ' + rule + ' }}' in entrypoint]
+                    for rule in rules:
                         source = SHARED / builder.RULE_FRAGMENTS[rule]
                         text = source.read_bytes()
                         payload = builder.payload(ROOT, member, config)
