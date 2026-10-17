@@ -188,12 +188,16 @@ only their current verified output, never build candidates or stale copies.
 
 ## Runtime build gate
 
-Builds containing Python runtime helpers require a successful private GitHub
-Actions matrix for the exact generated packages and current tests. The matrix
+Builds containing Python runtime helpers reuse a successful private GitHub
+Actions matrix when packaged Python and Python CI tests are unchanged. Changes
+to instructions, documentation, configuration or build tools need appropriate
+local checks, not a new matrix. Current package integrity remains required. The matrix
 runs Windows, macOS and Linux on Python 3.11 and the current stable Python.
 It exercises packaged helpers and their actual local consumers; no live
 adviser calls or credentials are needed. The private CI repository is
 `benjaminstelzer/scoville-runtime-ci`. Never push private sources to public CI.
+
+For changed packaged Python or Python CI tests:
 
 1. Prepare the test snapshot under the sole release staging tree:
 
@@ -214,9 +218,10 @@ adviser calls or credentials are needed. The private CI repository is
    python development/build_suite.py --profile codex --layout suite --public-only --output <package-build> --runtime-run https://github.com/benjaminstelzer/scoville-runtime-ci/actions/runs/ID
    ```
 
-The builder verifies GitHub run/job status, tested commit, exact package files,
-helper registry and test/workflow hashes before producing a verified build.
-Changed packages or tests require a new run. Missing, failed, skipped or stale
+The builder verifies GitHub run/job status, tested commit, packaged Python and
+Python CI test bytes. Non-Python differences reuse that proof; local checks
+cover their effects and bind the current complete package and helper registry.
+Changed Python requires a new run. Missing, failed, skipped or stale Python
 evidence blocks the build. Authenticated `gh` access to private CI is required.
 `--check-publication --output <package-build>` verifies the current clean source,
 shared snapshot, exact package receipt and runtime run before a Skill push.

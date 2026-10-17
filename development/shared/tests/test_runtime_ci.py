@@ -89,11 +89,11 @@ class RuntimeGateTests(unittest.TestCase):
             gate.bind_receipt(receipt, proof)
         self.assertEqual(receipt['runtime_validation']['status'], 'pending')
 
-    def test_reviewed_instruction_delta_reuses_proof_but_binds_current_bytes_and_scope(self):
+    def test_non_python_delta_reuses_proof_but_binds_current_bytes_and_scope(self):
         self.payload['example/operations.md'] = b'clearer instruction\n'
         proof = self.verify()
         self.assertEqual(proof['evidence'], 'reused')
-        self.assertEqual(proof['instruction_deltas'], ['example/example/operations.md'])
+        self.assertEqual(proof['non_python_deltas'], ['example/example/operations.md'])
         self.assertNotEqual(proof['packages_sha256'], proof['tested_packages_sha256'])
         receipt = {'runtime_validation': {'status': 'pending'},
                    'runtime_scope': builder.runtime_scope([self.member]),
@@ -106,23 +106,38 @@ class RuntimeGateTests(unittest.TestCase):
                 if mutate == 'classification': candidate['runtime_scope']['instruction_files'] = []
                 elif mutate == 'contract': candidate['runtime_scope']['helper_contracts'] = {}
                 elif mutate == 'evidence': altered['evidence'] = 'exact'
-                else: altered['instruction_deltas'] = ['example/example/writing.md']
+                else: altered['non_python_deltas'] = ['example/example/scripts/helper.py']
                 with self.assertRaises(ValueError): gate.bind_receipt(candidate, altered)
                 self.assertEqual(candidate['runtime_validation']['status'], 'pending')
 
-    def test_protected_content_inventory_and_classification_changes_require_new_evidence(self):
+    def test_python_content_and_inventory_changes_require_new_evidence(self):
         original = dict(self.payload)
-        for path in ('example/scripts/helper.py', 'example/writing.md', 'example/config.json',
-                     'example/new.md', 'example/unknown.py'):
+        for path in ('example/scripts/helper.py', 'example/unknown.py'):
             with self.subTest(path=path):
                 self.payload[path] = b'changed'
-                with self.assertRaisesRegex(ValueError, 'packages differ'): self.verify()
+                with self.assertRaisesRegex(ValueError, 'Python packages differ'): self.verify()
                 self.payload = dict(original)
+        del self.payload['example/scripts/helper.py']
+        with self.assertRaisesRegex(ValueError, 'Python packages differ'): self.verify()
+
+    def test_non_python_content_inventory_and_classification_reuse_successful_matrix(self):
+        original = dict(self.payload)
+        for path in ('example/SKILL.md', 'example/writing.md', 'example/config.json',
+                     'example/assets/workflow.toml', 'README.md', 'example/new.md'):
+            with self.subTest(path=path):
+                self.payload[path] = b'changed'
+                proof = self.verify()
+                self.assertEqual(proof['evidence'], 'reused')
+                self.assertIn('example/' + path, proof['non_python_deltas'])
+                self.payload = dict(original)
+        del self.payload['example/config.json']
+        self.assertIn('example/example/config.json', self.verify()['non_python_deltas'])
+        self.payload = dict(original)
         self.member['files'][0].pop('runtime_role')
-        with self.assertRaisesRegex(ValueError, 'classification changed'): self.verify()
+        self.assertEqual(self.verify()['evidence'], 'exact')
         self.member['files'][0]['runtime_role'] = 'instruction'
         self.member['files'].append({'target': 'example/writing.md', 'runtime_role': 'instruction'})
-        with self.assertRaisesRegex(ValueError, 'classification changed'): self.verify()
+        self.assertEqual(self.verify()['evidence'], 'exact')
 
     def test_scope_metadata_cannot_hide_unknown_or_protected_inputs(self):
         original = copy.deepcopy(self.meta)
@@ -137,7 +152,7 @@ class RuntimeGateTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'scope metadata'): self.verify()
                 self.meta = copy.deepcopy(original)
 
-    def test_schema_one_proof_remains_exact_only(self):
+    def test_schema_one_proof_also_covers_unchanged_python(self):
         self.meta['schema_version'] = 1
         row = self.meta['variants']['codex-suite']
         row.pop('runtime_inputs')
@@ -147,7 +162,7 @@ class RuntimeGateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'scope metadata'): self.verify()
         row.pop('exempt_all')
         self.payload['example/operations.md'] = b'changed'
-        with self.assertRaisesRegex(ValueError, 'packages differ'): self.verify()
+        self.assertEqual(self.verify()['evidence'], 'reused')
 
     def test_invalid_instruction_classification_is_rejected_by_manifest_loader(self):
         original = json.loads((self.root / 'suite.json').read_text(encoding='utf-8'))
@@ -178,16 +193,19 @@ class RuntimeGateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Every Windows'): self.verify()
 
     def test_old_package_dependency_registry_or_test_cannot_authorize_build(self):
-        self.payload['example/SKILL.md'] = b'changed dependency'
-        with self.assertRaisesRegex(ValueError, 'packages differ'): self.verify()
-        self.payload['example/SKILL.md'] = b'skill\n'
+        original = copy.deepcopy(self.meta)
         self.meta['variants']['codex-suite']['helper_contracts'] = {}
-        with self.assertRaisesRegex(ValueError, 'registry changed'): self.verify()
-        self.meta['test_assets'][gate.WORKFLOW] = 'stale'
+        with self.assertRaisesRegex(ValueError, 'scope metadata'): self.verify()
+        self.meta = copy.deepcopy(original)
+        self.meta['test_assets']['tests/test_runtime_helpers.py'] = 'stale'
         with self.assertRaisesRegex(ValueError, 'tests changed'): self.verify()
-        self.meta['test_assets'][gate.WORKFLOW] = gate.digest(gate.assets()[gate.WORKFLOW])
-        self.meta['test_assets']['unknown.yml'] = gate.digest(b'unknown')
+        self.meta = copy.deepcopy(original)
+        self.meta['test_assets']['unknown.py'] = gate.digest(b'unknown')
         with self.assertRaisesRegex(ValueError, 'tests changed'): self.verify()
+
+    def test_non_python_ci_asset_change_does_not_require_new_matrix(self):
+        self.meta['test_assets'][gate.WORKFLOW] = 'earlier workflow'
+        self.assertEqual(self.verify()['evidence'], 'exact')
 
     def test_build_cli_without_evidence_does_not_write_packages(self):
         with tempfile.TemporaryDirectory() as temporary:

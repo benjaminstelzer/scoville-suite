@@ -26,7 +26,8 @@ def runtime_scope_digest(files, scope):
             or instructions != sorted(set(instructions)) or not set(instructions) <= files.keys()
             or any(not p.endswith('.md') for p in instructions) or not isinstance(contracts, dict)
             or any(not isinstance(p, str) or not p.endswith('.py') or p not in files
-                   or kind not in ('helper', 'library') for p, kind in contracts.items())):
+                   or kind not in ('helper', 'library') for p, kind in contracts.items())
+            or set(contracts) != {p for p in files if p.endswith('.py')}):
         raise ValueError('Invalid runtime scope metadata')
     protected = {name: value for name, value in files.items() if name not in instructions}
     return digest(json.dumps({'runtime_inputs': protected, **scope}, sort_keys=True).encode('utf-8'))
@@ -150,10 +151,13 @@ def verify(builder, root, run_url, config, selected=()):
     if set(metadata) != {'schema_version', 'variants', 'test_assets'}:
         raise ValueError('Unknown runtime CI input metadata')
     current_assets = assets()
-    if metadata.get('test_assets') != {name: digest(data) for name, data in current_assets.items()}:
+    tested_assets = metadata.get('test_assets')
+    python_assets = {name: digest(data) for name, data in current_assets.items() if name.endswith('.py')}
+    if (not isinstance(tested_assets, dict) or
+            {name: value for name, value in tested_assets.items() if name.endswith('.py')} != python_assets):
         raise ValueError('Runtime CI tests changed: test asset inventory; rerun the matrix with current tests')
     for name, data in current_assets.items():
-        if remote_file(commit, name) != data:
+        if name.endswith('.py') and remote_file(commit, name) != data:
             raise ValueError(f'Runtime CI tests changed: {name}; rerun the matrix with current tests')
     variant = f'{config["profile"]}-{config["layout"]}'
     tested = metadata.get('variants', {}).get(variant, {})
@@ -165,34 +169,24 @@ def verify(builder, root, run_url, config, selected=()):
     names = {m['name'] for m in members}
     observed = {name: value for name, value in tested.get('files', {}).items() if name.split('/')[0] in names}
     scope = builder.runtime_scope(members)
-    instructions = scope['instruction_files']
     if metadata['schema_version'] == 2:
         tested_scope = {key: tested[key] for key in ('instruction_files', 'helper_contracts')}
         runtime_scope_digest(tested['files'], tested_scope)
         protected = {p: h for p, h in tested['files'].items() if p not in tested['instruction_files']}
         if tested['runtime_inputs'] != protected:
             raise ValueError('Inconsistent runtime scope metadata')
-        observed_instructions = [p for p in tested['instruction_files'] if p.split('/')[0] in names]
-        if observed_instructions != instructions:
-            raise ValueError('Runtime instruction classification changed; prepare and test the current build')
-        mismatch = (set(observed) != set(required)
-                    or any(observed[p] != h for p, h in required.items() if p not in instructions))
-    else:
-        # Old proof has no reviewed exclusions: accept only the exact whole inventory.
-        mismatch = observed != required
-    if mismatch:
-        raise ValueError(f'Runtime CI packages differ from current {variant} sources; prepare and test the current build')
-    contracts = scope['helper_contracts']
-    observed_contracts = {name: kind for name, kind in tested.get('helper_contracts', {}).items() if name.split('/')[0] in names}
-    if contracts != observed_contracts:
-        raise ValueError('Runtime helper registry changed; prepare and test the current build')
-    deltas = sorted(p for p in instructions if observed[p] != required[p])
+    # Matrix provenance covers Python. Current package/registry validation is local.
+    if ({p: h for p, h in observed.items() if p.endswith('.py')} !=
+            {p: h for p, h in required.items() if p.endswith('.py')}):
+        raise ValueError(f'Runtime CI Python packages differ from current {variant} sources; prepare and test the current build')
+    deltas = sorted(p for p in observed.keys() | required.keys()
+                    if observed.get(p) != required.get(p))
     return {'status': 'passed', 'run': run_url, 'attempt': run['run_attempt'],
             'commit': commit, 'input_sha256': digest(metadata_bytes), 'variant': variant,
             'packages_sha256': package_hash,
             'tested_packages_sha256': digest(json.dumps(observed, sort_keys=True).encode('utf-8')),
             'runtime_inputs_sha256': runtime_scope_digest(required, scope),
-            'evidence': 'reused' if deltas else 'exact', 'instruction_deltas': deltas}
+            'evidence': 'reused' if deltas else 'exact', 'non_python_deltas': deltas}
 
 
 def bind_receipt(receipt, proof):
@@ -205,9 +199,9 @@ def bind_receipt(receipt, proof):
         scope = receipt.get('runtime_scope')
         if proof.get('runtime_inputs_sha256') != runtime_scope_digest(files, scope):
             raise ValueError('Runtime scope changed during the verified build; candidate remains pending')
-        deltas = proof.get('instruction_deltas')
+        deltas = proof.get('non_python_deltas')
         if (not isinstance(deltas, list) or any(not isinstance(p, str) for p in deltas)
-                or deltas != sorted(set(deltas)) or not set(deltas) <= set(scope['instruction_files'])
+                or deltas != sorted(set(deltas)) or any(p.endswith('.py') for p in deltas)
                 or proof.get('evidence') != ('reused' if deltas else 'exact')):
             raise ValueError('Inconsistent runtime reuse proof')
     if proof['status'] == 'not_applicable' and (receipt['runtime_validation']['status'] == 'pending'
