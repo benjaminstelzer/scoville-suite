@@ -2,6 +2,10 @@
 
 
 
+## Unreleased - 2026-10-18
+
+- Request only the scope the next decision needs. Reuse known results and narrow direct tool requests before display when code preprocessing is unavailable.
+
 ## Unreleased - 2026-10-17
 
 - Source exports update the native-context regression checks for Codex. Installed general-host Skills are unchanged.
