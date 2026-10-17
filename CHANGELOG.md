@@ -2,6 +2,10 @@
 
 
 
+## Unreleased - 2026-10-17
+
+- Source exports update the native-context regression checks for Codex. Installed general-host Skills are unchanged.
+
 ## Unreleased - 2026-10-15
 
 - Reuse applicable Decisions before adding new ones. Explicit maintenance can consolidate equivalent Decisions and retire proved temporary conditions and irrelevant links while preserving live constraints and historical review limits.

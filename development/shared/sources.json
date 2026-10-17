@@ -31,7 +31,7 @@
   "readme/suite-members.md": "50ebcadf17b9c7b67bdaa461b25e09f7c6c4e914abcc2286abb64d8201298043",
   "readme/suite-requirements.md": "da095cc6441e2101eb8167eafe5868cc346ce8e7dea3f4effedc20cace6ffaca",
   "runtime-tests/runtime-helpers.yml": "cabb8e9804084c984ae62f3f0d81a5a70e2052b279f9a369ddbc26fe2f5f79d6",
-  "runtime-tests/test_runtime_helpers.py": "96ea08c73b13c513c0262dea6212885575bcc65f5aa5e3d1e81355529e2317bc",
+  "runtime-tests/test_runtime_helpers.py": "93cfad4e97cf61adff4cb47a30464d11b128a8116cc003020e8f2d55f592d56b",
   "runtime/check_text_size-fallback.md": "6ad0f58dd793bf63bd041a85035d4a8e5370773d8a19dd6b8bc6a57799139d78",
   "runtime/check_text_size.py": "6ced4931217abe075aad5e2433562072539c967d3fd90373ed3fb7af013256b0",
   "runtime/native_output.md": "ec86fa9410d4c9569ea13ba6f44535ea0458097a88a7f9052e7016ef456a7979",
