@@ -381,25 +381,25 @@ Evidence: []
         config.parent.mkdir()
         config.write_text('{"workflow":{"context_threshold_percent":20}}', encoding='utf-8')
         for package in packages('scoville-workflow-for-codex'):
-            for used, expected in ((19, 'reuse'), (20, 'spawn')):
+            for used, expected in ((19, 'continue'), (20, 'handover')):
                 usage = {'input_tokens': used - 1, 'output_tokens': 1, 'total_tokens': used}
                 records = [
                     ('session_meta', {'id': thread, 'source': {'subagent': {'thread_spawn': {'agent_path': agent, 'parent_thread_id': 'runtime-parent'}}}}),
                     ('session_meta', {'id': 'runtime-parent', 'source': 'vscode'}),
-                    ('event_msg', {'type': 'task_started', 'turn_id': 'turn-1'}),
+                    ('event_msg', {'type': 'task_started', 'turn_id': 'turn-1', 'model_context_window': 100}),
                     ('turn_context', {'turn_id': 'turn-1', 'model': 'gpt-6-luna', 'effort': 'medium'}),
                     ('token_usage_record', {'thread_id': thread, 'turn_id': 'turn-1', 'usage': usage}),
                     ('event_msg', {'type': 'token_count', 'info': {'last_token_usage': usage, 'model_context_window': 100}}),
-                    ('event_msg', {'type': 'task_complete', 'turn_id': 'turn-1'}),
                 ]
                 rollout.write_text('\n'.join(json.dumps({'ordinal': n, 'type': kind, 'payload': payload})
                     for n, (kind, payload) in enumerate(records)) + '\n', encoding='utf-8')
                 args = ['--project-root', self.project, '--sessions-root', sessions]
-                environment = dict(os.environ, CODEX_THREAD_ID='runtime-parent')
-                result = self.run_cli(package, 'check_agent_context.py', '--agent-id', agent, *args, env=environment)
+                environment = dict(os.environ, CODEX_THREAD_ID=thread)
+                result = self.run_cli(package, 'check_agent_context.py', *args, env=environment)
                 self.assertEqual((result['action'], result['threshold_percent']), (expected, 20))
-                self.assertEqual((result['model'], result['reasoning_effort']), ('gpt-6-luna', 'medium'))
-                invalid = self.run_cli(package, 'check_agent_context.py', '--agent-id', '/root/other', *args, env=environment, ok=False)
+                self.assertEqual((result['thread_id'], result['parent_thread_id']), (thread, 'runtime-parent'))
+                invalid = self.run_cli(package, 'check_agent_context.py', *args,
+                    env=dict(environment, CODEX_THREAD_ID='runtime-parent'), ok=False)
                 self.assertEqual(invalid['action'], 'blocked')
             spec = importlib.util.spec_from_file_location('runtime_title', package / 'scripts/native_task_arguments.py')
             module = importlib.util.module_from_spec(spec)
