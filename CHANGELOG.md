@@ -5,6 +5,7 @@
 ## Unreleased - 2026-10-17
 
 - Source exports update the native-context regression checks for Codex. Installed general-host Skills are unchanged.
+- Reuse successful Actions evidence for unchanged Python. Non-Python changes retain local checks and package verification.
 
 ## Unreleased - 2026-10-15
 

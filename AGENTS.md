@@ -34,11 +34,12 @@ GitHub-facing README and CHANGELOG wording uses Benjamin's voice.
 
 Choose release tests from changed behavior and affected dependencies. Test a
 changed file and its consumers only where the change can affect their results.
-An unchanged Python helper needs no new test merely because a release is being
-prepared. Reuse applicable verified results when its code, dependencies and
-runtime contract are unchanged. Instruction or documentation edits alone do
-not justify rerunning every Python helper. A changed package hash alone is no
-reason for new runtime tests. Check the current package structure,
+Require a new GitHub Actions runtime matrix only when packaged Python or its
+Python CI tests change. Reuse successful matrix evidence for unchanged Python;
+instructions, documentation, configuration and other non-Python changes need
+appropriate local checks, not another Actions run. Build-tool changes use local
+tests unless they change the packaged Python or Python CI tests.
+Check the current package structure,
 file completeness, generated copies and published artifacts separately.
 
 Fix failures at their narrowest responsible source. Keep shared instructions
