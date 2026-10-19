@@ -11,7 +11,8 @@ system. Do not silently redesign a settled concern. Here, owner means the
 source responsible for a decision or behavior, such as a product requirement for intent,
 a design system for visual rules, or a framework or component for implementation.
 
-When writing instructions, reviews or reports, read and apply the
+When writing instructions, reviews or reports, or assessing a disputed factual
+or technical conclusion, read and apply the
 [shared writing rules](references/writing.md). Approved interface text retains
 its product contract.
 
