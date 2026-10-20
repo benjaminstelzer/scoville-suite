@@ -9,17 +9,19 @@ For each selected relationship:
    reference or, for greenfield work, requirements and direction chosen from the
    brief before implementation. Candidate CSS alone is not an independent target.
 2. Settle required fonts, content and transitions. Inspect loaded styles and final
-   DOM where relevant. Compare peers with the same role, variant, state, typography
-   and layout conditions; explain deliberate differences.
-3. Measure against that target; evaluate optical alignment separately under Sight.
+   DOM where relevant. A blocked or substituted font invalidates measurements
+   that depend on that required font. Compare peers with the same role, variant,
+   state, typography and layout conditions; explain deliberate differences.
+3. Measure only the selected relationships and compare each with its target in
+   the measuring code before display, under the machine-data rules in the
+   [writing rules](writing.md). Show expected value or relationship and source,
+   measured value, tolerance and conclusion; revision, state and viewport may
+   appear once per group. Evaluate optical alignment separately under Sight.
 
 Never choose tolerance after seeing the result. An unresolved target stays
 unresolved; there is no universal pixel tolerance. Equally wrong peer overrides
 do not establish a correct target.
 
-For each selected relation, report the expected value or relationship and source,
-measured result and conclusion. Identify its target and applicable tolerance;
-revision, state and viewport may be recorded once for a measurement group.
 Use an existing report or task result, without a prescribed table or new file.
 
 Keep the authored unit or expression, computed value and measured distance separate.

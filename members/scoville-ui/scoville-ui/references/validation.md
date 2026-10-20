@@ -1,32 +1,22 @@
 # Rendered UI Validation
 
-Apply the common claim, scope and evidence gates below. Read the complete
-additional reference when the requested claim needs it:
-
-| Claim or mechanism | Reference |
-| --- | --- |
-| Geometry, layout, alignment, responsive composition or optical comparison | [Geometry and sight](ui-geometry-validation.md) |
-| Navigation, controls, dialogs, forms, authentication or asynchronous transitions | [Interaction and transitions](ui-interactions.md) |
-| Consistency across a named page or region | [Audit coverage](ui-consistency-audit.md) |
-
-Select relevant conditions by scope and risk; preserve every applicable gate.
-Source or build checks never replace required rendered or interactive proof.
-
 ## Establish the claim
 
 State what the change is supposed to improve and which observable result would
-show it. Separate claims about:
+show it. Use the matching evidence and read each triggered reference completely:
 
-- source or build correctness;
-- framework and token alignment;
-- rendered layout and hierarchy;
-- interaction and state behavior;
-- responsive or adaptive behavior; and
-- accessibility conformance.
+| Claim | Decisive evidence | Does not prove | Reference |
+| --- | --- | --- | --- |
+| Source or build correctness | Source inspection; relevant existing lint, build or component checks | Rendering, geometry or interaction | — |
+| Framework or token alignment | Owning component, variant and token; resolved style at the affected element | Painted or layout effect | [Framework](framework-alignment.md) when ownership is open |
+| Layout, spacing, alignment or adaptation | Runtime geometry of the named relationship at the actual elements, against an independent target | Glyph position, baseline or optical balance | [Geometry and sight](ui-geometry-validation.md) |
+| Painted appearance or optical alignment | Viewed render compared with its reference | Exact distances or interaction | Geometry and sight |
+| A setting's visible effect or absence | Relevant layout or painted effect at its actual consumer | Source agreement, a declaration or a computed value alone | Geometry and sight |
+| Interaction or state behavior | Exercised flow and transitions in an interactive runtime | Visual quality | [Interactions](ui-interactions.md) |
+| Accessibility conformance | Applicable checks below and confirmed scanner findings | Task understanding | — |
+| Consistency across a page or region | Complete scoped coverage | A partial sample | [Audit coverage](ui-consistency-audit.md) |
 
-Evidence for one category does not prove another. A passing build cannot prove
-that text is visible; one screenshot cannot prove keyboard operation; an
-automated audit cannot prove that a task is understandable.
+Select conditions by scope and risk. Evidence for one claim does not prove another.
 
 For a supplied product decision, use its validation target and preserve
 its evidence status. Report any implementation constraint to its owner; do not
@@ -120,7 +110,7 @@ flowchart TD
   source --> defect{"Known in-scope source defect?"}
   defect -->|Implement: yes| fix["Correct source before first measurement or viewed render"]
   defect -->|Audit: yes| note["Report source defect; make no repair"]
-  defect -->|no| measure["Measure claimed relationships in actual runtime when in scope and available"]
+  defect -->|no| measure["Measure claimed relationships in available in-scope runtime; compare with targets before display"]
   fix --> measure
   note --> measure
   measure --> sight["View render; compare optical composition where claimed"]
@@ -136,19 +126,18 @@ At Source, inspect markup/components, supported props and variants, styles and
 owning framework/design system. Check duplicate spacing owners, arbitrary
 sizes/offsets, token bypass, primitive rebuilds and obsolete overrides. Run
 relevant existing syntax, lint, component or build checks. Build success does
-not establish correct component ownership, rendering or geometry.
-For Measurement and Sight use [geometry and comparison](ui-geometry-validation.md):
-independent targets, actual distances and viewed component contents as well as
-outer layout. Container overflow alone proves no internal alignment; numeric
-equality proves no optical alignment. Images prove no interaction.
+not establish correct component ownership. Measure and view internal component
+contents as well as outer layout under the claim table and Geometry and sight.
+Container overflow alone proves no internal alignment; numeric equality proves
+no optical alignment.
 
-These gates follow the requested claim and available evidence, not an expanded
-scope. Source-only and screenshot-only requests retain their limits. Missing
-source/tools limit the conclusion; continue the permitted available observations
-and report every required gap, never a pass. Usable tools cannot be skipped for
-convenience. Final measurements and viewed images
-must represent the same revision, content and state; unchanged evidence remains
-usable. Refresh invalidated evidence before claiming completion.
+These gates add no scope or permission. Source-only and screenshot-only requests
+retain their limits. If required source or runtime tools are unavailable,
+continue permitted observations and report the specific missing evidence as
+unverified, never passed. Do not skip usable tools for convenience. Audit stays
+read-only; missing evidence authorizes no repair. Final measurements and viewed
+images must represent the same revision, content and state. Reuse unchanged
+evidence; refresh only evidence invalidated by a relevant change.
 
 ## Use automation as supporting evidence
 
@@ -161,17 +150,6 @@ tests to simulate proof.
 Treat scanner output as a lead and a bounded check. Confirm relevant findings in
 the rendered interface and interaction path.
 
-## Handle reviews and missing renderers
-
-For an audit without an implementation request, inspect the available rendered
-surface and return prioritized findings with the observed evidence, affected
-task, owner, and consequence. Do not silently redesign or edit.
-
-If no browser, simulator, device, terminal harness, or runnable application is
-available, inspect source only far enough to identify likely risks. Report
-rendered behavior, responsiveness, and visual quality as unverified. Do not turn
-absence of evidence into a pass.
-
 ## Report the result
 
 Report:
@@ -181,6 +159,8 @@ Report:
 - relevant automated checks and their result;
 - framework or design-system alignment observed; and
 - residual unverified conditions or owner conflicts.
+
+For Audit, prioritize findings by affected task, owner and consequence.
 
 When supplied evidence explicitly names unobserved conditions that bound the
 requested claim, retain those conditions individually or in an equally precise
