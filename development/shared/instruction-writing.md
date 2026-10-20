@@ -19,8 +19,9 @@ The following rules add authoring and packaging guidance.
   exceptions in references, unless routing or an observed regression requires
   them in the body. State when to read each reference.
 - Name the action, exact inputs, result and failure action. Place prerequisites
-  before calls and checks after them. Move deterministic payload, ID and branch
-  assembly into helpers when this prevents an identified error.
+  before calls and checks after them. For a result to verify, name the observation
+  and a condition that would be false in the plausible failure. Move deterministic
+  payload, ID and branch assembly into helpers when this prevents an identified error.
 - Check instructions against code and their original intended behavior. For
   changed complex workflows, test realistic use with Luna when authorized.
   Otherwise report comprehension as unverified. Word counts and stronger-model

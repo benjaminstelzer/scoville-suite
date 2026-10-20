@@ -100,11 +100,8 @@ selected. Reuse one inventory and one evidence pass.
    conflicts with a canonical product decision, report the exact component
    constraint to the product or visual decision owner. Implement the revised
    decision after that owner resolves the conflict. Do not silently redesign.
-5. Batch related changes, then use the selected Validation contract for
-   affected source, measurement, viewed render, and interaction checks. Audit
-   reports source defects first and remains read-only. A build or source check
-   does not prove rendering; a viewed image does not prove interaction, and
-   geometry needs runtime measurement. State missing evidence precisely.
+5. Batch related changes, then validate under the selected Validation contract.
+   Audit reports source defects first and stays read-only. State missing evidence precisely.
 
 ## Reference router
 
@@ -117,10 +114,13 @@ quality, implementation or evidence.
 | Hypothetical support status and responsible systems only | [Framework](references/framework-alignment.md) only if responsibility or fallback remains unresolved. For WordPress admin, use the adapter classification instead. No Quality or Validation unless the question extends to those concerns. |
 | General-route implementation owner | Before choosing an owner, read Framework when the stack is unfamiliar, ownership is ambiguous, layers interact, no canonical visual owner exists, customization is uncertain or a component limitation prevents the target. |
 | Open quality or implementation question | [Quality](references/ui-quality.md) when creating, translating, changing or reviewing interface text; judging unsettled flow, hierarchy, layout, readability, states, accessibility structure or responsive behavior; or mechanics could violate settled intent. |
-| Interface change, consistency audit or judgment of existing proof | Before an interface change, a consistency audit or judging existing proof, read [Validation](references/validation.md) for rendering, responsive behavior, interaction, visual quality or accessibility. Use its evidence boundaries. |
+| Interface change, consistency audit or judgment of existing proof | Before an interface change, a consistency audit or judging existing proof, read [Validation](references/validation.md) for rendering, responsive behavior, interaction, visual quality or accessibility. |
 | UI decision fixed; proof only | Validation. Add Quality only for an open quality, state, accessibility-structure or mechanism question; Framework only for unresolved ownership or implementation path. Reuse existing proof; repeat no check without a concrete gap. |
 | Source-structure audit or unimplemented design direction | Framework and Quality keep their normal triggers. Omit Validation; report rendered and interactive behavior as unverified. |
 | Page consistency | Audit with consistency focus; Quality and Validation with its coverage contract. Framework keeps its normal triggers. |
+
+Whenever Validation applies, read [Geometry and sight](references/ui-geometry-validation.md)
+before measuring geometry or judging optical alignment.
 
 Merely stating that source-only or unimplemented work leaves rendering,
 interaction and accessibility unverified needs no Validation read. WordPress
