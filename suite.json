@@ -78,6 +78,10 @@
           "target": "scoville-code/references/writing.md"
         },
         {
+          "source": "shared:prompting/code-review.md",
+          "target": "scoville-code/references/code-review.md"
+        },
+        {
           "source": "shared:runtime/check_text_size.py",
           "target": "scoville-code/scripts/check_text_size.py"
         },
@@ -529,6 +533,10 @@
         {
           "source": "shared:prompting/common.md",
           "target": "scoville-ui/references/writing.md"
+        },
+        {
+          "source": "shared:prompting/code-review.md",
+          "target": "scoville-ui/references/code-review.md"
         },
         {
           "source": "shared:runtime/check_text_size.py",

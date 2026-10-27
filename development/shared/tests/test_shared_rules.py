@@ -1,5 +1,6 @@
 """Verify shared-rule projection and receipt provenance, not fixed prose."""
 import hashlib
+import re
 import sys
 import tempfile
 import unittest
@@ -28,6 +29,29 @@ class SharedRulesTests(unittest.TestCase):
                             self.assertNotIn(obsolete, data, name)
                 self.assertTrue(any(b'writing.md' in data for name, data in files.items()
                                     if name != path and name.endswith(('.md', '.py'))))
+
+    def test_code_review_policy_is_self_contained_only_in_its_consumers(self):
+        source = (SHARED / 'prompting/code-review.md').read_text(encoding='utf-8')
+        consumers = {'scoville-code', 'scoville-ui', 'scoville-workflow-for-codex', 'scoville-ask-for-codex'}
+        for profile, layout in [('general', 'standalone'), ('general', 'suite'),
+                                ('codex', 'suite'), ('codex', 'standalone')]:
+            config = builder.load(ROOT, profile, layout)
+            for member in config['members']:
+                with self.subTest(profile=profile, layout=layout, member=member['name']):
+                    files = builder.payload(ROOT, member, config)
+                    path = member['name'] + '/references/code-review.md'
+                    self.assertEqual(member['name'] in consumers, path in files)
+                    if member['name'] in consumers:
+                        self.assertEqual(source, files[path].decode('utf-8'))
+                    routes = {
+                        'scoville-code': [('SKILL.md', 'references/code-review.md'),
+                                          ('references/implementation-review.md', 'code-review.md')],
+                        'scoville-ui': [('SKILL.md', 'references/code-review.md')],
+                    }
+                    for file, target in routes.get(member['name'], []):
+                        text = files[member['name'] + '/' + file].decode('utf-8')
+                        links = re.findall(r'\[[^\]]+\]\(([^)]+)\)', text)
+                        self.assertIn(target, links)
 
     def test_projected_rules_come_from_the_canonical_files(self):
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),

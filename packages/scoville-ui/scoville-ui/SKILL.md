@@ -100,7 +100,9 @@ selected. Reuse one inventory and one evidence pass.
    conflicts with a canonical product decision, report the exact component
    constraint to the product or visual decision owner. Implement the revised
    decision after that owner resolves the conflict. Do not silently redesign.
-5. Batch related changes, then validate under the selected Validation contract.
+5. Batch related changes. For UI source changes, inspect the final scoped diff
+   under [Code review quality](references/code-review.md), then validate under
+   the selected Validation contract.
    Audit reports source defects first and stays read-only. State missing evidence precisely.
 
 ## Reference router
@@ -117,7 +119,14 @@ quality, implementation or evidence.
 | Interface change, consistency audit or judgment of existing proof | Before an interface change, a consistency audit or judging existing proof, read [Validation](references/validation.md) for rendering, responsive behavior, interaction, visual quality or accessibility. |
 | UI decision fixed; proof only | Validation. Add Quality only for an open quality, state, accessibility-structure or mechanism question; Framework only for unresolved ownership or implementation path. Reuse existing proof; repeat no check without a concrete gap. |
 | Source-structure audit or unimplemented design direction | Framework and Quality keep their normal triggers. Omit Validation; report rendered and interactive behavior as unverified. |
+| Review or audit of interface source code, including your final diff of a UI source change | Read [Code review quality](references/code-review.md) as an acceptance condition. Other rows keep their triggers. |
 | Page consistency | Audit with consistency focus; Quality and Validation with its coverage contract. Framework keeps its normal triggers. |
+
+For UI source, trace loops and recursion in construction and updates, including
+work inside rendering and refresh helpers. Check whether per-item scans or
+updates repeatedly traverse or rebuild the same growing collection or subtree,
+causing avoidable quadratic or comparable work. Preserve required state, event
+and rendering semantics.
 
 Whenever Validation applies, read [Geometry and sight](references/ui-geometry-validation.md)
 before measuring geometry or judging optical alignment.

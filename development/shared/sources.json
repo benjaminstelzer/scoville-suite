@@ -9,6 +9,7 @@
   "build/verify_package_set.py": "5a323b787974819c7279b46765c7a039cd669a140d64c34925222e59d8f52b65",
   "instruction-writing.md": "2ebd34bc1f622d62bf5565dc5741b19607a5bfcb72f42b44797e8d6a3bccb0f4",
   "luna-release-gate.md": "cfdd1d71efc836947bf11ed58d633e71ad6cf0ffd375fe49840a9784f6d2ecc6",
+  "prompting/code-review.md": "07255e496c40cef46da9e75674ed0f023cda8b348c38ebd42cccd1f7fb7e796b",
   "prompting/common.md": "a8e2b77ce23bfc959c9daa62f6a992a2d71ad24ee1759352720d0cd5b2e0eeff",
   "prompting/output-delivery.md": "48bad231a7ab03996d4ba69a14ca6604638f1dcd8704b0dfee424ae85e968c88",
   "prompting/shell-commands.md": "2811406f0cdb9cd4180fb0a8ad06164150a5cf8c35bb3b9d587a6fc8c0b04055",
@@ -58,7 +59,7 @@
   "tests/test_readme_templates.py": "51837d8154e4f7a41e8d3d43f406aa8c7c5dcac200f47e4318bb14dfc32f61a6",
   "tests/test_runtime_ci.py": "165e182dcca36cf52375bf7da988ad92f4bc341424f2cfc116826716979510c1",
   "tests/test_scoville_config.py": "19ab949582cac6357bb81ce4b6c99c1c03e422706b94e43044bf897b3ca417f4",
-  "tests/test_shared_rules.py": "9ed73a3ce1b27833ef8fe90d8b8883c6cf2e33107a5fea5935fe74f684a3aa63",
+  "tests/test_shared_rules.py": "4d8d0e2fd6e8df81f592a59bd9eea63946154abe733a66d69a0b958618bf876e",
   "tests/test_suite_export.py": "8aba764520fa04b42b1b422429129a285957f335f1f2ab1b0fe519aa6bf070dc",
   "tests/test_task_lifecycle.py": "d690b9816917ec822b4f705932b1b532a631452fe3de9957fc0c9211cb1f1405",
   "tests/test_task_titles.py": "6903d0f9a7df9b6d530d16f9c837efd1f2e225778767d690ea79a69cec88d388"
