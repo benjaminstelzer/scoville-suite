@@ -28,8 +28,8 @@ Maintained in the Scoville Suite source project. Standalone and Suite packages s
 Requires an Agent Skills host with filesystem access and its Skill Creator for
 Skill authoring, with standalone prompts needing no Skill package.
 Targeted candidate-path tests in Codex with gpt-6.1-sol / low exercised approved
-revision, baseline preservation, explicit and implicit activation, a validated
-new Skill package and an actual generated prompt consumed unchanged by a fresh
+revision, baseline preservation, explicit and implicit activation, review with
+the shared criteria loaded, a validated new Skill package and an actual generated prompt consumed unchanged by a fresh
 receiver, while executing the generated Skill, other providers and installed
 discovery remain unverified.
 

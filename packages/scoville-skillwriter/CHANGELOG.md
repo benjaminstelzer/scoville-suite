@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-28 - Review corrections
+
+- Load the shared instruction-design criteria for reviews as well as drafting and revision.
+
 ## 2026-10-28
 
 - Introduce Scoville Skillwriter as a public standalone Skill and Suite member.

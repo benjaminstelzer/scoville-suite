@@ -59,7 +59,7 @@ prompts need no Skill package.
 
 ## Shared instruction design
 
-Before drafting or revising instructions, read
+Before reviewing, drafting or revising instructions, read
 [agent instruction design](references/instruction-design.md). It owns the
 shared frontier-model writing and diagram rules, including agent-facing prompts.
 
