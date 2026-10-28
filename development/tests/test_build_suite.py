@@ -112,7 +112,7 @@ class BuildTests(unittest.TestCase):
 
 
     def test_suite_overview_links_each_member_how_to_use(self):
-        for profile, expected_count in (('general', 5), ('codex', 8)):
+        for profile, expected_count in (('general', 6), ('codex', 9)):
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
                 destination = Path(temp)
                 config = builder.load(ROOT, profile, 'suite')
@@ -138,8 +138,15 @@ class BuildTests(unittest.TestCase):
                 with self.subTest(profile=profile, layout=layout, member=member['name']):
                     files = builder.payload(ROOT, member, config)
                     prefix = member['name'] + '/references/'
-                    self.assertIn(prefix + 'shell-commands.md', files)
-                    self.assertIn(prefix + 'output-delivery.md', files)
+                    if member['name'] == 'scoville-skillwriter':
+                        # Authoring-only Skills need their design/evaluation sources, not runtime machinery.
+                        self.assertEqual({prefix + 'instruction-design.md', prefix + 'sources-and-evaluation.md'},
+                                         {name for name in files if name.startswith(prefix)})
+                        self.assertEqual({}, member.get('helper_contracts', {}))
+                        self.assertFalse(any(name.startswith(member['name'] + '/scripts/') for name in files))
+                    else:
+                        self.assertIn(prefix + 'shell-commands.md', files)
+                        self.assertIn(prefix + 'output-delivery.md', files)
                     if member['name'] == 'scoville-plan':
                         self.assertIn(prefix + 'progress.md', files)
                         self.assertIn(prefix + 'authoring.md', files)

@@ -37,7 +37,12 @@ and complete context. Brevity only helps when the meaning survives.
 
 ## Compatibility
 
-Developed and tested in Codex with project-file access and permission for the requested edits. Fable, Astra, SOL or Opus (5.0+) are recommended. Luna 6 with High reasoning passed the selected comprehension and functional checks in Codex. Other routes and hosts remain unverified.
+Requires project-file access and permission for the requested edits.
+In targeted candidate-path tests in Codex with gpt-6.1-sol / low, an implicit
+project-rule request produced the requested rules and free-format index while
+retaining deletion approval and avoiding Plan initialization, while native-index
+ownership, extraction, conflict handling, other hosts and installed discovery
+remain unverified.
 
 ## Install
 

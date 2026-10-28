@@ -50,7 +50,7 @@ def signature(path, command=None):
     flags, required = set(), []
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'add_creation_options':
-            shared_flags, shared_required = signature(ROOT / 'development/shared/runtime/native_task_arguments.py')
+            shared_flags, shared_required = signature(path.with_name('native_task_arguments.py'))
             if any(k.arg == 'project_name' and isinstance(k.value, ast.Constant) and k.value.value is False for k in node.keywords):
                 shared_flags.discard('--project-name')
             flags.update(shared_flags)
@@ -68,8 +68,8 @@ class RuntimeHelperExamples(unittest.TestCase):
     def test_dispatch_signature_includes_generated_options_and_required_inputs(self):
         script = ROOT / 'members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts/build_dispatch_prompt.py'
         flags, required = signature(script)
-        self.assertTrue({'--executor-result', '--reviewer-result', '--supplemental-context'} <= flags)
-        self.assertFalse({'--context-handoff', '--predecessor-agent-id'} & flags)
+        self.assertTrue({'--reviewer-result', '--supplemental-context'} <= flags)
+        self.assertFalse({'--context-handoff', '--predecessor-agent-id', '--executor-result', '--route', '--replacement-of'} & flags)
         self.assertNotIn('--context', flags)
         self.assertNotIn('--manager-agent-id', flags)
         self.assertIn({'--communication-language'}, required)
@@ -96,7 +96,7 @@ class RuntimeHelperExamples(unittest.TestCase):
     def test_removed_lifecycle_helpers_are_absent_from_active_package(self):
         scripts = ROOT / 'members/scoville-workflow-for-codex/scoville-workflow-for-codex/scripts'
         for name in ('run_feedback.py', 'build_manager_handoff.py',
-                     'check_context_checkpoint.py', 'inspect_native_context.py'):
+                     'check_context_checkpoint.py', 'inspect_native_context.py', 'check_agent_context.py'):
             self.assertFalse((scripts / name).exists(), name)
 
 if __name__ == '__main__':

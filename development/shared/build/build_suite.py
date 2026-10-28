@@ -277,6 +277,7 @@ def development_links(root: Path, config: dict, member: dict) -> str:
 
 def readme(root: Path, member: dict, audience: str = 'release', config: dict | None = None) -> bytes:
     config = config if config is not None else load(root)
+    config = dict(config, layout=member.get('distribution', config.get('layout', 'standalone')))
     references = readme_references(member['readme'], audience)
     if config.get('layout') == 'suite':
         references = [p for p in references if p != 'shared:family.md']
@@ -316,6 +317,8 @@ def expand_variables(text: str, member: dict) -> str:
 def expand_fragments(root: Path, text: str, member: dict | None = None, *, audience: str = 'release', config: dict | None = None) -> str:
     """Resolve build-only family projections; packages contain plain Markdown."""
     config = config if config is not None else load(root)
+    if member is not None:
+        config = dict(config, layout=member.get('distribution', config.get('layout', 'standalone')))
     text = variant_text(text, config)
     members = config['members']
     ranks = [m.get('family', {}).get('order') for m in members]

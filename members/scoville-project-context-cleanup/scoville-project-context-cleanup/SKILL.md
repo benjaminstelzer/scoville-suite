@@ -12,6 +12,21 @@ proof of better instructions.
 
 {{ include: family.contract }}
 
+```mermaid
+flowchart TD
+  target["Resolve the requested target"] --> clear{"Are scope and destination clear?"}
+  clear -->|no| ask["Ask before dependent editing"]
+  clear -->|yes| read["Read the target and governing instructions"]
+  read --> conflict{"Is a material conflict unresolved?"}
+  conflict -->|yes| ask
+  conflict -->|no| owner{"Does an applicable record owner govern the edit?"}
+  owner -->|yes| coordinate["Use the owner's prepared edit"]
+  owner -->|no| draft["Prepare the scoped change"]
+  coordinate --> draft
+  draft --> verify["Inspect the saved diff and required validation"]
+  verify --> report["Report changes and actual checks"]
+```
+
 ## Target and scope
 
 | Requested target | Destination |
@@ -43,6 +58,10 @@ equally authoritative rules before dependent edits.
 Apply the [shared writing rules](references/writing.md) when drafting,
 rewording or assessing a disputed factual or technical conclusion.
 They supply the common meaning and completion rules.
+When authoring project rules, also read
+[agent instruction design](references/instruction-design.md) for writing and
+diagram criteria. Apply them within the requested project scope, without
+adding Skill packaging or invocation machinery to project rules.
 
 Keep information that changes a project decision: specific commands and their
 conditions, responsible sources, non-obvious constraints, permissions and useful
@@ -50,9 +69,14 @@ pitfalls. Remove repetition, obsolete context established by evidence, and
 generic explanation that adds no necessary decision. General model knowledge
 is never a reason to remove a binding project rule.
 
+Use the user's binding instructions and inspected project sources for factual
+claims. Do not invent commands, paths, owners or project state. Mark proposals
+and examples as such; ask for a missing fact only when it blocks the edit.
+
 State an action with its condition and scope. Keep exceptions and any necessary
 reason next to the rule. Keep independently needed copies and the instructions
 requiring them; merge other duplicates only when their meaning and scope match.
+
 | Procedure or reference | Treatment |
 | --- | --- |
 | Existing reference contains the complete procedure | Replace duplication with its exact reference and reading trigger. |

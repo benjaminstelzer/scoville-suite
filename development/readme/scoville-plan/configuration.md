@@ -2,7 +2,8 @@
 
 ### Model choices for Workflow
 
-When using Scoville Workflow for Codex, you can request a model and reasoning
-level for a Step. Otherwise Workflow uses its configured routing. Scoville
-Setup shows or saves those settings. Unsupported model/effort combinations
-stop the affected operation instead of silently changing your choice.
+Scoville Workflow for Codex Mainloop uses fixed main, review and explore model
+and reasoning pairs. Setup shows or saves those project settings. An existing
+Step execute annotation is retained and compared with the main pair. A conflict
+requires a decision rather than dispatching that Step through a separate route.
+Unsupported choices stop the affected operation without silently changing them.

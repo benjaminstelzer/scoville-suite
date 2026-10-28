@@ -20,6 +20,9 @@ class SharedRulesTests(unittest.TestCase):
             config = builder.load(ROOT, profile, layout)
             expected = builder.expand_fragments(ROOT, source, config=config)
             for member in config['members']:
+                if not any(f['source'] == 'shared:prompting/common.md'
+                           for f in member['files']):
+                    continue
                 files = builder.payload(ROOT, member, config)
                 path = member['name'] + '/references/writing.md'
                 self.assertEqual(expected, files[path].decode('utf-8'))
@@ -29,6 +32,20 @@ class SharedRulesTests(unittest.TestCase):
                             self.assertNotIn(obsolete, data, name)
                 self.assertTrue(any(b'writing.md' in data for name, data in files.items()
                                     if name != path and name.endswith(('.md', '.py'))))
+
+    def test_instruction_design_is_self_contained_in_all_authoring_consumers(self):
+        source = (SHARED / 'prompting/instruction-design.md').read_bytes()
+        for profile, layout in [('general', 'standalone'), ('general', 'suite'),
+                                ('codex', 'suite'), ('codex', 'standalone')]:
+            config = builder.load(ROOT, profile, layout)
+            for member in config['members']:
+                with self.subTest(profile=profile, layout=layout, member=member['name']):
+                    files = builder.payload(ROOT, member, config)
+                    path = member['name'] + '/references/instruction-design.md'
+                    self.assertEqual(source, files[path])
+                    self.assertTrue(any(b'instruction-design.md' in data
+                                        for name, data in files.items()
+                                        if name != path and name.endswith(('.md', '.py'))))
 
     def test_code_review_policy_is_self_contained_only_in_its_consumers(self):
         source = (SHARED / 'prompting/code-review.md').read_text(encoding='utf-8')

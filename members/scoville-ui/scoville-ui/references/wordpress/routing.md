@@ -15,14 +15,16 @@ or changed region, not unrelated screens.
 
 | Focus | Inspect | Main reference |
 | --- | --- | --- |
-| Spacing and vertical flow | Parent and child ownership, gap versus margins, internal padding, hidden content, Core defaults, actual rendered distances where available. | [spacing.md](spacing.md) |
-| Core defaults, tokens, and CSS | Runtime owner, reused Core markup and components, token availability and loading when consumed, CSS exceptions. | [spacing.md](spacing.md), [version-compatibility.md](version-compatibility.md) when version-sensitive |
-| Responsive layout | Affected reflow, wrapping, overflow, order, zoom, and relevant widths. | [responsive.md](responsive.md) |
-| User guidance and states | Task hierarchy, actions, feedback, recovery, and states possible in the selected flow. | [ui-guidance.md](ui-guidance.md) |
+| Spacing, vertical flow and composition | Before choosing gaps, margins, padding, stacks, cards, fields or portals: inspect parent and child ownership, hidden content, Core defaults and actual rendered distances where available. | [spacing.md](spacing.md) |
+| Core defaults, tokens, and CSS | Runtime owner, reused Core markup and components, token availability and loading when consumed, CSS exceptions before custom styling. | [spacing.md](spacing.md); [version-compatibility.md](version-compatibility.md) for token/provider availability, loading, fallback or version-sensitive advice |
+| Responsive layout | Page shells, columns, toolbars, data views, narrow widths, zoom, RTL and content expansion: affected reflow, wrapping, overflow, order and relevant widths. | [responsive.md](responsive.md) |
+| User guidance and states | Navigation, hierarchy, actions, forms, Notices, loading, empty, success, error, disabled, permission and recovery states possible in the selected flow. | [ui-guidance.md](ui-guidance.md) |
 | Accessibility | Relevant semantics, keyboard and focus behavior, labels, contrast, targets, and reflow. | [ui-guidance.md](ui-guidance.md), [responsive.md](responsive.md) for layout |
-| i18n-readiness | Strings, domains, formatting, dependencies and loading hooks, expansion, and language-scoped RTL. Translation delivery only when requested. | [internationalization.md](internationalization.md) |
+| Interface text, locale values, translation loading or i18n-readiness | New or changed visible and accessible strings, dates, numbers, domains, formatting, dependencies, loading hooks, localized layout, expansion and language-scoped RTL. Translation delivery only when requested. | [internationalization.md](internationalization.md) |
 
-For consistency, load validation.md and its complete inventory-coverage contract.
+For consistency, read [common Validation](../validation.md) and its
+[complete inventory coverage contract](../ui-consistency-audit.md), then apply
+[WordPress additions](validation.md) in the same pass.
 For spacing, inspect the affected subtree's actual owner, then measure computed
 styles and geometry for rendered claims; gap alone proves no visible distance.
 Compare Core/component defaults before a Skill-Norm. Native spacing is not defective

@@ -35,14 +35,16 @@
       "id": "lossless-transfer",
       "given": "The user explicitly requests a lossless transfer within a limit too short to hold every in-scope fact.",
       "expect": [
-        "Do not silently summarize. Report the size conflict and ask for a larger limit. Redact secret values."
+        "Preserve every in-scope non-secret fact and redact secret values. If the complete fenced artifact cannot fit, publish it through the permitted complete-file route and return its absolute path with an instruction to read it fully before continuing.",
+        "If publication cannot be completed, report the concrete delivery blocker without claiming a complete handoff."
       ]
     },
     {
       "id": "mandatory-set-too-large",
       "given": "Even after removing irrelevant history the fixed receiver instructions and safe continuation facts exceed the limit.",
       "expect": [
-        "Report the limit conflict, not a supposedly complete artifact with missing authority or blockers."
+        "Use the complete-file route rather than omit authority, blockers or fixed receiver safeguards.",
+        "If no permitted workspace or working publication route exists, report the specific missing prerequisite without claiming a complete artifact."
       ]
     }
   ]

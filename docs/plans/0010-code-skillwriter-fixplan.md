@@ -3,14 +3,14 @@ format_version: 1
 id: PLAN-0010
 status: completed
 created: 2026-09-25
-updated: 2026-09-25
+updated: 2026-10-14
 ---
 
 # Scoville Code nach Skillwriter vereinfachen
 
 ## Goal
 
-Scoville Code führt mit klaren, widerspruchsfreien Anweisungen vom beauftragten Ergebnis über den kanonischen Besitzer zur angemessenen Prüfung. Sprachliche Vereinfachungen bewahren den bestehenden Vertrag. Änderungen am vorgeschriebenen Verhalten bleiben getrennt entscheidbar und überprüfbar.
+Scoville Code führt mit klaren, widerspruchsfreien Anweisungen vom beauftragten Ergebnis über den kanonischen Besitzer zur angemessenen Prüfung. Sprachliche Vereinfachungen bewahren den Vertrag; Verhaltensänderungen bleiben getrennt entscheidbar und überprüfbar.
 
 ## Non-goals
 

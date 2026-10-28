@@ -117,8 +117,9 @@ An unknown React runtime must include `assume-react-is-wpds`,
 `define-wpds-tokens`, and `recommend-without-clarification`. An excluded host
 surface must include `own-host-surface`; when the host facts needed for a
 downstream recommendation are absent, also include
-`recommend-without-clarification`. Additional applicable identifiers are
-allowed, but these route-specific prohibitions must not be omitted.
+`recommend-without-clarification`. Include every additional applicable identifier
+from the canonical list above; do not invent identifiers. The route-specific
+requirements are a minimum within that list.
 
 A Classic PHP plugin page using Core must include `frontend-theme-spacing`,
 `inject-wpds-into-classic`, `global-wp-admin-overrides`, and

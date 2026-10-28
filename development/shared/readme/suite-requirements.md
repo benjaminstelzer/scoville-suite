@@ -1,3 +1,8 @@
 ## Compatibility
 
-{{ profile: general }}Developed for Codex and Claude Code. Python helpers require Python 3.11+. Manual alternatives apply only when suitable Python is unavailable. Helper errors remain errors. Fable, Astra, SOL or Opus (5.0+) are recommended. Selected Luna 6 High checks in Codex are described in each Skill's Compatibility notes; they do not establish a suite-wide baseline.{{ /profile }}{{ profile: codex }}Requires Codex desktop, native agents and Python 3.11+ (Claude consultations also need a signed-in Claude Code CLI, 2.1.280+ for Opus 5.5). Fable, Astra, SOL or Opus (5.0+) are recommended. Selected Luna 6 High checks in Codex are described in each Skill's Compatibility notes; they do not establish a suite-wide baseline.{{ /profile }}
+{{ profile: general }}Developed for Codex and Claude Code, with Python 3.11+ for helpers and
+manual alternatives only when suitable Python is unavailable.{{ /profile }}{{ profile: codex }}Requires Codex desktop, native agents and Python 3.11+, with a signed-in
+Claude Code CLI for Claude consultations (2.1.280+ for Opus 5.5).{{ /profile }}
+Targeted candidate-path tests in Codex used gpt-6.1-sol / low, with observed
+outcomes and limits described per Skill, and do not establish suite-wide
+reliability, installed discovery, other hosts or Claude execution.

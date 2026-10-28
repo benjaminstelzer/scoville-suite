@@ -9,4 +9,4 @@
 - **Rendered proof.** Source checks alone cannot establish that the interface
   works. Unchecked rendering or interaction stays explicitly unverified.
 
-See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
+See the [full instructions]({{ var: contract_url }}).

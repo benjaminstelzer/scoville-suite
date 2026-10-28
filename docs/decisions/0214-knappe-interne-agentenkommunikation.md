@@ -11,6 +11,8 @@ scope: suite/internal-communication
 
 ## Decision
 
+Binding sections: complete
+
 Der Nutzer verlangt extrem knappe interne Ausgaben und Nachrichten für Manager,
 Executor, Reviewer und Berater. Eindeutige beschriftete Felder genügen; nötig
 sind nur Fakten für die nächste korrekte Entscheidung oder Aktion. Erzählungen,
@@ -25,12 +27,11 @@ brauchen keine vollständigen Sätze. Keine neue feste Feldsyntax einführen.
 
 ## Problem
 
-Menschenorientierte Statusprosa und wiederholte bekannte Fakten vergrößern
-interne Kommunikation ohne Nutzen für den Ablauf.
+[]
 
 ## Drivers
 
-Pflichtkontext und Kontrollverträge bleiben auch bei gekürzten Ausgaben erhalten.
+[]
 
 ## Considered alternatives
 
@@ -38,8 +39,10 @@ Pflichtkontext und Kontrollverträge bleiben auch bei gekürzten Ausgaben erhalt
 
 ## Consequences
 
-Interne Felder können satzfrei sein. Dauerhafte Quelltexte behalten die
-konkreten Luna-Schreibkriterien; eine feste Feldsyntax ist nicht nötig.
+Menschenorientierte Statusprosa und wiederholte bekannte Fakten vergrößern
+interne Kommunikation ohne Nutzen für den Ablauf.
+
+Pflichtkontext und Kontrollverträge bleiben auch bei gekürzten Ausgaben erhalten.
 
 ## Confirmation
 

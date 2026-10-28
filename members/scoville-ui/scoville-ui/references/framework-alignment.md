@@ -25,8 +25,9 @@ Inspect only sources relevant to the requested surface:
 6. official documentation for the installed version when supported behavior or
    customization remains uncertain.
 
-Respect a supplied, approved concern-level product decision after the incumbent
-design system and before framework defaults.
+Apply the entrypoint's concern-level authority order. Preserve approved product
+decisions; resolve implementation conflicts under its Workflow rather than
+silently redesigning.
 
 Do not fetch mutable third-party skill files or generic design checklists at
 runtime. Prefer installed source and version-matched official documentation.
@@ -50,7 +51,9 @@ breakpoint language with personal defaults. If a local need reveals a genuine
 system gap, extend the canonical owner rather than building a parallel layer in
 one feature.
 
-A proposed owner-level change needs approval from that owner before implementation.
+Change a canonical component or design-system rule only within the authorized
+task. If it would alter a settled product decision or expand scope, report the
+specific conflict and obtain the missing decision before that dependent change.
 
 ### Headless component library
 

@@ -3,18 +3,17 @@ format_version: 1
 id: PLAN-0023
 status: completed
 created: 2026-09-29
-updated: 2026-09-29
+updated: 2026-10-14
 ---
 
 # Fixplan: Code-Laufzeitschutz und vollständige Ask-Rückgabe
 
 ## Goal
 
-Scoville Code prüft vor und nach Implementierungen gezielt vermeidbare
-Laufzeit- und Speicherkosten. Es nutzt geeignete vorhandene Caches korrekt,
-schlägt neue nur begründet vor und überlässt deren Einführung dem Nutzer.
-Scoville Ask sammelt beauftragte native Reviews auch nach Warte-Timeouts
-vollständig ein und präsentiert sie im aufrufenden Chat.
+Scoville Code prüft vor und nach Implementierungen gezielt vermeidbare Laufzeit-
+und Speicherkosten, nutzt geeignete vorhandene Caches korrekt und schlägt neue nur begründet
+zur Nutzerentscheidung vor. Scoville Ask sammelt beauftragte native Reviews auch
+nach Warte-Timeouts vollständig und präsentiert sie im aufrufenden Chat.
 
 ## Non-goals
 

@@ -3,14 +3,14 @@ format_version: 1
 id: PLAN-0011
 status: completed
 created: 2026-09-25
-updated: 2026-09-25
+updated: 2026-10-14
 ---
 
 # Scoville Suite nach geprüftem Review vereinfachen und korrigieren
 
 ## Goal
 
-Die Suite behebt die bestätigten Reviewprobleme und wird deutlich einfacher verständlich und bedienbar. Jeder der 28 Punkte einschließlich sprachlicher Mehrdeutigkeiten wird einzeln berücksichtigt. Für Plan und Workflow sind weniger Komplexität und Tokens sowie schnellere Ausführung ausdrückliche Ziele. Der Nutzer akzeptiert dafür geringfügig weniger Fehlbedienungsschutz: Ein Auftrag läuft ohne parallele Bearbeitung betroffener Dateien oder laufende Modelländerungen bis zum Abschluss. Geordnete Pläne und nachvollziehbare Ergebnisse bleiben erhalten; unnötige Übergabe-Hashes, Belege und theoretische Absicherungen entfallen. Grundlage und Einzelurteile stehen in [der geprüften Reviewauswertung](../suite-review-pruefung-2026-09-25.md).
+Die Suite wird einfacher verständlich und bedienbar und behebt alle 28 bestätigten Reviewpunkte einschließlich sprachlicher Mehrdeutigkeiten; jeder Punkt wird einzeln berücksichtigt. Für Plan und Workflow sind weniger Komplexität und Tokens sowie schnellere Ausführung ausdrückliche Ziele. Der Nutzer akzeptiert geringfügig weniger Fehlbedienungsschutz: Ein Auftrag läuft ohne parallele Bearbeitung betroffener Dateien oder laufende Modelländerungen bis zum Abschluss. Geordnete Pläne und nachvollziehbare Ergebnisse bleiben erhalten; unnötige Übergabe-Hashes, Belege und theoretische Absicherungen entfallen. Grundlage und Einzelurteile: [geprüfte Reviewauswertung](../suite-review-pruefung-2026-09-25.md).
 
 ## Non-goals
 

@@ -17,7 +17,7 @@ INPUT = json.loads((ROOT / 'runtime-input.json').read_text(encoding='utf-8'))
 KNOWN = {
     'scoville-plan': {'select_context.py', 'validate_profile.py', 'markdown_structure.py'},
     'scoville-workflow-for-codex': {'build_dispatch_prompt.py', 'resolve_model_pair.py',
-        'workflow_settings.py', 'scoville_config.py', 'check_agent_context.py',
+        'workflow_settings.py', 'scoville_config.py',
         'native_task_arguments.py', 'select_context.py', 'validate_profile.py', 'markdown_structure.py'},
     'scoville-ask-for-codex': {'ask.py', 'ask_settings.py', 'ask_claude.py',
         'build_adviser_prompt.py', 'scoville_config.py'},
@@ -242,8 +242,8 @@ Evidence: []
         for number, package in enumerate(packages('scoville-workflow-for-codex')):
             assignment = self.base / f"assignment {number} ü ' $().txt"
             calls = [('build_dispatch_prompt.py', ['--communication-language', 'German', '--project-root', self.project, '--unit', 'W-001/step-1',
-                '--role', 'executor', '--format', 'create', '--project-name', project_name, '--worker-number', '1', '--model', 'gpt-6-luna',
-                '--thinking', 'high', '--override-reason', 'Fixture explicit role choice',
+                '--role', 'reviewer', '--format', 'create', '--project-name', project_name, '--agent-number', '1', '--model', 'gpt-6.1-sol',
+                '--thinking', 'xhigh',
                 '--assignment-file', assignment, '--max-output-bytes=512'])]
             for script, arguments in calls:
                 failed = self.run_cli(package, script, *arguments, ok=False, raw=True)
@@ -265,147 +265,142 @@ Evidence: []
                     self.assertIn(str(assignment), payload['message'])
                     self.assertIn(project_name, assignment.read_text(encoding='utf-8'))
 
-    def test_workflow_settings_and_dispatch_consumers(self):
+    def test_workflow_fixed_pairs_and_dispatch_consumers(self):
         self.profile()
-        for package_number, package in enumerate(packages('scoville-workflow-for-codex')):
-            pair = self.run_cli(package, 'resolve_model_pair.py', '--role', 'executor', '--route', 'medium', '--project-root', self.project)
+        for number, package in enumerate(packages('scoville-workflow-for-codex')):
+            pair = self.run_cli(package, 'resolve_model_pair.py', '--role', 'reviewer', '--project-root', self.project)
+            self.assertEqual(('gpt-6.1-sol','xhigh'), (pair['model'],pair['thinking']))
             self.run_cli(package, 'resolve_model_pair.py', '--project-root', self.project, ok=False)
-            assignment = self.run_cli(package, 'build_dispatch_prompt.py', '--communication-language', 'German', '--role', 'executor',
-                '--workspace-root', self.project, '--unit', 'W-001/step-1', '--format', 'create', '--project-name', 'Grüße 中文', '--worker-number', '1',
-                '--route', 'medium',
-                '--assignment-file', self.project / f'worker-{package_number}.txt')
-            self.assertEqual(assignment['model'], pair['model'])
-            self.assertIn('Grüße 中文', assignment['message'])
-            self.assertEqual(set(assignment), {'task_name', 'message', 'fork_turns', 'model', 'reasoning_effort'})
-            self.assertEqual(assignment['fork_turns'], 'none')
-            selected = self.run_cli(package, 'select_context.py', '--root', self.project, '--unit', 'W-001/step-1')
-            self.assertEqual(selected['work_item']['unit'], 'W-001/step-1')
+            path=self.base/f'review-{number}.txt'
+            assignment=self.run_cli(package,'build_dispatch_prompt.py','--communication-language','German',
+                '--role','reviewer','--project-root',self.project,'--unit','W-001/step-1',
+                '--format','create','--project-name','Grüße 中文','--agent-number','1','--assignment-file',path)
+            self.assertEqual(pair['model'],assignment['model'])
+            self.assertEqual(pair['thinking'],assignment['reasoning_effort'])
+            self.assertEqual({'task_name','message','fork_turns','model','reasoning_effort'},set(assignment))
+            self.assertEqual('none',assignment['fork_turns'])
+            self.assertIn('Grüße 中文',path.read_text(encoding='utf-8'))
+            selected=self.run_cli(package,'select_context.py','--root',self.project,'--unit','W-001/step-1')
+            self.assertEqual('W-001/step-1',selected['work_item']['unit'])
+            self.run_cli(package,'resolve_model_pair.py','--role','executor',ok=False)
+            self.run_cli(package,'build_dispatch_prompt.py','--role','main','--communication-language','German',
+                '--project-root',self.project,'--unit','W-001/step-1','--route','medium',ok=False)
 
-    def test_fresh_review_requires_executor_result_and_rejects_free_context(self):
+    def test_review_accepts_needed_proof_without_synthetic_execution_final(self):
         self.profile()
-        result = self.project / 'checked-result.txt'
-        result.write_text('completed: initial fixture change checked.', encoding='utf-8')
-        facts = self.project / 'review-facts.txt'
-        assignment = self.base / 'fresh-review.txt'
-        for package in packages('scoville-workflow-for-codex'):
-            args = ['--communication-language', 'German', '--role', 'reviewer', '--project-root', self.project,
-                '--unit', 'W-001/step-1', '--format', 'create',
-                '--project-name', 'Review', '--worker-number', '1', '--route', 'low',
-                '--assignment-file', assignment]
-            for content in (None, '', ' \n\t'):
-                extra = []
-                if content is not None:
-                    result.write_text(content, encoding='utf-8')
-                    extra = ['--executor-result', result]
-                failed = self.run_cli(package, 'build_dispatch_prompt.py', *args, *extra, ok=False, raw=True)
-                self.assertEqual(failed.stdout, '')
-                self.assertIn('--executor-result', failed.stderr)
+        evidence=self.project/'check.txt'
+        for number,package in enumerate(packages('scoville-workflow-for-codex')):
+            assignment=self.base/f'fresh-review-{number}.txt'
+            args=['--communication-language','German','--role','reviewer','--project-root',self.project,
+                '--unit','W-001/step-1','--format','create','--project-name','Review','--agent-number','1',
+                '--assignment-file',assignment]
+            for text in ('',' \n\t'):
+                evidence.write_text(text,encoding='utf-8')
+                failed=self.run_cli(package,'build_dispatch_prompt.py',*args,'--supplemental-context',evidence,ok=False,raw=True)
                 self.assertFalse(assignment.exists())
-            facts.write_text('Initial review of the completed W-001/step-1 change against its Acceptance. No earlier assessments.', encoding='utf-8')
-            result.write_text('done; changed_paths: owner.py; checks: pass', encoding='utf-8')
-            self.run_cli(package, 'build_dispatch_prompt.py', *args, '--executor-result', result,
-                         '--supplemental-context', facts, ok=False)
+                self.assertEqual('',failed.stdout)
+            self.run_cli(package,'build_dispatch_prompt.py',*args,'--executor-result',evidence,ok=False)
             self.assertFalse(assignment.exists())
-            payload = self.run_cli(package, 'build_dispatch_prompt.py', *args, '--executor-result', result)
-            self.assertIn(str(assignment), payload['message'])
-            self.assertIn(result.read_text(encoding='utf-8'), assignment.read_text(encoding='utf-8'))
+            evidence.write_text(QUESTION,encoding='utf-8')
+            payload=self.run_cli(package,'build_dispatch_prompt.py',*args,'--supplemental-context',evidence)
+            self.assertIn(str(assignment),payload['message'])
+            self.assertIn(QUESTION,assignment.read_text(encoding='utf-8'))
+            self.run_cli(package,'build_dispatch_prompt.py',*args,'--agent-id','/root/review1',ok=False)
             assignment.unlink()
+            # Required proof is evaluated by the fresh reviewer; no formal Executor final is required.
+            self.run_cli(package,'build_dispatch_prompt.py',*args)
+            self.assertTrue(assignment.exists())
 
     def test_automatic_assignments_are_complete_unique_external_files(self):
         self.profile()
-        temporary = self.base / "Research and Development before tests ü ' $()"
+        temporary=self.base/"Research and Development ü ' $()"
         temporary.mkdir()
-        environment = dict(os.environ, TMPDIR=str(temporary), TEMP=str(temporary), TMP=str(temporary))
-        request = self.project / 'automatic-request.txt'
-        request.write_text(QUESTION, encoding='utf-8', newline='\n')
-        result = self.project / 'executor-result.txt'
-        result.write_text('Completed the assigned fixture only.', encoding='utf-8', newline='\n')
-        facts = self.project / 'review-facts.txt'
-        facts.write_text('Initial review of W-001/step-1 against its Acceptance. No earlier assessments.', encoding='utf-8')
-        paths = []
+        env=dict(os.environ,TMPDIR=str(temporary),TEMP=str(temporary),TMP=str(temporary))
+        request=self.project/'request.txt';request.write_text(QUESTION,encoding='utf-8')
+        paths=[]
         for package in packages('scoville-workflow-for-codex'):
-            payloads = []
-            for role in ('executor', 'reviewer'):
-                extra = ['--executor-result', result] if role == 'reviewer' else []
-                payloads.append(self.run_cli(package, 'build_dispatch_prompt.py', '--communication-language', 'German', '--role', role,
-                    '--project-root', self.project, '--unit', 'W-001/step-1', '--format', 'create', '--project-name', 'Grüße "quoted" 中文', '--worker-number', '1',
-                    '--route', 'low', *extra, env=environment))
-            for payload in payloads:
-                self.assertEqual(set(payload), {'task_name', 'message', 'fork_turns', 'model', 'reasoning_effort'})
-                match = re.search(r'assignment from (.+) before any (?:other )?project work', payload['message'])
-                self.assertIsNotNone(match, payload['message'])
-                path = Path(match[1])
-                self.addCleanup(path.unlink, missing_ok=True)
+            for role in ('explorer','reviewer'):
+                payload=self.run_cli(package,'build_dispatch_prompt.py','--communication-language','German',
+                    '--role',role,'--project-root',self.project,'--unit','W-001/step-1','--format','create',
+                    '--project-name','Grüße "quoted" 中文','--agent-number','1',
+                    '--supplemental-context',request,env=env)
+                candidates=[p for p in temporary.iterdir() if p.is_file() and str(p) in payload['message']]
+                self.assertEqual(1,len(candidates))
+                path=candidates[0]
                 self.assertTrue(path.is_absolute())
-                self.assertFalse(path.resolve().is_relative_to(self.project.resolve()))
-                self.assertEqual(path.parent.resolve(), temporary.resolve())
-                self.assertNotIn(path, paths)
-                paths.append(path)
-                content = path.read_bytes().decode('utf-8', errors='strict')
+                self.assertEqual(temporary.resolve(), path.parent.resolve())
+                self.assertNotIn(path,paths);paths.append(path)
+                self.assertFalse(path.resolve().is_relative_to(self.project))
+                content=path.read_bytes().decode('utf-8')
                 self.assertTrue(content.endswith('\n'))
-                self.assertIn(str(self.project), content)
-                self.assertIn('Grüße', content)
-                self.assertEqual(content.count('## Non-goals'), 1)
-                self.assertNotIn('## Plan-wide exclusions', content)
-                for obsolete in ('check_context_checkpoint', 'TAKEOVER_COMPLETE', 'rollover_pending'):
-                    self.assertNotIn(obsolete, content)
-            original = paths[-1].read_bytes()
-            self.run_cli(package, 'build_dispatch_prompt.py', '--role', 'executor',
-                '--project-root', self.project, '--unit', 'W-001/step-1', '--format', 'create', '--project-name', 'Collision', '--worker-number', '2',
-                '--route', 'low', '--assignment-file', paths[-1], ok=False)
-            self.assertEqual(paths[-1].read_bytes(), original)
+                self.assertIn(QUESTION,content)
+                self.assertEqual(1,content.count('## Non-goals'))
+                self.assertIn(str(self.project),content)
+                for obsolete in ('check_agent_context.py','TAKEOVER_COMPLETE','rollover_pending'):
+                    self.assertNotIn(obsolete,content)
+            original=paths[-1].read_bytes()
+            self.run_cli(package,'build_dispatch_prompt.py','--communication-language','German','--role','reviewer',
+                '--project-root',self.project,'--unit','W-001/step-1','--format','create','--project-name','Collision',
+                '--agent-number','2','--assignment-file',paths[-1],ok=False)
+            self.assertEqual(original,paths[-1].read_bytes())
 
     def test_setup_saved_settings_reach_workflow_consumer(self):
         for package in packages('scoville-setup'):
-            self.run_cli(package, 'setup.py', 'set', '--project-root', self.project,
-                         request={'workflow': {'manager': {'reasoning': 'invalid'}}}, ok=False)
-            saved = self.run_cli(package, 'setup.py', 'set', '--project-root', self.project,
-                         request={'workflow': {'execute': {'low': {'model': 'test-model', 'reasoning': 'high'}}},
-                                  'ask': {'presets': {'sol': {'name': 'Prüfung 東京 🌶'}}}})
+            self.run_cli(package,'setup.py','set','--project-root',self.project,
+                request={'workflow':{'manager':{'reasoning':'invalid'}}},ok=False)
+            saved=self.run_cli(package,'setup.py','set','--project-root',self.project,
+                request={'workflow':{'review':{'model':'test-model','reasoning':'high'}},
+                         'ask':{'presets':{'sol':{'name':'Prüfung 東京 🌶'}}}})
             self.assertTrue(saved['saved'])
-            shown = self.run_cli(package, 'setup.py', 'show', '--project-root', self.project)
-            workflow = package.parent.parent / 'scoville-workflow-for-codex/scoville-workflow-for-codex'
-            consumed = self.run_cli(workflow, 'resolve_model_pair.py', '--show-config', '--project-root', self.project)
-            self.assertEqual(consumed['config']['execute']['low'], shown['effective']['workflow']['execute']['low'])
-            self.assertEqual(consumed['config']['execute']['low'], {'model': 'test-model', 'reasoning': 'high'})
-            ask = package.parent.parent / 'scoville-ask-for-codex/scoville-ask-for-codex'
-            advice = self.run_cli(ask, 'ask.py', '--project-root', self.project, '--adviser', 'sol')
-            self.assertEqual(advice['config']['advisers'][0]['name'], 'Prüfung 東京 🌶')
+            shown=self.run_cli(package,'setup.py','show','--project-root',self.project)
+            workflow=package.parent.parent/'scoville-workflow-for-codex/scoville-workflow-for-codex'
+            consumed=self.run_cli(workflow,'resolve_model_pair.py','--show-config','--project-root',self.project)
+            self.assertEqual(consumed['config']['review'],shown['effective']['workflow']['review'])
+            self.assertEqual({'model':'test-model','reasoning':'high'},consumed['config']['review'])
+            ask=package.parent.parent/'scoville-ask-for-codex/scoville-ask-for-codex'
+            advice=self.run_cli(ask,'ask.py','--project-root',self.project,'--adviser','sol')
+            self.assertEqual('Prüfung 東京 🌶',advice['config']['advisers'][0]['name'])
+            path=self.project/'.scoville/config.json'
+            before=path.read_bytes()
+            for patch in ({'workflow':{'main':{'reasoning':'max'}}},
+                          {'ask':{'presets':{'sol':{'effort':'ultra'}}}}):
+                self.run_cli(package,'setup.py','set','--project-root',self.project,
+                             request=patch,ok=False)
+                self.assertEqual(before,path.read_bytes())
+            manual=json.loads(before.decode('utf-8'))
+            manual['workflow']['main']={'reasoning':'ultra'}
+            manual['ask']['presets']['sol']['effort']='max'
+            path.write_text(json.dumps(manual),encoding='utf-8')
+            self.run_cli(package,'setup.py','set','--project-root',self.project,
+                         request={'ask':{'claude':{'timeout_seconds':2400}}})
+            self.assertEqual('ultra',json.loads(path.read_text(encoding='utf-8'))['workflow']['main']['reasoning'])
+            advice=self.run_cli(ask,'ask.py','--project-root',self.project,'--adviser','sol')
+            self.assertEqual('max',advice['config']['advisers'][0]['effort'])
 
-    def test_native_context_snapshot_binds_agent_and_threshold_in_every_package(self):
-        sessions = self.base / 'sessions'
-        sessions.mkdir()
-        thread, agent = 'runtime-child', '/root/manager/executor'
-        rollout = sessions / ('rollout-' + thread + '.jsonl')
-        config = self.project / '.scoville/config.json'
-        config.parent.mkdir()
-        config.write_text('{"workflow":{"context_threshold_percent":20}}', encoding='utf-8')
+    def test_own_active_main_pair_and_identity_in_every_package(self):
+        host=self.base/'host';sessions=host/'sessions';sessions.mkdir(parents=True)
+        thread='runtime-main';rollout=sessions/('rollout-'+thread+'.jsonl')
+        env=dict(os.environ,CODEX_THREAD_ID=thread,CODEX_HOME=str(host))
+        def record(model='gpt-6.1-sol',source='vscode',active=True):
+            records=[('session_meta',{'id':thread,'source':source}),
+                ('event_msg',{'type':'task_started','turn_id':'turn-1'}),
+                ('turn_context',{'turn_id':'turn-1','model':model,'effort':'high'})]
+            if not active:records.append(('event_msg',{'type':'task_complete','turn_id':'turn-1'}))
+            rollout.write_text('\n'.join(json.dumps({'ordinal':i,'type':kind,'payload':payload})
+                for i,(kind,payload) in enumerate(records))+'\n',encoding='utf-8')
         for package in packages('scoville-workflow-for-codex'):
-            for used, expected in ((19, 'continue'), (20, 'handover')):
-                usage = {'input_tokens': used - 1, 'output_tokens': 1, 'total_tokens': used}
-                records = [
-                    ('session_meta', {'id': thread, 'source': {'subagent': {'thread_spawn': {'agent_path': agent, 'parent_thread_id': 'runtime-parent'}}}}),
-                    ('session_meta', {'id': 'runtime-parent', 'source': 'vscode'}),
-                    ('event_msg', {'type': 'task_started', 'turn_id': 'turn-1', 'model_context_window': 100}),
-                    ('turn_context', {'turn_id': 'turn-1', 'model': 'gpt-6-luna', 'effort': 'medium'}),
-                    ('token_usage_record', {'thread_id': thread, 'turn_id': 'turn-1', 'usage': usage}),
-                    ('event_msg', {'type': 'token_count', 'info': {'last_token_usage': usage, 'model_context_window': 100}}),
-                ]
-                rollout.write_text('\n'.join(json.dumps({'ordinal': n, 'type': kind, 'payload': payload})
-                    for n, (kind, payload) in enumerate(records)) + '\n', encoding='utf-8')
-                args = ['--project-root', self.project, '--sessions-root', sessions]
-                environment = dict(os.environ, CODEX_THREAD_ID=thread)
-                result = self.run_cli(package, 'check_agent_context.py', *args, env=environment)
-                self.assertEqual((result['action'], result['threshold_percent']), (expected, 20))
-                self.assertEqual((result['thread_id'], result['parent_thread_id']), (thread, 'runtime-parent'))
-                invalid = self.run_cli(package, 'check_agent_context.py', *args,
-                    env=dict(environment, CODEX_THREAD_ID='runtime-parent'), ok=False)
-                self.assertEqual(invalid['action'], 'blocked')
-            spec = importlib.util.spec_from_file_location('runtime_title', package / 'scripts/native_task_arguments.py')
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-            with self.assertRaises(ValueError):
-                module.workflow_title('test', 'executor', 1, 'PLAN-0001/W-001/step-1..step-2')
+            self.assertFalse((package/'scripts/check_agent_context.py').exists())
+            record()
+            result=self.run_cli(package,'resolve_model_pair.py','--role','main','--project-root',self.project,env=env)
+            self.assertTrue(result['valid']);self.assertEqual(thread,result['thread_id'])
+            self.assertEqual(('gpt-6.1-sol','high'),(result['model'],result['thinking']))
+            for kwargs in ({'model':'wrong-model'},{'source':{'subagent':{}}},{'active':False}):
+                record(**kwargs)
+                invalid=self.run_cli(package,'resolve_model_pair.py','--role','main','--project-root',self.project,env=env,ok=False)
+                self.assertFalse(invalid['valid'])
+            spec=importlib.util.spec_from_file_location('runtime_title',package/'scripts/native_task_arguments.py')
+            module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+            with self.assertRaises(ValueError):module.workflow_title('test','reviewer',1,'PLAN-0001/W-001/step-1..step-2')
 
     def test_ask_prompt_and_claude_request_reach_actual_cli(self):
         env = self.launcher('claude', "import json,sys\nsys.stdin.reconfigure(encoding='utf-8'); sys.stdout.reconfigure(encoding='utf-8')\nprompt=sys.stdin.read()\nprint(json.dumps({'result':prompt,'session_id':'test-session'},ensure_ascii=False))\n")

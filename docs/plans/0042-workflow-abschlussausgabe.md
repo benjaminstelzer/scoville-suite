@@ -3,7 +3,7 @@ format_version: 1
 id: PLAN-0042
 status: completed
 created: 2026-10-08
-updated: 2026-10-08
+updated: 2026-10-14
 ---
 
 # Workflow-Abschlussausgabe korrigieren
@@ -31,4 +31,4 @@ Steps:
 1. [status: done] Sol 6.1/high prüft PLAN-0041 und seine Fixvorschläge gegen kanonische Quellen und betroffene Verbraucher.
 2. [status: done] Bestätigte Fixes in Workflow-Helper und Aufrufanleitung sowie shared/prompting/common.md umsetzen; Reportassertionen auf read umstellen und generierte Shared-Kopien synchronisieren.
 3. [status: done] Abschluss mit großem Report und erhaltenen Fehlergrenzen im bestehenden CLI-Harness unter Windows und WSL/Linux prüfen; Diff und Planstruktur kontrollieren.
-Evidence: [Sol 6.1/high prüfte den Plan; Quellenkorrektur und Migration der Testverbraucher übernommen. Externe Verbraucher nicht geprüft., complete liefert nur Reportpfad und vollständigen Status. read behält den vollständigen Report. Gesicherte Aufrufe und evidenzgebundene Kürzungsdiagnose umgesetzt; Shared-Snapshots regeneriert., test_run_feedback.py: 19 Tests unter Windows und 19 unter WSL/Linux bestanden. Große Historie verändert Abschlussantwort nicht; Report und Fehlergrenzen bleiben erhalten., Linux-Test benötigt vorhandenen Node-Pfad für unveränderten Encoderfall. Skill-Creator-Prüfer lehnt vorhandenes compatibility-Feld auf beiden OS ab; Paketbau im CLI-Harness erfolgreich., Keine Release- oder Installationsänderung. Neue Formulierungen selbst geprüft; kein zusätzlicher Luna-Verständnistest.]
+Evidence: [Sol-6.1/high-Planreview; complete liefert Pfad/Status, read den vollen Report. Capture- und Diagnosefix sowie Shared-Sync umgesetzt., Windows-/Linux-Tests und großer Report bestehen; Report- und Fehlergrenzen erhalten. Externe Verbraucher und Luna-Verständnis ungeprüft., Linux-Encoderfall braucht vorhandenen Node-Pfad. Skill-Creator-Prüfer lehnt bestehendes compatibility-Feld auf beiden OS ab; CLI-Paketbau besteht. Keine Installation oder Veröffentlichung.]

@@ -26,12 +26,12 @@ class SharedRuntimeBuildTests(unittest.TestCase):
                 receipt = builder.build(root, output, False, [] if profile else [m['name'] for m in members], profile)
                 for member in members:
                     name = member['name']
-                    relative = f'scoville-suite-for-codex/packages/{name}' if profile == 'codex' else name
+                    relative = f'scoville-suite-for-codex-mainloop/packages/{name}' if profile == 'codex' else name
                     script = output / relative / name / 'scripts/scoville_config.py'
                     built = next(m for m in receipt['members'] if m['name'] == name)
                     self.assertEqual(relative, built['package_path'])
                     if profile == 'codex':
-                        self.assertEqual('benjaminstelzer/scoville-suite-for-codex', built['repository'])
+                        self.assertEqual('benjaminstelzer/scoville-suite-for-codex-mainloop', built['repository'])
                         self.assertEqual('suite', built['distribution'])
                         self.assertFalse((output / name).exists())
                     self.assertEqual((SHARED / 'runtime/scoville_config.py').read_bytes(), script.read_bytes())

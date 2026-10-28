@@ -104,6 +104,10 @@
         {
           "source": "members/scoville-code/scoville-code/references/implementation-review.md",
           "target": "scoville-code/references/implementation-review.md"
+        },
+        {
+          "source": "shared:prompting/instruction-design.md",
+          "target": "scoville-code/references/instruction-design.md"
         }
       ],
       "family": {
@@ -209,6 +213,10 @@
         {
           "source": "shared:prompting/output-delivery.md",
           "target": "scoville-handoff/references/output-delivery.md"
+        },
+        {
+          "source": "shared:prompting/instruction-design.md",
+          "target": "scoville-handoff/references/instruction-design.md"
         }
       ],
       "family": {
@@ -359,6 +367,10 @@
         {
           "source": "shared:prompting/output-delivery.md",
           "target": "scoville-plan/references/output-delivery.md"
+        },
+        {
+          "source": "shared:prompting/instruction-design.md",
+          "target": "scoville-plan/references/instruction-design.md"
         }
       ],
       "family": {
@@ -581,6 +593,10 @@
         {
           "source": "members/scoville-ui/scoville-ui/references/wordpress/experimental-policy.md",
           "target": "scoville-ui/references/wordpress/experimental-policy.md"
+        },
+        {
+          "source": "shared:prompting/instruction-design.md",
+          "target": "scoville-ui/references/instruction-design.md"
         }
       ],
       "family": {
@@ -687,6 +703,10 @@
         {
           "source": "shared:prompting/output-delivery.md",
           "target": "scoville-project-context-cleanup/references/output-delivery.md"
+        },
+        {
+          "source": "shared:prompting/instruction-design.md",
+          "target": "scoville-project-context-cleanup/references/instruction-design.md"
         }
       ],
       "family": {
@@ -713,6 +733,90 @@
           "fallback": "references/fallbacks/check_text_size-fallback.md"
         }
       }
+    },
+    {
+      "name": "scoville-skillwriter",
+      "development": {
+        "source": "members/scoville-skillwriter",
+        "tests": "development/instruction_tests",
+        "notes": "members/scoville-skillwriter/development/README.md"
+      },
+      "repository": "benjaminstelzer/scoville-suite",
+      "visibility": "public",
+      "public_distribution": true,
+      "readme": [
+        "development/readme/scoville-skillwriter/description.md",
+        "development/readme/scoville-skillwriter/mechanism.md",
+        "development/readme/scoville-skillwriter/requirements.md",
+        "development/readme/scoville-skillwriter/costs.md",
+        "development/readme/scoville-skillwriter/development.md",
+        "development/readme/scoville-skillwriter/compatibility.md",
+        "shared:skill-installation-contract.md",
+        "shared:scoville-install.md",
+        "shared:scoville-suite-install.md",
+        "development/readme/scoville-skillwriter/usage.md",
+        "development/readme/scoville-skillwriter/sources.md",
+        "shared:family.md",
+        {
+          "source": "shared:member-development-inline.md",
+          "audience": "suite"
+        },
+        "shared:license.md"
+      ],
+      "files": [
+        {
+          "source": "members/scoville-skillwriter/.gitattributes",
+          "target": ".gitattributes"
+        },
+        {
+          "source": "members/scoville-skillwriter/CHANGELOG.md",
+          "target": "CHANGELOG.md"
+        },
+        {
+          "source": "members/scoville-skillwriter/LICENSE",
+          "target": "LICENSE"
+        },
+        {
+          "source": "members/scoville-skillwriter/scoville-skillwriter/LICENSE",
+          "target": "scoville-skillwriter/LICENSE"
+        },
+        {
+          "source": "members/scoville-skillwriter/scoville-skillwriter/SKILL.md",
+          "target": "scoville-skillwriter/SKILL.md"
+        },
+        {
+          "source": "members/scoville-skillwriter/scoville-skillwriter/agents/openai.yaml",
+          "target": "scoville-skillwriter/agents/openai.yaml"
+        },
+        {
+          "source": "members/scoville-skillwriter/scoville-skillwriter/references/sources-and-evaluation.md",
+          "target": "scoville-skillwriter/references/sources-and-evaluation.md"
+        },
+        {
+          "source": "shared:prompting/instruction-design.md",
+          "target": "scoville-skillwriter/references/instruction-design.md"
+        }
+      ],
+      "family": {
+        "label": "Skillwriter",
+        "owner": "Skill and reusable prompt wording for frontier models.",
+        "summary": "writes, simplifies and reviews Skills and reusable agent prompts.",
+        "order": 13,
+        "neighbors": []
+      },
+      "variables": {
+        "skill_name": "scoville-skillwriter",
+        "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
+        "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-skillwriter/scoville-skillwriter/SKILL.md"
+      },
+      "description_fragments": [
+        "development/readme/scoville-skillwriter/description.md",
+        "development/readme/scoville-skillwriter/mechanism.md",
+        "development/readme/scoville-skillwriter/requirements.md",
+        "development/readme/scoville-skillwriter/costs.md"
+      ],
+      "helper_contracts": {},
+      "distribution": "suite"
     }
   ],
   "readme": [

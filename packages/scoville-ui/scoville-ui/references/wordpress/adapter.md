@@ -22,21 +22,11 @@ from a WordPress upgrade. Keep functioning Classic markup and native spacing.
 
 ## Load only the relevant contract
 
-Apply these triggers within the selected scope. Reading a reference does not
+Use [routing.md's focus table](routing.md#select-the-focus) for platform contracts
+within the selected scope. Reading a reference does not
 activate every example or checklist it contains. A spacing-only source review
 does not become an i18n audit merely because the markup is PHP or JavaScript.
 
-- Before choosing gaps, margins, padding, stacks, cards, fields, portals, or
-  custom CSS, read [spacing.md](spacing.md).
-- For page shells, columns, toolbars, data views, narrow widths, zoom, RTL, or
-  content expansion, read [responsive.md](responsive.md).
-- For navigation, hierarchy, actions, forms, Notices, loading, empty, success,
-  error, disabled, permission, or recovery states, read
-  [ui-guidance.md](ui-guidance.md).
-- When creating or changing user-facing strings, accessible text, dates,
-  numbers, or translation loading, or auditing i18n-readiness or localized
-  layout, read
-  [internationalization.md](internationalization.md).
 - Read [examples.md](examples.md) only when a concrete syntax or
   composition question remains after the applicable contracts. Read only the
   matching runtime section. Examples demonstrate ownership and are not
@@ -45,8 +35,6 @@ does not become an i18n audit merely because the markup is PHP or JavaScript.
   changing a token or package contract, read [sources.md](sources.md)
   and recheck the relevant source contract when its listed revalidation condition
   applies.
-- For `wp-theme`, public `ThemeProvider`, or older-version fallback, read
-  [version-compatibility.md](version-compatibility.md).
 
 ## Keep every UI translatable
 

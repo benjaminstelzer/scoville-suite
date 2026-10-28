@@ -7,8 +7,7 @@
 - **A useful next action.** The prompt tells the next session where to resume
   and how to recognize completion.
 
-A targeted GPT-6 Luna High test turned a preference into a requirement. Check
-that distinction in a generated handoff. Later testing has not disproved the
-observation.
+Keep preferences distinct from binding requirements. The receiving session
+still needs the exact permissions and acceptance criteria for its next action.
 
-See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
+See the [full instructions]({{ var: contract_url }}).

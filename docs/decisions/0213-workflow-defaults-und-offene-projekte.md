@@ -12,6 +12,8 @@ supersedes: ADR-0140
 
 ## Decision
 
+Binding sections: complete
+
 Der Nutzer bestätigt die später vereinbarte Suite-Projektzuordnung als neue Skilldefaults und verlangt dieselbe Zuordnung in allen offenen Projekten:
 
 | Stufe | Umsetzung | Review |
@@ -26,7 +28,7 @@ Manager: gpt-6.1-sol / high. Kontextschwellen, Ask-Einstellungen und sonstige Pr
 
 ## Problem
 
-Die spätere Projektzuordnung wurde nicht als Paketdefault übernommen. Das Zurücksetzen auf die gebündelten Werte stellte daher die ältere Zuordnung her.
+[]
 
 ## Drivers
 
@@ -38,7 +40,7 @@ Die spätere Projektzuordnung wurde nicht als Paketdefault übernommen. Das Zur�
 
 ## Consequences
 
-[]
+Gleiche Projekt- und Paketdefaults verhindern, dass ein Reset die ältere Modellzuordnung wiederherstellt.
 
 ## Confirmation
 

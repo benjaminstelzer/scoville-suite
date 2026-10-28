@@ -667,6 +667,51 @@
         "Remove only nonbinding history and equivalent repetition. If semantic equivalence is uncertain, retain the text and resolve the material choice before the affected edit.",
         "An intended change to any binding requirement uses the authorized supersession route, not editorial maintenance."
       ]
+    },
+    {
+      "id": "initialize-from-authorized-direction-without-field-questionnaire",
+      "given": "The repository has no PROJECT_INDEX.md, docs/plans or docs/decisions. The user explicitly requests a durable Plan to replace scripts/report.py's CSV-only output with selectable CSV or JSON, preserve CSV as the default and existing column order, verify both formats, and perform no implementation yet. No literal Plan title, Goal, Non-goals or Acceptance field text is supplied.",
+      "expect": [
+        "Derive the native Plan wording from that concrete direction instead of asking the user to fill out those fields.",
+        "Preserve CSV default, column order, format verification and the implementation stop in owning native fields without inventing additional scope or acceptance.",
+        "Create one coherent profile with initial todo W-001 selected, without starting product execution; validate the resulting profile."
+      ]
+    },
+    {
+      "id": "author-resumable-work-with-proof-limits",
+      "given": "The user authorizes drafting remaining report work after an interruption. W-001's export action already wrote receipt R-008 once, with original receipt path state/receipt-R-008.json. Only schema inspection was observed, not a behavioral run. An accepted ADR requires CSV compatibility, a relevant proposed ADR leaves the JSON field order unresolved, and the user's stop forbids publication. The remaining action is to verify the completed export against the authorized output contract after that decision is resolved.",
+      "expect": [
+        "Keep the completed receipt identity, observed schema-check limit, governing ADR links, unresolved dependent choice, live publication stop and remaining verification recoverable from their owning fields.",
+        "Author remaining action and required checks in Steps, additional live conditions in Instructions and observations in Evidence, using exact accessible evidence paths without a duplicate recovery log.",
+        "Do not rerun the export to recreate evidence, claim behavioral success from schema inspection, invent JSON order or record a proposal as accepted."
+      ]
+    },
+    {
+      "id": "general-manual-whole-and-step-context-parity",
+      "given": "The general profile has no suitable Python 3.11+, and the user requests permitted manual inspection of W-002 and then W-002/steps-2-3. W-002 contains three original Steps, with statuses done, in_progress and unmarked respectively, plus Instructions, Evidence and legacy Next action. Canonical records and references are complete and unambiguous.",
+      "expect": [
+        "For W-002, return the complete original Work Item in source_text and context_text, including all existing Steps, Evidence and Next action.",
+        "For the range, keep only original Steps 2 and 3 in source_text and the complete parent block in context_text; step_statuses retains numbers 2 and 3 with in_progress and null.",
+        "Normalize text fields to LF with one final newline, preserve referenced Decisions, grant no execution authority, and do not apply this fallback to Codex or to a failing helper with suitable Python."
+      ]
+    },
+    {
+      "id": "maintenance-unmarked-binding-reason-and-uncertain-end",
+      "given": "The user requests cleanup of PLAN-0001 only. A linked accepted Decision has a binding compatibility exception in Drivers, a temporary title, a still-required Confirmation check and no proof its end condition was fulfilled. It is currently marked Binding sections: complete. An unrelated Plan also links the Decision.",
+      "expect": [
+        "Read the complete linked Decision and its maintenance contract, retain its accepted status and independent Confirmation check, and relocate the compatibility exception without changing its meaning before retaining a valid binding mark.",
+        "If the exception's meaning cannot be established, remove the mark, keep the complete Decision readable and report its ID and unresolved statement.",
+        "Do not infer fulfilment from the title, deprecate the Decision without proof, waive the check, change the unrelated Plan or start a progress audit merely for cleanup."
+      ]
+    },
+    {
+      "id": "accepted-content-change-needs-material-authority",
+      "given": "The user asks only to shorten an accepted Decision requiring export data to remain on the local disk. A proposed edit would permit remote storage instead. No human choice authorizes that material change, and the original Decision has started and terminal Work Item links.",
+      "expect": [
+        "Retain the local-storage requirement because remote storage is a material change, not equivalent editorial maintenance.",
+        "Resolve the missing material choice before dependent work instead of accepting a replacement or rewriting the original in place.",
+        "If that change is later explicitly authorized, use reciprocal supersession and preserve started-item history under the existing link rules; terminal historical links alone do not prohibit replacement."
+      ]
     }
   ]
 }

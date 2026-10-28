@@ -1,18 +1,18 @@
 # Scoville Suite
 
 Scoville helps your agent plan work, write code, improve interfaces and carry
-unfinished tasks into the next conversation. Along the way, the Skills keep
-the goal, the project's conventions and the verified results in view.
+unfinished tasks into the next conversation. The Skills keep the goal, the
+project's conventions and the verified results in view.
 
 Scoville is the scale for chili heat. These Skills aim for sharper work and
 less diluted context. Adding more instructions is easy. Keeping the useful
 ones is the point.
 
-Using Claude Code or another Agent Skills host? Take
+For Claude Code and other Agent Skills hosts, use
 [Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
-On Codex desktop, take
-[Scoville Suite for Codex](https://github.com/benjaminstelzer/scoville-suite-for-codex),
-which adds Workflow, Ask and Setup.
+For Codex desktop, use
+[Scoville Suite for Codex Mainloop](https://github.com/benjaminstelzer/scoville-suite-for-codex-mainloop),
+which adds Workflow, Ask and Setup. Mainloop is the maintained Codex suite.
 
 | Skill | Purpose |
 | --- | --- |
@@ -21,6 +21,7 @@ which adds Workflow, Ask and Setup.
 | [UI](#scoville-ui) | Builds and checks interfaces with their framework and design system. |
 | [Handoff](#scoville-handoff) | Passes unfinished work to another session. |
 | [Project Context Cleanup](#scoville-project-context-cleanup) | Keeps requested project rules and index text clear without losing required context. |
+| [Skillwriter](#scoville-skillwriter) | Writes and reviews Skills and reusable prompts for frontier models. |
 
 ## Scoville Code
 
@@ -166,9 +167,8 @@ diluted between conversations. The next agent already has enough imagination.
 - **A useful next action.** The prompt tells the next session where to resume
   and how to recognize completion.
 
-A targeted GPT-6 Luna High test turned a preference into a requirement. Check
-that distinction in a generated handoff. Later testing has not disproved the
-observation.
+Keep preferences distinct from binding requirements. The receiving session
+still needs the exact permissions and acceptance criteria for its next action.
 
 See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
 
@@ -211,51 +211,61 @@ ingredients that made the rules useful.
 
 [How to use Scoville Project Context Cleanup](members/scoville-project-context-cleanup/README.md#how-to-use).
 
+## Scoville Skillwriter
+
+Scoville Skillwriter writes and reviews Skills and reusable prompts for current
+frontier models. It keeps the goal, real constraints and useful context while
+cutting repetition and unnecessary ceremony.
+
+Scoville measures chili heat. Skillwriter keeps instructions sharp without
+seasoning every sentence with another warning.
+
+### How it works
+
+It combines a shared instruction-design core with an authoring workflow: review before revision, preserve the baseline, and validate the affected outcome. The host's Skill Creator owns Skill structure and packaging.
+
+### What it enforces
+
+An Agent Skills host with filesystem access. Skill authoring also uses the host's Skill Creator; standalone prompts do not need it. No runtime scripts or network access are required.
+
+### What it costs
+
+The Skill has no paid service calls. Host model usage and any explicitly requested evaluation have their usual costs.
+
+[How to use Scoville Skillwriter](members/scoville-skillwriter/README.md#how-to-use).
+
 ## Compatibility
 
-Developed for Codex and Claude Code. Python helpers require Python 3.11+. Manual alternatives apply only when suitable Python is unavailable. Helper errors remain errors. Fable, Astra, SOL or Opus (5.0+) are recommended. Selected Luna 6 High checks in Codex are described in each Skill's Compatibility notes; they do not establish a suite-wide baseline.
+Developed for Codex and Claude Code, with Python 3.11+ for helpers and
+manual alternatives only when suitable Python is unavailable.
+Targeted candidate-path tests in Codex used gpt-6.1-sol / low, with observed
+outcomes and limits described per Skill, and do not establish suite-wide
+reliability, installed discovery, other hosts or Claude execution.
 
 ## Install the suite
 
-Install the suite once in your agent host and it's available in all your
-projects.
-
+Install the complete suite in your agent host to use it across projects.
 ### New installation
 
 Use this request in your agent host:
 
 ```text
-Install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
+Install and enable the complete suite for all my projects from the packages/ directory of https://github.com/benjaminstelzer/scoville-suite.
+Preserve personal settings and unrelated Skills. Ask before overwriting conflicting customizations.
+Report the installed location and whether the host discovers every member.
 ```
 
-Don't mix standalone and suite copies of the same Skill.
+Do not mix standalone and suite copies of the same Skill. If your host cannot
+install from GitHub, download the repository and copy each
+`packages/<name>/<name>/` Skill directory into the host's Skills location.
+The repository root and development sources are not installable Skills.
 
-If your host can't install directly from GitHub, download this repository and
-copy all the package directories inside it to the host's Skills folder. You
-end up with the same complete suite and the same requirements.
+### Upgrade or migrate an existing installation
 
-<details>
-<summary>Upgrade from an earlier Scoville or Ask suite</summary>
-
-### Upgrade from an earlier Scoville or Ask suite
-
-Use this request in your agent host:
-
-```text
-1. Uninstall the following Skills completely, including their settings, when present:
-scoville-brainstorm, scoville-code-anti-ai-slop,
-scoville-design-anti-ai-slop, scoville-handoff, scoville-plan,
-scoville-research, scoville-scribe-anti-ai-slop,
-scoville-ui-anti-ai-slop, scoville-wordpress-ui-backend-anti-ai-slop,
-scoville-workflow-for-codex, scoville-workflow-codex,
-ask-astra-for-review-for-codex, ask-sol-for-review-for-codex,
-ask-claude-for-codex, ask-claude-and-astra-for-codex,
-ask-claude-and-sol-for-codex.
-Skip absent entries, leave unrelated Skills untouched, and keep no backup or settings migration.
-2. Install and enable the complete suite for all my projects directly from https://github.com/benjaminstelzer/scoville-suite.
-```
-
-</details>
+Choose the target suite explicitly. Preserve project settings and personal
+customizations, then replace duplicate installed copies with the target suite's
+complete packages. Remove only superseded Skills you have selected for removal.
+An upgrade is not permission to erase settings or unrelated Skills.
 
 ### Additional Scoville Skills
 
@@ -297,7 +307,8 @@ current frontier models to be worth maintaining.
 <details>
 <summary>Development and builds</summary>
 
-Sources live under `members/`. Edit README fragments in `development/readme/`,
+Both suite editions share one maintained source and Plan. Sources live under
+`members/`. Edit README fragments in `development/readme/`,
 then run `python development/build_suite.py --write-readmes`. The manifest
 `suite.json` owns package membership and README composition.
 
@@ -316,6 +327,7 @@ this block and the development files.
 - **scoville-ui**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/development/instruction_tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 - **scoville-handoff**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-handoff/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-handoff/development/README.md)
 - **scoville-project-context-cleanup**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-project-context-cleanup) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/development/instruction_tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-project-context-cleanup/development/README.md)
+- **scoville-skillwriter**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-skillwriter) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/development/instruction_tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-skillwriter/development/README.md)
 
 ## License
 

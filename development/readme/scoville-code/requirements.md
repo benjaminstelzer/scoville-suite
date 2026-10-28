@@ -10,4 +10,4 @@
 
 Keep personal conventions outside the installed Skill so updates preserve them.
 See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions)
-and [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md).
+and [full instructions]({{ var: contract_url }}).

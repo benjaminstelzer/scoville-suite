@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased - 2026-10-28
+
+- Apply the shared instruction-design criteria when writing project rules. Keep project facts grounded in the user's instructions and inspected sources, and mark proposals and examples clearly.
+- Show target selection, conflict stops and record ownership in a compact flow. Extraction still needs an explicit request, and Plan keeps its fields, lifecycle and validation.
+
 ## Unreleased - 2026-10-20
 
 - Keep required text complete when choosing how to read it. File size and metadata remain optional, and completed reads need no verification reread.

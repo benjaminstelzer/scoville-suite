@@ -3,14 +3,14 @@ format_version: 1
 id: PLAN-0007
 status: completed
 created: 2026-09-25
-updated: 2026-09-25
+updated: 2026-10-14
 ---
 
 # Workflow-Verträge für moderne Modelle vereinfachen
 
 ## Goal
 
-Scoville Workflow lädt für Launcher, Coordinator und Kinder die kleinste aus autoritativen Zustandsbelegen eindeutig ableitbare vollständige Regelmenge. Wo sich eine aktuelle Phase nicht eindeutig belegen lässt, bleibt der vollständige Vertrag erhalten und wird nur ohne Bedeutungsverlust konsolidiert. Exakte Protokoll-, Identitäts-, Zustands-, Autorisierungs-, Ergebnis- und Wiederanlaufgrenzen bleiben vollständig erhalten und werden weiterhin durch ihre kanonischen Helper und Verhaltenstests abgesichert.
+Scoville Workflow lädt für Launcher, Coordinator und Kinder die kleinste aus autoritativen Zustandsbelegen eindeutig ableitbare vollständige Regelmenge. Bei unklarer Phase bleibt der vollständige Vertrag erhalten und wird nur bedeutungsgleich konsolidiert. Exakte Protokoll-, Identitäts-, Zustands-, Autorisierungs-, Ergebnis- und Wiederanlaufgrenzen bleiben durch kanonische Helper und Verhaltenstests abgesichert.
 
 ## Non-goals
 

@@ -21,6 +21,10 @@ project-specific source ownership, boundaries and release-test scope.
 
 ## Project boundaries
 
+Work only on main. Do not create branches or Git worktrees. Publish only main.
+When a backup is needed, preserve the work in a verified Git bundle under the
+workspace's state/ directory.
+
 Plan Viewer source and native builds belong to the independent
 `projects/scoville-plan-viewer` repository. Suite builds contain Skills only.
 Do not maintain a Viewer source copy or native build workflow here.

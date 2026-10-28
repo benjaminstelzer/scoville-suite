@@ -16,11 +16,33 @@ import export_suite
 
 
 class DistributionProfilesTests(unittest.TestCase):
+    def test_suite_only_member_keeps_suite_contract_in_mixed_layout(self):
+        mixed = builder.load(ROOT, 'general', 'standalone')
+        suite = builder.load(ROOT, 'general', 'suite')
+        name = 'scoville-project-context-cleanup'
+        mixed_member = next(m for m in mixed['members'] if m['name'] == name)
+        suite_member = next(m for m in suite['members'] if m['name'] == name)
+        self.assertEqual('suite', mixed_member['distribution'])
+        self.assertEqual(builder.package_path(suite, suite_member),
+                         builder.package_path(mixed, mixed_member))
+        self.assertEqual(builder.payload(ROOT, suite_member, suite),
+                         builder.payload(ROOT, mixed_member, mixed))
+        code_mixed = next(m for m in mixed['members'] if m['name'] == 'scoville-code')
+        code_suite = next(m for m in suite['members'] if m['name'] == 'scoville-code')
+        self.assertNotEqual(builder.payload(ROOT, code_suite, suite)['scoville-code/SKILL.md'],
+                            builder.payload(ROOT, code_mixed, mixed)['scoville-code/SKILL.md'])
+
     def test_membership_fallbacks_invocations_and_repeatability(self):
-        for profile, layout, count in [('general', 'standalone', 5), ('general', 'suite', 5), ('codex', 'standalone', 1), ('codex', 'suite', 8)]:
+        general_members = {'scoville-code', 'scoville-handoff', 'scoville-plan',
+                           'scoville-ui', 'scoville-project-context-cleanup', 'scoville-skillwriter'}
+        codex_members = general_members | {'scoville-workflow-for-codex',
+                                          'scoville-ask-for-codex', 'scoville-setup'}
+        cases = [('general', 'standalone', general_members), ('general', 'suite', general_members),
+                 ('codex', 'standalone', {'scoville-ask-for-codex'}), ('codex', 'suite', codex_members)]
+        for profile, layout, expected_members in cases:
             with self.subTest(profile=profile, layout=layout), tempfile.TemporaryDirectory() as temp:
                 config = builder.load(ROOT, profile, layout)
-                self.assertEqual(count, len(config['members']))
+                self.assertEqual(expected_members, {member['name'] for member in config['members']})
                 self.assertEqual(profile == 'codex' and layout == 'suite', any(m['name'] == 'scoville-workflow-for-codex' for m in config['members']))
                 first = Path(temp) / 'a'
                 second = Path(temp) / 'b'
@@ -45,7 +67,7 @@ class DistributionProfilesTests(unittest.TestCase):
                         discovery = (SHARED / 'runtime/python_discovery.md').read_text(encoding='utf-8').strip()
                         self.assertEqual(1, core.count(discovery), member['name'])
                     readme = package['README.md'].decode()
-                    if layout == 'suite':
+                    if member.get('distribution') == 'suite':
                         self.assertNotIn('## Family', readme)
                         install = readme.split('## Install', 1)[1].split('## How to use', 1)[0]
                         self.assertIn(config['repository'] + '/tree/main/packages', install)

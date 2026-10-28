@@ -61,10 +61,11 @@ build path unless the documented handle filename form is deliberately used.
 6. Assert one genuinely translated PHP string and one translated React string
    in a browser.
 
-When translation delivery is in scope, keep the target project's authored POT
-and PO files together with the generated MO and path-hashed Jed JSON required by
-its release process. Regenerate them after translatable source or build-path
-changes. These artifact requirements do not apply to a readiness-only task.
+When the selected release process uses authored POT and PO files, retain them
+with the MO and path-hashed Jed JSON artifacts that process requires. Regenerate
+affected artifacts after translatable source or build-path changes. Other
+delivery mechanisms retain their own artifact contract; readiness-only tasks
+require none of these delivery artifacts.
 
 POT extraction, a PO file, or hard-coded translated text does not prove runtime
 loading.

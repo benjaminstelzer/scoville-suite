@@ -3,7 +3,8 @@
 <details>
 <summary>Development and builds</summary>
 
-Sources live under `members/`. Edit README fragments in `development/readme/`,
+Both suite editions share one maintained source and Plan. Sources live under
+`members/`. Edit README fragments in `development/readme/`,
 then run `python development/build_suite.py --write-readmes`. The manifest
 `suite.json` owns package membership and README composition.
 

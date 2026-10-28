@@ -1,5 +1,7 @@
-### Earlier architecture: review and continuation
+### Review and continuation
 
-A historical run caught a broken navigation link. Repair fixed it, review accepted
-the correction and another coordinator continued the next Step. The current
-workflow continues in the existing visible manager chat.
+In targeted tests, a Step Reviewer found an unchanged consumer still returning
+a mapping where the contract required a number. A separate closure Reviewer
+found an empty-case defect and missing verification across the original Steps.
+Fresh main receivers retained the findings and selected the original Step for
+correction without declaring acceptance. The correction cycle itself was not run.

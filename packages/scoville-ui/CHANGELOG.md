@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased - 2026-10-28
+
+- Use one authority order for approved product decisions and require only missing
+  decisions before changes outside the authorized scope.
+- Keep structured WordPress prohibition identifiers within their canonical list.
+- Match translation artifacts to the selected delivery process and consolidate
+  WordPress reference routing with explicit consistency-evidence links.
+
+- Assess algorithmic costs within reachable input bounds; correct an unsupported complexity claim without demanding an unnecessary algorithm change.
+
+- Count an unnecessary mechanism with added state, work or maintenance as a concrete review defect.
+
 ## Unreleased - 2026-10-27
 
 - Require code reviews to inspect simplicity, maintainability, foreseeable extension and clarity for later agents. Trace loops, recursion and scanning calls for avoidable nonlinear repeated work without requiring benchmarks.

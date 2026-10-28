@@ -3,14 +3,14 @@ format_version: 1
 id: PLAN-0008
 status: completed
 created: 2026-09-25
-updated: 2026-09-25
+updated: 2026-10-14
 ---
 
 # Scoville Plan nach Skillwriter überarbeiten und Bestandskompatibilität erhalten
 
 ## Goal
 
-Scoville Plan erhält klare, widerspruchsfreie und gezielt geladene Anweisungen nach Skillwriter. Alte format-version-1-Pläne bleiben ohne Migration lesbar und weiterbearbeitbar. Ein Skill-Upgrade darf laufende Projekte weder blockieren noch ihre fachlichen Anforderungen, Autorisierung oder fortsetzbare Arbeit verändern. Die bestehenden getrennten general- und codex-Builds bleiben erhalten.
+Scoville Plan erhält klare, widerspruchsfreie und gezielt geladene Anweisungen nach Skillwriter. Bestehende format-version-1-Pläne bleiben ohne Migration lesbar und bearbeitbar. Upgrades blockieren keine laufenden Projekte und verändern weder deren fachliche Anforderungen noch Autorisierung oder fortsetzbare Arbeit. Getrennte general- und codex-Builds bleiben erhalten.
 
 ## Non-goals
 

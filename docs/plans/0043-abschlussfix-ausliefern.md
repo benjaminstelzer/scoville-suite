@@ -3,7 +3,7 @@ format_version: 1
 id: PLAN-0043
 status: completed
 created: 2026-10-08
-updated: 2026-10-08
+updated: 2026-10-14
 ---
 
 # Abschlussfix ausliefern
@@ -30,7 +30,7 @@ Instructions: []
 Steps:
 1. [status: done] Quellen und Versionen sichern, Pakete bauen und installieren.
 2. [status: done] Sol 6.1/high und Astra/high prüfen die finalen generierten Skills vor der erneuten lokalen Installation.
-Evidence: [Shared-Testvergleich; Readertext und Ask-Lieferausnahme korrigiert. Windows/Linux-Nachtests und Runtime-CI 37798132556 bestanden., Sol 6.1/high und Astra/high prüften den finalen Stand ohne relevante Findings. Alle acht Codex- und fünf Claude-Pakete bytegleich installiert; persönliche Einstellungen erhalten.]
+Evidence: [Shared und Reader sowie Ask-Lieferausnahme korrigiert; Windows und Linux sowie Runtime-CI bestanden., Sol 6.1/high und Astra/high: Endreview ohne relevante Findings., Codex- und Claude-Pakete bytegleich installiert; persönliche Einstellungen erhalten.]
 
 ### W-002 private project neu laden und fortsetzen
 

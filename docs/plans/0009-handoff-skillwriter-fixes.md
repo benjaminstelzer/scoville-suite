@@ -3,14 +3,14 @@ format_version: 1
 id: PLAN-0009
 status: completed
 created: 2026-09-25
-updated: 2026-09-25
+updated: 2026-10-14
 ---
 
 # Scoville Handoff nach Skillwriter vereinfachen
 
 ## Goal
 
-Scoville Handoff vermittelt seinen bestehenden Übergabevertrag mit eindeutigen Quellenregeln, widerspruchsfreier Vorlage und weniger wiederholten Anweisungen. Die Überarbeitung erhält alle für eine sichere Fortsetzung notwendigen Fakten und Grenzen.
+Scoville Handoff erhält eindeutige Quellenregeln, eine widerspruchsfreie Vorlage und weniger Wiederholungen. Alle Fakten und Grenzen für eine sichere Fortsetzung bleiben erhalten.
 
 ## Non-goals
 

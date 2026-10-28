@@ -39,7 +39,7 @@ class FamilyFragmentsTests(unittest.TestCase):
         for key in ('family.install', 'family.links', 'family.owners', 'family.catalog'):
             self.assertEqual('', builder.expand_fragments(ROOT, '{{ include: ' + key + ' }}', config=config))
         workflow = next(m for m in config['members'] if m['name'] == 'scoville-workflow-for-codex')
-        self.assertEqual('benjaminstelzer/scoville-suite-for-codex', workflow['repository'])
+        self.assertEqual('benjaminstelzer/scoville-suite-for-codex-mainloop', workflow['repository'])
 
     def test_new_member_updates_every_full_projection_but_not_subsets(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -55,8 +55,11 @@ class FamilyFragmentsTests(unittest.TestCase):
             (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
             for member in config['members'][:-1]:
                 readme = builder.readme(root, member).decode()
-                self.assertIn(f'https://github.com/benjaminstelzer/{name}', readme)
-                self.assertIn('[Test member]', readme)
+                if member.get('distribution') == 'suite':
+                    self.assertNotIn(f'https://github.com/benjaminstelzer/{name}', readme)
+                else:
+                    self.assertIn(f'https://github.com/benjaminstelzer/{name}', readme)
+                    self.assertIn('[Test member]', readme)
                 self.assertNotIn('[Workflow Codex]', readme)
                 source = root / f'members/{member["name"]}/{member["name"]}/SKILL.md'
                 raw = source.read_text(encoding='utf-8')

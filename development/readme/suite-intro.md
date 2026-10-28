@@ -1,18 +1,18 @@
 # Scoville Suite
 
 Scoville helps your agent plan work, write code, improve interfaces and carry
-unfinished tasks into the next conversation. Along the way, the Skills keep
-the goal, the project's conventions and the verified results in view.
+unfinished tasks into the next conversation. The Skills keep the goal, the
+project's conventions and the verified results in view.
 
 Scoville is the scale for chili heat. These Skills aim for sharper work and
 less diluted context. Adding more instructions is easy. Keeping the useful
 ones is the point.
 
-Using Claude Code or another Agent Skills host? Take
+For Claude Code and other Agent Skills hosts, use
 [Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
-On Codex desktop, take
-[Scoville Suite for Codex](https://github.com/benjaminstelzer/scoville-suite-for-codex),
-which adds Workflow, Ask and Setup.
+For Codex desktop, use
+[Scoville Suite for Codex Mainloop](https://github.com/benjaminstelzer/scoville-suite-for-codex-mainloop),
+which adds Workflow, Ask and Setup. Mainloop is the maintained Codex suite.
 
 | Skill | Purpose |
 | --- | --- |
@@ -21,3 +21,4 @@ which adds Workflow, Ask and Setup.
 | [UI](#scoville-ui) | Builds and checks interfaces with their framework and design system. |
 | [Handoff](#scoville-handoff) | Passes unfinished work to another session. |
 | [Project Context Cleanup](#scoville-project-context-cleanup) | Keeps requested project rules and index text clear without losing required context. |
+| [Skillwriter](#scoville-skillwriter) | Writes and reviews Skills and reusable prompts for frontier models. |
