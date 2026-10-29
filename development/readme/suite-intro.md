@@ -8,6 +8,11 @@ Scoville is the scale for chili heat. These Skills aim for sharper work and
 less diluted context. Adding more instructions is easy. Keeping the useful
 ones is the point.
 
+The Skills keep a short shared core and load data checks, shell details and
+helper instructions when the task needs them. Project choices and existing
+approvals stay with the work; shorter instructions still have to carry the
+whole job.
+
 For Claude Code and other Agent Skills hosts, use
 [Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
 For Codex desktop, use

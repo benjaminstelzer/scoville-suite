@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased - 2026-10-29
+
+- Shorten shared and Skill instructions while preserving task authority, required text, fixed schemas and honest completion reports.
+- Load machine-data evaluation, Python discovery and output-helper policy for the operations that need them. Keep complete semantic checks, embedded-data handling and original captures for one-time effects.
+- Focus Code and UI reviews on affected behavior, maintainability and avoidable repeated work. Continue repairs only with a supported next diagnosis, and keep source, visual and interaction evidence distinct.
+- Preserve known project intent in Plan and limit new-plan ADR maintenance to relevant records with the required deletion authority. Keep ordinary continuation separate from cleanup.
+- Use existing approval for concrete Skillwriter and project-rule edits while preserving read-only reviews, Handoff contracts and unrelated records.
+- Simplify manifest file mappings, source snapshots and build checks while retaining package inventory, source hashes, helper policies and profile boundaries.
+- Normalize snapshot text before copying and hashing so Git source exports retain valid receipts; preserve binary files unchanged.
+- Document controlled `gpt-6.1-sol` / `low` cases across all nine Skills separately from host compatibility. These results establish neither general reliability nor current Claude behavior.
 ## Unreleased - 2026-10-28 - Review corrections
 
 - Load Skillwriter's shared criteria in review mode and clarify Plan execution terminology without changing record contracts.

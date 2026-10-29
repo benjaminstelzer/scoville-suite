@@ -12,8 +12,8 @@ Classify the owning region before selecting or judging a spacing value.
   [fallback-composition.md](fallback-composition.md). Those are Skill choices,
   not official defaults or targets for normalizing existing UI.
 
-Inspect source first, then actual geometry, then sight as specified in
-[validation.md](validation.md). Preserve original units, unitless line-height,
+Use [validation.md](validation.md) for evidence matching the spacing claim;
+gap alone proves no visible distance. Preserve original units, unitless line-height,
 tokens and calculations. `1em` at a 13px element font resolves to 13px but must
 not become a new `13px` or `1rem` rule. Native values outside a 4/8px scale are
 not defects for that reason. Project-specific minimums do not become Core rules.
@@ -44,14 +44,12 @@ alone does not prove the intended grouping in the rendered composition.
 
 ### Classic
 
-Core owns native shell and Settings API rhythm. Reuse it. A plugin-owned inner
-component may use a Skill-Norm gap only after Core markup, classes, and default
-CSS have been checked. Never apply a gap stack over `.wrap`, `.form-table`, or
-`p.submit`.
+Reuse native shell and Settings API rhythm. A plugin-owned inner component may
+use a Skill-Norm gap only after Core markup, classes, and default CSS have been
+checked. Never apply a gap stack over `.wrap`, `.form-table`, or `p.submit`.
 
-Existing Classic layout does not need token migration. When an actual new
-relationship lacks a Core owner, 7.1 may express its gap through Core's loaded
-`--wpds-dimension-gap-*` tokens in narrowly scoped plugin CSS. A stylesheet is
+When an actual new relationship lacks a Core owner, 7.1 may express its gap
+through Core's loaded `--wpds-dimension-gap-*` tokens in narrowly scoped plugin CSS. A stylesheet is
 not a React runtime. Prefer this supplied semantic token over a new local
 spacing variable. Do not apply it over native rhythm that already works.
 See [version-compatibility.md](version-compatibility.md) for an explicit 7.0
@@ -97,11 +95,9 @@ theming and does not replace the stylesheet. PHP does not need the provider.
 Keep the actual token-owning document in view for portals, popups, and iframes.
 
 Supported semantic foreground, background and stroke tokens may express a genuine
-plugin-specific domain state when no Core component already owns it. Preserve
-native controls, tables, Notices, focus treatment, and existing layout. Verify
-contrast, non-color cues, interaction states, and token resolution. Do not
-invent a palette or override `--wpds-*` in plugin CSS. Using official tokens
-does not automatically prove accessibility or authorize broader restyling.
+plugin-specific domain state when no Core component already owns it. Apply
+[Adapter's platform invariants](adapter.md#respect-the-classified-owner) and
+[Validation's state checks](validation.md#select-the-platform-checks).
 
 ## CSS ownership ladder
 
@@ -120,8 +116,7 @@ Before writing an exception, record:
 - Relevant WordPress options checked and why they fail; for a local React stack,
   why `Flex` fails too.
 - Smallest plugin scope and token or Skill-Norm source.
-- Checks for reflow, zoom, focus, text expansion, empty content and affected states.
-  Add RTL only under the [language-scope rule](internationalization.md#language-scoped-rtl-checks).
+- Applicable checks and evidence from [WordPress validation](validation.md).
 
 Reject global `.wp-admin`, `.wrap`, `.form-table`, or Core-control overrides,
 copied Core CSS, custom Core-primitive rebuilds, unloaded WPDS references,

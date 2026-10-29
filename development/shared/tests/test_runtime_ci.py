@@ -166,15 +166,14 @@ class RuntimeGateTests(unittest.TestCase):
 
     def test_invalid_instruction_classification_is_rejected_by_manifest_loader(self):
         original = json.loads((self.root / 'suite.json').read_text(encoding='utf-8'))
-        for target, value, shared in (('scripts/helper.py', 'instruction', False),
-                                      ('config.json', 'instruction', False),
-                                      ('instruction.md', 'unknown', False),
-                                      ('instruction.md', 'instruction', True)):
-            with self.subTest(target=target, shared=shared), tempfile.TemporaryDirectory() as temporary:
+        for target, value in (('scripts/helper.py', 'instruction'),
+                              ('config.json', 'instruction'),
+                              ('instruction.md', 'unknown')):
+            with self.subTest(target=target), tempfile.TemporaryDirectory() as temporary:
                 raw = copy.deepcopy(original)
                 member = raw['members'][0]
                 item = {'source': 'irrelevant', 'target': target, 'runtime_role': value}
-                member.setdefault('shared_helpers' if shared else 'files', []).append(item)
+                member.setdefault('files', []).append(item)
                 path = Path(temporary)
                 (path / 'suite.json').write_text(json.dumps(raw), encoding='utf-8')
                 with self.assertRaisesRegex(ValueError, 'runtime_role'): builder.load(path)

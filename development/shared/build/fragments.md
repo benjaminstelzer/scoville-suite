@@ -3,11 +3,11 @@
 ## Runtime helper policy
 
 `rules.optout` expands `runtime/skill_optout.md` for Code and UI. Other Skills
-retain their narrower wording. `rules.python` expands the interpreter discovery
-rule from `runtime/python_discovery.md` for Ask, Setup, Code, Plan, Workflow,
-Handoff, UI and Project Context Cleanup. File reading is defined in the shared
-writing rules; agents choose their permitted method.
-`rules.native_output` expands `runtime/native_output.md` inside the conditional Codex shell reference. `rules.python` links to `references/shell-commands.md` relative to SKILL.md; include it only in Skill entrypoints. Raw fragments contain no profile blocks. Use these include
+retain their narrower wording. Runtime-helper consumers package
+`runtime/python_discovery.md` as `references/python-discovery.md`; the shell
+reference loads it only before a Python or runtime-helper operation.
+File reading is defined in the shared writing rules; agents choose their permitted method.
+`rules.native_output` expands `runtime/native_output.md` inside the conditional Codex output reference. Raw fragments contain no profile blocks. Use these include
 keys only for the stated consumers. Receipts hash the consumed canonical files;
 snapshots and exports retain them. These rules do not belong in `family.contract`,
 which applies to every suite member.
@@ -18,8 +18,15 @@ entrypoints and `kind: library` for imported support code. General helpers also
 declare `fallback: references/fallbacks/<name>-fallback.md`; libraries do not.
 List each fallback file in the manifest with `profiles: ["general"]`.
 
-Put `{{ include: helper.policy }}` once in the Skill entrypoint. The builder
-generates helper-first routing and the conditional reference table. Each manual
+Each callable helper declares a Skill-relative Markdown `policy` owner; omission
+defaults to `SKILL.md`. Libraries have neither policy nor fallback. Use
+`{{ include: helper.policy.output }}` in `references/output-delivery.md` for
+`check_text_size.py`. Use `{{ include: helper.policy }}` in the single remaining
+task-helper owner, where those operations are prepared. Skills with only the
+size helper have no task-policy include. The builder requires exactly one
+generated policy per group in its declared owner and a packaged Markdown route
+from SKILL.md to that owner. It generates helper-first routing and the conditional
+reference table, with links relative to the owner's directory. Each manual
 file begins with `<!-- helper-fallback: scripts/<name>.py -->`, followed by its
 complete no-Python procedure. Do not inline or separately link these optional
 routes. Codex strips fallback metadata and rejects fallback files and links.
@@ -64,13 +71,12 @@ Exported READMEs contain expanded text, not references to this source directory.
 Build receipts record each consumed member README template's SHA-256.
 
 Package `files` entries also accept `shared:<relative-path>`, rooted at the
-canonical shared directory. Existing `shared_helpers` entries use the same
-resolver and retain their scripts-only destination constraint. Snapshots and
+canonical shared directory. Snapshots and
 receipts include consumed shared files. Installed packages never import them
 from another Skill or a development checkout.
 
 For suite-only README sections use
-`{"source": "shared:member-development.md", "audience": "suite"}` in the
+`{"source": "shared:member-development-inline.md", "audience": "suite"}` in the
 member's `readme` list. Strings apply to both targets. Member previews render
 the suite target. Packages always render the release target, including private
 Workflow builds. Unknown audience values fail instead of silently dropping text.
@@ -78,8 +84,8 @@ Workflow builds. Unknown audience values fail instead of silently dropping text.
 Each member's `development` object defines suite-relative `source`, `tests` and
 `notes` paths. Targets must exist. The suite `repository` supplies the final
 GitHub URL. `member.development` renders compact links inside the suite-only
-block. `suite.development` renders all members in the suite README, including
-Ask variants without creating member previews. Use the shared templates for both.
+block. `suite.development` renders all members in the suite README.
+Use the shared templates for both.
 
 Keep current development links in that block, not in release prose. Builds
 reject unresolved local Markdown file links and development files. Relative
@@ -96,11 +102,8 @@ Use `{{ include: KEY }}` in exported Markdown or README source fragments:
 
 | KEY | Output |
 | --- | --- |
-| `suite.members` | Member preview links, or public repository links when `member_previews:false` |
 | `suite.descriptions` | Suite README only: each member's first README fragment, with `featured_member` first, then family order |
 | `family.owners` | Public members and their ownership |
-| `family.links` | Public family links; private member READMEs also include private members |
-| `family.install` | Only approved public installation URLs |
 | `family.neighbors` | Current member's explicit `family.neighbors` subset |
 
 Neighbor entries use `member` for a suite member or `external` for another
@@ -120,10 +123,8 @@ The shared builder expands placeholders before packaging. Packages contain
 complete Markdown and need no shared directory. Never install source templates.
 Unknown fragments, unknown internal neighbors and invalid order fail the build.
 
-With `member_previews:false`, `--write-readmes` updates only the suite README;
-`--check-sources` validates payloads without creating member copies. Other suites
-retain previews by default. Regenerate them with `--write-readmes` and check with
-`--check-readmes`.
+Regenerate suite and member README previews with `--write-readmes` and check
+with `--check-readmes`.
 After building, run `--check-packages --output <build-directory>` to detect
 edited or stale package content against current sources. Receipt hashes alone
 detect changed output, not a stale source projection.

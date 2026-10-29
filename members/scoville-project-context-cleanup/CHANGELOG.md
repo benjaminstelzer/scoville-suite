@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - 2026-10-29
+
+- Consolidate target selection, conflict handling and verification around the existing flow. Reuse authorization covering the edit, preserve external-action safeguards in the rule file, and keep native index fields and lifecycle with Plan.
+- Load machine-data, shell and Python guidance only for the operations that need it. Keep text-size helper policy with output delivery.
+- Separate technical requirements from model-test evidence. Targeted Codex tests with gpt-6.1-sol / low removed a requested AGENTS.md duplicate while preserving the remaining rules and the provided native index and active Plan. Index-prose edits, extraction, unresolved conflicts, other hosts and installed discovery remain unverified.
+
 ## Unreleased - 2026-10-28
 
 - Apply the shared instruction-design criteria when writing project rules. Keep project facts grounded in the user's instructions and inspected sources, and mark proposals and examples clearly.

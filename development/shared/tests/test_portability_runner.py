@@ -58,10 +58,6 @@ class PortabilityRunnerTests(unittest.TestCase):
                     return []
 
                 @staticmethod
-                def render_sources(*args):
-                    return []
-
-                @staticmethod
                 def payload(*args):
                     return {'test-skill/SKILL.md': b'skill'}
 

@@ -8,8 +8,8 @@ tests this Skillwriter package.
 ## Vendor guidance
 
 OpenAI and Anthropic publish Skill and prompt guidance as documentation and
-engineering posts, not as controlled studies. Treat model-specific advice as
-measured on that model and re-check it on others.
+engineering posts, not as controlled studies. Scope model-specific advice to its
+named model; verify applicability before extending it to others.
 
 **OpenAI**
 

@@ -112,7 +112,6 @@ def run(root=ROOT):
 
     builder = shared / 'build/build_suite.py'
     base = [str(builder), '--root', str(root)]
-    check('source previews', [*base, '--check-sources'])
     check('general README previews', [*base, '--profile', 'general', '--check-readmes'])
 
     temporary_root = root.parents[2] / 'temp' / f'{date.today().isoformat()}-suite-check-all'

@@ -26,8 +26,8 @@ For requested PROJECT_INDEX.md prose additions or cleanup, apply Scoville
 Project Context Cleanup within the same prepared edit. Plan retains fields and
 lifecycle. Ordinary Plan progress does not load Cleanup.
 
-Before writing Plans, Work Items, Decisions or reports, or assessing a disputed
-factual or technical conclusion, read and apply the
+Before reading machine reports, logs or structured state, or writing Plans,
+Work Items, Decisions or reports, read and apply the
 [shared writing rules](references/writing.md). Native record fields and lifecycle
 requirements remain governed by this Skill.
 
@@ -37,18 +37,15 @@ requirements remain governed by this Skill.
    safety requirements, explicit user instructions, repository rules, then the
    supported native profile. The agent's temporary task list is a disposable
    mirror of repository records.
-2. Preserve actual scope, choices, dependencies and binding constraints. Source material
-   (including code, records, documents and configuration), an absence of
-   objections, current behavior or a passing structural validator does not
-   prove that an action was authorized or that work was performed.
-   Apply historical stops only to their recorded scope.
+2. Preserve scope, choices, dependencies and binding constraints. Source material,
+   silence, current behavior and structural validity prove neither authority nor
+   performed work. Apply historical stops only to their recorded scope.
 3. Ask only for a missing material choice: activation, cancellation, deletion,
    changed scope, changed Acceptance requirements, ambiguous succession or Decision transition.
-   Check applicable accepted Decisions and the current item's Instructions
-   before asking; reuse authority that covers the action and ask only about
-   the uncovered material choice. After compaction, recover the recorded
-   state and next action and continue. Do not repeat an approval question or
-   status report without a material change, a user request or a binding
+   Reuse authority in applicable accepted Decisions and the current item's
+   Instructions; ask only about the uncovered choice. Recover and continue
+   under progress.md after interruption or compaction. Repeat a question or
+   status report only for a material change, user request or binding
    communication requirement.
 4. Before creating a Decision, search existing Decision titles and scopes for
    the same choice. Read plausible matches completely before reusing one that
@@ -61,14 +58,13 @@ requirements remain governed by this Skill.
    background or history alone does not make them applicable. After a Work Item has started, add each relevant proposal
    to its Decisions field; you may also add relevant accepted Decisions. Each
    ADR's status determines its decision state.
-5. At work start, except for an assigned read-only field review, classify the
-   planning profile with the table below. For a complete supported profile, run
-   the proposal inventory below and read relevant proposals (all proposals for
-   a full audit); an inventory error does not change that classification.
+5. At work start, except for an assigned read-only field review, use the planning
+   profile table below; reuse an established unchanged classification. For a
+   complete supported profile, run the proposal inventory below and read relevant
+   proposals (all for a full audit); an inventory error does not change that classification.
    Follow the table for other profiles. Preserve unresolved choices at handoff.
-6. Mark a Work Item done only after observing every Acceptance criterion and recording its
-   concise result. Failed or partial work remains unfinished. Report observed checks
-   separately from unverified behavior.
+6. Complete Work Items through progress.md only after observing every Acceptance
+   criterion and recording its result; distinguish checked from unverified behavior.
 7. Stop affected execution on an explicit stop or invalidating correction.
    Answer informational questions and continue. In a mixed message, separate
    the question from instructions that add or change work. Append additive work
@@ -99,8 +95,6 @@ reserves nothing. Recheck ID and filename collisions immediately before creation
 
 ## Proposal inventory
 
-{{ include: rules.python }}
-
 Follow Runtime helpers below for availability and failures. Use the helper invocation pattern above:
 
 ```text
@@ -125,7 +119,7 @@ only for output fields or selection-mode constraints.
 | Audit wording | authoring.md and progress.md; Decision reference for Decision sections |
 | Validate or diagnose structure | progress.md; operation reference only if a diagnostic needs it |
 
-If the planning profile is unknown, first list the project root to locate
+If the planning profile is unknown, list the project root to locate
 PROJECT_INDEX.md, docs/plans and docs/decisions:
 
 | Observed profile | Action |
@@ -143,8 +137,9 @@ or referenced paths, does not require profile validation.
 Use the command and diagnostic handling in progress.md.
 See Runtime helpers below for the profile-specific runtime rule.
 Report outcome, active or blocked work, actual evidence, unresolved choices and
-the next action. Direct file edits do not lock out another editor or guarantee
-that several writes succeed together. Keep one editor and stop dependent work
-if another editor changes the files or a write leaves only part of the result.
+the next action. Use progress.md's safe-write and continuation rules.
+
+Before invoking this Skill's task helpers, apply the policy below and
+read [shell command rules](references/shell-commands.md).
 
 {{ include: helper.policy }}

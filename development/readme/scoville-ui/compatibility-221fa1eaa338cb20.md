@@ -1,10 +1,8 @@
 ## Compatibility
 
-Developed for Codex and Claude Code with the project's toolchain and
-browser or platform access for rendered checks.
-Targeted candidate-path tests in Codex with gpt-6.1-sol / low exercised a route
-ownership correction, an authorized canonical style change, preservation of a
-settled product decision, structured WordPress classification, localization-readiness
-advice and review of supplied measurements and source complexity, while rendering,
-interactions, accessibility conformance, translation loading, other hosts and
-installed discovery remain unverified.
+Designed for Codex and Claude Code; other hosts are untested.
+Both profiles need reference access and the project's framework tools. Geometry
+proof needs DOM or equivalent measurement, visual proof needs viewed renders,
+and interaction proof needs an interactive runtime. No mandatory network.
+The bundled size checker uses Python 3.11+; manual fallback is available only
+without suitable Python, not after helper errors.

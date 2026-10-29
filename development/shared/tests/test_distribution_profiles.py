@@ -65,7 +65,8 @@ class DistributionProfilesTests(unittest.TestCase):
                                              if line.startswith('compatibility: '))
                         self.assertIsInstance(json.loads(compatibility), str)
                         discovery = (SHARED / 'runtime/python_discovery.md').read_text(encoding='utf-8').strip()
-                        self.assertEqual(1, core.count(discovery), member['name'])
+                        self.assertNotIn(discovery, core, member['name'])
+                        self.assertEqual(discovery, package[member['name'] + '/references/python-discovery.md'].decode().strip())
                     readme = package['README.md'].decode()
                     if member.get('distribution') == 'suite':
                         self.assertNotIn('## Family', readme)

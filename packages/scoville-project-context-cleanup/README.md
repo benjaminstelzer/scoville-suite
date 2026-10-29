@@ -14,9 +14,9 @@ ingredients that made the rules useful.
 ## How it works
 
 - Resolve the target file and read its relevant governing rules.
-- Check the addition for useful project information, duplicates and conflicts.
+- Check useful project information, duplicates and conflicts; reuse authorization covering the edit.
 - Place concise wording in the affected structure, with conditions and exceptions together.
-- Inspect the saved change and use the record owner's checks where required.
+- Inspect the saved change and use the record owner's checks where required. Plan keeps native fields and lifecycle.
 
 ## What it enforces
 
@@ -35,14 +35,18 @@ Project-rule edits exposed lost exceptions and references that did not carry
 the full rule. Those cases shaped the checks for scope, independent copies
 and complete context. Brevity only helps when the meaning survives.
 
+In targeted Codex tests with `gpt-6.1-sol` / `low`, an `AGENTS.md` cleanup removed
+the requested duplicate sentence, preserved the remaining rules and left the
+provided native index and active Plan unchanged.
+
+These are controlled local observations. Index-prose edits, extraction, unresolved
+conflicts, other hosts and installed discovery remain unverified.
+
 ## Compatibility
 
 Requires project-file access and permission for the requested edits.
-In targeted candidate-path tests in Codex with gpt-6.1-sol / low, an implicit
-project-rule request produced the requested rules and free-format index while
-retaining deletion approval and avoiding Plan initialization, while native-index
-ownership, extraction, conflict handling, other hosts and installed discovery
-remain unverified.
+Size checks use Python 3.11+ and the bundled checker. A manual fallback is
+available only when no suitable Python is installed; helper errors do not enable it.
 
 ## Install
 

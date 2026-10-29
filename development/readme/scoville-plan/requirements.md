@@ -1,7 +1,7 @@
 ## What it enforces
 
 - **Resumable work.** Goals, ordered Steps, dependencies and the current position
-  stay explicit in the project's records.
+  stay explicit, together with live permissions, completed effects and evidence limits.
 - **Decisions with an owner.** Confirmed choices are recorded. Open questions
   remain proposals and block only the work that depends on them.
 - **Evidence before completion.** Finished means acceptance was checked.

@@ -9,9 +9,12 @@ Create a detailed repository-owned implementation plan for the billing migration
 ```
 
 State the result you want and the constraints that matter. Plan records the
-work, dependencies and acceptance criteria. It does not dispatch agents. New Plans use
-your task language; related records follow the Plan. An unrelated question does
-not change an existing record's language.
+work, dependencies and acceptance criteria. It reuses known expectations for
+the project's lifetime, maintenance and further development, and asks only when
+an unknown would materially change the solution. Those expectations stay in
+Goal or Non-goals so the next agent can use them without this conversation.
+Plan does not dispatch agents. New Plans use your task language; related records
+follow the Plan. An unrelated question does not change an existing record's language.
 
 ### Progress and decisions
 
@@ -30,6 +33,18 @@ Completed Steps still need the Plan point's acceptance checks.
 To correct an existing record, ask: "Review and correct PLAN-0001." The agent
 checks the evidence and actual result before changing progress. Inspection
 without a correction request stays read-only.
+
+### Keeping Decisions current
+
+When creating a later Plan, Plan checks only Decisions it would link or replace,
+or whose Work Items it replaces. It can remove expired temporary or superseded
+Decisions and obsolete links in that scope, preserving current constraints,
+including unlinked ones, and the needs of other active Plans.
+
+Deletion requires the file's current contents to be committed or your explicit
+approval. A tracked path with uncommitted changes is not enough. A comprehensive
+cleanup needs an explicit maintenance request; ordinary reading and resuming
+work do not clean up Decisions.
 
 ### Companion app
 

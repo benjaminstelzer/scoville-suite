@@ -2,11 +2,16 @@
 
 - **A coherent interface.** Hierarchy, controls and terminology follow the task
   and the existing design system.
-- **Usable states.** Loading, empty, error and success states receive the same
-  attention as the convenient example with perfect data.
+- **Working mechanics.** Approved design stays intact while affected states,
+  semantics, focus, input and recovery receive the checks they need.
 - **Access across devices.** Check responsive layout, zoom, reading order,
   contrast, focus and keyboard or touch operation where applicable.
-- **Rendered proof.** Source checks alone cannot establish that the interface
-  works. Unchecked rendering or interaction stays explicitly unverified.
+- **Scoped proof.** Source, concepts, geometry, viewed appearance and interaction
+  establish different things. Measurements need independent targets and
+  tolerances chosen before measurement. Partial coverage cannot establish a
+  whole-page pass.
+- **Code quality.** UI construction and updates receive the shared review for
+  simplicity, relevant algorithmic costs, maintainability and clarity, without
+  requiring benchmarks.
 
 See the [full instructions]({{ var: contract_url }}).

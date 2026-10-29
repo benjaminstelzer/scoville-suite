@@ -1,3 +1,6 @@
 ## What it enforces
 
-An Agent Skills host with filesystem access. Skill authoring also uses the host's Skill Creator; standalone prompts do not need it. No runtime scripts or network access are required.
+It preserves the intended outcome, activation boundaries, permissions and
+acceptance criteria. It asks only about material changes beyond the request or
+prior approval. Changed instructions and affected consumers are checked together
+in the existing source review.

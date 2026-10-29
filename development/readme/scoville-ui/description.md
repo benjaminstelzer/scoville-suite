@@ -1,8 +1,8 @@
 # Scoville UI
 
 Scoville UI builds and audits interfaces with the project's framework and
-design system. It covers clear wording, useful hierarchy, responsive layouts
-and accessible interactions, then checks the rendered result. A tidy component
+design system. It covers wording, hierarchy, responsive layouts and accessible
+interactions, with checks matched to the result being claimed. A tidy component
 tree is a start. People still have to use the page.
 
 It includes specific guidance for plugin-owned WordPress admin pages, using

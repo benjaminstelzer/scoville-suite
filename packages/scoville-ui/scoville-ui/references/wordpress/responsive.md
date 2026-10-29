@@ -6,20 +6,15 @@ breakpoint.
 
 ## Shared invariants
 
-- At `<=782px`, respect Core mobile admin behavior. Check `783px` as the
-  boundary immediately above it.
-- Apply [common Validation's reflow limit](../validation.md#derive-the-test-surface).
-- `600px` and `390px` are Skill-Norm intermediate test widths, not official
-  universal WordPress breakpoints.
+- At `<=782px`, respect Core mobile admin behavior. Select boundary, reflow and
+  content cases through [WordPress validation](validation.md#select-the-platform-checks).
 - Preserve DOM, keyboard, and screen-reader order when layout changes.
 - Matching text inputs and selects follow Core's `40px` mobile minimum height. WCAG 2.2
   AA separately requires `24 x 24 CSS px` pointer targets or an allowed
   exception.
 - Use logical properties in unavoidable plugin CSS.
-- Treat doubled text, long labels, errors, notices, dates, and numbers as
-  normal content inputs. Include RTL only when a supported or explicitly
-  planned UI language requires it, following the
-  [language-scope rule](internationalization.md#language-scoped-rtl-checks).
+- Adapt to localized and expanded content using
+  [internationalization's layout contract](internationalization.md#layout).
 - Primary actions remain visible. Secondary actions wrap or move to an
   accessible labeled menu.
 - Non-exempt shells satisfy:
@@ -75,15 +70,5 @@ responsive switch.
 
 ## Test selection
 
-For a new page, full audit, or focused change, select the widths, content and
-states that can disprove the scoped layout claims. Include the Core `782px`
-boundary and `783px` when that admin transition affects the region. Apply
-[common Validation's reflow check](../validation.md#derive-the-test-surface).
-`600px` and `390px` are useful intermediate Skill-Norm samples when a wrap or
-layout change occurs there, not
-mandatory widths. Use realistic long text or changed states when they can
-alter the conclusion. Add RTL only when the UI language scope requires it.
-Report the inspected cases and remaining gaps; a source-only review leaves
-rendered behavior unverified. No partial sample proves a full audit.
-
-Source and build inspection do not prove these conditions.
+Use [WordPress validation](validation.md#select-the-platform-checks) for the
+scoped layout claims and report inspected cases and remaining gaps.

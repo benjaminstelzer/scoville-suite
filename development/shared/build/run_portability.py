@@ -51,8 +51,6 @@ def validate_export(root: Path, shared: Path, manifest: dict) -> dict:
         raise ValueError('expected one exported suite profile')
     if builder.render_readmes(root, False, config):
         raise ValueError('exported README projection is stale')
-    if builder.render_sources(root, False, config):
-        raise ValueError('exported source projection is stale')
     expected_packages = {member['name'] for member in config['members']}
     package_root = root / 'packages'
     actual_packages = {path.name for path in package_root.iterdir() if path.is_dir()}

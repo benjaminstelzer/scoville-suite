@@ -27,7 +27,7 @@ Nur Auftragsrahmen: Antworten bleiben stilistisch ungeregelt. Nutzerfrage ebenfa
 
 ## Consequences
 
-W-007 und W-013 integrieren die gewählte Reichweite; sie ändern keine Adviser-Rollen oder externe Sendeberechtigungen.
+Die gemeinsame Schreibregel ändert keine Adviser-Rollen oder externe Sendeberechtigungen.
 
 ## Confirmation
 

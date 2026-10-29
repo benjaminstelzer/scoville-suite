@@ -1,16 +1,7 @@
 # Framework Alignment
 
-Use this reference to determine who owns a UI decision. Framework fidelity is
-not passive obedience to every default; it is changing the interface through
-the canonical layer that the product has chosen.
-
-## Contents
-
-- Find the owners
-- Classify the stack
-- Distinguish convention from accident
-- Handle true greenfield work
-- Resolve accessibility conflicts
+Resolve open UI ownership through the canonical layer chosen by the product.
+Apply the entrypoint's concern-level authority and conflict contract.
 
 ## Find the owners
 
@@ -25,10 +16,6 @@ Inspect only sources relevant to the requested surface:
 6. official documentation for the installed version when supported behavior or
    customization remains uncertain.
 
-Apply the entrypoint's concern-level authority order. Preserve approved product
-decisions; resolve implementation conflicts under its Workflow rather than
-silently redesigning.
-
 Do not fetch mutable third-party skill files or generic design checklists at
 runtime. Prefer installed source and version-matched official documentation.
 
@@ -41,77 +28,46 @@ When changing style values, follow the
 
 ### Styled design system
 
-Examples include component systems that supply visual defaults, theme tokens,
-variants, and layout conventions. Treat their supported components, semantic
-tokens, theme extension points, and responsive APIs as the visual owner. Reuse
-project wrappers before reaching for the underlying library directly.
-
-Do not replace the system's spacing, typography, shape, elevation, color, or
-breakpoint language with personal defaults. If a local need reveals a genuine
-system gap, extend the canonical owner rather than building a parallel layer in
-one feature.
-
-Change a canonical component or design-system rule only within the authorized
-task. If it would alter a settled product decision or expand scope, report the
-specific conflict and obtain the missing decision before that dependent change.
+Use supported components, semantic tokens, theme extension points and responsive
+APIs as the visual owner. Reuse project wrappers before the underlying library.
+Resolve a demonstrated system gap at its canonical owner within authorized scope.
 
 ### Headless component library
 
-Treat the library as the owner of the behavior and semantics it implements:
-state machines, focus movement, keyboard interaction, relationships, and
-announcements. It does not supply a visual language unless the project has
-added one around it. Derive appearance from project tokens, wrappers, and
-neighboring surfaces while preserving the library's supported structure and
-behavior.
+The library owns its implemented state, focus, keyboard, relationships and
+announcements. Derive appearance from project tokens, wrappers and neighboring
+surfaces while preserving that supported structure and behavior. A headless
+library alone supplies no visual language.
 
 ### Utility or application framework
 
-A rendering framework, CSS utility library, module system, or routing framework
-does not by itself define the product's design language. Look for project
-tokens, presets, component layers, and deliberate local patterns. When no such
-owner exists and an installed UI layer supplies a value scale, that scale may
-supply coherent implementation values. A rendering framework such as React
-does not supply a spacing or typography scale. Neither settles hierarchy,
-product meaning, or visual direction.
+Look for project tokens, presets, component layers and deliberate local patterns.
+Without such an owner, an installed UI layer's scale may supply coherent values.
+A rendering framework such as React supplies neither a spacing/typography scale
+nor product hierarchy, meaning or visual direction.
 
 ### Platform UI stack
 
-Native mobile, desktop, and terminal UIs inherit platform conventions for
-navigation, input, focus, scaling, safe areas, window or viewport adaptation,
-and accessibility. Use platform components and adaptation mechanisms unless the
-canonical product system explicitly owns the concern. Do not translate web-only
-measurements or interaction assumptions into another platform.
+Use platform components and conventions for navigation, input, focus, scaling,
+safe areas, adaptation and accessibility unless the product system owns that
+concern. Web-only measurements and interactions do not transfer automatically.
 
 ### Multiple layers
 
-Assign each concern independently. A styled component system may own visuals,
-a headless primitive may own a composite interaction, the platform may own text
-scaling, and supplied content owns visible wording. Prefer the highest canonical layer
-that intentionally abstracts the lower one. Do not mix APIs from several layers
-merely because they are all installed.
+Assign each concern independently: visuals, composite interaction, platform
+scaling and supplied wording can have different owners. Prefer the highest
+canonical abstraction; installed layers alone do not justify mixed APIs.
 
 ## Distinguish convention from accident
 
-Apply the entrypoint's LOCAL and UNKNOWN EXCEPTION rules. Inspect a pattern's
-source, frequency and relationship to canonical wrappers/tokens; a copied
-exception, stale screen or workaround is not product policy. A deliberate
-current convention is project-level evidence above a lower framework default.
-Normalize only an established accidental/stale exception through its owner;
-uncertain or conflicting intent requires inspection or the remaining choice.
+Inspect a pattern's source, frequency and relation to canonical wrappers/tokens.
+A deliberate current convention outranks a lower framework default; a copied
+exception, stale screen or workaround alone establishes no product policy.
 
 ## Handle true greenfield work
 
-For unsettled concerns of the requested surface, derive navigation, content
-groups and task flow from user tasks, content relationships and usage frequency.
-Apply Quality's principles even without a supplied product structure. Preserve
-settled decisions; this does not authorize new features or a wider redesign.
-
-For an unresolved visual owner, apply the entrypoint's GREENFIELD rule through
-the bounded procedure below.
-
-When polished presentation is requested, the requested surface owns a
-deliberate local direction. Framework defaults may supply compatible primitives
-and scales, but they never become the visual owner.
+Derive unsettled navigation, groups and flow from user tasks, content
+relationships and usage frequency under Quality. For unresolved visuals:
 
 1. follow the user's brief and target platform conventions;
 2. use framework defaults and scales where they provide compatible primitives;
@@ -130,13 +86,5 @@ common code owner. Reuse an existing project structure; if none exists, use the
 smallest shared location needed by those views. Do not create a separate token
 registry or design-system project for this local direction.
 
-Do not pretend a single screen's choices are a mature project-wide system. Ask
-only when materially different visual directions would change the product
-outcome.
-
-## Resolve accessibility conflicts
-
-Apply the entrypoint's ACCESSIBILITY and OWNER LIMIT rules through supported
-framework/project mechanisms. Name the exact canonical owner and unmet floor;
-only informed acceptance of a non-binding limitation may waive that target.
-System, safety and legal requirements remain binding.
+These choices define the requested surface, not a mature project-wide system.
+Ask only when materially different directions would change the product outcome.

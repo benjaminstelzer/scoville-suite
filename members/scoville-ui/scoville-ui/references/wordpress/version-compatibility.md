@@ -197,11 +197,7 @@ token. The `16px` expectation applies to the single density shipped by the 7.1
 Core stylesheet. WordPress 7.1 and `@wordpress/theme` 1.0.0 expose no public
 density switch. Do not transfer the compact or comfortable 7.0 package-table
 values into this path. Check successful stylesheet loading and computed styles
-on each supported release. Then test
-320px reflow, 782/783px, zoom, text expansion, empty content, focus,
-and affected states. Add RTL checks only under the
-[language-scope rule](internationalization.md#language-scoped-rtl-checks).
-Any state colors require contrast tests in the actual
-theme. A source check or stubbed enqueue test is not rendered UI proof.
+on each supported release, then apply the affected cases in
+[WordPress validation](validation.md#select-the-platform-checks).
 
 Primary sources and immutable release refs are in [sources.md](sources.md).

@@ -25,8 +25,9 @@ and project-specific authoring requirements.
   that affect correctness or permissions. Keep stable facts and ownership rules
   declarative. Name a concrete observation for required checks. Use a helper for
   deterministic payload, ID or branch assembly when it prevents an identified error.
-- Check changed instructions against the owning code or contract and intended
-  behavior. Use proportionate checks. Source review and file length do not prove
-  model comprehension or improved effectiveness. Apply the
+- Check changed instructions and affected consumers against the owning code or
+  contract and intended behavior in the existing source review. Use proportionate
+  checks. Source review and file length do not prove model comprehension or
+  improved effectiveness. Apply the
   [release-validation rules](luna-release-gate.md) for model-test settings and
   evidence requirements, and before publication.

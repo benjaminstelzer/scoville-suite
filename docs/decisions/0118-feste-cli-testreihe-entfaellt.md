@@ -33,8 +33,9 @@ gezielter Tests. Die aktuelle CLI fügt Host-Tools in den isolierten Testkontext
 
 ## Consequences
 
-Kanonische Shared-Regel, Publikationsskill und installierte Regel werden angepasst.
-Frühere Freigabeentscheidungen bleiben historisch erhalten.
+Die kanonische Shared-Regel und die Publikationsregeln verwenden den
+änderungsbezogenen Prüfumfang. Vorhandene Testergebnisse bleiben Evidenz,
+keine neuen Ausführungsfreigaben.
 
 ## Confirmation
 

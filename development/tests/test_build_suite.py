@@ -215,11 +215,13 @@ class BuildTests(unittest.TestCase):
     def test_missing_project_context_writing_contract_blocks_packaging(self):
         config = builder.load(ROOT, 'codex', 'suite')
         member = next(m for m in config['members'] if m['name'] == 'scoville-project-context-cleanup')
-        self.assertIn('scoville-project-context-cleanup/references/writing.md',
-                      builder.payload(ROOT, member, config))
+        files = builder.payload(ROOT, member, config)
+        del files['scoville-project-context-cleanup/references/writing.md']
+        with self.assertRaisesRegex(ValueError, r'writing\.md'):
+            builder._module.validate_package_links(files)
         member['files'] = [entry for entry in member['files']
                            if not entry['target'].endswith('/references/writing.md')]
-        with self.assertRaisesRegex(ValueError, 'writing.md'):
+        with self.assertRaisesRegex(ValueError, r'writing\.md|output-delivery\.md'):
             builder.payload(ROOT, member, config)
 
 

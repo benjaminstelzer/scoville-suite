@@ -5,7 +5,6 @@ status: accepted
 created: 2026-10-14
 accepted: 2026-10-14
 scope: workflow/dispatch
-supersedes: ADR-0222
 ---
 
 # Bindenden Decision-Kontext unverändert und ohne Hintergrund übergeben
@@ -14,7 +13,7 @@ supersedes: ADR-0222
 
 Binding sections: complete
 
-Nach Nutzerfreigabe vom 14.10. übergibt der Builder frischen Agenten Goal und
+Der Builder übergibt frischen Agenten Goal und
 Non-goals vollständig sowie alle verlinkten accepted Decisions. Gültig markierte
 Decisions liefern Frontmatter, Titel und die vollständigen unveränderten Abschnitte
 Decision, Consequences, Confirmation und Revisit when in Originalreihenfolge.
@@ -23,7 +22,7 @@ Die Kennzeichnung bestätigt, dass alle bindenden Bedingungen, Ausnahmen,
 Befugnisgrenzen und notwendigen Gründe in diesen vier Abschnitten stehen.
 Die Kürzung entfernt nur nichtbindenden Hintergrund und bewahrt die Wahl mit
 ihren notwendigen Gründen; Dateiverweise allein verkürzen die Pflichtlektüre nicht.
-Der Manager wählt und schreibt keinen Kontext um. Goal und Decisions erweitern
+Der aufrufende Agent wählt und schreibt keinen Kontext um. Goal und Decisions erweitern
 keine Rollenrechte oder Aufgaben. Original-Einzelsteps, vollständige Closure und
 einmalige Fresh-Initialisierung bleiben erhalten.
 Unmittelbar vor diesen Abschnitten steht unverändert genau einmal:
@@ -48,20 +47,21 @@ die sieben Templateabschnitte sind außerhalb Codefences eindeutig und genau ein
 vorhanden. Ohne gültige Voraussetzung bleibt Volltext. Der bestehende Plan-Helper
 projiziert erst nach der bisherigen vollständigen Quellenprüfung; es gibt keine
 neuen Hashes, Register oder Lesehelper. Plan Viewer bleibt ausgeschlossen.
-Neue ADRs folgen dem markierten Format; Altbestände nur nach ausdrücklich
-autorisierter gleichwertiger Pflege. Zweifel bleiben unmarkiert. Keine automatische
-Projektmigration oder pauschale Entfernung historischer Links.
+Neue ADRs folgen dem markierten Format. Eine Markierung bei bestehenden ADRs
+setzt gleichwertige Pflege und erhaltene bindende Inhalte voraus; Zweifel bleiben
+unmarkiert. Die berechtigte Auswahl oder Löschung überholter ADRs bleibt eine
+eigene Planpflege-Operation, keine Aufgabe des Prompt-Builders.
 Reuse erhält Decision-Identitäten; neue, geänderte oder unsichere Decisions werden
 vollständig aus ihrer Datei gelesen. Unklarer notwendiger Hintergrund verlangt
 Volltext. Eine gültige Projektion zählt als vollständiger bindender Kontext.
 Closure erweitert nur die Step-/Acceptance-Prüfung, nicht die Fresh/Reuse-Regel.
-Non-goals-Grenze, Selectorbudget, Modell- und Agentenwechselregeln bleiben bestehen.
+Non-goals-Grenze, Selectorbudget und die geltenden Mainloop-Rollen bleiben bestehen.
 
 ## Confirmation
 
 Gemischte und ungeeignete ADRs, gleichwertige Pflege, vollständige Quellenidentität
-und Fresh/Reuse für Step/Closure prüfen. Luna prüft betroffene öffentliche Texte;
-Opus5.5/high und Astra/high nehmen Fix und Auswirkungen einvernehmlich ab.
+und Fresh/Reuse für Step/Closure mit passenden technischen und tatsächlichen
+Empfängerprüfungen prüfen. Es gelten die aktuellen Modell- und Releasevorgaben.
 Der feste Satz steht für jede Rolle, frisch und wiederverwendet, genau einmal
 vor Plan-Identität und Non-goals.
 

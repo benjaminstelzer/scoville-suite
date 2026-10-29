@@ -5,15 +5,14 @@ status: accepted
 created: 2026-10-01
 accepted: 2026-10-01
 scope: ask/native-agent-capacity
-supersedes: ADR-0132
 ---
 
 # Ask bewahrt Antworten ohne Kapazitätsbereinigung
 
 ## Decision
 
-Die ausdrückliche Entfernung aus ADR-0135 umfasst auch Ask. Der automatische
-Drain-/Recovery-/Retry-Weg und reine Bereinigungsturns entfallen. Eine
+Ask verwendet keinen automatischen Drain-/Recovery-/Retry-Weg und keine
+reinen Bereinigungsturns für Kapazitätsfehler. Eine
 Kapazitätsablehnung lässt nicht gestartete Berater offen, erhält Diagnose,
 Antworten und exakte Handles und erzeugt keine Ersatzberater oder Ersatzchats.
 
@@ -38,9 +37,8 @@ Ein neuer Bereinigungs-Final bestätigt keine freigegebenen Hostplätze.
 
 ## Consequences
 
-ADR-0132 und seine Tests bleiben erhaltene Historie. Aktive Anweisungen,
-gemeinsame Quellen, Buildregistrierung und Dokumentation verwenden den neuen
-Fehlervertrag. Der ursprüngliche Ask-Ergebnis-/Follow-up-Test bleibt relevant.
+Aktive Anweisungen, gemeinsame Quellen, Buildregistrierung und Dokumentation
+verwenden diesen Fehlervertrag. Ergebnis- und Follow-up-Prüfungen bleiben relevant.
 
 ## Confirmation
 

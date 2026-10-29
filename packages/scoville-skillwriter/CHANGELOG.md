@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-29
+
+- Simplify the authoring workflow while preserving revision baselines and read-only reviews.
+- Integrate instruction and consumer checks into the existing source review.
+- Limit Skill Creator to Skill authoring in the default prompt, and keep vendor advice separate from measured evidence.
+- Separate technical host requirements from the scoped Codex tests with `gpt-6.1-sol` / `low`; current Claude behavior remains unverified.
+
 ## 2026-10-28 - Review corrections
 
 - Load the shared instruction-design criteria for reviews as well as drafting and revision.

@@ -28,28 +28,16 @@ Read the supplied product record and preserve its decisions; UI implements them 
 
 ## Start with the user task
 
-Make the primary task and its next meaningful action understandable from the
-interface, not from implementation knowledge. Secondary actions and supporting
-information should remain available without competing equally for attention.
-Use one primary next action per decision region, not a page-wide one-button
-limit. Make each action's affected fields, object and consequence clear before
-activation. Preserve legitimate information density and separate decision regions.
-Preserve product intent.
+Make the task and next meaningful action apparent in each decision region.
+Give that region a clear primary action, with its affected object, fields,
+prerequisites and consequences understandable before activation. Preserve
+legitimate density and independent decision regions.
 
-For each visible region, ask:
-
-- What decision or action does it support?
-- What information must be understood before that action?
-- What can remain secondary, progressive, or contextual?
-- What must persist across state or viewport changes?
-
-Required prerequisites and consequences precede the action that needs them.
-Disclose rare secondary detail through understandable controls, while keeping
-required fields, errors and critical consequences discoverable in time. Avoid
-repeated disclosure steps that obstruct frequent expert work. Keep needed values
-and object and action terms visible so users recognize rather than recall.
-Remove or demote content only when doing so preserves the user's task and the
-canonical content owner permits it.
+Keep secondary actions available without equal emphasis. Disclose rare detail
+without hiding required fields, errors or critical consequences, or obstructing
+frequent expert work. Keep needed values and terms visible; preserve working
+context across states and viewports. Remove or demote content only when its
+owner permits it and the task remains complete.
 
 ## Preserve readable content
 

@@ -108,6 +108,14 @@
         {
           "source": "shared:prompting/instruction-design.md",
           "target": "scoville-code/references/instruction-design.md"
+        },
+        {
+          "source": "shared:prompting/machine-data.md",
+          "target": "scoville-code/references/machine-data.md"
+        },
+        {
+          "source": "shared:runtime/python_discovery.md",
+          "target": "scoville-code/references/python-discovery.md"
         }
       ],
       "family": {
@@ -131,7 +139,8 @@
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md"
+          "fallback": "references/fallbacks/check_text_size-fallback.md",
+          "policy": "references/output-delivery.md"
         }
       },
       "distribution": "suite"
@@ -217,6 +226,14 @@
         {
           "source": "shared:prompting/instruction-design.md",
           "target": "scoville-handoff/references/instruction-design.md"
+        },
+        {
+          "source": "shared:prompting/machine-data.md",
+          "target": "scoville-handoff/references/machine-data.md"
+        },
+        {
+          "source": "shared:runtime/python_discovery.md",
+          "target": "scoville-handoff/references/python-discovery.md"
         }
       ],
       "family": {
@@ -240,7 +257,8 @@
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md"
+          "fallback": "references/fallbacks/check_text_size-fallback.md",
+          "policy": "references/output-delivery.md"
         }
       },
       "distribution": "suite"
@@ -371,6 +389,14 @@
         {
           "source": "shared:prompting/instruction-design.md",
           "target": "scoville-plan/references/instruction-design.md"
+        },
+        {
+          "source": "shared:prompting/machine-data.md",
+          "target": "scoville-plan/references/machine-data.md"
+        },
+        {
+          "source": "shared:runtime/python_discovery.md",
+          "target": "scoville-plan/references/python-discovery.md"
         }
       ],
       "family": {
@@ -400,22 +426,24 @@
         "development/readme/scoville-plan/requirements.md",
         "development/readme/scoville-plan/costs.md"
       ],
-      "shared_helpers": [],
       "helper_contracts": {
         "scripts/select_context.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/select_context-fallback.md"
+          "fallback": "references/fallbacks/select_context-fallback.md",
+          "policy": "SKILL.md"
         },
         "scripts/markdown_structure.py": {
           "kind": "library"
         },
         "scripts/validate_profile.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/validate_profile-fallback.md"
+          "fallback": "references/fallbacks/validate_profile-fallback.md",
+          "policy": "SKILL.md"
         },
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md"
+          "fallback": "references/fallbacks/check_text_size-fallback.md",
+          "policy": "references/output-delivery.md"
         }
       },
       "distribution": "suite"
@@ -597,6 +625,14 @@
         {
           "source": "shared:prompting/instruction-design.md",
           "target": "scoville-ui/references/instruction-design.md"
+        },
+        {
+          "source": "shared:prompting/machine-data.md",
+          "target": "scoville-ui/references/machine-data.md"
+        },
+        {
+          "source": "shared:runtime/python_discovery.md",
+          "target": "scoville-ui/references/python-discovery.md"
         }
       ],
       "family": {
@@ -625,7 +661,8 @@
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md"
+          "fallback": "references/fallbacks/check_text_size-fallback.md",
+          "policy": "references/output-delivery.md"
         }
       },
       "distribution": "suite"
@@ -707,6 +744,14 @@
         {
           "source": "shared:prompting/instruction-design.md",
           "target": "scoville-project-context-cleanup/references/instruction-design.md"
+        },
+        {
+          "source": "shared:prompting/machine-data.md",
+          "target": "scoville-project-context-cleanup/references/machine-data.md"
+        },
+        {
+          "source": "shared:runtime/python_discovery.md",
+          "target": "scoville-project-context-cleanup/references/python-discovery.md"
         }
       ],
       "family": {
@@ -730,7 +775,8 @@
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md"
+          "fallback": "references/fallbacks/check_text_size-fallback.md",
+          "policy": "references/output-delivery.md"
         }
       }
     },

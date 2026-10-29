@@ -1,20 +1,20 @@
-Apply the shared reading rule before native delivery. Process machine data in
-code, whether returned directly or as a capture file. Display its checked result,
-not the capture. Use the template below only for output already selected under
-that rule; forward rendered checker output unchanged as text.
-Do not JSON-encode it again or add unchecked status lines. Structured helper
-results and native tool arguments keep their own interfaces.
+## Native tool capture
 
-Keep the complete `exec_command` result until the command ends, including
-`session_id`, every output chunk and the final exit status. A completed outer script does not prove child completion. Use the
-template below for captures, one per outer call.
+Apply [machine-data.md](machine-data.md) before native machine-data delivery.
+Use this template only for eligible output selected under that rule. Forward
+rendered checker output unchanged as text, without JSON-encoding it again or
+adding unchecked status lines. Structured helper results and native tool
+arguments retain their own interfaces.
 
-This template selects 20000;
-use the same smallest applicable limit in the generated command, both tools and
-outer directive. Before execution, replace `<command_json>` with one JSON string
-literal encoding the complete generated command, including quotes and backslashes.
-Replace the whole value; never paste a command inside existing quotes or a
-JavaScript template literal. JSON encoding preserves backticks and `${` as data.
+Retain every `exec_command` chunk, `session_id` and final exit status until the
+child ends. Outer script completion does not establish child completion; do
+not restart a running command. Use one capture per outer call.
+
+The template selects 20000; use the same smallest applicable limit in the
+generated command, both tools and outer directive. Replace `<command_json>`
+with one JSON string literal encoding the complete generated command, including
+quotes and backslashes. Replace the whole value, never paste into existing
+quotes or a JavaScript template literal; JSON keeps backticks and `${` as data.
 
 ```javascript
 // @exec: {"max_output_tokens": 20000}
@@ -33,13 +33,8 @@ while (r.session_id !== undefined) {
 text(output);
 ```
 
-Check completeness separately from command success:
-
-| Result | Completion condition |
-| --- | --- |
-| Running `session_id` | Retain its ID and every chunk until completion; never restart the command. |
-| `exit=` from `--run` | Both streams are captured; the child exit status determines command success. A nonzero exit can supply valid failure evidence. |
-| Complete-file metadata | Use the complete-file distinction above and process the supplied file under the shared reading rule: machine data in code, required prose in full. |
-| Empty output, capture failure, or missing output without a complete-file route | Required input remains unread; stop dependent work. |
-
-Never discard a failure's stdout or stderr.
+Command success and output completeness are separate: the child's `exit=`
+determines success and a nonzero exit can supply valid failure evidence.
+Process complete-file metadata as specified above. Capture failure, missing
+output without that route, or empty output where required content was expected
+stops dependent work. Preserve both failure streams.

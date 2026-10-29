@@ -5,7 +5,6 @@ status: accepted
 created: 2026-09-26
 accepted: 2026-09-26
 scope: suite/uebergabeformat
-supersedes: ADR-0088
 ---
 
 # JSON darf gelesen und automatisch erzeugt werden

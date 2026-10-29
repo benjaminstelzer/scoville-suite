@@ -5,8 +5,6 @@ status: accepted
 created: 2026-09-25
 accepted: 2026-09-25
 scope: ask/web-tools
-transition_batch: f4ac9627ee1ebc83f5a18c0e13e4603d1b8485d4b1e82bf5fda3951a69d634b4
-transition_batch_members: [ADR-0047, ADR-0048, ADR-0049, ADR-0050, ADR-0051]
 ---
 
 # ASK-Webwerkzeuge nur bei ausdrücklichem Bedarf

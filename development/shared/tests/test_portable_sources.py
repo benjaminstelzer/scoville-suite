@@ -1,6 +1,5 @@
 import importlib.util
 import shutil
-import subprocess
 import sys
 import tempfile
 import unittest
@@ -24,16 +23,15 @@ class PortableSourcesTests(unittest.TestCase):
                     '.git', '__pycache__', 'node_modules', 'target', '.tmp', 'packages'))
                 self.assertFalse((root.parent / 'shared').exists())
                 self.assertEqual([], sync(root, SHARED, check=True))
-                command = [sys.executable, '-B', str(root / 'development/build_suite.py'), '--check-sources']
-                subprocess.run(command, check=True, capture_output=True)
                 spec = importlib.util.spec_from_file_location('isolated', root / 'development/shared/build/build_suite.py')
                 isolated = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(isolated)
                 for profile in ('general', 'codex'):
-                    config = canonical.load(source, profile)
-                    isolated_config = isolated.load(root, profile)
-                    for member in config['members']:
-                        self.assertEqual(canonical.payload(source, member, config), isolated.payload(root, member, isolated_config))
+                    for layout in ('standalone', 'suite'):
+                        config = canonical.load(source, profile, layout)
+                        isolated_config = isolated.load(root, profile, layout)
+                        for member in config['members']:
+                            self.assertEqual(canonical.payload(source, member, config), isolated.payload(root, member, isolated_config))
                 target = root / 'development/shared/readme/license.md'
                 target.write_text('drift', encoding='utf-8')
                 self.assertIn('readme/license.md', sync(root, SHARED, check=True))

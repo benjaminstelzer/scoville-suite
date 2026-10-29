@@ -8,6 +8,7 @@ show it. Use the matching evidence and read each triggered reference completely:
 | Claim | Decisive evidence | Does not prove | Reference |
 | --- | --- | --- | --- |
 | Source or build correctness | Source inspection; relevant existing lint, build or component checks | Rendering, geometry or interaction | — |
+| Unimplemented concept | Supplied brief, product decisions and task-specific design reasoning | Implemented or rendered behavior | [Quality](ui-quality.md) for open concerns |
 | Framework or token alignment | Owning component, variant and token; resolved style at the affected element | Painted or layout effect | [Framework](framework-alignment.md) when ownership is open |
 | Layout, spacing, alignment or adaptation | Runtime geometry of the named relationship at the actual elements, against an independent target | Glyph position, baseline or optical balance | [Geometry and sight](ui-geometry-validation.md) |
 | Painted appearance or optical alignment | Viewed render compared with its reference | Exact distances or interaction | Geometry and sight |
@@ -16,11 +17,8 @@ show it. Use the matching evidence and read each triggered reference completely:
 | Accessibility conformance | Applicable checks below and confirmed scanner findings | Task understanding | — |
 | Consistency across a page or region | Complete scoped coverage | A partial sample | [Audit coverage](ui-consistency-audit.md) |
 
-Select conditions by scope and risk. Evidence for one claim does not prove another.
-
-For a supplied product decision, use its validation target and preserve
-its evidence status. Report any implementation constraint to its owner; do not
-silently substitute a different layout or visual system.
+Evidence for one claim does not prove another. Use a supplied decision's target
+and retain its evidence status; settled design still requires correct mechanics.
 
 ## Derive the test surface
 
@@ -36,10 +34,9 @@ supported environments and only relevant combinations of:
 - realistic short, long, dynamic, and localized content; and
 - text scaling, browser zoom, reduced motion, and other supported user settings.
 
-Do not impose a universal breakpoint list or test every possible combination.
 Include a condition when it could change the decision or expose a failure in the
-requested flow. A broad viewport can establish the requested composition, but
-it is not a separate accessibility threshold.
+requested flow; use owner-defined transitions and the applicable normative limits.
+A broad viewport may establish composition without being an accessibility threshold.
 
 For affected web UI with an AA target, include these applicable checks:
 
@@ -82,8 +79,7 @@ least one relevant interaction state. Capture each target viewport named by the
 task as its own observation so a desktop result does not stand in for mobile or
 vice versa.
 
-Keep recovery-state evidence separate: a convincing error state
-does not prove the primary populated surface, and the reverse is equally true.
+Keep populated and recovery-state evidence distinct.
 
 Compare the rendered emphasis with the primary task: decision-critical values,
 states and actions must remain readily readable and findable, without
@@ -99,45 +95,53 @@ supported composition and variants. Keep the rationale in the task result or
 an existing project record; no separate document is required. Inspect the final
 diff for unnecessary custom styling and obsolete compensation.
 
-## Source first, then measurement, then sight
+## Select and refresh evidence
 
 ```mermaid
 flowchart TD
   mode{"Implement or Audit?"}
-  mode -->|Implement| batch["Complete planned related edits; inspect source as needed"]
-  mode -->|Audit| source["Inspect available generating source and owners within scope"]
+  mode -->|Implement| batch["Complete related edits within scope"]
+  mode -->|Audit| source["Inspect permitted source and owners relevant to the claims"]
   batch --> source
   source --> defect{"Known in-scope source defect?"}
-  defect -->|Implement: yes| fix["Correct source before first measurement or viewed render"]
+  defect -->|Implement: yes| fix["Correct known source defects"]
   defect -->|Audit: yes| note["Report source defect; make no repair"]
-  defect -->|no| measure["Measure claimed relationships in available in-scope runtime; compare with targets before display"]
-  fix --> measure
-  note --> measure
-  measure --> sight["View render; compare optical composition where claimed"]
-  sight --> interact["Exercise claimed interactions and transitions where applicable"]
-  interact --> result{"Implement with an in-scope defect requiring correction?"}
+  defect -->|no| claim{"Which evidence does each selected claim require?"}
+  fix --> source
+  note --> claim
+  claim -->|source or concept| reasoning["Check source or concept against its owning contract"]
+  claim -->|geometry| measure["Measure named relationships against independent targets"]
+  claim -->|paint or optics| sight["View the scoped render against its reference"]
+  claim -->|interaction| interact["Exercise claimed flows and transitions"]
+  claim -->|accessibility| access["Apply relevant normative and runtime checks"]
+  claim -->|consistency| coverage["Reconcile scoped inventory with required evidence"]
+  reasoning --> result{"Implement with an in-scope defect requiring correction?"}
+  measure --> result
+  sight --> result
+  interact --> result
+  access --> result
+  coverage --> result
   result -->|yes| correct["Collect and implement related corrections as one batch"]
-  correct --> refresh["Repeat only affected source, measurement, sight and interaction checks"]
-  refresh --> result
-  result -->|no, or Audit| report["Report observations, defects and every required evidence gap"]
+  correct --> refresh["Refresh only evidence invalidated by the change"]
+  refresh --> source
+  result -->|no, or Audit| report["Report observations, defects and specific evidence gaps"]
 ```
 
-At Source, inspect markup/components, supported props and variants, styles and
-owning framework/design system. Check duplicate spacing owners, arbitrary
-sizes/offsets, token bypass, primitive rebuilds and obsolete overrides. Run
-relevant existing syntax, lint, component or build checks. Build success does
-not establish correct component ownership. Measure and view internal component
-contents as well as outer layout under the claim table and Geometry and sight.
-Container overflow alone proves no internal alignment; numeric equality proves
-no optical alignment.
+Select every evidence branch needed by the claims, rather than running every
+branch for every task. Consider source findings before runtime conclusions;
+complete known corrections before final measurement or sight. Inspect relevant
+markup, component APIs, styles and owners for duplicate spacing, token bypass,
+arbitrary offsets, primitive rebuilds and obsolete compensation. Relevant existing
+source/build checks do not establish ownership or rendered correctness.
 
 These gates add no scope or permission. Source-only and screenshot-only requests
 retain their limits. If required source or runtime tools are unavailable,
 continue permitted observations and report the specific missing evidence as
 unverified, never passed. Do not skip usable tools for convenience. Audit stays
-read-only; missing evidence authorizes no repair. Final measurements and viewed
-images must represent the same revision, content and state. Reuse unchanged
-evidence; refresh only evidence invalidated by a relevant change.
+read-only. Final measurements and viewed images must represent the same revision,
+content and state. Reuse evidence while its relevant inputs and conditions remain
+unchanged. For UI source changes, the entrypoint's shared Code review is an
+acceptance condition for construction and updates as well as explicit review.
 
 ## Use automation as supporting evidence
 

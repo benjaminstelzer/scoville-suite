@@ -5,7 +5,6 @@ status: accepted
 created: 2026-09-30
 accepted: 2026-09-30
 scope: ask/native-route
-supersedes: ADR-0085
 ---
 
 # Native Ask-Berater als Agenten integrieren
@@ -26,8 +25,8 @@ Helper-Ausgaben bleiben erhalten. Die Hostgrenzen gelten weiter.
 
 ## Problem
 
-ADR-0085 schreibt eine native Chat-Route vor, die der beauftragten neuen
-Implementierung widerspricht.
+Separate Berater-Chats verursachen zusätzliche Titel-, Pinning- und
+Archivierungsverwaltung gegenüber nativen Subagenten.
 
 ## Drivers
 

@@ -5,7 +5,6 @@ status: accepted
 created: 2026-09-25
 accepted: 2026-09-25
 scope: suite/project-configuration
-supersedes: ADR-0051
 ---
 
 # Eine Konfigurationsdatei überschreibt Skill-Defaults
@@ -30,9 +29,9 @@ Die Unterscheidung persönlicher und projektbezogener Konfiguration erzeugt vom 
 
 ## Consequences
 
-- Die bisherige persönliche Ebene aus ADR-0046 und die mehrstufige Setup-Bedienung aus ADR-0056 werden aufgegeben. Keine neuen workflow.local.toml-Dateien.
+- Keine zusätzliche persönliche Ladeebene oder workflow.local.toml-Dateien.
 - Ask und Workflow behalten ihre vorhandenen Einstellungsstrukturen unter ask und workflow. Ein gemeinsamer Loader liest nur die gewählte Projektwurzel; keine Elternsuche oder Überwachung.
-- Explizite Aufruf-/Step-Parameter bleiben einmalige Auftragsvorgaben und werden nicht gespeichert. Setup bietet keine weiteren Konfigurationsebenen an.
+- Unterstützte explizite Aufrufparameter sind einmalige Auftragsvorgaben und werden nicht gespeichert. Setup bietet keine weiteren Konfigurationsebenen an; Mainloop verwendet seine festen Modellpaare ohne Step-Overrides.
 - Ohne Datei gelten Defaults. Lesen und Start erzeugen keine Datei. Ungültige Werte werden gemeldet. Setup erhält nicht betroffene Werte.
 - Bestehende persönliche Dateien nicht löschen: vorhandene Abweichungen beim Übergang anzeigen und gezielt übernehmen; danach keine versteckte weitere Ladeebene.
 - Claude-Timeout hat den importierten Default 3600 Sekunden und ist über Setup überschreibbar. Keine Hashes oder Konfigurations-Snapshots. Einstellungen zwischen Läufen ändern.

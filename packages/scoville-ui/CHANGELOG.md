@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased - 2026-10-29
+
+- Consolidate authority and reference routing; select source, concept, geometry,
+  visual and interaction evidence by the claim while preserving scoped coverage,
+  independent targets and accessibility requirements.
+- Keep shared code review for UI construction and updates; consolidate WordPress
+  checks and localization scope without changing platform ownership or pins.
+- Load machine-data, Python and output-helper rules when their operations need them.
+- Update validation evidence with the paired local browser test and its limits.
+
 ## Unreleased - 2026-10-28
 
 - Use one authority order for approved product decisions and require only missing

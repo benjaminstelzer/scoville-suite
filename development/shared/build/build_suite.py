@@ -16,7 +16,6 @@ from urllib.parse import unquote, urlsplit
 
 RULE_FRAGMENTS = {
     'rules.optout': 'runtime/skill_optout.md',
-    'rules.python': 'runtime/python_discovery.md',
     'rules.native_output': 'runtime/native_output.md',
 }
 
@@ -117,8 +116,6 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
         raise ValueError('unknown build profile: ' + profile)
     if data['schema_version'] != 1:
         raise ValueError('unsupported suite manifest')
-    if type(data.get('member_previews', True)) is not bool:
-        raise ValueError('member_previews must be boolean')
     names = [m['name'] for m in data['members']]
     if len(names) != len(set(names)):
         raise ValueError('duplicate member')
@@ -174,8 +171,6 @@ def runtime_scope(members: list[dict]) -> dict:
                     or item.get('template')):
                 raise ValueError('runtime_role requires a reviewed Markdown instruction, not executable data or a template')
             instructions.append(member['name'] + '/' + item['target'])
-        if any('runtime_role' in item for item in member.get('shared_helpers', [])):
-            raise ValueError('shared_helpers cannot have runtime_role')
         contracts.update({member['name'] + '/' + member['name'] + '/' + path: rule['kind']
                           for path, rule in member.get('helper_contracts', {}).items()})
     if len(instructions) != len(set(instructions)):
@@ -326,21 +321,29 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
         if any(type(rank) is not int or rank < 0 for rank in ranks) or len(ranks) != len(set(ranks)):
             raise ValueError('family order must be a unique nonnegative integer per member')
         members = sorted(members, key=lambda m: m['family']['order'])
-    order = [m['name'] for m in members]
     by_name = {m['name']: m for m in members}
 
     def replace(match):
         key = match[1].strip()
         if key in RULE_FRAGMENTS:
             return within(shared_root(), RULE_FRAGMENTS[key]).read_text(encoding='utf-8').strip()
-        if key == 'helper.policy':
+        if key in {'helper.policy', 'helper.policy.output'}:
             if member is None:
-                raise ValueError('helper.policy requires a member')
-            return helper_policy(member, config)
+                raise ValueError(key + ' requires a member')
+            owner = 'references/output-delivery.md'
+            if key == 'helper.policy':
+                owners = {rule.get('policy', 'SKILL.md')
+                          for rule in member.get('helper_contracts', {}).values()
+                          if rule.get('kind') == 'helper'
+                          and rule.get('policy', 'SKILL.md') != owner}
+                if len(owners) != 1:
+                    raise ValueError('helper.policy requires exactly one task-helper policy owner')
+                owner = owners.pop()
+            return helper_policy(member, config, owner)
         if key == 'family.contract':
             return variant_text(within(shared_root(), 'runtime/skill_composition.md').read_text(encoding='utf-8'), config).strip()
         if key.startswith('family.') and config.get('layout') == 'suite':
-            if key not in {'family.catalog', 'family.owners', 'family.neighbors', 'family.links', 'family.install'}:
+            if key not in {'family.catalog', 'family.owners', 'family.neighbors'}:
                 raise ValueError('unknown build fragment: ' + key)
             return ''
         if key == 'member.defaults':
@@ -380,10 +383,6 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             if repository != 'benjaminstelzer/' + config['name']:
                 raise ValueError('missing or unexpected suite repository')
             return 'https://github.com/' + repository
-        if key == 'suite.exclusions':
-            if member is None:
-                raise ValueError('suite.exclusions requires a member')
-            return ', '.join(m['name'] for m in members if m['name'] != member['name'])
         if key == 'family.catalog':
             return '\n'.join(f'- [{m.get("family", {}).get("label", m["name"])}](https://github.com/{m["repository"]})'
                              + (' ' + m['family']['summary'] if 'family' in m else '.')
@@ -399,13 +398,6 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                 prefix = 'optional ' if entry.get('optional') else ''
                 rows.append(f'- {prefix}`{name}`: {entry["description"]}')
             return '\n'.join(rows)
-        if key == 'suite.members':
-            if not config.get('member_previews', True):
-                return '\n'.join(f'- [{name}](https://github.com/{by_name[name]["repository"]}).'
-                                 for name in order if by_name[name]['public_distribution'])
-            return '\n'.join(f'- [{name}](members/{name}/README.md).' +
-                             (' Private development only. Codex desktop required.'
-                             if not by_name[name]['public_distribution'] else '') for name in order)
         if key == 'suite.descriptions':
             if member is not None:
                 raise ValueError('suite.descriptions is only valid in the suite README')
@@ -442,26 +434,10 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                     lines.append(line)
                 sections.append('\n'.join(lines))
             return '\n\n'.join(sections)
-        formats = {'family.owners', 'family.links', 'family.install'}
-        if key not in formats:
+        if key != 'family.owners':
             raise ValueError(f'unknown build fragment: {key}')
-        # Public consumers never inherit a private member through a full list.
-        selected = [by_name[name] for name in order if by_name[name]['public_distribution']]
-        if key == 'family.links' and member and not member['public_distribution']:
-            selected = [by_name[name] for name in order]
-        rows = []
-        for item in selected:
-            name = item['name']
-            meta = item['family']
-            if key == 'family.owners':
-                rows.append(f'- `{name}`: {meta["owner"]}')
-            elif key == 'family.links':
-                rows.append(f'- [{meta["label"]}](https://github.com/{item["repository"]}) {meta["summary"]}')
-            else:
-                install_path = ('packages/' + name + '/' + name
-                                if item.get('distribution') == 'suite' else name)
-                rows.append(f'https://github.com/{item["repository"]}/tree/main/{install_path}')
-        return '\n'.join(rows)
+        return '\n'.join(f'- `{item["name"]}`: {item["family"]["owner"]}'
+                         for item in members if item['public_distribution'])
 
     result = substitute_template(text, r'\{\{\s*include:\s*([^{}]+?)\s*\}\}', replace)
     if '{{ include:' in result:
@@ -472,7 +448,7 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
 def render_readmes(root: Path, write: bool, config: dict | None = None, destination: Path | None = None) -> list[str]:
     config = config if config is not None else load(root)
     destination = destination or root
-    rendered = {f'members/{m["name"]}/README.md': readme(root, m, 'suite', config) for m in config['members']} if config.get('member_previews', True) else {}
+    rendered = {f'members/{m["name"]}/README.md': readme(root, m, 'suite', config) for m in config['members']}
     rendered['README.md'] = ''.join(expand_fragments(root, readme_source(root, p).read_text(encoding='utf-8'), config=config).rstrip() + '\n\n' for p in config['readme']).encode('utf-8')
     changed = []
     for relative, content in rendered.items():
@@ -509,14 +485,6 @@ def payload(root: Path, member: dict, config: dict | None = None) -> dict[str, b
             result[target] = expand_variables(result[target].decode('utf-8'), member).encode('utf-8')
         if target.endswith(('.md', '.toml')) and b'{{' in result[target]:
             result[target] = expand_fragments(root, result[target].decode('utf-8'), member, config=config).encode('utf-8')
-    for item in member.get('shared_helpers', []):
-        target = item['target']
-        if target in result:
-            raise ValueError(f'duplicate shared output: {target}')
-        if not target.startswith(member['name'] + '/scripts/'):
-            raise ValueError('shared helper must be bundled in the member scripts directory')
-        within(root, target)
-        result[target] = package_bytes(file_source(root, 'shared:' + item['source']))
     if member['name'] + '/SKILL.md' not in result:
         raise ValueError('missing entrypoint')
     validate_helper_contracts(result, member, config or load(root))
@@ -524,12 +492,12 @@ def payload(root: Path, member: dict, config: dict | None = None) -> dict[str, b
     return result
 
 
-def helper_policy(member: dict, config: dict) -> str:
+def helper_policy(member: dict, config: dict, owner: str = 'SKILL.md') -> str:
     """One generated route, with manual instructions disclosed only on demand."""
     helpers = [path for path, rule in member.get('helper_contracts', {}).items()
-               if rule.get('kind') == 'helper']
+               if rule.get('kind') == 'helper' and rule.get('policy', 'SKILL.md') == owner]
     if not helpers:
-        raise ValueError('helper.policy requires registered callable helpers')
+        raise ValueError(f'helper policy owner {owner} requires registered callable helpers')
     lines = ['## Runtime helpers', '',
              'Use the bundled helpers for their operations. Read their invocation instructions,',
              'not their source, unless diagnosing a failure.']
@@ -543,7 +511,8 @@ def helper_policy(member: dict, config: dict) -> str:
             fallback = member['helper_contracts'][path].get('fallback')
             if fallback != f'references/fallbacks/{Path(path).stem}-fallback.md':
                 raise ValueError(f'{member["name"]}: noncanonical fallback for {path}')
-            lines.append(f'| `{path}` | [{Path(path).stem}]({fallback}) |')
+            relative = posixpath.relpath(fallback, posixpath.dirname(owner) or '.')
+            lines.append(f'| `{path}` | [{Path(path).stem}]({relative}) |')
     else:
         lines += ['', '| Condition | Required route |', '| --- | --- |',
                   '| Python and every named helper are available | Use the bundled helper. |',
@@ -567,7 +536,7 @@ def validate_helper_contracts(files: dict[str, bytes], member: dict, config: dic
     for path, rule in rules.items():
         if not path.endswith('.py'):
             raise ValueError(f'unsupported runtime helper type; add its explicit validation before packaging: {path}')
-        if not isinstance(rule, dict) or set(rule) - {'kind', 'fallback'}:
+        if not isinstance(rule, dict) or set(rule) - {'kind', 'fallback', 'policy'}:
             raise ValueError(f'invalid helper contract: {path}')
         tree = ast.parse(scripts[path].decode('utf-8'))
         callable_script = any(isinstance(node, ast.If) and '__name__' in ast.unparse(node.test)
@@ -575,8 +544,14 @@ def validate_helper_contracts(files: dict[str, bytes], member: dict, config: dic
         if rule.get('kind') != ('helper' if callable_script else 'library'):
             raise ValueError(f'helper/library classification mismatch: {path}')
         fallback = rule.get('fallback')
-        if rule['kind'] == 'library' and fallback is not None:
-            raise ValueError(f'internal library cannot have a manual route: {path}')
+        if rule['kind'] == 'library' and (fallback is not None or 'policy' in rule):
+            raise ValueError(f'internal library cannot have a policy or manual route: {path}')
+        if callable_script:
+            owner = rule.get('policy', 'SKILL.md')
+            if (not isinstance(owner, str) or not owner.endswith('.md') or '\\' in owner
+                    or owner.startswith('/') or ':' in owner or '..' in owner.split('/')
+                    or prefix + owner not in files):
+                raise ValueError(f'{path}: policy must name a packaged Markdown owner: {owner}')
         if fallback is not None:
             if fallback != f'references/fallbacks/{Path(path).stem}-fallback.md':
                 raise ValueError(f'noncanonical fallback path: {path}')
@@ -588,10 +563,32 @@ def validate_helper_contracts(files: dict[str, bytes], member: dict, config: dic
     expected_fallbacks = set(fallbacks) if config.get('profile') == 'general' else set()
     if actual_fallbacks != expected_fallbacks:
         raise ValueError(f'{member["name"]}: fallback inventory violates build profile')
-    core = files[prefix + 'SKILL.md'].decode('utf-8')
-    policy = helper_policy(member, config) if any(r['kind'] == 'helper' for r in rules.values()) else ''
-    if policy and core.count(policy) != 1:
-        raise ValueError(f'{member["name"]}: missing or changed generated helper policy')
+    owners = {r.get('policy', 'SKILL.md') for r in rules.values() if r['kind'] == 'helper'}
+    policies = {prefix + owner: helper_policy(member, config, owner) for owner in owners}
+    # Follow packaged Markdown routes, never sibling sources or installed Skills.
+    reachable, pending = set(), [prefix + 'SKILL.md']
+    while pending:
+        source = pending.pop()
+        if source in reachable:
+            continue
+        reachable.add(source)
+        text = files[source].decode('utf-8')
+        text = re.sub(r'^([ \t]*)(`{3,}|~{3,})[^\n]*\n.*?^\1\2[ \t]*$', '', text,
+                      flags=re.MULTILINE | re.DOTALL)
+        text = re.sub(r'(`+).*?\1', '', text)
+        for link in re.findall(r'\[[^\]]+\]\(([^\s)]+)\)', text):
+            parsed = urlsplit(link)
+            if parsed.scheme or parsed.netloc:
+                continue
+            target = posixpath.normpath(posixpath.join(posixpath.dirname(source), unquote(parsed.path)))
+            if target in files and target.endswith('.md') and target not in reachable:
+                pending.append(target)
+    markdown = [data.decode('utf-8') for path, data in files.items()
+                if path.endswith('.md') and Path(path).name != 'CHANGELOG.md']
+    for owner, policy in policies.items():
+        if (owner not in reachable or files[owner].decode('utf-8').count(policy) != 1
+                or sum(text.count(policy) for text in markdown) != 1):
+            raise ValueError(f'{member["name"]}: require exactly one reachable generated helper policy in {owner}')
     for path in actual_fallbacks:
         marker = f'<!-- helper-fallback: {fallbacks[path]} -->'
         content = files[path].decode('utf-8')
@@ -604,8 +601,8 @@ def validate_helper_contracts(files: dict[str, bytes], member: dict, config: dic
         for referenced in re.findall(r'scripts/[A-Za-z0-9_./-]+\.py', text):
             if referenced not in rules:
                 raise ValueError(f'instruction references an unregistered helper: {path}: {referenced}')
-        if path == prefix + 'SKILL.md' and policy:
-            text = text.replace(policy, '', 1)
+        if path in policies:
+            text = text.replace(policies[path], '', 1)
         if path in actual_fallbacks:
             text = text.replace(f'<!-- helper-fallback: {fallbacks[path]} -->', '', 1)
         # Optional routes have one owner. No inline copies or other entry links.
@@ -641,31 +638,6 @@ def validate_package_links(files: dict[str, bytes]) -> None:
                 raise ValueError(f'local link escapes package: {source}: {destination}')
             if target != '.' and target not in files and not any(p.startswith(target.rstrip('/') + '/') for p in files):
                 raise ValueError(f'missing package link target: {source}: {destination}')
-
-
-def render_sources(root: Path, write: bool, config: dict | None = None) -> list[str]:
-    """Maintain declared template previews only, never runtime-helper copies."""
-    changed = []
-    config = config if config is not None else load(root)
-    if not config.get('member_previews', True):
-        for member in config['members']:
-            payload(root, member, config)
-        return changed
-    for member in config['members']:
-        for item in member['files']:
-            if not item.get('template'):
-                continue
-            content = expand_variables(within(root, item['source']).read_text(encoding='utf-8'), member).encode('utf-8')
-            if item['target'].endswith('.md'):
-                content = expand_fragments(root, content.decode('utf-8'), member, config=config).encode('utf-8')
-            relative = f'members/{member["name"]}/{item["target"]}'
-            target = within(root, relative)
-            if not target.exists() or target.read_bytes().replace(b'\r\n', b'\n') != content:
-                changed.append(relative)
-                if write:
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    target.write_bytes(content)
-    return changed
 
 
 def build(root: Path, output: Path, public: bool, selected: list[str], profile: str | None = None, layout: str | None = None, refresh: bool = False) -> dict:
@@ -706,8 +678,6 @@ def build(root: Path, output: Path, public: bool, selected: list[str], profile: 
             for fragment, key in RULE_FRAGMENTS.items():
                 if fragment in fragments:
                     shared_sources[key] = hashlib.sha256(within(shared_root(), key).read_bytes()).hexdigest()
-        for helper in member.get('shared_helpers', []):
-            shared_sources[helper['source']] = hashlib.sha256(within(shared_root(), helper['source']).read_bytes()).hexdigest()
     shared_sources['runtime/skill_composition.md'] = hashlib.sha256(within(shared_root(), 'runtime/skill_composition.md').read_bytes()).hexdigest()
     receipt = {'layout': config.get('layout'), 'profile': config.get('profile'), 'schema_version': 1, 'suite': config['name'], 'source_commit': revision.stdout.strip() if revision.returncode == 0 else None,
                'manifest_sha256': hashlib.sha256((root / 'suite.json').read_bytes()).hexdigest(),
@@ -775,22 +745,6 @@ def size_report(member_name: str, files: dict[str, bytes], traces: list[dict] | 
     return {'package_bytes': sum(sizes.values()),
             'entrypoint_bytes': sizes[member_name + '/SKILL.md'],
             'file_bytes': sizes, 'observed_routes': routes}
-
-
-def verify_shared_helpers(root: Path, output: Path) -> list[str]:
-    """Compare generated copies with their current canonical sources, read-only."""
-    receipt = json.loads((output / 'build-receipt.json').read_text(encoding='utf-8'))
-    config = load(root, receipt.get('profile'), receipt.get('layout'))
-    members = {m['name']: m for m in config['members']}
-    errors = []
-    for built in receipt['members']:
-        member = members[built['name']]
-        for helper in member.get('shared_helpers', []):
-            source = package_bytes(within(shared_root(), helper['source']))
-            target = within(output / package_path(config, member), helper['target'])
-            if not target.is_file() or target.read_bytes() != source:
-                errors.append(member['name'] + ': shared helper drift: ' + helper['target'])
-    return errors
 
 
 def verify_packages(root: Path, output: Path) -> list[str]:
@@ -865,11 +819,8 @@ def main(default_root: Path | None = None) -> int:
     parser.add_argument('--load-trace', nargs=2, action='append', default=[], metavar=('MEMBER', 'SUMMARY'), help='Existing runner summary for observed reference loads; use with --size-report')
     modes.add_argument('--check-readmes', action='store_true')
     modes.add_argument('--write-readmes', action='store_true')
-    modes.add_argument('--check-helpers', action='store_true')
     modes.add_argument('--check-packages', action='store_true')
     modes.add_argument('--check-publication', action='store_true', help='Verify clean source, package receipt and runtime evidence before a Skill push')
-    modes.add_argument('--check-sources', action='store_true')
-    modes.add_argument('--write-sources', action='store_true')
     parser.add_argument('--refresh', action='store_true', help='Refresh an intact staging build with the same inventory; never delete files')
     parser.add_argument('--public-only', action='store_true')
     parser.add_argument('--profile')
@@ -904,13 +855,6 @@ def main(default_root: Path | None = None) -> int:
                 reports.append({'name': member['name'], **size_report(member['name'], payload(args.root, member, config), traces)})
             print(json.dumps({'profile': config.get('profile'), 'members': reports}))
             return 0
-        if args.check_sources or args.write_sources:
-            config = load(args.root, args.profile, args.layout)
-            if (args.profile or args.layout) and (config.get('profile'), config.get('layout')) != (load(args.root).get('profile'), load(args.root).get('layout')):
-                raise ValueError('source previews use the default profile only')
-            changed = render_sources(args.root, args.write_sources, config)
-            print(json.dumps({'changed': changed, 'written': args.write_sources}))
-            return int(bool(changed) and args.check_sources)
         if args.check_readmes or args.write_readmes:
             config = load(args.root, args.profile, args.layout)
             if (args.profile or args.layout) and args.output is None and (config.get('profile'), config.get('layout')) != (load(args.root).get('profile'), load(args.root).get('layout')):
@@ -938,9 +882,8 @@ def main(default_root: Path | None = None) -> int:
                 [m['name'] for m in receipt['members']])
             print(json.dumps({'valid': True, 'runtime': runtime}))
             return 0
-        if args.check_helpers or args.check_packages:
-            check = verify_packages if args.check_packages else verify_shared_helpers
-            errors = check(args.root, args.output)
+        if args.check_packages:
+            errors = verify_packages(args.root, args.output)
             print(json.dumps({'valid': not errors, 'errors': errors}))
             return int(bool(errors))
         config = load(args.root, args.profile, args.layout)

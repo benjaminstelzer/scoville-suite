@@ -46,8 +46,7 @@ Die notwendige Schutzzeile bleibt bewusst doppelt. Prüfberichte unterscheiden
 Referenzvalidierung, Suite-Paketprüfung und beobachtetes Modellverhalten.
 `skills-ref` dient nur der Entwicklungsprüfung und wird nicht mit dem Skill
 ausgeliefert. Der Hersteller bezeichnet die Bibliothek als Referenzdemonstration.
-PLAN-0024 und sein damaliger Skill-Creator-Nachweis bleiben historische Records;
-die neue Abnahme ersetzt sie nicht rückwirkend.
+Bestehende Testergebnisse werden nicht rückwirkend zu bestandenen Checks erklärt.
 
 ## Confirmation
 

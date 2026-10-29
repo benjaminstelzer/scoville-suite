@@ -22,18 +22,11 @@ or changed region, not unrelated screens.
 | Accessibility | Relevant semantics, keyboard and focus behavior, labels, contrast, targets, and reflow. | [ui-guidance.md](ui-guidance.md), [responsive.md](responsive.md) for layout |
 | Interface text, locale values, translation loading or i18n-readiness | New or changed visible and accessible strings, dates, numbers, domains, formatting, dependencies, loading hooks, localized layout, expansion and language-scoped RTL. Translation delivery only when requested. | [internationalization.md](internationalization.md) |
 
-For consistency, read [common Validation](../validation.md) and its
-[complete inventory coverage contract](../ui-consistency-audit.md), then apply
-[WordPress additions](validation.md) in the same pass.
-For spacing, inspect the affected subtree's actual owner, then measure computed
-styles and geometry for rendered claims; gap alone proves no visible distance.
-Compare Core/component defaults before a Skill-Norm. Native spacing is not defective
-merely for differing from the fallback scale. Add responsive/state cases only
-when they can change the conclusion, such as wrapped controls or hidden children.
-Do not automatically add catalogs, RTL, navigation redesign or every state.
-Source-only work reports its unverified rendering boundary and needs no browser;
-missing runtime evidence never creates a rendered pass. Stop at proportionate
-proof of the requested outcome.
+When the selected claims trigger [common Validation](../validation.md), apply
+[WordPress additions](validation.md) in the same check. Consistency claims also load the
+[complete inventory coverage contract](../ui-consistency-audit.md).
+References add no scope: a spacing review does not automatically add catalogs,
+RTL, navigation redesign or every state.
 
 ## Surface support
 
@@ -74,13 +67,6 @@ flowchart TD
   hybrid --> focus
 ```
 
-Core owns .wrap, title, .wp-header-end, page Notices, native .form-table,
-controls and p.submit. Preserve Classic pages; token availability requires no
-React rewrite, token migration or primitive replacement. Use tokens only for an
-actual plugin-owned gap/domain state, never to restyle native controls.
-Core Components own their internal spacing; stable Flex owns a new generic group.
-A plugin gap stack and .form-table never own the same subtree.
-
 An explicitly unspecified experimental policy stays unknown even for Core
 Components; it permits no experimental additions. Known non-experimental PHP/Core
 or Core-only hybrid requests use deny.
@@ -92,11 +78,7 @@ component opt-in. React alone establishes neither WPDS nor shell ownership.
 
 For token/provider availability, loading, fallback or version-sensitive advice,
 read [version-compatibility.md](version-compatibility.md). Native regions consuming
-no tokens need no token audit. Distinguish minimum supported from actually tested
-WordPress version; stable 7.0/7.1 examples prove neither 6.x nor future/prerelease
-support. Registration is not loading; version-sensitive results name supported
-and observed versions, token stylesheet owner/names, loading and fallback evidence.
-These facts do not turn PHP with Core tokens into bundled-wpds.
+no tokens need no token audit. PHP with Core tokens remains `php-core`.
 
 Continue independent checks when a needed fact remains unknown. Ask only for the
 remaining decision-relevant fact after inspecting accessible sources. No complete

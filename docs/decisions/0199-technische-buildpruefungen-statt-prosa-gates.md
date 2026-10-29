@@ -50,9 +50,10 @@ prüfbare Verträge. Historische Ergebnisse werden nicht umgeschrieben.
 
 ## Confirmation
 
-Die maschinell erfassten Prüfstellen gegen ihre technischen Verträge beurteilen,
-Prosa-Gates entfernen und die verbleibenden relevanten Prüfungen über Actions
-ausführen. Diese Entscheidung behauptet noch keinen bestandenen Nachtest.
+Die Prüfstellen gegen ihre technischen Verträge beurteilen und Prosa-Gates
+entfernen. Die relevanten technischen Checks folgen dem geltenden
+Release-Testumfang; eine neue Actions-Matrix ist nur bei geändertem paketiertem
+Python oder dessen CI-Tests erforderlich. Dies behauptet keinen bestandenen Test.
 
 ## Revisit when
 

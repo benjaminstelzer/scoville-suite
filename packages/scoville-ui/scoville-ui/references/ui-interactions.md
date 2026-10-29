@@ -1,42 +1,23 @@
 # Interaction and states
 
-Product owns affordance, feedback/state priority and recovery intent. Preserve
-component semantics/state coverage, focus/input, announcements, transitions and
-implementation proof. This floor also applies on a direct Validation route;
-[Quality's ownership table](ui-quality.md#product-ownership-and-ui-guarantees)
-collects the other concerns without requiring unrelated topic reads.
+Apply [Quality's ownership table](ui-quality.md#product-ownership-and-ui-guarantees):
+preserve component semantics/state coverage, focus/input, announcements,
+transitions and proof, including on a direct Validation route.
 
 ## Navigation and orientation
 
-Structure navigation around user tasks and content relationships. Distinguish
-global destinations from local views and actions. Make the current location
-and available back or cancel paths understandable and accessible through
-platform conventions. Avoid unnecessary hierarchy depth and detours between
-related content. Preserve needed working context across navigation when safe
-and appropriate to the task.
+Organize navigation around tasks and content relationships, distinguishing
+global destinations from local views/actions. Show location and accessible
+back/cancel paths through platform conventions; preserve needed working context
+without unnecessary detours.
 
 ## Make interaction predictable
 
-Use existing components and platform conventions so affordance and behavior
-agree. Choose controls by meaning: navigation, action, single selection,
-multiple selection or activation. Follow the owning component's contract;
-presentation and feedback must make clear when changes take effect or are saved.
-Prefer native semantics and supported existing primitives to custom widgets.
-When the task needs a custom composite control, verify its relevant focus and
-keyboard sequence in the interactive runtime.
-
-Use modal interruptions for bounded content or interactions that need attention
-before continuing. Keep ordinary editing and local field errors in their
-working context; do not put complex routine flows in dialogs by default.
-
-For the states introduced or changed by the task, preserve the cues and
-recovery needed to answer:
-
-- What can I act on?
-- What has focus or selection?
-- Did the action start, succeed, fail, or become unavailable?
-- What changed, and can I recover or retry?
-- What input method and interaction sequence does this control support?
+Choose controls by meaning and use native semantics and supported primitives.
+Make action availability, focus/selection, save timing, progress, outcomes and
+recovery apparent. For a custom composite control, exercise its focus and
+keyboard sequence. Use modals for bounded attention-before-continuation tasks;
+keep ordinary editing and field errors in context.
 
 Do not depend on hover for required information or operation. Keep focus order,
 keyboard behavior, touch behavior, programmatic relationships, announcements,
@@ -48,11 +29,9 @@ owning component's semantics or state model.
 
 ## Design states as part of the same interface
 
-Review only states affected by the change, including relevant initial, empty,
-loading, partial, success, error, unavailable, and permission-dependent states.
-Keep structure stable enough for orientation while making the state change
-perceptible through more than one fragile cue. Place feedback where the user can
-associate it with the action, and preserve a clear next step or recovery path.
+Cover affected initial, empty, loading, partial, success, error, unavailable and
+permission states. Preserve orientation, make changes perceptible beyond one
+fragile cue and associate feedback with its action and real next/recovery step.
 
 Distinguish no data from filtered zero results and incomplete results. Preserve
 usable partial results and name what is missing. Keep feedback discoverable for
@@ -66,9 +45,6 @@ errors with their fields, preserve safe entered values and offer only real
 correction, retry or cancellation. Add an error summary when it helps locate
 multiple errors, not as a universal platform rule. Use the owning group component
 or fieldset with a legend for related inputs.
-
-Do not manufacture a complete state matrix for an unaffected component. The
-floor is completeness for the requested flow, not ceremonial coverage.
 
 ## Exercise affected transitions
 
@@ -98,6 +74,5 @@ Use focused local measurements when needed. Lab observations, emulation and
 real-device interaction remain distinct; field performance claims require
 matching field data. Do not introduce backend tuning or a universal benchmark.
 
-These are scoped triggers, not a requirement to add every mechanism or test
-unaffected flows. WCAG is the normative source where applicable; APG is
-implementation guidance, not an additional conformance standard.
+These triggers apply to the requested flow. WCAG is normative where applicable;
+APG is implementation guidance, not an additional conformance standard.

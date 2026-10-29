@@ -4,23 +4,21 @@
 
 For each selected relationship:
 
-1. Before measurement, identify reference elements and edges, expected relationship,
-   source and justified tolerance. Use an unchanged owner contract, suitable
-   reference or, for greenfield work, requirements and direction chosen from the
-   brief before implementation. Candidate CSS alone is not an independent target.
-2. Settle required fonts, content and transitions. Inspect loaded styles and final
-   DOM where relevant. A blocked or substituted font invalidates measurements
-   that depend on that required font. Compare peers with the same role, variant,
-   state, typography and layout conditions; explain deliberate differences.
-3. Measure only the selected relationships and compare each with its target in
-   the measuring code before display, under the machine-data rules in the
-   [writing rules](writing.md). Show expected value or relationship and source,
-   measured value, tolerance and conclusion; revision, state and viewport may
-   appear once per group. Evaluate optical alignment separately under Sight.
+1. Before measurement, name reference elements/edges, expected relationship,
+   independent source and justified tolerance. Sources may be an unchanged owner
+   contract, suitable reference or greenfield direction derived from the brief
+   before implementation. Candidate CSS and equally wrong peers supply no target.
+2. Settle required fonts, content and transitions; inspect relevant loaded styles
+   and final DOM. A substituted or blocked required font invalidates dependent
+   measurements. Compare peers under equivalent roles, variants, states,
+   typography and layout; explain intended differences.
+3. Compare each selected measurement with its target in code before display under
+   the [writing rules](writing.md). Report expected relationship/source, actual
+   value, tolerance and result; revision, state and viewport may appear per group.
 
-Never choose tolerance after seeing the result. An unresolved target stays
-unresolved; there is no universal pixel tolerance. Equally wrong peer overrides
-do not establish a correct target.
+Choose tolerance before results; no universal pixel tolerance applies. An
+unresolved target remains unresolved. Geometry proves only the measured
+relationships under the reported conditions, not optical quality or page coverage.
 
 Use an existing report or task result, without a prescribed table or new file.
 
@@ -29,11 +27,10 @@ Preserve `em`, `rem`, `px`, percentages, unitless line-height, token references,
 calculations and logical properties. Equal current pixels do not authorize
 substitution. Record the relevant element or root font or container basis.
 
-For vertically ordered non-overlapping boxes, `B.top - A.bottom` measures their
-border-box separation. It does not measure glyph whitespace or a baseline.
-Account for margins and collapsing, padding, borders, line boxes, wrapping,
-intervening elements and fractional rounding. Do not sum declarations and call
-the result observed geometry. A minimum height is not a fixed height.
+For ordered non-overlapping boxes, `B.top - A.bottom` measures border-box
+separation, not glyph whitespace or a baseline. Account for flow, collapsing,
+padding/borders, line boxes, wrapping and rounding. Summed declarations are not
+observed geometry; minimum height is not fixed height.
 
 ## Inspect with a comparison and a hypothesis
 
@@ -50,19 +47,13 @@ exclusions without producing boilerplate for unrelated lenses.
 | Components, including status text, controls and icons | Intended internal text and icon placement as well as outer alignment; check unintended parent stretching and wrapped neighbors |
 | Content and state changes | Wrap, clipping, overlap, hidden-content holes and reading order |
 
-**Worked diagnosis:** Two same-variant controls have equal outer heights, but
-the text in B sits visibly lower than in reference A. Mark their shared top
-edge or use a side-by-side crop at the same scale. State that observation first.
-Then inspect font and line-height, internal padding and alignment props. If an icon
-is displaced, inspect its viewBox or font metrics too. Confirm the cause before
-correcting its owner. Do not invent a baseline measurement from outer rectangles.
-If the optical question cannot be resolved, report it unverified.
+Equal outer boxes can have displaced text or icons. View the difference, then
+inspect font/line-height, padding, alignment and icon metrics as relevant;
+outer rectangles cannot establish baselines. Measure and view internal content
+as well as outer layout when claimed; container overflow alone proves no
+internal alignment. Preserve intended native variant differences. Report
+unresolved optical questions as unverified.
 
-**Valid difference:** A compact control and a standard control have different
-native heights and padding. Verify their intended variants before treating
-their difference as a defect. Do not override native internals for symmetry.
-
-Refresh affected widths, expanded text and states under
-[Validation's batch rule](validation.md#source-first-then-measurement-then-sight).
+Refresh affected evidence under [Validation](validation.md#select-and-refresh-evidence).
 Zoom alone does not test whether `em`, `rem` and fixed pixels behave equivalently.
 Where units are at risk, vary element or root font conditions independently.

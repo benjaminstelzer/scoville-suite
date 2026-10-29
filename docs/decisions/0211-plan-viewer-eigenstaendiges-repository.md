@@ -11,7 +11,7 @@ scope: viewer/publication
 
 ## Decision
 
-Der Nutzer beauftragt die lokale und öffentliche Trennung. projects/scoville-plan-viewer ist die einzige gepflegte Viewer-Quelle; benjaminstelzer/scoville-plan-viewer besitzt Builds und Releases. Alle Skills, auch scoville-plan, werden ohne Releases gepusht. Diese Wahl ersetzt ADR-0210s Ausnahme für das Plan-Skillrepository.
+projects/scoville-plan-viewer ist die einzige gepflegte Viewer-Quelle; benjaminstelzer/scoville-plan-viewer besitzt Builds und Releases. Alle Skills, auch scoville-plan, werden ohne Releases gepusht.
 
 ## Problem
 
@@ -28,11 +28,11 @@ Die Desktopanwendung und der Plan-Skill besitzen unterschiedliche Build- und Ver
 
 ## Consequences
 
-Viewer-Code und sein Gate ziehen aus der Suite um. Paket- und Runtimeprüfungen bleiben im Skillbuild. Alte Downloads bleiben bis zum geprüften Ersatz verfügbar. Danach werden zehn alte Skill-Releaseobjekte entfernt; Tags und Git-Historie bleiben erhalten. private project bleibt unberührt.
+Viewer-Code und sein Gate gehören zum eigenen Projekt. Paket- und Runtimeprüfungen bleiben im Skillbuild. Keine zusätzliche Viewer-Quellkopie in der Suite; bestehende Tags und Git-Historie bleiben erhalten.
 
 ## Confirmation
 
-Extrahierte Quellen vergleichen; eigenständige Actions, Downloads, Kompatibilitätsprobe, Reviewer-Konsens und Remote-Struktur prüfen. Lokale Einstellungen erhalten.
+Getrennte Quellen-, Build- und Veröffentlichungsziele sowie die Planformat-Kompatibilität prüfen. Lokale Einstellungen erhalten.
 
 ## Revisit when
 

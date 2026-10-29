@@ -13,6 +13,25 @@ import build_suite as builder
 
 
 class SharedRulesTests(unittest.TestCase):
+    def test_machine_data_and_python_have_separate_packaged_routes(self):
+        for profile, layout in [('general', 'standalone'), ('general', 'suite'),
+                                ('codex', 'suite'), ('codex', 'standalone')]:
+            config = builder.load(ROOT, profile, layout)
+            for member in config['members']:
+                files = builder.payload(ROOT, member, config)
+                prefix = member['name'] + '/'
+                if not any(f['source'] == 'shared:prompting/common.md' for f in member['files']):
+                    continue
+                with self.subTest(profile=profile, layout=layout, member=member['name']):
+                    self.assertEqual((SHARED / 'prompting/machine-data.md').read_bytes(),
+                                     files[prefix + 'references/machine-data.md'])
+                    self.assertIn(b'](machine-data.md)', files[prefix + 'references/writing.md'])
+                    discovery = (SHARED / 'runtime/python_discovery.md').read_bytes()
+                    self.assertEqual(discovery, files[prefix + 'references/python-discovery.md'])
+                    self.assertNotIn(discovery.strip(), files[prefix + 'SKILL.md'])
+                    self.assertIn(b'](python-discovery.md)', files[prefix + 'references/shell-commands.md'])
+                    builder.validate_package_links(files)
+
     def test_all_writing_consumers_bundle_the_same_standalone_file(self):
         source = (SHARED / 'prompting/common.md').read_text(encoding='utf-8')
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),
@@ -79,7 +98,7 @@ class SharedRulesTests(unittest.TestCase):
                 for member in config['members']:
                     name = member['name']
                     entrypoint = (ROOT / 'members' / name / name / 'SKILL.md').read_text(encoding='utf-8')
-                    rules = [rule for rule in ('rules.optout', 'rules.python')
+                    rules = [rule for rule in ('rules.optout', 'rules.native_output')
                              if '{{ include: ' + rule + ' }}' in entrypoint]
                     for rule in rules:
                         source = SHARED / builder.RULE_FRAGMENTS[rule]
@@ -93,8 +112,8 @@ class SharedRulesTests(unittest.TestCase):
         config = builder.load(ROOT, 'codex', 'suite')
         with self.assertRaisesRegex(ValueError, 'unknown build fragment'):
             builder.expand_fragments(ROOT, '{{ include: rules.typo }}', config=config)
-        result = builder.expand_fragments(ROOT, '{{include: rules.python}}', config=config)
-        self.assertEqual((SHARED / 'runtime/python_discovery.md').read_text(encoding='utf-8').strip(), result)
+        result = builder.expand_fragments(ROOT, '{{include: rules.optout}}', config=config)
+        self.assertEqual((SHARED / 'runtime/skill_optout.md').read_text(encoding='utf-8').strip(), result)
 
 
 if __name__ == '__main__':

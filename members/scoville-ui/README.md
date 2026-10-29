@@ -1,8 +1,8 @@
 # Scoville UI
 
 Scoville UI builds and audits interfaces with the project's framework and
-design system. It covers clear wording, useful hierarchy, responsive layouts
-and accessible interactions, then checks the rendered result. A tidy component
+design system. It covers wording, hierarchy, responsive layouts and accessible
+interactions, with checks matched to the result being claimed. A tidy component
 tree is a start. People still have to use the page.
 
 It includes specific guidance for plugin-owned WordPress admin pages, using
@@ -13,45 +13,72 @@ the user sweat.
 
 ## How it works
 
-- Establish the user's task, approved design direction and framework components.
-- Build the affected views, wording, states and responsive behavior.
-- Inspect the rendered interface and try its relevant interactions.
-- Apply the WordPress adapter to supported plugin-owned admin pages. Editor
-  surfaces and metaboxes keep their host's conventions.
+- Establish the requested page or region, task, approved decisions and component
+  owners. Audits stay read-only; a local change stays local.
+- Load guidance for open concerns and build through the existing framework.
+  Settled design still needs correct states, semantics and input behavior.
+- Choose source, geometry, visual and interaction evidence for the actual
+  claims. Group related changes and refresh only evidence they invalidate.
+- Route WordPress admin advice through surface and runtime classification.
+  Supported plugin pages share the same checks; excluded host surfaces have
+  no general-route bypass. Pure visual concepts keep their design scope.
 
 ## What it enforces
 
 - **A coherent interface.** Hierarchy, controls and terminology follow the task
   and the existing design system.
-- **Usable states.** Loading, empty, error and success states receive the same
-  attention as the convenient example with perfect data.
+- **Working mechanics.** Approved design stays intact while affected states,
+  semantics, focus, input and recovery receive the checks they need.
 - **Access across devices.** Check responsive layout, zoom, reading order,
   contrast, focus and keyboard or touch operation where applicable.
-- **Rendered proof.** Source checks alone cannot establish that the interface
-  works. Unchecked rendering or interaction stays explicitly unverified.
+- **Scoped proof.** Source, concepts, geometry, viewed appearance and interaction
+  establish different things. Measurements need independent targets and
+  tolerances chosen before measurement. Partial coverage cannot establish a
+  whole-page pass.
+- **Code quality.** UI construction and updates receive the shared review for
+  simplicity, relevant algorithmic costs, maintainability and clarity, without
+  requiring benchmarks.
 
 See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ## What it costs
 
-- Rendered inspection and interaction checks take tokens and time. They catch problems the source alone cannot show. WordPress tasks also load platform guidance.
+- Rendered inspection and interaction checks take tokens and time. Load them
+  when the claim needs them; they catch problems source alone cannot show.
+  WordPress tasks load the platform contracts relevant to their scope.
 
 ## How it was developed
 
-General interface work and WordPress admin tasks shaped the shared checks.
-Rendered inspection exposed problems that source review missed. Neither type
-of check replaces usability testing with the people who will use the product.
+General interface work and WordPress admin tasks shaped the shared checks. The
+current source review covered authority, routing, code quality and evidence
+boundaries without a material finding. A paired local browser test then checked
+actual form behavior within the scope below.
+Neither source review nor browser mechanics replaces usability testing with
+the people who will use the product.
+
+### Current model checks
+
+Current validation used native Codex agents with gpt-6.1-sol / low. A paired
+baseline/candidate form test passed 18 independent Chrome browser checks per
+version at 1024×768 and 375×812. Actual clicks and Enter exercised validation,
+success and preview behavior; measurements and viewed renders covered the
+selected alignment and overflow claims. Submissions created the expected local
+in-memory records without a new page navigation.
+
+That proves the tested local form mechanics. It does not establish backend
+processing, durable storage, email delivery, other browsers, full accessibility
+conformance, WordPress runtime behavior, translation loading, Claude behavior
+or installed discovery. Each version had one model run; this is no reliability
+rate or general performance result.
 
 ## Compatibility
 
-Developed for Codex and Claude Code with the project's toolchain and
-browser or platform access for rendered checks.
-Targeted candidate-path tests in Codex with gpt-6.1-sol / low exercised a route
-ownership correction, an authorized canonical style change, preservation of a
-settled product decision, structured WordPress classification, localization-readiness
-advice and review of supplied measurements and source complexity, while rendering,
-interactions, accessibility conformance, translation loading, other hosts and
-installed discovery remain unverified.
+Designed for Codex and Claude Code; other hosts are untested.
+Both profiles need reference access and the project's framework tools. Geometry
+proof needs DOM or equivalent measurement, visual proof needs viewed renders,
+and interaction proof needs an interactive runtime. No mandatory network.
+The bundled size checker uses Python 3.11+; manual fallback is available only
+without suitable Python, not after helper errors.
 
 ## Install
 
@@ -85,15 +112,18 @@ Audit the checkout interface for keyboard use, responsive behavior, accessibilit
 Use the styling options the component supports. If custom CSS is needed,
 explain why. Keep CSS values and the sizes actually rendered on screen apart.
 
-Make related edits together, then check the code and the rendered result,
-including spacing and alignment. If defects remain, collect the corrections
-and recheck the affected behavior once that batch is done.
+Make related edits together and review the final source diff. Select evidence
+for the claim: a concept needs design reasoning, spacing needs measurements
+against an independent target, appearance needs a viewed render, and behavior
+needs actual interaction. Keep missing evidence explicit. After corrections,
+refresh only the affected checks.
 
 A consistency audit lists regions, variants and states, including content
-below the fold. Each finding points to the source, measurements and visual
-evidence, or explains what couldn't be checked. Look at alignment, text,
-whitespace, the inside of controls, icons, wrapping and clipping, and say
-which parts of the interface were checked.
+below the fold and in relevant hidden or virtualized regions. Each finding
+points to the applicable evidence or explains what couldn't be checked. Look at
+alignment, text, whitespace, the inside of controls, icons, wrapping and clipping, and say
+which parts of the interface were checked. A sample supports a scoped result,
+not an unqualified whole-page pass.
 
 ## Sources
 

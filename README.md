@@ -8,6 +8,11 @@ Scoville is the scale for chili heat. These Skills aim for sharper work and
 less diluted context. Adding more instructions is easy. Keeping the useful
 ones is the point.
 
+The Skills keep a short shared core and load data checks, shell details and
+helper instructions when the task needs them. Project choices and existing
+approvals stay with the work; shorter instructions still have to carry the
+whole job.
+
 For Claude Code and other Agent Skills hosts, use
 [Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
 For Codex desktop, use
@@ -36,20 +41,24 @@ fix acquires its own framework.
 ### How it works
 
 - Establish the requested result and find the code responsible for it.
-- Fix the cause within the project's architecture and your authorized scope.
-- Check the affected behavior and relevant performance costs.
-- Reassess failed fixes, report remaining limits and stop when further checks
-  would no longer change the decision.
+- Fix the cause at its responsible owner, including shared causes behind
+  recurring workarounds, within your authorized scope.
+- Review affected behavior, guarantees and algorithmic costs. Derive checks
+  from the required result rather than incidental implementation details.
+- Continue failed repairs only with a supported next approach. Report evidenced
+  limits and stop a repair path when no viable diagnosis remains.
 
 ### What it enforces
 
 - **Work that serves the request.** Refactors, safeguards and tests need a
   concrete purpose. The agent asks about material choices and settles routine
-  details from the project.
+  details from the project. It explains conflicting requirements or evidenced
+  feasibility limits without substituting a different result.
 - **Your conventions.** Existing architecture and project rules take precedence.
   New projects start with a small structure organized by responsibility.
 - **Evidence that fits the change.** Check the behavior, preserve guarantees and
-  distinguish observed results from what remains unverified.
+  distinguish observed results from what remains unverified. Code review traces
+  relevant loops, scans and recursion; nested syntax alone is not a defect.
 
 Keep personal conventions outside the installed Skill so updates preserve them.
 See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions)
@@ -82,12 +91,15 @@ shows these records on Windows, macOS and Linux.
 - Use the repository's existing planning system and relevant Plan, Work Items and Decisions.
 - Check current sources before starting the next item.
 - Edit Markdown and YAML records with observed Step progress and any additional Instructions.
-- Record concise acceptance results before completion and validate the records.
+- Record observed acceptance results before completion and validate record structure.
+
+The validator checks structure and references. It cannot establish permission,
+meaning or whether an acceptance result is true.
 
 ### What it enforces
 
 - **Resumable work.** Goals, ordered Steps, dependencies and the current position
-  stay explicit in the project's records.
+  stay explicit, together with live permissions, completed effects and evidence limits.
 - **Decisions with an owner.** Confirmed choices are recorded. Open questions
   remain proposals and block only the work that depends on them.
 - **Evidence before completion.** Finished means acceptance was checked.
@@ -99,14 +111,18 @@ See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/bl
 ### What it costs
 
 - Maintaining records takes tokens and time. It pays for continuity on dependent work. A small fix rarely needs a large Plan.
+- Writing, machine-data and command rules load for the operation that needs them.
+  Required Plan and Decision text stays complete; source references and embedded
+  Decision text are separate parts of a prompt, so fewer rule words do not imply
+  smaller Decision records or a fixed token saving.
 
 [How to use Scoville Plan](members/scoville-plan/README.md#how-to-use).
 
 ## Scoville UI
 
 Scoville UI builds and audits interfaces with the project's framework and
-design system. It covers clear wording, useful hierarchy, responsive layouts
-and accessible interactions, then checks the rendered result. A tidy component
+design system. It covers wording, hierarchy, responsive layouts and accessible
+interactions, with checks matched to the result being claimed. A tidy component
 tree is a start. People still have to use the page.
 
 It includes specific guidance for plugin-owned WordPress admin pages, using
@@ -117,28 +133,39 @@ the user sweat.
 
 ### How it works
 
-- Establish the user's task, approved design direction and framework components.
-- Build the affected views, wording, states and responsive behavior.
-- Inspect the rendered interface and try its relevant interactions.
-- Apply the WordPress adapter to supported plugin-owned admin pages. Editor
-  surfaces and metaboxes keep their host's conventions.
+- Establish the requested page or region, task, approved decisions and component
+  owners. Audits stay read-only; a local change stays local.
+- Load guidance for open concerns and build through the existing framework.
+  Settled design still needs correct states, semantics and input behavior.
+- Choose source, geometry, visual and interaction evidence for the actual
+  claims. Group related changes and refresh only evidence they invalidate.
+- Route WordPress admin advice through surface and runtime classification.
+  Supported plugin pages share the same checks; excluded host surfaces have
+  no general-route bypass. Pure visual concepts keep their design scope.
 
 ### What it enforces
 
 - **A coherent interface.** Hierarchy, controls and terminology follow the task
   and the existing design system.
-- **Usable states.** Loading, empty, error and success states receive the same
-  attention as the convenient example with perfect data.
+- **Working mechanics.** Approved design stays intact while affected states,
+  semantics, focus, input and recovery receive the checks they need.
 - **Access across devices.** Check responsive layout, zoom, reading order,
   contrast, focus and keyboard or touch operation where applicable.
-- **Rendered proof.** Source checks alone cannot establish that the interface
-  works. Unchecked rendering or interaction stays explicitly unverified.
+- **Scoped proof.** Source, concepts, geometry, viewed appearance and interaction
+  establish different things. Measurements need independent targets and
+  tolerances chosen before measurement. Partial coverage cannot establish a
+  whole-page pass.
+- **Code quality.** UI construction and updates receive the shared review for
+  simplicity, relevant algorithmic costs, maintainability and clarity, without
+  requiring benchmarks.
 
 See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
 
 ### What it costs
 
-- Rendered inspection and interaction checks take tokens and time. They catch problems the source alone cannot show. WordPress tasks also load platform guidance.
+- Rendered inspection and interaction checks take tokens and time. Load them
+  when the claim needs them; they catch problems source alone cannot show.
+  WordPress tasks load the platform contracts relevant to their scope.
 
 [How to use Scoville UI](members/scoville-ui/README.md#how-to-use).
 
@@ -153,8 +180,10 @@ diluted between conversations. The next agent already has enough imagination.
 
 ### How it works
 
-- Read the conversation and the task sources already named or established.
-- Capture the facts needed to resume, including permissions and unfinished work.
+- Use established conversation facts and read missing required passages from
+  the task sources already named or established. Preserve any remaining gaps.
+- Capture the facts needed to resume, including permissions, unfinished work
+  and the original evidence for interrupted or one-time effects.
 - Produce one prompt in the requested language, otherwise the conversation
   language. The receiving agent checks current state before acting.
 
@@ -163,7 +192,8 @@ diluted between conversations. The next agent already has enough imagination.
 - **Explicit transfer.** A handoff starts when you request one. Preparing it is
   read-only and does not advance the task.
 - **Faithful context.** Decisions, permissions, ownership and blockers survive
-  the transfer. Unknown results stay unknown, and secrets stay out.
+  the transfer. Existing approval is preserved within its scope. Unknown
+  results stay unknown, and secrets stay out, including quoted secrets.
 - **A useful next action.** The prompt tells the next session where to resume
   and how to recognize completion.
 
@@ -175,6 +205,9 @@ See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/bl
 ### What it costs
 
 - Preparing the prompt takes tokens and time once, so the next session has less context to reconstruct.
+- The declared base reading routes were about 40% shorter in the current source
+  comparison. Conditional references were measured separately. This is a static
+  text comparison, not measured token use or transfer speed.
 
 [How to use Scoville Handoff](members/scoville-handoff/README.md#how-to-use).
 
@@ -194,9 +227,9 @@ ingredients that made the rules useful.
 ### How it works
 
 - Resolve the target file and read its relevant governing rules.
-- Check the addition for useful project information, duplicates and conflicts.
+- Check useful project information, duplicates and conflicts; reuse authorization covering the edit.
 - Place concise wording in the affected structure, with conditions and exceptions together.
-- Inspect the saved change and use the record owner's checks where required.
+- Inspect the saved change and use the record owner's checks where required. Plan keeps native fields and lifecycle.
 
 ### What it enforces
 
@@ -222,11 +255,18 @@ seasoning every sentence with another warning.
 
 ### How it works
 
-It combines a shared instruction-design core with an authoring workflow: review before revision, preserve the baseline, and validate the affected outcome. The host's Skill Creator owns Skill structure and packaging.
+It combines shared instruction-design rules with an authoring workflow. Approved
+revisions preserve the exact pre-edit state for comparison; reviews return
+findings without editing. The host's Skill Creator owns Skill structure,
+packaging and format validation. Source review and format validation are
+reported separately from observed model behavior.
 
 ### What it enforces
 
-An Agent Skills host with filesystem access. Skill authoring also uses the host's Skill Creator; standalone prompts do not need it. No runtime scripts or network access are required.
+It preserves the intended outcome, activation boundaries, permissions and
+acceptance criteria. It asks only about material changes beyond the request or
+prior approval. Changed instructions and affected consumers are checked together
+in the existing source review.
 
 ### What it costs
 
@@ -237,10 +277,21 @@ The Skill has no paid service calls. Host model usage and any explicitly request
 ## Compatibility
 
 Developed for Codex and Claude Code, with Python 3.11+ for helpers and
-manual alternatives only when suitable Python is unavailable.
-Targeted candidate-path tests in Codex used gpt-6.1-sol / low, with observed
-outcomes and limits described per Skill, and do not establish suite-wide
-reliability, installed discovery, other hosts or Claude execution.
+manual alternatives only when suitable Python is unavailable. Missing helpers,
+dependencies or helper errors stop the affected operation.
+
+## Model checks and limits
+
+Controlled native Codex cases covered all nine maintained Skills with
+`gpt-6.1-sol` and `low` reasoning. The candidate cases preserved the tested
+task, authority and evidence boundaries, including complete data checks,
+one-time effects and continuation. The Skillwriter case also used the host's
+Skill Creator; the Handoff receiver applied its host rules.
+
+These are local case results, not a suite-wide reliability rate or proof of
+installed discovery, other hosts or product integrations. The revised
+instructions have no current Claude behavior tests. Technical Claude Code
+compatibility is separate from the observed Codex results.
 
 ## Install the suite
 
@@ -311,6 +362,12 @@ Both suite editions share one maintained source and Plan. Sources live under
 `members/`. Edit README fragments in `development/readme/`,
 then run `python development/build_suite.py --write-readmes`. The manifest
 `suite.json` owns package membership and README composition.
+
+Shared runtime files use the same manifest file entries as member-owned files
+and copy directly from their declared sources. The builder checks the packaged
+inventory, source hashes and helper routes.
+The shared development snapshot still supports builds from an isolated suite
+checkout. The build guide gives the current checks and export commands.
 
 [Development notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/docs/README.md)
 explain the problems behind the suite. The

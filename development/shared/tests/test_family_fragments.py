@@ -36,7 +36,7 @@ class FamilyFragmentsTests(unittest.TestCase):
 
     def test_suite_omits_family_projections(self):
         config = builder.load(ROOT, 'codex')
-        for key in ('family.install', 'family.links', 'family.owners', 'family.catalog'):
+        for key in ('family.owners', 'family.catalog'):
             self.assertEqual('', builder.expand_fragments(ROOT, '{{ include: ' + key + ' }}', config=config))
         workflow = next(m for m in config['members'] if m['name'] == 'scoville-workflow-for-codex')
         self.assertEqual('benjaminstelzer/scoville-suite-for-codex-mainloop', workflow['repository'])
@@ -69,9 +69,6 @@ class FamilyFragmentsTests(unittest.TestCase):
                     self.assertLess(rendered.index('`scoville-handoff`:'), rendered.index(f'`{name}`:'))
                 elif 'family.neighbors' in raw:
                     self.assertNotIn(name, rendered)
-            index = builder.expand_fragments(root, '{{ include: suite.members }}')
-            self.assertIn(f'members/{name}/README.md', index)
-
     def test_unknown_fragment_and_bad_order_fail(self):
         with self.assertRaisesRegex(ValueError, 'unknown build fragment'):
             builder.expand_fragments(ROOT, '{{ include: family.typo }}')
@@ -82,17 +79,6 @@ class FamilyFragmentsTests(unittest.TestCase):
             (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'unique nonnegative integer'):
                 builder.expand_fragments(root, '{{ include: family.owners }}')
-
-    def test_ask_index_grows_without_scoville_metadata(self):
-        with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp)
-            config = {'schema_version': 1, 'name': 'fixture-suite', 'member_previews': False, 'members': []}
-            config['members'].append({'name': 'ask-test', 'repository': 'benjaminstelzer/ask-test',
-                                      'visibility': 'public', 'public_distribution': True})
-            (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
-            result = builder.expand_fragments(root, '{{ include: suite.members }}')
-            self.assertTrue(result.endswith('- [ask-test](https://github.com/benjaminstelzer/ask-test).'))
-            self.assertNotIn('scoville', result)
 
     def test_standalone_build_and_modified_copy_detection(self):
         with tempfile.TemporaryDirectory() as temp:

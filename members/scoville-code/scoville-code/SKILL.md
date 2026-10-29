@@ -26,8 +26,6 @@ changes, required guarantees, failure risks and the evidence needed to check the
 
 {{ include: family.owners }}
 
-Mentioning another Skill or using one of its labels does not activate it.
-
 For requested additions or cleanup in AGENTS.md, CLAUDE.md and PROJECT_INDEX.md,
 use Scoville Project Context Cleanup for wording and placement. Plan retains
 native index fields and lifecycle. Ordinary code edits do not request cleanup.
@@ -38,20 +36,22 @@ record system.
 ## Outcome and mode
 
 Before substantial edits, identify the responsible source, the changed behavior
-and a concrete failure risk. Process and checks must serve the requested outcome
-or resolve a named uncertainty.
+and relevant failure risks. Check feasibility and conflicting requirements;
+explain evidenced limits without silently changing the authorized goal or method.
+Unknown feasibility calls for a decisive investigation, not an impossibility claim.
+Choose the simplest sound solution at that owner for the project's established
+maintenance and development intent.
 
 | Mode | Requested outcome |
 | --- | --- |
-| **Advise** | Answer, inspect, or report; edit only when asked. For advice about using Scoville Code, explain the applicable capability and its conditions. Purely conceptual answers need no reference unless a stated conclusion is disputed. |
+| **Advise** | Answer, inspect, or report; edit only when asked. For advice about using Scoville Code, explain the applicable capability and its conditions. Purely conceptual answers need no reference. |
 | **Explore** | Test a hypothesis with the cheapest decisive observation. Add no production scaffolding and make no readiness claim. Retaining experimental code moves the work to Develop. |
 | **Develop** | Deliver ordinary working behavior with focused validation. |
 | **Harden** | Make a requested or project-required broad release, readiness, platform, migration, or security decision. Risk alone does not select broad gates. |
 
 Choose the mode from the requested outcome. Implementation remains Develop while
 a decision or permission blocks its next action; stop only that dependent work.
-Advice, review and recording future work are Advise. Describing future work as
-Develop does not authorize it. Changing a central file, public API or suite does not select a different mode.
+Advice, review and recording future work are Advise; mode labels grant no permissions.
 
 ## Select references for the current action
 
@@ -63,14 +63,14 @@ permissions. A future task or a risk label adds no reading requirement.
 | Change planning records, review assigned native Plan or Decision fields, coordinate dependent outcomes across interruption, preserve engineering continuation state, or resolve a material choice left open by inspection | [Planning](references/planning-and-decisions.md) |
 | Explore or change code, locate ownership or root cause, or review implementation | [Change](references/change-workflow.md) |
 | Choose, run or interpret checks, or judge completion evidence | [Validation](references/validation.md) |
-| Process machine reports or logs, write instructions, reviews or a completion report, or assess a disputed factual or technical conclusion | [Writing](references/writing.md) |
+| Request or read machine reports, logs or structured state; write instructions, reviews or a completion report | [Writing](references/writing.md) |
 
 Implementation needs Change and Validation; its completion report also needs
 Writing. Combine other routes only for work actually required. Recording future work does not authorize its
 implementation or require its validation route. If a needed reference is
 unavailable, obtain its text before the dependent work.
 
-Every code review, including your final scoped diff, also requires
+Every code review, including final scoped diff acceptance, requires
 [Code review quality](references/code-review.md).
 
 ## Resolve material choices
@@ -90,29 +90,21 @@ silently add fallback paths. Existing authorization for the change remains valid
 
 ## Failure consequences
 
-Scale safeguards to who a failure affects, how quickly it is detected and how
-easily it is reversed; internal tooling is neither harmless nor critical by
-category. Add a safeguard only for a stated requirement or a credible failure
-that existing failure behavior does not cover. A failure is credible when it was
-observed during normal supported use, follows from normal supported use, or
-follows from a concrete attack path through input an attacker can reach.
-Otherwise, an injected fault, a constructed interleaving or a worst-case input
-shows only that a failure is possible. Before guarding such a failure, narrow
-the claim or remove the state that allows it. If a native exception or failed
-command surfaces clearly without material harm or a broken guarantee, use it.
-Choose the simplest response meeting the contract; risk selects what to examine,
-not a preset amount of machinery. Assess why visible failure is insufficient
-internally and explain it in a relevant review finding.
+Preserve required guarantees, including for internal tooling. Scale safeguards
+and checks to the reachable failure, affected guarantee and consequences:
+detection, reversibility, data loss, unauthorized access, incompatible output or
+duplicated effects. A credible failure follows from supported use or a concrete
+reachable attack path; a prior incident is unnecessary. Fault injection supports
+protection only when it models such a path. Reject an attribution whose
+preconditions cannot occur in supported use or through the claimed attack path.
 
-Name the concrete failure and affected boundary, such as lost data,
-unauthorized access, incompatible output or duplicated external effects.
-Component names and categories alone justify neither broader investigation nor
-additional safeguards. Preserve required guarantees even for internal tooling.
-
-Treat responsibility growth, mode creep, speculative abstraction, tests that
-mirror implementation and scaffolding as review signals, not automatic blockers.
-Address introduced or worsened problems. Mention unrelated findings only when
-they change the next action.
+Add protection for a requirement or credible failure that existing behavior
+does not cover. Use an existing visible exception or failed command when it
+causes no material harm and preserves the contract; visibility alone cannot
+undo damage or satisfy a broken guarantee. Prefer removing unnecessary risky
+state or narrowing an unsupported claim to adding machinery. Name why the
+existing behavior is insufficient when requesting protection. Risk identifies
+what to examine, not a preset amount of hardening.
 
 ## Scope, integrity, and authority
 
@@ -126,45 +118,31 @@ organizing a wholly new project, read
 layout and naming choices. Do not load or apply that fallback for new modules,
 subprojects, refactors or missing individual rules in an existing project.
 
-Never accept:
-
-- a claim of safety, narrow scope or incremental behavior that the result does not support;
-- a fallback or report that hides failure, invents success, or calls partial
-  state complete;
-- a projection that drops consumer-required semantics;
-- advancing an operation, publishing its result, or acknowledging completion
-  before its required durable state has been stored; or
-- a second owner or path that bypasses the guarantee enforced by the canonical source.
-
-These rules forbid false completion; they do not require persistence, receipts
-or integrity proofs beyond the actual contract and failure consequences.
-If a later step fails, do not unnecessarily discard useful output already
-produced and permitted to be retained. This creates no requirement for
-checkpoints, resume features or additional persistence. Report the failure and
-mark unsaved output as unsaved. Recovery output does not acknowledge completion
-or authorize advancement or publication that requires durable state first.
-
 Preserve required safety, authentication, authorization, privacy, auditability,
-retention and policy guarantees. Never weaken a test, validator or guard to hide
-failure or obtain green output when it enforces an applicable requirement,
-verifies a real dependency or prevents a concrete failure consequence. A check's
-existence, age or failure alone establishes no authority. Limit a check to the
-boundary its supported purpose covers; preserve required guarantees and unrelated
-work, and report differences outside that boundary. Success within that boundary
-proves nothing beyond it. Changing a required guarantee requires an explicitly
-authorized contract change and evidence for the new contract; a general change
-request is not that authorization. Resolve unclear authority or boundaries before
-the dependent change. Across boundaries preserve meaningful status, reason,
-error, source and validation semantics.
+retention and policy guarantees at their canonical boundaries. Preserve
+consumer-required semantics, including status, reason, errors, source and
+validation; add no alternate path that bypasses them. Where durable state is
+required, store it before acknowledging completion, advancing or publishing.
+Require persistence, receipts and recovery features only for the actual contract
+or credible consequences. Retain useful permitted partial output after a later
+failure, identify it as partial or unsaved, and report the failure honestly.
+
+Derive a test, validator or guard's authority from its independent requirement,
+real dependency or credible consequence. Never weaken one to hide failure or
+obtain green output. Correct incidental implementation constraints while
+preserving every independently required guarantee and unrelated work. A required
+guarantee changes only with explicit contract-change authority and evidence for
+the replacement; a general change request does not supply it. Resolve unclear
+authority before dependent work. Success proves only the checked boundary.
 
 Answer and audit authorize read-only inspection. Review and diagnosis may also
 run bounded local reproductions with known reversible effects and disposable
 test output, even outside ignored paths. None of these modes edits product
-files, stages or commits. Report actionable correctness findings and their impact without claiming
-unrun checks. An explicit execution ban or an unauthorized durable or external
-effect blocks the check. Change authorizes only the
-smallest local reversible implementation plus proportionate checks - not
-publication or unrelated cleanup. Ask before adding a framework, runtime, service,
+files, stages or commits. An explicit execution ban or an unauthorized durable
+or external effect blocks the check. A change request authorizes its local
+reversible implementation and proportionate checks within the requested scope.
+Publication and unrelated cleanup need their own authority.
+Ask before adding a framework, runtime, service,
 paid integration, or security-sensitive dependency.
 
 Without user or repository authorization, do not commit, push, publish,
@@ -177,13 +155,7 @@ evidence. Missing permission stops that action, never licenses simulated success
 
 ## Evidence and report
 
-Follow selected references' verification scope, failure handling, stop rules,
-final inspection, and completion rules. Lead with observable result and
-decisive checks' actual outcomes. Distinguish observation, source inspection,
-and inference. State only material unverified behavior and residual risk. Never
-claim behavior, safety, publication, checks, or completion beyond current
-evidence; do not narrate routine process.
-
-{{ include: rules.python }}
-
-{{ include: helper.policy }}
+Follow the selected routes' evidence, repair and completion rules. Report the
+observable result, decisive checks and material limits; distinguish observation,
+source inspection and inference. Never claim behavior, scope, safety, success,
+publication or completion beyond current evidence.

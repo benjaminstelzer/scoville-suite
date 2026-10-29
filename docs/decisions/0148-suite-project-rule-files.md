@@ -11,7 +11,7 @@ scope: suite/project-rules
 
 ## Decision
 
-General berücksichtigt vorhandene anwendbare AGENTS.md und CLAUDE.md. Lesen beider Dateien erlaubt keine automatische doppelte Bearbeitung. Cleanup ändert den bestehenden zuständigen Regelort; bei widersprüchlichen gleichrangigen Regeln entscheidet der Nutzer. Fehlen beide, legt General beim Claude-Host CLAUDE.md an, bei anderen Hosts AGENTS.md. Codex nennt weiter nur AGENTS.md. Ein künftiges claude-Profil erhält seine Dateisemantik erst in PLAN-0019.
+General berücksichtigt vorhandene anwendbare AGENTS.md und CLAUDE.md. Lesen beider Dateien erlaubt keine automatische doppelte Bearbeitung. Cleanup ändert den bestehenden zuständigen Regelort; bei widersprüchlichen gleichrangigen Regeln entscheidet der Nutzer. Fehlen beide, legt General beim Claude-Host CLAUDE.md an, bei anderen Hosts AGENTS.md. Codex nennt weiter nur AGENTS.md.
 
 ## Problem
 
@@ -27,7 +27,7 @@ Beide Dateien synchron bearbeiten: zusätzliche Wartung und Gefahr überschreibe
 
 ## Consequences
 
-W-006 und die Erwartungen in W-002 übernehmen diese am 04.10.2026 ausdrücklich gewählte Host-Unterscheidung. Die Sprachregel ändert keine Nutzerdaten oder Projektregel-Sprache.
+Die Host-Unterscheidung ändert keine Nutzerdaten oder Projektregel-Sprache.
 
 ## Confirmation
 
@@ -35,5 +35,5 @@ Fixtures nur mit AGENTS.md, nur CLAUDE.md, beiden konsistent/inkonsistent sowie 
 
 ## Revisit when
 
-Das claude-Profil eingeführt wird oder ein Host eine abweichende verbindliche Priorität vorgibt.
+Ein unterstützter Host eine abweichende verbindliche Priorität vorgibt.
 

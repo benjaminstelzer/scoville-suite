@@ -4,30 +4,17 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-from build_suite import load, readme_references, within
+from build_suite import package_bytes, within
 
 
 def snapshot(root, source):
-    config = load(root)
-    paths = {'build/build_suite.py', 'build/sync_suite_sources.py', 'build/export_suite.py',
-             'build/verify_package_set.py', 'build/fragments.md',
-             'instruction-writing.md', 'luna-release-gate.md'}
+    paths = {'instruction-writing.md', 'luna-release-gate.md'}
     # Retain shared development sources and tests, not only runtime consumers.
     for folder in ('build', 'readme', 'runtime', 'runtime-tests', 'prompting', 'tests'):
         paths.update(p.relative_to(source).as_posix() for p in (source / folder).rglob('*')
                      if p.is_file() and '__pycache__' not in p.parts
                      and p.suffix not in ('.pyc', '.pyo'))
-    entries = list(config.get('readme', []))
-    for member in config['members']:
-        entries.extend(member['readme'])
-        paths.update(item['source'] for item in member.get('shared_helpers', []))
-        paths.update(item['source'].removeprefix('shared:')
-                     for item in member.get('files', [])
-                     if item['source'].startswith('shared:'))
-    for reference in readme_references(entries, 'suite'):
-        if reference.startswith('shared:'):
-            paths.add('readme/' + reference.removeprefix('shared:'))
-    files = {name: within(source, name).read_bytes() for name in sorted(paths)}
+    files = {name: package_bytes(within(source, name)) for name in sorted(paths)}
     receipt = {name: hashlib.sha256(data).hexdigest() for name, data in files.items()}
     files['sources.json'] = (json.dumps(receipt, indent=2) + '\n').encode()
     return files

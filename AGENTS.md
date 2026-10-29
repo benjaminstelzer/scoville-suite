@@ -9,7 +9,8 @@ project-specific source ownership, boundaries and release-test scope.
   README composition, family metadata and export destinations.
 - `members/`: canonical Skill sources and member development material,
   not separate Git repositories.
-- Root Plan profile: suite planning. Member profiles: historical member records.
+- Root Plan profile: suite planning. Member test fixtures are test data, not
+  separate project plans.
 - `suite.json.private_records`: internal native planning and test records excluded
   from public source exports. Never use it to hide package or README dependencies.
 - `../shared/`: shared build tools and runtime-helper sources.
@@ -46,9 +47,11 @@ tests unless they change the packaged Python or Python CI tests.
 Check the current package structure,
 file completeness, generated copies and published artifacts separately.
 
-Fix failures at their narrowest responsible source. Keep shared instructions
-general and applicable to every consuming Skill. Tool and host mechanics belong
-in helpers or conditional host references; one project case is not a shared rule.
+Before publication, include changed instructions and affected consumers once in
+the existing source review. Check authorization, activation, conflicting or
+duplicated rules and complete handoffs against their owning contracts. Record
+the reviewed scope and revision in that result. Recheck corrected findings where
+needed; the review record requires no separate authoring review or certificate.
 
 Before each canonical source commit, run `python development/check_all.py`.
 Commit only on exit 0. This aggregate gate complements the focused checks above.

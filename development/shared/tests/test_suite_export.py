@@ -1,3 +1,4 @@
+import hashlib
 import json
 import shutil
 import subprocess
@@ -29,7 +30,9 @@ class SuiteExportTests(unittest.TestCase):
             root, canonical = base / 'suite', base / 'shared'
             root.mkdir()
             shutil.copytree(SHARED, canonical, ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '.git'))
-            (canonical / 'prompting/common.md').write_bytes(b'Use exact source paths.\n')
+            (canonical / 'prompting/common.md').write_bytes(b'Use exact source paths.\r\n')
+            binary = b'\x00\xff\r\n'
+            (canonical / 'prompting/fixture.bin').write_bytes(binary)
             config = {'schema_version': 1, 'name': 'test-suite', 'profile': 'general',
                       'repository': 'benjaminstelzer/test-suite', 'readme': [],
                       'members': [{'name': 'test-skill', 'repository': 'benjaminstelzer/test-skill',
@@ -39,7 +42,7 @@ class SuiteExportTests(unittest.TestCase):
                                               'target': 'test-skill/references/writing.md'}]}]}
             (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
             (root / 'skill.md').write_text('# Test skill\n', encoding='utf-8')
-            (root / '.gitattributes').write_text('* -text\n', encoding='utf-8')
+            (root / '.gitattributes').write_text('* text=auto eol=lf\n*.bin binary\n', encoding='utf-8')
             sync_suite_sources.sync(root, canonical)
             def git(*args):
                 subprocess.run(['git', '-C', str(root), *args], check=True, capture_output=True)
@@ -75,6 +78,15 @@ class SuiteExportTests(unittest.TestCase):
                     actual = {p.relative_to(package).as_posix(): p.read_bytes()
                               for p in package.rglob('*') if p.is_file()}
                     self.assertEqual(expected, actual)
+                    shared = output / 'development/shared'
+                    hashes = json.loads((shared / 'sources.json').read_text(encoding='utf-8'))
+                    exported = {p.relative_to(shared).as_posix(): p.read_bytes()
+                                for p in shared.rglob('*') if p.is_file()
+                                and p != shared / 'sources.json'}
+                    self.assertEqual(hashes, {name: hashlib.sha256(data).hexdigest()
+                                              for name, data in exported.items()})
+                    self.assertEqual(b'Use exact source paths.\n', exported['prompting/common.md'])
+                    self.assertEqual(binary, exported['prompting/fixture.bin'])
             common = canonical / 'prompting/common.md'
             original = common.read_bytes()
             common.write_bytes(original + b'\nA new canonical instruction.\n')

@@ -19,7 +19,7 @@ class SharedRuntimeBuildTests(unittest.TestCase):
         for suite, expected in [('scoville-suite', 3)]:
             root = SHARED.parent / suite
             profile = 'codex' if suite == 'scoville-suite' else None
-            members = [m for m in builder.load(root, profile)['members'] if any(h['source'] == 'runtime/scoville_config.py' for h in m.get('shared_helpers', []))]
+            members = [m for m in builder.load(root, profile)['members'] if any(h['source'] == 'shared:runtime/scoville_config.py' for h in m['files'])]
             self.assertEqual(expected, len(members))
             with tempfile.TemporaryDirectory() as temp:
                 output = Path(temp) / 'build'
@@ -43,18 +43,19 @@ class SharedRuntimeBuildTests(unittest.TestCase):
                     self.assertEqual(0, process.returncode, process.stderr)
                     self.assertEqual({}, json.loads(process.stdout))
                     self.assertFalse((script.parent / 'task_lifecycle.py').exists())
-                self.assertEqual([], builder.verify_shared_helpers(root, output))
+                self.assertEqual([], builder.verify_packages(root, output))
                 original = script.read_bytes()
                 script.write_bytes(original + b'\n# drift')
-                self.assertTrue(any('shared helper drift' in e for e in builder.verify_shared_helpers(root, output)))
+                self.assertTrue(any('package differs from current sources' in e for e in builder.verify_packages(root, output)))
                 script.write_bytes(original)
-                self.assertEqual([], builder.verify_shared_helpers(root, output))
+                self.assertEqual([], builder.verify_packages(root, output))
 
     def test_duplicate_mapping_cannot_shadow_shared_owner(self):
         root = SHARED.parent / 'scoville-suite'
-        member = copy.deepcopy(next(m for m in builder.load(root, 'codex')['members'] if any(h['source'] == 'runtime/scoville_config.py' for h in m.get('shared_helpers', []))))
-        member['shared_helpers'].append(member['shared_helpers'][0])
-        with self.assertRaisesRegex(ValueError, 'duplicate shared output'):
+        member = copy.deepcopy(next(m for m in builder.load(root, 'codex')['members'] if any(h['source'] == 'shared:runtime/scoville_config.py' for h in m['files'])))
+        mapping = next(item for item in member['files'] if item['source'] == 'shared:runtime/scoville_config.py')
+        member['files'].append(mapping)
+        with self.assertRaisesRegex(ValueError, 'duplicate output'):
             builder.payload(root, member, builder.load(root, 'codex'))
 
 

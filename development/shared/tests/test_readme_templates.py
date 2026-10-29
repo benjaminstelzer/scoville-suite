@@ -55,7 +55,7 @@ class ReadmeTemplateTests(unittest.TestCase):
         root = SHARED.parent / 'scoville-suite'
         member = dict(builder.load(root)['members'][0])
         member.pop('description_fragments', None)
-        member['readme'] = ['shared:member-development.md']
+        member['readme'] = ['shared:member-development-inline.md']
         with self.assertRaisesRegex(ValueError, 'requires suite audience'):
             builder.readme(root, member)
         member['development'] = dict(member['development'], notes='development/missing.md')
@@ -165,7 +165,7 @@ class ReadmeTemplateTests(unittest.TestCase):
     def test_shared_install_requires_member_variables(self):
         root = SHARED.parent / 'scoville-suite'
         member = dict(builder.load(root)['members'][0])
-        member['readme'] = ['shared:ask-native-install.md']
+        member['readme'] = ['shared:scoville-install.md']
         member['variables'] = {}
         with self.assertRaisesRegex(ValueError, 'missing or invalid variant variable: skill_name'):
             builder.readme(root, member)
