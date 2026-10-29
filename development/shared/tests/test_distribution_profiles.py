@@ -124,7 +124,7 @@ class DistributionProfilesTests(unittest.TestCase):
     def test_exports_replace_stale_packages_and_rebuild_in_isolation(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp) / 'source'
-            shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns('.git', '__pycache__', '.tmp', 'packages', 'node_modules', 'target'))
+            shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns('.git', '.scoville', '__pycache__', '.tmp', 'packages', 'node_modules', 'target'))
             stale = root / 'packages/obsolete/private.txt'
             stale.parent.mkdir(parents=True)
             stale.write_text('must never export', encoding='utf-8')

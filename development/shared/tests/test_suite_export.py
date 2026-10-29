@@ -24,6 +24,15 @@ class SuiteExportTests(unittest.TestCase):
                 with self.subTest(path=path), self.assertRaises(ValueError):
                     build_suite.private_record_paths(root)
 
+    def test_private_names_guard_catches_paths_contents_and_case(self):
+        names = ['PrivateFixtureProject']
+        export_suite.check_private_names({'public.md': b'Public content'}, names)
+        for files in ({'privatefixtureproject.md': b'public'},
+                      {'public.md': b'PRIVATEFIXTUREPROJECT'},
+                      {'public.json': '{"name":"PrivateFixtureProject"}'.encode('utf-16-le')}):
+            with self.subTest(files=list(files)), self.assertRaisesRegex(ValueError, 'Protected private'):
+                export_suite.check_private_names(files, names)
+
     def test_snapshot_entrypoints_use_canonical_sources_or_isolated_fallback(self):
         with tempfile.TemporaryDirectory() as temporary:
             base = Path(temporary)
@@ -121,6 +130,7 @@ class SuiteExportTests(unittest.TestCase):
                 target.write_bytes(b'Historical evidence.\n')
             config = {'name': 'test-suite', 'members': [{'name': 'test-skill', 'public_distribution': True}]}
             config['private_records'] = ['docs/plans/0001-private.md', 'docs/testing/local.md']
+            config['private_project_names'] = ['PrivateFixtureProject']
             (root / 'docs/plans').mkdir(parents=True)
             (root / 'docs/testing').mkdir()
             (root / 'docs/plans/0001-private.md').write_text('---\nid: PLAN-0001\n---\nPrivate plan\n')
@@ -148,6 +158,17 @@ class SuiteExportTests(unittest.TestCase):
                 self.assertFalse((output / 'docs/testing/local.md').exists())
                 self.assertIn('active_plan: null', (output / 'PROJECT_INDEX.md').read_text())
                 self.assertNotIn('private_records', json.loads((output / 'suite.json').read_text()))
+                self.assertNotIn('private_project_names', json.loads((output / 'suite.json').read_text()))
+                exported = {p.relative_to(output).as_posix(): p.read_bytes()
+                            for p in output.rglob('*') if p.is_file()}
+                export_suite.check_private_names(exported, ['PrivateFixtureProject'])
+                with patch.object(export_suite, 'payload', return_value={'README.md': b'PrivateFixtureProject'}):
+                    with self.assertRaisesRegex(ValueError, 'Protected private'):
+                        export_suite.export(root, Path(temporary) / 'blocked-forgotten-name')
+                config['readme'] = ['docs/testing/local.md']
+                with self.assertRaisesRegex(ValueError, 'private record is required by a public README'):
+                    export_suite.export(root, Path(temporary) / 'blocked-private-readme')
+                config.pop('readme')
                 config['members'][0]['files'] = [{'source': 'docs/testing/local.md', 'target': 'test-skill/private.md'}]
                 with self.assertRaisesRegex(ValueError, 'private record is required by a public package'):
                     export_suite.export(root, Path(temporary) / 'blocked-private-package')

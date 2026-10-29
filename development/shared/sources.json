@@ -1,6 +1,6 @@
 {
   "build/build_suite.py": "8eb26fdcfeb26913f89749d91f2cd1cbb8f3f827d791c94978762d9dc61d34a2",
-  "build/export_suite.py": "65bd95f3135c779da14f7e5d0264a172657fd7f65b973e2190227ece956bcfc7",
+  "build/export_suite.py": "9bc8a50b84209546c31f048c7158cc99638c0e0eba0f4949cdcb88067d05ca06",
   "build/fragments.md": "9616f889262a2d5c0811126dd5ad582ab01f9b5d859e717c4bd46dfbfa06a1a0",
   "build/run_portability.py": "285191978afea347e7a65dfbfce2e574875609001aaea41bb066314bc732e354",
   "build/runtime_ci.py": "6a2731ee53cf6d2884a893061a586557a4da1175380f5f7e873f5cdb5db2a525",
@@ -40,7 +40,7 @@
   "tests/test_build_acceptance.py": "6d8b0e00237f10b45991686d3b11ee5c304599421633f1d731346ec07aad6442",
   "tests/test_capture_git_ignore.py": "fb0b4e18af07e0ea8b755752fe4e8ee8b300e06b62acc314a964629682a76a8e",
   "tests/test_description_contract.py": "3d1b6e58c547a49d8e129529eb07cdb7824146873bb2a5bcbbfa4b8f43037b19",
-  "tests/test_distribution_profiles.py": "f9c07726744c868024ed721d4016d8d70c5763304e40e25ffb5fbd47de9c149c",
+  "tests/test_distribution_profiles.py": "795d6ae59247da413c9221970695e61757d627dd7552adb128f05c759ace773c",
   "tests/test_family_fragments.py": "42ad5ab7370106185b1f0cc772278d05af0d09edf1070d0aec9da94828e0a78f",
   "tests/test_lifecycle_builds.py": "b09da384e1c74c4d4dba005ee007bcc1c25284032b98e8b776c7efdcce76c8a8",
   "tests/test_package_bytes.py": "adf9d6f39e95ae359475689786644703360bdcf306477d1d11106f2b6e5c53ba",
@@ -53,7 +53,7 @@
   "tests/test_runtime_ci.py": "1e1bab9929943bf41e4313fca4f02fbca2519339ae6ebec60f697ce096987eef",
   "tests/test_scoville_config.py": "19ab949582cac6357bb81ce4b6c99c1c03e422706b94e43044bf897b3ca417f4",
   "tests/test_shared_rules.py": "0b5ed6a10fd7628e80ad09acd19c1d9a10ac2ed35cc9008058aff9de8f91e438",
-  "tests/test_suite_export.py": "9cdc560930c18dc98cae87d14613a295f11a71978f1583cd09f6eafc5a73298c",
+  "tests/test_suite_export.py": "5617b60ab676a23d81d45c277a8c6550249b63f4019a6092ee44aaf73236de5b",
   "tests/test_task_lifecycle.py": "d690b9816917ec822b4f705932b1b532a631452fe3de9957fc0c9211cb1f1405",
   "tests/test_task_titles.py": "6903d0f9a7df9b6d530d16f9c837efd1f2e225778767d690ea79a69cec88d388",
   "tests/test_verify_package_set.py": "94b248d059540154d4189ffce4a47760b215039198eb9e88290fa677b1177d17"

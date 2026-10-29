@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - 2026-10-29 - Private source boundaries
+
+- Remove obsolete development reports and their dangling links; retain current Skills, helpers, tests and build sources.
+- Check public export paths and contents against the private protected-name list.
+- Correct Plan compatibility metadata without implying unperformed host tests.
+
 ## Unreleased - 2026-10-29 - Follow-up corrections
 
 - Restore early shared-rule routes, explicit review correctness and conditional Skill Creator/validation loading.

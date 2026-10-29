@@ -13,8 +13,12 @@ project-specific source ownership, boundaries and release-test scope.
   separate project plans.
 - `suite.json.private_records`: internal native planning and test records excluded
   from public source exports. Never use it to hide package or README dependencies.
+- `suite.json.private_project_names`: private names prohibited in exported paths
+  and contents. This list and unlinked detail audits remain private; public records
+  use neutral descriptions (ADR-0226).
 - From PLAN-0058, export Plans and all their linked Audits and Decisions; keep
-  PLAN-0057, its Audits and unlinked private evidence in `private_records`.
+  unlinked current private evidence in `private_records`. Obsolete local reports
+  removed under PLAN-0059 need no preservation or expanded export filter.
   Validate the exported profile and links with the existing Plan validator.
   Before publication, inspect new public records for credentials, personal paths
   and third-party names; present findings and the export scope for explicit approval.

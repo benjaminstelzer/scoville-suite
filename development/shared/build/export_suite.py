@@ -15,6 +15,19 @@ def git(root, *args):
                           capture_output=True).stdout
 
 
+def check_private_names(files, names):
+    """Fail without disclosing a protected value in diagnostics."""
+    if not isinstance(names, list) or any(not isinstance(n, str) or not n.strip() for n in names):
+        raise ValueError('private_project_names must be a list of nonempty names')
+    for name, data in files.items():
+        for protected in names:
+            if (protected.casefold() in name.casefold()
+                    or protected.casefold() in data.decode('utf-8', errors='replace').casefold()
+                    or protected.lower().encode('utf-16-le') in data.lower()
+                    or protected.lower().encode('utf-16-be') in data.lower()):
+                raise ValueError('Protected private project name found in export; inspect private inventory')
+
+
 def export(root, output, profile=None):
     root, output = root.resolve(), output.resolve()
     if output.exists() or output.is_relative_to(root) or root.is_relative_to(output):
@@ -112,6 +125,7 @@ def export(root, output, profile=None):
             lambda m: m.group(1) + (m.group(2) if m.group(2) in public_plans else b'null') + m.group(3),
             files['PROJECT_INDEX.md'])
     config.pop('private_records', None)
+    config.pop('private_project_names', None)
     files['suite.json'] = (json.dumps(config, indent=2) + '\n').encode('utf-8')
     for member in config['members']:
         for relative, data in payload(root, member, config).items():
@@ -126,6 +140,7 @@ def export(root, output, profile=None):
     render_readmes(root, True, config, output)
     for path in output.rglob('*.md'):
         files[path.relative_to(output).as_posix()] = path.read_bytes()
+    check_private_names(files, raw.get('private_project_names', []))
     return {'layout': config.get('layout'), 'profile': config.get('profile'), 'source_commit': revision, 'suite': config['name'],
             'files': {name: hashlib.sha256(data).hexdigest()
                       for name, data in sorted(files.items())}}

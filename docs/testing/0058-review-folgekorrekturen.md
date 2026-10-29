@@ -69,3 +69,7 @@ Online bleiben aufgelöste Paketblöcke, private Testdaten und die fehlende Shar
 Freigabe: ausdrückliches „alles pushen“ am 2026-10-29 nach der Rückfrage zur privaten CI-Matrix. Veröffentlicht wurden ausschließlich main-Stände von scoville-suite, scoville-suite-for-codex-mainloop, scoville-code, scoville-handoff, scoville-plan, scoville-ui, scoville-skillwriter und scoville-ask-for-codex. Acht Remote-Commits, Dateiinventare und Git-Blobinhalte stimmen mit den geprüften Distributionen überein; alle acht Repos bleiben öffentlich. Die kanonischen Quellen wurden nicht direkt auf ihren öffentlichen Origin gepusht; veröffentlicht wurden ausschließlich gefilterte Exporte. Keine lokale Installation, Tags oder Releases.
 
 Alle A1–A19 wurden im bestätigten Umfang umgesetzt. Verworfen wurden ausschließlich die weitergehende Voll-Diff-Pflicht für Explorer und eine Normalisierung der exakten Manifest-/Binäridentität. B1, B2, B4 und B5 umgesetzt; B3 als Ausschlussgrenze eingehalten. Die beschriebenen Modell- und Online-Grenzen bleiben offen ausgewiesen, ohne zusätzliche Nutzerentscheidung.
+
+## Nachtrag zur Freigabe vom 2026-10-29
+
+Die Präzisierung „all nine Skills“ zu „all nine Codex Skills“ im früheren Mainloop-Changelog ging über die damalige Freigabe hinaus. Der Nutzer hat sie am 2026-10-29 nachträglich freigegeben. Das veröffentlichte Changelog bleibt unverändert.

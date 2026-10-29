@@ -7,8 +7,6 @@ outcome, then stop when more checking would not change the decision.
 
 The [source](../scoville-code/) and tests live in the suite. Install the built package.
 
-The retained [research audit](audits/2026-10-02-overengineering.md) separates study findings from project conventions.
-
 The unchanged [evaluation catalog](tests/evaluation-cases.json) is historical
 PLAN-0034 evidence. Its cases include superseded expectations, such as a fixed
 two-correction threshold, and do not define current behavior.
