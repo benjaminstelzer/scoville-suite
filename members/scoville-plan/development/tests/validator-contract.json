@@ -30,12 +30,27 @@
     "suggestion",
     "related"
   ],
-  "severities": ["error", "warning"],
+  "severities": [
+    "error",
+    "warning"
+  ],
   "exit_codes": {
-    "0": {"valid": true, "meaning": "complete inspection found no structural error"},
-    "1": {"valid": false, "meaning": "complete inspection found one or more structural errors"},
-    "2": {"valid": null, "meaning": "the requested profile could not be inspected completely"},
-    "3": {"valid": null, "meaning": "the validator itself failed"}
+    "0": {
+      "valid": true,
+      "meaning": "complete inspection found no structural error"
+    },
+    "1": {
+      "valid": false,
+      "meaning": "complete inspection found one or more structural errors"
+    },
+    "2": {
+      "valid": null,
+      "meaning": "the requested profile could not be inspected completely"
+    },
+    "3": {
+      "valid": null,
+      "meaning": "the validator itself failed"
+    }
   },
   "sort_key": [
     "file",
@@ -99,6 +114,7 @@
     "PLAN_IN_PROGRESS_COUNT",
     "PLAN_IN_PROGRESS_CURRENT_MISMATCH",
     "PLAN_NONACTIVE_IN_PROGRESS",
+    "PLAN_SECTION_BOUNDARY_INVALID",
     "PROFILE_ACTIVE_PLAN_COUNT",
     "PROFILE_PATH_MISSING",
     "PROFILE_PATH_NOT_DIRECTORY",

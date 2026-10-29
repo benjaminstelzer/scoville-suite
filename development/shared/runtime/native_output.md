@@ -8,7 +8,7 @@ arguments retain their own interfaces.
 
 Retain every `exec_command` chunk, `session_id` and final exit status until the
 child ends. Outer script completion does not establish child completion; do
-not restart a running command. Use one capture per outer call.
+not restart a running command. Make one bounded native call per outer call.
 
 The template selects 20000; use the same smallest applicable limit in the
 generated command, both tools and outer directive. Replace `<command_json>`
@@ -22,16 +22,18 @@ let r = await tools.exec_command({
   cmd: <command_json>,
   max_output_tokens: 20000
 });
-let output = r.output;
-while (r.session_id !== undefined) {
-  r = await tools.write_stdin({
-    session_id: r.session_id, chars: "", yield_time_ms: 10000,
-    max_output_tokens: 20000
-  });
-  output += r.output;
-}
-text(output);
+text(r.output);
+text(r.session_id !== undefined
+  ? {state: "pending", session_id: r.session_id}
+  : {state: "finished", exit_code: r.exit_code});
 ```
+
+For `pending`, retain the handle and start a separate outer call containing
+one `tools.write_stdin({session_id: <retained_id>, chars: "",
+yield_time_ms: 10000, max_output_tokens: 20000})`. Forward its eligible output
+and report pending or finished in the same way. Continue until the actual
+exit status arrives, unless an authorized interruption applies. If the outer
+tool itself yields a running cell, resume that cell first.
 
 Command success and output completeness are separate: the child's `exit=`
 determines success and a nonzero exit can supply valid failure evidence.

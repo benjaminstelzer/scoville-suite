@@ -104,7 +104,9 @@ flowchart TD
   mode -->|Audit| source["Inspect permitted source and owners relevant to the claims"]
   batch --> source
   source --> defect{"Known in-scope source defect?"}
-  defect -->|Implement: yes| fix["Correct known source defects"]
+  defect -->|Implement: yes| approach{"Supported correction or changed evidence?"}
+  approach -->|yes| fix["Correct known source defects"]
+  approach -->|no| stalled["Stop this repair path; report unresolved defect and needed prerequisite"]
   defect -->|Audit: yes| note["Report source defect; make no repair"]
   defect -->|no| claim{"Which evidence does each selected claim require?"}
   fix --> source
@@ -121,7 +123,9 @@ flowchart TD
   interact --> result
   access --> result
   coverage --> result
-  result -->|yes| correct["Collect and implement related corrections as one batch"]
+  result -->|yes| nextApproach{"Supported correction or changed evidence?"}
+  nextApproach -->|yes| correct["Collect and implement related corrections as one batch"]
+  nextApproach -->|no| stalled
   correct --> refresh["Refresh only evidence invalidated by the change"]
   refresh --> source
   result -->|no, or Audit| report["Report observations, defects and specific evidence gaps"]
@@ -142,6 +146,9 @@ read-only. Final measurements and viewed images must represent the same revision
 content and state. Reuse evidence while its relevant inputs and conditions remain
 unchanged. For UI source changes, the entrypoint's shared Code review is an
 acceptance condition for construction and updates as well as explicit review.
+For repeated failed corrections, apply Code's evidence-based Stop repetition:
+continue with a supported diagnosis, not another unchanged attempt. Keep
+acceptance open and name the actual prerequisite; Audit remains read-only.
 
 ## Use automation as supporting evidence
 

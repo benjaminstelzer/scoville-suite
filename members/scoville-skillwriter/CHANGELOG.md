@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - 2026-10-29 - Source and report scope
+
+- Clarify the shared distinction between required source contracts and machine reports by purpose and content, preserving complete required prose.
+
 ## Unreleased - 2026-10-29 - Follow-up corrections
 
 - Keep Skill Creator activation conditional on Skill authoring, scope structural validation to Skill packages and identify current technical tests.

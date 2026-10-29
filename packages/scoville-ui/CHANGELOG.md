@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - 2026-10-29 - Repair and overflow checks
+
+- Give unsupported repeated repairs a clear exit while retaining open findings and valid evidence.
+- Compare document overflow with clientWidth; a Windows scrollbar counterexample and permitted local scrolling were exercised.
+- Preserve original capture failures and distinguish needed source text from report data through the shared rules.
+
 ## Unreleased - 2026-10-29 - Follow-up corrections
 
 - Load data rules before requesting output and writing rules for disputed conclusions; align consistency evidence and conditional validation routes.

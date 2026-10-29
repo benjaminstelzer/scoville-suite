@@ -82,6 +82,17 @@ class NextIdTests(unittest.TestCase):
         self.assertEqual(payload['diagnostics'][0]['code'], 'RECORD_ID_INVALID')
         self.assertNotIn('next_id', payload)
 
+    def test_noncanonical_record_name_cannot_hide_an_existing_id(self):
+        self.write('docs/plans/unexpected.md', plan().replace('id: PLAN-0001', 'id: PLAN-0040'))
+        failed, payload = self.invoke('--next-id', 'plan')
+        self.assertNotEqual(0, failed.returncode)
+        self.assertNotIn('next_id', payload)
+        self.assertEqual('docs/plans/unexpected.md', payload['diagnostics'][0]['path'])
+        (self.root / 'docs/plans/unexpected.md').rename(self.root / 'docs/plans/0040-corrected.md')
+        corrected, payload = self.invoke('--next-id', 'plan')
+        self.assertEqual(0, corrected.returncode)
+        self.assertEqual('PLAN-0041', payload['next_id'])
+
 
 if __name__ == '__main__':
     unittest.main()

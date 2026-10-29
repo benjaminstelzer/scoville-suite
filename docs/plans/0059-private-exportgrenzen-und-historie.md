@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0059
-status: active
+status: cancelled
 created: 2026-10-29
 updated: 2026-10-29
-current_item: W-004
 ---
 
 # Private Exportgrenzen und bereinigte Veröffentlichung
@@ -67,14 +66,14 @@ Evidence: ["10 Repos inventarisiert; 4 main-Kandidaten ohne Namenstreffer. 4 Bui
 
 ### W-004 Konkrete Veröffentlichung freigeben und prüfen
 
-Status: in_progress
+Status: cancelled
 Depends on: [W-003]
 Blocked by: []
 Decisions: [ADR-0225, ADR-0226]
 Outcome: Ausschließlich der ausdrücklich freigegebene Stand ist veröffentlicht und seine erreichbare Remotehistorie nachgeprüft.
 Acceptance: Nutzer erhält Diff, Checks, betroffene Repos, Commitzahlen, alte/neue HEADs, Tagvorschlag, ungültige Hashverweise und Auswirkungen auf Klone/Forks. Erst nach konkreter Freigabe erfolgen Push und freigegebene Tagaktionen. Frische Remoteprüfung und vorbereitete Supportanfrage nennen verbleibende Grenzen ohne Löschgarantie.
-Instructions: Veröffentlichung wartet auf ausdrückliche Freigabe für den vorgelegten Kandidaten.
+Instructions: []
 Steps:
 1. [status: done] Vollständige Freigabevorlage und Supporttext erstellen; Fertig nach Prüfung gegen lokale Kandidaten und unveränderte Remoteausgangsstände.
-2. [status: todo] Nach ausdrücklicher Freigabe nur genehmigte Referenzen veröffentlichen und frische Klone vollständig prüfen. Fertig nach belegter Remoteprüfung und ehrlichem Abschluss je Auftragspunkt.
-Evidence: ["Freigabevorlage und Supportentwurf lokal erstellt. Kandidaten entsprechen den Exporten; Force-Push und Tagaktionen warten auf konkrete Nutzerfreigabe."]
+2. [status: done] Nach ausdrücklicher Freigabe nur genehmigte Referenzen veröffentlichen und frische Klone vollständig prüfen. Fertig nach belegter Remoteprüfung und ehrlichem Abschluss je Auftragspunkt.
+Evidence: Vier Stände veröffentlicht, Tags gelöscht und Remote geprüft. Nutzer beendet die Support-Nachverfolgung; vollständige Entfernung alter GitHub-Objekte bleibt unbestätigt.

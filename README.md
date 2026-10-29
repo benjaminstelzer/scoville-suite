@@ -95,6 +95,8 @@ shows these records on Windows, macOS and Linux.
 
 The validator checks structure and references. It cannot establish permission,
 meaning or whether an acceptance result is true.
+Selector and validator share Plan section boundaries; diagnostics identify
+the location and correction without imposing blank-line layout.
 
 ### What it enforces
 
@@ -282,12 +284,18 @@ dependencies or helper errors stop the affected operation.
 
 ## Model checks and limits
 
-The General edition contains six maintained Skills. Controlled native Codex
-cases used Codex-edition packages and covered these six shared Skills. The cases ran with `gpt-6.1-sol` and `low` reasoning.
+The General edition contains six maintained Skills. Earlier controlled native
+Codex cases covered these six shared Skills through Codex-edition packages. The cases ran with `gpt-6.1-sol` and `low` reasoning.
 The candidate cases preserved the tested
 task, authority and evidence boundaries, including complete data checks,
 one-time effects and continuation. The Skillwriter case also used the host's
 Skill Creator; the Handoff receiver applied its host rules.
+
+The latest follow-up checks used the same model and effort for native adviser
+and dispatch delivery, complete-file reading and large-report evaluation.
+They distinguish complete captures from command success and unreadable UTF-8.
+The [follow-up evidence](docs/testing/0060-fertige-skills-folgefixes.md) records
+the tested scope, correction cases and remaining transport limits.
 
 These are local case results, not a suite-wide reliability rate or proof of
 installed discovery, other hosts or product integrations. The revised

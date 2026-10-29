@@ -759,6 +759,82 @@ Evidence: []
             self.assertEqual(signal.returncode, 143)
             self.assertIn(b'exit=-15', signal.stdout)
 
+    def test_capture_uses_eof_and_preserves_failed_original_bytes(self):
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        prefix = [sys.executable, '-X', 'utf8', str(checker), '--max-output-tokens', '1500']
+        eof = subprocess.run([*prefix, '--run', '--', sys.executable, '-c',
+            'import sys;print(len(sys.stdin.buffer.read()))'], input=b'inherited input',
+            capture_output=True, timeout=20)
+        self.assertEqual(eof.returncode, 0, eof.stderr)
+        self.assertIn(b'stdout:\n0\n', eof.stdout.replace(b'\r\n', b'\n'))
+        marker = self.base / 'once.txt'
+        code = 'import sys;from pathlib import Path;p=Path(sys.argv[1]);p.write_text(p.read_text()+"x" if p.exists() else "x");sys.stdout.buffer.write(b"\\xff");sys.stderr.buffer.write(b"\\x80");sys.exit(7)'
+        bad = subprocess.run([*prefix, '--publish-full', '--project-root', str(self.project),
+            '--run', '--', sys.executable, '-c', code, str(marker)], capture_output=True, timeout=20)
+        self.assertEqual(bad.returncode, 125)
+        self.assertEqual(bad.stdout, b'')
+        meta = json.loads(bad.stderr)
+        self.assertEqual(meta['error'], 'invalid_utf8')
+        self.assertTrue(meta['capture_complete'])
+        self.assertEqual(meta['exit_code'], 7)
+        self.assertEqual(Path(meta['full_file']).read_bytes(), b'exit=7 stdout_bytes=1 stderr_bytes=1\nstdout:\n\xff\nstderr:\n\x80')
+        self.assertEqual(marker.read_text(), 'x', 'capture failure must not rerun the effect')
+
+    def test_capture_timeout_preserves_partial_output_and_stops_family(self):
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        pids = self.base / 'pids.json'
+        code = 'import subprocess,sys,time,json,os;from pathlib import Path;p=subprocess.Popen([sys.executable,"-c","import time;time.sleep(60)"]);Path(sys.argv[1]).write_text(json.dumps([os.getpid(),p.pid]));print("started",flush=True);time.sleep(60)'
+        result = subprocess.run([sys.executable, '-X', 'utf8', str(checker),
+            '--max-output-tokens', '1500', '--publish-full', '--project-root', str(self.project),
+            '--timeout-seconds', '2', '--run', '--', sys.executable, '-c', code, str(pids)],
+            capture_output=True, timeout=25)
+        self.assertEqual(result.returncode, 125)
+        meta = json.loads(result.stderr)
+        self.assertEqual(meta['error'], 'timeout')
+        self.assertFalse(meta['capture_complete'])
+        self.assertIsInstance(meta['exit_code'], int)
+        self.assertIn(b'started', Path(meta['full_file']).read_bytes())
+        for pid in json.loads(pids.read_text()):
+            if os.name == 'nt':
+                import ctypes
+                from ctypes import wintypes
+                kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+                kernel.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+                kernel.OpenProcess.restype = wintypes.HANDLE
+                kernel.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+                kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+                handle = kernel.OpenProcess(0x100000, False, pid)
+                if handle:
+                    try: self.assertNotEqual(kernel.WaitForSingleObject(handle, 1000), 258)
+                    finally: kernel.CloseHandle(handle)
+            else:
+                state = subprocess.run(['ps', '-o', 'stat=', '-p', str(pid)], capture_output=True, text=True).stdout.strip()
+                self.assertTrue(not state or state.startswith('Z'), f'owned process {pid} survived: {state}')
+
+    def test_capture_deadline_survives_an_exited_parent_with_open_child_pipes(self):
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        child_pid = self.base / 'orphan-pid.txt'
+        code = 'import subprocess,sys;from pathlib import Path;p=subprocess.Popen([sys.executable,"-c","import time;time.sleep(60)"]);Path(sys.argv[1]).write_text(str(p.pid));print("before-parent-exit",flush=True)'
+        try:
+            result = subprocess.run([sys.executable, '-X', 'utf8', str(checker),
+                '--max-output-tokens', '1500', '--publish-full', '--project-root', str(self.project),
+                '--timeout-seconds', '0.5', '--run', '--', sys.executable, '-c', code, str(child_pid)],
+                capture_output=True, timeout=20)
+            self.assertEqual(result.returncode, 125)
+            meta = json.loads(result.stderr)
+            self.assertFalse(meta['capture_complete'])
+            self.assertEqual(meta['error'], 'timeout_cleanup_incomplete' if os.name == 'nt' else 'timeout')
+            self.assertIn(b'before-parent-exit', Path(meta['full_file']).read_bytes())
+        finally:
+            if child_pid.exists():
+                pid = int(child_pid.read_text())
+                if os.name == 'nt':
+                    subprocess.run(['taskkill', '/PID', str(pid), '/T', '/F'], capture_output=True, timeout=10)
+                else:
+                    import signal
+                    try: os.kill(pid, signal.SIGKILL)
+                    except ProcessLookupError: pass
+
 
     def test_text_preflight_invalid_and_corrected_cli_without_overwrite(self):
         package = next(packages('scoville-code'))

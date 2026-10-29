@@ -23,6 +23,8 @@ shows these records on Windows, macOS and Linux.
 
 The validator checks structure and references. It cannot establish permission,
 meaning or whether an acceptance result is true.
+Selector and validator share Plan section boundaries; diagnostics identify
+the location and correction without imposing blank-line layout.
 
 ## What it enforces
 
@@ -92,13 +94,8 @@ list the locations for each host.
 
 ## Configuration
 
-### Model choices for Workflow
-
-Scoville Workflow for Codex Mainloop uses fixed main, review and explore model
-and reasoning pairs. Setup shows or saves those project settings. An existing
-Step execute annotation is retained and compared with the main pair. A conflict
-requires a decision rather than dispatching that Step through a separate route.
-Unsupported choices stop the affected operation without silently changing them.
+Plan uses the repository's Markdown planning records. It selects no
+model settings and starts no execution workflow.
 
 ## How to use
 

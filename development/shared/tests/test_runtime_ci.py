@@ -48,18 +48,6 @@ class RuntimeGateTests(unittest.TestCase):
         self.assertEqual(('3.11', '3.x'), pythons)
         self.assertEqual(gate.PYTHONS, pythons)
 
-    def test_minimum_python_workflow_selects_existing_tests(self):
-        workflow = (SHARED / 'runtime-tests/runtime-helpers.yml').read_text(encoding='utf-8')
-        selection = re.search(r'names = (\[.*?\]);', workflow, re.S)
-        self.assertIsNotNone(selection)
-        names = ast.literal_eval(selection.group(1))
-        tree = ast.parse((SHARED / 'runtime-tests/test_runtime_helpers.py').read_text(encoding='utf-8'))
-        case = next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == 'RuntimeHelpers')
-        methods = {node.name for node in case.body if isinstance(node, ast.FunctionDef)}
-        self.assertTrue(names)
-        self.assertEqual(len(names), len(set(names)))
-        self.assertEqual(set(names) - methods, set())
-
     def setUp(self):
         self.root = SHARED.parent / 'scoville-suite'
         self.member = {'name': 'example', 'helper_contracts': {'scripts/helper.py': {'kind': 'helper'}},

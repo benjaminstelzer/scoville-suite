@@ -20,7 +20,7 @@ breakpoint.
 - Non-exempt shells satisfy:
 
   ```js
-  document.documentElement.scrollWidth <= window.innerWidth
+  document.documentElement.scrollWidth <= document.documentElement.clientWidth
   ```
 
 A two-dimensional data view may use one labeled local horizontal scroll

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased - 2026-10-29 - Shared capture corrections
+
+- Preserve original bytes and explicit failure status on invalid UTF-8 or bounded command timeout, with noninteractive EOF.
+- Distinguish required project source text from machine reports without removing necessary context.
+
 ## Unreleased - 2026-10-29 - Follow-up corrections
 
 - Load data rules before requesting output and writing rules for disputed conclusions; keep historical evaluation sources out of public exports.
