@@ -35,8 +35,10 @@ def runtime_scope_digest(files, scope):
 
 def assets():
     source = Path(__file__).resolve().parents[1] / 'runtime-tests'
-    return {WORKFLOW: (source / 'runtime-helpers.yml').read_bytes(),
-            'tests/test_runtime_helpers.py': (source / 'test_runtime_helpers.py').read_bytes()}
+    # These UTF-8 text assets use the same LF bytes as the shared snapshot.
+    return {name: path.read_bytes().decode('utf-8').replace('\r\n', '\n').encode('utf-8')
+            for name, path in ((WORKFLOW, source / 'runtime-helpers.yml'),
+                               ('tests/test_runtime_helpers.py', source / 'test_runtime_helpers.py'))}
 
 
 def candidates(builder, root):

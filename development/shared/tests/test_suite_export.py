@@ -109,6 +109,16 @@ class SuiteExportTests(unittest.TestCase):
             (root / 'private.local').write_text('not for export')
             (root / 'development').mkdir()
             (root / 'development/test.py').write_text('# retained development\n')
+            historical = ('development/instruction_tests/catalog.py',
+                          'development/luna-tests/run_codex_cli_case.py',
+                          'development/tests/test_instruction_evaluation.py',
+                          'development/tests/test_codex_cli_case.py',
+                          'development/tests/test_attempt_budget.py',
+                          'development/claude-code/capabilities.md')
+            for name in historical:
+                target = root / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b'Historical evidence.\n')
             config = {'name': 'test-suite', 'members': [{'name': 'test-skill', 'public_distribution': True}]}
             config['private_records'] = ['docs/plans/0001-private.md', 'docs/testing/local.md']
             (root / 'docs/plans').mkdir(parents=True)
@@ -126,6 +136,10 @@ class SuiteExportTests(unittest.TestCase):
             with patch.object(export_suite, 'render_readmes', return_value=[]), patch.object(export_suite, 'sync', return_value=[]), patch.object(export_suite, 'load', return_value=config), patch.object(export_suite, 'payload', return_value={'README.md': b'readme', 'test-skill/SKILL.md': b'skill'}):
                 receipt = export_suite.export(root, output)
                 self.assertIn('development/test.py', receipt['files'])
+                for name in historical:
+                    self.assertNotIn(name, receipt['files'])
+                    self.assertFalse((output / name).exists())
+                    self.assertEqual(b'Historical evidence.\n', (root / name).read_bytes())
                 self.assertEqual(b'# retained development\n', (output / 'development/test.py').read_bytes())
                 self.assertEqual(b'skill', (output / 'packages/test-skill/test-skill/SKILL.md').read_bytes())
                 self.assertFalse((output / 'private.local').exists())

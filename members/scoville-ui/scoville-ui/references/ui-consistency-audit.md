@@ -15,7 +15,8 @@ to redesign, edit, audit unrelated screens or perform a full accessibility audit
    effects just to obtain coverage. Name inaccessible states as unverified.
 3. Map every entry to its owner and applicable evidence under Validation's claim
    contract. Use `pass`, `defect`, `unverified` or justified `not-applicable` for
-   each required stage. Compare between as well as within groups.
+   each evidence kind that Validation's claim table requires. Compare between
+   as well as within groups.
 4. Reconcile all discovered entries before concluding. An unmapped entry is a
    coverage gap. Report coverage and named gaps separately from prioritized
    findings. Required unverified entries prevent a complete consistency pass.

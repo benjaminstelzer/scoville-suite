@@ -72,7 +72,8 @@ Source review does not prove model performance.
 
 ## Validate and evaluate
 
-Validate Skill structure through Skill Creator; this proves format, not quality.
+For a Skill package, validate Skill structure through Skill Creator; this proves
+format, not quality.
 If a validator rejects a field the Agent Skills specification allows, such as
 `compatibility`, keep the field and report the limit.
 

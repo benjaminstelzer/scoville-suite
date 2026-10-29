@@ -15,6 +15,8 @@ Das Regelwerk gilt für vom Skill formulierte Auftragsrahmen und die Adviser-Ant
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Die gemeinsame Datei allein klärt nicht, ob sie die Frage, die Antwort oder beides steuert.
 
 ## Drivers

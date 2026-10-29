@@ -26,5 +26,6 @@ the same thing.
 
 General and Codex editions now share the common Skills, while Workflow, Ask and
 Setup use the Codex-specific route. Focused checks support particular changes,
-not a promise that every future agent run will behave predictably. The Plans
-and Decisions retain the detailed history for work that needs it.
+not a promise that every future agent run will behave predictably. The retained
+Decisions and public follow-up Plans document the current direction; they do
+not provide a complete development history.

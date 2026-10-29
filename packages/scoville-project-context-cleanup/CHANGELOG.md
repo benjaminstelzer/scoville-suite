@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - 2026-10-29 - Follow-up corrections
+
+- Load data rules before requesting output and writing rules for disputed conclusions; keep historical evaluation sources out of public exports.
+
 ## Unreleased - 2026-10-29
 
 - Consolidate target selection, conflict handling and verification around the existing flow. Reuse authorization covering the edit, preserve external-action safeguards in the rule file, and keep native index fields and lifecycle with Plan.

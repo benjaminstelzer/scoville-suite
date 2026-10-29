@@ -15,6 +15,8 @@ Empfohlen: claude.web_tools ist standardmäßig false. WebSearch und WebFetch we
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Der aktuelle Reviewkanal erlaubt Lesen lokaler Inhalte und zusätzliche Netzabfragen ohne aufgabenspezifischen Bedarf.
 
 ## Drivers

@@ -167,9 +167,8 @@ def runtime_scope(members: list[dict]) -> dict:
         for item in member.get('files', []):
             if 'runtime_role' not in item:
                 continue
-            if (item['runtime_role'] != 'instruction' or not item['target'].endswith('.md')
-                    or item.get('template')):
-                raise ValueError('runtime_role requires a reviewed Markdown instruction, not executable data or a template')
+            if item['runtime_role'] != 'instruction' or not item['target'].endswith('.md'):
+                raise ValueError('runtime_role requires a reviewed Markdown instruction, not executable data')
             instructions.append(member['name'] + '/' + item['target'])
         contracts.update({member['name'] + '/' + member['name'] + '/' + path: rule['kind']
                           for path, rule in member.get('helper_contracts', {}).items()})
@@ -481,8 +480,6 @@ def payload(root: Path, member: dict, config: dict | None = None) -> dict[str, b
         if target.split('/')[0] != member['name'] and target not in {'LICENSE', 'LICENSE.md', 'LICENSE.txt', 'CHANGELOG.md', '.gitattributes'}:
             raise ValueError(f'non-distribution file: {target}')
         result[target] = package_bytes(file_source(root, item['source']))
-        if item.get('template'):
-            result[target] = expand_variables(result[target].decode('utf-8'), member).encode('utf-8')
         if target.endswith(('.md', '.toml')) and b'{{' in result[target]:
             result[target] = expand_fragments(root, result[target].decode('utf-8'), member, config=config).encode('utf-8')
     if member['name'] + '/SKILL.md' not in result:
@@ -662,23 +659,23 @@ def build(root: Path, output: Path, public: bool, selected: list[str], profile: 
     prepared = [(m, payload(root, m, config)) for m in members]
     revision = subprocess.run(['git', '-C', str(root), 'rev-parse', '--verify', 'HEAD'], capture_output=True, text=True)
     dirty = subprocess.run(['git', '-C', str(root), 'status', '--porcelain'], capture_output=True, text=True, check=True)
-    shared_sources = {'build/build_suite.py': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+    shared_sources = {'build/build_suite.py': hashlib.sha256(package_bytes(Path(__file__))).hexdigest()}
     for member in members:
         for reference in readme_references(member['readme'], 'release'):
             if reference.startswith('shared:'):
                 key = 'readme/' + reference.removeprefix('shared:')
-                shared_sources[key] = hashlib.sha256(readme_source(root, reference).read_bytes()).hexdigest()
+                shared_sources[key] = hashlib.sha256(package_bytes(readme_source(root, reference))).hexdigest()
         for item in member.get('files', []):
             if item['source'].startswith('shared:'):
                 key = item['source'].removeprefix('shared:')
-                shared_sources[key] = hashlib.sha256(file_source(root, item['source']).read_bytes()).hexdigest()
+                shared_sources[key] = hashlib.sha256(package_bytes(file_source(root, item['source']))).hexdigest()
             source_text = file_source(root, item['source']).read_bytes()
             fragments = {value.strip().decode('utf-8') for value in
                          re.findall(rb'\{\{\s*include:\s*([^{}]+?)\s*\}\}', source_text)}
             for fragment, key in RULE_FRAGMENTS.items():
                 if fragment in fragments:
-                    shared_sources[key] = hashlib.sha256(within(shared_root(), key).read_bytes()).hexdigest()
-    shared_sources['runtime/skill_composition.md'] = hashlib.sha256(within(shared_root(), 'runtime/skill_composition.md').read_bytes()).hexdigest()
+                    shared_sources[key] = hashlib.sha256(package_bytes(within(shared_root(), key))).hexdigest()
+    shared_sources['runtime/skill_composition.md'] = hashlib.sha256(package_bytes(within(shared_root(), 'runtime/skill_composition.md'))).hexdigest()
     receipt = {'layout': config.get('layout'), 'profile': config.get('profile'), 'schema_version': 1, 'suite': config['name'], 'source_commit': revision.stdout.strip() if revision.returncode == 0 else None,
                'manifest_sha256': hashlib.sha256((root / 'suite.json').read_bytes()).hexdigest(),
                'shared_sources': shared_sources,

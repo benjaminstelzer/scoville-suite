@@ -26,8 +26,9 @@ For requested PROJECT_INDEX.md prose additions or cleanup, apply Scoville
 Project Context Cleanup within the same prepared edit. Plan retains fields and
 lifecycle. Ordinary Plan progress does not load Cleanup.
 
-Before reading machine reports, logs or structured state, or writing Plans,
-Work Items, Decisions or reports, read and apply the
+Before requesting or reading machine reports, logs or structured state, writing
+Plans, Work Items, Decisions or reports, or answering a disputed factual or
+technical conclusion, read and apply the
 [shared writing rules](references/writing.md). Native record fields and lifecycle
 requirements remain governed by this Skill.
 

@@ -13,6 +13,11 @@ project-specific source ownership, boundaries and release-test scope.
   separate project plans.
 - `suite.json.private_records`: internal native planning and test records excluded
   from public source exports. Never use it to hide package or README dependencies.
+- From PLAN-0058, export Plans and all their linked Audits and Decisions; keep
+  PLAN-0057, its Audits and unlinked private evidence in `private_records`.
+  Validate the exported profile and links with the existing Plan validator.
+  Before publication, inspect new public records for credentials, personal paths
+  and third-party names; present findings and the export scope for explicit approval.
 - `../shared/`: shared build tools and runtime-helper sources.
   Suite-local copies, including `development/shared/`, are generated snapshots.
 - `development/readme/`: README fragments. Member READMEs are generated previews.
@@ -34,6 +39,10 @@ Installed Skills contain their own runtime dependencies. They depend on neither
 shared source directory and do not import installed siblings as helper libraries.
 
 GitHub-facing README and CHANGELOG wording uses Benjamin's voice.
+
+Public source exports resolve package blocks. Online continuation lacks those
+canonical blocks, private test datasets and the sibling layout required by Shared
+tests; exporting the Plan does not remove these development limits.
 
 ## Release-test scope
 

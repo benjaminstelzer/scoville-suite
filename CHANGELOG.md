@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased - 2026-10-29 - Follow-up corrections
+
+- Restore early shared-rule routes, explicit review correctness and conditional Skill Creator/validation loading.
+- Correct profile evidence wording, preserve the manual user settings route and document authorized Decision revisions.
+- Publish follow-up Plans and linked records only after explicit approval; keep historical harness material out of public source exports.
+- Count executed tests separately from skips, check native capture at its actual owner and normalize shared text provenance without changing binary artifact identity.
+
 ## Unreleased - 2026-10-29
 
 - Shorten shared and Skill instructions while preserving task authority, required text, fixed schemas and honest completion reports.
@@ -9,7 +16,7 @@
 - Use existing approval for concrete Skillwriter and project-rule edits while preserving read-only reviews, Handoff contracts and unrelated records.
 - Simplify manifest file mappings, source snapshots and build checks while retaining package inventory, source hashes, helper policies and profile boundaries.
 - Normalize snapshot text before copying and hashing so Git source exports retain valid receipts; preserve binary files unchanged.
-- Document controlled `gpt-6.1-sol` / `low` cases across all nine Skills separately from host compatibility. These results establish neither general reliability nor current Claude behavior.
+- Document controlled `gpt-6.1-sol` / `low` cases across all six General Skills separately from host compatibility. These results establish neither general reliability nor current Claude behavior.
 ## Unreleased - 2026-10-28 - Review corrections
 
 - Load Skillwriter's shared criteria in review mode and clarify Plan execution terminology without changing record contracts.

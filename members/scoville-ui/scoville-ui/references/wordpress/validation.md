@@ -1,9 +1,10 @@
 # WordPress validation additions
 
-Read [common validation](../validation.md) once, then apply these platform checks
-for the claims and scope it establishes. Resolve WordPress comparison targets
-through [spacing.md](spacing.md). Keep Classic, token and fallback contracts
-distinct; native values need not match the fallback scale.
+When the claims trigger [common validation](../validation.md), read it once and
+apply these platform checks for the claims and scope it establishes. Resolve
+WordPress comparison targets through [spacing.md](spacing.md). Keep Classic,
+token and fallback contracts distinct; native values need not match the fallback
+scale.
 
 ## Select the platform checks
 

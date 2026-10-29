@@ -452,7 +452,7 @@
       "name": "scoville-ui",
       "development": {
         "source": "members/scoville-ui",
-        "tests": "development/instruction_tests",
+        "tests": "development/tests/test_build_suite.py",
         "notes": "members/scoville-ui/development/README.md"
       },
       "repository": "benjaminstelzer/scoville-suite",
@@ -671,7 +671,7 @@
       "name": "scoville-project-context-cleanup",
       "development": {
         "source": "members/scoville-project-context-cleanup",
-        "tests": "development/instruction_tests",
+        "tests": "development/tests/test_build_suite.py",
         "notes": "members/scoville-project-context-cleanup/development/README.md"
       },
       "repository": "benjaminstelzer/scoville-suite",
@@ -784,7 +784,7 @@
       "name": "scoville-skillwriter",
       "development": {
         "source": "members/scoville-skillwriter",
-        "tests": "development/instruction_tests",
+        "tests": "development/tests/test_build_suite.py",
         "notes": "members/scoville-skillwriter/development/README.md"
       },
       "repository": "benjaminstelzer/scoville-suite",

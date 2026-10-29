@@ -15,6 +15,8 @@ Agenten dürfen JSON aus Helpern lesen und Konfiguration als JSON verwenden. Sie
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Die bisherige Regel beschränkte das Ausgabeformat stärker als vom Nutzer beabsichtigt. Fehler entstanden beim manuellen Schreiben von JSON, nicht beim Lesen.
 
 ## Drivers

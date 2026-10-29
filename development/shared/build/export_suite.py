@@ -32,9 +32,16 @@ def export(root, output, profile=None):
     sources = []
     raw = json.loads((root / 'suite.json').read_text(encoding='utf-8'))
     kept = {m['name'] for m in config['members']}
-    excluded_roots = []
+    # Historical model harnesses require private datasets and fixed retired models.
+    excluded_roots = ['development/instruction_tests/', 'development/luna-tests/']
     private_records = private_record_paths(root)
     excluded_files = set(private_records)
+    excluded_files.update({
+        'development/tests/test_instruction_evaluation.py',
+        'development/tests/test_codex_cli_case.py',
+        'development/tests/test_attempt_budget.py',
+        'development/claude-code/capabilities.md',
+    })
     selected_sources = {f['source'] for m in config['members'] for f in m.get('files', [])}
     if private_records & selected_sources:
         raise ValueError('private record is required by a public package')

@@ -30,6 +30,8 @@ Unmittelbar vor diesen Abschnitten steht unverändert genau einmal:
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Hintergrund und Historie vergrößern neue Aufträge unnötig.
 
 ## Drivers

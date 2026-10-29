@@ -27,6 +27,8 @@ und Astra/high-Vorprüfung allein in Code `references/validation.md`.
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Ein Workflow-Test scheiterte allein am alten Fehlermeldungssatz, obwohl der
 Helper seine neue Eingabemöglichkeit korrekt nannte. Weitere Buildtests prüften
 bestimmte Anleitungsformulierungen statt ihre technische Aussage.

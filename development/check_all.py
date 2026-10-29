@@ -82,14 +82,22 @@ def run(root=ROOT):
                     print(f'{label}:\n{output}', end='' if output.endswith('\n') else '\n')
             return False
         summary = re.search(r'Ran (\d+) tests? in ', result.stderr)
+        skipped = re.search(r'\bskipped=(\d+)', result.stderr)
+        skipped_count = int(skipped[1]) if skipped else 0
         if arguments[:3] == ['-m', 'unittest', 'discover'] and (summary is None or int(summary[1]) == 0):
             fail(name, 'unittest discovery did not report any executed tests')
             for output in (result.stdout, result.stderr):
                 if output:
                     print(output, end='' if output.endswith('\n') else '\n')
             return False
+        if summary is not None and int(summary[1]) == skipped_count:
+            empty.append(name)
+            print(f'EMPTY {name}: all {skipped_count} Python tests skipped', flush=True)
+            return False
         completed.append(name)
-        count = f' ({summary[1]} Python tests)' if summary is not None else ''
+        count = (f' ({int(summary[1]) - skipped_count} Python tests executed'
+                 + (f'; {skipped_count} skipped' if skipped_count else '') + ')'
+                 if summary is not None else '')
         print(f'PASS {name}{count}', flush=True)
         return True
 

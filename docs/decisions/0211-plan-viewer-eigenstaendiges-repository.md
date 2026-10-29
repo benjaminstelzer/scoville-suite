@@ -15,6 +15,8 @@ projects/scoville-plan-viewer ist die einzige gepflegte Viewer-Quelle; benjamins
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Die Desktopanwendung und der Plan-Skill besitzen unterschiedliche Build- und Veröffentlichungszyklen.
 
 ## Drivers

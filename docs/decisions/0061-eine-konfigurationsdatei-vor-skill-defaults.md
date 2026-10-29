@@ -15,6 +15,8 @@ scope: suite/project-configuration
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Die Unterscheidung persönlicher und projektbezogener Konfiguration erzeugt vom Nutzer ausdrücklich abgelehnte Komplexität.
 
 ## Drivers

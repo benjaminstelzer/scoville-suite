@@ -69,6 +69,27 @@ class CheckAllTests(unittest.TestCase):
         self.assertIn('unittest discovery did not report any executed tests', output.getvalue())
         self.assertNotIn('PASS ../shared/tests', output.getvalue())
 
+    def test_skipped_only_paths_are_empty_and_partial_skips_count_executions(self):
+        for count, skipped in ((5, 5), (5, 2)):
+            with self.subTest(skipped=skipped), tempfile.TemporaryDirectory() as temporary:
+                output = io.StringIO()
+                def execute(arguments, **options):
+                    summary = (f'Ran {count} tests in 0.001s\nOK (skipped={skipped})\n'
+                               if 'unittest' in arguments else '')
+                    return subprocess.CompletedProcess(arguments, 0, '', summary)
+                with patch.object(gate.subprocess, 'run', side_effect=execute), \
+                        patch.object(gate.tempfile, 'TemporaryDirectory') as directory, \
+                        patch.object(gate, 'stale_codex_readmes', return_value=[]), \
+                        patch.object(gate.Path, 'mkdir'), redirect_stdout(output):
+                    directory.return_value.name = temporary
+                    self.assertEqual(0, gate.run())
+                text = output.getvalue()
+                if count == skipped:
+                    self.assertIn('EMPTY ../shared/tests: all 5 Python tests skipped', text)
+                    self.assertNotIn('PASS ../shared/tests', text)
+                else:
+                    self.assertIn('PASS ../shared/tests (3 Python tests executed; 2 skipped)', text)
+
     def test_codex_only_maintained_preview_drift_fails_comparison(self):
         with tempfile.TemporaryDirectory() as temporary:
             root, preview = Path(temporary) / 'suite', Path(temporary) / 'preview'

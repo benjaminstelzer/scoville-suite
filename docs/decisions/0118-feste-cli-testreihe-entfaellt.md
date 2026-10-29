@@ -19,6 +19,8 @@ maßgeblich. Build-, Kompatibilitäts-, Autorisierungs- und Remoteprüfungen ble
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Die alte Pauschalprüfung blockierte die Veröffentlichung trotz erfolgreicher
 gezielter Tests. Die aktuelle CLI fügt Host-Tools in den isolierten Testkontext ein.
 

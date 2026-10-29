@@ -7,8 +7,10 @@ Claude consultations also need a signed-in Claude Code CLI (2.1.280+ for Opus 5.
 
 ## Model checks and limits
 
-Controlled native Codex cases covered all nine maintained Skills with
-`gpt-6.1-sol` and `low` reasoning. The candidate cases preserved the tested
+{{ profile: general }}The General edition contains six maintained Skills. Controlled native Codex
+cases used Codex-edition packages and covered these six shared Skills.{{ /profile }}{{ profile: codex }}Controlled native Codex cases used Codex-edition packages and covered all nine
+maintained Skills.{{ /profile }} The cases ran with `gpt-6.1-sol` and `low` reasoning.
+The candidate cases preserved the tested
 task, authority and evidence boundaries, including complete data checks,
 one-time effects and continuation. The Skillwriter case also used the host's
 Skill Creator; the Handoff receiver applied its host rules.

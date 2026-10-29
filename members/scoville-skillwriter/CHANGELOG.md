@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - 2026-10-29 - Follow-up corrections
+
+- Keep Skill Creator activation conditional on Skill authoring, scope structural validation to Skill packages and identify current technical tests.
+
 ## 2026-10-29
 
 - Simplify the authoring workflow while preserving revision baselines and read-only reviews.

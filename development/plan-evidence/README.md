@@ -6,7 +6,8 @@ Einzelne Run-JSONs, Zwischenreviews, Paketkopien und alte Builds wurden entfernt
 Die abgeschlossenen Pläne und Decisions behalten Ergebnis, bestätigte Fixes,
 historische FAILs und verbleibende Nachweisgrenzen.
 
-Frühere Rohdatenpfade in diesen Berichten sind historische Verweise. Bei
+Verweise auf inzwischen entfernte Pläne oder Decisions in diesen unveränderten
+Berichten sind historische Verweise. Frühere Rohdatenpfade ebenso. Bei
 konkretem Bedarf lässt sich eine damalige Datei aus dem lokalen Git-Stand
 `ebabd5b7083b8bf932c42442c3d1e452e44647ad` lesen: `git show <Stand>:development/plan-evidence/<Datei>`.
 Die Rohdaten werden nicht erneut als vollständiger Arbeitsbaum angelegt.

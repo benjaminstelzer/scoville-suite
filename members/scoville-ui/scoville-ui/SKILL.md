@@ -1,7 +1,7 @@
 ---
 name: scoville-ui
 description: "Implement or audit interfaces through their framework and design system. Use for information structure, layout, interface wording, components, states, interactions, responsiveness, accessibility and rendered checks. The WordPress adapter covers plugin-owned wp-admin pages, including hypothetical implementation advice; pure visual concepts keep their design scope. Excludes non-UI backend work and prose unrelated to interface text."
-compatibility: "Agent Skills host with reference access and the project's framework tools. Geometry proof needs DOM or equivalent measurement; visual proof needs viewed renders; interaction proof needs an interactive runtime. Source-only or screenshot-only tasks report missing evidence. No mandatory network. Developed for Codex and Claude Code; other hosts untested. Python 3.11+ for the bundled text-size checker; manual fallback only without suitable Python. Helper errors do not enable fallback."
+compatibility: "Agent Skills host with reference access and the project's framework tools. Geometry proof needs DOM or equivalent measurement; visual proof needs viewed renders; interaction proof needs an interactive runtime. Source-only or screenshot-only tasks report missing evidence. No mandatory network. Developed for Codex and Claude Code. Python 3.11+ for the bundled text-size checker; manual fallback only without suitable Python. Helper errors do not enable fallback."
 ---
 
 # Scoville UI
@@ -10,8 +10,9 @@ Implement and verify UI through its established framework, platform and design
 system. An owner is the source responsible for a decision or behavior: product
 requirements for intent, a design system for visuals, or a component for mechanics.
 
-Before reading machine reports, logs or structured state, or writing
-instructions, reviews or reports, read and apply the
+Before requesting or reading machine reports, logs or structured state, writing
+instructions, reviews or reports, or answering a disputed factual or technical
+conclusion, read and apply the
 [shared writing rules](references/writing.md). Approved interface text retains
 its product contract.
 

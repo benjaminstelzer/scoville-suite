@@ -73,8 +73,8 @@ rate or general performance result.
 
 ## Compatibility
 
-Designed for Codex and Claude Code; other hosts are untested.
-Both profiles need reference access and the project's framework tools. Geometry
+Designed for Codex and Claude Code.
+Requires reference access and the project's framework tools. Geometry
 proof needs DOM or equivalent measurement, visual proof needs viewed renders,
 and interaction proof needs an interactive runtime. No mandatory network.
 The bundled size checker uses Python 3.11+; manual fallback is available only
@@ -165,7 +165,7 @@ these principles.
 
 ## Developer links
 
-[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/development/instruction_tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
+[Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-ui) | [Tests](https://github.com/benjaminstelzer/scoville-suite/blob/main/development/tests/test_build_suite.py) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-ui/development/README.md)
 
 ## License
 

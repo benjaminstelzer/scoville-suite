@@ -15,6 +15,8 @@ General berücksichtigt vorhandene anwendbare AGENTS.md und CLAUDE.md. Lesen bei
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 „AGENTS.md schließt CLAUDE.md ein“ entscheidet weder Schreibziel noch Konflikte oder Neuanlage.
 
 ## Drivers

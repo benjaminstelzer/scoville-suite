@@ -23,6 +23,21 @@ spec.loader.exec_module(builder)
 
 
 class RuntimeGateTests(unittest.TestCase):
+    def test_runtime_assets_match_normalized_snapshot_text_on_crlf_checkouts(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / 'runtime-tests'
+            source.mkdir()
+            expected = {gate.WORKFLOW: b'workflow\n', 'tests/test_runtime_helpers.py': b'# test\n'}
+            for name, data in expected.items():
+                filename = 'runtime-helpers.yml' if name == gate.WORKFLOW else 'test_runtime_helpers.py'
+                (source / filename).write_bytes(data.replace(b'\n', b'\r\n'))
+            with patch.object(gate, '__file__', str(root / 'build/runtime_ci.py')):
+                self.assertEqual(expected, gate.assets())
+                for name, data in expected.items():
+                    filename = 'runtime-helpers.yml' if name == gate.WORKFLOW else 'test_runtime_helpers.py'
+                    self.assertEqual(builder.package_bytes(source / filename), data)
+
     def test_workflow_and_gate_cover_the_same_platforms_and_python_versions(self):
         workflow = (SHARED / 'runtime-tests/runtime-helpers.yml').read_text(encoding='utf-8')
         systems = tuple(part.strip() for part in re.search(r'^\s+os: \[(.+)\]$', workflow, re.M)[1].split(','))

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - 2026-10-29 - Follow-up corrections
+
+- Load data rules before requesting output and writing rules for disputed conclusions; align consistency evidence and conditional validation routes.
+
 ## Unreleased - 2026-10-29
 
 - Consolidate authority and reference routing; select source, concept, geometry,

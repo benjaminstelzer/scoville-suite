@@ -58,8 +58,8 @@ and the behavior boundaries above; Plan owns its native records.
 ## Resolve decision ambiguity
 
 Follow SKILL.md's choice and permission rules. In unattended work, choose within
-the authorized decision space; preserve unresolved material choices as proposals
-and stop dependent work while continuing independent authorized work.
+the explicitly authorized decision space; preserve unresolved material choices
+as proposals and stop dependent work while continuing independent authorized work.
 
 ## Hand off and resume
 

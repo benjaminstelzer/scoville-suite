@@ -53,8 +53,9 @@ equally authoritative rules before dependent edits.
 
 ## Prepare the change
 
-Before reading machine reports, logs or structured state, or drafting or
-rewording project content, read the [shared writing rules](references/writing.md).
+Before requesting or reading machine reports, logs or structured state, drafting
+or rewording project content, or answering a disputed factual or technical
+conclusion, read the [shared writing rules](references/writing.md).
 When authoring project rules, also apply
 [agent instruction design](references/instruction-design.md). Keep the requested
 project scope; add no Skill packaging or invocation machinery to project rules.

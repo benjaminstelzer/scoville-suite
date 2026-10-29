@@ -23,6 +23,8 @@ CLI behält seinen eigenen Sessionvertrag.
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Der frühere Ask-Vertrag übernahm den unzuverlässigen Kapazitäts-Workaround.
 Ein neuer Bereinigungs-Final bestätigt keine freigegebenen Hostplätze.
 

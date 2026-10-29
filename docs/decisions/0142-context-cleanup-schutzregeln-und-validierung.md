@@ -24,6 +24,8 @@ kein bestandener Check. Andere Fehler sind davon nicht gedeckt.
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 „Directly accessible“ ließ den Speicherort von Schutzregeln offen. Der lokale
 Skill-Creator-Validator schließt zudem ein gültiges optionales Formatfeld aus.
 

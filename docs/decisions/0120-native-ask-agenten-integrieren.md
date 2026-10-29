@@ -25,6 +25,8 @@ Helper-Ausgaben bleiben erhalten. Die Hostgrenzen gelten weiter.
 
 ## Problem
 
+Revision: Überarbeitet am 2026-10-29 im Rahmen der vom Nutzer freigegebenen Altbestandsbereinigung (PLAN-0057).
+
 Separate Berater-Chats verursachen zusätzliche Titel-, Pinning- und
 Archivierungsverwaltung gegenüber nativen Subagenten.
 
