@@ -75,6 +75,16 @@ W-002-Kriterien und der abgeschlossene reguläre PLAN-9001 bleiben davon getrenn
 
 ## Grenzen
 
+Auslieferung: Vier Paketvarianten bestehen Struktur- und Veröffentlichungsgates;
+beide öffentlichen Planprofile sind gültig. `check_all.py` besteht mit zwölf
+Prüfgruppen, null Fehlern und zwei leeren Python-Testpfaden (Code/Handoff;
+Modellfälle separat). Acht öffentliche Repositories wurden ausschließlich auf
+main gepusht und gegen ihre Remote-HEADs geprüft. 23 vorhandene lokale
+Skillverzeichnisse wurden aus den passenden Paketen aktualisiert: neun unter
+`.agents`, acht unter `.codex` und sechs für Claude. Inventar, Dateigröße und
+erhaltene Änderungszeit sind geprüft; ein Reload bereits laufender Chats ist
+damit nicht nachgewiesen.
+
 - Verschlüsselte native Nachrichten verhindern den unabhängigen Bytevergleich
   der übertragenen Nachrichten im Hosttrace. Verlustfreie Builder-Verträge und
   unveränderte Frageübergabe sind technisch geprüft; funktionale Empfängeraktionen

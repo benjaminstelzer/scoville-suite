@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0060
-status: active
+status: completed
 created: 2026-10-29
 updated: 2026-10-29
-current_item: W-009
 ---
 
 # Folgefixes aus dem Review der ausgelieferten Skills
@@ -146,14 +145,14 @@ Evidence: 5 Sol-6.1/low-Empfänger, Quellenreview und gezielte Fixabnahme; 26 lo
 
 ### W-009 Aktuelle Pakete bauen und Veröffentlichung vorlegen
 
-Status: in_progress
+Status: done
 Depends on: [W-008]
 Blocked by: []
 Decisions: [ADR-0144, ADR-0199, ADR-0204, ADR-0225, ADR-0226, ADR-0227]
 Outcome: Geprüfte aktuelle Pakete und zutreffende Veröffentlichungstexte stehen zur Freigabe bereit und werden nur im genehmigten Umfang veröffentlicht.
 Acceptance: Gemeinsame Basis in Einzelpaketen und beiden Suites stimmt mit den Ownern überein; Hostunterschiede sind begründet. Build, Paket-/README-Prüfungen, beide Planprofile und check_all.py bestehen. PLAN-0060 und seine verknüpften Decisions einschließlich ADR-0227 sind in beiden öffentlichen Suite-Exporten enthalten und ihre Verweise auflösbar. Geändertes paketiertes Python erhält die erforderliche Runtime-Matrix. Changelogs und README-Quellen beschreiben nur beobachtete Ergebnisse. Öffentlicher Export enthält weder private Namen noch private Audits. Der ausdrücklich freigegebene Stand ist auf main veröffentlicht und gegen den Remote verifiziert.
-Instructions: Aktuelle Nutzerfreigabe: geprüften Auftragsstand bauen, auf GitHub pushen und lokal aktualisieren. Je Repository die aktuell verifizierte Remote-main-Historie verwenden; kein Force-Push, keine neuen Tags oder Releases. Der echte Workflowtest nutzt einen eigenen Hauptthread mit gpt-6.1-sol/low für alle Rollen; offene Testgrenzen bleiben ausgewiesen.
+Instructions: []
 Steps:
-1. [status: in_progress] Betroffene README-Quellen anpassen, generierte Gesamttexte vollständig lesen und beide Profile bauen. Shared-Snapshots und zentralen Build regenerieren; passende private Runtime-Nachweise aus W-003 wiederverwenden und nur bei später geänderten Python-/CI-Testinputs aktualisieren. Transportprüfung, Modellverhalten und native Host-/Plattformgrenzen getrennt und zutreffend beschreiben. Fertig nach bestehenden technischen Prüfungen und einmaligem Paketvergleich aller betroffenen Consumer; keine neue Sicherungs-, Hash- oder Prosa-Prüfinfrastruktur.
-2. [status: todo] Konkrete Diffs, Ergebnisse, Grenzen und betroffene Repos vorlegen; gemäß aktueller Nutzerfreigabe ausschließlich main pushen, den Remote verifizieren und die vorhandenen lokalen Skills auf den veröffentlichten Stand aktualisieren. Fertig nach belegtem Remoteabgleich und Prüfung der lokalen Paketstände; tatsächliche Blocker bleiben offen.
-Evidence: Quellen und Empfängertests abgenommen; finale Runtime-CI 40955452986 besteht 6/6. Pakete und Veröffentlichungsunterlagen werden vorbereitet.
+1. [status: done] Betroffene README-Quellen anpassen, generierte Gesamttexte vollständig lesen und beide Profile bauen. Shared-Snapshots und zentralen Build regenerieren; passende private Runtime-Nachweise aus W-003 wiederverwenden und nur bei später geänderten Python-/CI-Testinputs aktualisieren. Transportprüfung, Modellverhalten und native Host-/Plattformgrenzen getrennt und zutreffend beschreiben. Fertig nach bestehenden technischen Prüfungen und einmaligem Paketvergleich aller betroffenen Consumer; keine neue Sicherungs-, Hash- oder Prosa-Prüfinfrastruktur.
+2. [status: done] Konkrete Diffs, Ergebnisse, Grenzen und betroffene Repos vorlegen; gemäß aktueller Nutzerfreigabe ausschließlich main pushen, den Remote verifizieren und die vorhandenen lokalen Skills auf den veröffentlichten Stand aktualisieren. Fertig nach belegtem Remoteabgleich und Prüfung der lokalen Paketstände; tatsächliche Blocker bleiben offen.
+Evidence: 4 Paketvarianten geprüft; 12 Checkgruppen/0 Fehler; Runtime-CI 6/6. 8 Remote-main-Stände und 23 lokale Installationen geprüft; Testgrenzen in Abnahme.
