@@ -15,7 +15,7 @@ no Skill-derived changes or claims. Report a conflicting repository requirement.
 
 All Skills in this suite must be installed and enabled. Use the applicable
 owner without rechecking sibling availability; load only task-needed instructions.
-Explicit activation requirements and user exclusions apply in either layout.
+Explicit activation requirements and user exclusions remain applicable.
 
 Plan owns its records' wording and lifecycle. It starts no execution workflow
 and chooses no dispatch routes. Run one editor at a time; do not change affected files

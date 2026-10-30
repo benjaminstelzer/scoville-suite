@@ -128,5 +128,5 @@ path and complete reading instruction for file delivery.
 
 All Skills in this suite must be installed and enabled. Use the applicable
 owner without rechecking sibling availability; load only task-needed instructions.
-Explicit activation requirements and user exclusions apply in either layout.
+Explicit activation requirements and user exclusions remain applicable.
 

@@ -66,7 +66,13 @@ duplicated rules and complete handoffs against their owning contracts. Record
 the reviewed scope and revision in that result. Recheck corrected findings where
 needed; the review record requires no separate authoring review or certificate.
 
-Before each canonical source commit, run `python development/check_all.py`.
-Commit only on exit 0. This aggregate gate complements the focused checks above.
-Generated distributions use the verified build of that gated source. Include a
+Before committing, run checks covering the changed behavior, contracts and affected
+consumers. For changes limited to Plan progress, approval records or documentation
+that affect no executable code, test inputs, build configuration or Skill behavior,
+check the affected record structure and links instead of running Python test suites.
+Use `python development/check_all.py` when focused checks cannot adequately cover
+the affected implementation or build interactions. Reuse passing results while
+their relevant inputs remain unchanged; a new commit, phase or role alone does
+not require reruns. Commit only when the required checks pass.
+Generated distributions use the verified build of that checked source. Include a
 Changelog entry in every changed distribution before its GitHub push.

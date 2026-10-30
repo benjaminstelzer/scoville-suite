@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - 2026-10-30 - Source reading and UTF-8 diagnostics
+
+- Clarify source reading, producer-owned authoring references and dependent UTF-8 stops.
+- Preserve complete captures and child status without encoding guesses or repeated producers.
+- Select development checks by affected behavior instead of repeating the full suite for record-only changes.
+
 ## Unreleased - 2026-10-30 - Capture and diagnostic follow-up
 
 - Preserve complete command captures without guessing a token budget. Catch POSIX SIGHUP and retain the original error when publication also fails.

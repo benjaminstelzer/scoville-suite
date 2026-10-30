@@ -50,7 +50,7 @@ WCAG 2.2 AA on the web and current platform guidance elsewhere.
 
 All Skills in this suite must be installed and enabled. Use the applicable
 owner without rechecking sibling availability; load only task-needed instructions.
-Explicit activation requirements and user exclusions apply in either layout.
+Explicit activation requirements and user exclusions remain applicable.
 
 UI owns task flow, information structure, new interface wording and terminology,
 framework-valid implementation, semantics, states, focus/input, responsive

@@ -27,7 +27,7 @@ changes, required guarantees, failure risks and the evidence needed to check the
 
 All Skills in this suite must be installed and enabled. Use the applicable
 owner without rechecking sibling availability; load only task-needed instructions.
-Explicit activation requirements and user exclusions apply in either layout.
+Explicit activation requirements and user exclusions remain applicable.
 
 For requested additions or cleanup in AGENTS.md, CLAUDE.md and PROJECT_INDEX.md,
 use Scoville Project Context Cleanup for wording and placement. Plan retains
