@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0064
-status: active
+status: completed
 created: 2026-10-30
 updated: 2026-10-30
-current_item: W-003
 ---
 
 # Lesewege und UTF-8-Diagnosen präzisieren
@@ -49,7 +48,7 @@ Steps:
 Evidence: Drei native Sol6.1/low-Fälle mit tatsächlichen Reads ausgewertet. Kein allgemeiner Ladegewinn belegt; Instruktionsdesign-Ladeauslöser präzisiert.
 
 ### W-003 Relevante Integrationsprüfung und Auslieferung
-Status: in_progress
+Status: done
 Depends on: [W-001, W-002]
 Blocked by: []
 Decisions: []
@@ -57,7 +56,7 @@ Outcome: Der geprüfte Stand ist veröffentlicht und im freigegebenen lokalen Um
 Acceptance: Betroffene Tests, Paket-/Link-/Exportprüfungen und erforderliche neue Python-Matrix bestehen. Alle geänderten manifestierten Ziele sind auf main remote verifiziert. Codex-Kopien und ausschließlich Claude-Plan sind aktuell, übriges Claude unverändert. Abgeschlossener Plan und Bericht enthalten ehrliche Grenzen.
 Instructions: Unveränderte Prüfungen wiederverwenden, Metadatenupdates mit Profilvalidator prüfen. Keine unaufgeforderte Sessionfortsetzung.
 Steps:
-1. [status: in_progress] Shared-Snapshot und Changelogs aktualisieren, gezielt prüfen und Kandidaten committen; fertig bei geprüfter Quelle und passenden Consumerpaketen.
-2. [status: todo] Erforderliche CI ausführen, bestehende Builds/Exporte veröffentlichen und lokale Pakete aktualisieren; fertig bei Remote- und Installationsbelegen im vorgegebenen Umfang.
-3. [status: todo] Plan und Bericht korrekt abschließen und Abschlussrecords ausliefern; fertig bei validiertem abgeschlossenem Profil und sauberer Quelle.
-Evidence: []
+1. [status: done] Shared-Snapshot und Changelogs aktualisieren, gezielt prüfen und Kandidaten committen; fertig bei geprüfter Quelle und passenden Consumerpaketen.
+2. [status: done] Erforderliche CI ausführen, bestehende Builds/Exporte veröffentlichen und lokale Pakete aktualisieren; fertig bei Remote- und Installationsbelegen im vorgegebenen Umfang.
+3. [status: done] Plan und Bericht korrekt abschließen und Abschlussrecords ausliefern; fertig bei validiertem abgeschlossenem Profil und sauberer Quelle.
+Evidence: Relevante Tests und Runtime-Matrix 41078747966 bestanden. Sieben Ziele remote geprüft, 17 lokale Kopien aktualisiert, übriges Claude unverändert. Ladegrenzen im Bericht.

@@ -35,3 +35,11 @@ Die einzelne gezielte Klärung wirkt im erneuten Fall auf den Instruction-Design
 - 34 Runtime-Tests bestanden, ein POSIX-Signalfall unter Windows ausgelassen. Enthalten sind vollständige ungültige Originalbytes, Kindstatus 7, unveränderte Einmalwirkung und die neue Diagnoseanweisung. Keine schwächere UTF-8-Abnahme.
 - Keine erneute vollständige check_all.py-Runde: Buildtool, Manifest und unabhängige Plan-/Setup-/Asklogik sind unverändert. Neue private Runtime-Matrix ist wegen geändertem paketiertem Python und CI-Test erforderlich.
 - Changelogs an Root und acht tatsächlich betroffenen Membern ergänzt. Skillwriter-Payload unverändert. README-Inhalte unverändert.
+
+## Auslieferung und Abschluss
+
+- Quellenstand: Suite a0ac508, Shared f7e16ae. Die neue private [Runtime-Matrix](https://github.com/benjaminstelzer/scoville-runtime-ci/actions/runs/41078747966) besteht mit sechs Jobs auf Windows, Ubuntu und macOS. Der lokale POSIX-Skip bleibt als lokale Grenze erhalten.
+- Vier Paketansichten gebaut und ihre Veröffentlichungsbelege geprüft. Beide Quellenexporte bestehen den Planvalidator. README-Dateien unverändert, vorhandene Prüfung wiederverwendet. Vollständige Git-Kandidatenbäume und Remote-main-Stände stimmen überein.
+- Veröffentlicht: General efb8b3cd, Mainloop 0ed92b4e, Code 83aef6a2, Handoff 3c37d33e, Plan 4a947716, UI c41552d0, Ask e12f8ff1. Skillwriter dfd02113 bleibt unverändert. Abschließende Planrecords folgen als reine Suite-Metadatenaktualisierung.
+- Lokale Pakete über den Skill-Installer vom verifizierten veröffentlichten Commit bezogen. 16 bestehende Codex-Kopien und ausschließlich Claude-Plan aktualisiert. Codex-Skillwriter unverändert aktuell. Inventar, Einstiegstexte und betroffene Runtimekopien geprüft. 82 Dateien der übrigen fünf Claude-Skills unverändert.
+- Keine neue Installation fehlender Pakete, Tags oder Releases. Keine Behauptung eines Reloads in bereits laufenden Chats oder allgemeiner Modellzuverlässigkeit. Die neuen lokalen Skills stehen ab dem nächsten Turn bereit.
