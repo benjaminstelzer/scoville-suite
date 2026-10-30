@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - 2026-10-30 - Capture and diagnostic follow-up
+
+- Support complete command capture without a numeric token limit and retain primary failure diagnostics.
+
 ## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
 
 - Apply common Code quality while designing UI code and before acceptance, without requiring optional Code for the inline repair stop.

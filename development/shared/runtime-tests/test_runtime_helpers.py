@@ -39,6 +39,69 @@ def packages(member):
 
 
 class RuntimeHelpers(unittest.TestCase):
+    def test_capture_without_token_limit_always_saves_complete_streams(self):
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        cases = ((0, False, False), (7, False, False), (125, False, False), (9, True, False), (0, False, True))
+        for exit_code, invalid, timeout in cases:
+            with self.subTest(exit_code=exit_code, invalid=invalid, timeout=timeout):
+                marker = self.base / f'once-{exit_code}-{invalid}-{timeout}'
+                stdout = b'BEGIN' + b'x' * 431000 + (b'\xff' if invalid else b'END')
+                stderr = b'needed diagnostic'
+                code = 'import sys,time;from pathlib import Path;p=Path(sys.argv[1]);p.write_text(p.read_text()+"x" if p.exists() else "x");sys.stdout.buffer.write(b"BEGIN"+b"x"*431000+' + repr(b'\xff' if invalid else b'END') + ');sys.stdout.buffer.flush();sys.stderr.buffer.write(b"needed diagnostic");sys.stderr.buffer.flush();' + ('time.sleep(60)' if timeout else f'sys.exit({exit_code})')
+                result = subprocess.run([sys.executable, '-X', 'utf8', str(checker),
+                    '--publish-full', '--project-root', str(self.project),
+                    '--timeout-seconds', '2', '--run', '--', sys.executable, '-c', code, str(marker)],
+                    capture_output=True, timeout=20)
+                self.assertEqual(result.returncode, 125 if invalid or timeout else exit_code)
+                metadata = json.loads(result.stderr if invalid or timeout else result.stdout)
+                self.assertEqual(metadata['capture_complete'], not timeout)
+                self.assertFalse(metadata['output_complete'])
+                self.assertLess(len(result.stdout) + len(result.stderr), 1600)
+                if not timeout:
+                    self.assertEqual(metadata['exit_code'], exit_code)
+                else:
+                    self.assertEqual(metadata['error'], 'timeout')
+                self.assertNotIn('recommended_max_utf8_bytes', metadata)
+                self.assertNotIn('tool_output_limit_tokens', metadata)
+                expected = f'exit={metadata["exit_code"]} stdout_bytes={len(stdout)} stderr_bytes={len(stderr)}\n'.encode() + b'stdout:\n' + stdout + b'\nstderr:\n' + stderr
+                self.assertEqual(Path(metadata['full_file']).read_bytes(), expected)
+                self.assertEqual(marker.read_text(), 'x')
+
+    def test_publication_failure_keeps_original_capture_error_and_process(self):
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        wrapper = self.base / 'double-failure.py'
+        wrapper.write_text('''import errno,sys
+from unittest.mock import patch
+sys.path.insert(0,sys.argv.pop(1))
+import check_text_size
+original=check_text_size.collect_output
+def unconfirmed(process, timeout):
+    out,err,failure=original(process,timeout)
+    assert failure == 'timeout'
+    return out,err,'timeout_cleanup_incomplete'
+storage_failure = (patch.object(check_text_size.os,'link',side_effect=OSError(errno.EOPNOTSUPP,'no hardlinks')) if sys.argv.pop(1) == 'link' else patch.object(check_text_size,'publish_full',side_effect=PermissionError(errno.EACCES,'write denied')))
+with patch.object(check_text_size,'collect_output',side_effect=unconfirmed), storage_failure:
+    raise SystemExit(check_text_size.main())
+''', encoding='utf-8')
+        pid_file = self.base / 'producer.pid'
+        producer = 'import os,sys,time;from pathlib import Path;Path(sys.argv[1]).write_text(str(os.getpid()));print("before-timeout",flush=True);time.sleep(60)'
+        for failure_mode in ('link', 'write'):
+            with self.subTest(failure_mode=failure_mode):
+                result = subprocess.run([sys.executable, str(wrapper), str(checker.parent), failure_mode, '--max-output-tokens', '2500',
+                    '--publish-full', '--project-root', str(self.project), '--timeout-seconds', '2', '--run', '--',
+                    sys.executable, '-c', producer, str(pid_file)], capture_output=True, timeout=20)
+                self.assertEqual(result.returncode, 125)
+                metadata = json.loads(result.stderr)
+                self.assertEqual(metadata['error'], 'publication_failed')
+                self.assertEqual(metadata['capture_error'], 'timeout_cleanup_incomplete')
+                self.assertEqual(metadata['process_id'], int(pid_file.read_text()))
+                self.assertFalse(metadata['capture_complete'])
+                if failure_mode == 'link':
+                    self.assertIn(b'before-timeout', Path(metadata['full_file']).read_bytes())
+                else:
+                    self.assertIsNone(metadata['full_file'])
+                    self.assertIn('No saved copy', metadata['instruction'])
+
     def test_publication_failure_retains_full_capture_without_repeating_effect(self):
         checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
         marker = self.base / 'once.txt'
@@ -99,38 +162,40 @@ with patch.object(check_text_size.os,'link',side_effect=OSError(errno.EOPNOTSUPP
         self.assertEqual(result.stderr, b'')
 
     @unittest.skipIf(os.name == 'nt', 'Windows TerminateProcess is not a catchable POSIX signal')
-    def test_checker_sigterm_stops_actual_family_and_preserves_available_bytes(self):
+    def test_checker_posix_signals_stop_actual_family_and_preserve_available_bytes(self):
         import signal
-        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
-        pids = self.base / 'signal-pids.json'
-        producer = 'import os,sys,subprocess,time,json;from pathlib import Path;p=subprocess.Popen([sys.executable,"-c","import time;time.sleep(60)"]);print("before-interruption",flush=True);Path(sys.argv[1]).write_text(json.dumps([os.getpid(),p.pid]));time.sleep(60)'
-        process = subprocess.Popen([sys.executable, str(checker), '--max-output-tokens', '1500',
-            '--publish-full', '--project-root', str(self.project), '--run', '--',
-            sys.executable, '-c', producer, str(pids)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        try:
-            deadline = time.monotonic() + 5
-            while not pids.exists() and time.monotonic() < deadline:
-                time.sleep(0.02)
-            self.assertTrue(pids.exists(), 'producer must start before interruption')
-            process.send_signal(signal.SIGTERM)
-            out, err = process.communicate(timeout=15)
-            self.assertEqual(process.returncode, 125, err)
-            self.assertEqual(out, b'')
-            meta = json.loads(err)
-            self.assertEqual(meta['error'], 'interrupted')
-            self.assertFalse(meta['capture_complete'])
-            self.assertIn(b'before-interruption', Path(meta['full_file']).read_bytes())
-            for pid in json.loads(pids.read_text()):
-                state = subprocess.run(['ps', '-o', 'stat=', '-p', str(pid)], capture_output=True, text=True, timeout=5).stdout.strip()
-                self.assertTrue(not state or state.startswith('Z'), f'owned process {pid} survived: {state}')
-        finally:
-            if process.poll() is None:
-                process.kill()
-                process.communicate(timeout=5)
-            if pids.exists():
-                for pid in json.loads(pids.read_text()):
-                    try: os.kill(pid, signal.SIGKILL)
-                    except ProcessLookupError: pass
+        for signum in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP):
+            with self.subTest(signal=signum):
+                checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+                pids = self.base / f'signal-pids-{int(signum)}.json'
+                producer = 'import os,sys,subprocess,time,json;from pathlib import Path;p=subprocess.Popen([sys.executable,"-c","import time;time.sleep(60)"]);print("before-interruption",flush=True);Path(sys.argv[1]).write_text(json.dumps([os.getpid(),p.pid]));time.sleep(60)'
+                process = subprocess.Popen([sys.executable, str(checker), '--max-output-tokens', '1500',
+                    '--publish-full', '--project-root', str(self.project), '--run', '--',
+                    sys.executable, '-c', producer, str(pids)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                try:
+                    deadline = time.monotonic() + 5
+                    while not pids.exists() and time.monotonic() < deadline:
+                        time.sleep(0.02)
+                    self.assertTrue(pids.exists(), 'producer must start before interruption')
+                    process.send_signal(signum)
+                    out, err = process.communicate(timeout=15)
+                    self.assertEqual(process.returncode, 125, err)
+                    self.assertEqual(out, b'')
+                    meta = json.loads(err)
+                    self.assertEqual(meta['error'], 'interrupted')
+                    self.assertFalse(meta['capture_complete'])
+                    self.assertIn(b'before-interruption', Path(meta['full_file']).read_bytes())
+                    for pid in json.loads(pids.read_text()):
+                        state = subprocess.run(['ps', '-o', 'stat=', '-p', str(pid)], capture_output=True, text=True, timeout=5).stdout.strip()
+                        self.assertTrue(not state or state.startswith('Z'), f'owned process {pid} survived: {state}')
+                finally:
+                    if process.poll() is None:
+                        process.kill()
+                        process.communicate(timeout=5)
+                    if pids.exists():
+                        for pid in json.loads(pids.read_text()):
+                            try: os.kill(pid, signal.SIGKILL)
+                            except ProcessLookupError: pass
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='runtime-')

@@ -148,8 +148,34 @@ class FormatConsistency(unittest.TestCase):
         self.replace(self.decision, 'scope: skill/profile-validation',
                      'scope: skill/profile-validation\ntransition_batch: batch-20260230-1\ntransition_batch_members: [ADR-0001]')
         result, value = self.run_json()
-        self.assertIn('DECISION_BATCH_HASH_INVALID', {d['code'] for d in value['diagnostics']})
+        issue = next(d for d in value['diagnostics'] if d['code'] == 'DECISION_BATCH_HASH_INVALID')
+        self.assertIn('date', issue['message'].lower())
+        self.assertIn('date', issue['suggestion'].lower())
+        self.assertIn('20260230', issue['observed'])
         self.replace(self.decision, 'batch-20260230-1', 'batch-20260228-1')
+        result, value = self.run_json()
+        self.assertEqual(result.returncode, 0, value)
+
+    def test_malformed_written_steps_do_not_request_legacy_next_action(self):
+        self.replace(self.plan, '1. Read the canonical files.\n2. Check the local record shapes.',
+                     '01. [status: done] One.\n02. [status: in_progress] Two.')
+        self.replace(self.plan, 'Next action: Run the structural validator.\n', '')
+        result, value = self.run_json()
+        codes = {d['code'] for d in value['diagnostics'] if d.get('record') == 'PLAN-0001/W-001'}
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('WORK_STEPS_INVALID', codes)
+        self.assertNotIn('WORK_NEXT_ACTION_REQUIRED', codes)
+        self.replace(self.plan, 'Steps:\n01. [status: done] One.\n02. [status: in_progress] Two.\n', '')
+        result, value = self.run_json()
+        self.assertIn('WORK_NEXT_ACTION_REQUIRED', {d['code'] for d in value['diagnostics']})
+
+    def test_step_trailing_space_diagnostic_names_repair(self):
+        self.replace(self.plan, '1. Read the canonical files.', '1. [status: in_progress] Do it. ')
+        result, value = self.run_json()
+        issue = next(d for d in value['diagnostics'] if d['code'] == 'WORK_STEP_STATUS_INVALID')
+        self.assertIn('trailing', issue['message'].lower())
+        self.assertIn('trailing', issue['suggestion'].lower())
+        self.replace(self.plan, '1. [status: in_progress] Do it. ', '1. [status: in_progress] Do it.')
         result, value = self.run_json()
         self.assertEqual(result.returncode, 0, value)
 
