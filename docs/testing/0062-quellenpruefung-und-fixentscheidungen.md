@@ -258,3 +258,24 @@ Die zuvor genannte Einzelrepo-Liste war an einer Stelle falsch: Das Manifest dek
 Private CI: Commit 24120a23f725c4ef408d6eba2b6b3e43de20111a, [Runtime helpers 41056288278](https://github.com/benjaminstelzer/scoville-runtime-ci/actions/runs/41056288278). Alle sechs Jobs auf Windows, macOS und Linux mit Python 3.11/aktuell erfolgreich. Der neue Modus-/Sektionsgrenztest läuft dort auf den jeweiligen Betriebssystemen. Native POSIX-Codex-Ausführung und Claude-Modellverhalten bleiben weiterhin ungeprüft.
 
 Vor dem Build wurden ausschließlich drei neue englische Changelog-Sätze im Wortlaut geglättet. Keine Skill-Instruktion und kein Python-Input geändert. Die Matrix bleibt für identische Python-Eingaben gültig, aktuelle Nicht-Python-Deltas werden vom vorhandenen Builder separat an den Kandidaten gebunden.
+
+## Auslieferung und Abschluss: W-010
+
+- Quellkandidat 03aea7753b605e8e0deba094c5fd63076a0f4824 aus sauberem main gebaut. Vier Paketansichten (General/Codex × Suite/Standalone), bestehende Release-Belege und Publikationsgates bestanden. 22 Paketstrukturen samt YAML-Frontmatter geprüft; eigenständige Cleanup-Distribution weiterhin ausgeschlossen.
+- Zwei Quell-Exportprofile mit Planvalidator und Links erfolgreich geprüft. Der vorhandene Exportweg prüft private Namen und Ausschlüsse. Unterschiedliche README-Gesamtvarianten einschließlich Installationspfaden, Kompatibilität und allgemeiner Entwicklungsgeschichte gelesen; identische Textteile nur einmal. Changelogs aus den kanonischen Quellen mitgeliefert.
+- Acht normale main-Pushs, keine neuen Tags, Releases oder Installation. Vorher saubere, nicht divergierende Distributionscheckouts; vollständiger Index gegen Exportdateien und danach vollständiger Remote-Gitbaum gegen Kandidatenbaum geprüft. Alle acht Ziele bleiben öffentlich, nicht archiviert und auf main. Sechs zusätzliche Live-Publikations-/Strukturaudits der Einzelskills bestanden.
+
+| Repository | Geprüfter funktionaler Auslieferungscommit | Remote-Dateibaum |
+| --- | --- | --- |
+| scoville-suite | 8a534bbf52b29920b9fb7ac5407064f4742d7a9d | vollständig identisch |
+| scoville-suite-for-codex-mainloop | 45b2241b323a83544295a37f18d20f474be1899c | vollständig identisch |
+| scoville-code | 40c9badaa0d86f910637a4ec95a75c78f41884c6 | vollständig identisch |
+| scoville-handoff | 78437f87002a23e4209be914ff285a3576bf708f | vollständig identisch |
+| scoville-plan | b56b531896402a0bb7fd08a6929f83f13084b849 | vollständig identisch |
+| scoville-ui | 05fc26921e173def42f5854accb6eb9b8deaa919 | vollständig identisch |
+| scoville-skillwriter | dfd021137f828512ac3ccaab38fae129af057bc6 | vollständig identisch |
+| scoville-ask-for-codex | 4d18f278b78ac8a3b568500940b56580b8e3f834 | vollständig identisch |
+
+Diese Tabelle nennt den funktionalen Export vor dem Abschlussrecord. Die abschließende Dokumentationslieferung enthält nur diesen Bericht, den abgeschlossenen Plan und den leeren Aktivzeiger; sie verändert keine Skill-/Helperbytes. Auch sie folgt dem bestehenden Build-/Export-/Remote-Abgleich.
+
+Ergebniszuordnung: W-001 bis W-006 und W-008 umgesetzt, W-007 als Quellenanalyse abgeschlossen, W-009 technisch und mit begrenzten Empfängerbeobachtungen geprüft, W-010 ausgeliefert. B1 blieb belegt unverändert; Berichtsempfehlungen G3–G5 wurden nicht ungefragt umgesetzt. Die oben dokumentierten Grenzen bleiben erhalten: kein Claude-Modell-/xhigh-/Produktivwirkungsbeweis, keine native POSIX-Codex-Ausführung, keine installierte Discovery und keine vollständige Korrektur-Review-Commit-Lifecycleabnahme. Die sechs CI-Jobs belegen die Python-Runtimepfade auf den dortigen Plattformen, nicht diese fehlenden Modell-/Hostnachweise.

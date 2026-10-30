@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0062
-status: active
+status: completed
 created: 2026-10-30
 updated: 2026-10-30
-current_item: W-010
 ---
 
 # Gemeinsame Qualitätskriterien und gezielte Helperkorrekturen
@@ -157,7 +156,7 @@ Steps:
 Evidence: Lokale Prüfungen und 16 Sol6.1/low-Beobachtungen dokumentiert. Private Runtime-Matrix 41056288278 auf 24120a2 mit sechs erfolgreichen Jobs; Nutzerfreigabe für gesamte Auslieferung erhalten.
 
 ### W-010 Nur ausdrücklich freigegebenen Stand ausliefern
-Status: in_progress
+Status: done
 Depends on: [W-009]
 Blocked by: []
 Decisions: [ADR-0226, ADR-0228]
@@ -165,6 +164,6 @@ Outcome: Der konkret freigegebene Kandidat ist konsistent exportiert und auf mai
 Acceptance: Auslieferung erfolgt ausschließlich im ausdrücklich freigegebenen Umfang mit passenden Changelogs. General, Mainloop und Einzel-Skills enthalten ihre vorgesehenen Varianten aus denselben Quellen; gemeinsame Qualitäts- und Helperdateien sind an ihren vorgesehenen Zielen identisch. Exportprofile und Links sind validiert, entfernte aktive Referenzen fehlen, und Remote-main entspricht dem geprüften Kandidaten. Keine lokale Installation, neuen Tags oder Releases.
 Instructions: Der Nutzer hat mit „Alles pushen“ private CI und sämtliche vorgesehenen öffentlichen Exporte/Pushs dieses Kandidaten freigegeben. Maßgeblich sind die zwei Suiteziele und die sechs Standalone-Repos des Manifests, einschließlich Ask; Cleanup bleibt suiteintern. Keine Installation. Erst nach konkreter Freigabe exportieren oder pushen. Bei materieller Änderung des geprüften Kandidaten die betroffenen Prüfungen und Freigabe erneuern; keine automatische Nutzung früherer Befugnisse.
 Steps:
-1. [status: in_progress] Nach Freigabe den vorhandenen Build-/Exportweg mit verifizierter aktueller Matrix nutzen, feste Staging-/Distributionsziele synchronisieren und Paket-/README-/Plan-/Privatschutzprüfungen ausführen. Fertig bei vollständigen freigegebenen Exporten und bestandenen Prüfungen ohne verdeckte Quelländerung.
-2. [status: todo] Nur freigegebene main-Stände pushen und deren Remote-Dateien sowie relevante Commitzuordnung prüfen. Fertig bei nachgewiesener Veröffentlichung und selbständig verständlichem Abschlussbericht mit je Punkt umgesetzt, begründet unverändert oder offen; Plan erst bei erfüllter Gesamtabnahme abschließen.
-Evidence: []
+1. [status: done] Nach Freigabe den vorhandenen Build-/Exportweg mit verifizierter aktueller Matrix nutzen, feste Staging-/Distributionsziele synchronisieren und Paket-/README-/Plan-/Privatschutzprüfungen ausführen. Fertig bei vollständigen freigegebenen Exporten und bestandenen Prüfungen ohne verdeckte Quelländerung.
+2. [status: done] Nur freigegebene main-Stände pushen und deren Remote-Dateien sowie relevante Commitzuordnung prüfen. Fertig bei nachgewiesener Veröffentlichung und selbständig verständlichem Abschlussbericht mit je Punkt umgesetzt, begründet unverändert oder offen; Plan erst bei erfüllter Gesamtabnahme abschließen.
+Evidence: Vier Builds und zwei Exportprofile geprüft; acht main-Pushs mit vollständiger Remote-Baumgleichheit, sechs Live-Einzelskill-Audits bestanden. Keine Installation, Tags oder Releases.
