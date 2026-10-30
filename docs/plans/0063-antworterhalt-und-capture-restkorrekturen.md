@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0063
-status: active
+status: completed
 created: 2026-10-30
 updated: 2026-10-30
-current_item: W-007
 ---
 
 # Antworterhalt und gezielte Capture-/Diagnosekorrekturen
@@ -99,7 +98,7 @@ Evidence: Gesamtcheck zwölf Gruppen, 530 ausgeführte Tests, acht Skips. Neue M
 
 
 ### W-007 Freigegebene Distributionen und lokale Skills ausliefern
-Status: in_progress
+Status: done
 Depends on: [W-006]
 Blocked by: []
 Decisions: []
@@ -107,7 +106,7 @@ Outcome: Der geprüfte Folgefix ist auf GitHub und im freigegebenen lokalen Inst
 Acceptance: Beide Suite-Exporte und alle tatsächlich geänderten Einzelrepo-Distributionen stammen aus einem sauberen, geprüften Quellcommit mit passender erfolgreicher Matrix. Paket-, Link-, Exportprofil- und Privatschutzprüfungen bestehen; Remote-main entspricht vollständig den verifizierten Kandidaten. Vorhandene Codex-Kopien enthalten ihre Mainloop-Variante, bei Claude Code wird nur Plan aus der General-Variante aktualisiert. Übrige Claude-Skills, Projekteinstellungen und fremde Skills bleiben erhalten. Keine neuen Tags oder Releases.
 Instructions: Aktuelle Nutzerfreigabe umfasst privaten CI-Push, Exporte, öffentliche main-Pushs und lokale Updates. Die spätere Präzisierung begrenzt Claude Code auf Plan. Veraltete ersetzte Paketdateien aus den freigegebenen Installationen entfernen; keine neue Installation fehlender Geschwister oder automatische Sessionfortsetzung.
 Steps:
-1. [status: in_progress] Vier Paketansichten mit Matrix 41068939874 über den bestehenden CLI-Build verifizieren, beide Quellprofile exportieren und vorgegebene öffentliche Checkouts synchronisieren; fertig bei geprüften Paketen, Exportprofilen, Links und vollständiger Kandidatenzuordnung.
-2. [status: todo] Nur geänderte main-Ziele pushen und vollständig remote abgleichen; vorhandene Codex-Skills sowie ausschließlich Claude-Plan aktualisieren und gegen die verifizierten Pakete prüfen. Fertig bei übereinstimmenden Remote-/Installationsinhalten und unverändertem nicht freigegebenem Umfang.
-3. [status: todo] Auslieferungsbelege in diesem Plan und im Bericht festhalten, Profil korrekt abschließen und die Abschlussrecords in beiden Suites nachliefern; fertig bei validiertem Endzustand, sauberem Quellstand und remote geprüftem Abschluss.
-Evidence: []
+1. [status: done] Vier Paketansichten mit Matrix 41068939874 über den bestehenden CLI-Build verifizieren, beide Quellprofile exportieren und vorgegebene öffentliche Checkouts synchronisieren; fertig bei geprüften Paketen, Exportprofilen, Links und vollständiger Kandidatenzuordnung.
+2. [status: done] Nur geänderte main-Ziele pushen und vollständig remote abgleichen; vorhandene Codex-Skills sowie ausschließlich Claude-Plan aktualisieren und gegen die verifizierten Pakete prüfen. Fertig bei übereinstimmenden Remote-/Installationsinhalten und unverändertem nicht freigegebenem Umfang.
+3. [status: done] Auslieferungsbelege in diesem Plan und im Bericht festhalten, Profil korrekt abschließen und die Abschlussrecords in beiden Suites nachliefern; fertig bei validiertem Endzustand, sauberem Quellstand und remote geprüftem Abschluss.
+Evidence: Sieben öffentliche main-Pushs mit vollständigem Remote-Abgleich; Skillwriter unverändert. Codex und ausschließlich Claude-Plan aktualisiert, übriges Claude unverändert. Matrix 6/6 bestanden.

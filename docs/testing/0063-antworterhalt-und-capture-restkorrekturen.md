@@ -49,3 +49,24 @@ Die spätere Nutzerfreigabe hebt die vorherige Push-/Export-/Installationssperre
 Private CI: Commit 194ea7125c3961a2c550daa4aa163f2ed03e8915, [Runtime helpers 41068939874](https://github.com/benjaminstelzer/scoville-runtime-ci/actions/runs/41068939874). Alle sechs Jobs auf Windows/macOS/Linux mit Python 3.11/aktuell erfolgreich. Damit ist der zuvor fehlende POSIX-Nachweis der SIGINT-/SIGTERM-/SIGHUP-Regressionsfälle auf Linux/macOS erbracht. Modellwirkung bleibt ungeprüft.
 
 Geänderte öffentliche Ziele: scoville-suite, scoville-suite-for-codex-mainloop, scoville-code, scoville-handoff, scoville-plan, scoville-ui und scoville-ask-for-codex. Skillwriter wird mitverglichen und ohne Änderung übersprungen. Alle bestehenden Ziele wurden auf main, ursprüngliche Sichtbarkeit, saubere Checkouts und fehlende Divergenz geprüft.
+
+## Verifizierte Auslieferung und Installation
+
+- Funktionaler Kandidat aus Quellcommit fb0aefc nach erfolgreicher neuer Matrix mit vier freigabefähigen CLI-Builds erzeugt. Publikationsgates, beide Quell-Exportprofile samt Links und Privatausschlüssen bestanden. README-Gesamttexte sind bytegleich zum bereits gelesenen vorherigen Stand und wurden nicht erneut als neue Texte geprüft. Unveränderte Paketstrukturnachweise wiederverwendet.
+- Sieben geänderte öffentliche Ziele auf main veröffentlicht. Vollständiger Gitbaum jedes Remote gegen den verifizierten Kandidaten abgeglichen, Sichtbarkeit erhalten. Skillwriter mitverglichen und ohne Änderung übersprungen. GitHub wies mehrere erste Pushs mit Internal Server Error beziehungsweise commit_refs-Fehler ab. Nach Beobachtung unveränderter Remote-Referenzen gelangen normale Fast-Forward-Pushs, ohne Force oder neue Commits zur Umgehung.
+
+| Repository | Funktionaler Auslieferungscommit | Ergebnis |
+| --- | --- | --- |
+| scoville-suite | b602954e8c114140d4191d98a07a221b698a4498 | veröffentlicht und vollständiger Remote-Baum geprüft |
+| scoville-ui | def0a67550044a802bc755c2a494da25e49a04d7 | veröffentlicht und vollständiger Remote-Baum geprüft |
+| scoville-skillwriter | dfd021137f828512ac3ccaab38fae129af057bc6 | unverändert, kein Push |
+| scoville-ask-for-codex | 5527258e9d074186f8355cc4b52f9ddce3e60ea6 | veröffentlicht und vollständiger Remote-Baum geprüft |
+| scoville-suite-for-codex-mainloop | 004d0b5b67f13aa5e1a42ffd9b53fcebcbbff2a9 | veröffentlicht und vollständiger Remote-Baum geprüft |
+| scoville-code | 8e27c902c0b7980be0701780c49054e2d886ec4c | veröffentlicht und vollständiger Remote-Baum geprüft |
+| scoville-handoff | be4c25d2b1b58f14d87867277c3324fd53699768 | veröffentlicht und vollständiger Remote-Baum geprüft |
+| scoville-plan | a7e7aeecc22dc4b16b0113be8213100fbc965818 | veröffentlicht und vollständiger Remote-Baum geprüft |
+
+- Lokale Installation aus exakt benannten veröffentlichten Suitecommits über den Host-Skill-Installer geladen. 16 geänderte Codex-Installationskopien und ausschließlich Scoville Plan bei Claude aktualisiert. Eine vorhandene Codex-Skillwriter-Kopie war bereits aktuell. Zwölf ersetzte alte Referenzdateien aus den freigegebenen Codex-Paketen entfernt. Fünf übrige Claude-Pakete blieben unverändert, keine fehlenden Geschwister neu installiert.
+- Installationsinventar, aktuelle Einstiegstexte und gemeinsame Checker geprüft. Echte kleine Aufrufe des neuen limitlosen Captures aus installiertem Codex-Code und Claude-Plan sowie des installierten Claude-Planvalidators bestanden. Keine Behauptung, dass laufende Agenten ihren bereits geladenen Kontext neu gelesen haben.
+- Abschließender vorgeschriebener Gesamtcheck lief parallel zur Auslieferung auf unveränderten Implementierungsquellen und bestand erneut mit zwölf Prüfgruppen. Die danach geschriebenen Abschlussfelder werden gezielt mit dem Planvalidator geprüft. Nachlieferung dieser Abschlussrecords verändert keine Skill-/Helperbytes.
+- Keine neuen Tags, Releases oder Änderungen an Projekteinstellungen. Keine Modellläufe oder General-Claude-Modellwirkung behauptet. Native POSIX-Codex-Ausführung bleibt von den nun belegten POSIX-Python-Signaltests getrennt.
