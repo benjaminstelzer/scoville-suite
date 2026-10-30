@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
+
+- Preserve complete captured output on publication failure and distinguish command status from capture failure.
+- Describe the development cycle and relevant rule-maintenance lessons.
+
 ## Unreleased - 2026-10-29 - Shared capture corrections
 
 - Preserve original bytes and explicit failure status on invalid UTF-8 or bounded command timeout, with noninteractive EOF.

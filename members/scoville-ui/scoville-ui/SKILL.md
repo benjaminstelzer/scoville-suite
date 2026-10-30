@@ -78,7 +78,7 @@ about those concerns.
 | Interface change, consistency audit or judgment of existing proof | Before an interface change, a consistency audit or judging existing proof, read [Validation](references/validation.md) for rendering, responsive behavior, interaction, visual quality or accessibility. |
 | UI decision fixed; proof only | Validation. Add Quality only for an open quality, state, accessibility-structure or mechanism question; Framework only for unresolved ownership or implementation path. Reuse existing proof; repeat no check without a concrete gap. |
 | Source-structure audit or unimplemented design direction | Framework and Quality keep their normal triggers. Omit Validation; report rendering, interaction and accessibility as unverified. Merely stating these gaps needs no Validation read. |
-| Review or audit of interface source code, including your final diff of a UI source change | Read [Code review quality](references/code-review.md) as an acceptance condition. Other rows keep their triggers. |
+| Choose or implement UI code; review or audit interface source code, including your final diff | Read [Code quality](references/code-quality.md) before choosing the implementation and before acceptance. Other rows keep their triggers. |
 | Page consistency | Audit with consistency focus; Quality and Validation with its coverage contract. Framework keeps its normal triggers. |
 
 Validation selects evidence by claim, including [Geometry and sight](references/ui-geometry-validation.md)
@@ -92,11 +92,10 @@ Inspect the scoped surface, framework version, owners and comparable patterns.
 Identify affected content, states, inputs, adaptation and semantics; settled
 design still requires correct mechanics. Reuse canonical components, tokens,
 variants, layouts and interactions; add a primitive only for a demonstrated gap.
-Choose the simplest sound framework-valid solution at the responsible owner and
-batch related changes.
+Apply shared Code quality within the framework's guarantees and batch related changes.
 
 Before accepting UI construction, updates or an interface-source review, inspect
-the final scoped diff under [Code review quality](references/code-review.md).
+the final scoped diff under [Code quality](references/code-quality.md).
 Its relevant paths include rendering and refresh helpers; preserve state,
 event and rendering semantics. Apply the selected Validation evidence, report
 source defects first and name specific gaps. A partial sample cannot establish

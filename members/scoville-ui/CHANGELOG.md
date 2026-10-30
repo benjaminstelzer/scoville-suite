@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
+
+- Apply common Code quality while designing UI code and before acceptance, without requiring optional Code for the inline repair stop.
+- Preserve complete command captures and describe the development cycle.
+
 ## Unreleased - 2026-10-29 - Repair and overflow checks
 
 - Give unsupported repeated repairs a clear exit while retaining open findings and valid evidence.

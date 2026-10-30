@@ -68,7 +68,7 @@ class ValidatorTest(unittest.TestCase):
             self.assertFalse(received['valid'])
             diagnostic = next(row for row in received['diagnostics']
                               if row['file'] == 'PROJECT_INDEX.md'
-                              and row['code'] == 'PROFILE_PATH_NOT_DIRECTORY')
+                              and row['code'] == 'PROFILE_PATH_NOT_FILE')
             self.assertEqual('regular Markdown file', diagnostic['expected'])
             self.assertTrue(diagnostic['suggestion'])
             self.assertEqual(mode, index.lstat().st_mode)
@@ -363,7 +363,7 @@ class ValidatorTest(unittest.TestCase):
         decision = "docs/decisions/0001-use-read-only-validation.md"
         cases = [
             (plan, "status: active\ncreated: 2026-08-08", "created: 2026-08-08\nstatus: active", "FRONTMATTER_KEY_ORDER"),
-            (plan, "status: active\ncreated: 2026-08-08", "status:\ncreated: 2026-08-08", "STATUS_INVALID"),
+            (plan, "status: active\ncreated: 2026-08-08", "status:\ncreated: 2026-08-08", "FRONTMATTER_ENTRY_INVALID"),
             (plan, "## Goal", "## Purpose", "SECTION_H2_ORDER"),
             (plan, "Status: in_progress\nDepends on: []", "Depends on: []\nStatus: in_progress", "WORK_FIELD_ORDER"),
             (plan, "Status: todo\nDepends on: [W-001]", "Status:\nDepends on: [W-001]", "STATUS_INVALID"),
@@ -375,9 +375,9 @@ class ValidatorTest(unittest.TestCase):
                 "WORK_STEPS_INVALID",
             ),
             (plan, "Next action: Run the structural validator.", "Next action:", "WORK_NEXT_ACTION_REQUIRED"),
-            (decision, "status: accepted\ncreated: 2026-08-08", "status:\ncreated: 2026-08-08", "STATUS_INVALID"),
+            (decision, "status: accepted\ncreated: 2026-08-08", "status:\ncreated: 2026-08-08", "FRONTMATTER_ENTRY_INVALID"),
             (decision, "scope: skill/profile-validation", "scope: Skill Profile", "DECISION_SCOPE_INVALID"),
-            (decision, "scope: skill/profile-validation", "scope:", "DECISION_SCOPE_INVALID"),
+            (decision, "scope: skill/profile-validation", "scope:", "FRONTMATTER_ENTRY_INVALID"),
             (decision, "accepted: 2026-08-08\n", "", "DECISION_ACCEPTED_REQUIRED"),
         ]
         for relative, old, new, expected in cases:

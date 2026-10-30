@@ -24,7 +24,7 @@ def _merge(base: dict, overlay: dict, path: str) -> dict:
     return result
 
 
-def read_config(project_root: Path | str | None = None) -> dict:
+def read_config(project_root: Path | str | None = None, *, sections=("ask", "workflow")) -> dict:
     try:
         root = Path(project_root) if project_root is not None else Path.cwd()
     except TypeError as error:
@@ -45,7 +45,7 @@ def read_config(project_root: Path | str | None = None) -> dict:
         ) from error
     if not isinstance(value, dict):
         raise ValueError(f"{path} must contain a JSON object at the root; wrap settings in {{}}")
-    for section in ("ask", "workflow"):
+    for section in sections:
         if section in value and not isinstance(value[section], dict):
             raise ValueError(f"{path}: $.{section} must be an object; wrap its settings in {{}}")
     return value
@@ -54,4 +54,4 @@ def read_config(project_root: Path | str | None = None) -> dict:
 def section(name: str, project_root: Path | str | None = None) -> dict:
     if name not in {"ask", "workflow"}:
         raise ValueError(f"name={name!r} is not a Scoville configuration section; choose 'ask' or 'workflow'")
-    return read_config(project_root).get(name, {})
+    return read_config(project_root, sections=(name,)).get(name, {})

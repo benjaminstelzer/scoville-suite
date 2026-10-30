@@ -12,7 +12,10 @@ scale to its purpose, with a small, relevant joke where it fits.
 2. `## How it works`: concrete process bullets.
 3. `## What it enforces`: requirement bullets.
 4. `## What it costs`: actual added tokens, time, fees or required user effort as bullets. One useful point is enough. No invented metrics, activation rules or disclaimers against unclaimed benefits.
-5. `## How it was developed`: short prose about setbacks, useful changes and lessons.
+5. `## How it was developed`: short prose about the development cycle of ideas,
+   tests, analysis of real workflows in large projects and refinement. Keep a
+   Skill's relevant history and lessons, without individual test reports,
+   model-run details or transport diagnostics.
 6. `## Compatibility`
 7. `## Install`
 8. `## Configuration`, when there are settings to explain.

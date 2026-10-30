@@ -28,21 +28,14 @@ The Skill has no paid service calls. Host model usage and any explicitly request
 
 ## How it was developed
 
-Maintained in the Scoville Suite source project. Standalone and Suite packages share the same instruction-design source.
+Skillwriter grew from maintaining Skills and reusable prompts in real projects.
+Repeated rules and explanations made instructions longer without necessarily
+making them clearer. Shared writing guidance became the basis for both
+standalone Skills and the Suite.
 
-### Model tests
-
-On 2026-10-29, controlled local tests in Codex with `gpt-6.1-sol` / `low` loaded
-the public Skillwriter entry and the host's Skill Creator. The approved,
-limited revision was applied with an exact pre-edit copy retained; metadata
-and boundaries were preserved, and a separate review-only copy stayed unchanged.
-The host's format validator passed. These observations cover the tested revision
-and review cases. This run did not cover other authoring cases, installed
-discovery or current Claude behavior; the edited Skills were not executed.
-
-A separate standalone-prompt revision preserved the requested meaning and
-baseline. The agent also read Skill Creator outside that fixture's permitted
-scope. The task result passed; compliance with that reading boundary did not.
+Revisions combine focused tests with analysis of how agents use the instructions
+in real workflows. The results guide what to clarify, remove or keep. The next
+revision is tested and used again.
 
 ## Compatibility
 

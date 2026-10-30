@@ -276,31 +276,23 @@ The Skill has no paid service calls. Host model usage and any explicitly request
 
 [How to use Scoville Skillwriter](members/scoville-skillwriter/README.md#how-to-use).
 
+## How it was developed
+
+Scoville grew from recurring problems in real software projects. Separate Skills
+addressed code, interfaces, planning and the work around them. Shared guidance
+keeps their foundations aligned, while the Codex workflow evolved toward a main
+chat supported by focused exploration and independent review.
+
+Development follows a repeated cycle: develop an idea, test it, and analyze how
+it behaves in real workflows on large projects. Those observations guide the
+next revision, which is tested and used again. The individual Skill READMEs
+describe the changes and lessons that shaped each one.
+
 ## Compatibility
 
 Developed for Codex and Claude Code, with Python 3.11+ for helpers and
 manual alternatives only when suitable Python is unavailable. Missing helpers,
 dependencies or helper errors stop the affected operation.
-
-## Model checks and limits
-
-The General edition contains six maintained Skills. Earlier controlled native
-Codex cases covered these six shared Skills through Codex-edition packages. The cases ran with `gpt-6.1-sol` and `low` reasoning.
-The candidate cases preserved the tested
-task, authority and evidence boundaries, including complete data checks,
-one-time effects and continuation. The Skillwriter case also used the host's
-Skill Creator; the Handoff receiver applied its host rules.
-
-The latest follow-up checks used the same model and effort for native adviser
-and dispatch delivery, complete-file reading and large-report evaluation.
-They distinguish complete captures from command success and unreadable UTF-8.
-The [follow-up evidence](docs/testing/0060-fertige-skills-folgefixes.md) records
-the tested scope, correction cases and remaining transport limits.
-
-These are local case results, not a suite-wide reliability rate or proof of
-installed discovery, other hosts or product integrations. The revised
-instructions have no current Claude behavior tests. Technical Claude Code
-compatibility is separate from the observed Codex results.
 
 ## Install the suite
 

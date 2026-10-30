@@ -10,6 +10,20 @@ SPEC.loader.exec_module(config)
 
 
 class ScovilleConfigDiagnosticsTests(unittest.TestCase):
+    def test_section_read_is_independent_but_whole_document_validation_remains_strict(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            path = root / '.scoville/config.json'
+            path.parent.mkdir()
+            path.write_text('{"ask":null,"workflow":{"schema_version":2}}', encoding='utf-8')
+            self.assertEqual(config.section('workflow', root), {'schema_version': 2})
+            for read in (lambda: config.read_config(root), lambda: config.section('ask', root)):
+                with self.assertRaisesRegex(ValueError, r'\$\.ask must be an object'):
+                    read()
+            path.write_text('{', encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'invalid JSON'):
+                config.section('workflow', root)
+
     def test_bad_section_names_path_and_corrected_config_is_read(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

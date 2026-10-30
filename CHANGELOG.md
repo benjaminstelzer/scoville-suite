@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
+
+- Use the same Code quality criteria during design and acceptance. Keep roles, independent scope and output contracts distinct.
+- Preserve complete captures on publication failure, handle controlled interruptions and distinguish child status from capture failure.
+- Align Plan format consumers, selection boundaries and compact actionable diagnostics without adding a parser framework or snapshot guarantee.
+- Describe development through ideas, tests, real project analysis and refinement. Keep standalone siblings optional.
 ## Unreleased - 2026-10-29 - Packaged Skill review fixes
 
 - Align Plan section boundaries and actionable diagnostics; retain nested Goal headings and reject incomplete ID inventories.

@@ -144,9 +144,9 @@ continue permitted observations and report the specific missing evidence as
 unverified, never passed. Do not skip usable tools for convenience. Audit stays
 read-only. Final measurements and viewed images must represent the same revision,
 content and state. Reuse evidence while its relevant inputs and conditions remain
-unchanged. For UI source changes, the entrypoint's shared Code review is an
-acceptance condition for construction and updates as well as explicit review.
-For repeated failed corrections, apply Code's evidence-based Stop repetition:
+unchanged. UI code uses the entrypoint's shared Code quality at implementation
+choice and acceptance, including construction, updates and explicit review.
+For repeated failed corrections,
 continue with a supported diagnosis, not another unchanged attempt. Keep
 acceptance open and name the actual prerequisite; Audit remains read-only.
 

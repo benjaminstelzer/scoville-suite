@@ -66,8 +66,8 @@ class SharedRulesTests(unittest.TestCase):
                                         for name, data in files.items()
                                         if name != path and name.endswith(('.md', '.py'))))
 
-    def test_code_review_policy_is_self_contained_only_in_its_consumers(self):
-        source = (SHARED / 'prompting/code-review.md').read_text(encoding='utf-8')
+    def test_code_quality_policy_is_self_contained_only_in_its_consumers(self):
+        source = (SHARED / 'prompting/code-quality.md').read_text(encoding='utf-8')
         consumers = {'scoville-code', 'scoville-ui', 'scoville-workflow-for-codex', 'scoville-ask-for-codex'}
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),
                                 ('codex', 'suite'), ('codex', 'standalone')]:
@@ -75,14 +75,15 @@ class SharedRulesTests(unittest.TestCase):
             for member in config['members']:
                 with self.subTest(profile=profile, layout=layout, member=member['name']):
                     files = builder.payload(ROOT, member, config)
-                    path = member['name'] + '/references/code-review.md'
+                    path = member['name'] + '/references/code-quality.md'
                     self.assertEqual(member['name'] in consumers, path in files)
                     if member['name'] in consumers:
                         self.assertEqual(source, files[path].decode('utf-8'))
                     routes = {
-                        'scoville-code': [('SKILL.md', 'references/code-review.md'),
-                                          ('references/implementation-review.md', 'code-review.md')],
-                        'scoville-ui': [('SKILL.md', 'references/code-review.md')],
+                        'scoville-code': [('SKILL.md', 'references/code-quality.md'),
+                                          ('references/change-workflow.md', 'code-quality.md'),
+                                          ('references/validation.md', 'code-quality.md')],
+                        'scoville-ui': [('SKILL.md', 'references/code-quality.md')],
                     }
                     for file, target in routes.get(member['name'], []):
                         text = files[member['name'] + '/' + file].decode('utf-8')

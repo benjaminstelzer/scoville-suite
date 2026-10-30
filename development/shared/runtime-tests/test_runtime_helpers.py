@@ -10,6 +10,7 @@ import shlex
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,6 +39,99 @@ def packages(member):
 
 
 class RuntimeHelpers(unittest.TestCase):
+    def test_publication_failure_retains_full_capture_without_repeating_effect(self):
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        marker = self.base / 'once.txt'
+        # Unsupported hardlinks are a real filesystem limit. Inject that boundary
+        # after actual creation/close of the complete capture, not a fake result.
+        wrapper = self.base / 'unsupported-link.py'
+        wrapper.write_text('''import errno,sys
+from unittest.mock import patch
+sys.path.insert(0,sys.argv.pop(1))
+import check_text_size
+with patch.object(check_text_size.os,'link',side_effect=OSError(errno.EOPNOTSUPP,'no hardlinks')):
+    raise SystemExit(check_text_size.main())
+''', encoding='utf-8')
+        producer = 'import sys;from pathlib import Path;p=Path(sys.argv[1]);p.write_text(p.read_text()+"x" if p.exists() else "x");sys.stdout.buffer.write(b"BEGIN"+b"x"*431000+b"END");sys.stderr.buffer.write(b"required error");sys.exit(7)'
+        result = subprocess.run([sys.executable, '-X', 'utf8', str(wrapper), str(checker.parent),
+            '--max-output-tokens', '2000', '--publish-full', '--project-root', str(self.project),
+            '--run', '--', sys.executable, '-c', producer, str(marker)], capture_output=True, timeout=25)
+        self.assertEqual(result.returncode, 125)
+        self.assertEqual(result.stdout, b'')
+        meta = json.loads(result.stderr)
+        self.assertEqual(meta['error'], 'publication_failed')
+        self.assertTrue(meta['capture_complete'])
+        self.assertEqual(meta['exit_code'], 7)
+        self.assertLessEqual(len(result.stderr), 1600)
+        output = b'BEGIN' + b'x' * 431000 + b'END'
+        error = b'required error'
+        expected = f'exit=7 stdout_bytes={len(output)} stderr_bytes={len(error)}\n'.encode() + b'stdout:\n' + output + b'\nstderr:\n' + error
+        self.assertEqual(Path(meta['full_file']).read_bytes(), expected)
+        self.assertEqual(marker.read_text(), 'x')
+        self.assertIn('OSError', meta['reason'])
+
+    def test_existing_wrong_target_is_preserved_and_recovery_contains_original(self):
+        package = next(packages('scoville-code'))
+        source = self.base / 'original.txt'
+        data = b'whole original content'
+        source.write_bytes(data)
+        directory = self.project / '.scoville/temp'
+        directory.mkdir(parents=True)
+        target = directory / (hashlib.sha256(data).hexdigest() + '.txt')
+        target.write_bytes(b'existing content')
+        result = self.run_cli(package, 'check_text_size.py', '--file', source,
+                              '--publish-full', '--project-root', self.project, ok=False, raw=True)
+        self.assertEqual(result.returncode, 2)
+        meta = json.loads(result.stderr)
+        self.assertEqual(meta['status'], 'publication_failed')
+        self.assertEqual(Path(meta['full_file']).read_bytes(), data)
+        self.assertEqual(target.read_bytes(), b'existing content')
+        self.assertEqual(source.read_bytes(), data)
+
+    def test_child_exit_125_is_complete_output_not_capture_failure(self):
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        result = subprocess.run([sys.executable, str(checker), '--max-output-tokens', '1000',
+                                '--run', '--', sys.executable, '-c', 'print("actual child output");raise SystemExit(125)'],
+                               capture_output=True, timeout=20)
+        self.assertEqual(result.returncode, 125)
+        self.assertIn(b'exit=125 ', result.stdout)
+        self.assertIn(b'actual child output', result.stdout)
+        self.assertEqual(result.stderr, b'')
+
+    @unittest.skipIf(os.name == 'nt', 'Windows TerminateProcess is not a catchable POSIX signal')
+    def test_checker_sigterm_stops_actual_family_and_preserves_available_bytes(self):
+        import signal
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        pids = self.base / 'signal-pids.json'
+        producer = 'import os,sys,subprocess,time,json;from pathlib import Path;p=subprocess.Popen([sys.executable,"-c","import time;time.sleep(60)"]);print("before-interruption",flush=True);Path(sys.argv[1]).write_text(json.dumps([os.getpid(),p.pid]));time.sleep(60)'
+        process = subprocess.Popen([sys.executable, str(checker), '--max-output-tokens', '1500',
+            '--publish-full', '--project-root', str(self.project), '--run', '--',
+            sys.executable, '-c', producer, str(pids)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            deadline = time.monotonic() + 5
+            while not pids.exists() and time.monotonic() < deadline:
+                time.sleep(0.02)
+            self.assertTrue(pids.exists(), 'producer must start before interruption')
+            process.send_signal(signal.SIGTERM)
+            out, err = process.communicate(timeout=15)
+            self.assertEqual(process.returncode, 125, err)
+            self.assertEqual(out, b'')
+            meta = json.loads(err)
+            self.assertEqual(meta['error'], 'interrupted')
+            self.assertFalse(meta['capture_complete'])
+            self.assertIn(b'before-interruption', Path(meta['full_file']).read_bytes())
+            for pid in json.loads(pids.read_text()):
+                state = subprocess.run(['ps', '-o', 'stat=', '-p', str(pid)], capture_output=True, text=True, timeout=5).stdout.strip()
+                self.assertTrue(not state or state.startswith('Z'), f'owned process {pid} survived: {state}')
+        finally:
+            if process.poll() is None:
+                process.kill()
+                process.communicate(timeout=5)
+            if pids.exists():
+                for pid in json.loads(pids.read_text()):
+                    try: os.kill(pid, signal.SIGKILL)
+                    except ProcessLookupError: pass
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix='runtime-')
         self.addCleanup(self.temp.cleanup)
@@ -376,6 +470,45 @@ Evidence: []
             self.assertEqual('ultra',json.loads(path.read_text(encoding='utf-8'))['workflow']['main']['reasoning'])
             advice=self.run_cli(ask,'ask.py','--project-root',self.project,'--adviser','sol')
             self.assertEqual('max',advice['config']['advisers'][0]['effort'])
+
+    def test_setup_preserves_actual_modes_and_rejects_redirected_config_write(self):
+        import stat
+        for package in packages('scoville-setup'):
+            path = self.project / '.scoville/config.json'
+            path.parent.mkdir(exist_ok=True)
+            path.write_text('{"other":7}', encoding='utf-8')
+            path.chmod(0o640)
+            mode = stat.S_IMODE(path.stat().st_mode)
+            self.run_cli(package, 'setup.py', 'set', '--project-root', self.project,
+                         request={'workflow': {'main': {'reasoning': 'medium'}}})
+            self.assertEqual(stat.S_IMODE(path.stat().st_mode), mode)
+            self.assertEqual(json.loads(path.read_text())['other'], 7)
+            outside = self.base / 'unchanged.json'
+            outside.write_bytes(path.read_bytes())
+            path.unlink()
+            try:
+                path.symlink_to(outside)
+            except OSError as error:
+                self.skipTest(f'symlink unavailable: {error}')
+            original = outside.read_bytes()
+            self.run_cli(package, 'setup.py', 'set', '--project-root', self.project,
+                         request={'workflow': {'main': {'reasoning': 'high'}}}, ok=False)
+            self.assertTrue(path.is_symlink())
+            self.assertEqual(outside.read_bytes(), original)
+
+    def test_workflow_section_read_and_setup_error_summary_remain_distinct(self):
+        for package in packages('scoville-setup'):
+            path = self.project / '.scoville/config.json'
+            path.parent.mkdir(exist_ok=True)
+            path.write_text('{"ask":null,"workflow":{"schema_version":2}}', encoding='utf-8')
+            workflow = package.parent.parent / 'scoville-workflow-for-codex/scoville-workflow-for-codex'
+            resolved = self.run_cli(workflow, 'resolve_model_pair.py', '--show-config', '--project-root', self.project)
+            self.assertTrue(resolved['valid'])
+            path.write_text('{"ask":null,"workflow":false}', encoding='utf-8')
+            shown = self.run_cli(package, 'setup.py', 'show', '--project-root', self.project, ok=False)
+            self.assertFalse(shown['ok'])
+            self.assertEqual(set(shown['diagnostics']), {'ask', 'workflow'})
+            self.assertNotIn('effective', shown)
 
     def test_own_active_main_pair_and_identity_in_every_package(self):
         host=self.base/'host';sessions=host/'sessions';sessions.mkdir(parents=True)
@@ -874,9 +1007,13 @@ Evidence: []
         target.write_bytes(b'existing content must survive')
         rejected = self.run_cli(package, 'check_text_size.py', '--file', missing, '--max-output-tokens', 10000, '--publish-full', '--project-root', self.project, ok=False, raw=True)
         self.assertEqual(rejected.stdout, '')
-        self.assertIn(str(target), rejected.stderr)
+        failure = json.loads(rejected.stderr)
+        self.assertEqual(failure['status'], 'publication_failed')
+        self.assertIn(str(target), failure['message'])
         self.assertEqual(target.read_bytes(), b'existing content must survive')
-        self.assertFalse(list(target.parent.glob('tmp*')))
+        recovery = Path(failure['full_file'])
+        self.assertEqual(recovery.read_bytes(), missing.read_bytes())
+        self.assertEqual(set(target.parent.glob('tmp*')), {recovery})
         safe = self.base / 'corrected project Ä 中文'
         safe.mkdir()
         corrected = self.run_cli(package, 'check_text_size.py', '--file', missing,

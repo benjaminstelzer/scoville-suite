@@ -75,6 +75,12 @@ W-002-Kriterien und der abgeschlossene reguläre PLAN-9001 bleiben davon getrenn
 
 ## Grenzen
 
+Nachtrag vom 2026-10-30: Die spätere ausdrückliche Nutzerfreigabe für Build,
+GitHub-Push und lokale Aktualisierung war bei Abschluss nur im Bericht und im
+geänderten Plan festgehalten. Die Ausnahme zur ursprünglichen Installationssperre
+ist nun in [ADR-0228](../decisions/0228-publikationsgrenzen-und-einmalige-installationsfreigabe.md)
+nachgetragen. ADR-0225 ist entsprechend superseded; PLAN-0060 bleibt abgeschlossen.
+
 Auslieferung: Vier Paketvarianten bestehen Struktur- und Veröffentlichungsgates;
 beide öffentlichen Planprofile sind gültig. `check_all.py` besteht mit zwölf
 Prüfgruppen, null Fehlern und zwei leeren Python-Testpfaden (Code/Handoff;

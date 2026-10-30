@@ -1,8 +1,8 @@
 # Changelog
 
-## Unreleased - 2026-10-29 - Source and report scope
+## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
 
-- Clarify the shared distinction between required source contracts and machine reports by purpose and content, preserving complete required prose.
+- Describe the general development cycle and relevant authoring lessons.
 
 ## Unreleased - 2026-10-29 - Follow-up corrections
 

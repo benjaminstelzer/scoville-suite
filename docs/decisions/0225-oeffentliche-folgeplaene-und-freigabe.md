@@ -1,10 +1,11 @@
 ---
 format_version: 1
 id: ADR-0225
-status: accepted
+status: superseded
 created: 2026-10-29
 accepted: 2026-10-29
 scope: suite/source-export
+superseded_by: ADR-0228
 ---
 
 # Öffentliche Folgepläne mit ausdrücklicher Veröffentlichungsfreigabe

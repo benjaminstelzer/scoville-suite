@@ -1,0 +1,170 @@
+---
+format_version: 1
+id: PLAN-0062
+status: active
+created: 2026-10-30
+updated: 2026-10-30
+current_item: W-010
+---
+
+# Gemeinsame Qualitätskriterien und gezielte Helperkorrekturen
+
+## Goal
+
+Autoren kennen und verwenden schon beim Entwerfen dieselben fachlichen Kriterien, die später ihre Abnahme bestimmen. Code, UI-Code, Pläne und Instruktionen beziehen diese Kriterien aus ihrem jeweiligen zuständigen Owner; Rollenrechte, Prüfverfahren und Ergebnisformate bleiben getrennt. Code quality gilt gemeinsam für Ausführer sowie Code-Reviewer in Code, UI, Workflow und Ask. Ein Reviewer bleibt unabhängig und kann übersehene Defekte finden, führt aber keine strengeren Kriterien allein wegen seiner Rolle ein (ADR-0229).
+
+Die nachgeprüften Punkte des Grundauftrags und des Follow-ups A–F sowie die übernommenen Restpunkte aus PLAN-0061 gehören zu diesem Plan; vorhandene Änderungen und gültige Nachweise bleiben erhalten. Die [Befundmatrix](../testing/0062-quellenpruefung-und-fixentscheidungen.md) enthält die konkrete Zuordnung. G bleibt außerhalb der ausdrücklich übernommenen Dokumentationskorrekturen Analyse; ebenso die drei abschließenden Berichtspunkte. Standalone-Skills benötigen keine Geschwister.
+
+Pfade beziehen sich auf die Suitewurzel skills/private/scoville-suite/; members/ und development/readme/ sind deren kanonische Quellen. ../shared/ bezeichnet das Geschwisterrepo skills/private/shared/. Garantierte Semantik, Rollen, Sicherheit, vollständige benötigte Inhalte und feste Schnittstellen bleiben erhalten, außer einer hier ausdrücklich beschriebenen Korrektur. Skilltexte werden mit Skillwriter und dem Skill Creator des Hosts, Helper und Tests mit Code bearbeitet. Modell-Verhaltenstests verwenden gpt-6.1-sol/low.
+
+Pushs einschließlich privater CI-Pushs, Quell-Exporte und Veröffentlichung benötigen die ausdrückliche Freigabe des konkreten Umfangs. Keine neuen Tags, Releases, Historienumschreibung oder lokale Installation. ADR-0226 schützt private Inhalte; ADR-0228 begrenzt Veröffentlichung und frühere einmalige Befugnisse. Eine alte CI-Matrix gilt nicht für veränderte Python-Eingaben.
+
+## Non-goals
+
+- Keine pauschale Neufassung aller Skills, universelle Qualitätsdatei für unterschiedliche Fachdomänen oder zusätzliche Checklistenpflicht.
+- Keine Umsetzung von Teil G außerhalb der ausdrücklich aus PLAN-0061 übernommenen Punkte; die drei abschließenden Analysepunkte bleiben Bericht.
+- Keine Beschränkung unabhängiger Reviews auf vorgegebene Befunde, feste Zwei-Runden-Grenze oder künstliche Zwischencommits zur Deltaermittlung.
+- Kein optionaler Vorher-nachher-Modellvergleich ohne eigene Kostenfreigabe und keine Behauptung besserer Modellwirkung aus Textvergleich oder Quelltests.
+- Keine automatische Konfigurationsmigration, neue Branches oder Worktrees.
+- Keine Änderungen an historischen Testbelegen, außer einer ausdrücklich als Nachtrag erkennbaren Korrektur der widersprüchlichen Auslieferungsdokumentation.
+
+## Work items
+
+### W-001 Gemeinsame Kriterien vor Entwurf und Abnahme wirksam machen
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0229]
+Outcome: Autoren und Reviewer erreichen dieselben fachlichen Qualitätskriterien rechtzeitig und ohne konkurrierende Kopien.
+Acceptance: code-quality.md ersetzt den bisherigen Qualitätsowner in sämtlichen aktiven Quellen, Manifestzielen, Helpern und Tests ohne paketspezifische Rückverweise. Code und UI wenden ihn schon bei der Lösungswahl an; Workflow-Main erreicht ihn vor der Implementierung über seinen bestehenden Ladeweg ohne Regel-Reload pro Step. Workflow-Reviewer erhalten ihn eingebettet; Ask verwendet je Route weiterhin den verpflichtenden vollständigen Ladeverweis oder die Einbettung. Er enthält Entwurfsqualität, statische Aufwandsprüfung, Cachekorrektheit und dieselbe Grundlage für fehlende und hinzugefügte Absicherung. Der echte Workflow-Reviewerauftrag und Asks Review-Vorgabe binden ihre Ergebnisentscheidung ausdrücklich an diese Grundlage: korrekt weggelassene hypothetische Härtung ohne Anforderung oder glaubwürdig erreichbaren Fehler ist kein Defekt, kein changes_requested und kein blockierender Befund; optionaler Rat bleibt nur dort zulässig, wo der Ergebnisvertrag ihn erlaubt. Fehlende erforderliche Absicherung bleibt ein Defekt. Berechtigungen, Ergebnisfelder, unabhängiger Reviewscope und relevante Ausnahmen bleiben erhalten. Fachfremde Reviews wenden die jeweiligen Autorenkriterien an; für bereits symmetrische Plan-, UI-Fach- und Instruktionsregeln werden keine unbelegten Änderungen eingeführt.
+Instructions: Keine Kriterien aus Code auf fachfremde Plan- oder Instruktionsarbeit übertragen. Gleiches Kriterium verlangt weder identische Rollen noch identische Prüfmethode. Historische Changelogs nicht wegen alter Dateinamen umschreiben.
+Steps:
+1. [status: done] Baseline des tatsächlich bearbeiteten Stands einschließlich übernommener Änderungen erfassen und die bereits belegte Owner-/Ladezuordnung in der Befundmatrix für Code, UI, Ask, Workflow, Plan und Skillwriter übernehmen. Die ausdrückliche Nutzerentscheidung zur Kriterienparität im bestehenden ADR-Verfahren festhalten. Fertig bei nachvollziehbaren Schreib-/Abnahmereferenzen und konkreter Änderungsliste ohne offene Suche nach weiteren Regelproblemen.
+2. [status: done] ../shared/prompting/code-review.md zu code-quality.md umbenennen und suite.json sowie sämtliche aktiven Consumer anpassen. Abhängigkeits-/Kapselungskriterien und Cacheverträge dort konsolidieren; cost-and-cache.md entfernen, Modul-Split-Erreichbarkeit in Validation erhalten und implementation-review.md nur bei verbleibendem eigenen Vertrag behalten. Fertig bei einem Kriterienowner, vollständigen aktiven Referenzen und unveränderten Rollen-/Ergebnisverträgen.
+3. [status: done] Grundauftrag und A1–A3 in Ladewegen und Ergebnisverträgen umsetzen: Entwurf und Abnahme nutzen denselben Owner; fehlende wie zusätzliche Absicherung benötigen Anforderung oder glaubwürdigen erreichbaren Fehler und eine tatsächliche Lücke. build_dispatch_prompt.py und adviser.md binden blockierende Ergebnisentscheidungen ausdrücklich daran. Bestehendes Verhalten, Schadensfolgen und Fault-Injection-Grenze erhalten. Greenfield-Absicht rollenneutral in code-quality.md behandeln: der Autor leitet sie aus dem Auftrag ab und fragt nur bei materieller Designwirkung nach; der lesende Reviewer meldet ungeklärte materielle Absicht als offene Entscheidung. Den Layout-Fallback für ganz neue Projekte nicht auf neue Komponenten ausweiten. Fertig bei konsistenten Kriterien, erforderlichen frühen Lade-Triggern und technischen Prompt-/Routingtests mit gültigen wie ausgeschlossenen Fällen.
+4. [status: done] Die konkret belegte fachliche Zuordnungslücke in Asks adviser.md korrigieren: Code-Reviews nutzen Code quality, andere Artefakte ihre zuständigen Autorenkriterien; unabhängige neue Defekte bleiben zulässig. Plan-, UI-Fach- und Skillwriterregeln sind laut Befundmatrix bereits gemeinsam geroutet und werden nicht auf Verdacht geändert; weitere vermutete Asymmetrien nur in W-007 berichten. Die mit echten Helpern erzeugten Revieweraufträge unverändert mit gpt-6.1-sol/low für zwei abgegrenzte Fälle prüfen: korrekt weggelassene hypothetische Härtung bei sonst erfüllter Abnahme ergibt pass; fehlende erforderliche Absicherung ergibt changes_requested. Vorab festgelegt: drei frische Läufe je Fall und nativer Route (Workflow-Step-Reviewer, Ask-Review), insgesamt zwölf; beobachtete Verhältnisse je Fall/Route berichten, einzelne Läufe nur als Einzelbeobachtung. Ask liefert entsprechend keinen blockierenden beziehungsweise einen belegten erforderlichen Befund ohne neue Statusfelder. Der Claude-CLI-Pfad erhält technische Transport-/Promptnachweise; Claude-Verhalten bleibt ungeprüft. Fertig bei beobachteter Ergebnisentscheidung nach dem gemeinsamen Maßstab und erhaltenen Rollen-/Transportgrenzen; Erwartungen bleiben außerhalb der Empfängeraufträge, technische Validierung bleibt von Modellwirkung getrennt.
+Evidence: Qualitätsowner/Ladewege konsolidiert; 146 technische Tests bestanden. Beide nativen Routen je Fall 3/3 erwartete Entscheidungen mit gpt-6.1-sol/low. Grenzen in Befundmatrix; Integration folgt.
+
+### W-006 Plan-Auswahl und Validierung am gemeinsamen Format ausrichten
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: []
+Outcome: Validator und Selector behandeln denselben Profilzustand konsistent und liefern knappe verwertbare Diagnosen ohne neue Formatarchitektur.
+Acceptance: F1–F12 sind anhand konkreter Fälle erledigt oder begründet verworfen. Gültige und ungültige Step-/Frontmatterfälle stimmen überein; Root-Sicherheit bleibt vor Normalisierung gewahrt. Auswahl und Position weisen einen inaktiven Indexplan korrekt ab; explizite erlaubte Inspektion bleibt möglich. Recordbenannte reguläre Dateien in unmittelbaren lesbaren Unterordnern meldet der Validator als nicht unterstützte Ablage mit nichtblockierender Warnung, ohne Inhaltseinbeziehung, Links zu folgen oder weitere Rekursion; valid/Exit-Semantik, Selector und Next-ID bleiben dabei unverändert. Budgetüberschreitung bleibt von Formatfehler getrennt; vollständige benötigte Daten sind auf zulässigem Weg zugänglich. Diagnosen nennen tatsächliche Quellen, vermeiden unberechtigte Folgefehler und erhalten den bestehenden Consumervertrag. Unbelegte Gleichzeitigkeitserkennung wird nicht versprochen.
+Instructions: Kein neues Parserframework, rekursives Archivmanagement, globaler Änderungswächter oder ungefragter Diagnose-Schemawechsel.
+Steps:
+1. [status: done] F1–F4 an select_context.py, validate_profile.py und markdown_structure.py nachvollziehen und die kleinste gemeinsame Semantik umsetzen. Den Defaultdeckel als internes Budget mit ausdrücklich erlaubtem begrenztem Retry einordnen, bindende Caps erhalten. Fertig nach Regressionen für große gültige Profile, Step 01, leere Supersession, inaktive Indexposition und Root mit .. einschließlich Symlinkgrenze; explizite erlaubte Draft-/Endplaninspektion bleibt möglich, Budgetfortsetzung erhält vollständige Daten ohne stilles Erhöhen unbekannter Limits.
+2. [status: done] F5–F10 für H2-Leerzeichen, Lesefehler, Quellorte, Batch-/Decision-Fallbacks, begrenzte Unterordnerwarnung und null-/Pfaddiagnosen korrigieren. Übernommene Orte von CURRENT_ITEM_INVALID und WORK_ITEM_MISSING getrennt von F7 für WORK_LIST_INVALID/WORK_FIELD_INVALID in parse_inline_ids, single_field und parse_steps behandeln; kein Befund fällt durch Zusammenfassung weg. Verschobene current_item-Felder und explizite Auswahlargumente statt erfundener Zeile 1 prüfen. Fertig bei verständlicher Korrektur des Primärfehlers, weiterhin sichtbaren unabhängigen Fehlern, konkreten Recordorten und passenden positiven wie negativen Fällen; bestehende Grammatik und Datentypen nur gezielt berichtigen.
+3. [status: done] F11 und F12 gegen tatsächliche Implementierung und gemessene Ausgabe einordnen. Nicht vorhandene Vorher-/Nachher-Änderungserkennung aus der Zusage entfernen statt neue Infrastruktur zu bauen; den bereits vorhandenen Sonderfall FILE_CHANGED_DURING_READ korrekt beschreiben. JSON zunächst ohne Schemaänderung kompakt serialisieren. Fertig bei unveränderten strukturierten Feldern, messbar erklärter Ausgabe und aktueller Doku ohne unbewiesenes Dateistabilitätsversprechen.
+Evidence: 141 Plan-Tests bestanden, ein POSIX-FIFO-Fall unter Windows ausgelassen. Profil gültig; kompakte JSON-Ausgabe 233 statt 296 Bytes. F1–F12 und Grenzen in Befundmatrix.
+
+### W-002 Workflow-Aufträge und Korrekturfortsetzung vereinfachen
+Status: done
+Depends on: [W-001, W-006]
+Blocked by: []
+Decisions: []
+Outcome: Mainloop-Aufträge sind kompatibel geprüft, und Korrekturen nutzen vorhandene Reviewbelege ohne Verlust unabhängiger Prüfung.
+Acceptance: B1 ist anhand vorhandener Belege als nicht bestätigter Blocker abgeschlossen, B2–B4 sind korrigiert oder begründet unverändert. Native Identität, Turnbindung und Reihenfolge bleiben erhalten. Gemeinsame Kriterien und Absicherungsregel aus W-001 sowie der evidenzbasierte Wiederholungsstopp begrenzen unnötige Reviewkosten. Re-Reviews erhalten den vollständigen ursprünglichen Step-Scope und offenen Befunde; vorhandene gültige Belege werden ohne mechanische Wiederholung genutzt. Work-Item-Abschlussreviews bleiben vollständig. Installation hat einen Regelowner; der Vertrag eines benutzerdefinierten Selectors stimmt mit seiner tatsächlichen Decision-Projektion überein. main mit einer ganzen Work-Item-Unit wird vor Selector und Validator abgewiesen; gültige Einzelsteps und Reviewer-Closure bleiben möglich.
+Instructions: Keine Reviewverengung, feste Rundenzahl oder Snapshot-/Hashpflicht als Ersatz für Git einführen. Workflow-Testprofile verwenden gültiges Schema 2; die lokale Schema-1-Konfiguration ist ein gesonderter Cleanup-Voraussetzungsfall, keine B1- oder E5-Reparaturbefugnis.
+Steps:
+1. [status: done] Die vorhandene Widerlegung von B1 mit ihrem Beleg in der Befundmatrix abschließend festhalten. Fertig mit der Einordnung nicht bestätigter Blocker, ohne weitere Sessionmessung, neue B1-Tests oder Codeänderung.
+2. [status: done] operations.md und Reviewer-Auftrag für Korrekturfortsetzung konsistent straffen. Auf Korrektur, Auswirkungen und offene Befunde fokussieren, ohne den vollständigen unabhängigen Step-Diff-Prüfumfang einzuschränken; Wiederholungsstopp evidenzbasiert erhalten. Fertig bei unverändertem Closure-Vertrag und gezieltem Test mit unverändertem Altbeleg, echter neuer Auswirkung und offenem Befund.
+3. [status: done] Doppelte Installationspflicht auf ihren Einstieg reduzieren; --selector und gebündelte Decision-Projektion anhand des bestehenden Kompatibilitätsvertrags vereinheitlichen oder präzise dokumentieren. Fertig nach passenden Dispatchtests ohne neue Plugin-Infrastruktur oder still verlorenen Selector-Funktionen.
+4. [status: done] Übernommene frühe Main-Unit-Prüfung in build_dispatch_prompt.py umsetzen: --role main mit --unit W-001 vor abhängigen Aufrufen verständlich ablehnen. Fertig nach Gegenfall ohne Selector-/Validatoraufruf sowie positiven Einzelstep- und Reviewer-Closuretests.
+Evidence: B1 unverändert widerlegt. Workflow-Suite 86 Tests und danach 14 Dispatchtests bestanden; frühe Main-Abweisung und unverändert übergebene Altbelege/offene Befunde geprüft.
+
+### W-003 Große und abgebrochene Befehlsausgaben vollständig erhalten
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: []
+Outcome: Der gemeinsame Checker vermeidet unnötige Doppelläufe und bewahrt Originalausgaben bei Veröffentlichung und kontrollierbarem Abbruch.
+Acceptance: C1–C5 sind mit begrenzten realen Prozess-/Dateifällen geprüft oder als Plattformgrenze benannt. Bei vorhandener temporärer Schreibbefugnis sichert potentiell große Ausgabe bereits der erste Lauf. Nicht wiederholbare Effekte werden nie für einen Nachweis wiederholt. Veröffentlichungsfehler überschreiben keine Dateien und verlieren nicht die einzige Originalausgabe. Beherrschbare Abbrüche und offene Kindpipes enden nach dem vereinbarten Timeout ohne unbemerkte verwaiste Prozesse. Hostlimit, Checkerstatus und Kindstatus werden korrekt unterschieden; benötigte Inhalte bleiben vollständig nachlesbar.
+Instructions: SIGKILL ist nicht abfangbar; Yield-Zeit eines nativen Tools ist keine Tötungsfrist. Kein universelles Abbruchversprechen und kein erfundenes Hostbudget. Rollen ohne Schreibrecht erhalten keine unzulässige Speicher-/Wiederholungsanweisung.
+Steps:
+1. [status: done] ../shared/runtime/check_text_size.py und zugehörige output-delivery-/Fallback-Regeln für ersten vollständigen Capture und Verlustschutz korrigieren. Exklusive Veröffentlichung muss ihren vollständigen No-Replace-/Atomaritätsvertrag halten; direktes O_EXCL-Schreiben allein beweist ihn nicht. Fehlt eine tragfähige atomare Route, mit präziser Fehlerrückgabe die vollständige eigene Tempdatei als Wiederherstellungsquelle erhalten und benennen, statt Garantie oder Daten still zu verlieren. Fertig nach Regressionen mit großer Ausgabe, echtem Kind-Exit 125, bereits vorhandener Zieldatei, nicht unterstütztem Hardlink und fehlgeschlagenem Speichern, einschließlich vollständiger Originalbytes und Einmalwirkung.
+2. [status: done] Signal-/Timeoutbehandlung anhand realer Prozessgruppen und offener Enkelpipes auf den verfügbaren Plattformen prüfen und gezielt korrigieren. Fertig bei begrenzten Prüfungen der erreichbaren Abbruchwege, dokumentierter nicht abfangbarer Grenze und erhaltenem Exit-/Fehler-/Ausgabevertrag; fehlende Plattformnachweise bleiben offen.
+3. [status: done] General-Hostmechanik nach aktueller offizieller Claude-Code-Dokumentation einordnen: effektive Einstellung, Zeichen- statt Tokenlimit, Headerreserve und Fehlerrückgabe berücksichtigen. Fertig bei nachvollziehbarer konservativer Budgetableitung oder benannter Grenze sowie gesichertem vollständigem Nachlesen; keine Gleichsetzung von Read-back-Fenster, Inlinegrenze und Komplettdatei.
+Evidence: 8 Capturetests (ein POSIX-Signalfall ausgelassen) und 6 Git-/Dateitests bestanden. 431-KB-Ausgabe nach Linkfehler vollständig erhalten; Host-/Speichergrenzen in Befundmatrix.
+
+### W-004 Ask-Transport und Fehlerzuordnung verlustfrei vereinfachen
+Status: done
+Depends on: [W-001, W-003]
+Blocked by: []
+Decisions: []
+Outcome: Ask überträgt große Aufträge und Antworten vollständig und erhält die tatsächliche Sitzungs- und Fehleridentität.
+Acceptance: D1–D5 sind an ihren Eingangs-/Empfängergrenzen geprüft oder begründet unverändert. Kleine Aufträge bleiben direkt; große nutzen einen bestehenden zulässigen Dateipfad statt einer übergroßen JSON-Zeile. Claude-Antworten einschließlich Fehler-/Sitzungsdaten bleiben nach einmaligem Aufruf erhalten. Angeforderte und tatsächlich berichtete Modell-/Effortdaten sind getrennt; fehlende Daten bleiben unbekannt. Request-Decodierung und Presetvalidierung folgen dem nachgewiesenen Eingangs-/Konfigurationsvertrag, ohne ungeprüfte Abschwächung der Ganzprofilprüfung. Entfernte Zweige sind nachweislich unerreichbar, und manuelle Konfiguration hat eine rein lesende Validierungsroute.
+Instructions: Wörtliche Nutzerfrage und vollständige erforderliche Inhalte erhalten. Keine bezahlte Wiederholung nach Auswertungsfehlern, keine implizite --continue-Sitzungswahl. ADR-0227 ist nur eine frühere Ausnahme und autorisiert hier keinen neuen Claude-Verhaltenstest.
+Steps:
+1. [status: done] build_adviser_prompt.py für vorhandene kurze bzw. große Dateirouten anpassen; bei ask.py zuerst den bestehenden vollständigen Captureweg prüfen und nur eine verbleibende Lücke durch Ergebnisdatei mit kompaktem Status beheben. Fertig nach echten Helperausgaben an unveränderte gpt-6.1-sol/low-Empfänger für geänderte native Ausgabearten; den Claude-Transport technisch mit aufzeichnendem Platzhalter prüfen und Claude-Modellverhalten ohne gesonderte Freigabe offen lassen.
+2. [status: done] Fehlerpfade in ask.py/ask_claude.py samt Exit, Rohantwort, Sitzungs-ID, Budgetpräzision und tatsächlichem CLI-Ausgabeschema prüfen und bestätigte Defekte korrigieren. Serialisierte JSON-Requests mit UTF-8-BOM an stdin und --input-file gleich behandeln, ohne Frage-/Quelltextleser pauschal zu ändern. Die bewusste Ganzprofilvalidierung der Presets erhalten, sofern kein unterstützter Vertragsfehler nachgewiesen ist. Nur bewiesene tote Zweige entfernen und configuration.md um lesende Validierung ergänzen. Fertig nach gezielten Positiv-/Negativtests und realistisch aufgezeichnetem Schema oder ausdrücklich offener Schemaevidenz; keine aus angeforderten Einstellungen erfundene Laufmetadaten.
+Evidence: 59 Ask-Tests und vier Raw-/Timeouttests bestanden. Großer echter Helperauftrag von Sol6.1/low vollständig verarbeitet; Claude technisch, tatsächliches Claude-Modellverhalten offen.
+
+### W-005 Setup-Einstellungen ohne Rechte- oder Vertragsverlust bearbeiten
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: []
+Outcome: Setup meldet und korrigiert gültig abgrenzbare Konfigurationen ohne fremde Dateirechte oder Verweise still zu ändern.
+Acceptance: E1–E7 sind belegt korrigiert oder als Nichtdefekt eingeordnet. Vorhandene Dateimodi bleiben erhalten; Symlinkbehandlung ist vor jedem Ersetzen explizit und sicher. Cleanup prüft zulässige Reasoningwerte, erhält gültige nicht voreingestellte Paare und hat keinen Schema-2-Altfeld-Sackgassenpfad. Diagnosen nennen die Projektdatei. Abschnittsdiagnosen eines fehlerhaften Profils melden keinen Gesamterfolg; die isolierte Auflösung gültiger Workflow-Paare hängt nicht vom Typ einer unbenötigten Ask-Sektion ab. Ungültiges Gesamtdokument und Gesamtvalidierung bleiben Fehler. Modell-ID-Verträge sind konsistent. Die ausdrücklich gewünschten Setup-Hostmetadaten werden über den üblichen Paketweg ergänzt, ohne Aktivierung oder Invocation zu erweitern; ihr bisheriges Fehlen wird nicht als Laufblocker ausgegeben.
+Instructions: Bei Symlinks vorzugsweise vor Schreibeffekten verständlich abweisen statt unverlangter Weiterleitung. Cleanup ist eine ausdrückliche Migration; Lesen migriert nicht. Nicht Setup-Presets mit allen gültigen erhaltenen Werten verwechseln.
+Steps:
+1. [status: done] setup.py und gemeinsame Konfigurationsvalidierung für Rechte, Symlinks, tatsächlichen Diagnosepfad, Reasoning und Schema-2-Altfelder korrigieren. Fertig nach temporären gültigen/ungültigen Profilen, erhaltenen Zusatzfeldern und Modi sowie verweigertem Linkschreiben; nicht verfügbare Plattformfälle benennen.
+2. [status: done] show-Abschnittsdiagnosen und konsistente Modell-IDs anhand der bestehenden CLI-/Hostverträge korrigieren sowie agents/openai.yaml regulär ergänzen. Bei ungültigem Abschnitt alle relevanten Abschnittsfehler unter ok:false melden, ohne partielle effective-Erfolgspayload. Die quellenbelegte Kopplung über read_config prüfen: ein nichtobjektförmiger Ask-Abschnitt blockiert derzeit auch Workflow-Paarauflösung; inhaltliche Ask-Fehler innerhalb eines Objekts tun dies nicht. Nur die unberechtigte Kopplung an der betroffenen Lesegrenze lösen; global ungültiges JSON bleibt Fehler und die Ask-Ganzprofilvalidierung bleibt erhalten. Fertig nach Gegenfällen über resolve_model_pair --show-config und die gemeinsame Konfigurationsgrenze von --role main, ohne einen eigenen gültigen Main-Sessionnachweis zu behaupten; Teilfehler bleiben Fehler, legitime Paare und der Aktivierungsvertrag bleiben erhalten.
+Evidence: 28 Setup-, vier Shared-Konfigurations- und zwei weitere Pfad-/Rechtetests bestanden. Schema-2-Cleanup, Abschnittsfehler, Workflow-Lesegrenze und Metadatenausgabe geprüft.
+
+### W-007 Berichtspunkte und verbleibende Entscheidungen abschließen
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: []
+Outcome: Berichtspflichtige Vorschläge und echte Entscheidungskonflikte sind vom Korrekturauftrag getrennt nachvollziehbar.
+Acceptance: G1–G5 sowie Reviewpflicht, Ladeumfang und UTF-8-Verhalten sind mit konkreter Quelle und Grenze eingeordnet, ohne unter diesem Item Quellen zu ändern. Die ausdrücklich beauftragten G1/G2-Dokumentationskorrekturen gehören zu W-008, übriges G bleibt Bericht. Ladevolumen unterscheidet Metadaten, statischen möglichen Ladeweg und beobachtetes tatsächliches Laden. Das Review-Restrisiko ist ausdrücklich berichtet: Bringt jede frische Prüfung neue echte Befunde, besteht keine obere Rundengrenze; W-001 und Wiederholungsstopp sind keine Kostenobergrenze. Optionale A/B-Kosten, private CI und fehlende externe Empfänger-/Plattformnachweise bleiben erkennbare Freigabe- oder Evidenzgrenzen.
+Instructions: G bleibt außerhalb der übernommenen Restpunkte nur Bericht, auch wenn seine Vorschläge imperative Formulierungen enthalten. Ein Produktname des eigenständigen Plan Viewers ist kein belegter Codex-Zwang.
+Steps:
+1. [status: done] G und die drei abschließenden Berichtspunkte in der bestehenden Befundmatrix abschließend prüfen. Fertig bei jedem Unterpunkt mit Quelle, empfohlenem Umgang und Grenze; ungültiges UTF-8 mit --publish-full ausdrücklich vom ungesicherten Fall unterscheiden.
+2. [status: done] Noch nötige Nutzerentscheidungen aus konkreten Konflikten vorlegen; ohne Antwort nur unabhängige freigegebene Arbeit fortsetzen. Fertig bei übernommener Entscheidung oder offenem benanntem Blocker, ohne optionale Vergleiche oder Push-/Exportbefugnis zu unterstellen.
+Evidence: G1–G5 und R1–R3 mit Quellen, Empfehlung und Grenzen eingeordnet. Keine neue Produktentscheidung; keine obere Reviewkosten-Garantie. CI-/Publikationsfreigabe bleibt offen.
+
+### W-008 Übernommene README- und Dokumentationsrestpunkte fertigstellen
+Status: done
+Depends on: []
+Blocked by: []
+Decisions: [ADR-0226, ADR-0228]
+Outcome: Entwicklungsgeschichte, Publikationsbefugnisse und Standalone-Zuständigkeiten sind in den vorgesehenen Varianten verständlich und widerspruchsfrei.
+Acceptance: Die neun Skill-Entwicklungsabschnitte und beide Suite-Varianten erklären allgemeinen Entwicklungszyklus und relevante eigene Geschichte ohne interne Testfälle, Laufzahlen oder Transportberichte; fachliche Diagramme und technische Voraussetzungen bleiben erhalten. README.md im Profilrepository benjaminstelzer/BenjaminStelzer enthält kein Mermaid. Die Publikationsdecision bewahrt die frühere einmalige Freigabe von PLAN-0060 ohne neue generelle Publikationsbefugnis; keine neuen Tags oder Releases. Die drei übernommenen General-Plan-Workflowbezüge sind neutral und unverändert verbindlich, das modellgebundene Beispiel in Plan progress.md ist neutralisiert, die optionale Code-Kopplung der UI-Stopregel ist behoben und der unzutreffende Skillwriter-Changelog-Eintrag entfällt. Native Warteabschnitte sind am tatsächlichen Vertrag ohne unbelegte neue Schutzmechanismen eingeordnet. Standalone-Code erklärt an der Quelle seiner Familienliste, dass kein genannter Geschwister-Skill vorausgesetzt wird. Generierte READMEs stimmen mit den vervollständigten Quellen überein.
+Instructions: Vorhandene übernommene Quellenänderungen und gültige Nachweise nutzen, nicht erneut durchführen. Der fertige PLAN-0060 wird nicht wiedereröffnet. Nur den über die tatsächliche Änderung falschen historischen Skillwriter-Eintrag korrigieren; keine weiteren historischen Changelog-Neufassungen. Der eigene Plan-Viewer-Produktname bleibt erhalten.
+Steps:
+1. [status: done] Bereits überarbeitete README-Quellen vervollständigen und durch die vorhandenen General-/Codex-README-Routen neu erzeugen; insbesondere den aus costs.md entfernten Verweis auf nicht mehr folgende Empfängertests aus der generierten Workflow-README entfernen. Fertig bei aktuellen Gesamttexten und bestandenen README-Prüfungen ohne Wiederholung der bereits remote geprüften Profilaktion.
+2. [status: done] Vorhandene ADR-0225/0228-Verknüpfung und den Nachtrag im Bericht von PLAN-0060 prüfen; die ausnahmslose Sperre neuer Tags/Releases bewahren und allein die belegte damalige Installations-/Pushbefugnis nachtragen. ADR-0228 ist bislang eine nie committete Datei des noch offenen Erstellungsupdates, dessen Abschluss hier übernommen wird; diese Ausgangslage und unveränderte Nutzerwahl sind in der Befundmatrix belegt. Nur solange sie bei Bearbeitung fortbesteht, den unvollständigen Erstellungsstand kohärent fertigstellen; andernfalls eine materielle Bindungsänderung ausschließlich über den Supersession-Weg führen und alle betroffenen Verweise anpassen. Fertig bei konsistentem validiertem Profil ohne zusätzliche Befugnis, verdeckte Änderung einer abgeschlossenen accepted Decision oder Wiederöffnung von PLAN-0060.
+3. [status: done] planning-granularity.md, native-decision-format.md und repair.md in den General-Varianten neutral entkoppeln, das Beispiel „Sol high review performed“ in Plan references/progress.md modellneutral formulieren, UI-Standalone-Stopregel ohne Pflicht auf optionales Code verorten und den falschen Skillwriter-Changelog-Eintrag entfernen. Native Warteabschnitte gegen ihre bereits begrenzte Mechanik einordnen, statt neue Warteprüfungen zu erfinden. Fertig bei unveränderten fachlichen Grenzen, passenden Varianten und nachvollziehbarer Einordnung unverändert ausreichender Mechanik.
+4. [status: done] In Code SKILL.md an der Quelle der Standalone-Familienliste aufnehmen: „The owners below apply only when the corresponding Skill is independently available and active. This standalone Skill requires none of them.“ ../shared/runtime/skill_composition.md, über family.contract eingebunden, als Regelowner behalten. Fertig bei eindeutiger optionaler Zuordnung, funktionierender Code-Standalone-Planung ohne Geschwister und unveränderter vollständiger Suite-Installationspflicht.
+Evidence: General-/Codex-README-Quellen erzeugt und geprüft; offene ADR-Erstellung kohärent beendet. Neutrale General-Bezüge, UI-Stopregel und Standalone-Satz umgesetzt. Integration folgt.
+
+### W-009 Integrierten Kandidaten mit ehrlichen Nachweisgrenzen prüfen
+Status: done
+Depends on: [W-001, W-002, W-003, W-004, W-005, W-006, W-007, W-008]
+Blocked by: []
+Decisions: [ADR-0226, ADR-0228]
+Outcome: Ein konsistenter Quellkandidat mit technischen und erforderlichen Empfängernachweisen liegt zur weiteren Freigabe vor.
+Acceptance: Erforderliche Member-/Sharedtests und check_all.py bestehen; fehlende CI- oder Hostbelege werden nicht als Erfolg gewertet. Alle geänderten agentenbezogenen Ausgabearten sind über die echten Helper und unverändert an gpt-6.1-sol/low geprüft, soweit vom genehmigten Verfahren gedeckt. Aktive Verweise, gemeinsame Kopien, Markdown-Links und erhaltene Regeln sind überprüft. Paketierung, Quell-Export und Veröffentlichung werden nicht mit einem lokalen Testkandidaten gleichgesetzt. Nachweisgrenzen sind ausdrücklich berichtet: gpt-6.1-sol/low-Verhaltenstests belegen kein xhigh-Verhalten; Modellverhalten der General-Varianten unter Claude Code bleibt ohne eigenen Lauf ungeprüft.
+Instructions: Die Umsetzungsfreigabe umfasst die vorgesehenen gpt-6.1-sol/low-Verhaltenstests, nicht den gesonderten optionalen 3+3-Vergleich. Private CI-Pushs nur nach ausdrücklicher Freigabe. Keine Wiederholung unveränderter erfolgreicher Prüfungen ohne Anlass. Vor jedem kanonischen Commit check_all.py; übernommene Änderungen gehören zum Kandidaten, nicht zu fremder Arbeit.
+Steps:
+1. [status: done] Shared-Snapshots sowie betroffene README-Quellen und Changelogs aus den tatsächlichen Änderungen aktualisieren, bestehende technische und gezielte Modelltests ausführen. Öffentliche Texte nach AGENTS.md Abschnitt Project boundaries, README-Texte zusätzlich nach ../shared/readme/README-template.md Abschnitt Project README contract formulieren und prüfen. Fertig bei überprüfter Kriterienparität, funktionierenden echten Promptwegen, erfülltem Wortwahlvertrag und Bedeutungserhalt zur Baseline; Beobachtungen, Transportbeleg und Modellwirkung getrennt festhalten.
+2. [status: done] Exakten lokalen Runtime-CI-Kandidaten mit --prepare-runtime-ci <workspace-root>/skills/temp/release/runtime-ci unter dem einzigen Release-Stagingbaum vorbereiten; ../shared/build/fragments.md Abschnitt Runtime build gate für Neuanlage beziehungsweise zulässiges --refresh beachten. Das Ziel liegt außerhalb des Quellbaums; keine parallelen Releasekandidaten anlegen. Lokale Prüfungen auswerten und nur nach Freigabe private Matrix pushen, anschließend deren passenden Lauf für Build/Paketprüfung verwenden. Fertig bei bestandener Matrix auf geänderten Python-Eingaben oder klar offenem CI-Blocker; keinen alten Lauf wiederverwenden.
+3. [status: done] Vor Freigabe neue öffentliche Records auf Zugangsdaten, persönliche Pfade und Drittnamen prüfen; Funde mit geprüftem Stand, Änderungen je Punkt, verbleibenden Grenzen, betroffenen Distributionen und konkretem Export-/Publikationsumfang vorlegen. Fertig bei belegter technischer Abnahme und expliziter Trennung der noch gesperrten Handlungen; keine Exporte oder Synchronisierung öffentlicher Repositories vor ihrer Freigabe.
+Evidence: Lokale Prüfungen und 16 Sol6.1/low-Beobachtungen dokumentiert. Private Runtime-Matrix 41056288278 auf 24120a2 mit sechs erfolgreichen Jobs; Nutzerfreigabe für gesamte Auslieferung erhalten.
+
+### W-010 Nur ausdrücklich freigegebenen Stand ausliefern
+Status: in_progress
+Depends on: [W-009]
+Blocked by: []
+Decisions: [ADR-0226, ADR-0228]
+Outcome: Der konkret freigegebene Kandidat ist konsistent exportiert und auf main remote geprüft.
+Acceptance: Auslieferung erfolgt ausschließlich im ausdrücklich freigegebenen Umfang mit passenden Changelogs. General, Mainloop und Einzel-Skills enthalten ihre vorgesehenen Varianten aus denselben Quellen; gemeinsame Qualitäts- und Helperdateien sind an ihren vorgesehenen Zielen identisch. Exportprofile und Links sind validiert, entfernte aktive Referenzen fehlen, und Remote-main entspricht dem geprüften Kandidaten. Keine lokale Installation, neuen Tags oder Releases.
+Instructions: Der Nutzer hat mit „Alles pushen“ private CI und sämtliche vorgesehenen öffentlichen Exporte/Pushs dieses Kandidaten freigegeben. Maßgeblich sind die zwei Suiteziele und die sechs Standalone-Repos des Manifests, einschließlich Ask; Cleanup bleibt suiteintern. Keine Installation. Erst nach konkreter Freigabe exportieren oder pushen. Bei materieller Änderung des geprüften Kandidaten die betroffenen Prüfungen und Freigabe erneuern; keine automatische Nutzung früherer Befugnisse.
+Steps:
+1. [status: in_progress] Nach Freigabe den vorhandenen Build-/Exportweg mit verifizierter aktueller Matrix nutzen, feste Staging-/Distributionsziele synchronisieren und Paket-/README-/Plan-/Privatschutzprüfungen ausführen. Fertig bei vollständigen freigegebenen Exporten und bestandenen Prüfungen ohne verdeckte Quelländerung.
+2. [status: todo] Nur freigegebene main-Stände pushen und deren Remote-Dateien sowie relevante Commitzuordnung prüfen. Fertig bei nachgewiesener Veröffentlichung und selbständig verständlichem Abschlussbericht mit je Punkt umgesetzt, begründet unverändert oder offen; Plan erst bei erfüllter Gesamtabnahme abschließen.
+Evidence: []
