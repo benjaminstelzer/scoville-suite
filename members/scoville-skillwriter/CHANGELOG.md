@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - 2026-11-11 - Size check for placed components and tested models
+
+- Name the tested models and the minimum reasoning effort in the README.
+
 ## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
 
 - Add the findings of the Fable 5.2 prompting guide on prohibitions, stop rules and exceptions.

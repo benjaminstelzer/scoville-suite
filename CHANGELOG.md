@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased - 2026-11-11 - Size check for placed components and tested models
+
+- UI: check the size of every component a change places, including one left at its default, against the neighbours it has to match, and report each new control with the control it copies.
+- UI: correct a layout defect the source explains from the source. On Classic WordPress pages, write changes from the documented Core declarations and report the distance as unverified; reviews and requested checks measure it.
+- Name the tested models and the minimum reasoning effort in the READMEs.
+
 ## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
 
 - Fix two Plan validator errors: cancelled or done work depending on cancelled work, and a missing `docs/decisions` directory after a fresh clone.

@@ -19,7 +19,7 @@ Lokale Commits sind freigegeben. Pushs einschließlich privater CI, Exporte in �
 
 - Keine Aussage über bessere Modellwirkung vor der Messung.
 - Keine Streichung von Regeln mit belegtem Vorfall oder unklarer Herkunft.
-- Keine neuen Regeln außer drei Illustrationsbeispielen und den vom Nutzer beauftragten Verhaltenskorrekturen in W-006.
+- Keine neuen Regeln außer drei Illustrationsbeispielen und den vom Nutzer beauftragten Verhaltenskorrekturen in W-006 und W-007.
 
 ## Work items
 
@@ -94,16 +94,31 @@ Steps:
 3. [status: done] UI-Regeln nach Nutzervorgabe fassen (Voraussetzung statt Gebot, kein Rendern beim Umsetzen, Messen im Review) und an zwei Umsetzungsaufgaben und einem Review nachmessen; fertig bei Ergebnistabellen und benannten Grenzen.
 Evidence: Sol mit UI-Skill: Suche 21/32 erfüllt (ohne 0/8); Überschriftzeile 21/28 (ohne 0/6). Opus rendert beim Umsetzen nicht. Quellenreview eingearbeitet. Offen: Sol nicht durchgehend fehlerfrei.
 
+### W-007 Größenprüfung, WordPress-Angleichung und Modellangaben
+
+Status: done
+Depends on: [W-006]
+Blocked by: []
+Decisions: []
+Outcome: UI prüft auch nicht gesetzte Komponentengrößen und misst beim Umsetzen auf keiner Plattform nach; die READMEs nennen die getesteten Modelle und die Mindeststufe.
+Acceptance: Die Werteprüfung erfasst jede eingesetzte Komponente mit ihrer Größe. Die WordPress-Referenzen verlangen Messen nur im Review oder bei verlangter Prüfung. UI ist mit Sol low und medium und mit Opus 5.5 nachgemessen, Handoff und Skillwriter mit Sol medium und Opus 5.5. Die READMEs nennen gpt-6.1-sol und Opus 5.5 mit medium als Minimum.
+Instructions: Vom Nutzer am 2026-11-11 beauftragt. Plan und Code werden auf Sol medium nicht nachgemessen; ihr Ergebnis auf low gilt.
+Steps:
+1. [status: done] UI-Einstieg und zwei WordPress-Referenzen ändern; fertig bei grüner Gesamtprüfung.
+2. [status: done] UI mit Sol low, Sol medium und Opus messen, Handoff und Skillwriter mit Sol medium und Opus; fertig bei Ergebnistabelle im Bericht.
+3. [status: done] Modellangaben in die README-Quellen eintragen und READMEs neu erzeugen; fertig bei bestandener README-Prüfung.
+Evidence: Sol medium mit Skill: Überschrift 8/8, Suche 8/8 (ohne je 0/4), Review 3/3, Handoff 4/4, Skillwriter 7/7. Sol low: 13/16 und 11/16. Opus: alle Läufe bestanden. check_all 12/12.
+
 ### W-005 Auslieferung
 
 Status: in_progress
-Depends on: [W-003, W-006]
+Depends on: [W-003, W-006, W-007]
 Blocked by: []
 Decisions: []
 Outcome: Der geprüfte Stand ist veröffentlicht und im freigegebenen Umfang installiert.
 Acceptance: Die neue private Laufzeitmatrix für das geänderte paketierte Python besteht. Builds und Exporte beider Profile sind aus der committeten Quelle erzeugt und geprüft. Alle geänderten Ziele sind auf main remote verifiziert; lokale Installation nur im freigegebenen Umfang.
-Instructions: Push nach GitHub am 2026-11-11 freigegeben. Lokale Installation, Tags und Releases sind nicht freigegeben.
+Instructions: Der Push vom 2026-11-11 deckt den Stand bis W-006. Der Stand aus W-007 braucht eine neue Freigabe für Export und Push. Lokale Installation, Tags und Releases sind nicht freigegeben.
 Steps:
 1. [status: done] Laufzeitmatrix im privaten CI ausführen und Builds mit ihrem Lauf erzeugen; fertig bei bestandener Matrix und geprüften Paketen.
 2. [status: in_progress] Exporte veröffentlichen, remote prüfen und freigegebene lokale Kopien aktualisieren; fertig bei Remote- und Installationsbelegen.
-Evidence: Runtime-Matrix 43049849347 bestanden. Acht Ziele auf main remote geprüft. Offen: lokale Installation ist nicht freigegeben; installierte Skills sind auf dem alten Stand.
+Evidence: Stand bis W-006 veröffentlicht, acht Ziele auf main remote geprüft, Matrix 43049849347 bestanden. Offen: W-007 ist nur lokal committet; lokale Installation ist nicht freigegeben.

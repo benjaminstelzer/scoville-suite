@@ -407,3 +407,49 @@ Der Nutzer hat am 2026-11-11 den lokalen Commit und den Push nach GitHub freigeg
 - Veröffentlicht und auf GitHub gegen den lokalen Commit geprüft: General 8e25415, Mainloop e0e2d8e, Code 01f1694, Handoff 398054c, Plan 7002423, Skillwriter 78489fa, UI ac66797, Ask 69992c2. Die Portabilitätsprüfungen beider Suite-Repositories sind auf GitHub erfolgreich.
 - Die abschließenden Planrecords folgen als reine Metadatenaktualisierung der beiden Suite-Repositories.
 - Nicht geschehen: lokale Installation oder Aktualisierung installierter Skills, Tags, Releases. Die Auslieferung bleibt im Plan offen, bis über die lokale Installation entschieden ist.
+
+## Vierte Messreihe: Größenprüfung, Sol medium, Handoff und Skillwriter (2026-11-11)
+
+Nach der Auslieferung beauftragt: die Regeln stimmig machen, Sol zusätzlich mit Effort medium messen, Handoff und Skillwriter testen und die getesteten Modelle in die READMEs schreiben. Dieser Stand ist lokal committet und nicht veröffentlicht.
+
+### Was sich geändert hat
+
+- UI-Einstieg, Schritt 1: Der Nachbar wird gelesen, wie er geschrieben ist (Komponente, Größenvariante, Klassen), und das neue Element genauso geschrieben.
+- UI-Einstieg, Schritt 7: Die Werteprüfung listet jede eingesetzte Komponente mit ihrer Größenvariante, auch `default`. Eine Größe, die von den passenden Nachbarn abweicht, ist ein Fehler. Vorher erfasste die Prüfung nur neu geschriebene Werte; eine weggelassene Größenangabe fiel durch.
+- UI-Einstieg, Schritt 8: Der Bericht nennt je neuem Bedienelement das Vorbild und die Größe.
+- UI-Einstieg, Referenztabelle: kein Nachmessen des Layouts beim Umsetzen, auf jeder Plattform. Ein gemeldeter Layoutfehler, den der Quelltext erklärt, wird dort verfolgt und behoben. Die Ausnahme für Plattform-Referenzen entfällt.
+- WordPress `classic-patterns.md` und `routing.md`: Beim Umsetzen gelten die dokumentierten Core-Deklarationen als Quellenbeleg, der Abstand wird als ungeprüft berichtet; Review, Audit und verlangte Prüfung messen. `version-compatibility.md` blieb unverändert: Seine Token-Prüfung steht schon unter „In a rendered check".
+- Nicht geändert: die Code-Beschreibung („find out why a ... command fails"). Ein Fehlauslösen ist nicht belegt, und eine engere Fassung hätte die gemessene Aktivierung bei Diagnosen wieder riskiert.
+
+### Ergebnis
+
+Sol ist `gpt-6.1-sol` über `codex exec`; die Stufe ist je Lauf aus der Sitzungsaufzeichnung gelesen. Opus ist `claude-opus-5-5` mit `--effort medium`.
+
+| Aufgabe | Sol low mit Skill | Sol medium mit Skill | Sol medium ohne Skill | Opus 5.5 medium mit Skill |
+| --- | --- | --- | --- | --- |
+| Überschriftzeile, fehlerfrei | 13 von 16 | 8 von 8 | 0 von 4 | nicht neu gemessen |
+| Suche und Badges, erfüllt | 11 von 16 | 8 von 8 | 0 von 4 | 4 von 4 |
+| Review, alle vier Fehler | 2 von 3 | 3 von 3 | nicht gemessen | 2 von 2 |
+| Handoff erstellen (16 Prüfpunkte) | nicht gemessen | 4 von 4 | 0 von 3 | 3 von 3 (ohne Skill 0 von 2) |
+| Zusammenfassung, Handoff darf nicht auslösen | nicht gemessen | 2 von 2 | nicht gemessen | 1 von 1 |
+| Skillwriter: Skill vereinfachen (19 Prüfpunkte) | nicht gemessen | 4 von 4 | 3 von 3 | 3 von 3 (ohne Skill 2 von 2) |
+| Skillwriter: Review ohne Änderung | nicht gemessen | 3 von 3 | 2 von 2 | 2 von 2 |
+
+- **Sol medium.** Mit Skill sind alle 16 Umsetzungsläufe fehlerfrei und verwenden die vorhandenen Komponenten. Ohne Skill macht Sol medium in allen vier Läufen der Überschriftzeile die bekannten Größenfehler (36 statt 32 px) und schreibt bei der Suche in allen vier Läufen den Button selbst. Die Läufe dauern mit Skill im Mittel rund 150 statt 95 Sekunden auf low.
+- **Sol low.** 13 von 16 und 11 von 16 liegen im Bereich der dritten Messreihe (21 von 28 und 21 von 32). Die Fehlläufe zeigen dieselben Fehler: Standardgröße in der Überschrift, Feld 40 statt 36 px. Ein Effekt der neuen Größenprüfung auf low ist nicht belegt. Die Berichtszeile aus Schritt 8 schreibt Sol selten (10 von 48 Berichten nennen Größen), Opus durchgehend.
+- **Opus.** Umsetzen ohne Browserstart, rund 98 Sekunden und 0,78 US-Dollar je Lauf, wie vor der Änderung. Review misst im Browser und ändert keinen Code.
+- **Handoff.** Die Aufgabe übergibt eine angefangene Korrektur mit Nutzeränderung, verworfenem Ansatz, Freigabevorbehalten und einem Zugangsschlüssel. Mit Skill liefern beide Modelle genau das eingezäunte Artefakt mit vier Abschnitten und drei Schritten, nennen alle geprüften Fakten, schreiben `BILLING_API_TOKEN=[redacted]`, führen keine Tests aus und ändern nichts. Ohne Skill fehlt der Aufbau; der Schlüsselwert erscheint auch dort in keinem Lauf, der Variablenname mit Schwärzung aber auch nicht. Bei der bloßen Zusammenfassung wird Handoff nicht gelesen.
+- **Skillwriter.** Die Aufgabe ist ein überladener Skill mit Großbuchstaben-Geboten, Wiederholungen und einem Widerspruch zwischen SKILL.md und Stilreferenz. Mit Skill bleiben in allen Läufen alle geprüften Regeln, Name und Beschreibung erhalten; der Text schrumpft von 2612 auf rund 1570 Zeichen; der Widerspruch wird gemeldet und nicht eigenmächtig entschieden. Ohne Skill gelingt das beiden Modellen ebenso. Ein Vorteil von Skillwriter ist an dieser Aufgabe also nicht belegt, ein Schaden auch nicht.
+
+### Wertung von Hand
+
+- Suche, fünf Läufe: Ein sichtbares Label über dem Feld zählt das Prüfskript als ungleichen Zeilenabstand, obwohl der Zeilenabstand gleich ist (zwei Läufe medium, einer low, dort mit selbst geschriebenem Button und deshalb nicht erfüllt). Ein Feld, das seinen Namen über ein umschließendes `label` bekommt, erkennt das Skript nicht (ein Lauf low). Ein unsichtbarer Screenreader-Text vor dem Badge zählt als Vorgänger (ein Lauf Opus). Diese Läufe sind nach Durchsicht des Diffs gewertet.
+- Skillwriter, drei Läufe: Zeilenumbrüche in „Omit empty groups" und „GitHub Release" und Code-Auszeichnung um die Gruppennamen trafen das Prüfmuster nicht; die Muster sind korrigiert und alle Läufe neu gewertet.
+
+### Was das zeigt und was nicht
+
+- Mit Sol medium und Opus 5.5 medium erfüllen UI, Handoff und Skillwriter ihre Aufgaben in dieser Stichprobe ohne Fehllauf. Für UI ist der Vorteil gegenüber „ohne Skill" auf medium belegt (16 von 16 gegen 0 von 8).
+- Sol low bleibt bei etwa drei Vierteln. Die READMEs nennen deshalb medium als Mindeststufe.
+- Plan und Code sind mit Sol nur auf low gemessen (dort fehlerfrei) und mit Opus auf medium. Auf Sol medium wurden sie auf Wunsch des Nutzers nicht wiederholt.
+- Grenzen: zwei UI-Aufgaben in einem Projekt, je acht Läufe auf medium; je eine Aufgabe für Handoff und für die Skillwriter-Überarbeitung; keine WordPress-Aufgabe, die geänderten WordPress-Stellen sind ungemessen; Fable 5.2 ungemessen. Project Context Cleanup, Ask, Workflow und Setup sind in dieser Reihe nicht mit Modellen gemessen.
+- Verbrauch: 83 Sol-Läufe über die ChatGPT-Anmeldung, 19 Opus-Läufe für zusammen 7,35 US-Dollar nach CLI-Angabe.

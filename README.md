@@ -293,6 +293,8 @@ describe the changes and lessons that shaped each one.
 Developed for Codex and Claude Code, with Python 3.11+ for helpers and
 manual alternatives only when suitable Python is unavailable. Missing helpers,
 dependencies or helper errors stop the affected operation.
+Use at least `gpt-6.1-sol` or Claude Opus 5.5 at medium reasoning effort; lower effort skips steps more often.
+Code, Plan, UI, Handoff and Skillwriter are tested with both models.
 
 ## Install the suite
 

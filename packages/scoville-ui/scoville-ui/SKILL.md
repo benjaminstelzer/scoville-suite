@@ -72,7 +72,7 @@ about those concerns.
 | Themes, frontend output, non-WordPress surfaces, pure visual concepts | General route without admin references; a visual concept keeps its design scope. |
 | General-route ownership or implementation path unresolved | [Framework](references/framework-alignment.md) before choosing an owner: unfamiliar stack, interacting layers, uncertain customization, no visual owner, or a component limit in the way. |
 | Creating, changing, auditing or reviewing an interface | Before the first edit or finding, read [Quality](references/ui-quality.md) and the topic file of each touched concern: [Wording](references/ui-wording.md) for interface text, [Layout](references/ui-layout.md) for grouping, spacing, sizes, alignment and responsive adaptation, [Interactions](references/ui-interactions.md) for controls, focus, input, feedback and states. The trigger is the kind of task, not whether a question looks open. The spacing, size and alignment rules themselves are in this file. |
-| A requested review or audit of how an interface or an interface change looks and behaves, a requested rendered check or proof, a judgment of existing proof, or a visual defect the source does not explain | Read [Validation](references/validation.md) first, for rendering, responsive behavior, interaction, visual quality or accessibility. Add [Geometry and sight](references/ui-geometry-validation.md) when spacing, sizes, alignment, paint or optical balance are measured or judged, and [Audit coverage](references/ui-consistency-audit.md) for page consistency. Reuse existing proof and repeat a check only for a concrete gap. Implementing a change by itself calls for no rendered measurement of layout: the spacing, size and alignment rules apply while the code is written, inspecting your own final diff is part of implementing, and the report names what was not rendered as unverified. Exercising a changed interaction follows Interactions, and a platform reference that names a rendered check for the change keeps it. A review measures; a source-only audit follows the next row. |
+| A requested review or audit of how an interface or an interface change looks and behaves, a requested rendered check or proof, a judgment of existing proof, or a visual defect the source does not explain | Read [Validation](references/validation.md) first, for rendering, responsive behavior, interaction, visual quality or accessibility. Add [Geometry and sight](references/ui-geometry-validation.md) when spacing, sizes, alignment, paint or optical balance are measured or judged, and [Audit coverage](references/ui-consistency-audit.md) for page consistency. Reuse existing proof and repeat a check only for a concrete gap. A review measures; a source-only audit follows the next row. Implementing a change by itself calls for no rendered measurement of layout, on any platform: the spacing, size and alignment rules apply while the code is written, a reported layout defect that the source explains is traced and corrected there, inspecting your own final diff is part of implementing, and the report names what was not rendered as unverified. Exercising a changed interaction follows Interactions. |
 | Source-structure audit or unimplemented design direction | Framework and Quality by their triggers, without Validation; report rendering, interaction and accessibility as unverified. Stating those gaps needs no Validation read. |
 | Choosing or implementing UI code; reviewing interface source, including your final diff | Read [Code quality](references/code-quality.md) before choosing the implementation and before acceptance, within the framework's guarantees. |
 
@@ -137,14 +137,13 @@ element you add or change, work from the outside in:
 1. Outer size first. Before writing a control or row, find the existing ones
    it has to match, nearest first: the same row or bar, then neighbouring
    regions of the same level, then others of its kind on the rest of the
-   page. Write one line per new control naming the one it copies and the
-   resulting size, for example `sort select: like the filter buttons, size
-   sm, 32 high`, and give the new one that height, radius, font size and
-   padding through the same component, variant, class or token; a new row
-   takes the padding of the rows around it, equal above and below its
-   content unless those rows differ. Leaving a component's size unset picks
-   its default, which is right only where the neighbours use the default. A field 40 high beside fields and selects
-   that are 36 high is a defect.
+   page. Read how that one is written, its component, size variant and
+   classes, and write the new one the same way, so it gets the same height,
+   radius, font size and padding; a new row takes the padding of the rows
+   around it, equal above and below its content unless those rows differ.
+   Leaving a component's size unset picks its default, which is right only
+   where the neighbours use the default. A field 40 high beside fields and
+   selects that are 36 high is a defect.
 2. Then fit it in. Whatever goes into an existing control, row or bar takes
    the size variant that fits its current height and leaves equal space
    above, below and at the outer edge: a 24 button in a 36 field, small
@@ -165,13 +164,19 @@ element you add or change, work from the outside in:
    equivalent's component, class and stylesheet values are the evidence.
    Rendering and measuring follow the References table: a review, an audit
    or a requested check, not every change.
-7. Check the values themselves, when finishing a change and in every review:
-   list each literal and each component size variant the change adds for
-   height, font size, radius, padding and gap, and search the project's
-   tokens and existing rules for the same value on the same kind of element.
-   A value found nowhere else, such as a 13px font where the page uses 12px
-   and 14px, is a defect unless the request asks for it or it is the local
-   size from step 2.
+7. Check the values themselves, when finishing a change and in every review.
+   List every component the change places with its size variant, writing
+   `default` where none is set, and every literal it adds for height, font
+   size, radius, padding and gap. Search the page's source, the project's
+   tokens and existing rules for the same component or value on the same
+   kind of element. Two results are defects unless the request asks for
+   them or it is the local size from step 2: a size variant that differs
+   from the neighbours it has to match, including `default` beside
+   neighbours that set one, and a value found nowhere else, such as a 13px
+   font where the page uses 12px and 14px.
+8. Report each new control in one line naming the one it copies and the
+   resulting size, for example `sort select: like the filter buttons, size
+   sm, 32 high`.
 
 Before accepting UI construction, updates or an interface-source review,
 inspect the final scoped diff under Code quality, including rendering and

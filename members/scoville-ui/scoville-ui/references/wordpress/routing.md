@@ -15,7 +15,7 @@ or changed region, not unrelated screens.
 
 | Focus | Inspect | Main reference |
 | --- | --- | --- |
-| Spacing, vertical flow and composition | Before choosing gaps, margins, padding, stacks, cards, fields or portals: inspect parent and child ownership, hidden content, Core defaults and actual rendered distances where available. | [spacing.md](spacing.md) |
+| Spacing, vertical flow and composition | Before choosing gaps, margins, padding, stacks, cards, fields or portals: inspect parent and child ownership, hidden content and Core defaults; a review or requested check also measures the actual rendered distances. | [spacing.md](spacing.md) |
 | Core defaults, tokens, and CSS | Runtime owner, reused Core markup and components, token availability and loading when consumed, CSS exceptions before custom styling. | [spacing.md](spacing.md); [version-compatibility.md](version-compatibility.md) for token/provider availability, loading, fallback or version-sensitive advice |
 | Responsive layout | Page shells, columns, toolbars, data views, narrow widths, zoom, RTL and content expansion: affected reflow, wrapping, overflow, order and relevant widths. | [responsive.md](responsive.md) |
 | User guidance and states | Navigation, hierarchy, actions, forms, Notices, loading, empty, success, error, disabled, permission and recovery states possible in the selected flow. | [ui-guidance.md](ui-guidance.md) |

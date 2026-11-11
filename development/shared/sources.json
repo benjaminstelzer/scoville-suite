@@ -24,7 +24,7 @@
   "readme/suite-catalog.md": "30fcf82c3d93e9e073ac98158ae59db5eda9923ddb4d5c47e397363507dd2389",
   "readme/suite-descriptions.md": "7099d04ebd040f06285081b7dfcf22e6ca6983d4f82f7ee228aeead11a0a7b12",
   "readme/suite-development-links.md": "5e100dec96ba1d9710276b39ec65517c1d1035050989110083cb957e63c99dde",
-  "readme/suite-requirements.md": "0444a569c1b0d9c4585e23acc3a27cccd7d0421ade521ef4aba87ed1696706a2",
+  "readme/suite-requirements.md": "96b09df8a490ea7fd178b5d4e8e42ed6ce3bccc5770ebd98e833d32575502d60",
   "runtime-tests/runtime-helpers.yml": "8182a1c596d86f002b60b535556c7bf0fe97d486d7deca7b0bfe9d5828f97691",
   "runtime-tests/test_runtime_helpers.py": "7d483783f64959c605aee2499b0e3d011af7fde2915109c7e54cca3a80c7d33f",
   "runtime/check_text_size-fallback.md": "eb2ac1367e1ebc9b02d1408302ca917c5b0756f1047cc02db4ecf737546e52c6",
