@@ -410,7 +410,7 @@ Der Nutzer hat am 2026-11-11 den lokalen Commit und den Push nach GitHub freigeg
 
 ## Vierte Messreihe: Größenprüfung, Sol medium, Handoff und Skillwriter (2026-11-11)
 
-Nach der Auslieferung beauftragt: die Regeln stimmig machen, Sol zusätzlich mit Effort medium messen, Handoff und Skillwriter testen und die getesteten Modelle in die READMEs schreiben. Dieser Stand ist lokal committet und nicht veröffentlicht.
+Nach der Auslieferung beauftragt: die Regeln stimmig machen, Sol zusätzlich mit Effort medium messen, Handoff und Skillwriter testen und die getesteten Modelle in die READMEs schreiben. Der Nutzer hat den Push dieses Stands am 2026-11-11 freigegeben; die Veröffentlichung steht am Ende dieses Abschnitts.
 
 ### Was sich geändert hat
 
@@ -453,3 +453,11 @@ Sol ist `gpt-6.1-sol` über `codex exec`; die Stufe ist je Lauf aus der Sitzungs
 - Plan und Code sind mit Sol nur auf low gemessen (dort fehlerfrei) und mit Opus auf medium. Auf Sol medium wurden sie auf Wunsch des Nutzers nicht wiederholt.
 - Grenzen: zwei UI-Aufgaben in einem Projekt, je acht Läufe auf medium; je eine Aufgabe für Handoff und für die Skillwriter-Überarbeitung; keine WordPress-Aufgabe, die geänderten WordPress-Stellen sind ungemessen; Fable 5.2 ungemessen. Project Context Cleanup, Ask, Workflow und Setup sind in dieser Reihe nicht mit Modellen gemessen.
 - Verbrauch: 83 Sol-Läufe über die ChatGPT-Anmeldung, 19 Opus-Läufe für zusammen 7,35 US-Dollar nach CLI-Angabe.
+
+### Veröffentlichung des Stands
+
+- Quellenstand: Suite 70e91a1, Shared 3475631. Paketiertes Python ist unverändert; die vier Paketansichten verwenden den bestandenen Runtime-Lauf 43049849347 weiter, ihre Veröffentlichungsbelege sind gültig.
+- Beide Quellenexporte bestehen den Planvalidator, enthalten keinen privaten Projektnamen und wurden auf persönliche Pfade und Zugangsdaten durchsucht; gefunden wurde nichts.
+- Veröffentlicht und auf GitHub gegen den lokalen Commit geprüft: General 8866244, Mainloop 5fa7077, Code ffcbdec, Handoff 8cffb95, Plan d9d7a13, Skillwriter d493c79, UI d5ffc8d, Ask 35a8f24.
+- Dieser Nachtrag folgt als reine Aktualisierung von Plan und Bericht in den beiden Suite-Repositories.
+- Nicht geschehen: lokale Installation, Tags, Releases.
