@@ -96,7 +96,7 @@ Evidence: Sol mit UI-Skill: Suche 21/32 erfüllt (ohne 0/8); Überschriftzeile 2
 
 ### W-005 Auslieferung
 
-Status: todo
+Status: in_progress
 Depends on: [W-003, W-006]
 Blocked by: []
 Decisions: []
@@ -104,6 +104,6 @@ Outcome: Der geprüfte Stand ist veröffentlicht und im freigegebenen Umfang ins
 Acceptance: Die neue private Laufzeitmatrix für das geänderte paketierte Python besteht. Builds und Exporte beider Profile sind aus der committeten Quelle erzeugt und geprüft. Alle geänderten Ziele sind auf main remote verifiziert; lokale Installation nur im freigegebenen Umfang.
 Instructions: Push nach GitHub am 2026-11-11 freigegeben. Lokale Installation, Tags und Releases sind nicht freigegeben.
 Steps:
-1. [status: todo] Laufzeitmatrix im privaten CI ausführen und Builds mit ihrem Lauf erzeugen; fertig bei bestandener Matrix und geprüften Paketen.
-2. [status: todo] Exporte veröffentlichen, remote prüfen und freigegebene lokale Kopien aktualisieren; fertig bei Remote- und Installationsbelegen.
-Evidence: []
+1. [status: done] Laufzeitmatrix im privaten CI ausführen und Builds mit ihrem Lauf erzeugen; fertig bei bestandener Matrix und geprüften Paketen.
+2. [status: in_progress] Exporte veröffentlichen, remote prüfen und freigegebene lokale Kopien aktualisieren; fertig bei Remote- und Installationsbelegen.
+Evidence: Runtime-Matrix 43049849347 bestanden. Acht Ziele auf main remote geprüft. Offen: lokale Installation ist nicht freigegeben; installierte Skills sind auf dem alten Stand.

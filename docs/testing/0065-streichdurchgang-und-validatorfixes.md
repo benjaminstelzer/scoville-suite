@@ -397,3 +397,13 @@ Kontrollmessung des korrigierten Stands:
 | Planpflege: Item angelegt, Profil gültig, Wahl als Vorschlag | 3 von 3 | 3 von 3 |
 
 Bei der Suche fehlte im ersten Kontrolldurchgang der Halbsatz „oben und unten gleich" für neue Zeilen; der ungleiche Zeilenabstand trat zweimal auf. Er steht wieder im Text, mit der Ausnahme für ungleichmäßige Nachbarzeilen. Über die drei letzten Fassungen mit demselben Regelkern zusammen erfüllt Sol die Suche in 21 von 32 Läufen (Komponente verwendet in 30 von 32) und die Überschriftzeile in 21 von 28. Die Zahlen der einzelnen Durchgänge streuen zwischen 3 von 8 und 13 von 16; acht Läufe trennen diese Fassungen nicht.
+
+## Auslieferung (2026-11-11)
+
+Der Nutzer hat am 2026-11-11 den lokalen Commit und den Push nach GitHub freigegeben. Lokale Installation, Tags und Releases waren nicht freigegeben und sind nicht erfolgt.
+
+- Quellenstand: Suite 142a6b5, Shared 0ffa1ee. Die neue private [Runtime-Matrix](https://github.com/benjaminstelzer/scoville-runtime-ci/actions/runs/43049849347) besteht mit sechs Jobs auf Windows, Ubuntu und macOS (Python 3.11 und aktuell). Sie lief gegen den Stand 0305b89; die späteren Commits ändern nur Instruktionen, Changelogs und einen Bewertungsfall, der Builder hat den Nachweis für sie wiederverwendet.
+- Vier Paketansichten gebaut, ihre Veröffentlichungsbelege geprüft. Beide Quellenexporte bestehen den Planvalidator und enthalten keinen privaten Projektnamen. Die neuen öffentlichen Aufzeichnungen (dieser Bericht und Plan 0065) wurden auf Zugangsdaten und persönliche Pfade durchgesehen; gefunden wurde nichts.
+- Veröffentlicht und auf GitHub gegen den lokalen Commit geprüft: General 8e25415, Mainloop e0e2d8e, Code 01f1694, Handoff 398054c, Plan 7002423, Skillwriter 78489fa, UI ac66797, Ask 69992c2. Die Portabilitätsprüfungen beider Suite-Repositories sind auf GitHub erfolgreich.
+- Die abschließenden Planrecords folgen als reine Metadatenaktualisierung der beiden Suite-Repositories.
+- Nicht geschehen: lokale Installation oder Aktualisierung installierter Skills, Tags, Releases. Die Auslieferung bleibt im Plan offen, bis über die lokale Installation entschieden ist.
