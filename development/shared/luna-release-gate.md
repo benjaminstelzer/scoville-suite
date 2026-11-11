@@ -2,7 +2,7 @@
 
 Validate changed behavior with appropriate technical checks and authorized model
 or real-workflow tests. No fixed historical case catalog or case count is required.
-Every future model test uses gpt-6.1-sol with reasoning effort low. Record the model,
+Every future model test uses gpt-6.1-sol with reasoning effort medium. Record the model,
 effort, actual results and remaining limits; do not claim an unrun test passed.
 No specific CLI transport or coordinator is required for publication.
 

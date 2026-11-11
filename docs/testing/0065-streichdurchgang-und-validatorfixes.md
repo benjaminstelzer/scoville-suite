@@ -461,3 +461,11 @@ Sol ist `gpt-6.1-sol` über `codex exec`; die Stufe ist je Lauf aus der Sitzungs
 - Veröffentlicht und auf GitHub gegen den lokalen Commit geprüft: General 8866244, Mainloop 5fa7077, Code ffcbdec, Handoff 8cffb95, Plan d9d7a13, Skillwriter d493c79, UI d5ffc8d, Ask 35a8f24.
 - Dieser Nachtrag folgt als reine Aktualisierung von Plan und Bericht in den beiden Suite-Repositories.
 - Nicht geschehen: lokale Installation, Tags, Releases.
+
+## Lokale Installation und Testregel (2026-11-12)
+
+- Der Nutzer hat am 2026-11-12 freigegeben, die lokal installierten Skills für Codex und Claude zu aktualisieren, beschränkt auf die jeweils schon installierten.
+- Vor dem Ersetzen geprüft: Jede Datei der installierten Kopien existiert unverändert in der Historie des veröffentlichten Suite-Repositories; eigene Anpassungen gab es nicht. Die alten Kopien sind im Arbeitsbereich unter `state/2026-11-12-installed-skills/` gesichert.
+- Aktualisiert aus dem geprüften Build des Stands 29a6ce8: die beiden Codex-Skillverzeichnisse aus den Paketen der Mainloop-Suite (neun und acht Skills), das Claude-Skillverzeichnis aus den Paketen der General-Suite (sechs Skills). Danach stimmt jede installierte Kopie Datei für Datei mit ihrem Paket überein. Skills anderer Herkunft blieben unberührt, keine Skills kamen hinzu.
+- Nicht geprüft: ob laufende oder neue Codex- und Claude-Sitzungen die neuen Fassungen geladen haben.
+- Die Testregel in den Release-Regeln lautet auf Wunsch des Nutzers jetzt `gpt-6.1-sol` mit Effort medium statt low. Diese Änderung und dieser Nachtrag sind lokal committet; ihr Push braucht eine eigene Freigabe.

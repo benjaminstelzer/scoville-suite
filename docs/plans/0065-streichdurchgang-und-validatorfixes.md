@@ -3,7 +3,7 @@ format_version: 1
 id: PLAN-0065
 status: active
 created: 2026-11-10
-updated: 2026-11-11
+updated: 2026-11-12
 current_item: W-005
 ---
 
@@ -117,8 +117,8 @@ Blocked by: []
 Decisions: []
 Outcome: Der geprüfte Stand ist veröffentlicht und im freigegebenen Umfang installiert.
 Acceptance: Die neue private Laufzeitmatrix für das geänderte paketierte Python besteht. Builds und Exporte beider Profile sind aus der committeten Quelle erzeugt und geprüft. Alle geänderten Ziele sind auf main remote verifiziert; lokale Installation nur im freigegebenen Umfang.
-Instructions: Push nach GitHub am 2026-11-11 freigegeben, für den Stand bis W-006 und danach für W-007. Lokale Installation, Tags und Releases sind nicht freigegeben.
+Instructions: Push nach GitHub am 2026-11-11 freigegeben, bis einschließlich W-007. Aktualisierung der installierten Skills am 2026-11-12 freigegeben. Tags und Releases sind nicht freigegeben. Der Push der Testregel (medium) und des Installationsnachtrags braucht eine eigene Freigabe.
 Steps:
 1. [status: done] Laufzeitmatrix im privaten CI ausführen und Builds mit ihrem Lauf erzeugen; fertig bei bestandener Matrix und geprüften Paketen.
 2. [status: in_progress] Exporte veröffentlichen, remote prüfen und freigegebene lokale Kopien aktualisieren; fertig bei Remote- und Installationsbelegen.
-Evidence: Stand 70e91a1 veröffentlicht, acht Ziele auf main remote geprüft, Matrix 43049849347 bestanden. Offen: lokale Installation ist nicht freigegeben; installierte Skills sind auf dem alten Stand.
+Evidence: Stand 70e91a1 veröffentlicht und remote geprüft. Installierte Skills am 2026-11-12 aus dem Build aktualisiert und dateiweise verglichen. Offen: Push von Testregel und Nachtrag.

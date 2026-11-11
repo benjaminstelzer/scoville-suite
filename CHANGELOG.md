@@ -5,6 +5,7 @@
 - UI: check the size of every component a change places, including one left at its default, against the neighbours it has to match, and report each new control with the control it copies.
 - UI: correct a layout defect the source explains from the source. On Classic WordPress pages, write changes from the documented Core declarations and report the distance as unverified; reviews and requested checks measure it.
 - Name the tested models and the minimum reasoning effort in the READMEs.
+- Run model tests for releases with `gpt-6.1-sol` at medium reasoning effort instead of low.
 
 ## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
 
