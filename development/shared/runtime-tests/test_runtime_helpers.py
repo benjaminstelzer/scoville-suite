@@ -61,6 +61,9 @@ class RuntimeHelpers(unittest.TestCase):
                     self.assertEqual(metadata['exit_code'], exit_code)
                 else:
                     self.assertEqual(metadata['error'], 'timeout')
+                    self.assertIn('safe to repeat', metadata['instruction'])
+                # Every saved capture and every failure names its next step.
+                self.assertTrue(metadata['instruction'])
                 self.assertNotIn('recommended_max_utf8_bytes', metadata)
                 self.assertNotIn('tool_output_limit_tokens', metadata)
                 expected = f'exit={metadata["exit_code"]} stdout_bytes={len(stdout)} stderr_bytes={len(stderr)}\n'.encode() + b'stdout:\n' + stdout + b'\nstderr:\n' + stderr
@@ -184,6 +187,7 @@ with patch.object(check_text_size.os,'link',side_effect=OSError(errno.EOPNOTSUPP
                     meta = json.loads(err)
                     self.assertEqual(meta['error'], 'interrupted')
                     self.assertFalse(meta['capture_complete'])
+                    self.assertIn('incomplete', meta['instruction'])
                     self.assertIn(b'before-interruption', Path(meta['full_file']).read_bytes())
                     for pid in json.loads(pids.read_text()):
                         state = subprocess.run(['ps', '-o', 'stat=', '-p', str(pid)], capture_output=True, text=True, timeout=5).stdout.strip()
@@ -993,6 +997,7 @@ Evidence: []
         meta = json.loads(result.stderr)
         self.assertEqual(meta['error'], 'timeout')
         self.assertFalse(meta['capture_complete'])
+        self.assertIn('incomplete', meta['instruction'])
         self.assertIsInstance(meta['exit_code'], int)
         self.assertIn(b'started', Path(meta['full_file']).read_bytes())
         for pid in json.loads(pids.read_text()):

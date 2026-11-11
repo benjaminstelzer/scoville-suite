@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
+
+- Fix two Plan validator errors: cancelled or done work depending on cancelled work, and a missing `docs/decisions` directory after a fresh clone.
+- Link the shared writing, machine-data, shell, output-delivery and Python references directly from SKILL.md, each with its reading condition, instead of chained read-first rules.
+- Shorten the shared rules: drop permission disclaimers that have no recorded incident and state scope and reason for the stop rules that remain.
+- Reduce output delivery to when the checker is needed, its three calls and how to read a result. Every capture failure now names its next step in the helper's `instruction` field.
+- Add short illustrated examples to Code and contents lists to references over 100 lines; link every reference directly from its SKILL.md.
+- Add the Fable 5.2 prompting findings to Skillwriter and correct its source list.
+- Record requested Plan work that conflicts with Goal, Non-goals or a Decision as a todo item naming the open choice, instead of asking before writing.
+- Name diagnosis of failing tests, builds and commands in the Code description so the Skill activates for them.
+- Add always-loaded UI rules for spacing, size and alignment, worked from the outside in: take sizes from the nearest existing control or row, fit reused components to their place, count each source of space once and check every added value against the project's existing ones.
+- Use an existing framework component, class or token where the project has one; a hand-written copy is a defect.
+- Apply the UI rules while writing the code without rendering every change. Reviews, audits and requested checks measure the render.
+- Trigger UI references by kind of task and start UI work by reading them.
 ## Unreleased - 2026-10-30 - Source reading and UTF-8 diagnostics
 
 - Clarify source reading, producer-owned authoring references and dependent UTF-8 stops.

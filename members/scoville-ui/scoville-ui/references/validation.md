@@ -1,5 +1,15 @@
 # Rendered UI Validation
 
+## Contents
+
+- Establish the claim
+- Derive the test surface
+- Styling exceptions
+- Select and refresh evidence
+- Use automation as supporting evidence
+- Report the result
+- Interface text evidence
+
 ## Establish the claim
 
 State what the change is supposed to improve and which observable result would
@@ -138,25 +148,25 @@ markup, component APIs, styles and owners for duplicate spacing, token bypass,
 arbitrary offsets, primitive rebuilds and obsolete compensation. Relevant existing
 source/build checks do not establish ownership or rendered correctness.
 
-These gates add no scope or permission. Source-only and screenshot-only requests
-retain their limits. If required source or runtime tools are unavailable,
-continue permitted observations and report the specific missing evidence as
-unverified, never passed. Do not skip usable tools for convenience. Audit stays
-read-only. Final measurements and viewed images must represent the same revision,
-content and state. Reuse evidence while its relevant inputs and conditions remain
-unchanged. UI code uses the entrypoint's shared Code quality at implementation
-choice and acceptance, including construction, updates and explicit review.
-For repeated failed corrections,
-continue with a supported diagnosis, not another unchanged attempt. Keep
-acceptance open and name the actual prerequisite; Audit remains read-only.
+These gates add no scope or permission, and source-only and screenshot-only
+requests keep their limits. If required source
+or runtime tools are unavailable, continue the permitted observations and
+report the specific missing evidence as unverified rather than passed; use the
+tools that are available. Audit stays read-only. Final measurements and viewed
+images must represent the same revision, content and state. Reuse evidence
+while its relevant inputs and conditions remain unchanged. UI code uses the
+entrypoint's shared Code quality at implementation choice and acceptance,
+including construction, updates and explicit review. After repeated failed
+corrections, continue with a supported diagnosis instead of another unchanged
+attempt, keep acceptance open and name the actual prerequisite.
 
 ## Use automation as supporting evidence
 
 Run focused component, integration, visual-regression, and accessibility checks
 already owned by the project when they cover the change. Add or change automated
 coverage only when it protects a behavior that can regress and the repository
-has a canonical test seam. Do not create screenshot churn or assertion-free
-tests to simulate proof.
+has a canonical test seam. Screenshot churn and assertion-free tests prove
+nothing and are not added to simulate proof.
 
 Treat scanner output as a lead and a bounded check. Confirm relevant findings in
 the rendered interface and interaction path.

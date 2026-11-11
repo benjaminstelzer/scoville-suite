@@ -191,7 +191,7 @@
       "given": "Current work has a previously explicit successor priority, and a new plain additive request would either displace it or exceed the active Plan's Goal.",
       "expect": [
         "Recover the visible Prioritized after W-NNN title from native state, preserve the current item, and do not silently override the explicit successor or broaden the Plan.",
-        "Ask only for the conflicting priority or scope choice while independent current work continues.",
+        "Record additive work that exceeds the Goal as a todo Work Item whose Instructions state the stop and the open scope choice, without starting it; ask for the conflicting priority or scope choice in the report while independent current work continues.",
         "Do not claim a durable queue until an authorized native representation has been written and inspected."
       ]
     },

@@ -8,8 +8,8 @@ framework owner. Apply platform checks within the shared acceptance process.
 
 ## Respect the classified owner
 
-Before choosing composition or CSS, read [spacing.md](spacing.md) and stop at the
-first suitable layer in its ownership ladder. Core owns `.wrap`, title,
+Read [spacing.md](spacing.md) before choosing composition or CSS and use the
+first suitable layer of its ownership ladder. Core owns `.wrap`, title,
 `.wp-header-end`, page Notices, native `.form-table`, controls and `p.submit`.
 Preserve functioning Classic markup and native spacing. Never rebuild native
 buttons, controls, Notices, tables, shell, colors, focus, radii or shadows just
@@ -48,10 +48,10 @@ that scope and distinguish rendered, source-only, and unverified evidence.
 For **Audit**, report actionable findings in impact order. Each finding names
 the location, owning rule and its source label, observed deviation, user impact,
 simplest sound correction, and evidence limit. Separate confirmed defects from
-suspicions and optional suggestions. If none were found, state that only for
-the inspected scope. Never claim whole-UI compliance from a targeted check.
-Do not modify the implementation unless correction was also requested. Writing
-an explicitly requested audit report is allowed and does not authorize fixes.
+suspicions and optional suggestions. If none were found, state that for the
+inspected scope only; a targeted check cannot show whole-UI compliance. An
+audit changes the implementation only when correction was also requested;
+writing an explicitly requested audit report is part of the audit.
 
 For **Implement**, report changes, checks and limits with the ownership,
 version/loading, spacing, state, i18n or CSS-exception facts needed to explain

@@ -9,8 +9,8 @@ semantic relationships, valid reflow, persistent content/state and input behavio
 Express meaningful groups, order and emphasis through the owning system.
 Add containers or decoration only for a real relationship. Compare equivalent
 meanings, behaviors and owner-backed variants; preserve deliberate differences.
-Fix accidental drift at its owner within scope. Use Validation for geometry,
-optical evidence and consistency coverage; a native value outside a numeric
+Fix accidental drift at its owner within scope. A review, audit or requested
+check uses Validation for geometry, optical evidence and consistency coverage; a native value outside a numeric
 scale alone is no defect.
 
 ## Adapt instead of merely shrinking
@@ -30,5 +30,5 @@ through a coherent sequence of views.
 
 After elements change, reassess the affected group's hierarchy, space and
 transitions against its task. Adapt the local composition through its owner
-when needed; preserve functions and settled decisions. Validation selects the
-affected conditions and evidence; report a required wider redesign as a conflict.
+when needed; preserve functions and settled decisions. In a review or
+requested check, Validation selects the affected conditions and evidence; report a required wider redesign as a conflict.

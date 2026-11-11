@@ -1,8 +1,8 @@
 # Consistency audit coverage
 
 An ordinary request to check page X for consistency selects Audit with a
-consistency focus. Keep the named page or region as scope. It is not permission
-to redesign, edit, audit unrelated screens or perform a full accessibility audit.
+consistency focus on the named page or region. Redesign, edits, other screens
+and a full accessibility audit are separate requests.
 
 1. Inventory the scoped regions, component families, distinct variants and known
    exceptions from source. Include text roles, actions, controls, icons,
@@ -11,8 +11,9 @@ to redesign, edit, audit unrelated screens or perform a full accessibility audit
 2. After source findings, reconcile with final rendered DOM. Include content
    below the first viewport, nested scroll areas and relevant same-page tabs,
    disclosures, menus and overlays. Add newly revealed elements to the inventory.
-   Use read-only interactions. Do not save, submit, delete or cause external
-   effects just to obtain coverage. Name inaccessible states as unverified.
+   Use read-only interactions: saving, submitting, deleting or any external
+   effect is too high a price for coverage. Name inaccessible states as
+   unverified.
 3. Map every entry to its owner and applicable evidence under Validation's claim
    contract. Use `pass`, `defect`, `unverified` or justified `not-applicable` for
    each evidence kind that Validation's claim table requires. Compare between

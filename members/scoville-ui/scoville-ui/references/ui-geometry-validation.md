@@ -12,8 +12,8 @@ For each selected relationship:
    and final DOM. A substituted or blocked required font invalidates dependent
    measurements. Compare peers under equivalent roles, variants, states,
    typography and layout; explain intended differences.
-3. Compare each selected measurement with its target in code before display under
-   the [writing rules](writing.md). Report expected relationship/source, actual
+3. Compare each selected measurement with its target in code before display, as
+   for any [machine data](machine-data.md). Report expected relationship/source, actual
    value, tolerance and result; revision, state and viewport may appear per group.
 
 Choose tolerance before results; no universal pixel tolerance applies. An

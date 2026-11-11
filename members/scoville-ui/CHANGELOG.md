@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
+
+- Link the shared writing, machine-data, shell, output-delivery and Python references directly from SKILL.md, each with its reading condition, instead of chained read-first rules.
+- Shorten the shared rules: drop permission disclaimers that have no recorded incident and state scope and reason for the stop rules that remain.
+- Reduce output delivery to when the checker is needed, its three calls and how to read a result. Every capture failure now names its next step in the helper's `instruction` field.
+- Link every UI and WordPress reference directly from SKILL.md and add contents lists to references over 100 lines.
+- Add always-loaded rules for spacing, size and alignment, worked from the outside in: take sizes from the nearest existing control or row, fit reused components to their place, count each source of space once and check every added value against the project's existing ones.
+- Use an existing framework component, class or token where the project has one; a hand-written copy is a defect.
+- Apply these rules while writing the code without rendering every change. Reviews, audits and requested checks measure the render.
+- Trigger references by kind of task and start UI work by reading them.
+
 ## Unreleased - 2026-10-30 - Source reading and UTF-8 diagnostics
 
 - Clarify direct source reading and producer-owned instruction-design loading while preserving report evaluation.

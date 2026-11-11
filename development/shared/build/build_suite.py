@@ -16,6 +16,7 @@ from urllib.parse import unquote, urlsplit
 
 RULE_FRAGMENTS = {
     'rules.optout': 'runtime/skill_optout.md',
+    'rules.references': 'runtime/shared_references.md',
     'rules.native_output': 'runtime/native_output.md',
 }
 

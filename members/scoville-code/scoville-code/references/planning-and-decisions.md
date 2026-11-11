@@ -29,8 +29,8 @@ Acceptance names necessary outcome conditions and required results. Keep methods
 in steps unless independently required for acceptance. Scoville Plan owns native
 field and granularity rules.
 
-Continue to the next authorized in-scope item when its dependencies are met; do
-not treat every checkpoint as a new task.
+Continue to the next authorized in-scope item when its dependencies are met; a
+checkpoint is not a new task that needs a new go-ahead.
 
 Keep current results, remaining work, binding constraints and material decisions.
 For native records, follow Plan's selected
@@ -42,8 +42,9 @@ load no unrelated Plan route just for this reference.
 For an assigned review of native Plan or Decision fields, use the bundled
 Scoville Plan. For Scoville Plan, read its read-only route
 and applicable field rules; otherwise read the existing owner's applicable field
-rules. Code's engineering criteria alone do not suffice. Stay within the assigned
-source boundary; this grants no maintenance, selectors, tests or record writes.
+rules, since Code's engineering criteria do not define those fields. Stay
+within the assigned source boundary: a field review reads, and leaves
+maintenance, selectors, tests and record writes to their owner.
 
 Apply SKILL.md's material-choice criteria. Preserve each decision, its source
 and status in the existing plan, ADR, decision log, authorized commit or
@@ -58,8 +59,9 @@ and the behavior boundaries above; Plan owns its native records.
 ## Resolve decision ambiguity
 
 Follow SKILL.md's choice and permission rules. In unattended work, choose within
-the explicitly authorized decision space; preserve unresolved material choices
-as proposals and stop dependent work while continuing independent authorized work.
+the explicitly authorized decision space. Record an unresolved material choice
+as a proposal, hold only the work that depends on it and continue the
+independent authorized work.
 
 ## Hand off and resume
 
@@ -68,15 +70,13 @@ Only when Scoville Handoff is active for an explicit transfer, use its
 facts** and **Compose and check the prompt**, with its
 `assets/continuation-prompt.md`. They own source limits, required continuation
 facts and the artifact. The summary below does not restrict that prompt.
-This reference does not activate Handoff.
 
 For existing project records, or a requested handoff when Scoville Handoff is
 inactive, retain the requested outcome, binding constraints, current state,
 decisive evidence, next concrete step, and any material decision not already
-recorded canonically. This requires neither another Skill nor a new record
-system.
+recorded canonically.
 
 On resume, treat the handoff as a snapshot rather than current truth: re-read
 applicable instructions, inspect repository and plan state, and reconcile any
-mismatch before continuing. Do not repeat completed work whose evidence still
-matches the current tree.
+mismatch before continuing. Reuse completed work whose evidence still matches
+the current tree.

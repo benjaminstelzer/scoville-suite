@@ -44,6 +44,26 @@ class ProposalInventoryTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stdout)
         self.assertEqual("ADR-0002", json.loads(result.stdout)["proposals"][0]["id"])
 
+    def test_missing_decisions_directory_is_an_empty_inventory(self):
+        # Regression: Git stores no empty directory, so a fresh clone of a profile
+        # without Decisions has no docs/decisions.
+        for path in list((self.root / "docs/decisions").iterdir()):
+            path.unlink()
+        (self.root / "docs/decisions").rmdir()
+        result = self.run_cli("--proposals")
+        self.assertEqual(0, result.returncode, result.stdout)
+        self.assertEqual({"proposals": []}, json.loads(result.stdout))
+        result = self.run_cli("--next-id", "decision")
+        self.assertEqual(0, result.returncode, result.stdout)
+        payload = json.loads(result.stdout)
+        self.assertEqual("ADR-0001", payload["next_id"])
+        self.assertEqual("docs/decisions/0001-<lowercase-hyphenated-subject>.md", payload["filename_pattern"])
+        self.assertFalse((self.root / "docs/decisions").exists())
+        # The first Decision written at the suggested path is then consumed normally.
+        self.add_proposal(1)
+        result = self.run_cli("--proposals")
+        self.assertEqual("ADR-0001", json.loads(result.stdout)["proposals"][0]["id"])
+
     def test_conflicting_selection_reports_corrected_invocation(self):
         for extra in (("--plan", "PLAN-0001"), ("--position",), ("--unit", "W-003"), ("--work-item", "W-003")):
             result = self.run_cli("--proposals", *extra)

@@ -3,6 +3,15 @@
 Classify first. Each example shows one owner boundary and is intentionally not a
 cross-runtime template.
 
+## Contents
+
+- Classic Settings API
+- React with Core Components
+- Bundled experimental WPDS at the 7.0 pin
+- Hybrid shell and React root
+- Documented CSS exception without Core tokens
+- i18n registration for React
+
 ## Classic Settings API
 
 **Surface:** plugin settings. **Support:** supported. **Runtime:** PHP with Core.

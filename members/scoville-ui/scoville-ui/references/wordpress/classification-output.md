@@ -3,6 +3,11 @@
 Load only when structured classification was explicitly requested, after
 [routing.md](routing.md). The router owns the semantic boundaries.
 
+## Contents
+
+- Classification output
+- Canonical structured values
+
 ## Classification output
 
 Return a structured object with all eight fields:

@@ -1,7 +1,7 @@
 # Interaction and states
 
 Preserve component semantics, state coverage, focus/input, announcements,
-transitions and proof, including on a direct Validation route. Consult
+transitions and proof. Consult
 [Quality's ownership table](ui-quality.md#product-ownership-and-ui-guarantees)
 when product/UI responsibilities need clarification.
 

@@ -18,6 +18,12 @@ tokens and calculations. `1em` at a 13px element font resolves to 13px but must
 not become a new `13px` or `1rem` rule. Native values outside a 4/8px scale are
 not defects for that reason. Project-specific minimums do not become Core rules.
 
+## Contents
+
+- Parent ownership
+- Runtime expression
+- CSS ownership ladder
+
 ## Parent ownership
 
 These rules govern new plugin-owned gap composition. They do not replace

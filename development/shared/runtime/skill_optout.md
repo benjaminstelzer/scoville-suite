@@ -1,4 +1,4 @@
-If the user explicitly excludes this Skill, do not apply it: read none of its
-references, use no Skill-directed tools and make no Skill-derived changes or
-claims. Continue other authorized work under its responsible instructions.
-If higher authority requires this Skill, report the exact conflict.
+If the user explicitly excludes this Skill, leave it out entirely: its
+references, its tools and any change or claim derived from it. Continue the
+other authorized work. If a higher-authority rule requires this Skill, report
+that conflict.

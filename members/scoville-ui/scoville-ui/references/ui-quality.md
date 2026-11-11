@@ -1,15 +1,15 @@
 # UI Quality
 
-Apply the common task, readability and accessibility rules below. Read each
-complete topic file only when its concern can change the requested outcome.
+Apply the common task, readability and accessibility rules below. Read the
+complete topic file of each concern the task touches.
 
 | Concern | Reference |
 | --- | --- |
 | New, translated, changed or reviewed interface text | [Wording](ui-wording.md) |
-| Grouping, hierarchy, layout, responsive adaptation or changed composition | [Layout](ui-layout.md) |
+| Grouping, hierarchy, layout, spacing, sizes, alignment, responsive adaptation or changed composition | [Layout](ui-layout.md) |
 | Navigation, controls, focus, input, feedback, states or recovery | [Interactions](ui-interactions.md) |
 
-These are outcome tests, not a visual recipe. A settled unrelated concern adds
+These are outcome tests, not a visual recipe. A concern the task does not touch adds
 no topic read. Preserve canonical decisions and all affected implementation guarantees.
 
 ## Product ownership and UI guarantees

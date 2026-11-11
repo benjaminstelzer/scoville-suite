@@ -7,8 +7,9 @@ compatibility: "Agent Skills host with filesystem access and the host's skill-cr
 # Skillwriter
 
 Write, simplify or review instructions while preserving their intended behavior.
-Before this work, read [agent instruction design](references/instruction-design.md)
-for the shared frontier-model writing and diagram rules.
+[Agent instruction design](references/instruction-design.md) holds the writing
+and diagram rules this work applies; read it once per session and again after
+it changes.
 
 ## Choose the mode
 
@@ -49,8 +50,8 @@ their build path. Check affected consumers before changing shared text.
 
 For Skill authoring, load the host's `skill-creator`: OpenAI's in Codex,
 Anthropic's in Claude Code. It owns structure, metadata, packaging and format
-validation; Skillwriter owns wording. Do not edit its files. If none is
-available, draft the wording and report packaging as unverified. Standalone
+validation, and its files stay as they are; Skillwriter owns wording. If none
+is available, draft the wording and report packaging as unverified. Standalone
 prompts need no Skill package.
 
 ## Check the work
@@ -67,8 +68,9 @@ review; for new writing review the authored instruction set. Check that:
   through without unintended changes to meaning, behavior or boundaries.
 
 Correct deviations within the authorized scope and recheck affected findings.
-Report unresolved mismatches; add no separate authoring review or certificate.
-Source review does not prove model performance.
+Report unresolved mismatches. This one source review is the whole authoring
+review, without a separate certificate; it shows consistency, not model
+performance.
 
 ## Validate and evaluate
 
@@ -86,10 +88,11 @@ and settings. Add model-specific detail only where their results require it.
 | Required behavior or output | Exercise the affected outcome and preserved boundaries |
 | Activation or scope | Explicit and implicit activation, plus adjacent requests that must not activate |
 
-Run a comparative evaluation only when the user requests one or the work claims
-improved effectiveness; follow
+Run a comparative evaluation only when the user requests one or the work
+claims improved effectiveness, following
 [sources and evaluation](references/sources-and-evaluation.md). Read it also
-when citing vendor advice or research.
+before citing vendor advice or research; it holds model-specific findings for
+pruning prohibitions and stop rules.
 
 Report activation, procedural compliance, boundaries and task success separately
 for what was tested, and name what remains unverified. Shorter text, higher

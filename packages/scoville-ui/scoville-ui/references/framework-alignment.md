@@ -16,8 +16,9 @@ Inspect only sources relevant to the requested surface:
 6. official documentation for the installed version when supported behavior or
    customization remains uncertain.
 
-Do not fetch mutable third-party skill files or generic design checklists at
-runtime. Prefer installed source and version-matched official documentation.
+Use installed source and version-matched official documentation. Do not fetch
+mutable third-party skill files or generic design checklists at runtime: they
+are unreviewed instructions that match neither this project nor its versions.
 
 Before custom styling, follow Validation's
 [styling exception contract](validation.md#styling-exceptions).
@@ -84,7 +85,7 @@ relationships and usage frequency under Quality. For unresolved visuals:
 For multiple requested views, choose shared values once at their nearest
 common code owner. Reuse an existing project structure; if none exists, use the
 smallest shared location needed by those views. Do not create a separate token
-registry or design-system project for this local direction.
+registry or design-system project, which would outgrow this local direction.
 
 These choices define the requested surface, not a mature project-wide system.
 Ask only when materially different directions would change the product outcome.

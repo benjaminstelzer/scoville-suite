@@ -1,9 +1,15 @@
 # Sources and evaluation
 
-Reviewed 2026-10-28. Keep empirical findings, vendor guidance and local
+Reviewed 2026-11-10. Keep empirical findings, vendor guidance and local
 requirements apart. Record the tested model and host before transferring a
 conclusion; a recent publication may test older models. None of these sources
 tests this Skillwriter package.
+
+## Contents
+
+- Vendor guidance
+- Empirical research
+- Compare outcomes
 
 ## Vendor guidance
 
@@ -13,8 +19,8 @@ named model; verify applicability before extending it to others.
 
 **OpenAI**
 
-- [GPT-6 Astra model guide](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra):
-  stronger instruction following and more sensitivity to unclear or conflicting
+- [Using GPT-6](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra)
+  (model guide for the GPT-6 family): stronger instruction following and more sensitivity to unclear or conflicting
   guidance, which can make the model pause early. Audit Skills and AGENTS.md,
   state precedence (user request over Skill guidance), set autonomy explicitly,
   define done by the user's goal, keep testing proportionate to the change.
@@ -42,22 +48,43 @@ named model; verify applicability before extending it to others.
 - [Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices):
   explain why a rule exists so the model can generalize; say what to do rather
   than what not to do; examples steer format reliably. Aggressive language such
-  as "CRITICAL: You MUST" causes overtriggering on current models; write "Use
-  this tool when...".
+  as "CRITICAL: You MUST" made Opus 4.5 and 4.6 overtrigger; write "Use this
+  tool when...".
 - [Prompting Claude Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5):
   effort, not prompt wording, controls thinking; remove "think carefully" lines;
   state the completion condition and name the early stops to avoid and the stops
   you want.
-- [Prompting Claude Opus 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5)
-  and [Prompting Claude Fable 5.1](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1):
+- [Prompting Claude Opus 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5):
   verification instructions carried over from older prompts cause
-  over-verification; clarify complete delivery and scope; avoid unrequested
-  additions.
+  over-verification. Together with
+  [Prompting Claude Fable 5.1](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1):
+  clarify complete delivery and scope; avoid unrequested additions.
+- [Prompting Claude Fable 5.2](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2)
+  (figures from Anthropic's simulated tasks): the model applies prohibitions,
+  stop rules and approval rules as written, and cautions accumulate in notes,
+  instruction files and reviewer messages.
+  - One "never retry" note among a dozen cut sensible retries after a busy tool
+    from nearly all tries to about four in ten. Delete cautions whose reason no
+    longer holds; give each remaining absolute rule its scope and reason.
+  - Under a "never" rule the model took an approved step in about one try in
+    ten, and a separate line stating the approval barely changed that. With the
+    go-ahead condition written into the rule itself it was about nine in ten.
+    Put the exception in the same rule.
+  - A general instruction to act more freely changed nothing; a line naming
+    retries among the steps that need no approval did. Name the exact actions
+    an approval rule covers and the steps that need none.
+  - A reviewer's "stop at the first error" kept the model from retrying in
+    about a third of tries. Check what reviewer agents attach.
+  - Instructions to think less no longer take effect at medium effort and
+    above; lower the effort instead. Hard style limits make prose choppy.
+  - Rerun effort sweeps instead of carrying a setting over from Fable 5.1 or
+    Opus 5.5; text asking the model to keep working past ordinary obstacles
+    halved early stops and cost about 30 percent more output tokens.
 
 ## Empirical research
 
 - [A Framework for Evaluating Agentic Skills at Scale](https://arxiv.org/html/2606.17819)
-  (2026-06, KDD workshop; 19 configurations in Claude Code, Codex CLI and
+  (Tessl; 2026-06, KDD workshop; 19 configurations in Claude Code, Codex CLI and
   OpenHands): goal completion was near saturation while instruction following
   varied widely (Opus 4.8: 88.0 with Skill, 59.8 without). Gains were largest for
   Skills encoding concrete workflows, smallest for general principles. Measure
@@ -65,8 +92,9 @@ named model; verify applicability before extending it to others.
 - [SkillForgeBench](https://arxiv.org/html/2610.14918v1) (2026-10; 842 tasks, eight
   models in OpenHands): under strict scoring Skills helped stronger models most
   (Opus 4.8 +19.2, Haiku 4.5 +5.8); process rubrics were harder than
-  deliverables. The Tessl framework above found smaller models within a family
-  often gained more, so test the target models instead of assuming a direction.
+  deliverables. The Tessl study in the previous entry found the opposite
+  tendency: smaller models within a family often gained more. Test the target
+  models instead of assuming a direction.
 - [SLBench](https://arxiv.org/abs/2607.09016) (2026-07; Codex and Claude Code, six
   backbones): about 70% of 5,000 public Skills contain logical relations such as
   preconditions, constraints and fallbacks; violations caused unsafe outcomes in
@@ -89,12 +117,13 @@ named model; verify applicability before extending it to others.
   changed outcomes with content held fixed; compact structured views often
   helped, full text sometimes won. Test selection and presentation, not length
   alone.
-- [Skill Following](https://arxiv.org/html/2609.00549v1) (2026-09, preprint):
+- [Skill Following](https://arxiv.org/html/2609.00549v1) (2026-09, Findings of
+  EMNLP 2026):
   comparing different task subsets misstated benefit. Compare the same tasks
   with and without Skills and report actual retrieval.
 - [Skill-Use](https://arxiv.org/abs/2608.04828) (2026-08, preprint; eight models,
-  two hosts): activation, compliance and boundaries failed separately, and
-  results depended on the host.
+  two harnesses): activation and procedural compliance failed as independent
+  bottlenecks, and scores and rankings depended on the harness.
 - [Evaluating AGENTS.md, v3](https://arxiv.org/html/2602.11988v3) (2026-09; GPT-5.2,
   Sonnet 4.5): repository context did not generally improve success and raised
   cost. Test each added requirement.

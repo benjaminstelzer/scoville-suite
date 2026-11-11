@@ -13,7 +13,7 @@ import build_suite as builder
 
 
 class SharedRulesTests(unittest.TestCase):
-    def test_machine_data_and_python_have_separate_packaged_routes(self):
+    def test_shared_references_are_linked_directly_from_the_entrypoint(self):
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),
                                 ('codex', 'suite'), ('codex', 'standalone')]:
             config = builder.load(ROOT, profile, layout)
@@ -25,11 +25,19 @@ class SharedRulesTests(unittest.TestCase):
                 with self.subTest(profile=profile, layout=layout, member=member['name']):
                     self.assertEqual((SHARED / 'prompting/machine-data.md').read_bytes(),
                                      files[prefix + 'references/machine-data.md'])
-                    self.assertIn(b'](machine-data.md)', files[prefix + 'references/writing.md'])
                     discovery = (SHARED / 'runtime/python_discovery.md').read_bytes()
                     self.assertEqual(discovery, files[prefix + 'references/python-discovery.md'])
-                    self.assertNotIn(discovery.strip(), files[prefix + 'SKILL.md'])
-                    self.assertIn(b'](python-discovery.md)', files[prefix + 'references/shell-commands.md'])
+                    entrypoint = files[prefix + 'SKILL.md']
+                    self.assertNotIn(discovery.strip(), entrypoint)
+                    # Each shared reference is one level deep: the entrypoint links it
+                    # with its own condition, and no shared reference routes to another
+                    # as a required read.
+                    for name in ('writing', 'machine-data', 'shell-commands', 'output-delivery',
+                                 'python-discovery', 'instruction-design'):
+                        self.assertIn(f'](references/{name}.md)'.encode(), entrypoint, name)
+                    for name in ('writing', 'shell-commands'):
+                        text = files[prefix + f'references/{name}.md']
+                        self.assertNotRegex(text, rb'\]\([a-z-]+\.md\)', name)
                     builder.validate_package_links(files)
 
     def test_all_writing_consumers_bundle_the_same_standalone_file(self):

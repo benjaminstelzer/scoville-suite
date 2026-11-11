@@ -4,6 +4,16 @@ Use one literal text domain equal to the lowercase hyphenated plugin slug. Apply
 the contract to visible text, ARIA labels, screen-reader text, alternative text,
 notices, errors, empty states, dates, and numbers.
 
+## Contents
+
+- Required readiness, optional translation delivery
+- PHP
+- JavaScript
+- Prepare loading without requiring catalogs
+- Dates and numbers
+- Layout
+- Acceptance by scope
+
 ## Required readiness, optional translation delivery
 
 Default to i18n-readiness: extractable source strings, correct domains/APIs,

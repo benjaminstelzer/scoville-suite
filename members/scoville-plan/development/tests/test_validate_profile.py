@@ -588,6 +588,59 @@ class ValidatorTest(unittest.TestCase):
         result = self.assert_code("WORK_DEPENDENCY_CANCELLED")
         self.assertIn("WORK_CURRENT_DEPENDENCY_NOT_DONE", self.codes(result))
 
+    def cancel_both_fixture_items(self) -> str:
+        plan = "docs/plans/0001-validate-profile.md"
+        self.replace(plan, "status: active", "status: cancelled")
+        self.replace(plan, "current_item: W-001\n", "")
+        self.replace(plan, "Status: in_progress", "Status: cancelled")
+        self.replace(plan, "Evidence: []\nNext action: Run the structural validator.", "Evidence: [cancelled by user]")
+        self.replace(plan, "Status: todo", "Status: cancelled")
+        self.replace(plan, "Evidence: []\nNext action: Wait for W-001 acceptance evidence.", "Evidence: [cancelled with W-001]")
+        self.replace("PROJECT_INDEX.md", "active_plan: PLAN-0001", "active_plan: null")
+        return plan
+
+    def test_cancelled_dependent_of_cancelled_work_closes_validly(self) -> None:
+        # Regression: two cancelled items, one depending on the other, once made
+        # every terminal state of their Plan invalid.
+        plan = self.cancel_both_fixture_items()
+        completed, result = self.run_json()
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        self.assertTrue(result["valid"])
+        self.assertNotIn("WORK_DEPENDENCY_CANCELLED", self.codes(result))
+        # A non-terminal dependent of the same cancelled work is still reported.
+        self.replace(plan, "Status: cancelled\nDepends on: [W-001]", "Status: todo\nDepends on: [W-001]")
+        self.replace(plan, "Evidence: [cancelled with W-001]", "Evidence: []\nNext action: Decide the replacement.")
+        result = self.assert_code("WORK_DEPENDENCY_CANCELLED")
+        diagnostic = next(row for row in result["diagnostics"] if row["code"] == "WORK_DEPENDENCY_CANCELLED")
+        self.assertEqual("PLAN-0001/W-002", diagnostic["record"])
+
+    def test_missing_decisions_directory_is_an_empty_record_set(self) -> None:
+        # Regression: Git stores no empty directory, so a fresh clone of a profile
+        # without Decisions has no docs/decisions.
+        plan = self.path("docs/plans/0001-validate-profile.md")
+        text = plan.read_text(encoding="utf-8")
+        plan.write_text(text.replace("Decisions: [ADR-0001]", "Decisions: []"), encoding="utf-8", newline="\n")
+        shutil.rmtree(self.path("docs/decisions"))
+        completed, result = self.run_json()
+        self.assertEqual(0, completed.returncode, completed.stdout)
+        self.assertTrue(result["valid"])
+        self.assertEqual(0, result["summary"]["decisions"])
+        self.assertFalse(self.path("docs/decisions").exists())
+
+    def test_missing_decisions_directory_keeps_link_and_index_errors(self) -> None:
+        shutil.rmtree(self.path("docs/decisions"))
+        result = self.assert_code("WORK_DECISION_MISSING")
+        self.assertNotIn("PROFILE_PATH_MISSING", self.codes(result))
+        self.path("PROJECT_INDEX.md").unlink()
+        result = self.assert_code("PROFILE_PATH_MISSING")
+        missing = {row["file"] for row in result["diagnostics"] if row["code"] == "PROFILE_PATH_MISSING"}
+        self.assertEqual({"PROJECT_INDEX.md", "docs/decisions"}, missing)
+
+    def test_missing_plans_directory_remains_invalid(self) -> None:
+        shutil.rmtree(self.path("docs/plans"))
+        result = self.assert_code("PROFILE_PATH_MISSING")
+        self.assertIn("docs/plans", {row["file"] for row in result["diagnostics"]})
+
     def test_missing_decision_reference_is_reported(self) -> None:
         self.path("docs/decisions/0001-use-read-only-validation.md").unlink()
         self.assert_code("WORK_DECISION_MISSING")

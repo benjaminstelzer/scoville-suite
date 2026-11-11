@@ -10,6 +10,14 @@ expressions. Resolved pixels in verification are evidence for a named state,
 not replacement source declarations. See [classic-patterns.md](classic-patterns.md)
 for native relationships and [wpds-tokens.md](wpds-tokens.md) for token facts.
 
+## Contents
+
+- WordPress version and capabilities
+- Compatibility rules
+- PHP layout with a Core-token and older-version branch
+- React with the public 7.1 provider
+- Verification and audit outcomes
+
 ## WordPress version and capabilities
 
 | Target | Core token stylesheet | Public provider | Routing consequence |

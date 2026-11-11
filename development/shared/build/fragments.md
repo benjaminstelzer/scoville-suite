@@ -3,9 +3,14 @@
 ## Runtime helper policy
 
 `rules.optout` expands `runtime/skill_optout.md` for Code and UI. Other Skills
-retain their narrower wording. Runtime-helper consumers package
-`runtime/python_discovery.md` as `references/python-discovery.md`; the shell
-reference loads it only before a Python or runtime-helper operation.
+retain their narrower wording. `rules.references` expands
+`runtime/shared_references.md` in the SKILL.md of every member that packages the
+shared references: it links writing, machine-data, shell-commands,
+output-delivery, python-discovery and instruction-design directly from the
+entrypoint, each with its reading condition, so no shared reference routes to
+another as a required read. Its links are relative to SKILL.md; include it only
+there. Runtime-helper consumers package `runtime/python_discovery.md` as
+`references/python-discovery.md`.
 File reading is defined in the shared writing rules; agents choose their permitted method.
 `rules.native_output` expands `runtime/native_output.md` inside the conditional Codex output reference. Raw fragments contain no profile blocks. Use these include
 keys only for the stated consumers. Receipts hash the consumed canonical files;

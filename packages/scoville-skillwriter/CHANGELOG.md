@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
+
+- Add the findings of the Fable 5.2 prompting guide on prohibitions, stop rules and exceptions.
+- Correct source descriptions against their pages, name the Tessl study and set the review date to 2026-11-10.
+
 ## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
 
 - Describe the general development cycle and relevant authoring lessons.

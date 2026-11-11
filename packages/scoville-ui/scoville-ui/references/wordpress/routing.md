@@ -1,9 +1,9 @@
 # Task, surface, and runtime routing
 
-Read before any wp-admin recommendation, including hypothetical advice. This
-router owns support boundaries; use the mode in Scoville UI. Read
-[classification-output.md](classification-output.md) only for an explicitly
-requested structured report, never for ordinary advice.
+This router applies to every wp-admin recommendation, including hypothetical
+advice. It owns the support boundaries; the mode comes from Scoville UI.
+[classification-output.md](classification-output.md) is for an explicitly
+requested structured report only; ordinary advice does not need it.
 
 ## Select the focus
 
@@ -25,8 +25,9 @@ or changed region, not unrelated screens.
 When the selected claims trigger [common Validation](../validation.md), apply
 [WordPress additions](validation.md) in the same check. Consistency claims also load the
 [complete inventory coverage contract](../ui-consistency-audit.md).
-References add no scope: a spacing review does not automatically add catalogs,
-RTL, navigation redesign or every state.
+A reference serves the selected focus and does not widen it: a spacing review
+stays a spacing review, without catalogs, RTL, navigation redesign or every
+state.
 
 ## Surface support
 
