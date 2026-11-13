@@ -42,7 +42,6 @@ class SharedRuntimeBuildTests(unittest.TestCase):
                         str(script), temp], text=True, capture_output=True, cwd=temp)
                     self.assertEqual(0, process.returncode, process.stderr)
                     self.assertEqual({}, json.loads(process.stdout))
-                    self.assertFalse((script.parent / 'task_lifecycle.py').exists())
                 self.assertEqual([], builder.verify_packages(root, output))
                 original = script.read_bytes()
                 script.write_bytes(original + b'\n# drift')

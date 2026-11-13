@@ -1,12 +1,8 @@
 # Structured WordPress classification
 
-Load only when structured classification was explicitly requested, after
-[routing.md](routing.md). The router owns the semantic boundaries.
-
-## Contents
-
-- Classification output
-- Canonical structured values
+Read this file only when a structured classification was explicitly
+requested, after [routing.md](routing.md). Routing decides what is supported
+and excluded; this file fixes the values to output.
 
 ## Classification output
 
@@ -21,14 +17,14 @@ Return a structured object with all eight fields:
 7. `evidence`: observed facts supporting the values.
 8. `prohibited_recommendations`: every applicable stable identifier below.
 
-Use the canonical values and precedence below. Examples do not establish ownership.
-For ordinary findings, report only ownership facts needed to explain the
-scoped result, not a full classification report.
+Use the canonical values and precedence below. Take each value from what
+you observed, not from an example. Ordinary findings report only the facts
+needed to explain the result, not a full classification.
 
-Use this handoff matrix for the excluded version-1 surfaces. Combine its
-required prohibitions with every applicable runtime rule below. For example,
-a React SlotFill with an unknown package owner also requires the unknown-React
-prohibitions. The surface row does not replace them.
+Use this matrix for the excluded surfaces. Add the identifiers of every
+runtime rule below that also applies; the surface row does not replace them.
+Example: a React SlotFill whose package is unknown also gets the unknown-React
+identifiers.
 
 | Excluded surface | Policy | Required prohibited identifiers |
 | --- | --- | --- |
@@ -45,15 +41,14 @@ prohibitions. The surface row does not replace them.
 | Classification condition | Required value or boundary |
 | --- | --- |
 | Request explicitly says no experimental policy was supplied | `experimental_components_policy: unknown`, even for Core Components or an otherwise deny route. |
-| Excluded named Classic PHP host using Core, without that override | Policy `deny`; records host facts, grants no right to prescribe the surface. |
-| Excluded React-owned or unspecified host runtime | Policy `unknown`; grants no right to prescribe the surface. |
+| Excluded named Classic PHP host using Core, without that override | Policy `deny`. It records a host fact; the surface stays the host's. |
+| Excluded React-owned or unspecified host runtime | Policy `unknown`. The surface stays the host's. |
 | Page placement or host boundary not established by supplied facts | `shell_owner: unknown`; neither Hybrid nor runtime opt-in establishes a Core shell. |
 | Page placement or another decision-relevant owner unresolved | `support_status: needs-clarification`; runtime opt-in does not resolve placement. |
 
 Unknown policy still forbids introducing experimental APIs.
 
-When a caller requests structured classification, emit these exact stable
-values instead of prose variants:
+Emit these exact values, not prose variants:
 
 | Field | Meaning | Canonical value |
 | --- | --- | --- |
@@ -112,25 +107,22 @@ identifiers: `assume-react-is-wpds`, `custom-css-before-core`,
 `recommend-without-clarification`, and `unlock-private-theme-provider`.
 Their prose explanation may follow outside the structured object.
 
-`inject-wpds-into-classic` prohibits introducing bundled experimental
-components merely to restyle Classic UI, not a Core `wp-theme` stylesheet.
-`define-wpds-tokens` prohibits plugin-authored token assignments or imitations,
-not supported public provider props. `unlock-private-theme-provider` prohibits
-private APIs on every version, not the public 7.1 export.
+What five of the identifiers prohibit:
 
-An unknown React runtime must include `assume-react-is-wpds`,
-`define-wpds-tokens`, and `recommend-without-clarification`. An excluded host
-surface must include `own-host-surface`; when the host facts needed for a
-downstream recommendation are absent, also include
-`recommend-without-clarification`. Include every additional applicable identifier
-from the canonical list above; do not invent identifiers. The route-specific
-requirements are a minimum within that list.
+| Identifier | Prohibits | Does not prohibit |
+| --- | --- | --- |
+| `own-host-surface` | Treating a host's surface as the plugin's own page | Naming the host's own mechanism from routing.md |
+| `recommend-without-clarification` | Advice that depends on a fact the user has not given | Advice that does not depend on it |
+| `inject-wpds-into-classic` | Bundled experimental components added merely to restyle Classic UI | A Core `wp-theme` stylesheet |
+| `define-wpds-tokens` | Plugin-authored token assignments or imitations | Supported public provider props |
+| `unlock-private-theme-provider` | Private APIs on every version | The public 7.1 export |
 
-A Classic PHP plugin page using Core must include `frontend-theme-spacing`,
-`inject-wpds-into-classic`, `global-wp-admin-overrides`, and
-`custom-css-before-core`. A bundled WPDS route must include
-`unlock-private-theme-provider`, `define-wpds-tokens`,
-`global-wp-admin-overrides`, and `custom-css-before-core`. A Block Editor
-sidebar or SlotFill handoff must include `own-host-surface`,
-`frontend-theme-spacing`, and `recommend-without-clarification` because this
-Skill must stop before prescribing the host-owned details.
+Minimum identifiers per route. Add every other identifier from the list that
+applies; do not invent identifiers.
+
+| Route | Must include |
+| --- | --- |
+| Unknown React runtime | `assume-react-is-wpds`, `define-wpds-tokens`, `recommend-without-clarification` |
+| Excluded host surface | Its row in the matrix above, which always has `own-host-surface`; also `recommend-without-clarification` when a host fact needed for a recommendation is absent |
+| Classic PHP plugin page using Core | `frontend-theme-spacing`, `inject-wpds-into-classic`, `global-wp-admin-overrides`, `custom-css-before-core` |
+| Bundled WPDS route | `unlock-private-theme-provider`, `define-wpds-tokens`, `global-wp-admin-overrides`, `custom-css-before-core` |

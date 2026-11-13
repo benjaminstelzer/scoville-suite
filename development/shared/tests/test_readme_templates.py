@@ -147,7 +147,7 @@ class ReadmeTemplateTests(unittest.TestCase):
         root = SHARED.parent / 'scoville-suite'
         self.assertEqual(SHARED / 'readme/license.md', builder.readme_source(root, 'shared:license.md'))
         with self.assertRaises(ValueError):
-            builder.readme_source(root, 'shared:../runtime/task_lifecycle.py')
+            builder.readme_source(root, 'shared:../runtime/scoville_config.py')
         with self.assertRaises(FileNotFoundError):
             builder.readme(root, {'readme': ['shared:missing-template.md']})
 

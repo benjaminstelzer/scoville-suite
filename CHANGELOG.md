@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased - 2026-11-12 - Concrete instructions and release command
+
+- Add `release_suite.py`: `prepare` builds, checks, exports and stages every target, `publish` commits, pushes and verifies them after approval.
+- Rewrite every Skill instruction and shared rule as a trigger, an action and a result the agent can check itself, and remove statements that reach the same reader twice.
+- Code: replace the mode table and general advice with 16 steps for maintainable changes: reuse what the project has, keep one path, use other modules through their public interface, keep one source for each fact, read every loop for work repeated per item, and size safeguards, structure and tests to the request. The loop check is a reading check; it asks for no timing or profiling.
+- Code: require the test that proves a change to fail without it, to sit where the changed rule lives and to run in the project's own test command. The report names that test; "all tests pass" does not count when it was not among them.
+- Code: end every change with a check of the diff against the steps and a short proof in the report: what was reused, which guard covers which real case, which test ran.
+- Code: add a review table to the code quality reference that looks for the same defects in someone else's change, with a list of what is not a defect. Each defect is its own finding.
+- Code: lay out a new project by responsibility, with a README that says in one line per module what lives where.
+- Code: activate for building a new tool or project and for adding a feature.
+- UI: add a source checklist for classic WordPress plugin pages: page frame, Settings API, labels, Notices, buttons, where styles load and what they select, widths, status beyond color and translatable strings.
+- UI: name the host mechanism to recommend for surfaces a plugin does not own, such as a Block Editor panel, a metabox or a Dashboard widget, instead of withholding advice.
+- UI: in a review, take the list of added sizes and values from the added lines of the diff, so that none is skipped. For a plugin-owned WordPress page, read the adapter before the first edit or finding.
 ## Unreleased - 2026-11-11 - Size check for placed components and tested models
 
 - UI: check the size of every component a change places, including one left at its default, against the neighbours it has to match, and report each new control with the control it copies.

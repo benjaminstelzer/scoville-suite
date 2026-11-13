@@ -1,20 +1,21 @@
 # WordPress guidance additions
 
 Read [common UI quality](../ui-quality.md) for information order, actions,
-forms, states and accessibility. Apply these WordPress mappings within the same
-scope. A local spacing audit does not activate unrelated concerns.
+forms, states and accessibility. Apply these WordPress mappings to the same
+scope. A local spacing audit does not bring in unrelated concerns. For a
+Classic page, also walk adapter.md's checklist.
 
 ## Headings
 
 Use exactly one primary page title. Heading levels follow content hierarchy, not
 desired visual size.
 
-Preserve the owning Core heading color, font size and font weight. For a
-reported mismatch, inspect the computed values and winning CSS declarations
-against an equivalent Core heading in the same WordPress version and runtime.
-Compare page titles with page titles and section headings with section headings.
-Do not flatten their differences or replace a native style merely because a
-semantic token is available. Keep source findings separate from rendered proof.
+Keep Core's heading color, font size and font weight. For a reported
+mismatch, compare the computed values and winning CSS declarations with an
+equivalent Core heading in the same WordPress version and runtime: page
+title with page title, section heading with section heading. Do not level
+their differences or replace a native style merely because a semantic token
+is available. Report source findings and rendered proof separately.
 
 ## Navigation
 
@@ -56,7 +57,8 @@ Classic page header order:
 
 ## Components and accessibility
 
-Use the owning WordPress group component or native fieldset with a legend. Preserve
-Core or component contrast and focus behavior. A necessary custom color requires
-measured WCAG AA evidence in the actual theme. Keep all visible and assistive
-text translatable through [internationalization.md](internationalization.md).
+Group controls with the runtime's WordPress group component or a native
+fieldset with a legend. Keep Core or component contrast and focus behavior. A
+necessary custom color requires measured WCAG AA contrast in the actual theme.
+Keep all visible and assistive text translatable through
+[internationalization.md](internationalization.md).

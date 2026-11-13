@@ -192,6 +192,48 @@ including the fixed public suite targets. Remove obsolete generated files;
 preserve source repositories and Git history. Regular Skill directories contain
 only their current verified output, never build candidates or stale copies.
 
+## Release command
+
+`release_suite.py` runs the steps between a committed source and the pushed
+targets. Run it from the suite root:
+
+```text
+python ../shared/build/release_suite.py prepare
+python ../shared/build/release_suite.py publish -m "<subject>" -m "<trailer>"
+```
+
+`prepare` needs clean suite and shared sources on main. For every profile it
+builds the suite and the standalone view into `suite-<profile>` and
+`standalone-<profile>`, runs `--check-publication` on each, exports the sources
+into `export-<profile>` and validates the exported Plan profile. It scans the
+release content for paths inside the current user's home directory, makes
+every local target checkout equal to its staging tree and stages the result.
+It commits and pushes nothing. It prints the staged changes per target and
+records the prepared source commit and targets in `release-state.json` in the
+staging directory.
+
+| Option | Use |
+| --- | --- |
+| `--runtime-run <URL>` | After a new Runtime helpers run. Without it prepare reuses the run recorded in the staging receipts; changed packaged Python still needs a new run first (Runtime build gate below). |
+| `--trash <directory>` | Where to move a staging tree that another program keeps open after four delete attempts. |
+| `--public`, `--release` | Other locations for the target checkouts or the staging directory, for example copies for a trial run. |
+
+Targets come from `suite.json`. Each profile's repository receives its export.
+Each public member with its own repository receives its standalone package
+from the default profile, or from its first profile when it is not in the
+default one. A target must be a checkout of that repository on main whose only
+changes are ones an earlier prepare staged.
+
+`publish` runs after the push is approved. It refuses when the suite source
+moved since prepare. It commits each target that has staged changes with the
+given message, pushes main and compares `refs/heads/main` on the remote with
+the local commit of every target. `published.json` in the staging directory
+holds the result. Report the publication from that file: writing it back into
+exported Plan records would need another export and push.
+
+Every refusal names its cause and the correction. Tags, releases and local
+installation are outside this command.
+
 ## Runtime build gate
 
 Builds containing Python runtime helpers reuse a successful private GitHub

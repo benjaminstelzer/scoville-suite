@@ -2,22 +2,24 @@
 
 ## UI wording and terminology
 
-Use approved product and platform terminology. When none exists, choose terms
-suited to the audience, domain and established conventions.
+These rules cover new and changed interface text and need no dictionary,
+glossary or terminology record.
 
-Follow the explicit language request, then the established product or source
-language and applicable platform conventions; chat language alone does not
-override them. For new UI with no such owner, state the chosen language briefly
-and ask only when the choice materially affects the product outcome.
+Use approved product and platform terms. Where none exists, choose the word
+this audience and domain normally use, following established conventions.
 
-- Use one term per concept within each language across affected views and
-  states, allowing grammatical/contextual variation and preserving meaningful
-  distinctions.
-- Headings name their topic; buttons their action/effect; fields their value;
-  toggles their property. Add the object, unit or consequence needed for clarity.
-- Preserve meaning, conceptual distinctions and established technical terms
-  in translations. Follow the target language's conventions and approved
-  terminology rather than translating technical terms mechanically.
+Follow an explicit language request first, then the language of the product
+or its source and the platform's conventions. The chat language alone does not
+override them. For new UI with none of these, state the chosen language
+briefly. Ask only when the choice materially affects the product outcome.
 
-These rules apply to new and changed interface text without requiring a
-dictionary, glossary or separate terminology record.
+- One term per concept within each language, in every affected view and
+  state: not `Workspace` in the list and `Project` in its dialog for the
+  same thing. Grammatical forms and context-dependent short forms may vary;
+  different things keep different words.
+- A heading names its topic, a button its action or effect, a field its
+  value, a toggle its property. Add the object, unit or consequence a label
+  needs: `Timeout (seconds)`.
+- A translation keeps meaning, conceptual distinctions and established
+  technical terms. Follow the target language's conventions and approved
+  terms; do not translate technical terms word by word.

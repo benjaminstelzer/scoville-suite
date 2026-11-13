@@ -6,10 +6,9 @@ compatibility: "Agent Skills host with filesystem access and the host's skill-cr
 
 # Skillwriter
 
-Write, simplify or review instructions while preserving their intended behavior.
-[Agent instruction design](references/instruction-design.md) holds the writing
-and diagram rules this work applies; read it once per session and again after
-it changes.
+Write, simplify or review instructions while preserving their intended
+behavior. Read [Agent instruction design](references/instruction-design.md)
+once per session and again after it changes; apply its rules.
 
 ## Choose the mode
 
@@ -29,9 +28,10 @@ flowchart TD
   check --> report["Report changes and actual checks"]
 ```
 
-A concrete revision request authorizes its changes; a review remains read-only.
-Ask only when a material change to outcome, scope or boundaries is not covered by
-the request or prior approval. Before revising, preserve the exact affected
+A concrete revision request authorizes its changes. A review edits nothing.
+Ask only when a material change to outcome, scope or boundaries is not covered
+by the request or prior approval: dropping an approval stop is material,
+tightening a sentence without changing what it requires is not. Before revising, preserve the exact affected
 pre-edit state through a Git revision containing it or a temporary workspace
 copy. Keep this baseline through the final comparison.
 
@@ -41,35 +41,35 @@ Keep the intended outcome, scope, activation boundaries, facts, permissions,
 required behavior and acceptance criteria unless the user explicitly asks to
 change them. Shorter text alone is not an improvement.
 
-Read the relevant instruction set: `SKILL.md`, references, included fragments and
-imported prompts needed to understand the change and its effects. Reuse fully
-retained unchanged text. Edit sources and regenerate derived copies through
-their build path. Check affected consumers before changing shared text.
+Read the files needed to understand the change and its effects: `SKILL.md`,
+references, included fragments and imported prompts. Do not reread
+text that is still completely in context and has not changed. Edit the source and regenerate derived copies through their
+build path. Before changing shared text, check every file that uses it.
 
 ## Work with Skill Creator
 
 For Skill authoring, load the host's `skill-creator`: OpenAI's in Codex,
-Anthropic's in Claude Code. It owns structure, metadata, packaging and format
-validation, and its files stay as they are; Skillwriter owns wording. If none
+Anthropic's in Claude Code. It decides structure, metadata, packaging and
+format validation; do not edit its files. Skillwriter decides wording. If none
 is available, draft the wording and report packaging as unverified. Standalone
 prompts need no Skill package.
 
 ## Check the work
 
-Review changed instructions and affected consumers once in the existing source
-review; for new writing review the authored instruction set. Check that:
+Review changed instructions and the files that use them once in the existing
+source review; for new writing review what you wrote. Check that:
 
 - an agent can complete the task, and required behavior and boundaries are clear;
-- authorization, activation and handoffs agree with their owning contracts;
+- authorization, activation and handoffs agree with the files that define them;
 - rules remain consistent, without unnecessary duplication or constraints;
 - every diagram path agrees with the text. Parse Mermaid with a renderer or
   parser when available; otherwise report the syntax as unverified;
-- for a revision, compared with the baseline, the approved changes are carried
-  through without unintended changes to meaning, behavior or boundaries.
+- for a revision, the diff against the baseline holds every approved change
+  and no other change to meaning, behavior or boundaries.
 
 Correct deviations within the authorized scope and recheck affected findings.
 Report unresolved mismatches. This one source review is the whole authoring
-review, without a separate certificate; it shows consistency, not model
+review; write no separate certificate. It shows consistency, not model
 performance.
 
 ## Validate and evaluate
@@ -92,9 +92,9 @@ Run a comparative evaluation only when the user requests one or the work
 claims improved effectiveness, following
 [sources and evaluation](references/sources-and-evaluation.md). Read it also
 before citing vendor advice or research; it holds model-specific findings for
-pruning prohibitions and stop rules.
+pruning prohibitions and stop rules and for low reasoning effort.
 
-Report activation, procedural compliance, boundaries and task success separately
-for what was tested, and name what remains unverified. Shorter text, higher
-effort or self-reported success do not prove improvement. A claim that a model
-follows the instructions requires a run with that model.
+Report activation, procedural compliance, boundaries and task success
+separately for what was tested. Name what remains unverified. Shorter text, higher
+effort or self-reported success do not prove improvement. A claim that a model follows
+the instructions requires a run with that model.

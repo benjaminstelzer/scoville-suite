@@ -2,13 +2,13 @@
 
 These are observed WordPress 7.1 implementation patterns at
 [`b998fef9238af183f9523b3df71618e6e57498b6`](https://github.com/WordPress/WordPress/tree/b998fef9238af183f9523b3df71618e6e57498b6).
-Revalidate for the actual supported version. Selectors are source evidence,
-not automatically public extension APIs. No row defines a universal gap.
+Recheck them for the version the plugin actually supports. No row defines a
+universal gap.
 
 ## Declarations and context
 
-Paths below are relative to that Core checkout. Preserve authored units.
-Resolved examples assume the stated winning font rule. Other selectors,
+Paths below are relative to that Core checkout. Keep authored units.
+Resolved values assume the font rule named in the row wins. Other selectors,
 inheritance, display behavior and media queries can change the result.
 
 | Context and source | Authored declarations | Interpretation |
@@ -47,9 +47,9 @@ first wrap heading when no marker exists. `.inline` prevents relocation.
 
 ## Prove the actual relationship
 
-When implementing, the declarations above are source evidence: write the
-change from them and report the resulting distance as unverified. A review,
-audit or requested check proves it in the render:
+When implementing, write the change from the declarations above and report
+the resulting distance as unverified. A review, audit or requested check
+proves it in the render:
 
 1. Inspect loaded stylesheet URLs, order and relevant minified rules selected by
    `SCRIPT_DEBUG` in `wp-includes/script-loader.php:1620`. Registration or a file
@@ -57,11 +57,13 @@ audit or requested check proves it in the render:
 2. Inspect final DOM after scripts, then the computed cascade.
 3. Measure geometry at relevant wide and narrow conditions.
 
-There, for a named paragraph and control pair record both authored `margin: 1em 0` and its
-resolved value, the intervening flow and line boxes and actual measured edges.
-Margin collapsing, table layout, padding and inline line boxes can change the
-visible separation. Do not publish an assumed resulting gap from this table.
+There, for a named paragraph and control pair, record the authored
+`margin: 1em 0`, its resolved value, the flow and line boxes in between and
+the measured edges. Margin collapsing, table layout, padding and inline line
+boxes can change the visible separation. Do not publish a gap assumed from
+this table.
 
-Native source and token definitions remain independent even if Core supplies
-both. Classic stays Classic on 7.1. Use [spacing.md](spacing.md) to resolve a
-genuine missing relationship rather than applying the fallback scale here.
+Core's native CSS and its token definitions are independent, although Core
+supplies both. A Classic page stays Classic on 7.1. For a relationship Core
+really leaves unspaced, follow [spacing.md](spacing.md); do not apply the
+fallback scale here.

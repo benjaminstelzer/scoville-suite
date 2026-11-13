@@ -1,8 +1,7 @@
 ## Shared references
 
-Read one when its condition holds. A complete copy already in context from
-this build, including one embedded in your assignment, counts as read; read it
-again when it is incomplete or uncertain or a reload is requested.
+Read one when its condition holds. A complete copy from this build already in
+context counts as read, including one embedded in your assignment. Read it again when it is incomplete, when you are not certain it is the complete copy from this build, or when a reload is requested.
 
 - [Writing](references/writing.md): a plan, decision, instruction, review, handoff or report; a disputed conclusion.
 - [Machine data](references/machine-data.md): a test report, log or structured state as a result.

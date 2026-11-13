@@ -37,9 +37,8 @@ wp_set_script_translations(
 wp_enqueue_script( 'plugin-slug-app' );
 ```
 
-The build-generated dependency list is authoritative. This prevents missing
-runtime handles such as `react` or `react-jsx-runtime` when the build emits
-them.
+Pass the dependency list the build generated. A hand-written list can miss
+runtime handles such as `react` or `react-jsx-runtime` that the build emits.
 
 ## Optional PO-based delivery example
 
@@ -47,9 +46,10 @@ Use this chain only when producing bundled translations is part of the task
 and the project chooses a PO-based workflow. It is not a readiness checklist
 or the only supported way to deliver translations.
 
-Before extraction, align PO source references with the registered `build/index.js`,
-not `src/index.js`. Generated filenames use the MD5 of the registered relative
-build path unless the documented handle filename form is deliberately used.
+Before extraction, make the PO source references point to the registered
+`build/index.js`, not `src/index.js`. Generated filenames use the MD5 of the
+registered relative build path unless the documented handle filename form is
+deliberately used.
 
 1. After the JavaScript build, `wp i18n make-pot` extracts PHP and the
    registered build JavaScript to POT. Exclude `src` so the PO cannot acquire a
@@ -61,11 +61,11 @@ build path unless the documented handle filename form is deliberately used.
 6. Assert one genuinely translated PHP string and one translated React string
    in a browser.
 
-When the selected release process uses authored POT and PO files, retain them
-with the MO and path-hashed Jed JSON artifacts that process requires. Regenerate
-affected artifacts after translatable source or build-path changes. Other
-delivery mechanisms retain their own artifact contract; readiness-only tasks
-require none of these delivery artifacts.
+When the selected release process uses authored POT and PO files, keep them
+together with the MO and path-hashed Jed JSON files that process requires.
+Regenerate the affected files after a translatable string or the build path
+changes. Another delivery mechanism keeps its own set of files. A
+readiness-only task needs none of them.
 
 POT extraction, a PO file, or hard-coded translated text does not prove runtime
 loading.

@@ -1,16 +1,7 @@
 # Runtime-owned examples
 
-Classify first. Each example shows one owner boundary and is intentionally not a
-cross-runtime template.
-
-## Contents
-
-- Classic Settings API
-- React with Core Components
-- Bundled experimental WPDS at the 7.0 pin
-- Hybrid shell and React root
-- Documented CSS exception without Core tokens
-- i18n registration for React
+Classify the region first. Each example holds for one runtime; do not copy
+it to another.
 
 ## Classic Settings API
 
@@ -43,8 +34,8 @@ function plugin_slug_render_settings_page() {
 ```
 
 Do not add a page gutter, form-row grid, custom button, or stack gap over
-`.form-table`. A plugin-owned subcomponent may add a local flow only after Core
-ownership has been checked.
+`.form-table`. A plugin-owned subcomponent may add a local flow only after
+you checked that Core does not already space it.
 
 This remains valid on 7.1 without any token or React migration. For a genuine
 missing PHP layout relationship, the
@@ -128,16 +119,16 @@ export function ConnectionSettings() {
 ```
 
 This explicit Flex prop combination is Skill-Norm composition, not Core
-component defaults or a Classic normalization target. Use it only where a new
-plugin-owned relationship lacks an existing owner.
+component defaults or a Classic normalization target. Use it only for a new
+plugin-owned relationship that no existing component or prop spaces.
 
 `gap={ 4 }` expresses the `16px` Skill-Norm relationship between related
 setting groups through the component's 4-px multiplier. The nested
-`gap={ 2 }` owns the `8px` heading-to-intro relationship. Reset only the native
+`gap={ 2 }` sets the `8px` heading-to-intro relationship. Reset only the native
 heading and paragraph margins inside `.plugin-slug-heading-flow` so that this
-gap remains the single owner; do not add sibling margins. The children are
-intrinsic, so they use `FlexItem`. Use `FlexBlock` only for a child intended to
-grow.
+gap is the only source of that distance; do not add sibling margins. The
+children are intrinsic, so they use `FlexItem`. Use `FlexBlock` only for a
+child intended to grow.
 
 ```css
 .plugin-slug-heading-flow > .plugin-slug-heading-item > :where(h2, p) {
@@ -152,9 +143,9 @@ WPDS. **Shell:** Core plus plugin root. **Spacing:** public `Stack`. **Token
 owner:** bundled `@wordpress/theme/design-tokens.css`. **Experimental policy:**
 allow through explicit project opt-in.
 
-This legacy pinned example is not the 7.1 enqueue recipe. Inside WordPress 7.1
-use Core `wp-theme`, never this duplicate token copy. Do not change an existing
-Classic page to this experimental runtime merely to obtain spacing tokens.
+This legacy pinned example is not the 7.1 enqueue recipe. Do not change an
+existing Classic page to this experimental runtime merely to obtain spacing
+tokens.
 
 ```jsx
 import { Stack } from '@wordpress/ui';
@@ -185,13 +176,12 @@ wp_enqueue_style(
 ```
 
 At the WordPress 7.0 pin, `@wordpress/theme` does not publicly export
-`ThemeProvider`. Do not unlock its `privateApis` from plugin code. The public
-route bundles `@wordpress/ui` plus the exported design-token stylesheet and
-uses the default token values. `Stack` has neither a default direction nor a
-default gap, so both are explicit. `2xl` means the supplied WPDS gap token,
-whose default is `32px`; it is not the padding token with the same name. Do not
-set `--wpds-*` in plugin CSS. A non-default density needs a future public
-provider contract and is unavailable on this pin.
+`ThemeProvider`. The public route bundles `@wordpress/ui` plus the exported
+design-token stylesheet and uses the default token values. `Stack` has neither
+a default direction nor a default gap, so both are explicit. `2xl` means the
+supplied WPDS gap token, whose default is `32px`; it is not the padding token
+with the same name. A non-default density needs a future public provider
+contract and is unavailable on this pin.
 
 ## Hybrid shell and React root
 
@@ -210,17 +200,17 @@ non-experimental Core owner.
 </div>
 ```
 
-The PHP shell owns title placement and page-level Notices. The React root owns
-only its descendants. A field error belongs inside the React field region. Do
-not wrap the entire `.wrap` in another spacing system.
+The PHP shell places the title and page-level Notices. The React root renders
+and spaces only its descendants. A field error belongs inside the React field
+region. Do not wrap the entire `.wrap` in another spacing system.
 
 ## Documented CSS exception without Core tokens
 
-Use custom CSS only after the ladder is exhausted. This PHP workflow region
-needs a responsive card grid. Core has no owning layout primitive for this
-plugin region, and Core Components `Flex` is not available in the PHP runtime.
-This is an explicit older-version fallback, not the default for a 7.1 region
-with supported Core tokens. Test it on each older supported baseline.
+Use custom CSS only after spacing.md's ladder is exhausted. This PHP workflow
+region needs a responsive card grid. Core has no layout primitive for it, and
+Core Components `Flex` is not available in the PHP runtime. This is an
+explicit older-version fallback, not the default for a 7.1 region with
+supported Core tokens. Test it on each older supported baseline.
 
 ```css
 .plugin-slug-summary-grid {
@@ -257,10 +247,10 @@ wp_set_script_translations(
 wp_enqueue_script( 'plugin-slug-app' );
 ```
 
-Use the dependency and version data generated for the built entry; do not copy
-an incomplete dependency list by hand. Binding the registered handle and domain
-prepares standard translation loading without requiring catalogs to exist.
-Use a third, custom-path argument only when the selected delivery mechanism
-needs it. If producing translations is in scope, verify the chosen artifacts
-against the registered build path and prove actual loading. A readiness-only
-task does not create PO files or require translated PHP and React strings.
+Use the dependency and version data generated for the built entry; do not
+write the dependency list by hand. Binding the registered handle to the domain
+prepares standard translation loading before any catalog exists. Pass a third,
+custom-path argument only when the selected delivery mechanism needs it. When
+producing translations is in scope, check the chosen files against the
+registered build path and prove they load. A readiness-only task creates no
+PO files and needs no translated PHP or React strings.

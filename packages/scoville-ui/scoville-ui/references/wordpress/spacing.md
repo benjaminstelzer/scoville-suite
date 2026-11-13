@@ -1,75 +1,68 @@
 # Spacing ownership
 
-Classify the owning region before selecting or judging a spacing value.
+Before choosing or judging a spacing value, find what renders the region:
 
-- **Classic with Core markup:** Read [classic-patterns.md](classic-patterns.md).
-  Preserve its authored units and context-specific cascade. There is no
-  universal Classic 4/8px spacing scale.
-- **A region consuming WPDS tokens:** Read [wpds-tokens.md](wpds-tokens.md)
-  and the relevant [version contract](version-compatibility.md). A token's
-  existence does not map it to a Classic relationship.
-- **A demonstrated native-owner gap:** Only then read
-  [fallback-composition.md](fallback-composition.md). Those are Skill choices,
-  not official defaults or targets for normalizing existing UI.
+| Region | Read | Rule |
+| --- | --- | --- |
+| Classic page built from Core markup | [classic-patterns.md](classic-patterns.md) | Keep its authored units and context-specific cascade. Classic has no universal 4/8px scale. |
+| Region that consumes WPDS tokens | [wpds-tokens.md](wpds-tokens.md), [version rules](version-compatibility.md) | A token's existence does not map it to a Classic relationship. |
+| New plugin-owned relationship that Core markup, classes and components demonstrably leave unspaced | Only then [fallback-composition.md](fallback-composition.md) | Skill choices, not official defaults or targets for normalizing existing UI. |
 
-Use [validation.md](validation.md) for evidence matching the spacing claim;
-gap alone proves no visible distance. Preserve original units, unitless line-height,
-tokens and calculations. `1em` at a 13px element font resolves to 13px but must
-not become a new `13px` or `1rem` rule. Native values outside a 4/8px scale are
-not defects for that reason. Project-specific minimums do not become Core rules.
-
-## Contents
-
-- Parent ownership
-- Runtime expression
-- CSS ownership ladder
+- A review, audit or requested check takes its spacing evidence from
+  [validation.md](validation.md); `gap` alone proves no visible distance.
+- Keep original units, unitless line-height, tokens and calculations: `1em`
+  at a 13px font resolves to 13px but must not become a new `13px` or `1rem`
+  rule.
+- A native value outside a 4/8px scale is not a defect for that reason.
+- Project-specific minimums do not become Core rules.
 
 ## Parent ownership
 
-These rules govern new plugin-owned gap composition. They do not replace
-working native margin-based flow.
+These rules apply to a new plugin-owned group composed with `gap`. They do
+not replace working native margin-based flow.
 
-1. The direct parent owns spacing between its direct children.
+1. The direct parent sets the spacing between its direct children.
 2. Children do not add the same outer margin when their parent uses `gap`.
-3. Nested groups choose the relationship for their own children instead of
-   inheriting the parent gap blindly.
-4. A card or panel owns internal padding. Its parent owns distance to peers.
+3. A nested group chooses the gap for its own children instead of copying
+   the parent's gap.
+4. A card or panel sets its internal padding. Its parent sets the distance
+   to peers.
 5. Hidden, unmounted, or empty children occupy no gap slot.
 6. Help, status, and error text stays with the control it explains.
 7. Reset heading or paragraph margins only inside the exact plugin-owned gap
    parent that replaces them.
-8. Portals and overlays declare the owner at their render destination.
+8. A portal or overlay gets its spacing at the element it renders into.
 
-Compare the heading-to-content relationship with separation from adjacent
-sections. Trace unexplained differences to the actual parent, child margins,
-padding and intervening native elements before changing values. Preserve
-deliberate hierarchy instead of making every distance equal. A valid token
-alone does not prove the intended grouping in the rendered composition.
+Compare a heading's distance to its content with its distance to the next
+section. Trace an unexplained difference to the parent gap, child margins,
+padding and native elements in between before changing a value. Keep
+deliberate differences between levels; do not make every distance equal. A
+valid token alone does not show that the rendered grouping is right.
 
 ## Runtime expression
 
 ### Classic
 
-Reuse native shell and Settings API rhythm. A plugin-owned inner component may
-use a Skill-Norm gap only after Core markup, classes, and default CSS have been
-checked. Never apply a gap stack over `.wrap`, `.form-table`, or `p.submit`.
+Reuse the native shell and Settings API rhythm. Never put a gap stack over
+`.wrap`, `.form-table`, or `p.submit`. A plugin-owned inner component may use
+a Skill-Norm gap only after Core markup, classes and default CSS were checked.
 
-When an actual new relationship lacks a Core owner, 7.1 may express its gap
-through Core's loaded `--wpds-dimension-gap-*` tokens in narrowly scoped plugin CSS. A stylesheet is
-not a React runtime. Prefer this supplied semantic token over a new local
-spacing variable. Do not apply it over native rhythm that already works.
-See [version-compatibility.md](version-compatibility.md) for an explicit 7.0
-fallback and registration, loading, and token-name checks.
+Where no Core markup or class spaces a new relationship, a 7.1 page may
+express its gap through Core's loaded `--wpds-dimension-gap-*` tokens in
+narrowly scoped plugin CSS. A stylesheet is not a React runtime.
+Prefer this supplied token over a new local spacing variable, and do not
+apply it over native rhythm that works. See
+[version-compatibility.md](version-compatibility.md) for the explicit 7.0
+fallback and registration, loading and token-name checks.
 
 ### Core Components
 
-Specialized components own their internals. The following explicit prop
-combination is Skill-Norm composition for a new generic group, not the
-component defaults. Select its gap only after confirming that the existing
-owner cannot express the required relationship. `GAP_PX` is the chosen distance
-in pixels. Stable `Flex` multiplies its numeric gap by four pixels, so divide
-`GAP_PX` by four. This recipe remains the default when experimental policy is
-`allow`, `deny` or `unknown`:
+Specialized components space their own internals. For a new generic group,
+first confirm that no existing component or prop expresses the relationship;
+only then use the prop combination below. It is Skill-Norm composition, not
+the component defaults. `GAP_PX` is the chosen distance in pixels. Stable
+`Flex` multiplies its numeric gap by four pixels, so divide `GAP_PX` by four.
+This recipe is the default under policy `allow`, `deny` and `unknown`:
 
 ```jsx
 <Flex
@@ -95,19 +88,19 @@ public APIs, token ownership and explicit Stack props at the pin.
 
 ### Core tokens and public theming in 7.1
 
-Within WordPress, depend on the existing `wp-theme` style handle. Do not bundle
-a second token stylesheet. A public `ThemeProvider` is optional for scoped React
-theming and does not replace the stylesheet. PHP does not need the provider.
-Keep the actual token-owning document in view for portals, popups, and iframes.
-
-Supported semantic foreground, background and stroke tokens may express a genuine
-plugin-specific domain state when no Core component already owns it. Apply
-[Adapter's platform invariants](adapter.md#respect-the-classified-owner) and
-[Validation's state checks](validation.md#select-the-platform-checks).
+- Inside WordPress, depend on the existing `wp-theme` style handle. Do not
+  bundle a second token stylesheet.
+- A public `ThemeProvider` is optional, for scoped React theming. It does not
+  replace the stylesheet, and PHP does not need it.
+- For portals, popups and iframes, check which document loads the tokens.
+- A supported semantic foreground, background or stroke token may show a
+  plugin-specific domain state that no Core component shows. Apply the
+  [adapter's rules](adapter.md#respect-the-classified-owner) and
+  [Validation's state checks](validation.md#select-the-platform-checks).
 
 ## CSS ownership ladder
 
-Stop at the first suitable owner:
+Stop at the first layer that fits:
 
 1. WordPress API and semantic Core markup.
 2. Core class or WordPress component with default CSS.
@@ -118,7 +111,7 @@ Stop at the first suitable owner:
 
 Before writing an exception, record:
 
-- DOM region and runtime owner.
+- DOM region and its runtime.
 - Relevant WordPress options checked and why they fail; for a local React stack,
   why `Flex` fails too.
 - Smallest plugin scope and token or Skill-Norm source.

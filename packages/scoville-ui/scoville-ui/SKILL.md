@@ -12,10 +12,10 @@ requirements for intent, a design system for visuals, a component for mechanics.
 
 ## Owners
 
-If the user explicitly excludes this Skill, leave it out entirely: its
-references, its tools and any change or claim derived from it. Continue the
-other authorized work. If a higher-authority rule requires this Skill, report
-that conflict.
+If the user explicitly excludes this Skill, leave it out: do not read its
+references, run its tools or base a change or statement on it. Continue other
+authorized work. If a higher-authority rule requires this Skill, report that
+conflict.
 
 For each concern, the first of these that settles it is its owner: system,
 safety and legally binding accessibility requirements; the explicit user request,
@@ -40,10 +40,10 @@ target, use WCAG 2.2 AA on the web and current platform guidance elsewhere.
 ## Skill coordination
 
 All Skills in this suite are installed and enabled together. Use the
-applicable owner without checking sibling availability, and load only the
+Skill that owns a concern without checking its availability, and load only the
 instructions the task needs.
-A Skill that needs explicit activation stays out until it is activated, and
-one the user excluded stays out.
+Do not use a Skill that needs explicit activation before it is activated, or
+one the user excluded.
 
 UI owns task flow, information structure, new interface wording and
 terminology, framework-valid implementation, semantics, states, focus and
@@ -68,7 +68,7 @@ about those concerns.
 
 | Concern | Reference and trigger |
 | --- | --- |
-| Any `wp-admin` concern, including hypothetical advice or classification | [WordPress routing](references/wordpress/routing.md) first; supported plugin-owned pages also [adapter](references/wordpress/adapter.md). Unknown ownership holds the advice that depends on it, and an excluded surface is not handled through the general route instead. |
+| Any `wp-admin` concern, including hypothetical advice or classification | Read [WordPress routing](references/wordpress/routing.md) first. For a plugin-owned page also read the [adapter](references/wordpress/adapter.md) before the first edit or finding: you write and audit the page against its checklist. Unknown ownership holds only the advice that depends on it; name the missing fact and answer the rest. For a surface the plugin does not own, such as the Block Editor sidebar, a metabox or a Dashboard widget, routing names the host's own mechanism to recommend; do not treat it as a plugin page or through the general route. |
 | Themes, frontend output, non-WordPress surfaces, pure visual concepts | General route without admin references; a visual concept keeps its design scope. |
 | General-route ownership or implementation path unresolved | [Framework](references/framework-alignment.md) before choosing an owner: unfamiliar stack, interacting layers, uncertain customization, no visual owner, or a component limit in the way. |
 | Creating, changing, auditing or reviewing an interface | Before the first edit or finding, read [Quality](references/ui-quality.md) and the topic file of each touched concern: [Wording](references/ui-wording.md) for interface text, [Layout](references/ui-layout.md) for grouping, spacing, sizes, alignment and responsive adaptation, [Interactions](references/ui-interactions.md) for controls, focus, input, feedback and states. The trigger is the kind of task, not whether a question looks open. The spacing, size and alignment rules themselves are in this file. |
@@ -100,9 +100,8 @@ requested structured report.
 
 ## Shared references
 
-Read one when its condition holds. A complete copy already in context from
-this build, including one embedded in your assignment, counts as read; read it
-again when it is incomplete or uncertain or a reload is requested.
+Read one when its condition holds. A complete copy from this build already in
+context counts as read, including one embedded in your assignment. Read it again when it is incomplete, when you are not certain it is the complete copy from this build, or when a reload is requested.
 
 - [Writing](references/writing.md): a plan, decision, instruction, review, handoff or report; a disputed conclusion.
 - [Machine data](references/machine-data.md): a test report, log or structured state as a result.
@@ -167,7 +166,10 @@ element you add or change, work from the outside in:
 7. Check the values themselves, when finishing a change and in every review.
    List every component the change places with its size variant, writing
    `default` where none is set, and every literal it adds for height, font
-   size, radius, padding and gap. Search the page's source, the project's
+   size, radius, padding and gap. In a review, take this list from the
+   added lines of the diff by searching them for these properties and for
+   size classes, so that no added value is skipped because another part of
+   the change drew the attention. Search the page's source, the project's
    tokens and existing rules for the same component or value on the same
    kind of element. Two results are defects unless the request asks for
    them or it is the local size from step 2: a size variant that differs

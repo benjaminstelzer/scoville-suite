@@ -1,63 +1,104 @@
 # Task, surface, and runtime routing
 
-This router applies to every wp-admin recommendation, including hypothetical
-advice. It owns the support boundaries; the mode comes from Scoville UI.
-[classification-output.md](classification-output.md) is for an explicitly
-requested structured report only; ordinary advice does not need it.
+Read this file for every wp-admin recommendation, including hypothetical
+advice. It settles three things in this order: which concerns the task covers,
+whether the surface is a supported plugin page, and which runtime renders each
+region. The mode (Implement or Audit) comes from Scoville UI.
+Read [classification-output.md](classification-output.md) only when the user
+explicitly asks for a structured classification report; ordinary advice does
+not need it.
 
 ## Select the focus
 
-Take the page/region and concerns from the request. Combine concerns only when
-requested or causally necessary. A page audit covers that page's applicable
-concerns, not every plugin screen; a targeted audit covers the selected concern
-and needed dependencies. Implement applies relevant contracts to the new page
-or changed region, not unrelated screens.
+Take the page or region and the concerns from the request. Add a concern only
+when the request names it or the requested work cannot be done correctly
+without it.
+
+- A page audit covers the concerns that apply to that page, not every plugin
+  screen.
+- A targeted audit covers the named concern and what it depends on.
+- Implement applies the rules to the new page or the changed region, not to
+  unrelated screens.
 
 | Focus | Inspect | Main reference |
 | --- | --- | --- |
-| Spacing, vertical flow and composition | Before choosing gaps, margins, padding, stacks, cards, fields or portals: inspect parent and child ownership, hidden content and Core defaults; a review or requested check also measures the actual rendered distances. | [spacing.md](spacing.md) |
-| Core defaults, tokens, and CSS | Runtime owner, reused Core markup and components, token availability and loading when consumed, CSS exceptions before custom styling. | [spacing.md](spacing.md); [version-compatibility.md](version-compatibility.md) for token/provider availability, loading, fallback or version-sensitive advice |
+| Spacing, vertical flow and composition | Before choosing gaps, margins, padding, stacks, cards, fields or portals: which element sets each distance (parent gap, child margin, Core default) and which children are hidden. A review or requested check also measures the rendered distances. | [spacing.md](spacing.md) |
+| Core defaults, tokens, and CSS | Which runtime renders the region, which Core markup and components it reuses, whether each token it consumes is available and loaded, and the CSS exception record before custom styling. | [spacing.md](spacing.md); [version-compatibility.md](version-compatibility.md) for token/provider availability, loading, fallback or version-sensitive advice |
 | Responsive layout | Page shells, columns, toolbars, data views, narrow widths, zoom, RTL and content expansion: affected reflow, wrapping, overflow, order and relevant widths. | [responsive.md](responsive.md) |
-| User guidance and states | Navigation, hierarchy, actions, forms, Notices, loading, empty, success, error, disabled, permission and recovery states possible in the selected flow. | [ui-guidance.md](ui-guidance.md) |
+| User guidance and states | Navigation, hierarchy, actions, forms, Notices, and the loading, empty, success, error, disabled, permission and recovery states that can occur in the selected flow. | [ui-guidance.md](ui-guidance.md) |
 | Accessibility | Relevant semantics, keyboard and focus behavior, labels, contrast, targets, and reflow. | [ui-guidance.md](ui-guidance.md), [responsive.md](responsive.md) for layout |
 | Interface text, locale values, translation loading or i18n-readiness | New or changed visible and accessible strings, dates, numbers, domains, formatting, dependencies, loading hooks, localized layout, expansion and language-scoped RTL. Translation delivery only when requested. | [internationalization.md](internationalization.md) |
 
-When the selected claims trigger [common Validation](../validation.md), apply
-[WordPress additions](validation.md) in the same check. Consistency claims also load the
-[complete inventory coverage contract](../ui-consistency-audit.md).
-A reference serves the selected focus and does not widen it: a spacing review
-stays a spacing review, without catalogs, RTL, navigation redesign or every
-state.
+A reference serves the selected focus and does not widen it. Example: a
+spacing review stays a spacing review; it adds no translation catalogs, RTL
+check, navigation redesign or inventory of every state.
+
+When Scoville UI selects [common Validation](../validation.md) for the task,
+apply the [WordPress additions](validation.md) in the same check. A check of
+page consistency also reads
+[Audit coverage](../ui-consistency-audit.md).
 
 ## Surface support
 
-| Surface | Support and shell owner | Boundaries |
-| --- | --- | --- |
-| Plugin single-site settings/tool | Supported; Core shell | Preserve working Classic elements and defaults. |
-| Plugin workflow/dashboard/data view | Supported; Core shell plus explicit plugin root | One owner per region. |
-| Plugin Network Admin page | Supported with explicit Multisite context; Network Admin shell | Establish placement separately from runtime. |
-| Block Editor sidebar/SlotFill or editor canvas | Excluded; Block Editor or Editor owner | No frontend-theme spacing or dependent recommendations without host facts. |
-| Post metabox, Dashboard widget, existing Core list/screen | Excluded; corresponding Core host | No experimental WPDS injection or global admin overrides. |
-| Profile field | Excluded; Core profile screen | No experimental injection, global overrides or CSS before checking Core. |
-| UI inside another plugin | Excluded; host plugin | React proves no WPDS ownership; no dependent recommendations without owner facts. |
+Find the surface in one of the two tables. When the request and the
+accessible source do not show where the UI is placed, treat the page shell as
+unknown and follow the `unknown` branch of the diagram below. That a UI uses
+React or opted in to experimental components does not show that it sits in a
+Core page shell.
 
-Excluded surfaces stop the plugin route: no plugin-page shell, generic spacing
-matrix, global admin CSS or general-route bypass. Unknown placement leaves shell
-ownership unresolved; runtime opt-in never establishes a Core shell.
+Supported: continue with [adapter.md](adapter.md).
+
+| Surface | Page shell | Rule |
+| --- | --- | --- |
+| Plugin single-site settings or tool page | Core shell | Keep working Classic elements and defaults. |
+| Plugin workflow, dashboard or data view | Core shell plus an explicit plugin root | Give each region one runtime and one source of spacing. |
+| Plugin Network Admin page | Network Admin shell | Supported only when the request or source shows the Multisite context. Establish where the page is placed separately from which runtime renders it. |
+
+Excluded: the surface belongs to a host, so the plugin page route does not
+apply. Recommend the host's own mechanism instead.
+
+| Surface | Host | Recommend | Do not recommend |
+| --- | --- | --- | --- |
+| Block Editor sidebar or document panel (SlotFill) | Block Editor | `PluginSidebar` for an own sidebar or `PluginDocumentSettingPanel` for a panel in the document settings, both from `@wordpress/editor` and registered with `registerPlugin()`. Inside: `PanelBody`, `PanelRow` and controls from `@wordpress/components`. These components bring their own spacing. | `form-table` paddings or pixel values copied from the settings page; global editor CSS; frontend-theme spacing. |
+| Editor canvas | Editor | The block that renders there: its own styles and its `spacing` block support (`margin`, `padding`, `blockGap`). | Admin-page spacing or frontend-theme spacing values prescribed from outside the block. |
+| Post metabox | Core post screen | `add_meta_box()` on the `add_meta_boxes` action. The callback prints only the box content with Core form markup; Core renders the box frame, title and spacing. | Experimental WPDS components injected into the box; global admin overrides. |
+| Dashboard widget | Core Dashboard | `wp_add_dashboard_widget()` on the `wp_dashboard_setup` action. The callback prints only the widget content; Core renders the widget frame. | Experimental WPDS injection; global admin overrides. |
+| Profile field | Core profile screen | Print the fields on `show_user_profile` and `edit_user_profile` as rows of a `<table class="form-table">` like that screen's own sections; save on `personal_options_update` and `edit_user_profile_update`. | Experimental injection; global overrides; custom CSS before checking what Core's markup already gives. |
+| Existing Core list or screen | That Core screen | The hooks and filters the screen provides, such as `manage_{$screen->id}_columns` for list-table columns. Core renders the markup and spacing. | Experimental WPDS injection; global admin overrides. |
+| UI inside another plugin | Host plugin | The host plugin's documented extension points and its own components. | WPDS advice derived from the fact that the host uses React; advice that depends on host facts the user did not give. |
+
+For every excluded surface:
+
+1. Say that the plugin page rules do not apply: no `.wrap` page shell, no
+   spacing scale from [fallback-composition.md](fallback-composition.md), no
+   global admin or editor CSS. Do not handle the surface through Scoville
+   UI's general route instead.
+2. Recommend the mechanism from the table and say that the host's spacing
+   applies. Values of the plugin's own settings page are not copied there.
+3. Base the advice on the facts the user gave. Where a missing fact would
+   change the advice, name that fact and still answer the rest.
+
+Example: "Which spacing values should our panel in the block editor sidebar
+use so it matches our settings page?" Answer: the settings page values do not
+transfer; build the panel from `PanelBody`, `PanelRow` and
+`@wordpress/components` controls inside `PluginSidebar` or
+`PluginDocumentSettingPanel` and keep their built-in spacing; add no editor
+CSS. Missing fact to name: whether the panel is an own sidebar or part of the
+document settings.
 
 ## Choose the runtime per region
 
 ```mermaid
 flowchart TD
   surface{"Supported plugin-owned admin page?"}
-  surface -->|excluded| host["Name host owner; stop plugin route"]
+  surface -->|excluded| host["Plugin page route does not apply; recommend the host's mechanism from Surface support"]
   surface -->|unknown| inspect["Inspect supplied context and accessible source/runtime within scope"]
   inspect --> known{"Decision-relevant facts established, including runtime for supported regions?"}
   known -->|no| clarify["needs-clarification: name missing fact; withhold only dependent advice"]
   known -->|yes| surface
   surface -->|yes| adapter["Read adapter.md; classify runtime and supported versions separately"]
   adapter --> runtime{"Observed runtime of each DOM region?"}
-  runtime -->|PHP with Core| php["Core APIs, markup, classes and defaults"]
+  runtime -->|PHP with Core| php["Core APIs, markup, classes and defaults; adapter.md checklist"]
   runtime -->|Core React| react["Core Components and registered packages; no inferred WPDS opt-in"]
   runtime -->|bundled experimental| experimental["Read experimental-policy.md; explicit opt-in for additions; verify target compatibility"]
   runtime -->|mixed| hybrid["Map shell, mounts and actual portal/overlay destinations separately"]
@@ -68,23 +109,28 @@ flowchart TD
   hybrid --> focus
 ```
 
-An explicitly unspecified experimental policy stays unknown even for Core
-Components; it permits no experimental additions. Known non-experimental PHP/Core
-or Core-only hybrid requests use deny.
-New experimental APIs require explicit opt-in; unknown behaves as deny. An existing
-experimental subtree retains its owner absent a functional reason to change it.
-Read [experimental-policy.md](experimental-policy.md) before experimental changes
-or advice. Core tokens/public provider are distinct capabilities, not experimental
-component opt-in. React alone establishes neither WPDS nor shell ownership.
+Set the experimental components policy from what the request and project say:
 
-For token/provider availability, loading, fallback or version-sensitive advice,
-read [version-compatibility.md](version-compatibility.md). Native regions consuming
-no tokens need no token audit. PHP with Core tokens remains `php-core`.
+| Situation | Policy | Effect |
+| --- | --- | --- |
+| The project explicitly opted in to bundled experimental WPDS components | `allow` | Read [experimental-policy.md](experimental-policy.md) before any experimental change or advice. |
+| The request says no experimental policy was given, even on a page that uses Core Components | `unknown` | Behaves as deny: add no experimental API. |
+| A PHP/Core page, or a hybrid page whose regions all use non-experimental Core | `deny` | Add no experimental API. |
 
-Continue independent checks when a needed fact remains unknown. Ask only for the
-remaining decision-relevant fact after inspecting accessible sources. No complete
-classification report is required for ordinary findings. Structured values and
-precedence belong to classification-output.md.
+- Leave an existing experimental subtree as it is unless a functional
+  requirement needs it changed.
+- Core tokens and the public provider are separate capabilities. Using them
+  is not an opt-in to experimental components.
+- A React region alone shows neither WPDS use nor a Core page shell.
+- For token or provider availability, loading, fallback or version-sensitive
+  advice, read [version-compatibility.md](version-compatibility.md). A native
+  region that consumes no tokens needs no token audit. A PHP page that uses
+  Core tokens stays `php-core`.
+
+When a fact is still missing after you inspected the supplied context and the
+accessible source, continue every check that does not depend on it and ask
+only for that fact. Ordinary findings need no complete classification report;
+the structured values and their precedence are in classification-output.md.
 
 ## Fact labels
 

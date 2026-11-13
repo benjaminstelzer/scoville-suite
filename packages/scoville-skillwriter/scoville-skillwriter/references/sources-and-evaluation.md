@@ -1,9 +1,9 @@
 # Sources and evaluation
 
-Reviewed 2026-11-10. Keep empirical findings, vendor guidance and local
+Sources reviewed 2026-11-10. Keep empirical findings, vendor guidance and local
 requirements apart. Record the tested model and host before transferring a
-conclusion; a recent publication may test older models. None of these sources
-tests this Skillwriter package.
+conclusion; a recent publication may test older models. None of the published
+sources tests this Skillwriter package.
 
 ## Contents
 
@@ -83,6 +83,16 @@ named model; verify applicability before extending it to others.
 
 ## Empirical research
 
+- Own measurement of this project, not a vendor source or published study
+  (2026-11-11/12; gpt-6.1-sol in Codex CLI with the Scoville UI, Code and
+  Plan Skills, not this Skillwriter package): at low
+  reasoning effort the model spent almost no reasoning tokens, took rules
+  literally and skipped abstract lookup steps; at medium effort it followed the
+  same instructions in every run. Concrete, checkable rules with a worked
+  example were followed, abstract principles were skipped, and a rule in a
+  reference the model may not open had no effect. Write each rule as a
+  checkable step with its condition and keep what every task needs in the
+  always-loaded file.
 - [A Framework for Evaluating Agentic Skills at Scale](https://arxiv.org/html/2606.17819)
   (Tessl; 2026-06, KDD workshop; 19 configurations in Claude Code, Codex CLI and
   OpenHands): goal completion was near saturation while instruction following
@@ -133,9 +143,8 @@ named model; verify applicability before extending it to others.
 
 ## Compare outcomes
 
-Use this protocol when the user requests a comparative evaluation or the work
-claims improved effectiveness. Package validation and reading the instructions
-do not demonstrate better model performance.
+Package validation and reading the instructions do not demonstrate better model
+performance.
 
 - Select realistic tasks that expose the changed behavior and preserved correct
   work, including writing and rewriting when both apply. Keep development

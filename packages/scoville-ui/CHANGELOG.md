@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased - 2026-11-12 - Concrete instructions and release command
+
+- Add a source checklist for classic WordPress plugin pages: page frame, Settings API, labels, Notices, buttons, where styles load and what they select, widths, status beyond color and translatable strings.
+- Name the host mechanism to recommend for surfaces a plugin does not own, such as a Block Editor panel, a metabox or a Dashboard widget, instead of withholding advice.
+- In a review, take the list of added sizes and values from the added lines of the diff, so that none is skipped. For a plugin-owned WordPress page, read the adapter before the first edit or finding.
+- State each rule as a trigger, an action and a result the agent can check itself, and remove statements that reach the same reader twice.
+- Remove contents lists and maintainer provenance notes from the WordPress references.
+- Reword the shared writing, machine-data, shell and output-delivery rules the same way.
+
 ## Unreleased - 2026-11-11 - Size check for placed components and tested models
 
 - Check the size of every component a change places, including one left at its default, against the neighbours it has to match, and report each new control with the control it copies.

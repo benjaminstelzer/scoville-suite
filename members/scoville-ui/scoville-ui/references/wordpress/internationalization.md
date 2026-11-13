@@ -1,34 +1,24 @@
 # PHP, JavaScript, and layout internationalization
 
 Use one literal text domain equal to the lowercase hyphenated plugin slug. Apply
-the contract to visible text, ARIA labels, screen-reader text, alternative text,
+these rules to visible text, ARIA labels, screen-reader text, alternative text,
 notices, errors, empty states, dates, and numbers.
-
-## Contents
-
-- Required readiness, optional translation delivery
-- PHP
-- JavaScript
-- Prepare loading without requiring catalogs
-- Dates and numbers
-- Layout
-- Acceptance by scope
 
 ## Required readiness, optional translation delivery
 
-Default to i18n-readiness: extractable source strings, correct domains/APIs,
-safe formatting and escaping, script dependencies and loading hooks,
-locale-aware values, and expansion-tolerant layouts. Catalogs must be generatable
-and loadable later without rewriting strings or registration; shipping only
-source-language strings is valid.
+Default to i18n-readiness: extractable source strings, correct functions and
+domain, safe formatting and escaping, script dependencies and loading hooks,
+locale-aware values, and layouts that tolerate longer text. Catalogs can then
+be generated and loaded later without rewriting strings or registration.
+Shipping only source-language strings is valid.
 
-Create POT, PO, MO, Jed JSON, translations or a `languages/` directory only for
-translation delivery or an explicitly selected workflow. The same condition
-governs introducing WP-CLI, a translator, locale downloads or a PO workflow.
-Preserve the selected delivery mechanism, including external catalogs and
-WordPress language packs. Read [translation-delivery.md](translation-delivery.md)
-only for requested bundled translations or changes to existing loading or
-PO-based delivery. RTL has its separate language scope below.
+| Situation | Action |
+| --- | --- |
+| No translation delivery requested, no workflow explicitly selected | Create no POT, PO, MO, Jed JSON, translations or `languages/` directory; introduce no WP-CLI, translator, locale downloads or PO workflow. |
+| A delivery mechanism is selected, including external catalogs and WordPress language packs | Keep it. |
+| Bundled translations requested, or existing loading or PO-based delivery changes | Only then read [translation-delivery.md](translation-delivery.md). |
+
+RTL has its own condition below.
 
 ## PHP
 
@@ -78,7 +68,7 @@ const message = sprintf(
 
 For a JavaScript UI, register its real script handle and dependencies, then
 bind that handle to the literal domain with `wp_set_script_translations()`
-before enqueueing. This registration can exist before translation files do.
+before enqueueing. This works before any translation file exists.
 Do not add a JavaScript build to a PHP-only page for this purpose.
 
 Without a custom catalog location, use the standard loading path:
@@ -93,39 +83,36 @@ Add an explicit custom path only when the selected delivery mechanism needs one.
 
 - PHP uses `wp_date()` and `number_format_i18n()`.
 - JavaScript dates use `dateI18n` from `@wordpress/date`.
-- The baseline passes PHP-formatted numbers to client UI. A client-only number,
-  currency, or percentage formatter requires an authoritative API, explicit
-  locale mapping, and a browser test. Do not derive BCP-47 by replacing `_`
-  with `-` without a source-backed contract.
+- By default, pass PHP-formatted numbers to the client UI. A client-only
+  number, currency, or percentage formatter requires an authoritative API,
+  explicit locale mapping, and a browser test. Do not derive BCP-47 by
+  replacing `_` with `-` unless a source defines it.
 
 ## Layout
 
-Use logical properties, allow controls and actions to wrap, and preserve
-information, function and source order. Fix presentation instead of shortening
-or fragmenting translatable copy. Apply [WordPress validation's content
-cases](validation.md#select-the-platform-checks); synthetic expansion requires
+Use logical properties, let controls and actions wrap, and keep information,
+function and source order. When longer text breaks the layout, fix the layout,
+not the string. A rendered check uses [WordPress validation's content
+cases](validation.md#select-the-platform-checks); lengthened test text needs
 no production translations or PO files and proves no translation loading.
 
 ### Language-scoped RTL checks
 
-Require RTL checks when a supported or explicitly planned UI language uses
-right-to-left direction, including an admin-user language that differs from
-the site's. Check affected layouts, controls, focus/source order and directional
-content. Controlled RTL direction suffices for readiness layout evidence.
+| Languages in scope | RTL check |
+| --- | --- |
+| A supported or explicitly planned UI language is right-to-left, including an admin-user language that differs from the site's | Required. Check affected layouts, controls, focus/source order and directional content. A test with direction set to RTL suffices as readiness layout evidence. |
+| LTR only, or unspecified with no established RTL requirement | Not required; does not block readiness. Report RTL as untested without claiming support; revisit when an RTL language enters scope. |
 
-For LTR-only or unspecified languages without an established RTL requirement,
-omit mandatory RTL tests and do not block readiness. Report RTL as untested
-without claiming support; revisit when an RTL language enters scope. Preserve
-Core direction handling and logical properties in either case.
+Keep Core's direction handling and logical properties in both cases.
 
 ## Acceptance by scope
 
 | Situation | Result |
 | --- | --- |
-| Readiness only | Accept after source and applicable layout checks meet this contract; catalogs and translated browser strings are unnecessary. |
-| Source strings bypass i18n APIs or violate the domain, formatting, escaping, dependency or handle-order contracts above | Reject readiness even if catalogs exist. |
-| Translation delivery | Verify the selected mechanism's artifacts and source/build references; prove claimed translations actually load at runtime. Extractability or controlled RTL alone cannot establish delivery. |
+| Readiness only | Accept when the source and the applicable layout checks meet the rules above; catalogs and translated browser strings are unnecessary. |
+| Source strings bypass i18n functions or break the domain, formatting, escaping, dependency or handle-order rules above | Reject readiness even if catalogs exist. |
+| Translation delivery | Verify the selected mechanism's artifacts and source/build references; prove claimed translations actually load at runtime. Extractability or an RTL-direction test alone cannot establish delivery. |
 
-If source extractability remains uncertain, a disposable extraction can supply
-evidence without introducing a maintained catalog workflow. Report readiness,
-translation delivery and actual loading evidence separately.
+When extractability stays uncertain, a throwaway extraction can supply
+evidence without a maintained catalog workflow. Report readiness, translation
+delivery and proof of actual loading separately.

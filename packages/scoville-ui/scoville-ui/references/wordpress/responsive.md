@@ -1,13 +1,14 @@
 # Responsive layout and page archetypes
 
-WordPress has no universal content width for all plugin pages. Choose an
-archetype, keep the shell owner intact, and adapt intrinsically before adding a
-breakpoint.
+WordPress has no universal content width for plugin pages. Pick the page type
+below, leave the shell to Core, and let content wrap and columns flex before
+adding a breakpoint.
 
 ## Shared invariants
 
-- At `<=782px`, respect Core mobile admin behavior. Select boundary, reflow and
-  content cases through [WordPress validation](validation.md#select-the-platform-checks).
+- At `<=782px`, keep Core's mobile admin behavior. A requested rendered check
+  takes its widths and content cases from
+  [WordPress validation](validation.md#select-the-platform-checks).
 - Preserve DOM, keyboard, and screen-reader order when layout changes.
 - Matching text inputs and selects follow Core's `40px` mobile minimum height. WCAG 2.2
   AA separately requires `24 x 24 CSS px` pointer targets or an allowed
@@ -17,7 +18,8 @@ breakpoint.
   [internationalization's layout contract](internationalization.md#layout).
 - Primary actions remain visible. Secondary actions wrap or move to an
   accessible labeled menu.
-- Non-exempt shells satisfy:
+- The document does not scroll sideways; a fixed pixel width that breaks
+  this at `782px` is a defect:
 
   ```js
   document.documentElement.scrollWidth <= document.documentElement.clientWidth
@@ -38,7 +40,7 @@ responsive switch.
 
 - One main source-order column.
 - Use Settings API and Core form-table behavior on Classic pages.
-- Do not impose a plugin page max-width just to create an aesthetic measure.
+- Do not set a page max-width only to get a pleasing line length.
 - Limit prose locally only for a demonstrated reading problem and label that
   choice as Skill-Norm.
 - Put submission after the values it affects.
@@ -49,13 +51,13 @@ responsive switch.
 
 - Separate header, primary task, supporting regions, and status and recovery by
   meaning.
-- Use the owner-provided Grid or Flex primitive. A custom intrinsic grid requires
-  a documented CSS exception.
-- Use content-aware minimums. Avoid fixed column counts chosen only from device
-  labels.
+- Use the Grid or Flex primitive of the region's runtime. A custom
+  intrinsic grid needs spacing.md's CSS exception record.
+- Size columns from content, as in `minmax(min(100%, 18rem), 1fr)`, not
+  from a column count per device class.
 - **Skill-Norm:** At `<=782px`, default to one visual column unless a smaller group proves
   readable content, target size, and focus order.
-- Cards represent real groups. The parent owns inter-card gap.
+- Cards represent real groups. The parent sets the gap between cards.
 
 ## Data view
 
@@ -67,8 +69,3 @@ responsive switch.
 - If columns must remain two-dimensional, use a labeled local scroll container
   with visible keyboard focus.
 - Sticky or clipped UI must not obscure focus.
-
-## Test selection
-
-Use [WordPress validation](validation.md#select-the-platform-checks) for the
-scoped layout claims and report inspected cases and remaining gaps.

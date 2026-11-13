@@ -2,42 +2,49 @@
 
 ## Measure relationships, not declarations
 
-For each selected relationship:
+For each distance or alignment to check:
 
-1. Before measurement, name reference elements/edges, expected relationship,
-   independent source and justified tolerance. Sources may be an unchanged owner
-   contract, suitable reference or greenfield direction derived from the brief
-   before implementation. Candidate CSS and equally wrong peers supply no target.
-2. Settle required fonts, content and transitions; inspect relevant loaded styles
-   and final DOM. A substituted or blocked required font invalidates dependent
-   measurements. Compare peers under equivalent roles, variants, states,
-   typography and layout; explain intended differences.
-3. Compare each selected measurement with its target in code before display, as
-   for any [machine data](machine-data.md). Report expected relationship/source, actual
-   value, tolerance and result; revision, state and viewport may appear per group.
+1. Before measuring, note the reference elements and their edges or centres,
+   the expected relationship, its source and a justified tolerance: `Save
+   bottom to card content bottom: 16px (card padding token), +/-0.5px
+   rounding`. The source is independent of the change: an unchanged
+   component, token, design-system or platform rule, a suitable reference,
+   or for new UI the direction derived from the brief before implementation.
+   The CSS under test and equally wrong peers supply no target.
+2. In each selected condition, let required fonts, content and transitions
+   settle; read the relevant loaded styles and final DOM. A substituted or
+   blocked required font invalidates dependent measurements. Compare peers in
+   equal role, variant, state, typography and layout; explain intended
+   differences.
+3. Read each measurement (rectangles, computed values) from the DOM or its
+   platform equivalent and compare it with its target in code before
+   display, as for any [machine data](machine-data.md). Report expected
+   relationship and source, actual value, tolerance and result; revision,
+   state and viewport may appear per group. Use an existing report or the
+   task result; no prescribed table, no new file.
 
-Choose tolerance before results; no universal pixel tolerance applies. An
-unresolved target remains unresolved. Geometry proves only the measured
-relationships under the reported conditions, not optical quality or page coverage.
+A value outside its tolerance is reported as a deviation; it is a defect
+unless the difference is intended. Choose the tolerance before results; no
+universal pixel tolerance applies. Without a target the relationship stays
+unresolved.
 
-Use an existing report or task result, without a prescribed table or new file.
+Keep the authored unit or expression, the computed value and the measured
+distance apart. Authored and reported values keep their `em`, `rem`, `px`,
+percentage, unitless line-height, token reference, calculation or logical
+property: equal current pixels do not turn `1rem` into `16px`. Record the
+element or root font size or the container it is relative to.
 
-Keep the authored unit or expression, computed value and measured distance separate.
-Preserve `em`, `rem`, `px`, percentages, unitless line-height, token references,
-calculations and logical properties. Equal current pixels do not authorize
-substitution. Record the relevant element or root font or container basis.
-
-For ordered non-overlapping boxes, `B.top - A.bottom` measures border-box
-separation, not glyph whitespace or a baseline. Account for flow, collapsing,
-padding/borders, line boxes, wrapping and rounding. Summed declarations are not
-observed geometry; minimum height is not fixed height.
+For ordered non-overlapping boxes, `B.top - A.bottom` is the gap between
+border boxes, not glyph whitespace or a baseline. Account for flow,
+collapsing, padding and borders, line boxes, wrapping and rounding. Summed
+declarations are not observed geometry; minimum height is not fixed height.
 
 ## Inspect with a comparison and a hypothesis
 
 View the scoped region in context first, then details at a consistent scale.
 Keep an unaltered context image or crop when guides help comparison. For each
-applicable concern, record a located deviation or scoped pass. Explain relevant
-exclusions without producing boilerplate for unrelated lenses.
+row that applies, record a located deviation or a scoped pass. Explain a
+relevant exclusion; write nothing for unrelated rows.
 
 | Look for | Compare |
 | --- | --- |
@@ -47,13 +54,15 @@ exclusions without producing boilerplate for unrelated lenses.
 | Components, including status text, controls and icons | Intended internal text and icon placement as well as outer alignment; check unintended parent stretching and wrapped neighbors |
 | Content and state changes | Wrap, clipping, overlap, hidden-content holes and reading order |
 
-Equal outer boxes can have displaced text or icons. View the difference, then
-inspect font/line-height, padding, alignment and icon metrics as relevant;
-outer rectangles cannot establish baselines. Measure and view internal content
-as well as outer layout when claimed; container overflow alone proves no
-internal alignment. Preserve intended native variant differences. Report
-unresolved optical questions as unverified.
+Equal outer boxes can hold displaced text or icons, such as two 24-high
+controls whose labels sit 1px apart. View the difference, then inspect font
+and line-height, padding, alignment and icon metrics. Where internal placement
+is claimed, measure and view the inner content too; container overflow alone
+proves no internal alignment.
+Keep intended native variant differences. Report unresolved optical questions
+as unverified.
 
-Refresh affected evidence under [Validation](validation.md#select-and-refresh-evidence).
-Zoom alone does not test whether `em`, `rem` and fixed pixels behave equivalently.
-Where units are at risk, vary element or root font conditions independently.
+When a change invalidates a check, repeat it under
+[Validation](validation.md#select-and-refresh-evidence). Zoom alone does not
+test whether `em`, `rem` and fixed pixels behave equivalently. Where units are
+at risk, vary element or root font size independently.

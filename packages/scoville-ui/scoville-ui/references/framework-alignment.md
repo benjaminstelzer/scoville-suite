@@ -1,7 +1,9 @@
 # Framework Alignment
 
-Resolve open UI ownership through the canonical layer chosen by the product.
-Apply the entrypoint's concern-level authority and conflict contract.
+Use this file to settle which source decides an open UI concern: the layer
+the product has chosen, whether instructions, design system, component
+library, token set, platform or a deliberate local pattern. SKILL.md's Owners
+section sets the order and the conflict rule.
 
 ## Find the owners
 
@@ -10,9 +12,9 @@ Inspect only sources relevant to the requested surface:
 1. repository and product instructions;
 2. installed dependencies and their versions;
 3. product design-system documentation and shared UI packages;
-4. provider setup, themes, semantic token definitions, component wrappers, and
+4. provider setup, themes, semantic token definitions, component wrappers and
    approved assets;
-5. nearby, repeated rendered patterns and their source; and
+5. nearby, repeated interface patterns and their source; and
 6. official documentation for the installed version when supported behavior or
    customization remains uncertain.
 
@@ -21,49 +23,57 @@ mutable third-party skill files or generic design checklists at runtime: they
 are unreviewed instructions that match neither this project nor its versions.
 
 Before custom styling, follow Validation's
-[styling exception contract](validation.md#styling-exceptions).
-When changing style values, follow the
-[authored-unit contract](ui-geometry-validation.md#measure-relationships-not-declarations).
+[styling exception rules](validation.md#styling-exceptions).
+When changing style values, keep the authored unit as the paragraph "Keep the
+authored unit" in
+[Geometry](ui-geometry-validation.md#measure-relationships-not-declarations)
+says; the measuring steps there belong to a requested review, audit or check.
 
 ## Classify the stack
 
 ### Styled design system
 
-Use supported components, semantic tokens, theme extension points and responsive
-APIs as the visual owner. Reuse project wrappers before the underlying library.
-Resolve a demonstrated system gap at its canonical owner within authorized scope.
+Use its supported components, semantic tokens, theme extension points and
+responsive APIs for the visuals. Where a project wrapper exists, use it
+before the underlying library. Resolve a demonstrated gap where the system is
+meant to be extended (its theme, tokens or the project wrapper), within
+authorized scope.
 
 ### Headless component library
 
-The library owns its implemented state, focus, keyboard, relationships and
-announcements. Derive appearance from project tokens, wrappers and neighboring
-surfaces while preserving that supported structure and behavior. A headless
-library alone supplies no visual language.
+The library decides the state, focus, keyboard, relationships and
+announcements it implements; keep its structure and behavior. It supplies no
+visual language: take appearance from project tokens, wrappers and
+neighboring surfaces.
 
 ### Utility or application framework
 
-Look for project tokens, presets, component layers and deliberate local patterns.
-Without such an owner, an installed UI layer's scale may supply coherent values.
-A rendering framework such as React supplies neither a spacing/typography scale
-nor product hierarchy, meaning or visual direction.
+Look for project tokens, presets, component layers and deliberate local
+patterns. Where none exists, an installed UI layer's scale may supply coherent
+values. A rendering framework such as React supplies no spacing or type scale
+and no product hierarchy, meaning or visual direction.
 
 ### Platform UI stack
 
-Use platform components and conventions for navigation, input, focus, scaling,
-safe areas, adaptation and accessibility unless the product system owns that
-concern. Web-only measurements and interactions do not transfer automatically.
+Platform components and conventions decide navigation, input, focus, scaling,
+safe areas, adaptation and accessibility unless the product system does.
+Web-only measurements and interactions do not transfer automatically.
 
 ### Multiple layers
 
-Assign each concern independently: visuals, composite interaction, platform
-scaling and supplied wording can have different owners. Prefer the highest
-canonical abstraction; installed layers alone do not justify mixed APIs.
+Decide each concern separately: visuals, composite interaction, platform
+scaling and supplied wording can come from different layers. Prefer the
+highest abstraction the project has settled on. Installed layers alone do not
+justify mixed APIs.
 
 ## Distinguish convention from accident
 
-Inspect a pattern's source, frequency and relation to canonical wrappers/tokens.
-A deliberate current convention outranks a lower framework default; a copied
-exception, stale screen or workaround alone establishes no product policy.
+Read a pattern's source, count its uses and check whether it goes through the
+project's wrappers and tokens. Padding that 12 of 14 cards take from the
+`Card` wrapper is a convention; an inline `padding: 18px` on the other two is
+an accident unless their source or a record gives a reason. A deliberate
+current convention outranks a lower framework default. A copied exception,
+stale screen or workaround alone sets no product policy.
 
 ## Handle true greenfield work
 
@@ -73,19 +83,20 @@ relationships and usage frequency under Quality. For unresolved visuals:
 1. follow the user's brief and target platform conventions;
 2. use framework defaults and scales where they provide compatible primitives;
 3. when polished presentation is part of the outcome, name a deliberate visual
-   direction grounded in the product domain and primary task, then carry it
+   direction grounded in the product domain and primary task. Carry it
    consistently through information hierarchy, density, typography, shape,
-   imagery, and interaction treatment without defaulting to a prescribed
+   imagery and interaction treatment, without defaulting to a prescribed
    palette or fashionable template;
 4. choose only the minimum internally consistent, reversible values needed for
    the requested surface; and
 5. keep those choices local unless the task explicitly creates or extends the
    canonical design system.
 
-For multiple requested views, choose shared values once at their nearest
-common code owner. Reuse an existing project structure; if none exists, use the
-smallest shared location needed by those views. Do not create a separate token
-registry or design-system project, which would outgrow this local direction.
+For multiple requested views, set shared values once at their nearest common
+code location. Reuse an existing project structure, else the smallest shared
+location those views need. Do not create a separate token registry or
+design-system project, which would outgrow this local direction.
 
 These choices define the requested surface, not a mature project-wide system.
-Ask only when materially different directions would change the product outcome.
+Ask only when materially different directions would change the product
+outcome.

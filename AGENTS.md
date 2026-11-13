@@ -48,6 +48,29 @@ Public source exports resolve package blocks. Online continuation lacks those
 canonical blocks, private test datasets and the sibling layout required by Shared
 tests; exporting the Plan does not remove these development limits.
 
+## Release
+
+After the checks for the change pass and the sources are committed, prepare a
+release from the suite root:
+
+```text
+python ../shared/build/release_suite.py prepare
+```
+
+It builds, checks, exports and stages every target without committing or
+pushing. Present its list of staged changes and the check results for approval.
+Only after the user approved that push, publish:
+
+```text
+python ../shared/build/release_suite.py publish -m "<message>"
+```
+
+It commits, pushes main and verifies every remote. Before the first use in a
+session, read [Release command](development/shared/build/fragments.md#release-command)
+for options, target selection and refusals. Report the publication from
+`published.json`; do not write it back into exported Plan records, which would
+need another export and push.
+
 ## Release-test scope
 
 Choose release tests from changed behavior and affected dependencies. Test a

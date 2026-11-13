@@ -1,7 +1,7 @@
 # WordPress 7.0 and 7.1 source contracts
 
-Revalidate a source when its trigger applies. Keep documented APIs, observed
-implementation, and Skill-Norms distinct.
+Recheck a source when its revalidation condition applies. Label each fact as
+documented API, observed implementation or Skill-Norm.
 
 ## Pinned WordPress 7.0 repository state
 
@@ -11,12 +11,10 @@ implementation, and Skill-Norms distinct.
 | `WordPress/gutenberg` | `wp/7.0` at `28c0dedc4eaf001a24237a1fbba4b0887698b000` | `@wordpress/ui` 0.7.1, `@wordpress/theme` 0.7.1, `@wordpress/admin-ui` 1.8.1, `@wordpress/components` 32.2.1 | Before release, package upgrade, or stability change |
 | `WordPress/WordPress` | tag `7.0` at `b16cd68ea199838d8f9daf0ff7e3f35042ba0ad0` | WordPress 7.0 runtime | Before a runtime check or target change |
 
-Retrieved and last revalidated: 2026-09-03.
-
 ## WordPress 7.1 theming contract
 
-Revalidated 2026-09-03. The 7.0 package restrictions above remain scoped to
-their pins, not to all WordPress 7 releases.
+The 7.0 package restrictions above remain scoped to their pins, not to all
+WordPress 7 releases.
 
 - `WordPress/WordPress` tag `7.1` resolved to
   `b998fef9238af183f9523b3df71618e6e57498b6`. Its
@@ -36,24 +34,19 @@ their pins, not to all WordPress 7 releases.
   proof that every currently documented prop exists in every 7.x release.
 
 The stable 7.1 tag and inspected 7.1 Core source agree on style registration,
-semantic gap and padding tokens, and the public JavaScript export. This is
-source evidence, not proof of enqueue or visual correctness on a real plugin
-page.
+semantic gap and padding tokens, and the public JavaScript export. That shows
+the source, not that a real plugin page enqueues it or looks right.
 
-See [version-compatibility.md](version-compatibility.md) for the executable
-enqueue example and verification boundary. Recheck the actual supported Core
-release, built exports, token names, and document whenever the target changes.
+[version-compatibility.md](version-compatibility.md) has the enqueue example
+and its checks. When the target changes, recheck the supported Core release,
+built exports, token names and document.
 
 ## Classic source and token separation
 
-The 7.1 patterns in [classic-patterns.md](classic-patterns.md) were checked on
-2026-09-10 against the immutable Core ref above. Direct byte comparisons matched
-common/forms/buttons CSS and minified counterparts, common JS and its minified
-counterpart, design-tokens.css and script-loader.php in the inspected local
-7.1 checkout. This is source provenance, not loaded-page or geometry evidence.
-Preserve declarations with their original units. The WPDS matrices live in
-[wpds-tokens.md](wpds-tokens.md). Fallback composition is independently labeled
-and must never become a Classic compliance scale.
+The 7.1 patterns in [classic-patterns.md](classic-patterns.md) were checked
+against the immutable Core ref above. That shows where the values come from,
+not a loaded page or its geometry. Keep declarations in their original units. The WPDS matrices are in [wpds-tokens.md](wpds-tokens.md). The fallback
+scale is labeled Skill-Norm and never becomes a Classic compliance scale.
 
 ## Primary owners by fact
 
@@ -69,6 +62,7 @@ and must never become a Classic compliance scale.
 | Stable `Flex` contract | pinned `@wordpress/components` source and official component reference |
 | PHP and JavaScript i18n | WordPress Plugin Handbook, Common APIs, Block Editor Handbook, Code Reference, and WP-CLI i18n commands |
 | Accessibility | WordPress Accessibility Coding Standards and WCAG 2.2 |
+| Host mechanisms of routing.md's excluded surfaces: editor SlotFills, Panel components, block supports, metabox, Dashboard widget, profile and list-table hooks | Block Editor Handbook, Plugin Handbook, Common APIs and Code Reference |
 
 Official entry points:
 
@@ -81,7 +75,6 @@ Official entry points:
 - <https://developer.wordpress.org/apis/internationalization/internationalization-guidelines/>
 - <https://developer.wordpress.org/block-editor/how-to-guides/internationalization/>
 
-Observed selectors are compatibility evidence, not automatically supported
-public extension APIs. When a source changes, update the fact label first, then
-re-evaluate the derived Skill-Norm. Never silently preserve a stale number or
-experimental contract.
+When a source changes, update the fact label first,
+then recheck each Skill-Norm derived from it. Never silently keep a stale
+number or experimental rule.

@@ -1,9 +1,9 @@
 # WPDS token values
 
-Read only for a region that actually consumes WPDS tokens. Availability does
-not establish native use by a Classic component. Preserve each token reference
-and distinguish its supplied value from the property's rendered effect.
-Sources and runtime pins are in [sources.md](sources.md).
+Read only for a region that actually consumes WPDS tokens. An available
+token does not show that a Classic component uses it. Keep each token
+reference, and report its supplied value separately from the property's
+rendered effect. Sources and runtime pins are in [sources.md](sources.md).
 
 ## WPDS token facts at Gutenberg `wp/7.0`
 
