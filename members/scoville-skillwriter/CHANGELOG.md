@@ -1,24 +1,24 @@
 # Changelog
 
-## Unreleased - 2026-11-12 - Concrete instructions and release command
+## 2026-11-12 - Concrete instructions and release command
 
 - State each rule as a trigger, an action and a result the agent can check itself, and remove statements that reach the same reader twice.
 - Reword the shared writing, machine-data, shell and output-delivery rules the same way.
 
-## Unreleased - 2026-11-11 - Size check for placed components and tested models
+## 2026-11-11 - Size check for placed components and tested models
 
 - Name the tested models and the minimum reasoning effort in the README.
 
-## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
+## 2026-11-10 - Leaner instructions and Plan validator fixes
 
 - Add the findings of the Fable 5.2 prompting guide on prohibitions, stop rules and exceptions.
 - Correct source descriptions against their pages, name the Tessl study and set the review date to 2026-11-10.
 
-## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
+## 2026-10-30 - Shared criteria and focused helper fixes
 
 - Describe the general development cycle and relevant authoring lessons.
 
-## Unreleased - 2026-10-29 - Follow-up corrections
+## 2026-10-29 - Follow-up corrections
 
 - Keep Skill Creator activation conditional on Skill authoring, scope structural validation to Skill packages and identify current technical tests.
 

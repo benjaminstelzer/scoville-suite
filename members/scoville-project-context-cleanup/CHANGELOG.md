@@ -1,74 +1,74 @@
 # Changelog
 
-## Unreleased - 2026-11-12 - Concrete instructions and release command
+## 2026-11-12 - Concrete instructions and release command
 
 - State each rule as a trigger, an action and a result the agent can check itself, and remove statements that reach the same reader twice.
 - Reword the shared writing, machine-data, shell and output-delivery rules the same way.
 
-## Unreleased - 2026-11-11 - Size check for placed components and tested models
+## 2026-11-11 - Size check for placed components and tested models
 
 - Name the minimum model and reasoning effort in the README.
 
-## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
+## 2026-11-10 - Leaner instructions and Plan validator fixes
 
 - Link the shared writing, machine-data, shell, output-delivery and Python references directly from SKILL.md, each with its reading condition, instead of chained read-first rules.
 - Shorten the shared rules: drop permission disclaimers that have no recorded incident and state scope and reason for the stop rules that remain.
 - Reduce output delivery to when the checker is needed, its three calls and how to read a result. Every capture failure now names its next step in the helper's `instruction` field.
 - State the reasons behind the placement and extraction rules.
 
-## Unreleased - 2026-10-30 - Source reading and UTF-8 diagnostics
+## 2026-10-30 - Source reading and UTF-8 diagnostics
 
 - Clarify direct source reading and producer-owned instruction-design loading while preserving report evaluation.
 - Explain retained bytes, child status and unresolved text interpretation after invalid UTF-8.
 - Remove redundant layout wording without changing activation or sibling requirements.
 
-## Unreleased - 2026-10-30 - Capture and diagnostic follow-up
+## 2026-10-30 - Capture and diagnostic follow-up
 
 - Support complete command capture without a numeric token limit and retain primary failure diagnostics.
 
-## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
+## 2026-10-30 - Shared criteria and focused helper fixes
 
 - Preserve complete captured output on publication failure and distinguish command status from capture failure.
 - Describe the development cycle and relevant rule-maintenance lessons.
 
-## Unreleased - 2026-10-29 - Shared capture corrections
+## 2026-10-29 - Shared capture corrections
 
 - Preserve original bytes and explicit failure status on invalid UTF-8 or bounded command timeout, with noninteractive EOF.
 - Distinguish required project source text from machine reports without removing necessary context.
 
-## Unreleased - 2026-10-29 - Follow-up corrections
+## 2026-10-29 - Follow-up corrections
 
 - Load data rules before requesting output and writing rules for disputed conclusions; keep historical evaluation sources out of public exports.
 
-## Unreleased - 2026-10-29
+## 2026-10-29
 
 - Consolidate target selection, conflict handling and verification around the existing flow. Reuse authorization covering the edit, preserve external-action safeguards in the rule file, and keep native index fields and lifecycle with Plan.
 - Load machine-data, shell and Python guidance only for the operations that need it. Keep text-size helper policy with output delivery.
 - Separate technical requirements from model-test evidence. Targeted Codex tests with gpt-6.1-sol / low removed a requested AGENTS.md duplicate while preserving the remaining rules and the provided native index and active Plan. Index-prose edits, extraction, unresolved conflicts, other hosts and installed discovery remain unverified.
 
-## Unreleased - 2026-10-28
+## 2026-10-28
 
 - Apply the shared instruction-design criteria when writing project rules. Keep project facts grounded in the user's instructions and inspected sources, and mark proposals and examples clearly.
 - Show target selection, conflict stops and record ownership in a compact flow. Extraction still needs an explicit request, and Plan keeps its fields, lifecycle and validation.
 
-## Unreleased - 2026-10-20
+## 2026-10-20
 
 - Keep required text complete when choosing how to read it. File size and metadata remain optional, and completed reads need no verification reread.
 
-## Unreleased - 2026-10-19
+## 2026-10-19
 
 - Write reports as compact lists of checked scope, results and relevant gaps. Group equivalent outcomes and refer to existing evidence instead of retelling the run.
 - Apply one shared evidence rule in user and agent exchanges: defend supported conclusions, correct demonstrated errors, and respect user decisions without treating them as factual proof.
 
-## Unreleased - 2026-10-18
+## 2026-10-18
 
 - Reuse known results and request only the scope the next decision needs. Narrow direct tool requests before display when code preprocessing is unavailable.
 
-## Unreleased - 2026-10-15
+## 2026-10-15
 
 - Process complete reports in code, including saved captures and failures. Load the rules before data, preserve required original text, and keep parser errors from echoing stored state. Evaluate producer output before display, retain one-time results, and distinguish saved captures from missing output.
 
-## Unreleased - 2026-10-14
+## 2026-10-14
 
 - Compare nested report data in code and display only decisive results and necessary diagnostics, including structured state stored in text fields.
 
@@ -77,7 +77,7 @@
 - Process machine reports through code before displaying results. Avoid redundant shared-rule reads and keep check reports focused on decisive evidence.
 - Parse machine reports completely and display checked facts and all in-scope deviations. Reuse fully read shared rules across Skills without hiding required inputs.
 
-## Unreleased - 2026-10-13
+## 2026-10-13
 
 - Load detailed command capture and full-file delivery only when needed. Keep complete output, failure diagnostics and role permissions.
 
@@ -88,20 +88,20 @@
 - Simplify shared writing rules; command-specific size details now live in the
   shell-command rules.
 
-## Unreleased - 2026-10-12
+## 2026-10-12
 
 - Return complete command output directly when it fits; save only oversized
   captures. Verify supplied artifacts once and compare saved native Finals
   directly, avoiding repeated hash checks for unchanged text.
 
-## Unreleased - 2026-10-11
+## 2026-10-11
 
 - Read required files completely with an agent-chosen method. Remove the document-reading helper and multipart protocol; keep output capture and result delivery separate.
 
-## Unreleased - 2026-10-10
+## 2026-10-10
 
 - Load command capture and large-result delivery only when needed; preserve complete outputs and role permissions.
-## Unreleased
+## 2026-10-01
 
 - Keep agent messages and internal commentary compact. Reference readable source text instead of copying it; preserve required facts and exact controls.
 - Keep the full reading procedure in one reference and load host command details when needed. Preserve complete reads and existing permissions.

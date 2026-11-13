@@ -1,10 +1,9 @@
 ---
 format_version: 1
 id: PLAN-0066
-status: active
+status: completed
 created: 2026-11-12
 updated: 2026-11-13
-current_item: W-006
 ---
 
 # Konkrete Skilltexte und Auslieferungsbefehl
@@ -96,7 +95,7 @@ Evidence: Endstand mit Sol auf allen Reihen, mit Opus auf Auswahl gemessen, kein
 
 ### W-006 Auslieferung
 
-Status: in_progress
+Status: done
 Depends on: [W-001, W-005]
 Blocked by: []
 Decisions: []
@@ -105,5 +104,5 @@ Acceptance: Die Auslieferung ist mit dem Befehl aus W-001 vorbereitet und geprü
 Instructions: Export, Push und lokale Installation brauchen je eine ausdrückliche Freigabe des Nutzers.
 Steps:
 1. [status: done] Auslieferung vorbereiten und dem Nutzer Umfang und Prüfergebnis vorlegen; fertig bei bestandenem prepare-Lauf.
-2. [status: in_progress] Nach Freigabe veröffentlichen und freigegebene lokale Kopien aktualisieren; fertig bei Remote- und Installationsbelegen.
-Evidence: Privater CI-Lauf 43406929881 mit sechs Jobs bestanden. Probelauf von prepare gegen Kopien der acht Ziele bestanden. Push der Ziele am 2026-11-13 freigegeben; lokale Installation offen.
+2. [status: done] Nach Freigabe veröffentlichen und freigegebene lokale Kopien aktualisieren; fertig bei Remote- und Installationsbelegen.
+Evidence: CI-Lauf 43406929881 bestanden. Acht Ziele am 2026-11-13 auf main veröffentlicht, Remote-Stände gleich. 23 installierte Skills für Codex und Claude aktualisiert und mit den Paketen verglichen.

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased - 2026-11-12 - Concrete instructions and release command
+## 2026-11-12 - Concrete instructions and release command
 
 - Add a source checklist for classic WordPress plugin pages: page frame, Settings API, labels, Notices, buttons, where styles load and what they select, widths, status beyond color and translatable strings.
 - Name the host mechanism to recommend for surfaces a plugin does not own, such as a Block Editor panel, a metabox or a Dashboard widget, instead of withholding advice.
@@ -9,13 +9,13 @@
 - Remove contents lists and maintainer provenance notes from the WordPress references.
 - Reword the shared writing, machine-data, shell and output-delivery rules the same way.
 
-## Unreleased - 2026-11-11 - Size check for placed components and tested models
+## 2026-11-11 - Size check for placed components and tested models
 
 - Check the size of every component a change places, including one left at its default, against the neighbours it has to match, and report each new control with the control it copies.
 - Correct a layout defect the source explains from the source. On Classic WordPress pages, write changes from the documented Core declarations and report the distance as unverified; reviews and requested checks measure it.
 - Name the tested models and the minimum reasoning effort in the README.
 
-## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
+## 2026-11-10 - Leaner instructions and Plan validator fixes
 
 - Link the shared writing, machine-data, shell, output-delivery and Python references directly from SKILL.md, each with its reading condition, instead of chained read-first rules.
 - Shorten the shared rules: drop permission disclaimers that have no recorded incident and state scope and reason for the stop rules that remain.
@@ -26,32 +26,32 @@
 - Apply these rules while writing the code without rendering every change. Reviews, audits and requested checks measure the render.
 - Trigger references by kind of task and start UI work by reading them.
 
-## Unreleased - 2026-10-30 - Source reading and UTF-8 diagnostics
+## 2026-10-30 - Source reading and UTF-8 diagnostics
 
 - Clarify direct source reading and producer-owned instruction-design loading while preserving report evaluation.
 - Explain retained bytes, child status and unresolved text interpretation after invalid UTF-8.
 - Remove redundant layout wording without changing activation or sibling requirements.
 
-## Unreleased - 2026-10-30 - Capture and diagnostic follow-up
+## 2026-10-30 - Capture and diagnostic follow-up
 
 - Support complete command capture without a numeric token limit and retain primary failure diagnostics.
 
-## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
+## 2026-10-30 - Shared criteria and focused helper fixes
 
 - Apply common Code quality while designing UI code and before acceptance, without requiring optional Code for the inline repair stop.
 - Preserve complete command captures and describe the development cycle.
 
-## Unreleased - 2026-10-29 - Repair and overflow checks
+## 2026-10-29 - Repair and overflow checks
 
 - Give unsupported repeated repairs a clear exit while retaining open findings and valid evidence.
 - Compare document overflow with clientWidth; a Windows scrollbar counterexample and permitted local scrolling were exercised.
 - Preserve original capture failures and distinguish needed source text from report data through the shared rules.
 
-## Unreleased - 2026-10-29 - Follow-up corrections
+## 2026-10-29 - Follow-up corrections
 
 - Load data rules before requesting output and writing rules for disputed conclusions; align consistency evidence and conditional validation routes.
 
-## Unreleased - 2026-10-29
+## 2026-10-29
 
 - Consolidate authority and reference routing; select source, concept, geometry,
   visual and interaction evidence by the claim while preserving scoped coverage,
@@ -61,7 +61,7 @@
 - Load machine-data, Python and output-helper rules when their operations need them.
 - Update validation evidence with the paired local browser test and its limits.
 
-## Unreleased - 2026-10-28
+## 2026-10-28
 
 - Use one authority order for approved product decisions and require only missing
   decisions before changes outside the authorized scope.
@@ -73,30 +73,30 @@
 
 - Count an unnecessary mechanism with added state, work or maintenance as a concrete review defect.
 
-## Unreleased - 2026-10-27
+## 2026-10-27
 
 - Require code reviews to inspect simplicity, maintainability, foreseeable extension and clarity for later agents. Trace loops, recursion and scanning calls for avoidable nonlinear repeated work without requiring benchmarks.
 - Apply the same static review to UI construction, updates and the final source diff.
 
-## Unreleased - 2026-10-20
+## 2026-10-20
 
 - Keep required text complete when choosing how to read it. File size and metadata remain optional, and completed reads need no verification reread.
 - Separate source, geometry, visual and interaction evidence. Load the geometry reference before measuring and compare selected relationships in code before display.
 
-## Unreleased - 2026-10-19
+## 2026-10-19
 
 - Write reports as compact lists of checked scope, results and relevant gaps. Group equivalent outcomes and refer to existing evidence instead of retelling the run.
 - Apply one shared evidence rule in user and agent exchanges: defend supported conclusions, correct demonstrated errors, and respect user decisions without treating them as factual proof.
 
-## Unreleased - 2026-10-18
+## 2026-10-18
 
 - Reuse known results and request only the scope the next decision needs. Narrow direct tool requests before display when code preprocessing is unavailable.
 
-## Unreleased - 2026-10-15
+## 2026-10-15
 
 - Process complete reports in code, including saved captures and failures. Load the rules before data, preserve required original text, and keep parser errors from echoing stored state. Evaluate producer output before display, retain one-time results, and distinguish saved captures from missing output.
 
-## Unreleased - 2026-10-14
+## 2026-10-14
 
 - Compare nested report data in code and display only decisive results and necessary diagnostics, including structured state stored in text fields.
 
@@ -105,7 +105,7 @@
 - Process machine reports through code before displaying results. Avoid redundant shared-rule reads and keep check reports focused on decisive evidence.
 - Parse machine reports completely and display checked facts and all in-scope deviations. Reuse fully read shared rules across Skills without hiding required inputs.
 
-## Unreleased - 2026-10-13
+## 2026-10-13
 
 - Clarify WordPress ownership and version routing. Unknown runtimes require clarification, and older pins keep their tested fallback limits.
 - Load detailed command capture and full-file delivery only when needed. Keep complete output, failure diagnostics and role permissions.
@@ -117,7 +117,7 @@
 - Simplify shared writing rules; command-specific size details now live in the
   shell-command rules.
 
-## Unreleased - 2026-10-12
+## 2026-10-12
 
 - Return complete command output directly when it fits; save only oversized
   captures. Verify supplied artifacts once and compare saved native Finals
@@ -125,13 +125,13 @@
 
 - Point the authored-unit styling contract directly to its geometry rules.
 
-## Unreleased - 2026-10-11
+## 2026-10-11
 
 - Put reference-routing conditions in one table while preserving progressive reads and evidence limits.
 
 - Read required files completely with an agent-chosen method. Remove the document-reading helper and multipart protocol; keep output capture and result delivery separate.
 
-## Unreleased - 2026-10-10
+## 2026-10-10
 
 - Load command capture and large-result delivery only when needed; preserve complete outputs and role permissions.
 - Route wording, layout, interaction, geometry, consistency audit and optional translation delivery to dedicated references while retaining applicable validation requirements.
@@ -301,7 +301,7 @@
 - Made every Scoville Skill optional and independently usable. Discovering a
   sibling does not install or activate it.
 
-## 2026-08-07: Progressive disclosure
+## 2026-08-07 - Progressive disclosure
 
 - Load framework diagnosis, detailed quality guidance, and rendered validation
   only when the current interface task needs them.
@@ -311,7 +311,7 @@
   screen reader, reduced motion, or automated accessibility coverage, to remain
   visible in the conclusion.
 
-## 2026-08-06: Greenfield direction and representative evidence
+## 2026-08-06 - Greenfield direction and representative evidence
 
 - Require polished Greenfield work to choose a deliberate visual direction
   grounded in the product domain without prescribing a palette or template.
@@ -319,14 +319,14 @@
   realistic density, content length, hierarchy, and interaction state.
 - Keep primary populated states separate from error and recovery evidence.
 
-## 2026-08-06: Cross-input validation
+## 2026-08-06 - Cross-input validation
 
 - Require a relevant cross-input handoff check when focus, selection, capture,
   composition, or shared state can change behavior between input methods.
 - Do not treat separate clean-start pointer, keyboard, or touch passes as proof
   of a stateful transition.
 
-## 2026-08-03: Initial release
+## 2026-08-03 - Initial release
 
 - Added framework-aware implementation and audit guidance for web, native
   mobile, desktop, and terminal interfaces.

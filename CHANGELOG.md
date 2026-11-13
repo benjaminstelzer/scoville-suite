@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased - 2026-11-12 - Concrete instructions and release command
+## 2026-11-12 - Concrete instructions and release command
 
 - Add `release_suite.py`: `prepare` builds, checks, exports and stages every target, `publish` commits, pushes and verifies them after approval.
 - Rewrite every Skill instruction and shared rule as a trigger, an action and a result the agent can check itself, and remove statements that reach the same reader twice.
@@ -13,14 +13,14 @@
 - UI: add a source checklist for classic WordPress plugin pages: page frame, Settings API, labels, Notices, buttons, where styles load and what they select, widths, status beyond color and translatable strings.
 - UI: name the host mechanism to recommend for surfaces a plugin does not own, such as a Block Editor panel, a metabox or a Dashboard widget, instead of withholding advice.
 - UI: in a review, take the list of added sizes and values from the added lines of the diff, so that none is skipped. For a plugin-owned WordPress page, read the adapter before the first edit or finding.
-## Unreleased - 2026-11-11 - Size check for placed components and tested models
+## 2026-11-11 - Size check for placed components and tested models
 
 - UI: check the size of every component a change places, including one left at its default, against the neighbours it has to match, and report each new control with the control it copies.
 - UI: correct a layout defect the source explains from the source. On Classic WordPress pages, write changes from the documented Core declarations and report the distance as unverified; reviews and requested checks measure it.
 - Name the tested models and the minimum reasoning effort in the READMEs.
 - Run model tests for releases with `gpt-6.1-sol` at medium reasoning effort instead of low.
 
-## Unreleased - 2026-11-10 - Leaner instructions and Plan validator fixes
+## 2026-11-10 - Leaner instructions and Plan validator fixes
 
 - Fix two Plan validator errors: cancelled or done work depending on cancelled work, and a missing `docs/decisions` directory after a fresh clone.
 - Link the shared writing, machine-data, shell, output-delivery and Python references directly from SKILL.md, each with its reading condition, instead of chained read-first rules.
@@ -34,23 +34,23 @@
 - Use an existing framework component, class or token where the project has one; a hand-written copy is a defect.
 - Apply the UI rules while writing the code without rendering every change. Reviews, audits and requested checks measure the render.
 - Trigger UI references by kind of task and start UI work by reading them.
-## Unreleased - 2026-10-30 - Source reading and UTF-8 diagnostics
+## 2026-10-30 - Source reading and UTF-8 diagnostics
 
 - Clarify source reading, producer-owned authoring references and dependent UTF-8 stops.
 - Preserve complete captures and child status without encoding guesses or repeated producers.
 - Select development checks by affected behavior instead of repeating the full suite for record-only changes.
 
-## Unreleased - 2026-10-30 - Capture and diagnostic follow-up
+## 2026-10-30 - Capture and diagnostic follow-up
 
 - Preserve complete command captures without guessing a token budget. Catch POSIX SIGHUP and retain the original error when publication also fails.
 - Load Code quality before recommending implementations. Give precise Step and batch-date repair guidance.
-## Unreleased - 2026-10-30 - Shared criteria and focused helper fixes
+## 2026-10-30 - Shared criteria and focused helper fixes
 
 - Use the same Code quality criteria during design and acceptance. Keep roles, independent scope and output contracts distinct.
 - Preserve complete captures on publication failure, handle controlled interruptions and distinguish child status from capture failure.
 - Align Plan format consumers, selection boundaries and compact actionable diagnostics without adding a parser framework or snapshot guarantee.
 - Describe development through ideas, tests, real project analysis and refinement. Keep standalone siblings optional.
-## Unreleased - 2026-10-29 - Packaged Skill review fixes
+## 2026-10-29 - Packaged Skill review fixes
 
 - Align Plan section boundaries and actionable diagnostics; retain nested Goal headings and reject incomplete ID inventories.
 - Preserve original capture bytes on encoding failure, supply EOF on stdin and support explicit bounded execution without automatic retries. Keep unresolved process cleanup visible.
@@ -59,20 +59,20 @@
 - Detect document overflow against usable client width while retaining local data scrolling.
 - Record targeted gpt-6.1-sol/low receiver cases, the final six-job runtime matrix and explicit native POSIX/Claude evidence limits.
 
-## Unreleased - 2026-10-29 - Private source boundaries
+## 2026-10-29 - Private source boundaries
 
 - Remove obsolete development reports and their dangling links; retain current Skills, helpers, tests and build sources.
 - Check public export paths and contents against the private protected-name list.
 - Correct Plan compatibility metadata without implying unperformed host tests.
 
-## Unreleased - 2026-10-29 - Follow-up corrections
+## 2026-10-29 - Follow-up corrections
 
 - Restore early shared-rule routes, explicit review correctness and conditional Skill Creator/validation loading.
 - Correct profile evidence wording, preserve the manual user settings route and document authorized Decision revisions.
 - Publish follow-up Plans and linked records only after explicit approval; keep historical harness material out of public source exports.
 - Count executed tests separately from skips, check native capture at its actual owner and normalize shared text provenance without changing binary artifact identity.
 
-## Unreleased - 2026-10-29
+## 2026-10-29
 
 - Shorten shared and Skill instructions while preserving task authority, required text, fixed schemas and honest completion reports.
 - Load machine-data evaluation, Python discovery and output-helper policy for the operations that need them. Keep complete semantic checks, embedded-data handling and original captures for one-time effects.
@@ -82,10 +82,10 @@
 - Simplify manifest file mappings, source snapshots and build checks while retaining package inventory, source hashes, helper policies and profile boundaries.
 - Normalize snapshot text before copying and hashing so Git source exports retain valid receipts; preserve binary files unchanged.
 - Document controlled `gpt-6.1-sol` / `low` cases across all six General Skills separately from host compatibility. These results establish neither general reliability nor current Claude behavior.
-## Unreleased - 2026-10-28 - Review corrections
+## 2026-10-28 - Review corrections
 
 - Load Skillwriter's shared criteria in review mode and clarify Plan execution terminology without changing record contracts.
-## Unreleased - 2026-10-28
+## 2026-10-28
 
 - Add Scoville Skillwriter as a public standalone Skill and Suite member, with one shared instruction-design source for agent-facing prompts.
 - Target current frontier models and use gpt-6.1-sol with low reasoning for model tests; keep historical evidence separate from new results.
@@ -100,39 +100,39 @@
 
 
 
-## Unreleased - 2026-10-27
+## 2026-10-27
 
 - Require code reviews to inspect simplicity, maintainability, foreseeable extension and clarity for later agents. Trace loops, recursion and scanning calls for avoidable nonlinear repeated work without requiring benchmarks.
 - Apply the same static review to UI construction, updates and the final source diff.
 
-## Unreleased - 2026-10-20
+## 2026-10-20
 
 - Keep required text complete when choosing how to read it. File size and metadata remain optional, and completed reads need no verification reread.
 - Ground defect claims in requested behavior or an independent contract. Reuse valid evidence, check meaningful preconditions and update superseded result summaries.
 - Separate source, geometry, visual and interaction evidence. Load the geometry reference before measuring and compare selected relationships in code before display.
 
-## Unreleased - 2026-10-19
+## 2026-10-19
 
 - Write reports as compact lists of checked scope, results and relevant gaps. Group equivalent outcomes and refer to existing evidence instead of retelling the run.
 - Apply one shared evidence rule in user and agent exchanges: defend supported conclusions, correct demonstrated errors, and respect user decisions without treating them as factual proof.
 - Fit reused pathways and review requirements to the requested operation while preserving shared guarantees.
 - Defend supported technical findings with decisive facts and revise them for a demonstrated correction, rather than pressure to agree.
 
-## Unreleased - 2026-10-18
+## 2026-10-18
 
 - Request only the scope the next decision needs. Reuse known results and narrow direct tool requests before display when code preprocessing is unavailable.
 
-## Unreleased - 2026-10-17
+## 2026-10-17
 
 - Source exports update the native-context regression checks for Codex. Installed general-host Skills are unchanged.
 - Reuse successful Actions evidence for unchanged Python. Non-Python changes retain local checks and package verification.
 
-## Unreleased - 2026-10-15
+## 2026-10-15
 
 - Reuse applicable Decisions before adding new ones. Explicit maintenance can consolidate equivalent Decisions and retire proved temporary conditions and irrelevant links while preserving live constraints and historical review limits.
 - Process complete reports in code, including saved captures and failures. Load the rules before data, preserve required original text, and keep parser errors from echoing stored state. Evaluate producer output before display, retain one-time results, and distinguish saved captures from missing output.
 
-## Unreleased - 2026-10-14
+## 2026-10-14
 
 - Compare nested report data in code and display only decisive results and necessary diagnostics, including structured state stored in text fields.
 - Keep the original kind of work and full verification scope during Plan cleanup. Check all linked Decisions before marking their binding sections for compact delivery. Cleanup removes demonstrably irrelevant Decision links from unstarted items and adds none.
@@ -145,7 +145,7 @@
 - Recover a known Work Item directly; look up position when current records disagree or return directions matter.
 - Accept zero for no helper spend cap, preserve positive caps and request settings, and keep provider limits and timeouts.
 
-## Unreleased - 2026-10-13
+## 2026-10-13
 
 - Separate progress updates from authoring. Explicit maintenance can shorten old Goals and Decisions while preserving the choice, binding conditions and required checks.
 - Clarify WordPress ownership and version routing. Unknown runtimes require clarification, and older pins keep their tested fallback limits.
@@ -163,7 +163,7 @@
 - Simplify shared writing rules and Plan editing guidance: direct selector
   commands, clearer instruction order and shorter Step repair rules.
 
-## Unreleased - 2026-10-12
+## 2026-10-12
 
 - Return complete command output directly when it fits; save only oversized
   captures. Verify supplied artifacts once and compare saved native Finals
@@ -188,7 +188,7 @@
 - Update the minimum-Python check after removing the reader; verify that its
   selected runtime tests exist before publication.
 
-## Unreleased - 2026-10-10
+## 2026-10-10
 
 - Load command capture and large-result delivery only when needed; preserve complete outputs and role permissions.
 - Clarify Plan and Decision language: task language for new Plans, owning Plan language for related records.
