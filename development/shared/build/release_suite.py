@@ -316,22 +316,38 @@ def publish(root, release, message):
         stages.append(stage)
     results = []
     published = {'source_commit': state['source_commit'], 'complete': False, 'targets': results}
+
+    def record():
+        (release / PUBLISHED).write_text(json.dumps(published, indent=1) + '\n', encoding='utf-8')
+    # From here on targets change: the record replaces an earlier one and says what this run reached.
+    record()
     for target, stage in zip(state['targets'], stages):
         directory = target['directory']
-        if stage == 'prepared' and git(directory, 'diff', '--cached', '--name-only').strip():
-            git(directory, 'commit', '-q', *[part for text in message for part in ('-m', text)])
-        local, remote = head(directory), remote_head(directory)
+        # remote stays None until it was read; an unread remote is unknown, not unchanged.
+        entry = {'repository': target['repository'], 'commit': None, 'remote': None, 'remote_read': False,
+                 'verified': False, 'changed': False}
+        results.append(entry)
         try:
-            if remote != local:
-                git(directory, 'push', '-q', 'origin', 'main')
-                remote = remote_head(directory)
+            if stage == 'prepared' and git(directory, 'diff', '--cached', '--name-only').strip():
+                git(directory, 'commit', '-q', *[part for text in message for part in ('-m', text)])
+            local = entry['commit'] = head(directory)
+            entry['changed'] = local != target['head']
+            # A commit hook can change what gets committed, so look at the commit itself before pushing it.
+            if not target_stage(target):
+                raise ReleaseError(f'Commit {local[:7]} in {directory} does not hold the content prepare staged; '
+                                   'a commit hook may have changed it. It was not pushed. Inspect that commit, '
+                                   'remove it yourself if it is wrong, then run prepare again.')
+            entry['remote'], entry['remote_read'] = remote_head(directory), True
+            if entry['remote'] != local:
+                # Only main: a push.followTags setting must not publish tags nobody approved.
+                git(directory, 'push', '-q', '--no-follow-tags', 'origin', 'refs/heads/main:refs/heads/main')
+                entry['remote'] = remote_head(directory)
+            entry['verified'] = entry['remote'] == local
         finally:
             # Keep what was reached: a rerun of publish continues with the targets that are not yet pushed.
-            results.append({'repository': target['repository'], 'commit': local, 'remote': remote,
-                            'verified': remote == local, 'changed': local != target['head']})
-            (release / PUBLISHED).write_text(json.dumps(published, indent=1) + '\n', encoding='utf-8')
+            record()
     published['complete'] = True
-    (release / PUBLISHED).write_text(json.dumps(published, indent=1) + '\n', encoding='utf-8')
+    record()
     return published
 
 

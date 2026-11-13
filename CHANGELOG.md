@@ -2,6 +2,7 @@
 
 ## 2026-11-13 - Review corrections
 
+- `release_suite.py publish` checks the commit itself before pushing, so a commit hook cannot add content; pushes only main, without tags; and records the local commit also when the remote cannot be read.
 - Cleanup: keep a circumstance that will end, such as a pending fix or a deadline, out of a rule.
 - Code review: name an unneeded abstraction by what it is for, a second variant nobody asked for, not by a list of forms.
 - `release_suite.py publish` commits only the exact tree prepare staged, refuses when the shared source moved, checks the push addresses of every target before the first commit, and continues after a failed push when run again.

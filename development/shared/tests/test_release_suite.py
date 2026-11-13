@@ -246,6 +246,51 @@ class ReleaseSuiteTest(unittest.TestCase):
         self.assertEqual((release.head(first), release.head(second)), commits)
         self.assertEqual(self.remote_main('owner/beta'), release.head(second))
 
+    def test_publish_does_not_push_a_commit_that_a_hook_changed(self):
+        source, work, stage = self.prepared()
+        hook = work / '.git' / 'hooks' / 'pre-commit'
+        hook.write_text('#!/bin/sh\necho x > hook-added.txt\ngit add hook-added.txt\n', encoding='utf-8', newline='\n')
+        hook.chmod(0o755)
+        before, remote = release.head(work), self.remote_main('owner/alpha')
+        with self.assertRaisesRegex(release.ReleaseError, 'does not hold the content prepare staged'):
+            release.publish(source, stage, ['Release'])
+        self.assertNotEqual(release.head(work), before)
+        self.assertIn('hook-added.txt', release.git(work, 'show', '--name-only', '--format=', 'HEAD'))
+        self.assertEqual(self.remote_main('owner/alpha'), remote)
+        partial = json.loads((stage / release.PUBLISHED).read_text(encoding='utf-8'))
+        self.assertFalse(partial['complete'])
+        self.assertEqual(partial['targets'][0]['commit'], release.head(work))
+        self.assertFalse(partial['targets'][0]['verified'])
+
+    def test_publish_pushes_main_only_even_with_follow_tags(self):
+        source, work, stage = self.prepared()
+        git(work, 'config', 'push.followTags', 'true')
+        git(work, 'tag', '-a', 'unprepared-tag', '-m', 'not part of the release')
+        published = release.publish(source, stage, ['Release'])
+        self.assertTrue(published['targets'][0]['verified'])
+        self.assertEqual(self.remote_main('owner/alpha'), release.head(work))
+        bare = self.base / 'remotes' / 'owner' / 'alpha.git'
+        self.assertEqual(release.git(bare, 'tag', '-l').strip(), '')
+
+    def test_publish_records_the_commit_when_the_remote_cannot_be_read_and_continues(self):
+        source, work, stage = self.prepared()
+        before = release.head(work)
+        with mock.patch.object(release, 'remote_head', side_effect=release.ReleaseError('ls-remote failed')):
+            with self.assertRaisesRegex(release.ReleaseError, 'ls-remote failed'):
+                release.publish(source, stage, ['Release'])
+        committed = release.head(work)
+        self.assertNotEqual(committed, before)
+        partial = json.loads((stage / release.PUBLISHED).read_text(encoding='utf-8'))
+        entry = partial['targets'][0]
+        self.assertFalse(partial['complete'])
+        self.assertEqual((entry['commit'], entry['remote'], entry['remote_read'], entry['verified']), (committed, None, False, False))
+        self.assertEqual(self.remote_main('owner/alpha'), before)
+        published = release.publish(source, stage, ['Release'])
+        self.assertTrue(published['complete'])
+        self.assertTrue(published['targets'][0]['verified'])
+        self.assertEqual(release.head(work), committed)
+        self.assertEqual(self.remote_main('owner/alpha'), committed)
+
     def test_publish_refuses_a_shared_source_that_moved_or_is_dirty(self):
         shared = self.repository('shared')
         (shared / 'build').mkdir()

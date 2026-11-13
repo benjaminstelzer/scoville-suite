@@ -236,14 +236,22 @@ checks every target and refuses when:
 - a fetch or push address of a target's `origin` is not the expected repository
   on `github.com`.
 
-It then commits each target that has staged changes with the given message,
-pushes main and compares `refs/heads/main` on the remote with the local commit
-of every target. `published.json` in the staging directory holds the result
-and is written after every target, with `complete: false` until all are done.
-After a failed push, run `publish` again with the same message: it recognizes
-the commits it already made and pushes the targets that are still missing.
-Report the publication from that file: writing it back into exported Plan
-records would need another export and push.
+It then commits each target that has staged changes with the given message.
+A commit hook can change what is committed, so it compares the new commit with
+the staged tree again and stops before the push when they differ; that commit
+stays local for you to inspect. It pushes only `refs/heads/main`, without
+tags, also where `push.followTags` is set, and compares `refs/heads/main` on
+the remote with the local commit of every target.
+
+`published.json` in the staging directory holds the result. It is written
+when the first target is about to change and after every target, with
+`complete: false` until all are done. Per target it gives the local commit,
+the remote commit and `remote_read`: while that is false the remote was not
+read and its state is unknown. After a failed push or a failed read of the
+remote, run `publish` again with the same message: it recognizes the commits
+it already made and pushes the targets that are still missing. Report the
+publication from that file: writing it back into exported Plan records would
+need another export and push.
 
 Every refusal names its cause and the correction. Tags, releases and local
 installation are outside this command.

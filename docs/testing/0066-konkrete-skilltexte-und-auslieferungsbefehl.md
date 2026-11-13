@@ -287,3 +287,17 @@ Umfang der zweiten Reihe: 178 Sol-Läufe und 91 Opus-Läufe für 37,79 US-Dollar
 - Die Auswertungen, die Antworttexte lesen, mussten erneut zweimal nachgebessert werden (Render-Erkennung bei T11, Nebenbefunde bei WPD).
 - Weiterhin ungemessen: große Projekte, der Hauptablauf von Workflow und Ask mit echten Unteragenten, Plan jenseits von T3, der WordPress-Adapter an einer laufenden Installation.
 
+## Zweites Review des Auslieferungsbefehls (2026-11-13)
+
+Ein zweites unabhängiges Review (Astra, nur lesend) prüfte Suite `1f26706..1ee9c52` und Shared `c2e1bd8..6fca7c6`. Es bestätigte, dass die Korrekturen des ersten Reviews in ihren Fällen greifen, und meldete drei verbleibende Befunde am Auslieferungsbefehl. Alle drei sind am Quelltext bestätigt und korrigiert.
+
+| Nr. | Befund | Korrektur |
+| --- | --- | --- |
+| 1 | Ein Commit-Hook kann beim Commit Dateien ändern und bereitstellen; der so entstandene Commit wurde gepusht, obwohl er vom vorbereiteten Baum abwich. | `publish` vergleicht den entstandenen Commit vor dem Push erneut mit dem vorbereiteten Baum und der vorbereiteten Historienposition. Bei Abweichung stoppt es; der Commit bleibt lokal und wird im Beleg genannt. Hooks werden nicht abgeschaltet, nichts wird zurückgesetzt. |
+| 2 | `git push origin main` überträgt bei gesetztem `push.followTags` auch erreichbare annotierte Tags, obwohl Tags außerhalb des Befehls liegen. Der Fehler bestand schon vor den Korrekturen. | Der Push nennt nur `refs/heads/main` und läuft mit `--no-follow-tags`. Die Git-Konfiguration bleibt unberührt. |
+| 3 | Scheiterte der erste Lesezugriff auf den Remote nach dem Commit, entstand kein Teilbeleg. | `published.json` wird geschrieben, bevor das erste Ziel sich ändert, und nach jedem Ziel. Ein nicht gelesener Remote steht darin als unbekannt (`remote_read: false`) und gilt nicht als geprüft. Ein erneutes `publish` setzt ohne zweiten Commit fort. |
+
+Geprüft: drei neue Tests mit temporären lokalen Repositories, darunter ein echter `pre-commit`-Hook und ein annotiertes Tag bei `push.followTags=true`. Gegen die vorige Fassung des Helfers scheitern genau diese drei, die 17 bisherigen bestehen dort weiter; sie deckten diese Fälle nicht ab. Mit der Korrektur bestehen alle 20. `python development/check_all.py` besteht.
+
+Grenzen: Die drei Auslieferungen vom 2026-11-13 liefen mit früheren Fassungen von `publish`. Betroffen waren sie nicht: In den acht Ziel-Checkouts ist kein Commit-Hook eingerichtet, `push.followTags` ist dort und global nicht gesetzt (am 2026-11-13 nachgesehen), und nach jeder Auslieferung stimmte jeder Remote-Stand mit dem lokalen Commit überein. Ein vollständiger `prepare`-Lauf mit der neuen Fassung steht bis zur nächsten Auslieferung aus.
+
