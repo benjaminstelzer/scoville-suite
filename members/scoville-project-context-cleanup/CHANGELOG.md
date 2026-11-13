@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-13 - Review corrections
+
+- Keep a circumstance that will end, such as a pending fix or a deadline, out of a rule; a rule carries only the reason that stays true with it.
+
 ## 2026-11-12 - Concrete instructions and release command
 
 - State each rule as a trigger, an action and a result the agent can check itself, and remove statements that reach the same reader twice.

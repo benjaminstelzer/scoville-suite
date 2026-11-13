@@ -6,8 +6,8 @@
 - **Effort in proportion.** A safeguard, an abstraction or a test needs a real
   case in this application. A local script is not hardened like a payment
   service, and a small request stays a small diff.
-- **Tests that prove something.** The test for new or corrected behavior
-  fails without the change and actually runs. "All tests pass" does not count when the relevant test was
+- **Tests that prove something.** The test checks the requested result and
+  actually runs; for a bug fix or costly behavior it is seen failing first. "All tests pass" does not count when the relevant test was
   not among them.
 - **Your conventions.** Existing architecture and project rules take precedence.
   New projects start with a small structure organized by responsibility.

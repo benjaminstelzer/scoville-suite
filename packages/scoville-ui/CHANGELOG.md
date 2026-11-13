@@ -4,6 +4,7 @@
 
 - When implementing, treat the interaction rules as requirements on the code. Operating a flow in a running interface, comparing computed styles and measuring contrast in the actual theme belong to a requested review, audit or check.
 - WordPress: a targeted audit walks only the checklist rows of the named concern; a whole-page audit walks all.
+- Describe a new control in the report as the code stands, and replace rule examples that came from our own test tasks.
 
 ## 2026-11-12 - Concrete instructions and release command
 

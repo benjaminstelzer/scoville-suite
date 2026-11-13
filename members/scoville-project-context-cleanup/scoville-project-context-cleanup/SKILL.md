@@ -61,7 +61,9 @@ Keep project-specific commands and conditions, responsible sources, constraints,
 permissions and useful pitfalls. Remove repetition, context shown to be
 obsolete and generic explanation. A binding project rule stays even when a
 model would know it, because the project decided it: "run tests before
-committing" stays, "tests catch bugs" goes.
+committing" stays, "tests catch bugs" goes. A rule may carry the reason that
+stays true as long as the rule does. A circumstance that will end, such as a
+pending fix or a deadline, is not part of the rule: say it in your reply.
 
 Base factual claims on binding user instructions and inspected sources; mark
 proposals and examples. Ask for missing facts only when they block the edit.

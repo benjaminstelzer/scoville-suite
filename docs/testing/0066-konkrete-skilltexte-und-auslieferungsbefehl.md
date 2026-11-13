@@ -200,4 +200,90 @@ Grenzen:
 
 - Die beiden Auslieferungen vom 2026-11-13 liefen noch mit der ersten Fassung von `publish`. Ein Schaden ist nicht belegt: Nach beiden Läufen stimmte jeder Remote-Stand mit dem lokalen Commit überein, und die Ziele enthielten nur, was `prepare` bereitgestellt hatte.
 - Die Korrekturen an Code-Regel 12, den UI-Auslösern und der WordPress-Prüfliste sind nicht mit Modellläufen gemessen. Die gemessenen Aufgaben (C16 neues Verhalten, WPB Audit der ganzen Seite, T10 verlangtes Review) liegen in den Fällen, die unverändert bleiben.
-- Offen für den Nutzer: Die UI-SKILL.md lässt weiterhin rendern, wenn ein gemeldeter visueller Mangel sich aus dem Quelltext nicht erklären lässt. Der Reviewer sieht darin einen möglichen Konflikt mit „beim Umsetzen nicht rendern". Die Ausnahme ist nicht geändert, weil sie eine Diagnose betrifft und ihre Streichung das Verhalten ändern würde.
+- Vom Nutzer am 2026-11-13 entschieden ([ADR-0230](../decisions/0230-ui-rendern-nur-bei-verlangter-pruefung-und-ungeklaertem-mangel.md)): Die UI-SKILL.md lässt weiterhin rendern, wenn ein gemeldeter visueller Mangel sich aus dem Quelltext nicht erklären lässt. Der Reviewer sah darin einen möglichen Konflikt mit „beim Umsetzen nicht rendern"; die Ausnahme bleibt, weil sie eine Diagnose betrifft.
+
+## Goodhart-Prüfung und zweite Messreihe (2026-11-13)
+
+### Befund
+
+Die Messung der ersten Reihe war an zwei Stellen nicht unabhängig von den Texten, die sie prüfen sollte.
+
+- **Beispiele aus den Aufgaben standen in den Regeln.** Beim Nachschärfen waren Beispiele in die Skilltexte geraten, die aus den Messaufgaben stammen: „13px-Schrift, wo die Seite 12 und 14 nutzt" (eingebauter Mangel des UI-Reviews T10), „Feld 40 hoch neben 36", „24er-Button im 36er-Feld" und „sort select wie die Filter-Buttons, 32 hoch" (T8, T9, T10), `test_dates.test_two_digit_year` (C16), `rules.py: rounding and overlap rules` (C13), „zwei Jahre gibt 10 %" (C7), `width: 960px` (WPB). Die WordPress-Prüfliste bildete außerdem weitgehend die eingebauten Fehler von WPB ab.
+- **Regeln ließen sich durch Hinschreiben erfüllen.** „Sag den einfachsten Ansatz in einem Satz", „benenne den realen Fall der Absicherung", eine Berichtszeile je hinzugefügter Funktion und ein Etikett an jeder Aussage verlangten einen Satz über die Sache statt die Sache. Fail-first war wieder Pflicht für jede Änderung.
+
+### Korrekturen
+
+- Alle aus Aufgaben stammenden Beispiele sind durch Beispiele aus anderen Domänen ersetzt.
+- Code: Regel 4 heißt „Geh vom einfachsten Ansatz aus", Regel 9 „finde, woher der Fall kommt; ein rechtfertigender Satz ist keine Quelle". Regel 16 und der Berichtsabschnitt nennen nur, was zutrifft. Fail-first gilt nur bei Fehlerbehebung und teurem Verhalten ([ADR-0231](../decisions/0231-fail-first-nur-bei-fehlerbehebung-und-teurem-verhalten.md)).
+- UI: Die Berichtszeile je neuem Control beschreibt den Code, wie er dasteht.
+- Regeln für die Zukunft: In der Schreibanleitung steht „verlange die Sache, nicht eine Aussage über sie" und „nimm Beispiele nicht aus den Aufgaben, die die Regel messen". In den Regeln für Modelltests steht, dass eine Wirkung erst auf einer Aufgabe aus anderer Domäne gilt, die ohne Kenntnis der Anweisung gebaut wurde.
+
+### Zweite Messreihe
+
+17 Aufgaben, von Hilfsagenten gebaut, die die Skilltexte nicht lesen durften (Ausnahme: die Schnittstellen der Helfer und von Setup). Jede hat Belegläufe: Referenzlösung besteht, naheliegende falsche Lösung scheitert, eine richtige, aber ungewöhnliche Lösung besteht. Modelle wie zuvor, Sol je drei Läufe, Opus je zwei. „Neu" ist der Stand nach den Korrekturen (Skill-Sätze `new27` bis `new29`).
+
+Unabhängige Gegenstücke zu Aufgaben der ersten Reihe, in anderer Domäne und mit anderen eingebauten Mängeln:
+
+| Aufgabe | Sol ohne | Sol alt | Sol neu | Opus ohne | Opus alt | Opus neu |
+| --- | --- | --- | --- | --- | --- | --- |
+| C13H Neues Werkzeug (Notenberechnung, 19 Prüfpunkte) | 0 von 3 | 0 von 3 | 3 von 3 | 0 von 2 | 0 von 2 | 2 von 2 |
+| C14H Architektur-Review (Mahnungen, sieben Mängelarten) | 0 von 3 | 0 von 3 | 0 von 3 | 2 von 2 | 2 von 2 | 2 von 2 |
+| C16H Kleiner Auftrag, Tests laufen nicht mit (Hüttenbuchung) | 0 von 3 | 0 von 3 | 3 von 3 | 1 von 2 | 2 von 2 | 2 von 2 |
+| T10H UI-Review, vier andere Mängel | 0 von 3 | 3 von 3 | 3 von 3 | 2 von 2 | 2 von 2 | 2 von 2 |
+| WPBH WordPress-Audit, anderes Plugin, acht Fehler | 0 von 3 | 0 von 3 | 3 von 3 | 0 von 2 | 0 von 2 | 2 von 2 |
+| WPCH Fremde Fläche (Dashboard-Widget) | 0 von 3 | 0 von 3 | 3 von 3 | 2 von 2 | 2 von 2 | 2 von 2 |
+
+- **C14H:** Sol nennt ohne Skill 2 der 7 Mängelarten, mit dem alten Skill 4, mit dem neuen 5 bis 6. Es fehlt meist die unnötige Abstraktion (ein Protocol mit einer Implementierung). Die Review-Zeile dazu ist jetzt nach ihrem Zweck gefasst statt als Liste von Formen; die Bestätigung blieb bei 1 von 3.
+- **WPBH:** Drei der acht Fehlerarten kommen in WPB nicht vor (zweites `<h1>`, Felder am Settings-API vorbei, Regel auf einem Core-Selektor). Die Prüfliste findet auch sie. Ein Bestätigungslauf mit `new29` übersah das Settings-API (2 von 3).
+- **Schluss:** Die Zugewinne aus der ersten Reihe bestehen auf unabhängigen Aufgaben bei neuem Projekt, kleinem Auftrag, WordPress-Audit, fremder Fläche und UI-Review. Sie kamen dort nicht aus den übernommenen Beispielen.
+
+Erste Reihe erneut, mit Sol und ohne die übernommenen Beispiele (`new26`), gegen den Stand mit Beispielen:
+
+| Aufgabe | mit Beispielen | ohne |
+| --- | --- | --- |
+| C12, C14, C16, WPA, WPB, WPC, T9 | je 3 von 3 | je 3 von 3 |
+| C13 Neues Projekt | 3 von 3 | 2 von 3 |
+| T8 UI umsetzen | 3 von 3 | 2 von 3 |
+| T10 UI-Review | 6 von 6 | 1 von 3, mit `new29` 2 von 3 |
+
+- **T10:** Ohne das Beispiel „13px-Schrift" übersieht Sol genau diesen Mangel wieder. Die 6 von 6 der ersten Reihe kamen zumindest teilweise vom wiedererkannten Beispiel. Auf T10H findet Sol dagegen alle vier Mängel, darunter einen Wert, der sonst nirgends auf der Seite vorkommt. Die Regel wirkt also, aber nicht zuverlässig bei jedem Mangel; an T10 wurde nicht weiter nachgeschärft.
+
+Neue Regelzweige und bisher ungeprüfte Skills:
+
+| Aufgabe | Sol ohne | Sol alt | Sol neu | Opus ohne | Opus alt | Opus neu |
+| --- | --- | --- | --- | --- | --- | --- |
+| C17 Refactoring ohne Verhaltensänderung | 2 von 3 | 3 von 3 | 3 von 3 | 2 von 2 | 2 von 2 | 2 von 2 |
+| C18 Änderung ohne Laufzeitverhalten (README, Docstring) | 3 von 3 | 3 von 3 | 3 von 3 | 2 von 2 | 2 von 2 | 2 von 2 |
+| C19 Fehlerbehebung bei Zugriffsrechten | 3 von 3 | 3 von 3 | 3 von 3 | 2 von 2 | 2 von 2 | 2 von 2 |
+| T11 Interaktion umsetzen (Bestätigungsdialog, 12 Prüfpunkte) | 0 von 3 | 2 von 3 | 3 von 3 | 2 von 2 | 2 von 2 | 2 von 2 |
+| WPD Gezieltes Audit (nur Abstände und Breiten) | 3 von 3 | 3 von 3 | 3 von 3 | siehe unten | siehe unten | siehe unten |
+| PC1 Regel in Projektregeln aufnehmen (Cleanup) | 0 von 3 | 2 von 3 | 3 von 3 | 2 von 2 | 0 von 2 | 2 von 2 |
+| SU1 Einstellungen ändern (Setup, nur Codex) | entfällt | 3 von 3 | 3 von 3 | entfällt | entfällt | entfällt |
+
+- **C17 bis C19 unterscheiden nicht.** Beide Modelle wählen auch ohne Skill die passende Prüfung. Belegt ist damit nur, dass die neue Testregel nichts verschlechtert: kein Alibi-Test beim Refactoring, kein Test bei der reinen Textänderung, und bei der Fehlerbehebung ein Test, der gegen den ursprünglichen Stand scheitert.
+- **T11:** Ohne Skill verwendet Sol in allen Läufen Buttons in Standardgröße neben kleineren. Mit dem alten Skill versuchte ein Lauf, die Seite über einen Browser zu prüfen; mit dem neuen startete kein Lauf einen Browser. Dass Sol in zwei Läufen nachsah, ob ein Browser-Werkzeug installiert ist, zählt nicht als Rendern.
+- **PC1:** Mit dem Cleanup-Skill schrieb Opus eine vergängliche Begründung („Firmware wird nächste Woche getauscht") in die Regel, ohne Skill nicht. Der Skill sagt jetzt, dass ein Umstand, der endet, nicht Teil der Regel ist; danach 2 von 2. Diese Korrektur ist nur an derselben Aufgabe bestätigt. Ein Sol-Bestätigungslauf mit `new29` legte die Regel in die falsche Datei (2 von 3).
+- **WPD:** Die Auswertung zählt für Opus zu viele Nebenbefunde (0 bis 1 von 2 in allen Bedingungen). Nach Lesen der Antworten betreffen die gezählten Punkte Abstände oder stehen in einem kurzen Abschnitt „nicht gefragt, aber wichtig"; als bestanden gewertet, die Prüfung selbst ist zu streng.
+
+Helfer-Aufträge, alter Helfertext (`new24`) gegen neuen:
+
+| Aufgabe | alt | neu |
+| --- | --- | --- |
+| WFR Workflow-Reviewer (Sol) | 2 von 3 | 2 von 3 |
+| WFE Workflow-Explorer (Sol) | 3 von 3 | 3 von 3 |
+| ASKN Nativer Berater (Sol) | 3 von 3 | 3 von 3 |
+| ASKC Claude-Berater (Opus) | 2 von 2 | 2 von 2 |
+
+Die umformulierten Helfertexte verändern das Ergebnis nicht. In allen Läufen blieb der Arbeitsbereich unverändert, kein Reviewer ließ Tests laufen, und der Claude-Berater führte keinen Shell-Befehl aus. Der eine Abzug je Stand bei WFR ist eine harmlose Auffälligkeit, die als Mangel gemeldet wurde.
+
+Wirkung der schlankeren Berichtsregeln: Der Abschlussbericht ist bei gleichem Ergebnis kürzer als mit der Zeile je Funktion, bei C12 im Mittel 375 statt 560 Zeichen, bei C16 320 statt 410.
+
+Umfang der zweiten Reihe: 178 Sol-Läufe und 91 Opus-Läufe für 37,79 US-Dollar nach CLI-Angabe.
+
+### Grenzen
+
+- Kleine Stichproben: drei beziehungsweise zwei Läufe je Zelle. Unterschiede von einem Lauf sind keine Aussage.
+- Drei Korrekturen entstanden aus Ergebnissen der zweiten Reihe und sind deshalb nicht unabhängig bestätigt: der Satz im Cleanup-Skill, die Review-Zeile zur unnötigen Abstraktion und die Formulierung zur Werteliste im UI-Review.
+- Die Auswertungen, die Antworttexte lesen, mussten erneut zweimal nachgebessert werden (Render-Erkennung bei T11, Nebenbefunde bei WPD).
+- Weiterhin ungemessen: große Projekte, der Hauptablauf von Workflow und Ask mit echten Unteragenten, Plan jenseits von T3, der WordPress-Adapter an einer laufenden Installation.
+

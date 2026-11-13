@@ -126,12 +126,11 @@ element you add or change, work from the outside in:
    radius, font size and padding; a new row takes the padding of the rows
    around it, equal above and below its content unless those rows differ.
    Leaving a component's size unset picks its default, which is right only
-   where the neighbours use the default. A field 40 high beside fields and
-   selects that are 36 high is a defect.
+   where the neighbours use the default. A toolbar button 44 high beside buttons that are 32 high is a defect.
 2. Then fit it in. Whatever goes into an existing control, row or bar takes
    the size variant that fits its current height and leaves equal space
-   above, below and at the outer edge: a 24 button in a 36 field, small
-   controls in a heading whose neighbouring headings use small ones. Where no
+   above, below and at the outer edge: a 20 icon button in a 28-high tag input, compact
+   controls in a card header whose neighbouring headers use compact ones. Where no
    variant fits, set a local size on the new part; that is a styling
    exception, so name the need no variant meets and keep it on that element.
    The container keeps its height.
@@ -159,11 +158,11 @@ element you add or change, work from the outside in:
    kind of element. Two results are defects unless the request asks for
    them or it is the local size from step 2: a size variant that differs
    from the neighbours it has to match, including `default` beside
-   neighbours that set one, and a value found nowhere else, such as a 13px
-   font where the page uses 12px and 14px.
-8. Report each new control in one line naming the one it copies and the
-   resulting size, for example `sort select: like the filter buttons, size
-   sm, 32 high`.
+   neighbours that set one, and a value found nowhere else, such as an 18px icon where the page uses 16px and 20px.
+8. For each new control, the report gives the existing control it is written
+   like and the resulting size, read from the code as it now stands, for
+   example `date picker: like the status select beside it, size md, 40 high`.
+   Where the code differs from that control, the line says how.
 
 Before accepting UI construction, updates or an interface-source review,
 inspect the final scoped diff under Code quality, including rendering and

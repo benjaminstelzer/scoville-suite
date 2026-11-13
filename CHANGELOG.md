@@ -2,10 +2,15 @@
 
 ## 2026-11-13 - Review corrections
 
+- Cleanup: keep a circumstance that will end, such as a pending fix or a deadline, out of a rule.
+- Code review: name an unneeded abstraction by what it is for, a second variant nobody asked for, not by a list of forms.
 - `release_suite.py publish` commits only the exact tree prepare staged, refuses when the shared source moved, checks the push addresses of every target before the first commit, and continues after a failed push when run again.
-- Code: ask for a test that fails without the change only for new or corrected behavior. A refactoring keeps the existing tests green before and after, and a change without runtime behavior gets the fitting source, type, lint or build check instead of a test.
+- Code: ask for a test that fails first only for a bug fix and for behavior whose failure is costly, such as money, permissions, data loss or security. Other new behavior gets a test that is read against the request; a refactoring keeps the existing tests green before and after, and a change without runtime behavior gets the fitting source, type, lint or build check instead of a test.
+- Code: report only what applies: reused code, added guards with their real case, the proving test. No line per function and no label on every statement.
 - UI: when implementing, treat the interaction rules as requirements on the code. Operating a flow in a running interface, comparing computed styles and measuring contrast in the actual theme belong to a requested review, audit or check.
 - UI: WordPress: a targeted audit walks only the checklist rows of the named concern; a whole-page audit walks all.
+- Code and UI: ask for the thing instead of a sentence about it: start from the simplest approach, find where a guarded case comes from, describe a new control as the code stands.
+- Replace rule examples that came from our own test tasks with examples from other domains.
 
 ## 2026-11-12 - Concrete instructions and release command
 
