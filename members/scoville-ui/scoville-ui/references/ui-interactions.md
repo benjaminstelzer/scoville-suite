@@ -21,7 +21,7 @@ context without unnecessary detours.
   acts, a link navigates.
 - Make action availability, focus and selection, save timing, progress,
   outcomes and recovery apparent.
-- Exercise the focus and keyboard sequence of a custom composite control.
+- Give a custom composite control a complete focus and keyboard sequence.
 - Use a modal for a bounded task that needs attention before continuing.
   Ordinary editing and field errors stay in context.
 - Required information and operation never depend on hover.
@@ -56,9 +56,11 @@ step.
 
 ## Exercise affected transitions
 
-When the requested flow includes one of these mechanisms, operate that path
-with controlled data and local targets. Cause no unrequested external or
-durable effect to gather interaction evidence:
+Each point below is a requirement on the code: when implementing, write the
+flow so that it holds, and report what you did not operate as unverified. In a
+requested review, audit or check whose flow includes one of these mechanisms,
+operate that path with controlled data and local targets. Cause no
+unrequested external or durable effect to gather interaction evidence:
 
 - Navigation, controls and adaptive view changes: verify orientation, available
   back and cancel paths, actual change and save timing and preservation of the
@@ -76,9 +78,9 @@ durable effect to gather interaction evidence:
   partial results, duplicate-action prevention, cancellation, retry and stale
   responses. A late old response must not overwrite the current user's result.
 
-When loading or input latency is a concrete risk in the requested flow,
-observe layout movement and input responsiveness during the transition, not
-only its settled end state.
-Use focused local measurements when needed. Lab observations, emulation and
+When loading or input latency is a concrete risk in the requested flow, a
+requested check observes layout movement and input responsiveness during the
+transition, not only its settled end state, with focused local measurements
+where needed. Lab observations, emulation and
 real-device interaction remain distinct; field performance claims require
 matching field data. Do not introduce backend tuning or a universal benchmark.

@@ -33,8 +33,11 @@ classes and defaults.
 
 - Implement: write the change so that every row holds for the code you add or
   touch.
-- Audit or review: walk the rows in order against the source. Report each
-  defect with its row, file and line.
+- Audit or review of the whole page: walk all rows in order against the
+  source. A targeted audit, such as a spacing review, walks only the rows of
+  the named concern and of what it depends on, as
+  [routing](routing.md#select-the-focus) selects them. Report each defect with
+  its row, file and line.
 
 | # | Look at | Correct | Defect |
 | --- | --- | --- | --- |

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-13 - Review corrections
+
+- `release_suite.py publish` commits only the exact tree prepare staged, refuses when the shared source moved, checks the push addresses of every target before the first commit, and continues after a failed push when run again.
+- Code: ask for a test that fails without the change only for new or corrected behavior. A refactoring keeps the existing tests green before and after, and a change without runtime behavior gets the fitting source, type, lint or build check instead of a test.
+- UI: when implementing, treat the interaction rules as requirements on the code. Operating a flow in a running interface, comparing computed styles and measuring contrast in the actual theme belong to a requested review, audit or check.
+- UI: WordPress: a targeted audit walks only the checklist rows of the named concern; a whole-page audit walks all.
+
 ## 2026-11-12 - Concrete instructions and release command
 
 - Add `release_suite.py`: `prepare` builds, checks, exports and stages every target, `publish` commits, pushes and verifies them after approval.

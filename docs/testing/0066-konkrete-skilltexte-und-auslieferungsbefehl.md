@@ -7,7 +7,7 @@ Bericht zu [PLAN-0066](../plans/0066-konkrete-skilltexte-und-auslieferungsbefehl
 `../shared/build/release_suite.py` fasst die Schritte zwischen committeter Quelle und veröffentlichten Zielen in zwei Befehle:
 
 - `prepare` prüft saubere Quellen auf main, baut je Profil die Suite- und die Einzelansicht, prüft deren Veröffentlichungsbelege, exportiert und validiert die Quellen, durchsucht den Inhalt nach Pfaden im Benutzerverzeichnis, gleicht jedes Ziel-Repository mit seinem Staging-Baum ab und stellt die Änderungen bereit. Es committet und pusht nichts.
-- `publish` läuft nach der Freigabe: Es verweigert bei geändertem Quellenstand, committet, pusht main und vergleicht jeden Remote-Stand mit dem lokalen Commit.
+- `publish` läuft nach der Freigabe: Es verweigert bei geändertem Quellenstand, committet, pusht main und vergleicht jeden Remote-Stand mit dem lokalen Commit. Die erste Fassung prüfte dabei nur den Suite-Stand und band den Commit nicht an den vorbereiteten Inhalt; das ist nach einem unabhängigen Review korrigiert (Abschnitt „Review nach der Auslieferung").
 
 Die Ziele leitet das Skript aus `suite.json` ab. Die Staging-Ordner heißen jetzt einheitlich `suite-<profil>`, `standalone-<profil>` und `export-<profil>`; die alten Ordner `general`, `mainloop` und `export-mainloop` sind entfernt.
 
@@ -141,7 +141,7 @@ Grenzen: keine WordPress-Laufzeit, die Auswertung liest Quelltext und Antworttex
 
 ## W-004 Alle Skilltexte
 
-Jede SKILL.md und jede Referenz aller neun Mitglieder sowie die gemeinsamen Regeln sind nach einer Schreibregel überarbeitet: Auslöser, Handlung und ein Ergebnis, das der Agent selbst prüfen kann, in konkreten Worten. Die Regel steht als „Executable and checkable" in der gemeinsamen Anleitung zum Schreiben von Anweisungen. Hilfsagenten schrieben um; ein unabhängiger Vergleich gegen den Stand davor fand je Mitglied Stellen mit verschobener Bedeutung, die alle korrigiert sind. Beispiele: Das Leselimit im Handoff war zu einer Erlaubnis geworden, Plan-Regel 2 war abgeschwächt, „nicht nötig" war in Workflow und Setup zu Verboten geworden, UI-Sätze legten Rendern beim Umsetzen nahe.
+Jede SKILL.md und jede Referenz aller neun Mitglieder sowie die gemeinsamen Regeln sind nach einer Schreibregel überarbeitet: Auslöser, Handlung und ein Ergebnis, das der Agent selbst prüfen kann, in konkreten Worten. Die Regel steht als „Executable and checkable" in der gemeinsamen Anleitung zum Schreiben von Anweisungen. Hilfsagenten schrieben um; ein unabhängiger Vergleich gegen den Stand davor fand je Mitglied Stellen mit verschobener Bedeutung; die dort gefundenen sind korrigiert. Ein späterer unabhängiger Review fand drei weitere Regelkonflikte (Abschnitt „Review nach der Auslieferung"). Beispiele: Das Leselimit im Handoff war zu einer Erlaubnis geworden, Plan-Regel 2 war abgeschwächt, „nicht nötig" war in Workflow und Setup zu Verboten geworden, UI-Sätze legten Rendern beim Umsetzen nahe.
 
 Danach wurden Wiederholungen gestrichen, die denselben Leser in derselben Situation zweimal erreichen: 15 Kandidaten in den gemeinsamen Regeln, Plan, Handoff, Skillwriter und Cleanup, 32 in UI, dem WordPress-Adapter, Workflow und Ask, dazu Inhaltsverzeichnisse und Herkunftsnotizen im Adapter. Elf Kandidaten blieben stehen, weil ihre Leser einander nicht sicher gelesen haben. Jede Streichung ist am Diff und an der verbleibenden Stelle geprüft; ein Halbsatz wurde wiederhergestellt. Die gemeinsamen Regeln verwenden für den Liefervertrag einer Rolle jetzt einen Begriff („delivery contract") statt zwei.
 
@@ -179,3 +179,25 @@ Nicht gemessen:
 - Effort low und Fable 5.2 (Non-goal).
 - Plan, Handoff, Skillwriter und Cleanup jenseits der genannten Aufgaben; Workflow, Ask und Setup haben keine Modellaufgabe, ihre Texte sind durch den Bedeutungsvergleich und die Mitgliedstests geprüft.
 - Der WordPress-Adapter an einer laufenden WordPress-Installation.
+
+## Review nach der Auslieferung (2026-11-13)
+
+Ein unabhängiger Reviewer (Astra, nur lesend) prüfte die Bereiche Suite `a2ace7d..1f26706` und Shared `74704bb..c2e1bd8` und meldete sieben Befunde. Alle sieben sind am Quelltext bestätigt und korrigiert.
+
+| Nr. | Befund | Korrektur |
+| --- | --- | --- |
+| 1 | `publish` committete, was gerade im Index stand: eine zusätzlich bereitgestellte Datei ging mit hinaus, eine zurückgenommene Änderung wurde als Erfolg gemeldet. | `prepare` hält je Ziel den bereitgestellten Baum fest (`git write-tree`); `publish` verweigert vor dem ersten Commit, wenn der Index eines Ziels davon abweicht. |
+| 2 | Geprüft wurde die Abrufadresse von `origin`, gepusht wird über die Push-Adresse; der Host war nicht gebunden. | Abruf- und alle Push-Adressen müssen das erwartete Repository auf `github.com` sein, geprüft vor dem ersten Commit. |
+| 3 | Nach einem fehlgeschlagenen Push gab es keinen Teilbeleg, und weder ein erneutes `publish` noch ein erneutes `prepare` führte sicher weiter. | `published.json` wird nach jedem Ziel geschrieben (`complete: false` bis zum Ende). Ein erneutes `publish` erkennt die eigenen Commits und pusht die fehlenden Ziele. `prepare` nennt lokale Commits eines Ziels, die noch nicht auf dem Remote sind. |
+| 4 | Die Verweigerung bei geändertem Quellenstand prüfte nur die Suite, nicht Shared. | `publish` prüft auch den bei `prepare` erfassten Shared-Commit und einen sauberen Shared-Stand. Ohne eigenes Shared-Repository entfällt die Prüfung; der Suite-Commit bindet dann den Snapshot. |
+| 5 | Code-Regel 12 verlangte für jede Änderung einen Test, der vorher scheitert, auch bei Verhaltenserhalt und reinen Textänderungen. | Der Nachweis „scheitert ohne die Änderung" gilt für neues oder korrigiertes Verhalten. Bei Verhaltenserhalt bestehen die vorhandenen Tests vorher und nachher; ohne Laufzeitverhalten genügt die passende Quell-, Typ-, Lint- oder Build-Prüfung. Die Review-Frage ist angepasst. |
+| 6 | UI verlangte beim bloßen Umsetzen weiterhin, Abläufe in einer laufenden Oberfläche zu bedienen, berechnete Stile zu vergleichen und Kontrast im echten Theme zu messen. | Diese Punkte sind beim Umsetzen Anforderungen an den Code; Bedienen und Messen gehören zu einem verlangten Review, Audit oder Check, und Unbedientes wird als ungeprüft berichtet. |
+| 7 | Die WordPress-Prüfliste ließ jedes Audit alle elf Zeilen durchgehen und widersprach damit der Begrenzung eines gezielten Audits. | Ein Audit der ganzen Seite geht alle Zeilen durch, ein gezieltes Audit nur die Zeilen des genannten Anliegens. |
+
+Geprüft: acht neue Tests in `../shared/tests/test_release_suite.py` (17 insgesamt) mit temporären lokalen Repositories. Sie prüfen bei jeder Verweigerung, dass kein Commit entstand und der Remote unverändert blieb, und sie scheitern gegen die alte Fassung des Helfers. `python development/check_all.py` besteht.
+
+Grenzen:
+
+- Die beiden Auslieferungen vom 2026-11-13 liefen noch mit der ersten Fassung von `publish`. Ein Schaden ist nicht belegt: Nach beiden Läufen stimmte jeder Remote-Stand mit dem lokalen Commit überein, und die Ziele enthielten nur, was `prepare` bereitgestellt hatte.
+- Die Korrekturen an Code-Regel 12, den UI-Auslösern und der WordPress-Prüfliste sind nicht mit Modellläufen gemessen. Die gemessenen Aufgaben (C16 neues Verhalten, WPB Audit der ganzen Seite, T10 verlangtes Review) liegen in den Fällen, die unverändert bleiben.
+- Offen für den Nutzer: Die UI-SKILL.md lässt weiterhin rendern, wenn ein gemeldeter visueller Mangel sich aus dem Quelltext nicht erklären lässt. Der Reviewer sieht darin einen möglichen Konflikt mit „beim Umsetzen nicht rendern". Die Ausnahme ist nicht geändert, weil sie eine Diagnose betrifft und ihre Streichung das Verhalten ändern würde.

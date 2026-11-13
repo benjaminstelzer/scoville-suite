@@ -4,21 +4,26 @@
 prepare  builds every package view, checks its publication receipt, exports and
          validates the suite sources, scans them for personal paths and stages
          the result in each local target repository. It commits and pushes nothing.
-publish  commits the staged targets, pushes main and compares every remote with
-         its local commit. Run it only after the user approved the push.
+publish  commits exactly the content prepare staged, pushes main and compares
+         every remote with its local commit. Run it only after the user approved
+         the push. After a failed push, run it again: it continues.
 """
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import sys
 import time
 import uuid
 from pathlib import Path
+from urllib.parse import urlsplit
 
 HERE = Path(__file__).resolve().parent
 STATE = 'release-state.json'
 PUBLISHED = 'published.json'
+# Targets are pushed only to these hosts; a local path has host None.
+HOSTS = ('github.com',)
 
 
 class ReleaseError(Exception):
@@ -67,14 +72,33 @@ def targets(manifest, release, public):
     return result
 
 
+def remote_identity(url):
+    """Host and owner/repository of a remote URL; the host of a local path is None."""
+    url = url.strip().replace('\\', '/').removesuffix('/').removesuffix('.git')
+    scp = re.fullmatch(r'[\w.-]+@([\w.-]+):(.+)', url)
+    if scp:
+        host, path = scp.group(1), scp.group(2)
+    elif '://' in url:
+        parts = urlsplit(url)
+        host, path = parts.hostname, parts.path
+    else:
+        host, path = None, url
+    return (host.lower() if host else None), '/'.join(path.strip('/').split('/')[-2:]).lower()
+
+
 def check_target(target):
-    """Refuse a directory that is not the expected checkout or holds changes prepare did not stage."""
+    """Refuse a directory that is not the expected checkout, pushes elsewhere or holds unstaged changes."""
     directory, repository = Path(target['directory']), target['repository']
     if not (directory / '.git').exists():
         raise ReleaseError(f'Target {directory} is not a Git checkout. Clone https://github.com/{repository} there and rerun.')
-    origin = git(directory, 'remote', 'get-url', 'origin').strip().replace('\\', '/').removesuffix('/').removesuffix('.git')
-    if not origin.lower().endswith('/' + repository.lower()):
-        raise ReleaseError(f'Target {directory} has origin {origin}, expected {repository}. Point the directory at the right repository and rerun.')
+    # Fetch and push addresses can differ: publish verifies through the first and writes through the others.
+    urls = (git(directory, 'remote', 'get-url', 'origin').splitlines()
+            + git(directory, 'remote', 'get-url', '--push', '--all', 'origin').splitlines())
+    for url in urls:
+        host, name = remote_identity(url)
+        if host not in HOSTS or name != repository.lower():
+            raise ReleaseError(f'Target {directory} has the origin address {url.strip()}, expected {repository} on {HOSTS[0]}. '
+                               'Set the fetch and push address of origin to that repository and rerun.')
     branch = git(directory, 'branch', '--show-current').strip()
     if branch != 'main':
         raise ReleaseError(f'Target {directory} is on branch "{branch}", not main. Switch it to main and rerun.')
@@ -240,11 +264,32 @@ def prepare(root, release, public, runtime_run=None, trash=None):
         git(target['directory'], 'add', '-A')
         target['changes'] = git(target['directory'], 'diff', '--cached', '--name-status').splitlines()
         target['head'] = head(target['directory'])
+        # publish commits this tree and no other.
+        target['tree'] = git(target['directory'], 'write-tree').strip()
+        ahead = run(['git', '-C', target['directory'], 'rev-list', '--count', 'origin/main..HEAD'])
+        target['unpublished'] = int(ahead.stdout.strip() or 0) if not ahead.returncode else 0
     state = {'source_commit': head(root), 'shared_commit': head(shared) if (shared / '.git').exists() else None,
              'runtime_run': runtime_run, 'targets': planned}
     (release / STATE).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
     (release / PUBLISHED).unlink(missing_ok=True)
     return state
+
+
+def target_stage(target):
+    """'prepared', 'committed' by an earlier publish run, or None when the content is not what prepare staged."""
+    directory = target['directory']
+    if git(directory, 'write-tree').strip() != target['tree']:
+        return None
+    if head(directory) == target['head']:
+        return 'prepared'
+    parent = run(['git', '-C', directory, 'rev-parse', '--verify', '-q', 'HEAD^']).stdout.strip()
+    committed = git(directory, 'rev-parse', 'HEAD^{tree}').strip()
+    return 'committed' if parent == target['head'] and committed == target['tree'] else None
+
+
+def remote_head(directory):
+    found = git(directory, 'ls-remote', 'origin', 'refs/heads/main').split()[:1]
+    return found[0] if found else None
 
 
 def publish(root, release, message):
@@ -253,24 +298,39 @@ def publish(root, release, message):
     if not state_path.is_file():
         raise ReleaseError(f'{state_path} is missing. Run prepare first.')
     state = json.loads(state_path.read_text(encoding='utf-8'))
-    require_clean_main(root, 'Suite source')
-    if head(root) != state['source_commit']:
-        raise ReleaseError(f'The suite source moved from {state["source_commit"][:7]} to {head(root)[:7]} since prepare. Run prepare again.')
+    sources = [('suite', root, state['source_commit'])]
+    if state.get('shared_commit'):
+        sources.append(('shared', HERE.parent, state['shared_commit']))
+    for role, repo, commit in sources:
+        require_clean_main(repo, f'{role.capitalize()} source')
+        if head(repo) != commit:
+            raise ReleaseError(f'The {role} source moved from {commit[:7]} to {head(repo)[:7]} since prepare. Run prepare again.')
+    # Decide for every target before the first commit or push.
+    stages = []
     for target in state['targets']:
         check_target(target)
-        if head(target['directory']) != target['head']:
-            raise ReleaseError(f'Target {target["directory"]} changed since prepare. Run prepare again.')
+        stage = target_stage(target)
+        if not stage:
+            raise ReleaseError(f'Target {target["directory"]} no longer holds the content prepare staged. '
+                               'Nothing was committed or pushed. Run prepare again and have the new list approved.')
+        stages.append(stage)
     results = []
-    for target in state['targets']:
+    published = {'source_commit': state['source_commit'], 'complete': False, 'targets': results}
+    for target, stage in zip(state['targets'], stages):
         directory = target['directory']
-        if git(directory, 'diff', '--cached', '--name-only').strip():
+        if stage == 'prepared' and git(directory, 'diff', '--cached', '--name-only').strip():
             git(directory, 'commit', '-q', *[part for text in message for part in ('-m', text)])
-            git(directory, 'push', '-q', 'origin', 'main')
-        local = head(directory)
-        remote = git(directory, 'ls-remote', 'origin', 'refs/heads/main').split()[:1]
-        results.append({'repository': target['repository'], 'commit': local, 'remote': remote[0] if remote else None,
-                        'verified': bool(remote) and remote[0] == local, 'changed': bool(target['changes'])})
-    published = {'source_commit': state['source_commit'], 'targets': results}
+        local, remote = head(directory), remote_head(directory)
+        try:
+            if remote != local:
+                git(directory, 'push', '-q', 'origin', 'main')
+                remote = remote_head(directory)
+        finally:
+            # Keep what was reached: a rerun of publish continues with the targets that are not yet pushed.
+            results.append({'repository': target['repository'], 'commit': local, 'remote': remote,
+                            'verified': remote == local, 'changed': local != target['head']})
+            (release / PUBLISHED).write_text(json.dumps(published, indent=1) + '\n', encoding='utf-8')
+    published['complete'] = True
     (release / PUBLISHED).write_text(json.dumps(published, indent=1) + '\n', encoding='utf-8')
     return published
 
@@ -293,7 +353,8 @@ def main():
         if args.command == 'prepare':
             state = prepare(root, release, public, args.runtime_run, args.trash)
             for target in state['targets']:
-                print(f'{target["repository"]}: {len(target["changes"])} staged change(s)')
+                ahead = f', {target["unpublished"]} earlier local commit(s) not on origin' if target['unpublished'] else ''
+                print(f'{target["repository"]}: {len(target["changes"])} staged change(s){ahead}')
                 for change in target['changes']:
                     print('   ' + change)
             print(f'Prepared source {state["source_commit"][:7]}. Nothing is committed or pushed. State: {release / STATE}')

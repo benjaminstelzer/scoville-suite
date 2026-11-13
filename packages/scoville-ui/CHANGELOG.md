@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-13 - Review corrections
+
+- When implementing, treat the interaction rules as requirements on the code. Operating a flow in a running interface, comparing computed styles and measuring contrast in the actual theme belong to a requested review, audit or check.
+- WordPress: a targeted audit walks only the checklist rows of the named concern; a whole-page audit walks all.
+
 ## 2026-11-12 - Concrete instructions and release command
 
 - Add a source checklist for classic WordPress plugin pages: page frame, Settings API, labels, Notices, buttons, where styles load and what they select, widths, status beyond color and translatable strings.

@@ -208,9 +208,11 @@ builds the suite and the standalone view into `suite-<profile>` and
 into `export-<profile>` and validates the exported Plan profile. It scans the
 release content for paths inside the current user's home directory, makes
 every local target checkout equal to its staging tree and stages the result.
-It commits and pushes nothing. It prints the staged changes per target and
-records the prepared source commit and targets in `release-state.json` in the
-staging directory.
+It commits and pushes nothing. It prints the staged changes per target, and
+earlier local commits of a target that are not yet on its remote, since
+publish would push those too. It records the prepared suite and shared
+commits and, per target, its head and the staged tree in `release-state.json`
+in the staging directory.
 
 | Option | Use |
 | --- | --- |
@@ -224,12 +226,24 @@ from the default profile, or from its first profile when it is not in the
 default one. A target must be a checkout of that repository on main whose only
 changes are ones an earlier prepare staged.
 
-`publish` runs after the push is approved. It refuses when the suite source
-moved since prepare. It commits each target that has staged changes with the
-given message, pushes main and compares `refs/heads/main` on the remote with
-the local commit of every target. `published.json` in the staging directory
-holds the result. Report the publication from that file: writing it back into
-exported Plan records would need another export and push.
+`publish` runs after the push is approved. Before the first commit or push it
+checks every target and refuses when:
+
+- the suite source or the shared source moved or has uncommitted changes since
+  prepare;
+- a target's index is not exactly the tree prepare staged, for example after an
+  extra staged file, another content or a reverted change;
+- a fetch or push address of a target's `origin` is not the expected repository
+  on `github.com`.
+
+It then commits each target that has staged changes with the given message,
+pushes main and compares `refs/heads/main` on the remote with the local commit
+of every target. `published.json` in the staging directory holds the result
+and is written after every target, with `complete: false` until all are done.
+After a failed push, run `publish` again with the same message: it recognizes
+the commits it already made and pushes the targets that are still missing.
+Report the publication from that file: writing it back into exported Plan
+records would need another export and push.
 
 Every refusal names its cause and the correction. Tags, releases and local
 installation are outside this command.
