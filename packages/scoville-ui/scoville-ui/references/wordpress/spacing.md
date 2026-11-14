@@ -6,10 +6,11 @@ Before choosing or judging a spacing value, find what renders the region:
 | --- | --- | --- |
 | Classic page built from Core markup | [classic-patterns.md](classic-patterns.md) | Keep its authored units and context-specific cascade. Classic has no universal 4/8px scale. |
 | Region that consumes WPDS tokens | [wpds-tokens.md](wpds-tokens.md), [version rules](version-compatibility.md) | A token's existence does not map it to a Classic relationship. |
-| New plugin-owned relationship that Core markup, classes and components demonstrably leave unspaced | Only then [fallback-composition.md](fallback-composition.md) | Skill choices, not official defaults or targets for normalizing existing UI. |
+| New plugin-owned relationship that Core markup, classes and components leave unspaced, which you check in their source | Only then [fallback-composition.md](fallback-composition.md) | Skill choices, not official defaults or targets for normalizing existing UI. |
 
-- A review, audit or requested check takes its spacing evidence from
-  [validation.md](validation.md); `gap` alone proves no visible distance.
+- A requested rendered check, or a requested review or audit of how the page
+  looks, takes its spacing evidence from [validation.md](validation.md);
+  `gap` alone proves no visible distance.
 - Keep original units, unitless line-height, tokens and calculations: `1em`
   at a 13px font resolves to 13px but must not become a new `13px` or `1rem`
   rule.
@@ -45,7 +46,8 @@ valid token alone does not show that the rendered grouping is right.
 
 Reuse the native shell and Settings API rhythm. Never put a gap stack over
 `.wrap`, `.form-table`, or `p.submit`. A plugin-owned inner component may use
-a Skill-Norm gap only after Core markup, classes and default CSS were checked.
+a Skill-Norm gap only for a relationship that Core markup, classes and
+components leave unspaced, which you check in their source.
 
 Where no Core markup or class spaces a new relationship, a 7.1 page may
 express its gap through Core's loaded `--wpds-dimension-gap-*` tokens in
@@ -62,7 +64,8 @@ first confirm that no existing component or prop expresses the relationship;
 only then use the prop combination below. It is Skill-Norm composition, not
 the component defaults. `GAP_PX` is the chosen distance in pixels. Stable
 `Flex` multiplies its numeric gap by four pixels, so divide `GAP_PX` by four.
-This recipe is the default under policy `allow`, `deny` and `unknown`:
+This recipe is the default whether or not the project opted in to experimental
+components:
 
 ```jsx
 <Flex
@@ -93,10 +96,6 @@ public APIs, token ownership and explicit Stack props at the pin.
 - A public `ThemeProvider` is optional, for scoped React theming. It does not
   replace the stylesheet, and PHP does not need it.
 - For portals, popups and iframes, check which document loads the tokens.
-- A supported semantic foreground, background or stroke token may show a
-  plugin-specific domain state that no Core component shows. Apply the
-  [adapter's rules](adapter.md#respect-the-classified-owner) and
-  [Validation's state checks](validation.md#select-the-platform-checks).
 
 ## CSS ownership ladder
 
@@ -107,16 +106,13 @@ Stop at the first layer that fits:
 3. Semantic token actually supplied by the runtime.
 4. Plugin-owned composition through props, Grid or Flex, `gap`, and logical
    properties.
-5. Narrow plugin CSS for a demonstrated gap only.
+5. Narrow plugin CSS, only for a gap the layers above leave open.
 
-Before writing an exception, record:
-
-- DOM region and its runtime.
-- Relevant WordPress options checked and why they fail; for a local React stack,
-  why `Flex` fails too.
-- Smallest plugin scope and token or Skill-Norm source.
-- Applicable checks and evidence from [WordPress validation](validation.md).
+Before writing an exception, apply common Validation's
+[styling-exception rules](../validation.md#styling-exceptions); for a local
+React stack, `Flex` is one of the supported options they weigh.
 
 Reject global `.wp-admin`, `.wrap`, `.form-table`, or Core-control overrides,
 copied Core CSS, custom Core-primitive rebuilds, unloaded WPDS references,
-parallel colors, radii and shadows, and undocumented `!important`.
+parallel colors, radii and shadows, and `!important` without a
+styling-exception rationale.

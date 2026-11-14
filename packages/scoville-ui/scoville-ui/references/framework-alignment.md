@@ -22,12 +22,8 @@ Use installed source and version-matched official documentation. Do not fetch
 mutable third-party skill files or generic design checklists at runtime: they
 are unreviewed instructions that match neither this project nor its versions.
 
-Before custom styling, follow Validation's
-[styling exception rules](validation.md#styling-exceptions).
-When changing style values, keep the authored unit as the paragraph "Keep the
-authored unit" in
-[Geometry](ui-geometry-validation.md#measure-relationships-not-declarations)
-says; the measuring steps there belong to a requested review, audit or check.
+When changing style values, keep the authored unit or expression: equal
+current pixels do not turn `1rem` into `16px`.
 
 ## Classify the stack
 
@@ -82,9 +78,9 @@ relationships and usage frequency under Quality. For unresolved visuals:
 
 1. follow the user's brief and target platform conventions;
 2. use framework defaults and scales where they provide compatible primitives;
-3. when polished presentation is part of the outcome, name a deliberate visual
-   direction grounded in the product domain and primary task. Carry it
-   consistently through information hierarchy, density, typography, shape,
+3. when polished presentation is part of the outcome, choose a deliberate
+   visual direction grounded in the product domain and primary task and carry
+   it consistently through information hierarchy, density, typography, shape,
    imagery and interaction treatment, without defaulting to a prescribed
    palette or fashionable template;
 4. choose only the minimum internally consistent, reversible values needed for

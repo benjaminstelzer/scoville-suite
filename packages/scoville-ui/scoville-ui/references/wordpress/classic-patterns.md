@@ -2,8 +2,7 @@
 
 These are observed WordPress 7.1 implementation patterns at
 [`b998fef9238af183f9523b3df71618e6e57498b6`](https://github.com/WordPress/WordPress/tree/b998fef9238af183f9523b3df71618e6e57498b6).
-Recheck them for the version the plugin actually supports. No row defines a
-universal gap.
+Other WordPress versions can differ. No row defines a universal gap.
 
 ## Declarations and context
 
@@ -47,9 +46,9 @@ first wrap heading when no marker exists. `.inline` prevents relocation.
 
 ## Prove the actual relationship
 
-When implementing, write the change from the declarations above and report
-the resulting distance as unverified. A review, audit or requested check
-proves it in the render:
+When implementing, write the change from the declarations above; do not
+render to confirm it. A requested rendered check, or a requested review or
+audit of how the page looks, proves it in the render:
 
 1. Inspect loaded stylesheet URLs, order and relevant minified rules selected by
    `SCRIPT_DEBUG` in `wp-includes/script-loader.php:1620`. Registration or a file
@@ -57,13 +56,11 @@ proves it in the render:
 2. Inspect final DOM after scripts, then the computed cascade.
 3. Measure geometry at relevant wide and narrow conditions.
 
-There, for a named paragraph and control pair, record the authored
-`margin: 1em 0`, its resolved value, the flow and line boxes in between and
-the measured edges. Margin collapsing, table layout, padding and inline line
-boxes can change the visible separation. Do not publish a gap assumed from
-this table.
+There, measure the visible separation; margin collapsing, table layout,
+padding and inline line boxes can make it differ from the authored margins.
+Do not report a gap from this table as measured.
 
 Core's native CSS and its token definitions are independent, although Core
 supplies both. A Classic page stays Classic on 7.1. For a relationship Core
 really leaves unspaced, follow [spacing.md](spacing.md); do not apply the
-fallback scale here.
+fallback scale to the native relationships above.

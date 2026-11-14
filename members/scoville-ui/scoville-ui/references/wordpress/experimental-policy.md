@@ -1,9 +1,8 @@
 # Experimental components
 
-Set the policy with routing.md's table. Use `allow` only for explicit
-bundled WPDS opt-in; availability is no opt-in. Stable `Flex` stays
-available under every policy value. A provider never forces a PHP page into
-React.
+Only an explicit project opt-in allows bundled experimental WPDS components;
+their availability is no opt-in. Stable `Flex` stays available either way. A
+provider never forces a PHP page into React.
 
 ### Bundled experimental WPDS
 

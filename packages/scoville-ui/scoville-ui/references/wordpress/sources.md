@@ -1,15 +1,12 @@
 # WordPress 7.0 and 7.1 source contracts
 
-Recheck a source when its revalidation condition applies. Label each fact as
-documented API, observed implementation or Skill-Norm.
-
 ## Pinned WordPress 7.0 repository state
 
-| Owner | Ref and resolved commit | Target packages | Revalidate |
-| --- | --- | --- | --- |
-| `WordPress/wordpress-develop` | `7.0` at `90a615f1834824d2583a43bfc698d9c710e5c094` | WordPress 7.0 admin source | Before release, new 7.x target, or branch drift |
-| `WordPress/gutenberg` | `wp/7.0` at `28c0dedc4eaf001a24237a1fbba4b0887698b000` | `@wordpress/ui` 0.7.1, `@wordpress/theme` 0.7.1, `@wordpress/admin-ui` 1.8.1, `@wordpress/components` 32.2.1 | Before release, package upgrade, or stability change |
-| `WordPress/WordPress` | tag `7.0` at `b16cd68ea199838d8f9daf0ff7e3f35042ba0ad0` | WordPress 7.0 runtime | Before a runtime check or target change |
+| Owner | Ref and resolved commit | Target packages |
+| --- | --- | --- |
+| `WordPress/wordpress-develop` | `7.0` at `90a615f1834824d2583a43bfc698d9c710e5c094` | WordPress 7.0 admin source |
+| `WordPress/gutenberg` | `wp/7.0` at `28c0dedc4eaf001a24237a1fbba4b0887698b000` | `@wordpress/ui` 0.7.1, `@wordpress/theme` 0.7.1, `@wordpress/admin-ui` 1.8.1, `@wordpress/components` 32.2.1 |
+| `WordPress/WordPress` | tag `7.0` at `b16cd68ea199838d8f9daf0ff7e3f35042ba0ad0` | WordPress 7.0 runtime |
 
 ## WordPress 7.1 theming contract
 
@@ -38,8 +35,7 @@ semantic gap and padding tokens, and the public JavaScript export. That shows
 the source, not that a real plugin page enqueues it or looks right.
 
 [version-compatibility.md](version-compatibility.md) has the enqueue example
-and its checks. When the target changes, recheck the supported Core release,
-built exports, token names and document.
+and its checks.
 
 ## Classic source and token separation
 
@@ -74,7 +70,3 @@ Official entry points:
 - <https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/>
 - <https://developer.wordpress.org/apis/internationalization/internationalization-guidelines/>
 - <https://developer.wordpress.org/block-editor/how-to-guides/internationalization/>
-
-When a source changes, update the fact label first,
-then recheck each Skill-Norm derived from it. Never silently keep a stale
-number or experimental rule.

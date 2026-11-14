@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-11-14 - Goodhart corrections
+
+- Fix the findings of a review of all Skills for rules where the process had become the goal and for sentences a model could misread.
+- Remove examples from the Skill texts that repeated our own test tasks, among them a loop example, a WordPress question with its answer and three earlier replacements that were still too close.
+- Plan: do small added work directly instead of queueing it as a Work Item (ADR-0232).
+- UI: a code review reads the source and renders nothing (ADR-0233); implementing no longer starts the interface or WordPress.
+- Workflow: with one Step, the passing Step review is the closure review (ADR-0234).
+- Code: guard test by reachability, fail-first on the assertion, and a report that names the proving test.
+- Evaluation rules: a pass from a scorer that only matches answer text shows the wording, not the behavior.
+- The report for PLAN-0066 now states what its second measurement series does not show.
+
 ## 2026-11-13 - Review corrections
 
 - `release_suite.py publish` checks the commit itself before pushing, so a commit hook cannot add content; pushes only main, without tags; and records the local commit also when the remote cannot be read.

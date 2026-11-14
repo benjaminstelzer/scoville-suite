@@ -41,6 +41,9 @@ identifiers.
 | Classification condition | Required value or boundary |
 | --- | --- |
 | Request explicitly says no experimental policy was supplied | `experimental_components_policy: unknown`, even for Core Components or an otherwise deny route. |
+| Supported page whose project explicitly opted in to bundled experimental WPDS components | Policy `allow`. |
+| Supported PHP/Core page, or hybrid page whose regions all use non-experimental Core, without that opt-in | Policy `deny`. |
+| Any other supported page without that opt-in | Policy `unknown`. |
 | Excluded named Classic PHP host using Core, without that override | Policy `deny`. It records a host fact; the surface stays the host's. |
 | Excluded React-owned or unspecified host runtime | Policy `unknown`. The surface stays the host's. |
 | Page placement or host boundary not established by supplied facts | `shell_owner: unknown`; neither Hybrid nor runtime opt-in establishes a Core shell. |

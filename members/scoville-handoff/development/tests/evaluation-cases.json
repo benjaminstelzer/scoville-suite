@@ -34,7 +34,7 @@
       "given": "The user explicitly requests a handoff before implementation begins and there are no blockers or changes.",
       "expect": [
         "Still return the complete four-section handoff artifact.",
-        "State not_started only because the user establishes it. Use unknown for missing information and none known for no known blockers or changes.",
+        "State not_started only because the user establishes it. Omit blockers and changes, since none are known; write unknown only where the receiver's next action depends on a fact that could not be established.",
         "Provide a concrete first action and observable completion criterion."
       ]
     },
@@ -76,9 +76,9 @@
       "id": "completed-transfer",
       "given": "Work is explicitly complete and accepted with current evidence, with no known blockers or in-flight work.",
       "expect": [
-        "Return all four sections and three resume steps.",
-        "Limit the steps to current-state verification, contradiction reconciliation and a no-material-mismatch completion criterion. Do not invent implementation or repeat accepted tests.",
-        "Write a concrete third step and completion criterion, not both conditional template alternatives."
+        "Return all four sections and one resume step.",
+        "Limit the step to rechecking the result against the current state. Do not invent implementation or repeat accepted tests.",
+        "End the step with a concrete completion criterion, not both conditional template alternatives."
       ]
     },
     {

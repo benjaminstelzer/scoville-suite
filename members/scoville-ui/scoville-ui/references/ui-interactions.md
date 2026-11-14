@@ -1,8 +1,7 @@
 # Interaction and states
 
-Preserve component semantics, state coverage, focus and input, announcements,
-transitions and proof; rendered layout proof belongs to a requested review,
-audit or check. Where it is unclear whether product or UI decides something,
+Preserve component semantics, state coverage, focus and input, announcements
+and transitions. Where it is unclear whether product or UI decides something,
 see
 [Quality's ownership table](ui-quality.md#product-ownership-and-ui-guarantees).
 
@@ -54,33 +53,34 @@ step.
 - Group related inputs with the owning group component or a fieldset with a
   legend.
 
-## Exercise affected transitions
+## Affected transitions
 
-Each point below is a requirement on the code: when implementing, write the
-flow so that it holds, and report what you did not operate as unverified. In a
-requested review, audit or check whose flow includes one of these mechanisms,
-operate that path with controlled data and local targets. Cause no
-unrequested external or durable effect to gather interaction evidence:
+Write each affected flow so that the points below hold. When Validation has
+you operate one, use controlled data and local targets, and cause no
+unrequested external or durable effect.
 
-- Navigation, controls and adaptive view changes: verify orientation, available
-  back and cancel paths, actual change and save timing and preservation of the
-  working context needed for the task. Not every value or position must persist.
-- Dialogs: open, reach controls, close or cancel and verify focus returns to the
-  invoking control or the appropriate next location. Check that overlays and
-  sticky regions do not obscure focused controls.
-- Dragging: complete the same task without dragging unless an applicable WCAG
-  exception applies. Exercise cancellation and preserve the resulting state.
-- Forms and authentication: preserve relevant paste, autofill and password
-  manager support. Check error association, safe value retention and correction.
-  Avoid redundant entry and cognitive-function tests where WCAG 2.2 requires
-  alternatives or assistance; preserve the criteria's actual exceptions.
-- Async flows: delay or fail the relevant operation, then observe loading,
-  partial results, duplicate-action prevention, cancellation, retry and stale
-  responses. A late old response must not overwrite the current user's result.
+- Navigation, controls and adaptive view changes: the user keeps orientation
+  and back and cancel paths, can tell when a change takes effect and when it
+  is saved, and keeps the working context the task needs. Not every value or
+  position must persist.
+- Dialogs: focus moves into the dialog when it opens, every control in it is
+  reachable, closing or cancelling returns focus to the invoking control or
+  the next sensible place, and no overlay or sticky region hides a focused
+  control.
+- Dragging: the same task can be completed without dragging unless an
+  applicable WCAG exception applies; cancelling a drag leaves a consistent
+  state.
+- Forms and authentication: paste, autofill and password managers keep
+  working where relevant; errors are associated with their fields, safe
+  values are kept and correction is possible. Avoid redundant entry and
+  cognitive-function tests where WCAG 2.2 requires alternatives or
+  assistance; preserve the criteria's actual exceptions.
+- Async flows: loading, partial results, failure, duplicate-action
+  prevention, cancellation and retry are handled, and a late old response
+  cannot overwrite the current result.
 
-When loading or input latency is a concrete risk in the requested flow, a
-requested check observes layout movement and input responsiveness during the
-transition, not only its settled end state, with focused local measurements
-where needed. Lab observations, emulation and
-real-device interaction remain distinct; field performance claims require
-matching field data. Do not introduce backend tuning or a universal benchmark.
+When a checked flow has a concrete loading or input-latency risk, observe
+layout movement and input responsiveness during the transition, not only its
+settled end state, with focused local measurements where needed. Lab
+observations, emulation and real-device interaction remain distinct; field
+performance claims require matching field data. Do not introduce backend tuning or a universal benchmark.

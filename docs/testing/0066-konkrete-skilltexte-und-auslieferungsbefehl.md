@@ -213,7 +213,7 @@ Die Messung der ersten Reihe war an zwei Stellen nicht unabhängig von den Texte
 
 ### Korrekturen
 
-- Alle aus Aufgaben stammenden Beispiele sind durch Beispiele aus anderen Domänen ersetzt.
+- Alle aus Aufgaben stammenden Beispiele sind durch Beispiele aus anderen Domänen ersetzt. Das traf nicht vollständig zu, siehe den Nachtrag vom 2026-11-14.
 - Code: Regel 4 heißt „Geh vom einfachsten Ansatz aus", Regel 9 „finde, woher der Fall kommt; ein rechtfertigender Satz ist keine Quelle". Regel 16 und der Berichtsabschnitt nennen nur, was zutrifft. Fail-first gilt nur bei Fehlerbehebung und teurem Verhalten ([ADR-0231](../decisions/0231-fail-first-nur-bei-fehlerbehebung-und-teurem-verhalten.md)).
 - UI: Die Berichtszeile je neuem Control beschreibt den Code, wie er dasteht.
 - Regeln für die Zukunft: In der Schreibanleitung steht „verlange die Sache, nicht eine Aussage über sie" und „nimm Beispiele nicht aus den Aufgaben, die die Regel messen". In den Regeln für Modelltests steht, dass eine Wirkung erst auf einer Aufgabe aus anderer Domäne gilt, die ohne Kenntnis der Anweisung gebaut wurde.
@@ -286,6 +286,16 @@ Umfang der zweiten Reihe: 178 Sol-Läufe und 91 Opus-Läufe für 37,79 US-Dollar
 - Drei Korrekturen entstanden aus Ergebnissen der zweiten Reihe und sind deshalb nicht unabhängig bestätigt: der Satz im Cleanup-Skill, die Review-Zeile zur unnötigen Abstraktion und die Formulierung zur Werteliste im UI-Review.
 - Die Auswertungen, die Antworttexte lesen, mussten erneut zweimal nachgebessert werden (Render-Erkennung bei T11, Nebenbefunde bei WPD).
 - Weiterhin ungemessen: große Projekte, der Hauptablauf von Workflow und Ask mit echten Unteragenten, Plan jenseits von T3, der WordPress-Adapter an einer laufenden Installation.
+
+### Nachtrag vom 2026-11-14: Was die zweite Reihe nicht zeigt
+
+Ein Review mit sechs Prüfern (Opus 5.5 xhigh, nur lesend) hat am 2026-11-13 die Skilltexte gegen alle Messaufgaben gehalten. Drei Aussagen dieses Abschnitts sind danach zu günstig. Die Korrekturen stehen im [Bericht zu PLAN-0067](0067-goodhart-korrekturen-nach-dem-opus-review.md).
+
+- **Nicht alle übernommenen Beispiele waren ersetzt.** In den Texten standen weiter Beispiele, die eine Aufgabe wörtlich oder im Szenario wiederholen: „seven weekdays by three shifts" (Köder H von C14), die Beispielfrage zur Block-Editor-Sidebar samt Antwort (WPC), der Export über eine temporäre Datei (C5), „permission check, validation and audit record" (C10) und die kompakten Bedienelemente in einer Kartenüberschrift (T9). Drei Ersatzbeispiele lagen zu nah an ihrer Aufgabe: `test_umlauts_are_transliterated` (C16 enthält `test_umlauts_are_written_out`), „toolbar button 44 high beside buttons that are 32 high" (T10H: Standardgröße 36 neben `sm` 32) und `width: 1200px` (WPB: 960px).
+- **Die zweite Reihe war in Domäne und Einzelheiten unabhängig, nicht in den Mängelarten.** Die Ersteller durften die Skilltexte nicht lesen, bekamen aber Aufgabenbeschreibungen, die aus den Regeln abgeleitet waren, und lasen Prompt und Bewerter der Schwesteraufgaben, um Abstand zu halten. C14H, C16H, C13H, T10H, WPBH und WPCH prüfen deshalb dieselben Mängelarten wie ihre Vorgänger; der Bewerter von C14H trägt sogar die Überschrift der Skill-Regel als Kommentar. T11 wertet es als Erfolg, dass kein Browser gestartet wird, und belohnt damit die Regel selbst. Belegt ist: Die Modelle befolgen die Regeln auch bei anderen Namen, Werten und Fachgebieten. Nicht belegt ist, dass die Regeln Mängel finden lassen, an die beim Schreiben der Regel niemand gedacht hat.
+- **Bei etwa der Hälfte der Aufgaben entscheidet Text in der Antwort über den Erfolg.** Nach der Aufstellung des Prüfers, die nur an den entscheidenden Stellen nachgeprüft ist, betrifft das T2, T4, T5, T10, T10H, WPB, WPBH, WPC, WPCH, WPD, C2, C3, C4, C9, C14, C14H, H1, H2, S1, S2, WFR, WFE, ASKN und ASKC ganz oder in einzelnen Prüfpunkten. Bei Review-Aufgaben ist der Text das Arbeitsergebnis; ein Stichwort-Treffer belegt die Arbeit dort aber nur schwach. Ohne Textprüfung im Erfolg sind T1, T6 bis T9, T11, C1, C5 bis C8, C10 bis C13, C13H, C15, C17 bis C19, PC1 und SU1.
+
+Der Satz „Sie kamen dort nicht aus den übernommenen Beispielen" unter „Schluss" gilt deshalb nur eingeschränkt: Für T10H und WPCH standen zum Zeitpunkt der Messung noch nahe Beispiele oder passende Tabellenzeilen im Text. Die Ergebnisse von WFR, WFE, ASKN und ASKC vergleichen zwei Fassungen der Helfertexte und nie „ohne Skill", weil der Helfer den Auftrag selbst erzeugt.
 
 ## Zweites Review des Auslieferungsbefehls (2026-11-13)
 

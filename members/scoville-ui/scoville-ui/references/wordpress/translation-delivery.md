@@ -57,9 +57,10 @@ deliberately used.
 2. Maintain `<domain>-<locale>.po` against the POT.
 3. `wp i18n make-mo` creates `<domain>-<locale>.mo` in `languages/`.
 4. `wp i18n make-json --no-purge` creates Jed JSON from the same PO.
-5. Set site locale, then admin-user locale, and verify `determine_locale()`.
-6. Assert one genuinely translated PHP string and one translated React string
-   in a browser.
+
+A requested check of runtime loading sets the site locale, then the
+admin-user locale, verifies `determine_locale()`, and asserts one genuinely
+translated PHP string and one translated React string in a browser.
 
 When the selected release process uses authored POT and PO files, keep them
 together with the MO and path-hashed Jed JSON files that process requires.

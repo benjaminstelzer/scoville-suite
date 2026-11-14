@@ -1,7 +1,7 @@
 # Fallback composition only
 
-Read this file only after you have shown that a new plugin-owned relationship
-gets no spacing from the available Core markup, classes and component APIs.
+Read this file only for a new plugin-owned relationship that Core markup,
+classes and components leave unspaced, which you check in their source.
 
 - No value here is a Classic compliance target.
 - Do not add a value to existing native margins or padding.

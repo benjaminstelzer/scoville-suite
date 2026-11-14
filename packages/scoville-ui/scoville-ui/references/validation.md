@@ -1,16 +1,12 @@
 # Rendered UI Validation
 
-Use this file when SKILL.md's References table selects it; its Styling
-exceptions section also applies whenever custom styling is written.
-Implementing a change alone selects nothing else here; that report names what
-was not rendered as unverified.
+Use this file when SKILL.md's References table selects it.
 
 ## Establish the claim
 
-State each claim: what the change is supposed to improve and the observation
-that would show it, such as `Save is as high as the fields beside it: equal
-rendered heights`. Use the check in its row and read each named reference
-completely:
+For each claim, decide which observation would settle it, such as equal
+right edges for figures meant to align with their column header. Use the
+check in its row and read each named reference completely:
 
 | Claim | Check that settles it | That check does not show | Reference |
 | --- | --- | --- | --- |
@@ -41,14 +37,15 @@ and only relevant combinations of:
 - realistic short, long, dynamic, and localized content; and
 - text scaling, browser zoom, reduced motion, and other supported user settings.
 
-Include a condition when it could change the decision or expose a failure in
-the requested flow. Take the transition points from the breakpoints the
-project, design system or platform defines and the applicable normative
-limits, for example 767px and 768px for a toolbar that stacks below 768px. A
+Include a condition when the claim depends on it or the change gives a
+concrete reason to expect a difference there. Take the transition points from
+the breakpoints the project, design system or platform defines and the
+applicable normative limits, for example 767px and 768px for a toolbar that stacks below 768px. A
 broad viewport may establish composition without being an accessibility
 threshold.
 
-For affected web UI with an AA target, include these applicable checks:
+When accessibility conformance of web UI with an AA target is among the
+claims, these are the applicable checks:
 
 - Operate the affected primary flow using only the keyboard and inspect visible
   focus at each step. Retain [WCAG 2.1.1's exceptions](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html)
@@ -70,8 +67,8 @@ Further conditions by case:
 
 - Elements were added, removed or changed: include the affected group's
   composition and responsive transitions, not only the edited element. Check
-  the widths and states that could expose broken grouping, wrapping, overflow
-  or unavailable actions.
+  the widths and states at which the group reflows or changes state, for
+  broken grouping, wrapping, overflow or unavailable actions.
 - A flow supports several input methods, and one can leave focus, selection,
   pointer capture, composition or shared state that affects another: exercise
   at least one such handoff in the same task, such as pointer to keyboard.
@@ -95,26 +92,18 @@ a prescribed visual style.
 
 ## Styling exceptions
 
-Before custom styling, including inline styles and styling props:
-
-1. Name the unmet requirement and the exact API or component responsible.
-2. Say why its supported behavior is insufficient; prefer supported
-   composition and variants. Using an official token does not alone justify
-   the exception.
-3. Name the smallest affected scope and keep the exception to it.
-4. Keep this rationale in the task result or an existing project record; no
-   separate document is required. Example: `Button sm is 32 high, the 24-high
-   tag row needs 20, no smaller variant: local height on .tag-remove only`.
-
-Inspect the final diff for unnecessary custom styling and for compensation
-whose cause is gone.
+SKILL.md's Implementation and acceptance section sets the rule for custom
+styling, including inline styles and styling props. In the checked scope,
+custom styling that supported composition or a variant could replace, that
+reaches beyond the element that needs it, or that compensates for a cause that
+is gone is a defect.
 
 ## Select and refresh evidence
 
 ```mermaid
 flowchart TD
   mode{"Implement or Audit?"}
-  mode -->|Implement with a requested check| batch["Complete related edits within scope"]
+  mode -->|Implement with a requested check or an unexplained reported defect| batch["Complete related edits within scope"]
   mode -->|Audit| source["Read the permitted source and the component, token and platform definitions the claims depend on"]
   batch --> source
   source --> defect{"Known in-scope source defect?"}
@@ -158,8 +147,6 @@ flowchart TD
 - If a required source or runtime tool is unavailable, continue with the
   permitted observations and the tools you have. Report each missing check as
   unverified, not passed.
-- Final measurements and viewed images represent the same revision, content
-  and state.
 - Reuse a result while the inputs and conditions it depends on are unchanged.
 - After repeated failed corrections, continue with a supported diagnosis
   instead of another unchanged attempt. Keep acceptance open and name the
@@ -178,15 +165,9 @@ in the rendered interface and interaction path.
 
 ## Report the result
 
-Report:
-
-- the surfaces and conditions actually rendered;
-- the task and states exercised;
-- relevant automated checks and their result;
-- framework or design-system alignment observed; and
-- residual unverified conditions or owner conflicts.
-
-For Audit, prioritize findings by affected task, owner and consequence.
+Report what you rendered or operated and under which conditions, the defects
+found, and each condition left unverified. For Audit, prioritize findings by
+affected task, owner and consequence.
 
 When supplied proof explicitly names conditions it did not observe and they
 limit the requested claim, keep each of them or an equally precise grouping:

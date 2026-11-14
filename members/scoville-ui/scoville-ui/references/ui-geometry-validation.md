@@ -4,7 +4,7 @@
 
 For each distance or alignment to check:
 
-1. Before measuring, note the reference elements and their edges or centres,
+1. Before measuring, decide the reference elements and their edges or centres,
    the expected relationship, its source and a justified tolerance: `Save
    bottom to card content bottom: 16px (card padding token), +/-0.5px
    rounding`. The source is independent of the change: an unchanged
@@ -18,10 +18,10 @@ For each distance or alignment to check:
    differences.
 3. Read each measurement (rectangles, computed values) from the DOM or its
    platform equivalent and compare it with its target in code before
-   display, as for any [machine data](machine-data.md). Report expected
-   relationship and source, actual value, tolerance and result; revision,
-   state and viewport may appear per group. Use an existing report or the
-   task result; no prescribed table, no new file.
+   display, as for any [machine data](machine-data.md). Report each
+   deviation with its expected relationship, source and actual value; passes
+   need only the scope and conditions they cover. Use the task result, not a
+   new file.
 
 A value outside its tolerance is reported as a deviation; it is a defect
 unless the difference is intended. Choose the tolerance before results; no
@@ -42,9 +42,8 @@ declarations are not observed geometry; minimum height is not fixed height.
 ## Inspect with a comparison and a hypothesis
 
 View the scoped region in context first, then details at a consistent scale.
-Keep an unaltered context image or crop when guides help comparison. For each
-row that applies, record a located deviation or a scoped pass. Explain a
-relevant exclusion; write nothing for unrelated rows.
+Keep an unaltered context image or crop when guides help comparison. Report
+each located deviation; a pass needs only its scope.
 
 | Look for | Compare |
 | --- | --- |
@@ -54,8 +53,7 @@ relevant exclusion; write nothing for unrelated rows.
 | Components, including status text, controls and icons | Intended internal text and icon placement as well as outer alignment; check unintended parent stretching and wrapped neighbors |
 | Content and state changes | Wrap, clipping, overlap, hidden-content holes and reading order |
 
-Equal outer boxes can hold displaced text or icons, such as two 24-high
-controls whose labels sit 1px apart. View the difference, then inspect font
+Equal outer boxes can hold displaced text or icons. View the difference, then inspect font
 and line-height, padding, alignment and icon metrics. Where internal placement
 is claimed, measure and view the inner content too; container overflow alone
 proves no internal alignment.

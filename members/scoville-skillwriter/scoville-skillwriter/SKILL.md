@@ -56,20 +56,21 @@ prompts need no Skill package.
 
 ## Check the work
 
-Review changed instructions and the files that use them once in the existing
-source review; for new writing review what you wrote. Check that:
+Review changed instructions and the files that use them once; for new writing
+review what you wrote. Check that:
 
 - an agent can complete the task, and required behavior and boundaries are clear;
 - authorization, activation and handoffs agree with the files that define them;
 - rules remain consistent, without unnecessary duplication or constraints;
-- every diagram path agrees with the text. Parse Mermaid with a renderer or
-  parser when available; otherwise report the syntax as unverified;
+- every path of a new or changed diagram agrees with the text. Parse that
+  diagram with a Mermaid renderer or parser when one is available; otherwise
+  report its syntax as unverified;
 - for a revision, the diff against the baseline holds every approved change
   and no other change to meaning, behavior or boundaries.
 
 Correct deviations within the authorized scope and recheck affected findings.
-Report unresolved mismatches. This one source review is the whole authoring
-review; write no separate certificate. It shows consistency, not model
+Report unresolved mismatches. This one review is the whole authoring review;
+write no separate certificate. It shows consistency, not model
 performance.
 
 ## Validate and evaluate
@@ -79,18 +80,20 @@ format, not quality.
 If a validator rejects a field the Agent Skills specification allows, such as
 `compatibility`, keep the field and report the limit.
 
-Choose checks by what the change can affect, using the required target models
-and settings. Add model-specific detail only where their results require it.
+Choose checks by what the change can affect. Run a model on them only when
+the user asks for it or your report claims model behavior, and then use the
+required target models and settings. Add model-specific detail only where
+their results require it.
 
 | Change | Check |
 | --- | --- |
 | Wording or layout only | Clarity, consistency and preserved meaning against the baseline |
-| Required behavior or output | Exercise the affected outcome and preserved boundaries |
+| Required behavior or output | The affected outcome and preserved boundaries |
 | Activation or scope | Explicit and implicit activation, plus adjacent requests that must not activate |
 
-Run a comparative evaluation only when the user requests one or the work
-claims improved effectiveness, following
-[sources and evaluation](references/sources-and-evaluation.md). Read it also
+Run a comparative evaluation only when the user requests one, following
+[sources and evaluation](references/sources-and-evaluation.md); without one,
+claim no improved effectiveness. Read that reference also
 before citing vendor advice or research; it holds model-specific findings for
 pruning prohibitions and stop rules and for low reasoning effort.
 

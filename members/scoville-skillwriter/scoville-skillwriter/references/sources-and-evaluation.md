@@ -90,9 +90,7 @@ named model; verify applicability before extending it to others.
   literally and skipped abstract lookup steps; at medium effort it followed the
   same instructions in every run. Concrete, checkable rules with a worked
   example were followed, abstract principles were skipped, and a rule in a
-  reference the model may not open had no effect. Write each rule as a
-  checkable step with its condition and keep what every task needs in the
-  always-loaded file.
+  reference the model may not open had no effect.
 - [A Framework for Evaluating Agentic Skills at Scale](https://arxiv.org/html/2606.17819)
   (Tessl; 2026-06, KDD workshop; 19 configurations in Claude Code, Codex CLI and
   OpenHands): goal completion was near saturation while instruction following
@@ -162,7 +160,9 @@ performance.
 - Report rescued failures and new regressions, plus time, tokens or cost where
   available. Distinguish overall results from the subset where the Skill was
   actually loaded.
-- Diagnose a concrete failure, repair it narrowly and re-run affected cases
-  within the agreed budget. Keep the version the outcomes support. A claim of
+- Diagnose a concrete failure and repair it narrowly. A re-run of the failing
+  case shows only that the repair matches that case; judge the effect on
+  acceptance cases the repair was not written against, within the agreed
+  budget, and keep the version those outcomes support. A claim of
   effectiveness on both OpenAI and Anthropic models requires comparable tests on
   both.

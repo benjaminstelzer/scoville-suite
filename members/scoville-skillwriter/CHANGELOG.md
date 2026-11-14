@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-14 - Goodhart corrections
+
+- Evaluation: a re-run of the failing case shows only that the repair matches that case; judge the effect on cases the repair was not written against.
+- Run a model only when you ask for it or the report claims model behavior, and a comparative evaluation only on request.
+- Writing rules: no rule that every rule must be a checkable step, and no list duty as the model example.
+- Shared rules: a final report after a small change no longer loads the writing reference, a test runner's console summary is not machine data, and a complete copy of a reference in context counts as read.
+
 ## 2026-11-12 - Concrete instructions and release command
 
 - State each rule as a trigger, an action and a result the agent can check itself, and remove statements that reach the same reader twice.

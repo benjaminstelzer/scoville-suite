@@ -23,14 +23,14 @@ mechanism for one, build it with that. Keep the right column working.
 | Reading | Typography, spacing roles, emphasis | Scaling, zoom, wrapping, truncation access, labels, contrast per theme and state, supported fallbacks |
 | Accessibility | Inclusive communication and equivalent meaning | Semantic, interaction, platform, scaling, input-alternative, status and rendered mechanics |
 | Layout | Grouping, hierarchy, density, deliberate exceptions | The project's, design system's or framework's components and tokens, semantic relationships |
-| Responsive intent | Transformation and priority changes | Valid breakpoints, reflow, persistent content and state, input behavior, rendered proof in a requested review, audit or check |
+| Responsive intent | Transformation and priority changes | Valid breakpoints, reflow, persistent content and state, input behavior |
 | Interaction | Affordance emphasis, feedback priority, recovery experience | Component semantics, focus and input, announcements, transitions |
-| State | Presentation, priority and recovery | Every component state, semantics, focus, announcements, transitions, proof, rendered only in a requested review, audit or check |
+| State | Presentation, priority and recovery | Every component state, semantics, focus, announcements, transitions |
 
 ## Start with the user task
 
-In each decision region, such as a form or toolbar, make the task and next
-action apparent:
+In each decision region the task creates or changes, such as a form, make
+the task and next action apparent:
 
 1. One action is visibly primary. Before pressing, the user can tell what
    it acts on, which fields it uses, what must come first and its
@@ -71,8 +71,8 @@ Accessibility is not a final color pass. Confirm that the chosen component
 and layout keep the required names, labels, roles, values, relationships,
 reading order, focus behavior, input alternatives, scaling and status
 messages. Use approved wording where supplied, otherwise the
-[wording rules](ui-wording.md), and check that the interface exposes and
-shows it correctly; when implementing, check this in the source.
+[wording rules](ui-wording.md), in both the visible text and the names the
+code exposes.
 
 - A control's visible text is in its accessible name, preferably at the start.
 - An icon-only control is named by its purpose.

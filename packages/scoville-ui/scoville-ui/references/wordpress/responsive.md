@@ -18,12 +18,8 @@ adding a breakpoint.
   [internationalization's layout contract](internationalization.md#layout).
 - Primary actions remain visible. Secondary actions wrap or move to an
   accessible labeled menu.
-- The document does not scroll sideways; a fixed pixel width that breaks
-  this at `782px` is a defect:
-
-  ```js
-  document.documentElement.scrollWidth <= document.documentElement.clientWidth
-  ```
+- The document does not scroll sideways at `782px` and below; a fixed pixel
+  width that causes this is a defect.
 
 A two-dimensional data view may use one labeled local horizontal scroll
 container. The document must not overflow.
@@ -32,17 +28,16 @@ container. The document must not overflow.
 
 Classic and hybrid pages inherit `.wrap` and Core gutters. Do not add a second
 page gutter. A bundled WPDS `Page` has its own package- and version-specific
-padding. Recheck that component source before using its historical 16px block
-and 24px inline values. Never apply them to Classic gutters. Density is not a
-responsive switch.
+padding. Read that component's source in the installed package before using
+its historical 16px block and 24px inline values. Never apply them to Classic
+gutters. Density is not a responsive switch.
 
 ## Focused settings or tool page
 
 - One main source-order column.
 - Use Settings API and Core form-table behavior on Classic pages.
 - Do not set a page max-width only to get a pleasing line length.
-- Limit prose locally only for a demonstrated reading problem and label that
-  choice as Skill-Norm.
+- Limit prose width locally only for a reported reading problem.
 - Put submission after the values it affects.
 - At `<=782px`, labels and controls stack through Core behavior. Plugin-owned
   inline actions wrap or stack without reordering.
@@ -52,11 +47,11 @@ responsive switch.
 - Separate header, primary task, supporting regions, and status and recovery by
   meaning.
 - Use the Grid or Flex primitive of the region's runtime. A custom
-  intrinsic grid needs spacing.md's CSS exception record.
+  intrinsic grid is a styling exception under spacing.md's CSS ownership
+  ladder.
 - Size columns from content, as in `minmax(min(100%, 18rem), 1fr)`, not
   from a column count per device class.
-- **Skill-Norm:** At `<=782px`, default to one visual column unless a smaller group proves
-  readable content, target size, and focus order.
+- **Skill-Norm:** At `<=782px`, default to one visual column.
 - Cards represent real groups. The parent sets the gap between cards.
 
 ## Data view

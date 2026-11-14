@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-11-14 - Goodhart corrections
+
+- A code review of interface source or of a diff reads the source and renders nothing. Rendering and measuring belong to a requested review of how an interface looks or behaves, a requested rendered check, and a reported visual defect whose cause the source does not show.
+- Interactions are written as properties the code must have, not as steps to operate, so implementing no longer starts the interface.
+- Sizes: compare the resulting height, font size and radius of a new control with its neighbours instead of listing variants; the report line applies to controls added beside existing ones.
+- Reviews report defects and what stayed unverified; no status per passing entry and no fixed report sections.
+- WordPress: remove steps that started WordPress, a browser or several releases while implementing; one rationale for a styling exception; use the plugin's existing text domain; no label or source tag on every statement.
+- WordPress: move the instructions for revalidating the pinned sources out of the Skill into a development note.
+- Remove examples that repeated our own test tasks.
+- Shared rules: a final report after a small change no longer loads the writing reference, a test runner's console summary is not machine data, and a complete copy of a reference in context counts as read.
+
 ## 2026-11-13 - Review corrections
 
 - When implementing, treat the interaction rules as requirements on the code. Operating a flow in a running interface, comparing computed styles and measuring contrast in the actual theme belong to a requested review, audit or check.

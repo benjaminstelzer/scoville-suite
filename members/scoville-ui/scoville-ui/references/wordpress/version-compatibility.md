@@ -5,9 +5,9 @@ tokens and the components of a React region are three separate facts;
 establish each. Do not migrate an existing Classic page merely because a
 newer WordPress version offers tokens.
 
-Before you use an example, show from the native markup and the component's
-options that the relationship is missing. Keep source units and token
-expressions. A resolved pixel value from a check describes one named state;
+Use an example only for a relationship that Core markup, classes and
+components leave unspaced, which you check in their source. Keep source units
+and token expressions. A resolved pixel value from a check describes one named state;
 do not write it back as a source declaration. Native relationships are in
 [classic-patterns.md](classic-patterns.md), token facts in
 [wpds-tokens.md](wpds-tokens.md).
@@ -19,7 +19,7 @@ do not write it back as a source declaration. Native relationships are in
 | 7.0 pinned baseline | No Core `wp-theme` style handle in the verified baseline | Not exported by pinned `@wordpress/theme` 0.7.1 | Preserve Classic pages and Core defaults. The explicitly opted-in bundled experimental path below remains version-specific. |
 | 7.1 | Core registers `wp-theme` with semantic tokens for plugin UIs | Public `ThemeProvider` from `@wordpress/theme` through the Core script handle | PHP may consume Core tokens without React. React may use the public provider when needed. Neither requires experimental-component opt-in. |
 
-- Check the actual supported installation and minimum supported version.
+- Take the minimum supported version from the project.
 - The style and script registries are separate, although both use `wp-theme`.
 - A registered handle does not prove enqueue, successful loading, token
   availability or rendering.
@@ -36,20 +36,18 @@ flowchart TD
   native -->|no| need{"Genuine plugin-owned layout/domain-state gap or React theming need?"}
   need -->|no| owner["Resolve the owning component's requirement; do not restyle native primitives"]
   need -->|yes| version{"Verified supported target?"}
-  version -->|stable 7.1| tokens["Depend on Core wp-theme STYLE; verify actual document and each consumed token"]
-  tokens --> valid{"Core handle, request and required tokens valid?"}
-  valid -->|no| fail["Fail token acceptance; investigate even if numeric layout fallback looks correct"]
-  valid -->|yes| react{"React region with actual theming requirement?"}
+  version -->|stable 7.1| tokens["Depend on Core wp-theme STYLE; use only token names the 7.1 stylesheet defines"]
+  tokens --> react{"React region with actual theming requirement?"}
   react -->|yes| provider["Use public provider plus STYLE; verify generated SCRIPT dependency"]
   react -->|no| done["Retain runtime owner; PHP needs no React or provider"]
-  version -->|verified older version without Core stylesheet| fallback["Preserve Core defaults; no public provider at the 7.0 pin; test only missing local relationship with explicit Skill-Norm fallback"]
+  version -->|verified older version without Core stylesheet| fallback["Preserve Core defaults; no public provider at the 7.0 pin; explicit Skill-Norm fallback only for the missing local relationship"]
   version -->|other minor, prerelease or unknown| unverified["Unverified; establish that version's contract separately"]
 ```
 
 - Never bundle a second copy of the Core tokens, replace or deregister the
   Core handle, or depend on an unregistered handle.
 - Never unlock private APIs, on any version. Pinned 7.0 has no public provider.
-- An approved backport to an older version needs its own tested branch that
+- An approved backport to an older version needs its own code branch that
   checks where the stylesheet comes from and which tokens it has; a present
   handle is not enough.
 - Available tokens are no reason to add a provider or convert PHP to React.
@@ -111,9 +109,7 @@ The example introduces no new plugin spacing variable or token namespace.
   rendered token check.
 
 An existing Classic page with no missing relationship does not use this
-example and gains no migration requirement. Show a domain state with a native
-Notice first. A custom state that a Notice cannot show may use supported
-semantic token pairs; it then needs contrast and a cue besides color.
+example and gains no migration requirement.
 
 ## React with the public 7.1 provider
 
@@ -155,9 +151,9 @@ A conditional JSX branch around a missing static export is not a compatible fall
 4. Keep the CSS subpath out of the JS entry.
 
 The provider does not replace the token stylesheet. CSS inheritance follows
-the DOM, so check a portal at the element it renders into. Iframes and popup
-documents need their own verified stylesheet loading. Do not pass plugin
-theming on to the Core document or to other plugins.
+the DOM, so a portal takes its tokens from the element it renders into.
+Iframes and popup documents need their own stylesheet loading. Do not pass
+plugin theming on to the Core document or to other plugins.
 
 ## Verification and audit outcomes
 
@@ -165,16 +161,17 @@ theming on to the Core document or to other plugins.
 | --- | --- |
 | Existing Classic page, 7.0 or 7.1 | Preserve native elements and default CSS. No mandatory tokens, React, or component conversion. |
 | PHP missing layout, 7.1 | `php-core`, Core `wp-theme` style dependency, required semantic tokens resolved, no duplicate token bundle. |
-| PHP missing layout, older supported version without tokens | Native elements preserved, no unregistered dependency, explicit tested local layout fallback. |
+| PHP missing layout, older supported version without tokens | Native elements preserved, no unregistered dependency, explicit local layout fallback. |
 | WordPress 7.0 with an unrelated or unapproved `wp-theme` registration, such as one from the Gutenberg plugin | Ignore it for the Core 7.1 path and use the verified older-version fallback. |
 | WordPress 7.1 with the Core handle unexpectedly missing | Preserve layout with the fallback, but fail token acceptance and investigate the installation. |
 | Other minors (including 7.2), prereleases or unknown version | Unverified. The numeric fallback does not establish support or pass token acceptance; verify that version separately. |
 | Registered but not loaded, or required token missing | Fail loading/token acceptance. Investigate the real document and registration, not runtime classification. |
 | React 7.1 public provider | Public import and Core script dependency, Core stylesheet loaded, no private APIs, no second runtime. |
-| React pinned 7.0 | No public provider assumed. Preserve the tested older entry without importing that export. |
-| Experimental component policy is deny | Core token stylesheet and the public 7.1 provider remain allowed when needed. No experimental component opt-in inferred. |
+| React pinned 7.0 | No public provider assumed. Preserve the separately built older entry without importing that export. |
+| No experimental component opt-in | Core token stylesheet and the public 7.1 provider remain allowed when needed. No experimental component opt-in inferred. |
 
-In a rendered check, inspect the token and its consuming property separately:
+A requested rendered check inspects the token and its consuming property
+separately:
 
 ```js
 const style = getComputedStyle(document.querySelector('.plugin-slug-summary-grid'));
@@ -183,17 +180,14 @@ if (!token) throw new Error('Required Core gap token is missing');
 if (style.gap !== '16px') throw new Error('Unexpected gap for the verified default density');
 ```
 
-- On every supported stable 7.1 installation that uses this example, require
-  the Core handle and run the token assertion, whichever branch the code
-  took. An unexpected numeric fallback does not pass token acceptance.
+- On a stable 7.1 installation that uses this example, require the Core
+  handle and run the token assertion, whichever branch the code took. An
+  unexpected numeric fallback does not pass token acceptance.
 - On the supported 7.0 fallback, assert the computed `gap` without requiring
   the token.
 - The `16px` expectation applies to the single density the 7.1 Core
   stylesheet ships. WordPress 7.1 and `@wordpress/theme` 1.0.0 expose no
   public density switch, so do not carry the compact or comfortable 7.0
   package values into this path.
-- Check that the stylesheet loaded and the computed styles on each supported
-  release, then apply the affected cases in
-  [WordPress validation](validation.md#select-the-platform-checks).
 
 Primary sources and immutable release refs are in [sources.md](sources.md).

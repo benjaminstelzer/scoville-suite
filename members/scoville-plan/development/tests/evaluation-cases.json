@@ -161,7 +161,7 @@
     },
     {
       "id": "mid-task-mixed-correction-and-addition",
-      "given": "The user corrects a misunderstanding that invalidates current execution and also requests an independent small follow-up after the corrected task.",
+      "given": "The user corrects a misunderstanding that invalidates current execution and also requests an independent follow-up after the corrected task that will not finish in this session.",
       "expect": [
         "Stop the invalid current execution and reconcile its effect through ordinary immutable-history and lifecycle rules.",
         "Classify the independent follow-up separately and durably queue it without beginning it.",
@@ -170,7 +170,7 @@
     },
     {
       "id": "deferred-compatible-small-requests-batch",
-      "given": "W-001 is in progress. Two successive additive requests are small, share one outcome, Acceptance, dependencies, Decisions, blockers, owner, rollout, authorization, and risk, and neither changes W-001.",
+      "given": "W-001 is in progress. The user asks to track two successive additive requests in the Plan. They share one outcome, Acceptance, dependencies, Decisions, blockers, owner, rollout, authorization, and risk, and neither changes W-001.",
       "expect": [
         "Preserve W-001 and current_item while persisting both additions in one queued todo Work Item.",
         "Keep their order explicit in Steps and make Outcome, Acceptance, and Next action cover both requests without a vague follow-up bucket.",
@@ -605,7 +605,7 @@
       "id": "single-decision-transitions",
       "given": "Two existing proposals are explicitly accepted together; unrelated historical batch metadata exists.",
       "expect": [
-        "Accept each proposal individually and validate after each completed operation.",
+        "Accept each proposal in its own Decision file and validate once after they are saved.",
         "Create no new batch fields; preserve and validate unrelated historical batch metadata."
       ]
     },

@@ -1,6 +1,7 @@
 # PHP, JavaScript, and layout internationalization
 
-Use one literal text domain equal to the lowercase hyphenated plugin slug. Apply
+Use the plugin's existing literal text domain; a new plugin uses its lowercase
+hyphenated slug. Apply
 these rules to visible text, ARIA labels, screen-reader text, alternative text,
 notices, errors, empty states, dates, and numbers.
 
@@ -84,15 +85,15 @@ Add an explicit custom path only when the selected delivery mechanism needs one.
 - PHP uses `wp_date()` and `number_format_i18n()`.
 - JavaScript dates use `dateI18n` from `@wordpress/date`.
 - By default, pass PHP-formatted numbers to the client UI. A client-only
-  number, currency, or percentage formatter requires an authoritative API,
-  explicit locale mapping, and a browser test. Do not derive BCP-47 by
+  number, currency, or percentage formatter requires an authoritative API and
+  explicit locale mapping. Do not derive BCP-47 by
   replacing `_` with `-` unless a source defines it.
 
 ## Layout
 
 Use logical properties, let controls and actions wrap, and keep information,
 function and source order. When longer text breaks the layout, fix the layout,
-not the string. A rendered check uses [WordPress validation's content
+not the string. A requested rendered check uses [WordPress validation's content
 cases](validation.md#select-the-platform-checks); lengthened test text needs
 no production translations or PO files and proves no translation loading.
 
@@ -100,19 +101,20 @@ no production translations or PO files and proves no translation loading.
 
 | Languages in scope | RTL check |
 | --- | --- |
-| A supported or explicitly planned UI language is right-to-left, including an admin-user language that differs from the site's | Required. Check affected layouts, controls, focus/source order and directional content. A test with direction set to RTL suffices as readiness layout evidence. |
-| LTR only, or unspecified with no established RTL requirement | Not required; does not block readiness. Report RTL as untested without claiming support; revisit when an RTL language enters scope. |
+| A supported or explicitly planned UI language is right-to-left, including an admin-user language that differs from the site's | A requested rendered check covers affected layouts, controls, focus and source order and directional content with direction set to RTL; that suffices as layout evidence for readiness. |
+| LTR only, or unspecified with no established RTL requirement | None; readiness does not wait for one. Do not claim RTL support. |
 
-Keep Core's direction handling and logical properties in both cases.
+In both cases, write the change with logical properties and keep Core's
+direction handling.
 
 ## Acceptance by scope
 
 | Situation | Result |
 | --- | --- |
-| Readiness only | Accept when the source and the applicable layout checks meet the rules above; catalogs and translated browser strings are unnecessary. |
+| Readiness only | Accept when the source meets the rules above; catalogs and translated browser strings are unnecessary. |
 | Source strings bypass i18n functions or break the domain, formatting, escaping, dependency or handle-order rules above | Reject readiness even if catalogs exist. |
-| Translation delivery | Verify the selected mechanism's artifacts and source/build references; prove claimed translations actually load at runtime. Extractability or an RTL-direction test alone cannot establish delivery. |
+| Translation delivery | Verify the selected mechanism's artifacts and source/build references; a requested check proves at runtime that the claimed translations load. Extractability or an RTL-direction test alone cannot establish delivery. |
 
 When extractability stays uncertain, a throwaway extraction can supply
-evidence without a maintained catalog workflow. Report readiness, translation
-delivery and proof of actual loading separately.
+evidence without a maintained catalog workflow. Do not present readiness as
+delivery, or delivery as proof that translations load.

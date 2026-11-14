@@ -23,8 +23,8 @@ flowchart TD
   owner -->|yes| coordinate["Use the owner's prepared edit"]
   owner -->|no| draft["Prepare the scoped change"]
   coordinate --> draft
-  draft --> verify["Inspect the saved diff and required validation"]
-  verify --> report["Report changes and actual checks"]
+  draft --> verify["Compare removals and moves with the original; run required validation"]
+  verify --> report["Report changes and unresolved choices"]
 ```
 
 ## Target and scope
@@ -62,14 +62,17 @@ permissions and useful pitfalls. Remove repetition, context shown to be
 obsolete and generic explanation. A binding project rule stays even when a
 model would know it, because the project decided it: "run tests before
 committing" stays, "tests catch bugs" goes. A rule may carry the reason that
-stays true as long as the rule does. A circumstance that will end, such as a
-pending fix or a deadline, is not part of the rule: say it in your reply.
+stays true as long as the rule does. When a rule holds only until something
+happens, state that end in the rule, as in "Keep the v1 endpoints until the
+mobile app no longer calls them", so a later reader knows when to retire it;
+leave out the story of how the rule arose.
 
 Base factual claims on binding user instructions and inspected sources; mark
 proposals and examples. Ask for missing facts only when they block the edit.
 
-Keep a copy needed on its own and any instruction that requires it. Merge
-other duplicates only when their meaning and scope match.
+Keep a duplicate in a file that must stand alone, or where an instruction
+requires the copy; merge other duplicates only when their meaning and scope
+match.
 
 | Procedure or reference | Treatment |
 | --- | --- |
@@ -107,13 +110,13 @@ initialize Plan, and Cleanup leaves Plan status and record identity unchanged.
 
 ## Write and verify
 
-Inspect the saved affected blocks and every changed file's scoped diff, including
-extracted references, for lost scope, conditions, exceptions, permissions, reasons
-or links. Run the owner's validation where it is required. Check saved non-ASCII
-text when encoding could alter it.
+After a removal, rewording, merge, move or extraction, compare the saved diff, including
+extracted references, with the original for lost scope, conditions,
+exceptions, permissions, reasons or links. Run the owner's validation where it
+is required. Check saved non-ASCII text when encoding could alter it.
 
-Report material changes and removals with their reason, unresolved choices and
-actual checks. File length proves neither token savings nor model performance.
+Report material changes and removals with their reason, and unresolved
+choices. File length proves neither token savings nor model performance.
 Add no audit or approval round to an authorized edit.
 
 {{ include: rules.references }}

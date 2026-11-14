@@ -15,19 +15,17 @@ accessibility audit are separate requests.
    relevant same-page tabs, disclosures, menus and overlays, and add what
    they reveal. Interact read-only: never save, submit, delete or cause an
    external effect for coverage. Name states you cannot reach as unverified.
-3. For every entry, name what decides it (component, token, platform default,
-   product requirement or local rule) and the checks Validation's claim table
-   requires. Give each check `pass`, `defect`, `unverified` or a justified
-   `not-applicable`. Compare within and between groups, such as buttons with
-   the fields beside them.
-4. Before concluding, confirm every entry has what decides it and its
-   results; one without is a coverage gap. Report coverage and named gaps
-   separately from prioritized findings. A required entry left unverified
-   prevents a complete consistency pass.
+3. Check every entry against what decides it (component, token, platform
+   default, product requirement or local rule) with the checks Validation's
+   claim table requires. Compare within and between groups, such as links
+   with the buttons that do the same kind of action.
+4. Report the defects with their entries, and each entry or state left
+   unverified. A required entry left unverified prevents a complete
+   consistency pass.
 
 Repeated or virtualized data may use a justified representative sample. State
 the population and variants not inspected: `5 of 240 rows inspected, 235 not;
-variant "archived" not seen`. Distinct in-scope variants and known exceptions
+variant "expired" not seen`. Distinct in-scope variants and known exceptions
 each stay in the inventory. Do not enumerate every virtual row merely to
 simulate completeness.
 

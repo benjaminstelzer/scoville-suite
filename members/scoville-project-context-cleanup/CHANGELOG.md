@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-14 - Goodhart corrections
+
+- A rule that holds only until something happens states that end in the rule. This replaces the rule from 2026-11-13, which moved the end condition into the reply and so made a temporary rule permanent.
+- Compare the saved diff with the original after a removal, rewording, merge or move, not after a pure addition.
+- Shared rules: a final report after a small change no longer loads the writing reference, a test runner's console summary is not machine data, and a complete copy of a reference in context counts as read.
+
 ## 2026-11-13 - Review corrections
 
 - Keep a circumstance that will end, such as a pending fix or a deadline, out of a rule; a rule carries only the reason that stays true with it.

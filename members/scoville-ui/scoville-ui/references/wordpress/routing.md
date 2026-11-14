@@ -22,8 +22,8 @@ without it.
 
 | Focus | Inspect | Main reference |
 | --- | --- | --- |
-| Spacing, vertical flow and composition | Before choosing gaps, margins, padding, stacks, cards, fields or portals: which element sets each distance (parent gap, child margin, Core default) and which children are hidden. A review or requested check also measures the rendered distances. | [spacing.md](spacing.md) |
-| Core defaults, tokens, and CSS | Which runtime renders the region, which Core markup and components it reuses, whether each token it consumes is available and loaded, and the CSS exception record before custom styling. | [spacing.md](spacing.md); [version-compatibility.md](version-compatibility.md) for token/provider availability, loading, fallback or version-sensitive advice |
+| Spacing, vertical flow and composition | Before choosing gaps, margins, padding, stacks, cards, fields or portals: which element sets each distance (parent gap, child margin, Core default) and which children are hidden. A requested rendered check, or a requested review of how the page looks, also measures the rendered distances. | [spacing.md](spacing.md) |
+| Core defaults, tokens, and CSS | Which runtime renders the region, which Core markup and components it reuses, whether each token it consumes is registered and enqueued for the page, and, before custom styling, the styling-exception rationale. | [spacing.md](spacing.md); [version-compatibility.md](version-compatibility.md) for token/provider availability, loading, fallback or version-sensitive advice |
 | Responsive layout | Page shells, columns, toolbars, data views, narrow widths, zoom, RTL and content expansion: affected reflow, wrapping, overflow, order and relevant widths. | [responsive.md](responsive.md) |
 | User guidance and states | Navigation, hierarchy, actions, forms, Notices, and the loading, empty, success, error, disabled, permission and recovery states that can occur in the selected flow. | [ui-guidance.md](ui-guidance.md) |
 | Accessibility | Relevant semantics, keyboard and focus behavior, labels, contrast, targets, and reflow. | [ui-guidance.md](ui-guidance.md), [responsive.md](responsive.md) for layout |
@@ -51,11 +51,11 @@ Supported: continue with [adapter.md](adapter.md).
 | Surface | Page shell | Rule |
 | --- | --- | --- |
 | Plugin single-site settings or tool page | Core shell | Keep working Classic elements and defaults. |
-| Plugin workflow, dashboard or data view | Core shell plus an explicit plugin root | Give each region one runtime and one source of spacing. |
+| Plugin workflow, dashboard or data view | Core shell; a plugin root only where a script renders the region | Give each region one runtime and one source of spacing. |
 | Plugin Network Admin page | Network Admin shell | Supported only when the request or source shows the Multisite context. Establish where the page is placed separately from which runtime renders it. |
 
 Excluded: the surface belongs to a host, so the plugin page route does not
-apply. Recommend the host's own mechanism instead.
+apply. Use or recommend the host's own mechanism instead.
 
 | Surface | Host | Recommend | Do not recommend |
 | --- | --- | --- | --- |
@@ -64,27 +64,19 @@ apply. Recommend the host's own mechanism instead.
 | Post metabox | Core post screen | `add_meta_box()` on the `add_meta_boxes` action. The callback prints only the box content with Core form markup; Core renders the box frame, title and spacing. | Experimental WPDS components injected into the box; global admin overrides. |
 | Dashboard widget | Core Dashboard | `wp_add_dashboard_widget()` on the `wp_dashboard_setup` action. The callback prints only the widget content; Core renders the widget frame. | Experimental WPDS injection; global admin overrides. |
 | Profile field | Core profile screen | Print the fields on `show_user_profile` and `edit_user_profile` as rows of a `<table class="form-table">` like that screen's own sections; save on `personal_options_update` and `edit_user_profile_update`. | Experimental injection; global overrides; custom CSS before checking what Core's markup already gives. |
-| Existing Core list or screen | That Core screen | The hooks and filters the screen provides, such as `manage_{$screen->id}_columns` for list-table columns. Core renders the markup and spacing. | Experimental WPDS injection; global admin overrides. |
-| UI inside another plugin | Host plugin | The host plugin's documented extension points and its own components. | WPDS advice derived from the fact that the host uses React; advice that depends on host facts the user did not give. |
+| Existing Core list or screen, including the list and edit screens Core generates for a plugin's post type or taxonomy | That Core screen | The hooks and filters the screen provides, such as `manage_{$screen->id}_columns` for list-table columns. Core renders the markup and spacing. | Experimental WPDS injection; global admin overrides. |
+| UI inside another plugin | Host plugin | The host plugin's documented extension points and its own components. | WPDS advice derived from the fact that the host uses React; advice that depends on host facts neither the user nor the accessible source gives. |
 
 For every excluded surface:
 
-1. Say that the plugin page rules do not apply: no `.wrap` page shell, no
-   spacing scale from [fallback-composition.md](fallback-composition.md), no
-   global admin or editor CSS. Do not handle the surface through Scoville
-   UI's general route instead.
-2. Recommend the mechanism from the table and say that the host's spacing
-   applies. Values of the plugin's own settings page are not copied there.
-3. Base the advice on the facts the user gave. Where a missing fact would
-   change the advice, name that fact and still answer the rest.
-
-Example: "Which spacing values should our panel in the block editor sidebar
-use so it matches our settings page?" Answer: the settings page values do not
-transfer; build the panel from `PanelBody`, `PanelRow` and
-`@wordpress/components` controls inside `PluginSidebar` or
-`PluginDocumentSettingPanel` and keep their built-in spacing; add no editor
-CSS. Missing fact to name: whether the panel is an own sidebar or part of the
-document settings.
+1. Do not apply the plugin page rules: no `.wrap` page shell, no spacing
+   scale from [fallback-composition.md](fallback-composition.md), no global
+   admin or editor CSS.
+2. Use or recommend the mechanism from the table. The host's spacing applies;
+   values of the plugin's own settings page are not copied there.
+3. Base the advice on the facts the user gave and the accessible source
+   shows. Where a missing fact would change the advice, name that fact and
+   still answer the rest.
 
 ## Choose the runtime per region
 
@@ -92,12 +84,12 @@ document settings.
 flowchart TD
   surface{"Supported plugin-owned admin page?"}
   surface -->|excluded| host["Plugin page route does not apply; recommend the host's mechanism from Surface support"]
-  surface -->|unknown| inspect["Inspect supplied context and accessible source/runtime within scope"]
+  surface -->|unknown| inspect["Inspect supplied context and accessible source within scope"]
   inspect --> known{"Decision-relevant facts established, including runtime for supported regions?"}
   known -->|no| clarify["needs-clarification: name missing fact; withhold only dependent advice"]
   known -->|yes| surface
-  surface -->|yes| adapter["Read adapter.md; classify runtime and supported versions separately"]
-  adapter --> runtime{"Observed runtime of each DOM region?"}
+  surface -->|yes| adapter["Read adapter.md; classify the runtime of each region"]
+  adapter --> runtime{"Runtime of each region, from the source?"}
   runtime -->|PHP with Core| php["Core APIs, markup, classes and defaults; adapter.md checklist"]
   runtime -->|Core React| react["Core Components and registered packages; no inferred WPDS opt-in"]
   runtime -->|bundled experimental| experimental["Read experimental-policy.md; explicit opt-in for additions; verify target compatibility"]
@@ -109,13 +101,9 @@ flowchart TD
   hybrid --> focus
 ```
 
-Set the experimental components policy from what the request and project say:
-
-| Situation | Policy | Effect |
-| --- | --- | --- |
-| The project explicitly opted in to bundled experimental WPDS components | `allow` | Read [experimental-policy.md](experimental-policy.md) before any experimental change or advice. |
-| The request says no experimental policy was given, even on a page that uses Core Components | `unknown` | Behaves as deny: add no experimental API. |
-| A PHP/Core page, or a hybrid page whose regions all use non-experimental Core | `deny` | Add no experimental API. |
+Add experimental WPDS components only when the project explicitly opted in to
+them; then read [experimental-policy.md](experimental-policy.md) before any
+experimental change or advice. Otherwise add no experimental API.
 
 - Leave an existing experimental subtree as it is unless a functional
   requirement needs it changed.

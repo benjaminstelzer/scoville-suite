@@ -14,15 +14,14 @@ the product record decides grouping and responsive priorities.
   their source: a difference set through a variant or token is usually
   deliberate, a one-off override usually drift; look for a stated reason
   either way. Keep deliberate differences; fix accidental drift where it is
-  set, within scope.
+  set, in the elements the task changes.
 - A value that comes from the platform, framework or component is no defect
   just for being off a numeric scale, such as a component's own 10px gap
   beside a 4/8/16 scale. A literal the change adds follows SKILL.md's value
   check.
-- When SKILL.md's References table selects [Validation](validation.md), such
-  as for a requested review, rendered audit or check, it selects the
-  conditions (widths, states, themes, content, settings) and the checks for
-  geometry, appearance and consistency.
+- When SKILL.md's References table selects [Validation](validation.md), that
+  file selects the conditions (widths, states, themes, content, settings) and
+  the checks for geometry, appearance and consistency.
 
 ## Adapt instead of merely shrinking
 
@@ -42,6 +41,5 @@ the product record decides grouping and responsive priorities.
 After elements change, reassess from the source the affected group's
 hierarchy, space and transitions against its task. Where needed, adjust the
 local composition through the component, token or layout mechanism that sets
-it; keep functions and settled decisions. Rendered checks belong to a
-requested review, audit or check. Report a required wider redesign as a
-conflict.
+it; keep functions and settled decisions. Report a required wider redesign
+as a conflict.
