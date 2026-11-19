@@ -15,8 +15,9 @@ write: fix it at its owner. Other defects are unrelated cleanup: report them.
 The rules are checks you make by reading the code on the affected path. A
 rule whose subject does not occur there needs no action.
 
-1. **Work that grows.** Code you add is linear only if neither its caller
-   nor what it calls repeats. Before you add or accept a loop, a lookup, a
+1. **Work that grows.** Judge total work by how often the caller runs the code
+   and how much work each call performs, including work inside the functions
+   it calls. Before you add or accept a loop, a lookup, a
    query or a call to a helper, read upward to where the application runs
    it more than once (the batch call, the outer loop, the handler that runs
    per row, per event, per request, per poll or per timer tick) and

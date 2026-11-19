@@ -100,10 +100,52 @@ about those concerns.
 
 {{ include: rules.references }}
 
+## Only what the task needs
+
+Every text, hint, message, icon, status display, confirmation step and option
+you add is something the user has to read and the project has to translate
+and keep in step, and it hides what matters. An addition needs a need: the
+request, the product record, or a guarantee from a selected reference for an
+element the task already has. That it could help is not a need. Without one:
+
+- no sentence that says what does not happen or was not done;
+- no success line for an action whose result the page already shows;
+- no second copy of a status in another place or for another audience;
+- no explanation of how the implementation works;
+- no step in which the user confirms or carries out what the product can do
+  itself, and no block on input the product can clean up.
+
+The interface offers the user's action, not the implementation's steps:
+internal phases, limits and mechanics stay internal. Where an addition seems
+necessary and nobody asked for it, name it in the report as a question.
+
+A mockup, screenshot or example the user supplies is part of the request:
+read it before building and build what it shows, including what it leaves
+out. Where a word for position, size or emphasis allows more than one
+reading, such as which edges line up or how small, the reference decides;
+without one, say which reading you build. A rule the user gives for one place
+applies there, and elsewhere only where the same reason holds.
+
 ## Implementation and acceptance
 
 Check the framework version when an API choice depends on it. Preserve
 the affected states, input and semantics even when the design is settled.
+
+Before you add a style rule, a handler or a state to an existing element,
+find what already acts on it: other rules that match it, where a more
+specific selector wins over yours; handlers and observers on it, on its
+ancestors or on the whole page; code that replaces or rebuilds it; the order
+in which the page initialises it; and what the host platform's own styles and
+scripts do to that kind of element. Make the change where it takes effect
+against these. Reuse an existing state only after reading everything else
+that state switches.
+
+For each element you add or make conditional, go through the values its data
+can take, including zero, empty, filtered out, read-only, finished, failed
+and nothing to do, and decide what it shows in each. Where it cannot help the
+user, it is not shown, and what belongs to it (separator, label, frame,
+count) goes with it. Where more than one path produces the same element, such
+as a server render and a client update, change each and compare them.
 
 For lists and repeated updates, apply rule 1 of
 [Code quality](references/code-quality.md).
@@ -179,8 +221,10 @@ outside in:
    the neighbouring control's centre line or the container's content edge,
    and derive the offset from the actual paddings and borders in between.
 4. Count every source of space between two elements once: parent gap, own
-   margin, sibling margin, wrapper padding and legacy element rules. Two
-   sources for one gap is the usual cause of doubled or uneven spacing.
+   margin, sibling margin, wrapper padding, whitespace between inline
+   elements, legacy element rules and the host platform's rules for that
+   element. Two sources for one gap is the usual cause of doubled or uneven
+   spacing.
 5. Keep inner insets of one control equal on both sides. An indicator that
    appears only in some states, such as a spinner or badge, does not move its
    neighbours when it appears; content shown for a state, such as an error
@@ -194,7 +238,9 @@ outside in:
 
 Before delivery or in a review of interface source, read the diff once,
 together with Code where it applies, and check that it does what this Skill
-and the references it selected require; correct what is part of this change.
+and the references it selected require. When implementing, correct what is
+part of this change; in a review or audit, report it with its place and
+effect and change nothing.
 
 When a requested check selected Validation, use its results to decide
 acceptance too. Report source defects before rendered findings. For Audit,

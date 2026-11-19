@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-19 - A missing target file
+
+When the user names a file and it is missing, the Skill asks before writing to another file.
+
 ## 2026-11-18 - Shorter verification
 
 - Each rule is stated once. The final check asks whether the work does what the Skill requires instead of listing the rules again. Not tested with models yet.

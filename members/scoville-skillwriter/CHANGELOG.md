@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-19 - Revising an existing Skill
+
+Save the original instructions before a revision. The writing guidance names the target models. The validation section covers the exception for older validators.
+
 ## 2026-11-18 - Shorter source check
 
 - Each rule is stated once. The final check asks whether the work does what the Skill requires instead of listing the rules again. Not tested with models yet.

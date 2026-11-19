@@ -1,7 +1,10 @@
 # Interaction and states
 
 Preserve component semantics, state coverage, focus and input, announcements
-and transitions. Where it is unclear whether product or UI decides something,
+and transitions. The points below say how the controls and states the task
+involves must behave; they are no list of things to add. What the interface
+shows is settled by [Only what the task needs](../SKILL.md#only-what-the-task-needs).
+Where it is unclear whether product or UI decides something,
 see
 [Quality's ownership table](ui-quality.md#product-ownership-and-ui-guarantees).
 
@@ -27,7 +30,8 @@ context without unnecessary detours.
 - Keep focus order, keyboard and touch behavior, programmatic relationships,
   announcements and motion accommodations intact. Custom styling does not
   weaken the component's semantics or state model.
-- A disabled action shows an associated reason nearby.
+- A disabled action whose reason the page does not already show gets that
+  reason nearby.
 - Confirm a consequential action that cannot easily be undone. Offer undo
   only when restoration exists.
 

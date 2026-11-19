@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-19 - Only what the task needs
+
+These rules come from interface corrections in two of my projects: what agents built and I had removed or reworked. Not tested with models yet.
+
+- An addition to the interface needs a need: no sentence about what does not happen, no success line for a visible result, no second copy of a status, no explanation of the implementation, no step the product can do itself. Internal phases stay internal.
+- A supplied mockup or example is part of the request and decides between two readings of a word for position or size.
+- Before adding a rule, handler or state to an existing element, find what already acts on it, including more specific rules, global handlers and the host platform.
+- For each new or conditional element, go through the values its data can take, including zero and nothing to do; where it cannot help, it is not shown. An element produced by two paths is changed in both.
+- Spacing: whitespace between inline elements and the host platform's rules for an element count as sources of space.
+- Wording: text is written from the user's position and claims only what the code does in that state.
+- The interaction reference describes how the task's controls and states behave; it is no list of things to add.
+- The final check separates the roles: an implementer corrects what is part of the change, a review or audit reports it and changes nothing.
+
 ## 2026-11-19 - Compatibility before release
 
 - Shared code rules: a break in compatibility is usually wanted while a product has not been released; "during development" also described released software.

@@ -4,7 +4,7 @@ id: PLAN-0067
 status: active
 created: 2026-11-14
 updated: 2026-11-19
-current_item: W-002
+current_item: W-006
 ---
 
 # Goodhart-Korrekturen nach dem Opus-Review
@@ -44,7 +44,7 @@ Evidence: check_all 12/12; Suche nach 18 entfernten Beispielen ohne Treffer; Ber
 
 ### W-002 Ausliefern nach Freigabe
 
-Status: paused
+Status: done
 Depends on: [W-001]
 Blocked by: []
 Decisions: []
@@ -54,8 +54,8 @@ Instructions: Push der privaten CI, Veröffentlichung und lokale Installation br
 Steps:
 1. [status: done] Nach Freigabe die Laufzeit-CI pushen und ihr Ergebnis abwarten; fertig bei sechs bestandenen Jobs.
 2. [status: done] Nach Freigabe mit release_suite.py vorbereiten und veröffentlichen; fertig, wenn published.json alle Ziele als geprüft führt.
-3. [status: todo] Nach Freigabe die installierten Skills aktualisieren; fertig, wenn sie dem Auslieferungsstand entsprechen.
-Evidence: CI-Run 43568849307: 6/6 Jobs bestanden. publish von 9876ad7: acht Ziele remote=verified, Suite 97a43cc, Codex-Suite baeb370; Installation offen.
+3. [status: done] Nach Freigabe die installierten Skills aktualisieren; fertig, wenn sie dem Auslieferungsstand entsprechen.
+Evidence: CI-Run 44552459961: 6/6 Jobs bestanden. publish von a0ef17c: acht Ziele remote=verified, Suite 2010941, Codex-Suite 2a4f856. Installiert für Claude und Codex am 2026-11-19.
 
 ### W-003 Offene Befunde entscheiden und Skills erneut prüfen
 
@@ -101,3 +101,19 @@ Steps:
 2. [status: done] Korrigierte Pakete einfrieren und betroffene Diagnosefälle sowie frische unabhängige Änderungen in einer größeren realen Codebasis mit gpt-6.2-sol und Claude Opus 5.5 jeweils auf medium gegen keine Skills messen. Fertig bei getrennt geprüfter Funktion und Skalierung sowie eingeordneten Einzelverlusten.
 3. [status: done] Bericht und Plan mit tatsächlichen Ergebnissen, Aufwand und verbleibenden Grenzen aktualisieren, Aufgaben und Rohbelege mit Review-Einstieg dauerhaft für Opus 5.5 sichern und die geprüften Quellen lokal committen; fertig bei gültigem Profil und nachvollziehbarem Ergebnis.
 Evidence: Review 18 realer Mängel: mit Skill Sol 12, Opus 16, ohne je 10. Neue Anwendung: ab 277a457 Sol und Opus ohne Mehrfenster-Schutz; ab e599bcf meldet Opus Schreibfehler wieder. Bericht.
+
+### W-006 UI-Skill an realen Korrekturläufen ausrichten und messen
+
+Status: in_progress
+Depends on: [W-005]
+Blocked by: []
+Decisions: []
+Outcome: Der UI-Skill verhindert die UI-Fehler, die in zwei realen Projekten nachträglich korrigiert werden mussten, und seine Wirkung ist mit beiden Modellen gemessen.
+Acceptance: Die Fehlerklassen aus den Korrekturläufen beider Projekte stehen im Bericht. Jede Regeländerung nennt den Mechanismus und steht einmal. Review- und Umsetzungsfälle aus den Projekten sind mit gpt-6.2-sol und Claude Opus 5.5 auf medium mit und ohne Skill gelaufen und blind bewertet. Wirkungslose Regeln sind gestrichen. Die Gesamtprüfung besteht.
+Instructions: Nutzerauftrag vom 2026-11-19: gleiches Vorgehen wie beim Code-Skill. Produktprojekte nur lesend verwenden; keine Projektbeispiele im Skilltext. Lokale Commits sind erlaubt; Push und Installation brauchen je eine eigene Freigabe.
+Steps:
+1. [status: done] UI-Korrekturläufe in beiden Projekten auswerten und nach Mechanismus ordnen; fertig bei Fallliste mit einführendem und korrigierendem Commit.
+2. [status: done] Fehlende Regeln an members/scoville-ui schreiben; fertig bei bestandener Gesamtprüfung.
+3. [status: in_progress] Review- und Umsetzungsfälle isolieren und mit beiden Modellen mit und ohne Skill ausführen; fertig bei gültigen Läufen und blinder Bewertung.
+4. [status: todo] Ergebnisse und Grenzen im Bericht festhalten, Wirkungsloses streichen und den Stand lokal committen; fertig bei gültigem Profil.
+Evidence: 67 bestätigte Fälle in neun Fehlerklassen; fünf Regeln ergänzt, check_all 12/12. Modellläufe offen.

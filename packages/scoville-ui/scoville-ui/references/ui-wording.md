@@ -23,6 +23,13 @@ briefly. Ask only when the choice materially affects the product outcome.
 - A heading names its topic, a button its action or effect, a field its
   value, a toggle its property. Add the object, unit or consequence a label
   needs: `Timeout (seconds)`.
+- Text is written from the user's position: what they see, what they can do
+  next and what happens then. It names no file, setting key, internal limit
+  or phase of the implementation unless the user has to act on exactly that.
+- A text claims only what the code behind it does in that state: a count
+  covers what its label names, a word for a result excludes what failed,
+  and a next step points to an action the product offers and that is
+  present and enabled there.
 - A control's visible text stays in its accessible name, and a text is not
   shortened, split or invented to hide a layout problem.
 - A translation keeps meaning, conceptual distinctions and established

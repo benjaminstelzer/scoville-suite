@@ -20,9 +20,8 @@ one the user excluded.
 
 For Skill authoring, load the host's `skill-creator`: OpenAI's in Codex,
 Anthropic's in Claude Code. It decides structure, metadata, packaging and
-format validation, except that a field the Agent Skills specification allows,
-such as `compatibility`, stays when its validator rejects it. Preserve its
-files. Skillwriter decides wording. If no `skill-creator` is available, draft
+format validation. Leave the host's Skill Creator files intact. Skillwriter
+decides wording. If no `skill-creator` is available, draft
 the wording and report packaging as unverified. Standalone prompts need no
 Skill package.
 
@@ -32,15 +31,13 @@ Skill package.
 | --- | --- |
 | Review | Apply the source checks and report findings and proposed changes without edits. |
 | New Skill or prompt | Draft it, then apply the source checks. |
-| Revision | Establish authority and preserve the baseline, then revise and apply the source checks. |
+| Revision | Before the first edit, preserve the exact affected state in a Git revision that contains it or a temporary workspace copy. Keep it through the final comparison. Revise within scope and apply the source checks. |
 
 A concrete revision request authorizes its changes. A review edits nothing.
 Ask only for material changes to outcome, scope or boundaries that the request
 or prior approval leaves open. Dropping an approval stop is material. Clarifying
 the wording while keeping the requirement is within an authorized wording change.
-Continue work independent of the open decision. Preserve the exact affected
-pre-edit state in a Git revision containing it or a temporary workspace copy.
-Keep the baseline through the final comparison.
+Continue work independent of the open decision.
 
 ## Preserve the intention
 
@@ -76,9 +73,9 @@ write no separate certificate.
 
 For Skill authoring, validate the package structure through the available
 Skill Creator. A draft made without it keeps packaging unverified.
-If a validator rejects a field the specification allows, keep the field as
-above and continue the checks it skipped with the project's validator or
-direct inspection, and report what remains unverified.
+If a validator rejects a field the Agent Skills specification allows, such
+as `compatibility`, keep the field. Complete the checks it skipped with the
+project's validator or by direct inspection. Report what remains unverified.
 
 Choose checks by what the change can affect. Run a model only when the user
 authorizes model testing and the requested check or claim needs the result.

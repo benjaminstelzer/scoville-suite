@@ -23,8 +23,9 @@ write: fix it at its owner. Other defects are unrelated cleanup: report them.
 The rules are checks you make by reading the code on the affected path. A
 rule whose subject does not occur there needs no action.
 
-1. **Work that grows.** Code you add is linear only if neither its caller
-   nor what it calls repeats. Before you add or accept a loop, a lookup, a
+1. **Work that grows.** Judge total work by how often the caller runs the code
+   and how much work each call performs, including work inside the functions
+   it calls. Before you add or accept a loop, a lookup, a
    query or a call to a helper, read upward to where the application runs
    it more than once (the batch call, the outer loop, the handler that runs
    per row, per event, per request, per poll or per timer tick) and
@@ -192,8 +193,8 @@ A reviewer checks the change against the rules in "What the code has to be"
 and answers every one of the "Questions for the finished change": the same
 ones its author had to follow. Read the whole change with its callers and the
 helpers it calls, also where the change did not touch them. Go through the
-questions in their order and write down for each one the defects it shows or
-that it shows none; a question you leave out is a rule nobody checked. Start
+questions in their order and write down the defects each one shows; a question
+you do not ask is a rule nobody checked. Start
 with question 1, because the author of a loop usually sees it as linear.
 Judge from the code; run no benchmark for this.
 

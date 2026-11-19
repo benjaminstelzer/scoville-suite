@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-19 - Code reviews and Skill revisions
+
+Code reviews count the work across calls and record the defects they find. Project Context Cleanup asks where to write when a named target is missing. Skillwriter saves the original instructions before revising them. Plan groups the rules for new work and Decisions, and Setup puts everyday commands before migration. UI now checks whether each addition serves the task.
+
 ## 2026-11-18 - Short rules, stated once
 
 - Code: five rules led by repeated work and unneeded complexity; compatibility is the user's decision; one general independent review when Code runs alone.

@@ -49,10 +49,12 @@ Use the request, project rules, documents, tests and established conventions
 to resolve implementation choices. Interpret general guidance in light of the
 specific required behavior and preserve explicit constraints. Ask only if
 equally authoritative requirements remain incompatible or the sources leave
-a material choice open about the requested outcome, public contract, data or
-security treatment, reversibility, external authority, meaningful operating or
-external cost, or evidence that needs access, authority or cost the request
-does not provide.
+a material choice open about:
+
+- the outcome, public contract or treatment of data or security;
+- reversibility, authority for external actions or meaningful operating or external cost;
+- required evidence whose access, authority or cost the request does not cover.
+
 Ask one specific question before dependent work and continue work that does
 not depend on the answer.
 
@@ -102,8 +104,9 @@ rules as your own code.
 ## 3. Test what the request changes
 
 Use the project's test place, style and commands. Test observable results
-and preserved guarantees at their owner using the deciding cases from
-section 1. Exercise the consumer's path when loading, state, wiring or
+and preserved guarantees at their owner, using section 1's affected path,
+its callers and the behavior the request changes or preserves.
+Exercise the consumer's path when loading, state, wiring or
 repeated calls determine the outcome.
 
 | Change | Required evidence |

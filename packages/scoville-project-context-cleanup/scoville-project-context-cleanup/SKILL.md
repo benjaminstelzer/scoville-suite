@@ -23,7 +23,7 @@ choosing or editing the content.
 
 | Requested target | Destination |
 | --- | --- |
-| Named file | Preserve its filename and case. |
+| Named file | Preserve its filename and case. If it is missing, ask before writing to any other file and wait for the user's choice. |
 | Add to project rules | Existing governing file for that scope. For a subtree, use its own rule file when present. Otherwise scope the rule to that literal subtree in an existing file that governs it. |
 | Unambiguous project-wide request at known root without its own rule file | Create CLAUDE.md on a Claude host, otherwise AGENTS.md there. Inherited workspace rules do not prevent this. |
 | Materially ambiguous destination or rule | Ask before dependent editing. |
@@ -43,10 +43,9 @@ changes open. For other formats use their record owner.
 
 Do not create a missing PROJECT_INDEX.md, also when the request names it: Plan
 creates the index together with its profile and initializes only a wholly
-absent profile, so an index written here would block that. Put the requested
-context into the governing rule file and say so. If the user explicitly
-forbids editing that file, report the missing index and Plan's ownership and
-leave the requested placement open. An explicit Plan request goes through
+absent profile, so an index written here would block that. If the user named
+the missing index, report its absence and follow the named-file row above.
+An explicit Plan request goes through
 the applicable Plan profile route. In an existing index of another
 format, keep that format. Resolve a materially unclear target or format before
 editing it.
