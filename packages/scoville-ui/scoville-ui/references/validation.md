@@ -11,14 +11,13 @@ check in its row and read each named reference completely:
 | Claim | Check that settles it | That check does not show | Reference |
 | --- | --- | --- | --- |
 | Source or build correctness | Read the source; run the relevant existing lint, build or component checks | Rendering, geometry or interaction | — |
-| Unimplemented concept | Compare it with the supplied brief and product decisions and reason from this task | Implemented or rendered behavior | [Quality](ui-quality.md) for open concerns |
 | Framework or token alignment | Name the component, variant and token that should apply; read the resolved style at the affected element | Painted or layout effect | [Framework](framework-alignment.md) when ownership is open |
 | Layout, spacing, alignment or adaptation | Measure the named relationship (edges, centres, sizes) at the actual rendered elements against a target that does not come from the code or render under test | Glyph position, baseline or optical balance | [Geometry and sight](ui-geometry-validation.md) |
 | Painted appearance or optical alignment | View the render beside its reference | Exact distances or interaction | Geometry and sight |
 | A setting's visible effect or absence | Measure or view the element that consumes the setting | Source agreement, a declaration or a computed value alone | Geometry and sight |
 | Interaction or state behavior | Operate the flow and its transitions in an interactive runtime | Visual quality | [Interactions](ui-interactions.md) |
 | Accessibility conformance | Run the applicable checks below | Task understanding | — |
-| Consistency across a page or region | Check every entry in the scope | A partial sample | [Audit coverage](ui-consistency-audit.md) |
+| Consistency across a page or region | Check every entry in the scope | A sample without the population and variants it leaves out | [Audit coverage](ui-consistency-audit.md) |
 
 A check settles only its own row: equal heights do not show that the button
 works. Use a supplied decision's target and keep the status of its proof.
@@ -45,7 +44,7 @@ broad viewport may establish composition without being an accessibility
 threshold.
 
 When accessibility conformance of web UI with an AA target is among the
-claims, these are the applicable checks:
+claims, use the checks below for the criteria the claim covers:
 
 - Operate the affected primary flow using only the keyboard and inspect visible
   focus at each step. Retain [WCAG 2.1.1's exceptions](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html)
@@ -65,10 +64,10 @@ claims, these are the applicable checks:
 
 Further conditions by case:
 
-- Elements were added, removed or changed: include the affected group's
-  composition and responsive transitions, not only the edited element. Check
-  the widths and states at which the group reflows or changes state, for
-  broken grouping, wrapping, overflow or unavailable actions.
+- Elements were added, removed or changed in a way that can alter how their
+  group wraps or reflows: check the group, not only the edited element, at
+  the widths and states where it reflows or changes state, for broken
+  grouping, wrapping, overflow or unavailable actions.
 - A flow supports several input methods, and one can leave focus, selection,
   pointer capture, composition or shared state that affects another: exercise
   at least one such handoff in the same task, such as pointer to keyboard.
@@ -90,20 +89,12 @@ states and actions stay readily readable and findable, and no decoration
 obscures or competes with them. Judge the task, not a fixed size hierarchy or
 a prescribed visual style.
 
-## Styling exceptions
-
-SKILL.md's Implementation and acceptance section sets the rule for custom
-styling, including inline styles and styling props. In the checked scope,
-custom styling that supported composition or a variant could replace, that
-reaches beyond the element that needs it, or that compensates for a cause that
-is gone is a defect.
-
 ## Select and refresh evidence
 
 ```mermaid
 flowchart TD
-  mode{"Implement or Audit?"}
-  mode -->|Implement with a requested check or an unexplained reported defect| batch["Complete related edits within scope"]
+  mode{"Which evidence route did the entrypoint select?"}
+  mode -->|Implement with a requested check or permitted diagnosis| batch["Complete related edits within scope"]
   mode -->|Audit| source["Read the permitted source and the component, token and platform definitions the claims depend on"]
   batch --> source
   source --> defect{"Known in-scope source defect?"}
@@ -114,13 +105,15 @@ flowchart TD
   defect -->|no| claim{"Which check does each selected claim require?"}
   fix --> source
   note --> claim
-  claim -->|source or concept| reasoning["Check source or concept against its component API, token, platform rule or brief"]
+  claim -->|source| reasoning["Check source against its component API, token or platform rule"]
+  claim -->|component or token alignment| resolvedStyle["Compare the affected element's resolved style with the required variant and token"]
   claim -->|geometry| measure["Measure the named relationships against independent targets"]
   claim -->|paint or optics| sight["View the scoped render against its reference"]
   claim -->|interaction| interact["Exercise claimed flows and transitions"]
   claim -->|accessibility| access["Apply relevant normative and runtime checks"]
   claim -->|consistency| coverage["Give every inventory entry its required checks"]
   reasoning --> result{"Implement with an in-scope defect requiring correction?"}
+  resolvedStyle --> result
   measure --> result
   sight --> result
   interact --> result
@@ -129,33 +122,26 @@ flowchart TD
   result -->|yes| nextApproach{"Supported correction or new findings?"}
   nextApproach -->|yes| correct["Collect and implement related corrections as one batch"]
   nextApproach -->|no| stalled
-  correct --> refresh["Repeat only the checks the change invalidated"]
-  refresh --> source
+  correct --> refresh{"Which check remains in the authorized evidence route?"}
+  refresh -->|requested check invalidated, or reported cause still unknown| source
+  refresh -->|diagnosis complete or evidence still current| report
   result -->|no, or Audit| report["Report observations, defects and specific unverified items"]
 ```
 
 - Run the branches the claims need, not every branch for every task.
 - Source findings come before conclusions from the render, and known
-  corrections before the final measurement or viewing. In the relevant
-  markup, component APIs, styles and the component and token definitions
-  behind them, look for duplicate spacing, a literal that bypasses a token,
-  arbitrary offsets, a rebuilt primitive and compensation whose cause is
-  gone. A passing lint, build or component check shows neither that the right
-  component, variant and token are used nor that the render is correct.
-- The flow adds no scope or permission. Source-only and screenshot-only
-  requests keep their limits.
-- If a required source or runtime tool is unavailable, continue with the
-  permitted observations and the tools you have. Report each missing check as
-  unverified, not passed.
-- Reuse a result while the inputs and conditions it depends on are unchanged.
+  corrections before the final measurement or viewing. Check that source
+  against SKILL.md's Implementation and acceptance, Integrity floor and
+  Spacing sections.
 - After repeated failed corrections, continue with a supported diagnosis
   instead of another unchanged attempt. Keep acceptance open and name the
   actual prerequisite.
 
 ## Use automation as supporting evidence
 
-Run the project's existing component, integration, visual-regression and
-accessibility checks that cover the change. Add or change automated coverage
+Within the evidence route selected in SKILL.md, run the existing component,
+integration, visual-regression and accessibility checks that cover the change.
+Add or change automated coverage
 only when it protects a behavior that can regress and the repository has a
 canonical test seam. Screenshot churn and assertion-free tests prove nothing;
 do not add them to simulate proof.
@@ -167,7 +153,7 @@ in the rendered interface and interaction path.
 
 Report what you rendered or operated and under which conditions, the defects
 found, and each condition left unverified. For Audit, prioritize findings by
-affected task, owner and consequence.
+impact.
 
 When supplied proof explicitly names conditions it did not observe and they
 limit the requested claim, keep each of them or an equally precise grouping:
@@ -179,8 +165,7 @@ and 768px`, not "responsive", "accessible" or "looks good".
 
 ## Interface text evidence
 
-For new or changed interface text and for consistency audits, compare concept
-names across affected views, states and in-scope languages using
-[Wording](ui-wording.md). Check that labels describe actual behavior. Inspect
-wording in source and in rendered context; source alone proves neither its
-presentation nor the action's runtime behavior.
+Check new or changed interface text, and interface text in a consistency
+audit, against [Wording](ui-wording.md) in source and in rendered context;
+source alone proves neither its presentation nor the action's runtime
+behavior.

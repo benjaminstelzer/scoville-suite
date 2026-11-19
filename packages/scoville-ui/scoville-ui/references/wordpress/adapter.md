@@ -41,15 +41,15 @@ classes and defaults.
 | # | Look at | Correct | Defect |
 | --- | --- | --- | --- |
 | 1 | Page frame | **Core:** `<div class="wrap">`, one `<h1>`, then `<hr class="wp-header-end">`. | No `.wrap`; more than one `<h1>`; a plugin wrapper that adds its own page gutter or padding. |
-| 2 | Fields of a page that saves options | **Core:** `register_setting()`, `add_settings_section()` and `add_settings_field()`; the form posts to `options.php` and prints `settings_fields()`, `do_settings_sections()` and `submit_button()` after the fields. | Field rows hand-written outside `add_settings_field()`; a custom table or grid in place of `.form-table`. |
+| 2 | Fields of a new options page, or of a page that already uses the Settings API; a working hand-written `.form-table` form keeps its own pattern for added fields | **Core:** `register_setting()`, `add_settings_section()` and `add_settings_field()`; the form posts to `options.php`, prints `settings_fields()` and `do_settings_sections()`, then `submit_button()`. | Field rows hand-written outside `add_settings_field()`; a custom table or grid in place of `.form-table`. |
 | 3 | Every `<input>`, `<select>` and `<textarea>` | **WCAG:** an associated label: `label_for` in `add_settings_field()` equal to the control's `id`, a `<label for>`, or `<fieldset>` with `<legend>` for a group of checkboxes or radios. | A control named only by its `placeholder` or by text beside it without `for`. |
-| 4 | Save, success and error messages | **Core:** `add_settings_error()` with `settings_errors()`, or `<div class="notice notice-success">` (`notice-error`, `notice-warning`, `notice-info`) with the text in `<p>`. A message about one field stays at the field and adds `inline`. | A hand-built message box with its own class, colors, border or inline style; `.below-h2`. |
+| 4 | Save, success and error messages | **Core:** `add_settings_error()`; on a page under Settings, Core prints these messages, and a page elsewhere calls `settings_errors()` once, right after `.wp-header-end`. Or `<div class="notice notice-success">` (`notice-error`, `notice-warning`, `notice-info`) with the text in `<p>`. A message about one field stays at the field; when it uses Core notice styling, it adds `inline`. | A hand-built message box with its own class, colors, border or inline style; `.below-h2`; a `settings_errors()` call on a page under Settings, which prints every message twice. |
 | 5 | Buttons and action links | **Core:** `submit_button()` for the form; `class="button button-primary"` for the main action and `class="button"` for others. | An action styled through a plugin class with its own colors, padding or radius. |
 | 6 | Where the admin stylesheet and script load | **Core:** the `admin_enqueue_scripts` callback compares `$hook_suffix` with the value returned by `add_menu_page()`, `add_submenu_page()` or `add_options_page()` and returns on every other screen. | `wp_enqueue_style()`, `wp_enqueue_script()` or a printed `<style>` that runs on every admin screen. |
 | 7 | Selectors in the plugin's CSS | **Core:** every rule starts at a class or ID the plugin owns. | A rule that starts at a Core class, ID or element; copied Core CSS; `!important` without a styling-exception rationale. |
-| 8 | `width`, `min-width` and `max-width` on the page and its main containers | **Core:** containers take the available width, so the document does not scroll sideways at `782px` and below. | A fixed pixel width that is wider than the content area at `782px`; a page `max-width` set only for looks. |
+| 8 | `width`, `min-width` and `max-width` on the page and its main containers | **Core:** containers take the available width, so the document does not scroll sideways at `782px` and below. | A fixed pixel width wider than the content area at any width up to `782px`; a page `max-width` set only for looks. |
 | 9 | Every status the page shows | **WCAG:** a text, or an icon with a text alternative, tells the states apart in addition to the color. | States that differ only in color, including the same text in different colors. |
-| 10 | Every visible and assistive string | **Core:** a gettext function such as `__()`, `esc_html__()`, `esc_html_e()`, `esc_attr__()`, `_n()` or `_x()` with the plugin's literal text domain. | A hard-coded string beside translated ones; a missing, variable or foreign text domain. Whether the escaping fits the output is a Scoville Code check. |
+| 10 | Every visible and assistive string | **Core:** a gettext function such as `__()`, `esc_html__()`, `esc_html_e()`, `esc_attr__()`, `_n()` or `_x()` with the plugin's literal text domain. | A hard-coded string beside translated ones; a missing, variable or foreign text domain. Escaping follows [internationalization.md](internationalization.md). |
 | 11 | Colors, fonts, radii and shadows | **Core:** titles, buttons, controls, Notices and tables keep Core's look. | A plugin palette, font, radius or shadow on those elements. |
 
 Decide every row from the source; implementing does not render the page to
@@ -85,13 +85,13 @@ or label, what you observed, its effect and the simplest sound correction.
 
 Keep confirmed defects apart from suspicions and optional suggestions. When
 you found none, say so for the inspected scope only; a targeted check cannot
-show that the whole UI complies. Change the implementation only when the
-request also asks for the correction. Writing an explicitly requested audit
+show that the whole UI complies. Writing an explicitly requested audit
 report is part of the audit.
 
-For **Implement**, report the changes, the checks you ran and their limits.
-Add only the facts needed to explain the result; do not turn the report into
-a checklist. Where a rendered check was
+For **Implement**, report the changes and the checks they rest on, with their
+limits, and what Scoville Code's report requires where that Skill applies. Do
+not walk through this file's checklist rows in the report. Where a rendered
+check was
 requested, take its evidence from [WordPress validation](validation.md).
 
 When the caller requests structured classification, use the canonical field

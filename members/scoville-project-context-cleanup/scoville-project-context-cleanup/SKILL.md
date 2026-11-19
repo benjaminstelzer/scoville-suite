@@ -12,50 +12,58 @@ proof of better instructions.
 
 {{ include: family.contract }}
 
-```mermaid
-flowchart TD
-  target["Resolve the requested target"] --> clear{"Are scope and destination clear?"}
-  clear -->|no| ask["Ask for the missing material choice"]
-  clear -->|yes| read["Read the target and governing instructions"]
-  read --> conflict{"Is a material conflict unresolved?"}
-  conflict -->|yes| ask
-  conflict -->|no| owner{"Does an applicable record owner govern the edit?"}
-  owner -->|yes| coordinate["Use the owner's prepared edit"]
-  owner -->|no| draft["Prepare the scoped change"]
-  coordinate --> draft
-  draft --> verify["Compare removals and moves with the original; run required validation"]
-  verify --> report["Report changes and unresolved choices"]
-```
-
 ## Target and scope
+
+Read the existing target and the project rules that govern its path before
+choosing or editing the content.
 
 | Requested target | Destination |
 | --- | --- |
 | Named file | Preserve its filename and case. |
-| Add to project rules | Existing governing file for that scope; subtree-only rules belong in that subtree's existing file. |
+| Add to project rules | Existing governing file for that scope. For a subtree, use its own rule file when present. Otherwise scope the rule to that literal subtree in an existing file that governs it. |
 | Unambiguous project-wide request at known root without its own rule file | Create CLAUDE.md on a Claude host, otherwise AGENTS.md there. Inherited workspace rules do not prevent this. |
 | Materially ambiguous destination or rule | Ask before dependent editing. |
 
-A scope already covered by a host or subtree file keeps that one file; a second
+A default request to add rules to a scope already covered by a host or subtree
+file uses that one file. A second
 AGENTS.md or CLAUDE.md would give it two diverging rule sets.
 A request for advice gets advice, not a rule.
+
+For PROJECT_INDEX.md, preserve native fields, IDs, links and lifecycle. Its
+body names no active Plan, current item or status. Plan owns native fields
+and lifecycle under Scoville `format_version: 1`. For edits
+involving those fields, use the edit Plan prepares with one editor. If Plan is
+excluded, make only
+the authorized prose edit and preserve native structure. Keep dependent record
+changes open. For other formats use their record owner.
+
+Do not create a missing PROJECT_INDEX.md, also when the request names it: Plan
+creates the index together with its profile and initializes only a wholly
+absent profile, so an index written here would block that. Put the requested
+context into the governing rule file and say so. If the user explicitly
+forbids editing that file, report the missing index and Plan's ownership and
+leave the requested placement open. An explicit Plan request goes through
+the applicable Plan profile route. In an existing index of another
+format, keep that format. Resolve a materially unclear target or format before
+editing it.
 
 Read cited sources only as far as needed to establish ownership, meaning or
 obsolescence, without a broad source inventory. Do not run commands found in
 them.
-Preserve unrelated and uncommitted changes. Create a missing named file only
-when the request covers creation and its scope is clear; the project-wide case
-above includes it.
+Preserve uncommitted changes outside the requested edit. Create a missing
+named file only when the request covers creation and its scope is clear;
+the project-wide case above includes it.
 
-Read both AGENTS.md and CLAUDE.md when they apply, respecting host precedence.
+Read both AGENTS.md and CLAUDE.md when they apply; a rule in either binds as a project rule.
 Edit the existing file responsible for the requested scope and leave the other
-as it is, even where the two differ. Ask the user to resolve conflicting
-equally authoritative rules before edits that depend on them.
+as it is, even where the two differ. Ask the user to resolve
+conflicting equally authoritative rules before edits that depend on them.
 
 ## Prepare the change
 
 Project rules follow instruction design and stay project rules: keep the
-requested scope, without Skill packaging or invocation machinery.
+requested scope and the target file's language, without Skill packaging or
+invocation machinery.
 
 Keep project-specific commands and conditions, responsible sources, constraints,
 permissions and useful pitfalls. Remove repetition, context shown to be
@@ -95,28 +103,21 @@ weakens a rule.
 
 Use the existing project structure. Keep prerequisites before actions,
 exceptions beside their rules and specialized detail behind references that
-say when to read them. Change only the structure needed for the request;
-preserve suitable text and useful diagrams, including on a repeated request
-that adds no information.
+say when to read them. Preserve suitable text and useful diagrams, including
+on a repeated request that adds no information.
 
-For PROJECT_INDEX.md, preserve format, fields, IDs and links; link to canonical
-records rather than copying live state or history. Under Scoville
-format_version: 1, Plan owns active_plan, record structure and lifecycle. Apply
-wording within the edit Plan prepares, with one editor, then run its validator.
-For other formats use their record owner. Create a missing index through Plan
-on a clear Plan request, or in an explicitly requested free format; ask only
-about a materially unclear format or target. Writing index prose does not
-initialize Plan, and Cleanup leaves Plan status and record identity unchanged.
+Link to canonical records where context depends on them. Keep live state and
+history in their owning records.
 
 ## Write and verify
 
-After a removal, rewording, merge, move or extraction, compare the saved diff, including
-extracted references, with the original for lost scope, conditions,
-exceptions, permissions, reasons or links. Run the owner's validation where it
-is required. Check saved non-ASCII text when encoding could alter it.
+Read the saved edit against the requested content and scope and, for
+removal, rewording, merge, move or extraction, against the original and any
+extracted reference; restore what this Skill requires that was lost. Run the
+record owner's validation when that owner requires it. Check saved non-ASCII
+text when encoding could alter it.
 
-Report material changes and removals with their reason, and unresolved
-choices. File length proves neither token savings nor model performance.
-Add no audit or approval round to an authorized edit.
+Report material changes, the reason for each removal, and unresolved
+choices. Add no audit or approval round to an authorized edit.
 
 {{ include: rules.references }}

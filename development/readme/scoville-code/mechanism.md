@@ -15,6 +15,11 @@
   or build check, not a test.
 - It ends by reading its diff against these rules and reports the test that
   proves the request.
+- Where the host can start a separate agent, a change to code behavior is
+  then read once by an agent that has not seen the author's reasoning. The
+  author declines findings that only ask for more protection. Under a
+  workflow that already reviews each change independently, that review takes
+  its place.
 - A review goes through the same points in someone else's change and names
   the place, the problem and, where one exists, the function, path or
   interface to use instead.

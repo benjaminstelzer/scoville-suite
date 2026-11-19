@@ -14,11 +14,11 @@ the product record decides grouping and responsive priorities.
   their source: a difference set through a variant or token is usually
   deliberate, a one-off override usually drift; look for a stated reason
   either way. Keep deliberate differences; fix accidental drift where it is
-  set, in the elements the task changes.
+  set, through the component or layout responsible for the affected group.
 - A value that comes from the platform, framework or component is no defect
   just for being off a numeric scale, such as a component's own 10px gap
-  beside a 4/8/16 scale. A literal the change adds follows SKILL.md's value
-  check.
+  beside a 4/8/16 scale. A literal the change adds follows SKILL.md's
+  [Integrity floor](../SKILL.md#integrity-floor).
 - When SKILL.md's References table selects [Validation](validation.md), that
   file selects the conditions (widths, states, themes, content, settings) and
   the checks for geometry, appearance and consistency.

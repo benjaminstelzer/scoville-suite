@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-11-18 - Shorter source check
+
+- Each rule is stated once. The final check asks whether the work does what the Skill requires instead of listing the rules again. Not tested with models yet.
+
+## 2026-11-15 - Rules that contradicted each other
+
+- A field the Agent Skills specification allows, such as `compatibility`, stays when the skill-creator's validator rejects it. This exception now stands where the skill-creator's authority over format validation is stated.
+- A rule that holds only until something happens states that end in the rule; the warning against expiring dates no longer covers it.
+- A prompt that points to a source still states directly the permissions and stops that govern the recipient's work.
+- Shared rules: a reply uses the language of the request, while a record or file you edit keeps the language it is written in. Files saved with `--publish-full` are delivered output, so cleanup leaves them in place. A rule that holds only until something happens states that end in the rule.
+
+## 2026-11-14 - Distinguish execution from task results
+
+- Record the exact Skill revision or hashes and the files actually loaded.
+- Separate failed calls, invalid scoring and incomplete runs from task outcomes; evaluate a handoff through the receiver's work as well as the prompt.
+- Inspect individual regressions by model and task type even when the average improves. A different artifact needs a concrete defect before it counts as worse.
+
 ## 2026-11-14 - Goodhart corrections
 
 - Evaluation: a re-run of the failing case shows only that the repair matches that case; judge the effect on cases the repair was not written against.

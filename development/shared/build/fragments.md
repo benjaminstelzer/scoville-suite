@@ -2,6 +2,12 @@
 
 ## Runtime helper policy
 
+`rules.code_quality` embeds `prompting/code-quality-criteria.md` in Code's
+entrypoint and in the complete Code quality reference for UI, Workflow and Ask.
+`prompting/code-review.md` owns the extra review procedure. Code packages it
+directly because its entrypoint already has the criteria. The complete reference
+includes the same procedure through `rules.code_review` for standalone readers.
+
 `rules.optout` expands `runtime/skill_optout.md` for Code and UI. Other Skills
 retain their narrower wording. `rules.references` expands
 `runtime/shared_references.md` in the SKILL.md of every member that packages the

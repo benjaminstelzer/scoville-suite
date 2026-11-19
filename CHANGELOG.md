@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-18 - Short rules, stated once
+
+- Code: five rules led by repeated work and unneeded complexity; compatibility is the user's decision; one general independent review when Code runs alone.
+- All Skills: rules repeated in checks, reviews and references are removed; a final check points to what the Skill requires.
+- Not tested with models yet.
+
+## 2026-11-14 - Decisions within the request and regression checks
+
+- Code and shared review rules: use the request and project decisions before asking; decide routine implementation details within the agreed scope.
+- Code: an explicit contract change supplies its own authority. Keep other guarantees, and do not treat a known violation as resolved by reporting it.
+- Handoff: preserve unrelated work while allowing the next session to correct or replace unfinished work within the task.
+- Evaluation: distinguish failed calls from task results, record exact Skill versions and inspect individual regressions. Confirmed severe or reproducible regressions block publication even when other results improve.
+- Keep the test policy from ADR-0231. Model effectiveness of these changes remains unverified.
+
 ## 2026-11-14 - Goodhart corrections
 
 - Fix the findings of a review of all Skills for rules where the process had become the goal and for sentences a model could misread.

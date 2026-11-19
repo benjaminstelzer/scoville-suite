@@ -10,9 +10,29 @@ Implement and verify UI through its established framework, platform and design
 system. An owner is the source responsible for a decision or behavior: product
 requirements for intent, a design system for visuals, a component for mechanics.
 
-## Owners
-
 {{ include: rules.optout }}
+
+## Mode and scope
+
+Use **Implement** for requested creation, changes or fixes and **Audit** for
+inspection, explanation or evaluation. An audit changes no product file: it
+reads, runs only the checks its evidence route below allows, with disposable
+output where Scoville Code permits it, and reports. Design-only work produces
+a design; code changes and publication each need their own request. Deliver the requested interface behavior through the
+components and layouts responsible for it, including shared owners. An
+audit covers the requested page, region and concerns.
+
+Choose the evidence route before any execution:
+
+| Request or finding | Authorized interface evidence |
+| --- | --- |
+| Implement, including a reported problem explained by source | Check the affected source and applicable non-browser tests. |
+| Implement to fix a reported visual defect the affected markup, applied styles and component source do not explain | Render to find its cause. Then fix the source and run further rendered checks only as requested. |
+| Assigned source review or evaluation of supplied evidence with read-only execution limits | Inspect the source and retained proof within those limits. Report which required observations are missing. |
+| Review or audit of appearance or behavior, or a requested rendered check | Inspect the running interface within the requested scope. Observe state without saves, submissions or external effects during an Audit. |
+| Interface code review, source audit or unimplemented design | Use source or design evidence. A review of a UI change that does not name appearance, behavior or a rendered check is a code review. For this route do not render, measure or operate the running interface. |
+
+## Owners
 
 For each concern, the first of these that settles it is its owner: system,
 safety and legally binding accessibility requirements; the explicit user request,
@@ -30,7 +50,8 @@ or legal requirement.
 
 Reuse a local pattern when it is deliberate, current and suitable for this
 surface; inspect an unclear exception, and normalize only an established
-accident or stale pattern. Without a visual owner, use Framework's bounded
+accident or stale pattern through the component or layout responsible for
+the affected group. Without a visual owner, use Framework's bounded
 local direction; framework defaults remain primitives. Without an accessibility
 target, use WCAG 2.2 AA on the web and current platform guidance elsewhere.
 
@@ -43,18 +64,23 @@ target, use WCAG 2.2 AA on the web and current platform guidance elsewhere.
 UI owns task flow, information structure, new interface wording and
 terminology, framework-valid implementation, semantics, states, focus and
 input, and responsive mechanics. Preserve approved wording, which keeps its
-product contract; make requested text changes yourself and keep each
+product contract. Make requested text changes yourself and keep each
 control's visible text in its accessible name.
 
-## Mode and scope
-
-Use **Implement** for requested creation, changes or fixes and **Audit** for
-inspection, explanation or evaluation. An audit is read-only: it reads and
-reports. Design-only work produces a design; code changes and publication each
-need their own request. Work on the requested page or region and concerns; a
-local fix does not grow into a redesign or a whole-product audit.
+For interface-only work, use this entry and the project's source and local
+test commands. Use the Code workflow for affected backend behavior or a
+separate consumed contract. For running-interface evidence, follow Mode and
+scope. Report a required guarantee as unverified when its proof is outside
+that scope.
 
 ## References
+
+For a change to copy or the displayed value in an existing text element
+whose role, visibility rules, layout and interaction stay the same, read only
+[Wording](references/ui-wording.md). On a `wp-admin` page also read
+[internationalization](references/wordpress/internationalization.md) when the
+change affects placeholders, plurals, context or escaping. Use the table
+below for other interface work.
 
 Read every reference whose trigger matches before the work it governs, and no
 others. Establish platform support before advice that depends on it. An
@@ -63,120 +89,45 @@ about those concerns.
 
 | Concern | Reference and trigger |
 | --- | --- |
-| Any `wp-admin` concern, including hypothetical advice or classification | Read [WordPress routing](references/wordpress/routing.md) first. For a plugin-owned page also read the [adapter](references/wordpress/adapter.md) before the first edit or finding: you write the change, or audit the page, against its checklist. Unknown ownership holds only the advice that depends on it; name the missing fact and answer the rest. For a surface the plugin does not own, such as the Block Editor sidebar, a metabox or a Dashboard widget, routing names the host's own mechanism to recommend; do not treat it as a plugin page or through the general route. |
+| `wp-admin` work beyond the text-only case above, including hypothetical advice or ownership classification | Read [WordPress routing](references/wordpress/routing.md) first. For a supported plugin-owned page, read the [adapter](references/wordpress/adapter.md) before the first edit or finding and apply its checks to the regions it names. Routing selects the mechanisms for host-owned surfaces and the platform references. Unknown ownership holds only dependent advice. |
 | Themes, frontend output, non-WordPress surfaces, pure visual concepts | General route without admin references; a visual concept keeps its design scope. |
 | General-route ownership or implementation path unresolved | [Framework](references/framework-alignment.md) before choosing an owner: unfamiliar stack, interacting layers, uncertain customization, no visual owner, or a component limit in the way. |
-| Creating, changing or auditing an interface, a review of how it looks or behaves, or a code review of its source | Before the first edit or finding, read [Quality](references/ui-quality.md) and the topic files its table selects, even when the change looks obvious. The rules for spacing, sizes and alignment are in [Spacing, size and alignment](#spacing-size-and-alignment) below. |
-| A requested review or audit of how an interface or a change looks or behaves, a requested rendered check or proof, a judgment of existing proof, or a reported visual defect whose cause you cannot find in the affected element's markup, applied styles and component definitions | Read [Validation](references/validation.md) first. Add [Geometry and sight](references/ui-geometry-validation.md) when spacing, sizes, alignment, paint or optical balance are measured or judged, and [Audit coverage](references/ui-consistency-audit.md) for page consistency. Reuse existing proof; repeat a check only for a concrete gap. For a reported defect, render only to find its cause, then fix it in the source. A code review of interface source, including a diff, reads the source and renders nothing; it and a source-structure audit follow the next rows. |
-| Source-structure audit or unimplemented design direction | Framework and Quality by their triggers, without Validation; report rendering, interaction and accessibility as unverified. Stating those gaps needs no Validation read. |
-| Choosing or implementing UI code beyond a text or formatting change; a code review of interface source | Read [Code quality](references/code-quality.md) before choosing the implementation or the first finding, within the framework's guarantees. |
-
-WordPress routing and the references it leads to select among the platform
-references:
-[spacing](references/wordpress/spacing.md),
-[classic-patterns](references/wordpress/classic-patterns.md) and
-[fallback-composition](references/wordpress/fallback-composition.md) for
-spacing and Core markup;
-[wpds-tokens](references/wordpress/wpds-tokens.md),
-[version-compatibility](references/wordpress/version-compatibility.md) and
-[experimental-policy](references/wordpress/experimental-policy.md) for tokens,
-versions and experimental components;
-[responsive](references/wordpress/responsive.md) for page shells, narrow
-widths and zoom;
-[ui-guidance](references/wordpress/ui-guidance.md) for guidance, states and
-accessibility; [internationalization](references/wordpress/internationalization.md)
-and [translation-delivery](references/wordpress/translation-delivery.md);
-[validation](references/wordpress/validation.md) for platform checks;
-[examples](references/wordpress/examples.md) only for a concrete syntax or
-composition question the contracts leave open;
-[sources](references/wordpress/sources.md) for official-status claims; and
-[classification-output](references/wordpress/classification-output.md) for a
-requested structured classification.
+| New interface, changed task flow, composition or accessibility, or audit of those guarantees | Read the applicable guarantees in [Quality](references/ui-quality.md). Use [Layout](references/ui-layout.md) for grouping, size, spacing or responsive changes and the spacing checks below. |
+| Control behavior, focus, input, asynchronous feedback or recovery | Read [Interactions](references/ui-interactions.md) for the affected states. Use Quality when the work also changes its guarantees or their owner is unclear. |
+| New, translated, changed or reviewed interface text, including as part of another change | Read [Wording](references/ui-wording.md). |
+| Evidence route calls for a runtime observation or evaluates retained rendered evidence | Read [Validation](references/validation.md). Add [Geometry and sight](references/ui-geometry-validation.md) for size or visual judgment and [Audit coverage](references/ui-consistency-audit.md) for page consistency. Reuse proof that covers the current source and conditions. |
+| UI code beyond text or formatting, or review of interface source | Use the applicable [Code quality](references/code-quality.md) criteria once. Use the review section for requested code reviews. |
 
 {{ include: rules.references }}
 
 ## Implementation and acceptance
 
-Start every task by reading the references the table assigns to it, before
-the first edit or finding; they hold the criteria that findings and choices
-are judged by.
+Check the framework version when an API choice depends on it. Preserve
+the affected states, input and semantics even when the design is settled.
 
-Before the first edit, read the surrounding code and the patterns the change
-must match, and check the framework version where an API choice depends on
-it. A settled design still needs the states, input and semantics the change
-affects. Batch related changes.
+For lists and repeated updates, apply rule 1 of
+[Code quality](references/code-quality.md).
+
+When moving, removing, reinserting or replacing stateful controls, read the
+required live state from its owner immediately before the mutation and keep
+or restore it through the component's API. A remembered value is valid only
+if all writers update it; programmatic changes need not emit user events.
+Keeping the same element object does not preserve its live selection, focus
+or editing state automatically. Preserve the required state after partial
+updates and failure as well as on full completion.
 
 Where the project's own code, the design system or the framework already
-provides a component, class, variant or token for the kind of element you
-need, use it, so the product keeps one button, one field and one badge; a
-hand-written copy of something that exists is a defect. Fit it to its place
-through its size variant or a local size. Write a new primitive when nothing
+provides a component, class, variant or token that meets the required
+semantics, states and behavior, use it, so the product keeps one button, one
+field and one badge; a hand-written copy of something that exists is a
+defect. Fit it to its place through its size variant or a local size. Write a new primitive when nothing
 existing covers the need.
 
 Custom styling, including inline styles and styling props, is an exception:
 use it only where supported composition and variants cannot meet a need,
-keep it to the smallest scope, and say in the report which need the
-responsible component or API does not meet. An official token alone does not
-justify it.
-
-## Spacing, size and alignment
-
-The aim is a change that looks as if it had always been part of the page;
-most visible defects are small mismatches with what is already there. For each
-element you add, or whose size, spacing or position you change, work from the
-outside in:
-
-1. Outer size first. Before writing a control or row, find the existing ones
-   it has to match, nearest first: the same row or bar, then neighbouring
-   regions of the same level, then others of its kind on the rest of the
-   page. Read how that one is written, its component, size variant and
-   classes, and write the new one the same way, so it gets the same height,
-   radius, font size and padding; a new row takes the padding of the rows
-   around it, equal above and below its content unless those rows differ.
-   Leaving a component's size unset picks its default, which is right only
-   where the neighbours use the default.
-2. Then fit it in. Whatever goes into an existing control, row or bar takes
-   the size variant that fits its current height and leaves equal space
-   above, below and at the outer edge. Where no variant fits, set a local
-   size on the new part; that is a styling exception, kept on that element.
-   The container keeps its height.
-3. Give each edge and centre a definite reference to line up with, such as
-   the neighbouring control's centre line or the container's content edge,
-   and derive the offset from the actual paddings and borders in between.
-4. Count every source of space between two elements once: parent gap, own
-   margin, sibling margin, wrapper padding and legacy element rules. Two
-   sources for one gap is the usual cause of doubled or uneven spacing.
-5. Keep inner insets of one control equal on both sides. Rows and controls
-   the request does not ask to resize keep their size, and an element that
-   appears only in some states does not move its neighbours when it appears.
-6. Settle these relationships from the source while you write the code: the
-   equivalent's component, class and stylesheet values are the evidence.
-   Implementing, including fixing a reported defect whose cause the source
-   shows, involves no rendering, measuring or operating of the running
-   interface, on any platform; the report names what was not rendered or
-   operated as unverified. When to render is set in the References table.
-7. Before finishing a change, and in a code review of a change, search the
-   added lines of the diff for size variants, size classes and literal
-   heights, font sizes, radii, paddings and gaps. A new control whose
-   resulting height, font size or radius differs from the neighbours step 1
-   found is a defect, whatever its variant is called; an unset size resolves
-   to the component's default. An added literal that occurs nowhere outside the change, neither
-   in the page's source nor in the project's tokens or existing rules for
-   that kind of element, is a defect, such as a 7px radius on a new tooltip
-   where the project's radii are 4px and 8px. Sizes the request asks for and
-   step 2's local size are the exceptions.
-8. When implementing, for each control you add beside existing ones, the
-   report gives the control it is written like and the resulting height,
-   read from the code as it now stands, for example `rewind button: like the
-   play button beside it, size lg, 48 high`; controls written alike share
-   one line. Where the code differs from that control, the line says how.
-
-Before accepting a change, and in a code review of interface source, read the
-diff once for Code quality's questions, step 7's values, custom styling or
-compensation whose cause is gone, and preserved state, event and
-render-function behavior. Where Validation was selected, its results also
-decide acceptance; report source defects before rendered findings. For Audit,
-return prioritized findings tied to observed evidence.
+apply it at the component or layout that needs it, and say in the report
+which need the responsible component or API does not meet. An official token
+alone does not justify it.
 
 ## Integrity floor
 
@@ -190,6 +141,61 @@ override.
 Quantitative rules come from the applicable accessibility standard, platform
 or design system, so do not impose preferred fonts, palettes, radii, shadows,
 card patterns, breakpoints, pixel values or fashionable bans. For a
-demonstrated WordPress owner gap, the adapter's explicitly labeled Skill-Norm
-composition may supply a local fallback; it is not an official Core rule and
-not a reason to normalize working native spacing.
+plugin-owned relationship that Core leaves unspaced, as
+[spacing](references/wordpress/spacing.md) defines it, the Skill-Norm
+composition in the WordPress spacing references may supply a local fallback;
+it is not an official Core rule and not a reason to normalize working native
+spacing. Any other literal size or spacing value the change adds needs a
+precedent in the page or support in the project's tokens or rules for that
+element, unless the request or step 2 below sets it or Framework's local
+direction applies where there is no visual owner.
+
+## Spacing, size and alignment
+
+The aim is a change that looks as if it had always been part of the page;
+most visible defects are small mismatches with what is already there. For each
+element you add, or whose size, spacing or position you change, work from the
+outside in:
+
+1. Outer size first. Before writing a control or row, find the existing ones
+   it has to match, nearest first: the same row or bar, then neighbouring
+   regions of the same level, then others of its kind on the rest of the
+   page. Skip a match whose size comes from a one-off override rather than
+   its component, variant or the project's tokens; match the deliberate
+   pattern instead. Read how that one is written, its component, size variant and
+   classes, and write the new one the same way, so it gets the same height,
+   radius, font size and padding; a new row takes the padding of the rows
+   around it, equal above and below its content unless those rows differ.
+   Leaving a component's size unset picks its default, which is right only
+   where the neighbours use the default.
+2. Then fit it in. Whatever goes into an existing control, row or bar takes
+   the size variant that fits the containing layout and leaves equal space
+   above and below it. Inside a control, such as a step button in a number
+   field, the space at its outer edge matches that space; in a row or bar it
+   keeps the content edge the other items keep. Where no variant fits, apply
+   the styling-exception rule above at the responsible component or layout.
+   Preserve dimensions required by the owning design.
+3. Give each edge and centre a definite reference to line up with, such as
+   the neighbouring control's centre line or the container's content edge,
+   and derive the offset from the actual paddings and borders in between.
+4. Count every source of space between two elements once: parent gap, own
+   margin, sibling margin, wrapper padding and legacy element rules. Two
+   sources for one gap is the usual cause of doubled or uneven spacing.
+5. Keep inner insets of one control equal on both sides. An indicator that
+   appears only in some states, such as a spinner or badge, does not move its
+   neighbours when it appears; content shown for a state, such as an error
+   message or an opened disclosure, may push what follows down.
+6. Compare the component, size variant and classes with the matched control.
+   Where the design calls for the same dimensions across different components,
+   choose the variants whose source provides them. Use the containing layout's
+   variant and preserve deliberate differences.
+
+## Check and report
+
+Before delivery or in a review of interface source, read the diff once,
+together with Code where it applies, and check that it does what this Skill
+and the references it selected require; correct what is part of this change.
+
+When a requested check selected Validation, use its results to decide
+acceptance too. Report source defects before rendered findings. For Audit,
+return findings tied to observed evidence, prioritized by impact.

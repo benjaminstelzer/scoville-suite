@@ -48,13 +48,12 @@ first wrap heading when no marker exists. `.inline` prevents relocation.
 
 When implementing, write the change from the declarations above; do not
 render to confirm it. A requested rendered check, or a requested review or
-audit of how the page looks, proves it in the render:
-
-1. Inspect loaded stylesheet URLs, order and relevant minified rules selected by
-   `SCRIPT_DEBUG` in `wp-includes/script-loader.php:1620`. Registration or a file
-   on disk is not loading proof.
-2. Inspect final DOM after scripts, then the computed cascade.
-3. Measure geometry at relevant wide and narrow conditions.
+audit of how the page looks, proves it in the render. Check loaded styles and
+the final DOM under
+[WordPress validation](validation.md#wordpress-runtime-evidence), including
+the relevant minified rules selected by `SCRIPT_DEBUG` in
+`wp-includes/script-loader.php:1620`, then the computed cascade, and measure
+geometry at relevant wide and narrow conditions.
 
 There, measure the visible separation; margin collapsing, table layout,
 padding and inline line boxes can make it differ from the authored margins.

@@ -78,7 +78,7 @@
           "target": "scoville-code/references/writing.md"
         },
         {
-          "source": "shared:prompting/code-quality.md",
+          "source": "shared:prompting/code-review.md",
           "target": "scoville-code/references/code-quality.md"
         },
         {

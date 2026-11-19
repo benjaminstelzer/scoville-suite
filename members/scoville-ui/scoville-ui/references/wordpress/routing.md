@@ -4,6 +4,7 @@ Read this file for every wp-admin recommendation, including hypothetical
 advice. It settles three things in this order: which concerns the task covers,
 whether the surface is a supported plugin page, and which runtime renders each
 region. The mode (Implement or Audit) comes from Scoville UI.
+For the source or official status of a rule, read [sources.md](sources.md).
 Read [classification-output.md](classification-output.md) only when the user
 explicitly asks for a structured classification report; ordinary advice does
 not need it.
@@ -79,6 +80,9 @@ For every excluded surface:
    still answer the rest.
 
 ## Choose the runtime per region
+
+For a question that only needs established page-shell ownership, answer from
+Surface support. Use the runtime route when the selected concern depends on it.
 
 ```mermaid
 flowchart TD

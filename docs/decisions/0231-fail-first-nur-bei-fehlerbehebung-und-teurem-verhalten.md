@@ -13,9 +13,9 @@ scope: suite/code
 
 Binding sections: complete
 
-Scoville Code verlangt einen Test, der vor der Änderung scheitert, nur in zwei Fällen:
+Scoville Code verlangt einen Test, der vor der Änderung scheitert, seit v40 nur für Verhalten, dessen Fehler teuer ist, oder wenn der Auftrag es verlangt (Punkt 2). Für eine Fehlerbehebung gilt Punkt 1 in seiner Fassung seit v40:
 
-1. Fehlerbehebung: Der scheiternde Test ist die Nachstellung des Fehlers und entsteht vor der Korrektur.
+1. Fehlerbehebung (bis 2026-11-17): Der scheiternde Test ist die Nachstellung des Fehlers und entsteht vor der Korrektur. Seit v40 gilt: Der Fehler wird auf dem unterstützten Pfad belegt, durch einen vorhandenen scheiternden Test, einen bestätigten Bericht oder eine eigene Nachstellung; danach deckt ein Test, der mit der Korrektur besteht, diesen Fall ab. Der Zeitpunkt des Tests ist nicht mehr vorgeschrieben. In C19, N2 und R11 brachte der vorgeschriebene Fehlschlag-Lauf kein besseres Endergebnis als die Läufe ohne Skill. Die Ausdehnung auf jede Fehlerbehebung war eine Festlegung des Agenten; der Nutzer hatte Fail-first nur für hoch kritische Dinge verlangt (Klarstellung vom 2026-11-17).
 2. Verhalten, dessen Fehler teuer ist, etwa Geld, Berechtigungen, Datenverlust oder Sicherheit, oder wenn der Auftrag es verlangt.
 
 Für alle anderen Änderungen gilt kein Fehlschlag-Lauf. Neues Verhalten bekommt einen Test an der Stelle der Regel; der Agent prüft durch Lesen, dass er das verlangte Ergebnis auf dem echten Codepfad prüft. Verhaltenserhalt nutzt die vorhandenen Tests vorher und nachher. Änderungen ohne Laufzeitverhalten bekommen die passende Quell-, Typ-, Lint- oder Build-Prüfung und keinen Test.

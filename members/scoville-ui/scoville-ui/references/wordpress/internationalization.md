@@ -26,14 +26,16 @@ RTL has its own condition below.
 - Use WordPress gettext functions with the literal domain.
 - Translate complete phrases instead of concatenating translated fragments.
 - Use positional placeholders, `_n()` for plurals, and `_x()` for context.
-- Put `translators:` comments immediately before non-obvious placeholders.
+- For non-obvious placeholders, put a `translators:` comment on the line
+  directly above the gettext call; in a multi-line `sprintf()`, that is
+  inside it, directly above `__()` or `_n()`.
 - Treat translations as untrusted and escape for the final output context.
 - Keep URLs and structural markup outside translatable strings unless a safe
   documented markup pattern requires otherwise.
 
 ```php
-/* translators: %1$s: site name, %2$s: localized pending item count. */
 $message = sprintf(
+    /* translators: %1$s: site name, %2$s: localized pending item count. */
     _n(
         '%1$s has %2$s pending item.',
         '%1$s has %2$s pending items.',
@@ -58,8 +60,8 @@ echo esc_html( $message );
 ```js
 import { __, sprintf } from '@wordpress/i18n';
 
-/* translators: %s: settings section name. */
 const message = sprintf(
+    /* translators: %s: settings section name. */
     __( 'Settings for %s were saved.', 'plugin-slug' ),
     sectionName
 );
@@ -68,8 +70,8 @@ const message = sprintf(
 ## Prepare loading without requiring catalogs
 
 For a JavaScript UI, register its real script handle and dependencies, then
-bind that handle to the literal domain with `wp_set_script_translations()`
-before enqueueing. This works before any translation file exists.
+bind that registered handle to the literal domain with
+`wp_set_script_translations()` before the scripts print. This works before any translation file exists.
 Do not add a JavaScript build to a PHP-only page for this purpose.
 
 Without a custom catalog location, use the standard loading path:
@@ -92,8 +94,7 @@ Add an explicit custom path only when the selected delivery mechanism needs one.
 ## Layout
 
 Use logical properties, let controls and actions wrap, and keep information,
-function and source order. When longer text breaks the layout, fix the layout,
-not the string. A requested rendered check uses [WordPress validation's content
+function and source order. A requested rendered check uses [WordPress validation's content
 cases](validation.md#select-the-platform-checks); lengthened test text needs
 no production translations or PO files and proves no translation loading.
 
@@ -112,9 +113,8 @@ direction handling.
 | Situation | Result |
 | --- | --- |
 | Readiness only | Accept when the source meets the rules above; catalogs and translated browser strings are unnecessary. |
-| Source strings bypass i18n functions or break the domain, formatting, escaping, dependency or handle-order rules above | Reject readiness even if catalogs exist. |
+| Source breaks a rule above | Reject readiness even if catalogs exist. |
 | Translation delivery | Verify the selected mechanism's artifacts and source/build references; a requested check proves at runtime that the claimed translations load. Extractability or an RTL-direction test alone cannot establish delivery. |
 
 When extractability stays uncertain, a throwaway extraction can supply
-evidence without a maintained catalog workflow. Do not present readiness as
-delivery, or delivery as proof that translations load.
+evidence without a maintained catalog workflow.

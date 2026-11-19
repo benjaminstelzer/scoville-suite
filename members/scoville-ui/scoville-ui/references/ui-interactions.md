@@ -79,8 +79,9 @@ unrequested external or durable effect.
   prevention, cancellation and retry are handled, and a late old response
   cannot overwrite the current result.
 
-When a checked flow has a concrete loading or input-latency risk, observe
-layout movement and input responsiveness during the transition, not only its
-settled end state, with focused local measurements where needed. Lab
+When Validation has you operate a flow with a concrete loading or
+input-latency risk, observe layout movement and input responsiveness during
+the transition, not only its settled end state, with focused local
+measurements where needed. Lab
 observations, emulation and real-device interaction remain distinct; field
 performance claims require matching field data. Do not introduce backend tuning or a universal benchmark.

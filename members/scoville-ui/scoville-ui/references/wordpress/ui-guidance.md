@@ -27,24 +27,12 @@ rendered proof.
 - A page-title action is appropriate only when it is understandable before the
   main content. Form submission usually follows its fields.
 
-Classic page header order:
-
-```html
-<div class="wrap">
-  <h1>...</h1>
-  <hr class="wp-header-end">
-  <!-- Core moves non-inline page notices here. -->
-</div>
-```
-
 ## Feedback
 
 ### Classic
 
-- Use `add_settings_error()` and `settings_errors()` where applicable.
-- Page Notices remain movable so Core places them after `.wp-header-end`.
-- Field/component messages stay at their source and use `.inline` when Core
-  notice styling is suitable. Do not use deprecated `.below-h2`.
+The page frame and messages follow rows 1 and 4 of the
+[adapter checklist](adapter.md#classic-plugin-page-checklist).
 
 ### React
 
@@ -58,11 +46,7 @@ Classic page header order:
 
 ## Components and accessibility
 
-Group controls with the runtime's WordPress group component or a native
-fieldset with a legend. Keep Core or component contrast and focus behavior. A
-necessary custom color requires WCAG AA contrast against its background:
-calculate it from the declared colors when implementing, and measure it in the
-actual theme in a requested rendered check or a requested review of how the
-page looks.
-Keep all visible and assistive text translatable through
-[internationalization.md](internationalization.md).
+Keep Core or component contrast and focus behavior. A necessary custom color
+requires WCAG AA contrast against its background: calculate it from the
+declared colors when implementing, and measure it in the actual theme in a
+requested rendered check or a requested review of how the page looks.

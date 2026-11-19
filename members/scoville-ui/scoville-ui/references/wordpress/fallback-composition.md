@@ -1,7 +1,7 @@
 # Fallback composition only
 
-Read this file only for a new plugin-owned relationship that Core markup,
-classes and components leave unspaced, which you check in their source.
+Read this file only for a plugin-owned relationship that
+[spacing.md](spacing.md)'s table shows Core leaves unspaced.
 
 - No value here is a Classic compliance target.
 - Do not add a value to existing native margins or padding.

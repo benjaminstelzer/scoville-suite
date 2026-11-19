@@ -6,14 +6,13 @@ Before choosing or judging a spacing value, find what renders the region:
 | --- | --- | --- |
 | Classic page built from Core markup | [classic-patterns.md](classic-patterns.md) | Keep its authored units and context-specific cascade. Classic has no universal 4/8px scale. |
 | Region that consumes WPDS tokens | [wpds-tokens.md](wpds-tokens.md), [version rules](version-compatibility.md) | A token's existence does not map it to a Classic relationship. |
-| New plugin-owned relationship that Core markup, classes and components leave unspaced, which you check in their source | Only then [fallback-composition.md](fallback-composition.md) | Skill choices, not official defaults or targets for normalizing existing UI. |
+| Plugin-owned relationship, new or existing, that Core markup, classes and components leave unspaced, which you check in their source | Only then [fallback-composition.md](fallback-composition.md) | Skill choices, not official defaults or targets for normalizing existing UI. |
 
 - A requested rendered check, or a requested review or audit of how the page
   looks, takes its spacing evidence from [validation.md](validation.md);
   `gap` alone proves no visible distance.
-- Keep original units, unitless line-height, tokens and calculations: `1em`
-  at a 13px font resolves to 13px but must not become a new `13px` or `1rem`
-  rule.
+- Keep authored units: `1em` at a 13px font resolves to 13px but must not
+  become a new `13px` or `1rem` rule.
 - A native value outside a 4/8px scale is not a defect for that reason.
 - Project-specific minimums do not become Core rules.
 
@@ -46,14 +45,14 @@ valid token alone does not show that the rendered grouping is right.
 
 Reuse the native shell and Settings API rhythm. Never put a gap stack over
 `.wrap`, `.form-table`, or `p.submit`. A plugin-owned inner component may use
-a Skill-Norm gap only for a relationship that Core markup, classes and
-components leave unspaced, which you check in their source.
+a Skill-Norm gap only for a relationship the table above shows Core leaves
+unspaced.
 
-Where no Core markup or class spaces a new relationship, a 7.1 page may
-express its gap through Core's loaded `--wpds-dimension-gap-*` tokens in
-narrowly scoped plugin CSS. A stylesheet is not a React runtime.
-Prefer this supplied token over a new local spacing variable, and do not
-apply it over native rhythm that works. See
+Where no Core markup or class spaces such a relationship and the supported
+range includes 7.1, express its gap through Core's `--wpds-dimension-gap-*`
+tokens, branched at runtime, in narrowly scoped plugin CSS, not through a new
+local spacing variable. A stylesheet is not a React runtime. Do not apply the
+token over native rhythm that works. See
 [version-compatibility.md](version-compatibility.md) for the explicit 7.0
 fallback and registration, loading and token-name checks.
 
@@ -108,11 +107,5 @@ Stop at the first layer that fits:
    properties.
 5. Narrow plugin CSS, only for a gap the layers above leave open.
 
-Before writing an exception, apply common Validation's
-[styling-exception rules](../validation.md#styling-exceptions); for a local
-React stack, `Flex` is one of the supported options they weigh.
-
-Reject global `.wp-admin`, `.wrap`, `.form-table`, or Core-control overrides,
-copied Core CSS, custom Core-primitive rebuilds, unloaded WPDS references,
-parallel colors, radii and shadows, and `!important` without a
-styling-exception rationale.
+Before writing an exception, apply
+[SKILL.md's rule on custom styling](../../SKILL.md#implementation-and-acceptance).

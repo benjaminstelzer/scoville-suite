@@ -44,10 +44,11 @@ identifiers.
 | Supported page whose project explicitly opted in to bundled experimental WPDS components | Policy `allow`. |
 | Supported PHP/Core page, or hybrid page whose regions all use non-experimental Core, without that opt-in | Policy `deny`. |
 | Any other supported page without that opt-in | Policy `unknown`. |
-| Excluded named Classic PHP host using Core, without that override | Policy `deny`. It records a host fact; the surface stays the host's. |
+| Excluded named Classic PHP host using Core, unless the first row applies | Policy `deny`. It records a host fact; the surface stays the host's. |
 | Excluded React-owned or unspecified host runtime | Policy `unknown`. The surface stays the host's. |
 | Page placement or host boundary not established by supplied facts | `shell_owner: unknown`; neither Hybrid nor runtime opt-in establishes a Core shell. |
 | Page placement or another decision-relevant owner unresolved | `support_status: needs-clarification`; runtime opt-in does not resolve placement. |
+| Supported Network Admin page with a bundled experimental region | `support_status: supported-explicit-multisite`; record the experimental policy and region runtime in their own fields. |
 
 Unknown policy still forbids introducing experimental APIs.
 
@@ -126,6 +127,6 @@ applies; do not invent identifiers.
 | Route | Must include |
 | --- | --- |
 | Unknown React runtime | `assume-react-is-wpds`, `define-wpds-tokens`, `recommend-without-clarification` |
-| Excluded host surface | Its row in the matrix above, which always has `own-host-surface`; also `recommend-without-clarification` when a host fact needed for a recommendation is absent |
+| Excluded host surface | Its row in the matrix above, which always has `own-host-surface`; for a row without `recommend-without-clarification`, also add it when a host fact needed for a recommendation is absent |
 | Classic PHP plugin page using Core | `frontend-theme-spacing`, `inject-wpds-into-classic`, `global-wp-admin-overrides`, `custom-css-before-core` |
 | Bundled WPDS route | `unlock-private-theme-provider`, `define-wpds-tokens`, `global-wp-admin-overrides`, `custom-css-before-core` |

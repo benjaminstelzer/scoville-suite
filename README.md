@@ -55,6 +55,11 @@ fix acquires its own framework.
   or build check, not a test.
 - It ends by reading its diff against these rules and reports the test that
   proves the request.
+- Where the host can start a separate agent, a change to code behavior is
+  then read once by an agent that has not seen the author's reasoning. The
+  author declines findings that only ask for more protection. Under a
+  workflow that already reviews each change independently, that review takes
+  its place.
 - A review goes through the same points in someone else's change and names
   the place, the problem and, where one exists, the function, path or
   interface to use instead.
@@ -83,6 +88,7 @@ and [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/m
 ### What it costs
 
 - Reading relevant code and checking behavior takes tokens and time. The extra work is aimed at avoiding fixes that merely look finished.
+- The independent reading of a change to code behavior adds one agent run. In my measurements a review took two to four minutes.
 
 [How to use Scoville Code](members/scoville-code/README.md#how-to-use).
 

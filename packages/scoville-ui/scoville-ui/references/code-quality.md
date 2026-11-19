@@ -1,91 +1,204 @@
 # Code quality
 
-A complete copy of these rules already in your context,
-including one embedded in your assignment, is this reference; do not reread it.
+Authors and reviewers apply these criteria; complete criteria embedded in an
+assignment or in Code count as read. For a review, also use the review section
+below.
 
-Authors choosing an implementation and reviewers judging it apply the same
-criteria to the authorized scope: the changed logic and the callers, data
-flows, dependencies and configuration it can alter. A pure text or formatting
-change needs no algorithm review.
+## Criteria
 
-## Simplest sound solution
+### What the code has to be
 
-Choose the simplest sound solution at the source that owns the behavior, for
-the project's maintenance and development intent. Defects: a second
-implementation of logic the project already has; a workaround repeated where
-its shared cause could be fixed; a variant, layer, state or abstraction for a
-need nobody has stated; code only understandable from the chat history. Not
-defects: a different style, a shorter possible version, a missing
-hypothetical extension, or a real responsibility or state boundary
-encapsulated for one caller.
+The result is code a person can follow and another agent can extend: the
+simplest design that meets the request, with the least code and plain
+control flow. Change what the complete result needs and nothing else. What
+the request does not change stays as it is: behavior, guarantees and user
+state.
 
-## When protection is needed
+The affected path is the operation the request changes, from where the
+application enters it to where its result is used, including the callers and
+helpers it runs through that you do not edit. A defect on that path that the
+requested result depends on is part of this change, also in code you did not
+write: fix it at its owner. Other defects are unrelated cleanup: report them.
 
-Missing protection is a defect only against a requirement or a failure
-reachable in supported use or through a concrete attack path; no prior
-incident is needed. Added protection needs the same basis and a named gap in
-existing behavior. A visible exception or failed command is enough when it
-causes no material harm; visibility cannot undo damage. Prefer removing risky
-state or narrowing an unsupported claim to adding machinery. Reject a failure
-attribution whose preconditions or input bounds cannot occur on the claimed
-path.
+The rules are checks you make by reading the code on the affected path. A
+rule whose subject does not occur there needs no action.
 
-Illustration:
+1. **Work that grows.** Code you add is linear only if neither its caller
+   nor what it calls repeats. Before you add or accept a loop, a lookup, a
+   query or a call to a helper, read upward to where the application runs
+   it more than once (the batch call, the outer loop, the handler that runs
+   per row, per event, per request, per poll or per timer tick) and
+   downward into every helper and library call you use, including code you
+   do not edit. Ask what each one walks, searches, loads, copies, rebuilds
+   or writes per call. These are the forms it takes:
+   - A search in a list, a walk over another collection, a copy of a
+     growing structure or a recursion that revisits shared parts, done once
+     per item: quadratic when both sides grow with the data.
+   - A query, request, file read or parse per item. Remove it already at
+     modest numbers.
+   - A structure for the whole page, site or collection (an index, an
+     inspection, a set of active entries) rebuilt per item or per call. A
+     helper that caches its result only inside one scope rebuilds it for
+     every caller outside that scope.
+   - The same unchanged input parsed, validated or resolved again in a
+     later step of one operation, where the earlier result could be passed
+     on.
+   - Work on every request, poll, tick or event that only needs doing when
+     its input changed: a lock, a write, a cache flush, a recomputation over
+     all entries.
+   - Work for parts nobody sees or uses yet, done up front for all of them.
+   - A stored list or cache that only grows.
 
-| Situation | Protection |
-| --- | --- |
-| An internal function receives a list its only caller has just validated | None: the precondition cannot fail on this path. |
-| An importer deletes the photos on a camera card after copying them | Needed: delete a source only after its copy is confirmed complete, because a failed copy followed by the deletion loses the only original, which a visible error cannot bring back. |
-| A CLI crashes with a clear traceback on a malformed config file | The visible failure suffices: nothing is damaged and the user can correct the file. |
-| An HTTP handler builds a file path from a request parameter | Needed: a concrete attack path reaches files outside the intended directory. |
+   Do such work once: build a set, map or index before the loop that lives
+   as long as the operation (rule 2 forbids only a stored second copy), fetch in
+   one batch, group once, pass the earlier result on, or do it when the
+   input changes or the part is first needed. Use the language's built-in
+   function or a plain map before you write an algorithm of your own; a fix
+   for repeated work that brings its own parser or matcher has overshot. So
+   has one that changes what the user sees or adds state to keep in step:
+   no paging, no cache with its own invalidation and no change-tracking
+   flag where doing the work once per action is enough.
+   Where an existing helper is what repeats, change it at its owner instead
+   of building around it. Keep results, order, freshness and the failure of
+   a single item as they were. Work in memory over a handful of items by
+   contract needs none of this. Decide by reading the source; measure only
+   when the request or a project rule asks for it.
+2. **Nothing without a need.** Protection, options and bookkeeping that
+   nobody asked for are defects, not diligence: each is code to read, test
+   and keep in step, and it hides what the code does. A need is the
+   request, an input that can reach this code now, another rule of this
+   list, or what the plan and the existing code show is coming; how much
+   structure such a need justifies is decided by rule 4. That something
+   could go wrong is not a need. Without a need:
+   - no option, parameter or setting that no existing or planned use needs;
+   - no stored flag, marker, counter, intermediate status or second copy of
+     data to optimise or coordinate what the existing flow already handles;
+   - no guard, lock, retry, check, repeated validation or recovery path
+     against a failure an existing guarantee excludes, against an actor who
+     already has full rights, of a value this code just built or checked,
+     or for a use nobody described: a second actor writing at the same
+     moment, a second open window, another process on the same data. Such a
+     use is a question for the user, named in the report: not a mechanism
+     to build and not a defect to report;
+   - no code without a caller in the product: a helper nothing calls, a
+     method kept only for tests, a branch for an error nothing produces, an
+     interface method implemented empty.
 
-## Algorithmic cost
+   Input from a person, another system or a public interface can hold any
+   value its format allows and is checked once, where it enters. A write, a
+   request or a file read can fail in the described use: such a failure
+   reaches the user or the caller where it occurs. A catch that swallows it
+   or a default value that hides it is a defect too. A
+   plan step or acceptance criterion that prescribes such a mechanism
+   without naming the case or failure it serves is not a need: trace it to
+   a requirement of the user or a failure of the described use, and where you
+   find none, say so before you build it. A different style, a shorter
+   possible version or a missing hypothetical extension is no defect.
+3. **One implementation.** Before writing logic, search for what already
+   does it: in the project by what it does and by the domain terms, also in
+   sibling packages, and in the language's standard library and the
+   platform. Call it when it fits and extend it where it lives when it
+   almost fits. Solve a kind of problem the way the project already solves
+   it; a second pattern for the same job is a second implementation. When a change replaces a path, an interface, a
+   configuration or a data form, switch everything that uses it and remove
+   the old one in the same change, with the helpers, parameters and tests
+   only it needed. Do not keep the old form alive on your own: no fallback,
+   adapter, alias, second code path, migration, version switch or check
+   whether your own code exists, unless the request or a project rule asks
+   for it. During development a break in compatibility is usually wanted,
+   and such code is dead weight. Compatibility is the user's decision:
+   where something outside this codebase may still depend on the old form
+   (other software, or data that real users have already stored) and the
+   request and the project rules leave that open, say what breaks
+   and for whom, and ask before you write compatibility code.
+4. **Structure that follows the uses.** Each module has one responsibility
+   and a small public interface, and the code gets as much structure as its
+   uses need. Judge this yourself. A shared helper, class, component or
+   interface is wanted where several places do the same thing now, or the
+   plan or the code shows they will: it removes hand-written repetition and
+   keeps one module's details out of shared code. Build it for those uses,
+   with the options they need, and name the uses in your report. For a
+   single use write the direct code: a layer, a base class or a general
+   function with settings nobody sets is as wrong as the same code written
+   by hand in five places. Code you add, move or extend belongs in the
+   module that owns the data or rule it works on:
+   - Shared or core code knows no single module's keys, texts or special
+     cases; a new module must not require editing it.
+   - Business rules stay out of handlers, templates and the files that only
+     register or wire things together.
+   - Use another module through its interface and extend that interface at
+     its owner when it lacks what you need. Do not reach into its private
+     names, its storage or its internal structures, and do not register a
+     stub of an unrelated interface or probe for methods to get at a
+     capability.
+   - One source of truth: a fact (a default value, a limit, a status, a
+     list of codes, a message) and mutable state are defined in one place,
+     and every other place reads them from there, also across layers and
+     languages: server and client, code and configuration. A value written
+     out again in a second file is a defect, because a change then needs
+     both.
+   - A file, class or function keeps its one responsibility as it grows.
+     When your addition would give it a second one, or it already has
+     several, put the addition in a unit of its own and say what else
+     belongs there: boundaries erode one reasonable addition at a time.
+   - Leave global state of the platform and state of other components
+     alone: change your own.
 
-Read the loops, collection scans and recursion the change touches: which
-inputs reach them, what grows, what repeats. Replace avoidable quadratic or
-exponential work with a lookup, single pass or reuse when that removes
-meaningful cost without disproportionate complexity; fixed bounds or disjoint
-traversals justify nested loops. No benchmark or general performance tuning
-is asked.
+   Where one concern makes you change many modules, the boundary is in the
+   wrong place: say so instead of spreading the concern further.
+5. **Check, then load again.** When code checks or selects something and
+   loads it again before use in the same operation, the loaded value can
+   differ from the checked one. Check the value that is used, or carry the
+   checked value through. Only a guarantee that excludes a change between
+   the reads, such as one transaction with a consistent snapshot, makes
+   that unnecessary. Who may write between two separate operations is a
+   matter of the described use: rule 2.
+6. **State and effects across a change.** When a change replaces a call,
+   turns a full pass into partial updates or rebuilds something a user sees
+   or another component reads, read the old path for what it did besides
+   returning its result: state it set (selection, focus, position, entered
+   text), events and hooks it fired, caches and records it wrote. The new
+   path does the same at every step where it is visible or used, also on
+   failure, unless the request removes it. That the state "cannot change"
+   is no reason to drop the line that set it.
 
-Add a cache only for a concrete benefit that justifies its state, memory and
-validity rules, after comparing direct computation or reuse. Use an existing
-cache through its own access path, and only when its keys, tenant or context
-separation, lifetime and invalidation fit.
+### Questions for the finished change
+
+Answer each by naming the place in the code; skip one whose subject does not
+occur. Authors correct what is part of this change, reviewers report it.
+
+1. **Rule 1.** Starting at the caller that runs the changed code more than
+   once: what runs per item, request, poll or event, what does it walk,
+   load, rebuild or write each time, and does that grow with the data or
+   repeat although nothing changed?
+2. **Rules 2 and 3.** What in the change has no need you can name, what
+   has no caller, and does the codebase now hold two pieces of code for one
+   job or an old form beside the new one?
+3. **Rule 4.** Which uses does each general piece serve, and is the same
+   code written by hand in several places? Does each piece the change adds,
+   moves or extends sit in the module that owns its data or rule, also
+   where it lands in shared code or in a file that registers and wires, and
+   does any code reach past another module's interface?
+4. **Rule 5.** For each value loaded again after a check: which line checks
+   the value that is used?
+5. **Rule 6.** For each call or pass the change replaces: where does the
+   new path set the state and cause the effects the old one did?
+6. **Tests.** Would the decisive test fail if the requested behavior broke,
+   and does the project's command for this kind of test run it?
 
 ## Reviewing a change
 
-Read the whole change, then look beyond it: most maintainability defects show
-only against the rest of the codebase. Go through the change with these
-questions. Judge from the code; run no benchmark or profiler for this. A
-finding names the place and the problem and, where one exists, the function,
-path or interface to use instead.
+A reviewer checks the change against the rules in "What the code has to be"
+and answers every one of the "Questions for the finished change": the same
+ones its author had to follow. Read the whole change with its callers and the
+helpers it calls, also where the change did not touch them. Go through the
+questions in their order and write down for each one the defects it shows or
+that it shows none; a question you leave out is a rule nobody checked. Start
+with question 1, because the author of a loop usually sees it as linear.
+Judge from the code; run no benchmark for this.
 
-| Look at | Ask | Defect when |
-| --- | --- | --- |
-| Each function, class and constant table the change adds | Does the codebase already have this? Search by what it does, not by its name. | An existing function or table does the same job. |
-| Each new or changed call path | Is there now a second way to do the same thing? | A copied pipeline, a fallback to the old path, a flag nobody asked for, or callers left on a replaced path. |
-| Each use of another module | Does it go through that module's public interface, from the right layer? | It reads private names, the storage file or table or internal data structures; a business rule sits in a handler or template; new module-level mutable state. |
-| Each loop | Does its body do work that grows with the data, or input/output, per item while the outer collection can be large? | Yes, and a set, dict, single pass or batch call would do. |
-| Each validation, guard, retry, fallback and special case | Which input or failure reaches it in supported use or through a concrete attack path? | None does; it repeats what code on the same side of a process or network boundary, or a type the runtime enforces, already guarantees; it swallows an error or returns a default. |
-| Structure the change adds | Does the request need it, or does it only prepare for a variant nobody asked for? | Anything built for a second variant while only one exists. Recursion or deep nesting where one pass would do. |
-| Each test | Would it fail if the behavior it covers broke, and did it run? | It repeats the implementation or only asserts that a mock was called; the behavior that matters is untested; the relevant test is skipped or not collected. |
-| What is left over | Is anything dead? | Commented-out or unreachable code, unused parameters, debug output; configuration, documentation or tests that cover only a removed feature. |
-| The next reader | Can a person follow it without the chat history, and find it later? | Names that hide what a thing does, a function with several jobs, a new setting or module missing where the project documents them. |
-
-Not defects: a different style; code that looks like an existing function but
-answers a different question; a real responsibility encapsulated for one
-caller.
-
-## Findings
-
-Authors resolve material findings within their authority before acceptance;
-a material design, cost or behavior choice goes to the user. Read-only
-reviewers report findings, open decisions and missing sources without editing
-or choosing. Optional improvements are not defects: they neither block
-acceptance nor authorize implementation. Report findings in the role's
-existing result fields, each defect as its own finding: a maintainability
-defect stays in the report when a more severe finding exists, and two defects
-in one function are two findings. The review table is how you look, not a
-form to fill in: no entry per question, no minimum finding count and no extra
-review phase.
+A finding names the file and line, the rule it breaks and, where one exists,
+the function or structure to use instead. Report each defect on its own. A
+defect is a breach of one of the rules. An optional improvement, a further
+protection or a case nobody described is not one: leave it out, or list it
+apart as a question. A read-only reviewer changes nothing.

@@ -141,9 +141,6 @@ named model; verify applicability before extending it to others.
 
 ## Compare outcomes
 
-Package validation and reading the instructions do not demonstrate better model
-performance.
-
 - Select realistic tasks that expose the changed behavior and preserved correct
   work, including writing and rewriting when both apply. Keep development
   examples separate from final acceptance cases; repeat runs when variance
@@ -152,15 +149,23 @@ performance.
   version and the candidate. Keep conditions comparable and change one factor
   where practical. Record confounders and separate transport failures from model
   errors.
-- Record model version, host, effort, prompts, Skill versions and tools. Keep
-  inputs, traces, outputs and failed runs; handle text encoding explicitly.
+- Record model version, host, effort, prompts, the exact Skill source revision
+  or content hashes, tools and files actually loaded. Keep inputs, traces,
+  outputs and failed runs; handle text encoding explicitly.
+- Separate execution status, scoring validity and task outcome. A failed start,
+  quota refusal or transport error is neither a task success nor an ordinary
+  model failure. Keep time and budget limits visible as incomplete runs. For a
+  handoff, score the receiver's completed work separately from creation of the
+  prompt; a later stage needs a usable result from the preceding stage.
 - Measure separately: activation (explicit, implicit, negative), required
   procedure, boundaries and permissions, task success. Inspect actual actions and
   artifacts.
 - Report rescued failures and new regressions, plus time, tokens or cost where
-  available. Distinguish overall results from the subset where the Skill was
-  actually loaded.
-- Diagnose a concrete failure and repair it narrowly. A re-run of the failing
+  available, by model and task type. Inspect individual losses even when the
+  average is unchanged or better. Distinguish overall results from the subset
+  where the Skill was actually loaded; a different artifact alone is not a
+  defect without a violated requirement or concrete harm.
+- Diagnose a concrete failure and repair its cause in the rule that owns it. A re-run of the failing
   case shows only that the repair matches that case; judge the effect on
   acceptance cases the repair was not written against, within the agreed
   budget, and keep the version those outcomes support. A claim of

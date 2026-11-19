@@ -31,8 +31,9 @@ unresolved.
 Keep the authored unit or expression, the computed value and the measured
 distance apart. Authored and reported values keep their `em`, `rem`, `px`,
 percentage, unitless line-height, token reference, calculation or logical
-property: equal current pixels do not turn `1rem` into `16px`. Record the
-element or root font size or the container it is relative to.
+property: equal current pixels do not turn `1rem` into `16px`. Where a
+finding depends on a relative unit, name the font size or container it
+resolves against.
 
 For ordered non-overlapping boxes, `B.top - A.bottom` is the gap between
 border boxes, not glyph whitespace or a baseline. Account for flow,
@@ -42,8 +43,7 @@ declarations are not observed geometry; minimum height is not fixed height.
 ## Inspect with a comparison and a hypothesis
 
 View the scoped region in context first, then details at a consistent scale.
-Keep an unaltered context image or crop when guides help comparison. Report
-each located deviation; a pass needs only its scope.
+Keep an unaltered context image or crop when guides help comparison.
 
 | Look for | Compare |
 | --- | --- |

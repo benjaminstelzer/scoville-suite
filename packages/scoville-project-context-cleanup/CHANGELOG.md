@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-18 - Shorter verification
+
+- Each rule is stated once. The final check asks whether the work does what the Skill requires instead of listing the rules again. Not tested with models yet.
+
+## 2026-11-16 - Owner decisions on three open points
+
+- Cleanup no longer creates a missing `PROJECT_INDEX.md`. Plan creates the index with its profile; until then the context goes into the rule file.
+
+## 2026-11-15 - Rules that contradicted each other
+
+- The body of `PROJECT_INDEX.md` names no active Plan, current item or status; Plan keeps these in its own fields.
+- A project rule is written in the language of the file it goes into.
+- Shared rules: a reply uses the language of the request, while a record or file you edit keeps the language it is written in. Files saved with `--publish-full` are delivered output, so cleanup leaves them in place. A rule that holds only until something happens states that end in the rule.
+
 ## 2026-11-14 - Goodhart corrections
 
 - A rule that holds only until something happens states that end in the rule. This replaces the rule from 2026-11-13, which moved the end condition into the reply and so made a temporary rule permanent.

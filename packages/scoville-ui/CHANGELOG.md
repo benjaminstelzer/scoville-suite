@@ -1,5 +1,43 @@
 # Changelog
 
+## 2026-11-18 - Each rule once
+
+- The final check asks whether the change does what the Skill and the selected references require; the size and state rules are no longer listed a second time.
+- Repeated work in lists points to rule 1 of the code rules. Page frame, messages, styling exceptions and spacing rejections stand once, in the adapter checklist or the Skill.
+- Audit findings are ordered by impact everywhere. Not tested with models yet.
+
+## 2026-11-16 - Reviewers answer two questions first
+
+- Shared review rules: a reviewer answers the questions on reloaded values and on state across a change first, by file and line. A missing line is a finding; a comment or an argument is not such a line.
+
+## 2026-11-16 - Holder of assigned state
+
+- Shared code rules: the rule on assigned state names its holder, an element, list or record whose content the new path changes, also when the item the state points to stays untouched.
+
+## 2026-11-16 - Assigned state is set again; a named bound for few items
+
+- Shared code rules: where the old path assigned a selection, a value, the focus or a flag, the new path sets the same value after each of its steps. The author no longer has to judge whether that state can change.
+- Shared code rules: a query, request, read or parse per item stays only where code, the contract or a project rule that the author names bounds the real callers to a few items.
+
+## 2026-11-16 - Reloads inside helpers
+
+- Shared code rules: the question about a value that is loaded again also covers loads inside the helpers the path calls.
+
+## 2026-11-15 - Rules that contradicted each other
+
+- An audit changes no product file. It may run the checks its evidence route allows, with disposable output.
+- A correction of interface text on a `wp-admin` page also reads the internationalization reference when it changes a placeholder, plural, context or escaping.
+- Sizes: a neighbour whose size comes from a one-off override is no model for a new control; match the component, variant or token the project uses deliberately.
+- WordPress: the Settings API applies to a new options page and to a page that already uses it; a working hand-written `.form-table` form keeps its pattern for added fields.
+- WordPress: plugin CSS that consumes Core tokens always goes through the runtime branch, and the fallback spacing rules cover an existing plugin-owned relationship as well as a new one.
+- WordPress: the implementation report also contains what Scoville Code's report requires where that Skill applies.
+- Shared code-review rules follow the Code changes of this date: repeated work is judged at realistic sizes, and new code written because reuse would have been quadratic or more complex is no defect.
+- Shared rules: a reply uses the language of the request, while a record or file you edit keeps the language it is written in. Files saved with `--publish-full` are delivered output, so cleanup leaves them in place. A rule that holds only until something happens states that end in the rule.
+
+## 2026-11-14 - Resolve review choices from the project
+
+- Shared code-review rules use the request, project decisions and conventions before asking about an unresolved material choice. Routine implementation decisions stay with the author; read-only reviewers still report without editing.
+
 ## 2026-11-14 - Goodhart corrections
 
 - A code review of interface source or of a diff reads the source and renders nothing. Rendering and measuring belong to a requested review of how an interface looks or behaves, a requested rendered check, and a reported visual defect whose cause the source does not show.

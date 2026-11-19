@@ -29,7 +29,6 @@ variant "expired" not seen`. Distinct in-scope variants and known exceptions
 each stay in the inventory. Do not enumerate every virtual row merely to
 simulate completeness.
 
-When Skills compose, reuse one compatible inventory with its measurements,
-images and results. Keep the platform Skill's or reference's comparisons and
-valid exceptions. A DOM count, screenshot or claimed percentage alone proves
+When the WordPress references also apply, keep their comparisons and valid
+exceptions in the same inventory. A DOM count, screenshot or claimed percentage alone proves
 neither coverage nor correctness.

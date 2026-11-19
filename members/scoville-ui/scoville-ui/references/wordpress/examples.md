@@ -21,13 +21,17 @@ function plugin_slug_render_settings_page() {
             <?php
             settings_fields( 'plugin_slug_settings' );
             do_settings_sections( 'plugin-slug' );
-            submit_button( esc_html__( 'Save settings', 'plugin-slug' ) );
+            submit_button( __( 'Save settings', 'plugin-slug' ) );
             ?>
         </form>
     </div>
     <?php
 }
 ```
+
+On a page under Settings, such as one added with `add_options_page()`, Core
+prints the settings messages. A page registered elsewhere calls
+`settings_errors()` once, right after `.wp-header-end`.
 
 Do not add a page gutter, form-row grid, custom button, or stack gap over
 `.form-table`. A plugin-owned subcomponent may add a local flow only for a
@@ -54,9 +58,8 @@ import {
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-export function ConnectionSettings() {
+export function ConnectionSettings( { error, onSave } ) {
     const [ endpoint, setEndpoint ] = useState( '' );
-    const [ error, setError ] = useState( '' );
 
     return (
         <>
@@ -87,7 +90,11 @@ export function ConnectionSettings() {
                     />
                 </FlexItem>
                 <FlexItem>
-                    <Button variant="primary" __next40pxDefaultSize>
+                    <Button
+                        variant="primary"
+                        onClick={ () => onSave( endpoint ) }
+                        __next40pxDefaultSize
+                    >
                         { __( 'Save connection', 'plugin-slug' ) }
                     </Button>
                 </FlexItem>
@@ -143,6 +150,11 @@ wp_enqueue_style(
     $version
 );
 ```
+
+On 7.1 and later, enqueue no copy; depend on Core's `wp-theme` style instead,
+branching at runtime as the
+[versioned PHP example](version-compatibility.md#php-layout-with-a-core-token-and-older-version-branch)
+does.
 
 At the WordPress 7.0 pin, `@wordpress/theme` does not publicly export
 `ThemeProvider`. The public route bundles `@wordpress/ui` plus the exported

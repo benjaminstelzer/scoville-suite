@@ -10,16 +10,15 @@ adding a breakpoint.
   takes its widths and content cases from
   [WordPress validation](validation.md#select-the-platform-checks).
 - Preserve DOM, keyboard, and screen-reader order when layout changes.
-- Matching text inputs and selects follow Core's `40px` mobile minimum height. WCAG 2.2
-  AA separately requires `24 x 24 CSS px` pointer targets or an allowed
+- Matching text inputs and selects follow Core's `40px` mobile minimum height.
+  Where WCAG 2.2 AA applies, its separate pointer target requirement is
+  `24 x 24 CSS px` or an allowed
   exception.
 - Use logical properties in unavoidable plugin CSS.
 - Adapt to localized and expanded content using
   [internationalization's layout contract](internationalization.md#layout).
 - Primary actions remain visible. Secondary actions wrap or move to an
   accessible labeled menu.
-- The document does not scroll sideways at `782px` and below; a fixed pixel
-  width that causes this is a defect.
 
 A two-dimensional data view may use one labeled local horizontal scroll
 container. The document must not overflow.
@@ -35,7 +34,8 @@ gutters. Density is not a responsive switch.
 ## Focused settings or tool page
 
 - One main source-order column.
-- Use Settings API and Core form-table behavior on Classic pages.
+- Use Core form-table behavior on Classic pages; [adapter](adapter.md) row 2
+  says when fields go through the Settings API.
 - Do not set a page max-width only to get a pleasing line length.
 - Limit prose width locally only for a reported reading problem.
 - Put submission after the values it affects.
@@ -51,7 +51,9 @@ gutters. Density is not a responsive switch.
   ladder.
 - Size columns from content, as in `minmax(min(100%, 18rem), 1fr)`, not
   from a column count per device class.
-- **Skill-Norm:** At `<=782px`, default to one visual column.
+- **Skill-Norm:** At `<=782px`, a fixed multi-column region, such as a form
+  beside its live preview, becomes one column; a content-sized grid keeps its
+  own reflow.
 - Cards represent real groups. The parent sets the gap between cards.
 
 ## Data view

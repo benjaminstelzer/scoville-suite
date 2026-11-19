@@ -1,14 +1,7 @@
 # UI Quality
 
-The outcome tests below apply to every interface task; they are no visual
-recipe. Also read the complete topic file of each concern the task touches,
-and no other. Keep settled decisions and every guarantee the change affects.
-
-| Concern | Reference |
-| --- | --- |
-| New, translated, changed or reviewed interface text | [Wording](ui-wording.md) |
-| Grouping, hierarchy, layout, spacing, sizes, alignment, responsive adaptation or changed composition | [Layout](ui-layout.md) |
-| Navigation, controls, focus, input, feedback, states or recovery | [Interactions](ui-interactions.md) |
+Apply the guarantees the task touches. The [UI entrypoint](../SKILL.md)
+selects the topic references and evidence route.
 
 ## Product ownership and UI guarantees
 
@@ -62,23 +55,23 @@ Use the project's or platform's typography and spacing, and keep:
   the applicable accessibility target in every supported state and theme.
 
 Keep protected copy and facts. Unless the task explicitly includes a wording
-change, fix the layout: let `Billing address` wrap or widen its column. Do
-not shorten, split or invent text to hide a layout problem.
+change, fix the layout: let `Billing address` wrap or widen its column.
 
 ## Keep accessibility structural
 
-Accessibility is not a final color pass. Confirm that the chosen component
-and layout keep the required names, labels, roles, values, relationships,
+Accessibility is not a final color pass. Choose the component and layout so
+that they keep the required names, labels, roles, values, relationships,
 reading order, focus behavior, input alternatives, scaling and status
 messages. Use approved wording where supplied, otherwise the
 [wording rules](ui-wording.md), in both the visible text and the names the
 code exposes.
 
-- A control's visible text is in its accessible name, preferably at the start.
+- The accessible name starts with the control's visible text where possible.
 - An icon-only control is named by its purpose.
 - No meaning rests on color, position, shape, hover or motion alone.
-- Numbers come from the applicable standard or platform rule. Web pointer
-  targets meet WCAG 2.2 AA's 24 by 24 CSS-pixel requirement or an applicable
+- Numbers come from the applicable standard or platform rule. Where WCAG 2.2
+  AA applies under the entrypoint's ownership rules, web pointer targets meet
+  its 24 by 24 CSS-pixel requirement or an applicable
   documented exception; do not invent a universal 44-pixel AA target or
   substitute measurements.
 - An automated scan does not prove the interaction is usable.

@@ -2,7 +2,7 @@
 
 Validate changed behavior with appropriate technical checks and authorized model
 or real-workflow tests. No fixed historical case catalog or case count is required.
-Model tests use gpt-6.1-sol with reasoning effort medium; a claim about another
+Model tests use gpt-6.1-sol and Claude Opus 5.5, both with reasoning effort medium; a claim about another
 model needs a run with that model. Record the model, effort, actual results and
 remaining limits; do not claim an unrun test passed.
 A model test shows an effect only on a task the instruction was not written
@@ -15,6 +15,23 @@ that task. A pass from a scorer that only matches answer text shows the
 wording, not the behavior: claim behavior only from scored actions or
 artifacts, and read the answers such a scorer fails before counting them.
 No specific CLI transport or coordinator is required for publication.
+
+For a change intended to improve agent behavior, compare the exact candidate
+with no Skill and the previous delivered version under comparable conditions.
+Judge task completion, preserved guarantees and permissions, and unnecessary
+work separately, for each target model and task type. Use valid executions and
+observable results; a quota refusal is not a model result, and a Skill that was
+not loaded has no demonstrated effect. Keep incomplete runs and evidence limits
+visible. Include independent acceptance tasks, not only the cases used to tune
+the change.
+
+A confirmed severe regression or a reproducible worse result blocks publication
+of the affected candidate until corrected or reverted; gains elsewhere do not
+offset it. Investigate an unexplained difference before treating it as a Skill
+effect or claiming equal quality. Passing checks or an unchanged average do not
+prove that no task regressed. State the tested scope; finite tests do not
+guarantee every future result. These criteria grant no permission for model
+calls or publication.
 
 Retain each test agent's exact handle and final result. Close or archive a terminal
 agent only through a documented host operation and verify its completion. Send no

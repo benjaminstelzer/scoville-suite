@@ -16,7 +16,7 @@ Select widths, content and states that can change the scoped result:
 | Wrapping, grouping, visibility, content or state-dependent layout | Use realistic long or doubled text, locale-dependent dates/numbers, empty content and changed states where they can affect the result; inspect the affected group's layout and focus. |
 | Language-scoped RTL | Apply [internationalization's RTL rule](internationalization.md#language-scoped-rtl-checks). |
 | Plugin-specific semantic state colors | Verify token resolution, contrast and non-color cues in the actual theme and affected interaction states. Official tokens alone prove no accessibility result. |
-| CSS exception | Apply the above affected cases and the [common styling-exception contract](../validation.md#styling-exceptions). |
+| CSS exception | Apply the above affected cases and the [styling-exception rule](../../SKILL.md#implementation-and-acceptance). |
 
 Source-only work needs no browser.
 

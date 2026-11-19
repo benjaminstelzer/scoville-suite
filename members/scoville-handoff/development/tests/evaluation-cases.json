@@ -3,6 +3,16 @@
   "skill": "scoville-handoff",
   "cases": [
     {
+      "id": "continue-unfinished-user-work",
+      "given": "The user requests a continuation prompt for their unfinished search filter. Its provisional comparison ignores the project's documented case-folding rule and must be replaced to finish the task. An unrelated draft article is also uncommitted. Commits and publication are not authorized.",
+      "expect": [
+        "Keep both files unchanged while creating the handoff.",
+        "Transfer the authority to finish and correct the provisional filter, together with the documented comparison requirement.",
+        "Tell the receiver to preserve the unrelated draft article and the missing commit and publication permissions.",
+        "Do not turn preservation of the user's work into a prohibition on correcting the unfinished filter."
+      ]
+    },
+    {
       "id": "explicit-dirty-transfer",
       "given": "An explicit new-session handoff request names a dirty tree, separate file owners, validation evidence, missing publication authority, and a secret value.",
       "expect": [
@@ -34,7 +44,7 @@
       "given": "The user explicitly requests a handoff before implementation begins and there are no blockers or changes.",
       "expect": [
         "Still return the complete four-section handoff artifact.",
-        "State not_started only because the user establishes it. Omit blockers and changes, since none are known; write unknown only where the receiver's next action depends on a fact that could not be established.",
+        "State not_started only because the user establishes it. Omit blockers and changes, since none are known; write unknown in a required field that could not be established, and in an optional label only where the receiver's next action depends on it.",
         "Provide a concrete first action and observable completion criterion."
       ]
     },

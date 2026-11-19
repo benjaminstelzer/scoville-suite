@@ -8,86 +8,86 @@ compatibility: "Agent Skills host with filesystem access and the host's skill-cr
 
 Write, simplify or review instructions while preserving their intended
 behavior. Read [Agent instruction design](references/instruction-design.md)
-once per session and again after it changes; apply its rules.
+unless its complete unchanged text is in context; apply its rules.
+
+All Skills in this suite are installed and enabled together. Use the
+Skill that owns a concern without checking its availability, and load only the
+instructions the task needs.
+Do not use a Skill that needs explicit activation before it is activated, or
+one the user excluded.
+
+## Choose the artifact and its owner
+
+For Skill authoring, load the host's `skill-creator`: OpenAI's in Codex,
+Anthropic's in Claude Code. It decides structure, metadata, packaging and
+format validation, except that a field the Agent Skills specification allows,
+such as `compatibility`, stays when its validator rejects it. Preserve its
+files. Skillwriter decides wording. If no `skill-creator` is available, draft
+the wording and report packaging as unverified. Standalone prompts need no
+Skill package.
 
 ## Choose the mode
 
-```mermaid
-flowchart TD
-  request["Read the request and relevant instructions"] --> mode{"What does the user ask for?"}
-  mode -->|new Skill or prompt| draft["Draft it"]
-  mode -->|review| review["Report findings and proposed changes"]
-  mode -->|revision| authority{"Does the request or prior approval cover the change?"}
-  review --> stop["Stop without editing"]
-  authority -->|yes| revise["Save the baseline, then revise"]
-  authority -->|no| ask["Explain the missing material choice and ask"]
-  ask -->|approved| revise
-  ask -->|not approved| stop
-  draft --> check["Check, validate and evaluate the work"]
-  revise --> check
-  check --> report["Report changes and actual checks"]
-```
+| Request | Route |
+| --- | --- |
+| Review | Apply the source checks and report findings and proposed changes without edits. |
+| New Skill or prompt | Draft it, then apply the source checks. |
+| Revision | Establish authority and preserve the baseline, then revise and apply the source checks. |
 
 A concrete revision request authorizes its changes. A review edits nothing.
-Ask only when a material change to outcome, scope or boundaries is not covered
-by the request or prior approval: dropping an approval stop is material,
-tightening a sentence without changing what it requires is not. Before revising, preserve the exact affected
-pre-edit state through a Git revision containing it or a temporary workspace
-copy. Keep this baseline through the final comparison.
+Ask only for material changes to outcome, scope or boundaries that the request
+or prior approval leaves open. Dropping an approval stop is material. Clarifying
+the wording while keeping the requirement is within an authorized wording change.
+Continue work independent of the open decision. Preserve the exact affected
+pre-edit state in a Git revision containing it or a temporary workspace copy.
+Keep the baseline through the final comparison.
 
 ## Preserve the intention
 
 Keep the intended outcome, scope, activation boundaries, facts, permissions,
 required behavior and acceptance criteria unless the user explicitly asks to
-change them. Shorter text alone is not an improvement.
+change them.
 
 Read the files needed to understand the change and its effects: `SKILL.md`,
 references, included fragments and imported prompts. Do not reread
-text that is still completely in context and has not changed. Edit the source and regenerate derived copies through their
-build path. Before changing shared text, check every file that uses it.
+text that is still completely in context and has not changed. Identify the
+affected consumers of shared text before changing it. Edit the source and
+regenerate derived copies through their build path.
 
-## Work with Skill Creator
+## Check the sources
 
-For Skill authoring, load the host's `skill-creator`: OpenAI's in Codex,
-Anthropic's in Claude Code. It decides structure, metadata, packaging and
-format validation; do not edit its files. Skillwriter decides wording. If none
-is available, draft the wording and report packaging as unverified. Standalone
-prompts need no Skill package.
+Review the instructions and affected consumers once. Apply these checks to
+the assigned scope in a review and to the resulting text after writing:
 
-## Check the work
-
-Review changed instructions and the files that use them once; for new writing
-review what you wrote. Check that:
-
-- an agent can complete the task, and required behavior and boundaries are clear;
-- authorization, activation and handoffs agree with the files that define them;
-- rules remain consistent, without unnecessary duplication or constraints;
-- every path of a new or changed diagram agrees with the text. Parse that
-  diagram with a Mermaid renderer or parser when one is available; otherwise
-  report its syntax as unverified;
+- the text does what this Skill and Agent instruction design require and
+  agrees with the files that define authorization, activation and handoffs;
+- each new or changed diagram parses with a Mermaid renderer or parser when
+  one is installed and execution is authorized; otherwise report syntax as
+  unverified;
 - for a revision, the diff against the baseline holds every approved change
   and no other change to meaning, behavior or boundaries.
 
-Correct deviations within the authorized scope and recheck affected findings.
+For a writing task, correct deviations within the authorized scope and recheck
+affected findings.
 Report unresolved mismatches. This one review is the whole authoring review;
-write no separate certificate. It shows consistency, not model
-performance.
+write no separate certificate.
 
 ## Validate and evaluate
 
-For a Skill package, validate Skill structure through Skill Creator; this proves
-format, not quality.
-If a validator rejects a field the Agent Skills specification allows, such as
-`compatibility`, keep the field and report the limit.
+For Skill authoring, validate the package structure through the available
+Skill Creator. A draft made without it keeps packaging unverified.
+If a validator rejects a field the specification allows, keep the field as
+above and continue the checks it skipped with the project's validator or
+direct inspection, and report what remains unverified.
 
-Choose checks by what the change can affect. Run a model on them only when
-the user asks for it or your report claims model behavior, and then use the
-required target models and settings. Add model-specific detail only where
-their results require it.
+Choose checks by what the change can affect. Run a model only when the user
+authorizes model testing and the requested check or claim needs the result.
+Use the required models and settings. Limit claims about model behavior to
+the available results. Add model-specific detail for failures specific to a model.
 
 | Change | Check |
 | --- | --- |
-| Wording or layout only | Clarity, consistency and preserved meaning against the baseline |
+| Wording or layout with unchanged required behavior | Clarity, consistency and preserved meaning against the baseline |
 | Required behavior or output | The affected outcome and preserved boundaries |
 | Activation or scope | Explicit and implicit activation, plus adjacent requests that must not activate |
 
@@ -98,6 +98,8 @@ before citing vendor advice or research; it holds model-specific findings for
 pruning prohibitions and stop rules and for low reasoning effort.
 
 Report activation, procedural compliance, boundaries and task success
-separately for what was tested. Name what remains unverified. Shorter text, higher
-effort or self-reported success do not prove improvement. A claim that a model follows
-the instructions requires a run with that model.
+separately for what was tested. Name what remains unverified among your claims.
+Shorter text, higher effort or self-reported success do not prove improvement.
+A claim that a model follows the instructions requires a run with that model on
+a task the change was not written against; a re-run of the task that prompted
+the change shows only that the change fits that task.

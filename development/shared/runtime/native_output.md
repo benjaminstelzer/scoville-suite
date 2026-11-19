@@ -5,8 +5,9 @@ tools. Forward the checker's rendered output unchanged as text. Do not
 JSON-encode it again or add status lines of your own. Structured helper results
 and native tool arguments keep their own interfaces.
 
-The template uses 20000. Use the same smallest applicable limit in the
-generated command, both tool calls and the `@exec` directive. Replace
+The template uses 20000. Use the same smallest applicable limit in both tool
+calls and the `@exec` directive, and in the generated command unless Capture
+calls for `--publish-full` without a limit. Replace
 `<command_json>` with one JSON string literal that encodes the complete
 generated command, including quotes and backslashes. Replace the whole value
 rather than pasting into existing quotes or a JavaScript template literal,
@@ -36,9 +37,3 @@ A finished outer script does not mean the child finished. For `pending`:
 
 Make one bounded native call per outer call. If the outer tool itself yields a
 running cell, resume that cell first.
-
-Command success and output completeness are separate. The child's `exit=`
-decides success; a nonzero exit can be valid failure evidence with both
-streams kept. A capture failure, missing output, or empty output where content
-was required leaves that content unread. Resolve it before work that depends
-on it.

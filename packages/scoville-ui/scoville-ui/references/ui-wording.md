@@ -5,6 +5,9 @@
 These rules cover new and changed interface text and need no dictionary,
 glossary or terminology record.
 
+For a correction to existing text, preserve its translation, formatting and
+escaping behavior, and keep the visible label in the accessible name.
+
 Use approved product and platform terms. Where none exists, choose the word
 this audience and domain normally use, following established conventions.
 
@@ -20,6 +23,8 @@ briefly. Ask only when the choice materially affects the product outcome.
 - A heading names its topic, a button its action or effect, a field its
   value, a toggle its property. Add the object, unit or consequence a label
   needs: `Timeout (seconds)`.
+- A control's visible text stays in its accessible name, and a text is not
+  shortened, split or invented to hide a layout problem.
 - A translation keeps meaning, conceptual distinctions and established
   technical terms. Follow the target language's conventions and approved
   terms; do not translate technical terms word by word.

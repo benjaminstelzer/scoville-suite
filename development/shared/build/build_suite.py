@@ -15,6 +15,8 @@ import posixpath
 from urllib.parse import unquote, urlsplit
 
 RULE_FRAGMENTS = {
+    'rules.code_quality': 'prompting/code-quality-criteria.md',
+    'rules.code_review': 'prompting/code-review.md',
     'rules.optout': 'runtime/skill_optout.md',
     'rules.references': 'runtime/shared_references.md',
     'rules.native_output': 'runtime/native_output.md',

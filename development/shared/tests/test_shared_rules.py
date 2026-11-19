@@ -76,6 +76,8 @@ class SharedRulesTests(unittest.TestCase):
 
     def test_code_quality_policy_is_self_contained_only_in_its_consumers(self):
         source = (SHARED / 'prompting/code-quality.md').read_text(encoding='utf-8')
+        criteria = (SHARED / 'prompting/code-quality-criteria.md').read_bytes().strip()
+        review = builder.package_bytes(SHARED / 'prompting/code-review.md')
         consumers = {'scoville-code', 'scoville-ui', 'scoville-workflow-for-codex', 'scoville-ask-for-codex'}
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),
                                 ('codex', 'suite'), ('codex', 'standalone')]:
@@ -85,12 +87,20 @@ class SharedRulesTests(unittest.TestCase):
                     files = builder.payload(ROOT, member, config)
                     path = member['name'] + '/references/code-quality.md'
                     self.assertEqual(member['name'] in consumers, path in files)
-                    if member['name'] in consumers:
-                        self.assertEqual(source, files[path].decode('utf-8'))
+                    if member['name'] == 'scoville-code':
+                        self.assertEqual(review, files[path])
+                        self.assertNotIn(criteria, files[path])
+                        self.assertEqual(1, files[member['name'] + '/SKILL.md'].count(criteria))
+                        change_workflow = files[member['name'] + '/references/change-workflow.md']
+                        self.assertNotRegex(change_workflow, rb'\]\([^)]*code-quality\.md(?:#[^)]*)?\)')
+                    elif member['name'] in consumers:
+                        expected = builder.expand_fragments(ROOT, source, member, config=config)
+                        self.assertEqual(expected, files[path].decode('utf-8'))
+                        self.assertIn(criteria, files[path])
+                        self.assertIn(review.strip(), files[path])
                     routes = {
                         'scoville-code': [('SKILL.md', 'references/code-quality.md'),
-                                          ('references/change-workflow.md', 'code-quality.md'),
-                                          ('references/validation.md', 'code-quality.md')],
+                                          ('references/validation.md', '../SKILL.md#2-design-and-write')],
                         'scoville-ui': [('SKILL.md', 'references/code-quality.md')],
                     }
                     for file, target in routes.get(member['name'], []):
@@ -109,6 +119,12 @@ class SharedRulesTests(unittest.TestCase):
                     name = member['name']
                     entrypoint = (ROOT / 'members' / name / name / 'SKILL.md').read_text(encoding='utf-8')
                     routes = [('rules.optout', name + '/SKILL.md')] if '{{ include: rules.optout }}' in entrypoint else []
+                    if name == 'scoville-code':
+                        routes.append(('rules.code_quality', name + '/SKILL.md'))
+                        routes.append(('rules.code_review', name + '/references/code-quality.md'))
+                    if any(item['source'] == 'shared:prompting/code-quality.md' for item in member['files']):
+                        routes.append(('rules.code_quality', name + '/references/code-quality.md'))
+                        routes.append(('rules.code_review', name + '/references/code-quality.md'))
                     if profile == 'codex' and any(item['source'] == 'shared:prompting/output-delivery.md'
                                                   for item in member['files']):
                         routes.append(('rules.native_output', name + '/references/output-delivery.md'))
