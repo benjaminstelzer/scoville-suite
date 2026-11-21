@@ -4524,8 +4524,8 @@ ignorierten `.scoville/temp` des Projekts ab, wenn das Temp-Verzeichnis zu
 einer Windows-Sandbox gehört; der Satz zum Positionsmodus in Plan ist
 umgestellt. Nach Lauf 3 ergänzt: Ziel und Nicht-Ziele beschreiben das
 Ergebnis, Bedingungen des Arbeitsablaufs gehören in die Instructions des
-Arbeitspakets. Dieser Satz ist nicht mit einem Modell geprüft, weil die drei
-Läufe verbraucht waren.
+Arbeitspakets. Dieser Satz war nach den drei Läufen nicht mit einem Modell geprüft; der
+Nachlauf unten holt das nach.
 
 Beobachtet und nicht geändert: Im Workflow-Lauf schreibt Sol den Nachweis als
 Klammerliste mit 364 und 435 Zeichen; jede Angabe bleibt unter der Grenze von
@@ -4534,3 +4534,24 @@ Ask übergibt eine Frage über 8 KiB in der Sandbox weiterhin als Datei, die der
 Berater nicht lesen kann.
 
 Suite-Prüfung 12/12; Laufzeit-CI Run 44900592553, sechs von sechs Jobs.
+
+### Nachlauf zum Satz über Arbeitsbedingungen
+
+Ein weiterer Lauf auf Wunsch des Nutzers, mit den installierten Skills
+(Quelle 73e883e), gpt-6.2-sol medium, 64 Sekunden. Aufgabe wie Lauf 3,
+ergänzt um eine Ergebnisgrenze (nur Standardbibliothek) und einen Ausschluss
+(keine Jahresauswertung); die beiden Arbeitsbedingungen („setz noch nichts
+um“, „keine anderen Projekte“) standen unverändert im Auftrag.
+
+Ergebnis: Profil gültig, zwei Dateien, zwei Arbeitspakete mit Abhängigkeit,
+kein Code geändert. Das Ziel nennt das Ergebnis und die Grenze
+„ausschließlich die Python-Standardbibliothek“, die Nicht-Ziele nennen nur
+die Jahresauswertung. Die Arbeitsbedingungen stehen nirgends im Plan, auch
+nicht in den Instructions; sie binden keine spätere Arbeit. `authoring.md`
+wurde vor dem Schreiben gelesen. Die erste Validierung meldete gemischte
+Zeilenenden aus der PowerShell-Ausgabe; die Sitzung stellte auf LF um und
+validierte erneut.
+
+Einordnung: Der Fehler war in einem Lauf aufgetreten. Ein sauberer Lauf passt
+zum Satz und beweist ihn nicht; widerlegt ist, dass er zu stark wirkt und
+Ergebnisgrenzen aus dem Ziel drängt.

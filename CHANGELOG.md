@@ -2,7 +2,7 @@
 
 ## 2026-11-21 - A new Plan keeps working conditions out of its Goal; Workflow assignments in a Windows sandbox
 
-- Plan: Goal and Non-goals describe the result. A condition on the working process, such as when work may start or what a session may touch, is neither; where it binds later work it goes into the item's Instructions. In a test run a model had written "do not implement yet" and a limit on that session into Goal and Non-goals of a new Plan. The new sentence is not tested with a model.
+- Plan: Goal and Non-goals describe the result. A condition on the working process, such as when work may start or what a session may touch, is neither; where it binds later work it goes into the item's Instructions. In a test run a model had written "do not implement yet" and a limit on that session into Goal and Non-goals of a new Plan. One run with `gpt-6.2-sol` after the change created a first Plan from a request that named a result limit, an exclusion and the same two working conditions: the limit stands in Goal, the exclusion in Non-goals, and the working conditions appear nowhere in the Plan. The defect had appeared in one run, so one clean run fits the sentence and does not prove it.
 - Plan: The progress reference asked for position mode first when the recorded facts disagree, which is known only after the direct read it was to precede. It now says: position mode when the ID is unknown or a recorded return matters, and after the direct read when the facts disagree.
 
 Two runs in Codex with `gpt-6.2-sol` covered everyday maintenance: adding a Work Item ahead of an existing one with a Decision, and creating the first Plan in a project without a profile. Both left a valid profile and touched no code.
