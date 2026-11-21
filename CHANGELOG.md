@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-21 - gpt-6.2 in defaults and examples
+
+- Plan: the `[execute: ...]` example in the authoring reference names `gpt-6.2-sol`.
+
 ## 2026-11-21 - Fewer unrequested demands in reviews; existing files and checks stay intact
 
 I measured UI on real review and implementation cases from two of my projects, in workspaces without project rules or documentation, and ran small targeted tests of Handoff and of the changes below.

@@ -2,7 +2,7 @@
 
 Validate changed behavior with appropriate technical checks and authorized model
 or real-workflow tests. No fixed historical case catalog or case count is required.
-Model tests use gpt-6.1-sol and Claude Opus 5.5, both with reasoning effort medium; a claim about another
+Model tests use gpt-6.2-sol and Claude Opus 5.5, both with reasoning effort medium; a claim about another
 model needs a run with that model. Record the model, effort, actual results and
 remaining limits; do not claim an unrun test passed.
 A model test shows an effect only on a task the instruction was not written

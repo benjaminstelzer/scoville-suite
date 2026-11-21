@@ -4,7 +4,7 @@ id: PLAN-0067
 status: active
 created: 2026-11-14
 updated: 2026-11-21
-current_item: W-008
+current_item: W-003
 ---
 
 # Goodhart-Korrekturen nach dem Opus-Review
@@ -138,7 +138,7 @@ Evidence: check_all 12/12. Plan 13.350 auf 5.670 Wörter. 40 Läufe alt/neu: erl
 
 ### W-008 Stand vom 2026-11-21 ausliefern
 
-Status: in_progress
+Status: done
 Depends on: [W-006, W-007]
 Blocked by: []
 Decisions: []
@@ -148,5 +148,5 @@ Instructions: Freigabe des Nutzers vom 2026-11-20 für den Push der privaten CI 
 Steps:
 1. [status: done] Laufzeit-Snapshot in die private CI pushen und ihr Ergebnis abwarten; fertig bei sechs bestandenen Jobs.
 2. [status: done] Pakete mit dem CI-Nachweis bauen und in die vorhandenen Installationsordner spiegeln; fertig, wenn sie dem Build gleichen.
-3. [status: todo] Nach Freigabe Changelog-Einträge schreiben, mit release_suite.py vorbereiten und veröffentlichen; fertig, wenn published.json alle Ziele als geprüft führt.
-Evidence: CI-Run 44836940153: 6/6 Jobs bestanden. Build von 49d7fd2, runtime passed. Installiert am 2026-11-21 in .claude, .codex und .agents; Byte-Vergleich mit dem Build gleich.
+3. [status: done] Nach Freigabe Changelog-Einträge schreiben, mit release_suite.py vorbereiten und veröffentlichen; fertig, wenn published.json alle Ziele als geprüft führt.
+Evidence: CI-Run 44836940153: 6/6 Jobs. publish von dec276f am 2026-11-21: acht Ziele remote=verified, Suite 6a9637f, Codex-Suite d231397. Installiert in .claude, .codex, .agents; gleich dem Build.

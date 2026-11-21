@@ -405,7 +405,7 @@ Evidence: []
         for number, package in enumerate(packages('scoville-workflow-for-codex')):
             assignment = self.base / f"assignment {number} ü ' $().txt"
             calls = [('build_dispatch_prompt.py', ['--communication-language', 'German', '--project-root', self.project, '--unit', 'W-001/step-1',
-                '--role', 'reviewer', '--format', 'create', '--project-name', project_name, '--agent-number', '1', '--model', 'gpt-6.1-sol',
+                '--role', 'reviewer', '--format', 'create', '--project-name', project_name, '--agent-number', '1', '--model', 'gpt-6.2-sol',
                 '--thinking', 'xhigh',
                 '--assignment-file', assignment, '--max-output-bytes=512'])]
             for script, arguments in calls:
@@ -432,7 +432,7 @@ Evidence: []
         self.profile()
         for number, package in enumerate(packages('scoville-workflow-for-codex')):
             pair = self.run_cli(package, 'resolve_model_pair.py', '--role', 'reviewer', '--project-root', self.project)
-            self.assertEqual(('gpt-6.1-sol','xhigh'), (pair['model'],pair['thinking']))
+            self.assertEqual(('gpt-6.2-sol','xhigh'), (pair['model'],pair['thinking']))
             self.run_cli(package, 'resolve_model_pair.py', '--project-root', self.project, ok=False)
             path=self.base/f'review-{number}.txt'
             assignment=self.run_cli(package,'build_dispatch_prompt.py','--communication-language','German',
@@ -583,7 +583,7 @@ Evidence: []
         host=self.base/'host';sessions=host/'sessions';sessions.mkdir(parents=True)
         thread='runtime-main';rollout=sessions/('rollout-'+thread+'.jsonl')
         env=dict(os.environ,CODEX_THREAD_ID=thread,CODEX_HOME=str(host))
-        def record(model='gpt-6.1-sol',source='vscode',active=True):
+        def record(model='gpt-6.2-sol',source='vscode',active=True):
             records=[('session_meta',{'id':thread,'source':source}),
                 ('event_msg',{'type':'task_started','turn_id':'turn-1'}),
                 ('turn_context',{'turn_id':'turn-1','model':model,'effort':'high'})]
@@ -595,7 +595,7 @@ Evidence: []
             record()
             result=self.run_cli(package,'resolve_model_pair.py','--role','main','--project-root',self.project,env=env)
             self.assertTrue(result['valid']);self.assertEqual(thread,result['thread_id'])
-            self.assertEqual(('gpt-6.1-sol','high'),(result['model'],result['thinking']))
+            self.assertEqual(('gpt-6.2-sol','high'),(result['model'],result['thinking']))
             for kwargs in ({'model':'wrong-model'},{'source':{'subagent':{}}},{'active':False}):
                 record(**kwargs)
                 invalid=self.run_cli(package,'resolve_model_pair.py','--role','main','--project-root',self.project,env=env,ok=False)
