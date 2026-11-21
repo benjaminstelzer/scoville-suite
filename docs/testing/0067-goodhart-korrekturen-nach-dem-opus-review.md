@@ -4507,3 +4507,30 @@ Aufgaben; sie zeigen nur, ob die Formulierung bei diesen Aufgaben greift.
 
 Suite-Prüfung 12/12 auf `070f567`; Laufzeit-CI Run 44894282174, sechs von
 sechs Jobs.
+
+### Drei Abschlussläufe zu Workflow und Plan
+
+Auf Wunsch des Nutzers höchstens drei weitere Läufe, mit den korrigierten
+Paketen aus dem Arbeitsordner bei abgeschalteten installierten Skills.
+
+| Lauf | Aufgabe | Ergebnis |
+| --- | --- | --- |
+| 1 | Workflow führt PLAN-0001 zu Ende: W-002 ab dem laufenden Schritt, dann W-003. gpt-6.2-sol high. | Plan `completed`, Index `active_plan: null`, 19 Tests, Profil gültig, acht Commits, kein CRLF. Zehn frische Reviewer auf xhigh, jeder mit unverändertem Auftrag aus `.scoville/temp`; keiner blockiert. Zwei Reviews verlangten Änderungen (Datumsformat in Schritt 1, Kodierung der CSV-Ausgabe); beide wurden korrigiert und frisch geprüft. Startprüfung vor W-003 gelaufen. 27 Minuten. |
+| 2 | Plan-Pflege: neues Arbeitspaket vor ein bestehendes einreihen, eine Entscheidung festhalten, nichts umsetzen. medium. | Profil gültig, nur Planungsdateien geändert. W-004 steht vor W-003, W-003 hängt davon ab und verweist auf ADR-0001; IDs über den Helfer. 63 Sekunden. |
+| 3 | Ersten Plan in einem Projekt ohne Profil anlegen, nichts umsetzen. medium. | Profil gültig, zwei Dateien, zwei Arbeitspakete mit Abhängigkeit. Die Arbeitsbedingungen des Auftrags („setz noch nichts um“, „keine anderen Projekte“) stehen als Ziel und Nicht-Ziele im Plan. 68 Sekunden. |
+
+Vor Lauf 1 geändert: Der Workflow-Helfer legt die Auftragsdatei im
+ignorierten `.scoville/temp` des Projekts ab, wenn das Temp-Verzeichnis zu
+einer Windows-Sandbox gehört; der Satz zum Positionsmodus in Plan ist
+umgestellt. Nach Lauf 3 ergänzt: Ziel und Nicht-Ziele beschreiben das
+Ergebnis, Bedingungen des Arbeitsablaufs gehören in die Instructions des
+Arbeitspakets. Dieser Satz ist nicht mit einem Modell geprüft, weil die drei
+Läufe verbraucht waren.
+
+Beobachtet und nicht geändert: Im Workflow-Lauf schreibt Sol den Nachweis als
+Klammerliste mit 364 und 435 Zeichen; jede Angabe bleibt unter der Grenze von
+200. Die zehn Auftragsdateien blieben nach dem Lauf in `.scoville/temp`.
+Ask übergibt eine Frage über 8 KiB in der Sandbox weiterhin als Datei, die der
+Berater nicht lesen kann.
+
+Suite-Prüfung 12/12; Laufzeit-CI Run 44900592553, sechs von sechs Jobs.

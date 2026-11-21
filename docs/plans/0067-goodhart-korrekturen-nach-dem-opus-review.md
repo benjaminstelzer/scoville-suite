@@ -164,4 +164,4 @@ Steps:
 1. [status: done] Die mitgelieferten Standardmodelle auf gpt-6.2 anheben und ausliefern; fertig, wenn die installierten Vorgaben gpt-6.2-sol und gpt-6.2-astra nennen.
 2. [status: done] Fünf Aufgaben, eine Ask-Review und einen Workflow-Lauf als frische Sitzungen fahren und auswerten; fertig, wenn je Lauf Bytes, Git-Spuren, Tests, Profil und Skill-Zugriffe vorliegen.
 3. [status: done] Belegte Fehler beheben und mit Kontrollläufen prüfen; fertig bei bestandener Suite-Prüfung und Laufzeit-CI.
-Evidence: CLI-Läufe vom 2026-11-21 im Testprotokoll (W-009). check_all 12/12 auf 070f567. CI-Run 44894282174: 6/6. Offen: Sol nennt in der Umsetzung keine Stufe und fragt nicht nach.
+Evidence: CLI-Läufe und drei Abschlussläufe vom 2026-11-21 im Testprotokoll (W-009). check_all 12/12. CI-Run 44900592553: 6/6. Offen: Satz zu Arbeitsbedingungen im Plan ungetestet.
