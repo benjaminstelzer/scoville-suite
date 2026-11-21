@@ -1,4 +1,9 @@
-# Geometry and sight validation
+# Geometry and sight
+
+This file holds how to measure sizes, distances and alignment in a render and
+how to judge painted appearance by sight. Read it with
+[Validation](validation.md) when a claim concerns size, spacing, alignment or
+visual appearance.
 
 ## Measure relationships, not declarations
 
@@ -28,12 +33,11 @@ unless the difference is intended. Choose the tolerance before results; no
 universal pixel tolerance applies. Without a target the relationship stays
 unresolved.
 
-Keep the authored unit or expression, the computed value and the measured
-distance apart. Authored and reported values keep their `em`, `rem`, `px`,
-percentage, unitless line-height, token reference, calculation or logical
-property: equal current pixels do not turn `1rem` into `16px`. Where a
-finding depends on a relative unit, name the font size or container it
-resolves against.
+Keep the authored value, the computed value and the measured distance apart.
+A finding names a value in the unit or expression it is authored in: `em`,
+`rem`, `px`, percentage, unitless line-height, token reference, calculation
+or logical property. Where a finding depends on a relative unit, name the
+font size or container it resolves against.
 
 For ordered non-overlapping boxes, `B.top - A.bottom` is the gap between
 border boxes, not glyph whitespace or a baseline. Account for flow,

@@ -154,27 +154,3 @@ rule whose subject does not occur there needs no action.
    path does the same at every step where it is visible or used, also on
    failure, unless the request removes it. That the state "cannot change"
    is no reason to drop the line that set it.
-
-### Questions for the finished change
-
-Answer each by naming the place in the code; skip one whose subject does not
-occur. Authors correct what is part of this change, reviewers report it.
-
-1. **Rule 1.** Starting at the caller that runs the changed code more than
-   once: what runs per item, request, poll or event, what does it walk,
-   load, rebuild or write each time, and does that grow with the data or
-   repeat although nothing changed?
-2. **Rules 2 and 3.** What in the change has no need you can name, what
-   has no caller, and does the codebase now hold two pieces of code for one
-   job or an old form beside the new one?
-3. **Rule 4.** Which uses does each general piece serve, and is the same
-   code written by hand in several places? Does each piece the change adds,
-   moves or extends sit in the module that owns its data or rule, also
-   where it lands in shared code or in a file that registers and wires, and
-   does any code reach past another module's interface?
-4. **Rule 5.** For each value loaded again after a check: which line checks
-   the value that is used?
-5. **Rule 6.** For each call or pass the change replaces: where does the
-   new path set the state and cause the effects the old one did?
-6. **Tests.** Would the decisive test fail if the requested behavior broke,
-   and does the project's command for this kind of test run it?

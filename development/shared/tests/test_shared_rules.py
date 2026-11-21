@@ -78,7 +78,7 @@ class SharedRulesTests(unittest.TestCase):
         source = (SHARED / 'prompting/code-quality.md').read_text(encoding='utf-8')
         criteria = (SHARED / 'prompting/code-quality-criteria.md').read_bytes().strip()
         review = builder.package_bytes(SHARED / 'prompting/code-review.md')
-        consumers = {'scoville-code', 'scoville-ui', 'scoville-workflow-for-codex', 'scoville-ask-for-codex'}
+        consumers = {'scoville-code', 'scoville-ui'}
         for profile, layout in [('general', 'standalone'), ('general', 'suite'),
                                 ('codex', 'suite'), ('codex', 'standalone')]:
             config = builder.load(ROOT, profile, layout)
@@ -119,6 +119,10 @@ class SharedRulesTests(unittest.TestCase):
                     name = member['name']
                     entrypoint = (ROOT / 'members' / name / name / 'SKILL.md').read_text(encoding='utf-8')
                     routes = [('rules.optout', name + '/SKILL.md')] if '{{ include: rules.optout }}' in entrypoint else []
+                    if '{{ include: rules.preserve_existing }}' in entrypoint:
+                        routes.append(('rules.preserve_existing', name + '/SKILL.md'))
+                    self.assertEqual(name in ('scoville-code', 'scoville-ui'),
+                                     '{{ include: rules.preserve_existing }}' in entrypoint)
                     if name == 'scoville-code':
                         routes.append(('rules.code_quality', name + '/SKILL.md'))
                         routes.append(('rules.code_review', name + '/references/code-quality.md'))

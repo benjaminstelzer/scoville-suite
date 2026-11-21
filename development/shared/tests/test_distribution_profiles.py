@@ -32,7 +32,7 @@ class DistributionProfilesTests(unittest.TestCase):
         self.assertNotEqual(builder.payload(ROOT, code_suite, suite)['scoville-code/SKILL.md'],
                             builder.payload(ROOT, code_mixed, mixed)['scoville-code/SKILL.md'])
 
-    def test_membership_fallbacks_invocations_and_repeatability(self):
+    def test_membership_invocations_and_repeatability(self):
         general_members = {'scoville-code', 'scoville-handoff', 'scoville-plan',
                            'scoville-ui', 'scoville-project-context-cleanup', 'scoville-skillwriter'}
         codex_members = general_members | {'scoville-workflow-for-codex',
@@ -55,9 +55,6 @@ class DistributionProfilesTests(unittest.TestCase):
                 for member in config['members']:
                     package = builder.payload(ROOT, member, config)
                     self.assertFalse(any(b'{{' in data for name, data in package.items() if name.endswith(('.md', '.toml'))))
-                    if profile == 'codex':
-                        self.assertFalse(any('without-python' in name for name in package))
-                        self.assertFalse(any(b'without-python' in data for name, data in package.items() if name.endswith('.md') and name != 'CHANGELOG.md'))
                     core = package[member['name'] + '/SKILL.md'].decode()
                     if member['name'] in {'scoville-code', 'scoville-handoff', 'scoville-ui', 'scoville-project-context-cleanup'}:
                         header = core.split('---', 2)[1]
@@ -75,12 +72,6 @@ class DistributionProfilesTests(unittest.TestCase):
                         self.assertNotIn('https://github.com/benjaminstelzer/' + member['name'] + '/tree/', install)
                     else:
                         self.assertIn('## Family', readme)
-                if profile == 'general':
-                    plan = next(m for m in config['members'] if m['name'] == 'scoville-plan')
-                    self.assertEqual({'scoville-plan/references/fallbacks/validate_profile-fallback.md',
-                                      'scoville-plan/references/fallbacks/select_context-fallback.md',
-                                      'scoville-plan/references/fallbacks/check_text_size-fallback.md'},
-                                     {name for name in builder.payload(ROOT, plan, config) if '/fallbacks/' in name})
 
     def test_refresh_preserves_inventory_and_refuses_local_changes(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -142,9 +133,6 @@ class DistributionProfilesTests(unittest.TestCase):
                 self.assertFalse((output / 'packages/obsolete').exists())
                 self.assertEqual(literal.read_bytes(), (output / 'docs/profile-syntax-example.md').read_bytes())
                 self.assertEqual(profile == 'codex', (output / 'members/scoville-workflow-for-codex').exists())
-                if profile == 'codex':
-                    self.assertFalse(list((output / 'members').rglob('*without-python.md')))
-                    self.assertFalse(list((output / 'members').rglob('*-fallback.md')))
                 config = builder.load(output)
                 self.assertNotIn('profiles', config)
                 isolated_path = output / 'development/shared/build/build_suite.py'

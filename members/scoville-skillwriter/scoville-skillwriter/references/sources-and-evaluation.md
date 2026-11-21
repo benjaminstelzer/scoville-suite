@@ -157,17 +157,16 @@ named model; verify applicability before extending it to others.
   model failure. Keep time and budget limits visible as incomplete runs. For a
   handoff, score the receiver's completed work separately from creation of the
   prompt; a later stage needs a usable result from the preceding stage.
-- Measure separately: activation (explicit, implicit, negative), required
-  procedure, boundaries and permissions, task success. Inspect actual actions and
-  artifacts.
+- Measure each result that [Validate and evaluate](../SKILL.md#validate-and-evaluate)
+  reports separately, with activation explicit, implicit and negative and
+  permissions among the boundaries. Inspect actual actions and artifacts.
 - Report rescued failures and new regressions, plus time, tokens or cost where
   available, by model and task type. Inspect individual losses even when the
   average is unchanged or better. Distinguish overall results from the subset
   where the Skill was actually loaded; a different artifact alone is not a
   defect without a violated requirement or concrete harm.
-- Diagnose a concrete failure and repair its cause in the rule that owns it. A re-run of the failing
-  case shows only that the repair matches that case; judge the effect on
-  acceptance cases the repair was not written against, within the agreed
-  budget, and keep the version those outcomes support. A claim of
+- Diagnose a concrete failure and repair its cause in the rule that owns it.
+  Judge the effect on acceptance cases the repair was not written against,
+  within the agreed budget, and keep the version those outcomes support. A claim of
   effectiveness on both OpenAI and Anthropic models requires comparable tests on
   both.

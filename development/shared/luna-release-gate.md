@@ -40,6 +40,6 @@ diagnostic, pending work, results and exact handles. Do not wake completed agent
 for cleanup, retry the spawn automatically or create replacement chats. Necessary
 questions and unfinished assignments may continue on their retained handles.
 
-Package integrity, helper/fallback contracts, compatibility, committed source,
+Package integrity, helper contracts, compatibility, committed source,
 publication authority and remote verification still apply. Follow the suite's
 AGENTS.md for staging and distribution ownership.

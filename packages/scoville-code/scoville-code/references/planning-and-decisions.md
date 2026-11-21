@@ -16,9 +16,8 @@ belongs in the steps unless it is itself required. Continue with the next
 authorized item whose dependencies are met; a checkpoint needs no new
 go-ahead.
 
-For native records, load the route that
-Plan's **Load only the current route** table names for the operation, and no
-other Plan route.
+For native records, load only the references that
+Plan's **References** table names for the operation.
 
 ## Decisions and field reviews
 
@@ -29,18 +28,18 @@ In unattended work, choose within
 the decision space the user authorized, record an open material choice as a
 proposal, hold only the work that depends on it and continue the rest.
 `scoville-plan` owns Plan, Work Item and Decision changes. Read
-its `references/planning-granularity.md` only when Work Item or Step
+its `references/authoring.md` only when Work Item or Step
 boundaries need judgment.
 
-For an assigned review of native Plan or Decision fields, read Scoville
-Plan's read-only route and applicable field rules. Code's engineering
+For an assigned review of native Plan or Decision fields, read the Scoville
+Plan reference that owns the reviewed fields. Code's engineering
 criteria do not define those fields. The review reads; maintenance, selectors,
 tests and record writes stay with their owner.
 
 ## Hand off and resume
 
 Only when Scoville Handoff is active for an explicit transfer, use its
-`SKILL.md` sections **Read within the transfer scope**, **Preserve continuation
+`SKILL.md` sections **Read within the transfer scope without changing the task**, **Preserve continuation
 facts**, **Compose and check the prompt** and **Deliver the checked prompt**,
 with its
 `assets/continuation-prompt.md`.

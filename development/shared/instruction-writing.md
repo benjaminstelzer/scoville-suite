@@ -23,7 +23,7 @@ and project-specific authoring requirements.
   them in the body. State when to read each reference.
 - For an operation, state the inputs, preconditions, result and failure action
   that affect correctness or permissions. Keep stable facts and ownership rules
-  declarative. Name a concrete observation for required checks. Use a helper for
+  declarative. Use a helper for
   deterministic payload, ID or branch assembly when it prevents an identified error.
 - Review changed instructions and affected consumers under Scoville
   Skillwriter's source check. Apply the

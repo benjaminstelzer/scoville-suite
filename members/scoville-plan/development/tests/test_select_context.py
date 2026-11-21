@@ -151,6 +151,24 @@ class SelectContextTests(unittest.TestCase):
             check=False,
         )
 
+    def test_help_explains_every_mode_and_its_output_fields(self) -> None:
+        completed = subprocess.run([sys.executable, "-B", str(SCRIPT), "--help"],
+                                   text=True, encoding="utf-8", capture_output=True, check=False)
+        self.assertEqual(0, completed.returncode, completed.stderr)
+        self.assertTrue(completed.stdout.isascii())
+        epilog = completed.stdout.split("Modes", 1)[1]
+        for mode in ("default", "--work-item", "--unit", "--position", "--proposals", "--next-id", "--check-start"):
+            self.assertIn(mode, epilog)
+        for field in ("current_units", "grants no authority", "instructions", '"[]"', "untracked_steps",
+                      "paused_context", "historical_priorities", "source_text", "context_text",
+                      "OUTPUT_BUDGET_EXCEEDED", "required_bytes", "filename_pattern", "conflicts",
+                      "start_state", "violated_conditions", "writes nothing"):
+            self.assertIn(field, epilog)
+        for reason in ("no_current_item", "written_in_progress", "written_in_progress_with_untracked",
+                       "whole_work_item", "next_written_todo", "untracked_progress_requires_inspection",
+                       "steps_terminal_work_item_acceptance_pending"):
+            self.assertIn(reason, epilog)
+
     def test_current_selection_emits_only_four_semantic_components(self) -> None:
         before = {path.relative_to(self.root): path.read_bytes() for path in self.root.rglob("*") if path.is_file()}
         completed = self.run_cli()

@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-11-21 - Fewer unrequested demands in reviews; existing files and checks stay intact
+
+I measured UI on real review and implementation cases from two of my projects, in workspaces without project rules or documentation, and ran small targeted tests of Handoff and of the changes below.
+
+- UI: reference points say what must not fail instead of what to add, and an addition needs the request, a project rule, the product record or a rule the changed element would otherwise break. With the Skill one model had asked for about twice as many additions nobody requested; after the change it was 18 instead of 26–29 in 27 reviews (13 without the Skill), and both models still found two to three more of 22 known defects than without it.
+- Code and UI: Every byte outside what the complete result needs stays as it was, line endings and encoding included. To look at or test the state before a change, the agent uses a copy, such as the project copied with the change reversed or the output of `git show` saved in a temporary folder, and does not stash, reset, check out or restore files in the working tree. A project check or test that passed before the change still passes after it; it is changed or removed only where the request changes or removes the guarantee it tests, or to keep testing that guarantee another way, and the report names the edit and its reason. In my tests one model converted whole files from LF to CRLF, through `git stash` under `core.autocrlf=true` and through scripts that rewrote files, and `git diff` hid it. Another replaced an assertion of a project check to fit its own change without reporting it. A first wording that only named the cause changed neither. With a wording that names what to do, neither happened again: one run per model with UI on the case where both had happened, and six runs with Code on a small project. One model still rewrote an existing test without naming the edit.
+- UI: the accessibility base covers a group question a label depends on; a new component goes into the layer that holds the project's own components of that kind.
+- Handoff: when the same request also asks for work, the reply reports that work first and then gives the fenced prompt.
+- Plan: the progress reference states the length limit for Evidence that the validator applies.
+
+In implementation UI reduces spacing deviations and unrequested additions, but neither model avoided the original defect more often with it: most of those defects could not be derived from the request and the repository alone. The component rule showed no effect in one run per model. Its current wording, the base addition, the reference changes made after the review measurement and the size check of a Handoff reply are not tested with models.
+
+## 2026-11-20 - Lean Plan
+
+Plan is the Skill I use most, so I cut it down to everyday work: create a Plan, resume after an interruption, finish a Step, record a Decision, validate. Rare operations such as cleanup, cancellation, deletion or switching Plans sit in one maintenance reference, and the selector and validator now explain their own output instead of the instructions repeating it. Retired record formats are no longer described; old Plans still validate.
+
+## 2026-11-20 - Python is required
+
+Every Skill of the suite now requires Python 3.11+ for its bundled helpers, and the manual no-Python routes of the general edition are gone with their reference files. Without a suitable Python, or after a helper error, the affected operation stops and reports the cause. I removed the manual routes because a host without Python is rare, an agent following a prose copy of a helper makes mistakes the program does not, and every copy was one more wording of the same rules to keep in step.
+
+## 2026-11-20 - One wording per rule, one clear structure
+
+Every rule in the Skills now stands once and holds for whoever writes and whoever reviews; review sections point to the rules instead of restating them, and a reviewer loads the Skills itself. The Skills are reordered so that each heading says what it holds. UI sets accessibility as a small base plus WCAG AA for frontend or backend where the project requires it, prepares every string in WordPress plugins and themes for translation, and has one report format for findings. Model tests of this state are still running.
+
 ## 2026-11-19 - Code reviews and Skill revisions
 
 Code reviews count the work across calls and record the defects they find. Project Context Cleanup asks where to write when a named target is missing. Skillwriter saves the original instructions before revising them. Plan groups the rules for new work and Decisions, and Setup puts everyday commands before migration. UI now checks whether each addition serves the task.

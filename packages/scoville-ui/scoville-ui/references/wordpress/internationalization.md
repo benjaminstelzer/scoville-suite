@@ -1,13 +1,20 @@
 # PHP, JavaScript, and layout internationalization
 
-Use the plugin's existing literal text domain; a new plugin uses its lowercase
-hyphenated slug. Apply
+This file holds the internationalization rules for WordPress plugin and theme
+code: strings in PHP and JavaScript, their loading, dates and numbers, and
+layout for localized and right-to-left text. SKILL.md's
+[References](../../SKILL.md#references) section says when it is read.
+
+Use the plugin's or theme's existing literal text domain; a new one uses its
+lowercase hyphenated slug. Apply
 these rules to visible text, ARIA labels, screen-reader text, alternative text,
 notices, errors, empty states, dates, and numbers.
 
 ## Required readiness, optional translation delivery
 
-Default to i18n-readiness: extractable source strings, correct functions and
+Every string a task adds or changes in a WordPress plugin or theme is
+i18n-ready, whether or not the product is ever translated: extractable
+source strings, correct functions and
 domain, safe formatting and escaping, script dependencies and loading hooks,
 locale-aware values, and layouts that tolerate longer text. Catalogs can then
 be generated and loaded later without rewriting strings or registration.
@@ -69,18 +76,34 @@ const message = sprintf(
 
 ## Prepare loading without requiring catalogs
 
-For a JavaScript UI, register its real script handle and dependencies, then
-bind that registered handle to the literal domain with
-`wp_set_script_translations()` before the scripts print. This works before any translation file exists.
-Do not add a JavaScript build to a PHP-only page for this purpose.
+For a JavaScript UI, register its real script handle with the dependency and
+version data the build generated for the entry, then bind that registered
+handle to the literal domain with `wp_set_script_translations()` before the
+scripts print. This works before any translation file exists. Do not write the
+dependency list by hand: it can miss runtime handles such as `react` or
+`react-jsx-runtime` that the build emits. Do not add a JavaScript build to a
+PHP-only page for this purpose.
 
 Without a custom catalog location, use the standard loading path:
 
 ```php
+$asset = require plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
+
+wp_register_script(
+    'plugin-slug-app',
+    plugins_url( 'build/index.js', __FILE__ ),
+    $asset['dependencies'],
+    $asset['version'],
+    true
+);
+
 wp_set_script_translations( 'plugin-slug-app', 'plugin-slug' );
+
+wp_enqueue_script( 'plugin-slug-app' );
 ```
 
-Add an explicit custom path only when the selected delivery mechanism needs one.
+Add an explicit custom path only when the selected delivery mechanism needs
+one, as in [translation-delivery.md](translation-delivery.md).
 
 ## Dates and numbers
 
@@ -105,8 +128,7 @@ no production translations or PO files and proves no translation loading.
 | A supported or explicitly planned UI language is right-to-left, including an admin-user language that differs from the site's | A requested rendered check covers affected layouts, controls, focus and source order and directional content with direction set to RTL; that suffices as layout evidence for readiness. |
 | LTR only, or unspecified with no established RTL requirement | None; readiness does not wait for one. Do not claim RTL support. |
 
-In both cases, write the change with logical properties and keep Core's
-direction handling.
+In both cases, keep Core's direction handling.
 
 ## Acceptance by scope
 

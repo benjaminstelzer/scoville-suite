@@ -1,7 +1,19 @@
-# Runtime-owned examples
+# WordPress runtime examples
 
-Classify the region first. Each example holds for one runtime; do not copy
-it to another.
+This file holds one example for each of three runtimes a supported plugin page
+can use: a Classic Settings API page, a React region with Core Components, and
+a PHP shell with a React root. Read it only when a syntax or composition
+question is still open after the references for the focus, and read only the
+section for the region's runtime, which routing establishes. An example shows
+one runtime; do not copy it to another.
+
+Other examples sit with their rules: Core tokens, the older-version fallback
+and the public React provider in
+[version-compatibility.md](version-compatibility.md), for a layout
+relationship Core leaves unspaced; bundled experimental WPDS at the 7.0 pin in
+[experimental-policy.md](experimental-policy.md); script registration with
+translations in
+[internationalization.md](internationalization.md#prepare-loading-without-requiring-catalogs).
 
 ## Classic Settings API
 
@@ -28,20 +40,6 @@ function plugin_slug_render_settings_page() {
     <?php
 }
 ```
-
-On a page under Settings, such as one added with `add_options_page()`, Core
-prints the settings messages. A page registered elsewhere calls
-`settings_errors()` once, right after `.wp-header-end`.
-
-Do not add a page gutter, form-row grid, custom button, or stack gap over
-`.form-table`. A plugin-owned subcomponent may add a local flow only for a
-relationship that Core markup, classes and components leave unspaced, which
-you check in their source.
-
-This remains valid on 7.1 without any token or React migration. For a genuine
-missing PHP layout relationship, the
-[versioned examples](version-compatibility.md) show optional Core tokens, the
-older-version fallback, and the public React provider separately.
 
 ## React with Core Components
 
@@ -104,65 +102,11 @@ export function ConnectionSettings( { error, onSave } ) {
 }
 ```
 
-This explicit Flex prop combination is Skill-Norm composition, not Core
-component defaults or a Classic normalization target. Use it only for a new
-plugin-owned relationship that no existing component or prop spaces.
-
+The [Core Components recipe](spacing.md#core-components) sets this `Flex`.
 The heading and intro keep their native margins outside the `Flex`.
 `gap={ 3 }` expresses the `12px` Skill-Norm relationship between the elements
 of one field group through the component's 4-px multiplier. The children are
-intrinsic, so they use `FlexItem`. Use `FlexBlock` only for a child intended
-to grow.
-
-## Bundled experimental WPDS at the 7.0 pin
-
-Bundled WPDS, after the project explicitly opted in to experimental
-components.
-
-This legacy pinned example is not the 7.1 enqueue recipe. Do not change an
-existing Classic page to this experimental runtime merely to obtain spacing
-tokens.
-
-```jsx
-import { Stack } from '@wordpress/ui';
-
-export function DashboardRegions( { header, main, secondary } ) {
-    return (
-        <Stack direction="column" gap="2xl">
-            { header }
-            { main }
-            { secondary }
-        </Stack>
-    );
-}
-```
-
-Resolve the public CSS export during the build, copy it unmodified to the plugin
-build, and enqueue that emitted stylesheet at the actual render root. Do not
-import the CSS subpath from the JavaScript entry: the pinned dependency
-extraction records it as a script handle.
-
-```php
-wp_enqueue_style(
-    'plugin-slug-wpds-tokens',
-    plugins_url( 'build/design-tokens.css', __FILE__ ),
-    array(),
-    $version
-);
-```
-
-On 7.1 and later, enqueue no copy; depend on Core's `wp-theme` style instead,
-branching at runtime as the
-[versioned PHP example](version-compatibility.md#php-layout-with-a-core-token-and-older-version-branch)
-does.
-
-At the WordPress 7.0 pin, `@wordpress/theme` does not publicly export
-`ThemeProvider`. The public route bundles `@wordpress/ui` plus the exported
-design-token stylesheet and uses the default token values. `Stack` has neither
-a default direction nor a default gap, so both are explicit. `2xl` means the
-supplied WPDS gap token, whose default is `32px`; it is not the padding token
-with the same name. A non-default density needs a future public provider
-contract and is unavailable on this pin.
+intrinsic, so they use `FlexItem`.
 
 ## Hybrid shell and React root
 
@@ -179,52 +123,3 @@ Hybrid: a PHP shell with Core and a Core Components root.
 The PHP shell renders the title, and Core places page-level Notices after
 `.wp-header-end`. The React root renders and spaces only its descendants. A field error belongs inside the React field
 region. Do not wrap the entire `.wrap` in another spacing system.
-
-## Documented CSS exception without Core tokens
-
-Use custom CSS only after spacing.md's ladder is exhausted. This PHP workflow
-region needs a responsive card grid. Core has no layout primitive for it, and
-Core Components `Flex` is not available in the PHP runtime. This is an
-explicit older-version fallback, not the default for a 7.1 region with
-supported Core tokens.
-
-```css
-.plugin-slug-summary-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-    gap: 16px;
-}
-```
-
-`16px` is the Skill-Norm value for related summary groups, not a WordPress
-token. Keep the selector inside the plugin root. For a 7.1 token branch, use the versioned example instead of combining both
-rules.
-
-## i18n registration for React
-
-```php
-$asset = require plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
-
-wp_register_script(
-    'plugin-slug-app',
-    plugins_url( 'build/index.js', __FILE__ ),
-    $asset['dependencies'],
-    $asset['version'],
-    true
-);
-
-wp_set_script_translations(
-    'plugin-slug-app',
-    'plugin-slug'
-);
-
-wp_enqueue_script( 'plugin-slug-app' );
-```
-
-Use the dependency and version data generated for the built entry; do not
-write the dependency list by hand. Binding the registered handle to the domain
-prepares standard translation loading before any catalog exists. Pass a third,
-custom-path argument only when the selected delivery mechanism needs it. When
-producing translations is in scope, follow
-[translation-delivery.md](translation-delivery.md). A readiness-only task
-creates no PO files and needs no translated PHP or React strings.

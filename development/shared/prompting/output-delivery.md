@@ -41,8 +41,8 @@ display limit cannot be recovered from a command that must not run twice.
   status. Verify the input file and argv before the only execution. The
   checker has no default deadline. Add `--timeout-seconds` when the host cannot
   bound the wait.
-- Machine data still goes through code before display. Run a repeatable
-  producer inside the evaluating script, which the checker can capture; for a
+- For [machine data](machine-data.md), run a repeatable producer inside the
+  evaluating script, which the checker can capture; for a
   command with an effect, capture first and evaluate the saved file.
 
 **Size check** for the complete composed text, labels and combined results

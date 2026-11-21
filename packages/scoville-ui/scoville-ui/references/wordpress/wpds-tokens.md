@@ -1,19 +1,22 @@
 # WPDS token values
 
-Read only for a region that actually consumes WPDS tokens. An available
-token does not show that a Classic component uses it. Keep each token
-reference; a token's supplied value does not show the property's rendered
-effect. Sources and runtime pins are in [sources.md](sources.md).
+This file holds the WPDS gap and padding token values. Read it only for a
+region that actually consumes WPDS tokens. A token's supplied value does not
+show the property's rendered effect. Sources and runtime pins are in
+[sources.md](sources.md).
 
 ## WPDS token facts at Gutenberg `wp/7.0`
 
-The density matrix below describes the pinned 7.0 bundled package. The default
-gap and padding values also match the inspected 7.1 Core stylesheet. Do not
-infer availability of alternate densities or provider props from this matrix.
+The density matrix below describes the pinned 7.0 bundled package; which
+density that path may use is in [experimental-policy.md](experimental-policy.md).
+The default gap and padding values also match the inspected 7.1 Core
+stylesheet. Do not infer availability of alternate densities or provider props
+from this matrix.
 
 The 7.1 Core stylesheet ships one density. `@wordpress/theme` 1.0.0 exposes no
 public density switch. Compact and comfortable values below remain historical
-7.0 bundled-package facts, not available 7.1 modes.
+7.0 bundled-package facts, not available 7.1 modes; do not carry them into a
+7.1 path.
 
 ### Gap
 
@@ -39,5 +42,4 @@ public density switch. Compact and comfortable values below remain historical
 | `2xl` | 20px | 24px | 32px |
 | `3xl` | 24px | 32px | 40px |
 
-Gap and padding names are not interchangeable. Density is an independent mode,
-not a mobile breakpoint.
+Gap and padding names are not interchangeable.

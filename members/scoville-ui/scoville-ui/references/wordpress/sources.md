@@ -1,5 +1,8 @@
 # WordPress 7.0 and 7.1 source contracts
 
+This file holds the pinned sources behind the WordPress references. Read it
+when asked where a rule comes from or whether it is official.
+
 ## Pinned WordPress 7.0 repository state
 
 | Owner | Ref and resolved commit | Target packages |
@@ -9,9 +12,6 @@
 | `WordPress/WordPress` | tag `7.0` at `b16cd68ea199838d8f9daf0ff7e3f35042ba0ad0` | WordPress 7.0 runtime |
 
 ## WordPress 7.1 theming contract
-
-The 7.0 package restrictions above remain scoped to their pins, not to all
-WordPress 7 releases.
 
 - `WordPress/WordPress` tag `7.1` resolved to
   `b998fef9238af183f9523b3df71618e6e57498b6`. Its
@@ -41,8 +41,8 @@ and its checks.
 
 The 7.1 patterns in [classic-patterns.md](classic-patterns.md) were checked
 against the immutable Core ref above. That shows where the values come from,
-not a loaded page or its geometry. Keep declarations in their original units. The WPDS matrices are in [wpds-tokens.md](wpds-tokens.md). The fallback
-scale is labeled Skill-Norm and never becomes a Classic compliance scale.
+not a loaded page or its geometry. The WPDS matrices are in
+[wpds-tokens.md](wpds-tokens.md). The fallback scale is labeled Skill-Norm.
 
 ## Primary owners by fact
 
@@ -58,7 +58,7 @@ scale is labeled Skill-Norm and never becomes a Classic compliance scale.
 | Stable `Flex` contract | pinned `@wordpress/components` source and official component reference |
 | PHP and JavaScript i18n | WordPress Plugin Handbook, Common APIs, Block Editor Handbook, Code Reference, and WP-CLI i18n commands |
 | Accessibility | WordPress Accessibility Coding Standards and WCAG 2.2 |
-| Host mechanisms of routing.md's excluded surfaces: editor SlotFills, Panel components, block supports, metabox, Dashboard widget, profile and list-table hooks | Block Editor Handbook, Plugin Handbook, Common APIs and Code Reference |
+| Host mechanisms of routing.md's excluded pages and regions: editor SlotFills, Panel components, block supports, metabox, Dashboard widget, profile and list-table hooks | Block Editor Handbook, Plugin Handbook, Common APIs and Code Reference |
 
 Official entry points:
 

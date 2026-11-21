@@ -19,16 +19,12 @@ def builder():
 
 
 class RoutingContractTest(unittest.TestCase):
-    def test_runtime_profiles_keep_distinct_fallback_resources(self):
+    def test_runtime_profiles_package_every_registered_script(self):
         suite, build = builder()
         for profile, layout in (('general', 'standalone'), ('general', 'suite'), ('codex', 'suite')):
             config = build.load(suite, profile, layout)
             member = next(m for m in config['members'] if m['name'] == 'scoville-plan')
             package = build.payload(suite, member, config)
-            expected = {'scoville-plan/' + rule['fallback']
-                        for rule in member['helper_contracts'].values() if rule.get('fallback')}
-            actual = {path for path in package if '/references/fallbacks/' in path}
-            self.assertEqual(actual, expected if profile == 'general' else set())
             for script in member['helper_contracts']:
                 self.assertIn('scoville-plan/' + script, package)
 

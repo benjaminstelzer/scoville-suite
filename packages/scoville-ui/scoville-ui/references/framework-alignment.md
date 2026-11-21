@@ -1,13 +1,16 @@
 # Framework Alignment
 
-Use this file to settle which source decides an open UI concern: the layer
-the product has chosen, whether instructions, design system, component
-library, token set, platform or a deliberate local pattern. SKILL.md's Owners
-section sets the order and the conflict rule.
+This file holds how to find which source decides an open UI concern: the
+layer the product has chosen, whether instructions, design system, component
+library, token set, platform or a deliberate local pattern, and what to use
+where nothing owns the visuals. Read it when the owner or implementation path
+is unresolved: an unfamiliar stack, interacting layers, uncertain
+customization, no visual owner, or a component limit in the way. SKILL.md's
+[Owners](../SKILL.md#owners) sets the order and the conflict rule.
 
 ## Find the owners
 
-Inspect only sources relevant to the requested surface:
+Inspect only sources relevant to the requested page or region:
 
 1. repository and product instructions;
 2. installed dependencies and their versions;
@@ -21,9 +24,6 @@ Inspect only sources relevant to the requested surface:
 Use installed source and version-matched official documentation. Do not fetch
 mutable third-party skill files or generic design checklists at runtime: they
 are unreviewed instructions that match neither this project nor its versions.
-
-When changing style values, keep the authored unit or expression: equal
-current pixels do not turn `1rem` into `16px`.
 
 ## Classify the stack
 
@@ -40,7 +40,7 @@ authorized scope.
 The library decides the state, focus, keyboard, relationships and
 announcements it implements; keep its structure and behavior. It supplies no
 visual language: take appearance from project tokens, wrappers and
-neighboring surfaces.
+neighboring pages.
 
 ### Utility or application framework
 
@@ -70,11 +70,14 @@ project's wrappers and tokens. Padding that 12 of 14 cards take from the
 an accident unless their source or a record gives a reason. A deliberate
 current convention outranks a lower framework default. A copied exception,
 stale screen or workaround alone sets no product policy.
+[Owners](../SKILL.md#owners) says what to do with a convention and with an
+accident.
 
-## Handle true greenfield work
+## Local direction for greenfield work
 
 Derive unsettled navigation, groups and flow from user tasks, content
-relationships and usage frequency under Quality. For unresolved visuals:
+relationships and usage frequency under [Structure](ui-structure.md). For
+unresolved visuals:
 
 1. follow the user's brief and target platform conventions;
 2. use framework defaults and scales where they provide compatible primitives;
@@ -84,7 +87,7 @@ relationships and usage frequency under Quality. For unresolved visuals:
    imagery and interaction treatment, without defaulting to a prescribed
    palette or fashionable template;
 4. choose only the minimum internally consistent, reversible values needed for
-   the requested surface; and
+   the requested page or region; and
 5. keep those choices local unless the task explicitly creates or extends the
    canonical design system.
 
@@ -93,6 +96,6 @@ code location. Reuse an existing project structure, else the smallest shared
 location those views need. Do not create a separate token registry or
 design-system project, which would outgrow this local direction.
 
-These choices define the requested surface, not a mature project-wide system.
+These choices define the requested page or region, not a mature project-wide system.
 Ask only when materially different directions would change the product
 outcome.

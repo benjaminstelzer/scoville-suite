@@ -3,8 +3,8 @@ format_version: 1
 id: PLAN-0067
 status: active
 created: 2026-11-14
-updated: 2026-11-19
-current_item: W-006
+updated: 2026-11-21
+current_item: W-008
 ---
 
 # Goodhart-Korrekturen nach dem Opus-Review
@@ -104,16 +104,49 @@ Evidence: Review 18 realer Mängel: mit Skill Sol 12, Opus 16, ohne je 10. Neue 
 
 ### W-006 UI-Skill an realen Korrekturläufen ausrichten und messen
 
-Status: in_progress
+Status: done
 Depends on: [W-005]
 Blocked by: []
-Decisions: []
+Decisions: [ADR-0240]
 Outcome: Der UI-Skill verhindert die UI-Fehler, die in zwei realen Projekten nachträglich korrigiert werden mussten, und seine Wirkung ist mit beiden Modellen gemessen.
 Acceptance: Die Fehlerklassen aus den Korrekturläufen beider Projekte stehen im Bericht. Jede Regeländerung nennt den Mechanismus und steht einmal. Review- und Umsetzungsfälle aus den Projekten sind mit gpt-6.2-sol und Claude Opus 5.5 auf medium mit und ohne Skill gelaufen und blind bewertet. Wirkungslose Regeln sind gestrichen. Die Gesamtprüfung besteht.
 Instructions: Nutzerauftrag vom 2026-11-19: gleiches Vorgehen wie beim Code-Skill. Produktprojekte nur lesend verwenden; keine Projektbeispiele im Skilltext. Lokale Commits sind erlaubt; Push und Installation brauchen je eine eigene Freigabe.
 Steps:
 1. [status: done] UI-Korrekturläufe in beiden Projekten auswerten und nach Mechanismus ordnen; fertig bei Fallliste mit einführendem und korrigierendem Commit.
 2. [status: done] Fehlende Regeln an members/scoville-ui schreiben; fertig bei bestandener Gesamtprüfung.
-3. [status: in_progress] Review- und Umsetzungsfälle isolieren und mit beiden Modellen mit und ohne Skill ausführen; fertig bei gültigen Läufen und blinder Bewertung.
-4. [status: todo] Ergebnisse und Grenzen im Bericht festhalten, Wirkungsloses streichen und den Stand lokal committen; fertig bei gültigem Profil.
-Evidence: 67 bestätigte Fälle in neun Fehlerklassen; fünf Regeln ergänzt, check_all 12/12. Modellläufe offen.
+3. [status: done] Review- und Umsetzungsfälle isolieren und mit beiden Modellen mit und ohne Skill ausführen; fertig bei gültigen Läufen und blinder Bewertung.
+4. [status: done] Ergebnisse und Grenzen im Bericht festhalten, Wirkungsloses streichen und den Stand lokal committen; fertig bei gültigem Profil.
+5. [status: done] Ohne Projektdokumentation neu messen, die Ursache von Sols unverlangten Review-Forderungen beheben und nachmessen; fertig bei gültigen Läufen, Bewertung und Bericht.
+6. [status: done] Gezielte Tests, Fixplan mit zwei Prüfern und externer Prüfung umsetzen und am auslösenden Fall kontrollieren; fertig bei bestandener Gesamtprüfung und Bericht.
+Evidence: Review ohne Doku: Treffer mit Skill +2 bis 3, Sols Unverlangtes 26–29 auf 18 (ohne 13). Kontrolle i10 mit 8b66460: kein Stash, Prüfung unverändert. check_all 12/12. Bericht W-006.
+
+### W-007 Plan schlank und funktional machen; Python als Voraussetzung
+
+Status: done
+Depends on: [W-006]
+Blocked by: []
+Decisions: [ADR-0240, ADR-0241]
+Outcome: Kein Skill der Suite enthält einen Ersatzweg ohne Python. Der Plan-Skill beschreibt seine Struktur einmal, ist auf den Alltag gekürzt und löst die Alltagsaufgaben mit beiden Modellen nicht schlechter als zuvor.
+Acceptance: Ersatzdateien, ihre Paketeinträge und ihr Build-Code sind entfernt. Der Plan-Skill enthält keine Regeln für abgeschaffte Formate; seltene Abläufe stehen in einer nur auf Wunsch geladenen Referenz. Die Ausgabe von select_context.py erklärt sich selbst bei unveränderten Feldnamen; Workflow arbeitet damit unverändert. Ein Modellvergleich der Alltagsaufgaben mit gpt-6.2-sol und Claude Opus 5.5 auf medium zeigt keine Verschlechterung. Die Gesamtprüfung besteht.
+Instructions: Nutzerauftrag vom 2026-11-20. Feldnamen und Aufbau der Skriptausgaben bleiben. Tests ohne die Projektregeln der Originalprojekte. Lokale Commits sind erlaubt; Push und Installation brauchen je eine eigene Freigabe; vor einem Push mit geändertem Python die Laufzeitprüfung.
+Steps:
+1. [status: done] Ersatzdateien in der ganzen Suite entfernen und Python als Voraussetzung festschreiben; fertig bei bestandener Gesamtprüfung.
+2. [status: done] Aufbau des Plan-Skills unabhängig prüfen lassen und den Zielaufbau mit dem Nutzer abstimmen; fertig bei bestätigtem Zielaufbau.
+3. [status: done] Plan-Skill kürzen und ordnen, Altformate streichen, Erklärungen in die Skripte verlagern; fertig bei bestandener Gesamtprüfung und bestandenen Skripttests mit Workflow.
+4. [status: done] Alltagsaufgaben mit beiden Modellen gegen die vorige Fassung messen; fertig bei gültigen Läufen, Bewertung und Bericht.
+Evidence: check_all 12/12. Plan 13.350 auf 5.670 Wörter. 40 Läufe alt/neu: erledigt Opus 9 gegen 8, Sol 10 gegen 7 von 10; kein Test gebrochen. Bericht W-007.
+
+### W-008 Stand vom 2026-11-21 ausliefern
+
+Status: in_progress
+Depends on: [W-006, W-007]
+Blocked by: []
+Decisions: []
+Outcome: Der Stand nach den Korrekturen an UI, Plan, Handoff und den gemeinsamen Code-Regeln ist lokal installiert und nach Freigabe veröffentlicht.
+Acceptance: Die private Laufzeit-CI hat für den Stand bestanden. Die installierten Skills entsprechen dem gebauten Stand. Nach Freigabe meldet `release_suite.py publish` alle Ziele als geprüft.
+Instructions: Freigabe des Nutzers vom 2026-11-20 für den Push der privaten CI und die lokale Installation. Die Veröffentlichung braucht eine eigene Freigabe und vorher Changelog-Einträge in jeder geänderten Distribution. Das Quell-Repository hat keinen privaten Remote; sein origin ist das öffentliche Ziel und wird nie direkt gepusht.
+Steps:
+1. [status: done] Laufzeit-Snapshot in die private CI pushen und ihr Ergebnis abwarten; fertig bei sechs bestandenen Jobs.
+2. [status: done] Pakete mit dem CI-Nachweis bauen und in die vorhandenen Installationsordner spiegeln; fertig, wenn sie dem Build gleichen.
+3. [status: todo] Nach Freigabe Changelog-Einträge schreiben, mit release_suite.py vorbereiten und veröffentlichen; fertig, wenn published.json alle Ziele als geprüft führt.
+Evidence: CI-Run 44836940153: 6/6 Jobs bestanden. Build von 49d7fd2, runtime passed. Installiert am 2026-11-21 in .claude, .codex und .agents; Byte-Vergleich mit dem Build gleich.

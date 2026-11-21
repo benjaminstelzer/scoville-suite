@@ -33,9 +33,9 @@ Skill package.
 | New Skill or prompt | Draft it, then apply the source checks. |
 | Revision | Before the first edit, preserve the exact affected state in a Git revision that contains it or a temporary workspace copy. Keep it through the final comparison. Revise within scope and apply the source checks. |
 
-A concrete revision request authorizes its changes. A review edits nothing.
-Ask only for material changes to outcome, scope or boundaries that the request
-or prior approval leaves open. Dropping an approval stop is material. Clarifying
+A concrete revision request authorizes its changes. Ask only for material
+changes to outcome, scope or boundaries that the request or prior approval
+leaves open. Dropping an approval stop is material. Clarifying
 the wording while keeping the requirement is within an authorized wording change.
 Continue work independent of the open decision.
 
@@ -44,6 +44,8 @@ Continue work independent of the open decision.
 Keep the intended outcome, scope, activation boundaries, facts, permissions,
 required behavior and acceptance criteria unless the user explicitly asks to
 change them.
+
+## Read and edit at the source
 
 Read the files needed to understand the change and its effects: `SKILL.md`,
 references, included fragments and imported prompts. Do not reread

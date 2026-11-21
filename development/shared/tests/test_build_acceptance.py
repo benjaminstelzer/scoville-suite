@@ -76,7 +76,7 @@ class BuildAcceptanceTests(unittest.TestCase):
         member = {'name': 'example', 'helper_contracts': {}}
         files = {'example/SKILL.md': b'# Example', 'example/references/helper.py': b'print(1)'}
         with self.assertRaisesRegex(ValueError, 'registered under scripts'):
-            builder.validate_helper_contracts(files, member, {'profile': 'general'})
+            builder.validate_helper_contracts(files, member)
         with self.assertRaisesRegex(ValueError, 'Unregistered'):
             gate.verify(SimpleNamespace(payload=lambda *args: files, runtime_scope=builder.runtime_scope), self.root, None,
                         {'members': [member]})

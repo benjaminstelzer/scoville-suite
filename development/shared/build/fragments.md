@@ -3,10 +3,12 @@
 ## Runtime helper policy
 
 `rules.code_quality` embeds `prompting/code-quality-criteria.md` in Code's
-entrypoint and in the complete Code quality reference for UI, Workflow and Ask.
+entrypoint and in the complete Code quality reference for UI.
 `prompting/code-review.md` owns the extra review procedure. Code packages it
 directly because its entrypoint already has the criteria. The complete reference
 includes the same procedure through `rules.code_review` for standalone readers.
+`rules.preserve_existing` embeds `prompting/preserve-existing.md` in the
+SKILL.md of Code and UI, so it reaches work that reads no reference.
 
 `rules.optout` expands `runtime/skill_optout.md` for Code and UI. Other Skills
 retain their narrower wording. `rules.references` expands
@@ -25,22 +27,18 @@ which applies to every suite member.
 
 Register every packaged Python file under `helper_contracts`, keyed by its
 Skill-relative `scripts/<name>.py` path. Use `kind: helper` for executable
-entrypoints and `kind: library` for imported support code. General helpers also
-declare `fallback: references/fallbacks/<name>-fallback.md`; libraries do not.
-List each fallback file in the manifest with `profiles: ["general"]`.
+entrypoints and `kind: library` for imported support code.
 
 Each callable helper declares a Skill-relative Markdown `policy` owner; omission
-defaults to `SKILL.md`. Libraries have neither policy nor fallback. Use
+defaults to `SKILL.md`. Libraries have no policy. Use
 `{{ include: helper.policy.output }}` in `references/output-delivery.md` for
 `check_text_size.py`. Use `{{ include: helper.policy }}` in the single remaining
 task-helper owner, where those operations are prepared. Skills with only the
 size helper have no task-policy include. The builder requires exactly one
 generated policy per group in its declared owner and a packaged Markdown route
-from SKILL.md to that owner. It generates helper-first routing and the conditional
-reference table, with links relative to the owner's directory. Each manual
-file begins with `<!-- helper-fallback: scripts/<name>.py -->`, followed by its
-complete no-Python procedure. Do not inline or separately link these optional
-routes. Codex strips fallback metadata and rejects fallback files and links.
+from SKILL.md to that owner. The generated policy is the same in every profile:
+helpers require Python 3.11+, and a missing interpreter, script or dependency
+or a helper error stops the affected operation without a manual substitute.
 Package building and verification check the exact registry and route structure.
 Behavioral equivalence and diagnostic quality still require consumer tests.
 
@@ -156,8 +154,8 @@ projection. Optional neighbors and the featured member disappear when excluded.
 Unknown profiles fail. Visibility checks still apply to the selected members.
 
 Keep short text alternatives beside their owner using flat blocks:
-`{{ profile: general }}portable text{{ /profile }}` and
-`{{ profile: codex }}required-helper text{{ /profile }}`. Empty alternatives may
+`{{ profile: general }}general text{{ /profile }}` and
+`{{ profile: codex }}Codex text{{ /profile }}`. Empty alternatives may
 be omitted. Unknown or incomplete blocks and nesting within the same block kind
 fail. A profile block inside a package block is supported: profile selection
 runs before package selection. No expression language or runtime conditionals
@@ -184,7 +182,7 @@ Exports always retain `layout: suite` and rebuild only that edition/layout.
 
 `{{ package: standalone }}...{{ /package }}` and
 `{{ package: suite }}...{{ /package }}` select installation-contract prose.
-These flat blocks are independent of the general/codex Python profile.
+These flat blocks are independent of the general/codex profile.
 `family.contract` expands canonical `runtime/skill_composition.md`;
 other family projections are absent from suite packages. README requirements
 come from `readme/skill-installation-contract.md` and

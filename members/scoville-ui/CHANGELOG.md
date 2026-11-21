@@ -1,8 +1,51 @@
 # Changelog
 
+## 2026-11-21 - Fewer unrequested demands in reviews; existing files and checks stay intact
+
+I measured the Skill on real review and implementation cases from two of my projects, in workspaces without project rules or documentation. In reviews both models found about three more of 22 known defects with it. One model also asked for about twice as many additions nobody had requested, and the cause was the Skill: references phrased points as duties to add hints, states, confirmations and controls, and the rule for additions accepted a reference as the need.
+
+- Reference points now say what must not fail. Removed: the reason beside a disabled action, showing back and cancel paths, saying what must come first before an action, putting rare detail behind a disclosure, the error summary. Confirmation is asked only before an effect the user cannot undo. An error about one field stands at that field. A second trigger of a running action does not repeat its effect.
+- An addition needs the request, a project rule, the product record, or a rule of this Skill that an element the change adds or alters would otherwise break. A review that asks for something the change does not contain needs the same. "Optional suggestions" are no longer a report category.
+- New in the part that is always loaded: Every byte outside what the complete result needs stays as it was, line endings and encoding included. To look at or test the state before a change, the agent uses a copy, such as the project copied with the change reversed or the output of `git show` saved in a temporary folder, and does not stash, reset, check out or restore files in the working tree. A project check or test that passed before the change still passes after it; it is changed or removed only where the request changes or removes the guarantee it tests, or to keep testing that guarantee another way, and the report names the edit and its reason. In my tests one model converted whole files from LF to CRLF, through `git stash` under `core.autocrlf=true` and through scripts that rewrote files, and `git diff` hid it. Another replaced an assertion of a project check to fit its own change without reporting it.
+- A new component is written in the layer that holds the project's own components of that kind. A rule I give for one place or case applies there, and elsewhere only where the same reason holds. Where a change alters what a state or place I did not name shows, the report says what it shows now and asks.
+- Accessibility base: where a label gets its meaning only from the question of its group, that question is the group's name. Grouping inputs in general belongs to WCAG AA. The label row of the WordPress adapter no longer covers hidden inputs and buttons.
+
+Tested: after the change the same model asked for 18 unrequested additions in 27 reviews instead of 26–29 (13 without the Skill), and both models found two to three more known defects than without the Skill. The rule on files and checks held in one run per model on the case where both failures had happened, in a wording that has since been narrowed in scope. One model asks the question about unnamed states, the other does not. The component rule showed no effect in one run per model. Its current wording, the base addition and the reference changes made after the review measurement are not tested with models. In implementation the Skill reduces spacing deviations and unrequested additions, but neither model avoided the original defect more often with it: most of those defects could not be derived from the request and the repository alone.
+
+## 2026-11-20 - Python is required
+
+The bundled text-size checker now always needs Python 3.11+. The manual no-Python route and its reference file are gone: without a suitable Python the size check stops and says so, as it already did after a helper error. I removed the manual route because a host without Python is rare, an agent following a prose copy of a helper makes mistakes the program does not, and every copy was one more wording of the same rules to keep in step.
+
+## 2026-11-20 - One clear structure
+
+After several rounds of changes the Skill had become hard to read as a whole. This reorders it. The one rule it adds: a source review may run static checks and tests without a browser where the request permits execution.
+
+- The table that says when to read which reference has one row per file. Geometry and the consistency audit have rows of their own.
+- "Implementation" is split into three sections named for when they apply: before changing an existing element, the states of what you add, and using what exists, with custom styling under its own heading. "Integrity floor" is gone; what it added stands there.
+- How to read a supplied mockup or an ambiguous word for position stands with mode and scope. The two routes for source reviews are one.
+- Spacing has five steps instead of six, and the rule for literal values stands once, together with keeping the authored unit, which is now always loaded.
+- One report format for all findings and audits: place, rule, observation, effect, simplest correction; confirmed apart from suspected; ordered by impact.
+- Quality and Layout are one reference, "Interface structure and layout". Every reference opens by saying what it holds and when it is read.
+- WordPress: bundled experimental components at the 7.0 pin stand in one file, each code example stands once, and the structured classification output is removed; I never asked for it.
+- Terms are used with one meaning: audit is the mode, a read of source is a review, looking at the running interface is a rendered check; accessibility speaks of frontend and backend.
+
+Not tested with models yet.
+
+## 2026-11-20 - Accessibility is set per frontend and backend; translation readiness in every WordPress plugin
+
+- Not every project needs all of WCAG AA, so the Skill no longer assumes it. A small base holds everywhere: every control works with the keyboard and shows its focus, is the element that carries its meaning, and has a label or a name. Beyond that there is one level, WCAG AA in full (version 2.1, which the laws cite, unless the project chooses 2.2), set for frontend and backend in the project's rule file: the frontend can be bound to it by law while the backend keeps the base. The Skill asks once and records the answer as one line. A review or a run without a user to ask works to the base and says that no level is recorded.
+- What WCAG AA adds stands in one new reference. It is read whenever the frontend or backend being worked on is at that level, by whoever writes and whoever reviews, so both work to the same level. Where the base holds, nothing beyond it is built or reported as missing.
+- Translation readiness is required for every WordPress plugin and theme, in wp-admin and elsewhere: every string a user sees or assistive technology reads goes through a translation function with the plugin's or theme's text domain. Translation files are still produced only on request.
+- The addition to the rule for additions ("or that a reference describes it") is removed again; it contradicted the same sentence and showed no effect. Not tested with models yet.
+
+## 2026-11-20 - Clearer structure
+
+- The accessible-name rule stands once, in the wording reference: the visible text is in the name, at its start where possible. That reference also loads when a control's accessible name changes.
+- The rule for literal values and the paragraph on computed sizes sit after the spacing steps they refer to; the section is now called "Spacing, size, alignment and literal values". "Implementation and acceptance" is now "Implementation". The WordPress fallback sentence moved to the WordPress spacing reference. Headings that held a single line are folded into their neighbours. Not tested with models yet.
+
 ## 2026-11-19 - Only what the task needs
 
-These rules come from interface corrections in two of my projects: what agents built and I had removed or reworked. Not tested with models yet.
+These rules come from interface corrections in two of my projects: what agents built and I had removed or reworked. A first test on 37 of those cases with gpt-6.2-sol and Claude Opus 5.5 showed a small gain in reviews and fewer spacing deviations, and no gain in avoiding the original mistakes. The points on computed sizes, alignment and precedent below follow from reading why. A second test on the same cases then showed more of the original defects found in reviews (Opus 14 of 22 against 7 to 9 without the Skill, gpt-6.2-sol 10 against 6) and more of them avoided when implementing. The reviews with the Skill also asked for more additions nobody had requested; the last point answers that and is not tested yet.
 
 - An addition to the interface needs a need: no sentence about what does not happen, no success line for a visible result, no second copy of a status, no explanation of the implementation, no step the product can do itself. Internal phases stay internal.
 - A supplied mockup or example is part of the request and decides between two readings of a word for position or size.
@@ -11,7 +54,12 @@ These rules come from interface corrections in two of my projects: what agents b
 - Spacing: whitespace between inline elements and the host platform's rules for an element count as sources of space.
 - Wording: text is written from the user's position and claims only what the code does in that state.
 - The interaction reference describes how the task's controls and states behave; it is no list of things to add.
-- The final check separates the roles: an implementer corrects what is part of the change, a review or audit reports it and changes nothing.
+- What the source determines, such as a size or a gap, is computed and judged instead of being left as unverified. A reference requirement is a finding where the change breaks it.
+- Alignment and size follow the neighbours: texts line up on the baseline, an icon takes its size from its label's text, and the empty space inside a larger pointer target counts as spacing.
+- A literal size, spacing or colour value needs a precedent on an element of the same role; that the value occurs somewhere is not enough.
+- The rule for additions holds for what a review asks for as well as for what is built. That a reference describes something is not a need.
+- Each rule is now written once and holds for implementing and reviewing alike. The final check points to the sections instead of listing their subjects again, and copies of a rule in SKILL.md, the references and the WordPress references are reduced to one place with links to it. Not tested with models yet.
+- The shared code rules no longer end with questions that repeated them; a reviewer checks every rule in order.
 
 ## 2026-11-19 - Compatibility before release
 

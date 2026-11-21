@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-20 - Clearer structure
+
+Reading and regenerating sources have their own section. How to report an evaluation stands once, in the entry point.
+
+## 2026-11-19 - One wording per rule
+
+Sentences that repeated the table or the entry point are removed from the Skill and its evaluation reference.
+
 ## 2026-11-19 - Revising an existing Skill
 
 Save the original instructions before a revision. The writing guidance names the target models. The validation section covers the exception for older validators.

@@ -1,27 +1,20 @@
 # Responsive layout and page archetypes
 
+This file holds the responsive rules for plugin admin pages by page type.
+Read it when routing's focus includes responsive layout or accessibility.
 WordPress has no universal content width for plugin pages. Pick the page type
 below, leave the shell to Core, and let content wrap and columns flex before
 adding a breakpoint.
 
 ## Shared invariants
 
-- At `<=782px`, keep Core's mobile admin behavior. A requested rendered check
-  takes its widths and content cases from
-  [WordPress validation](validation.md#select-the-platform-checks).
+- At `<=782px`, keep Core's mobile admin behavior.
 - Preserve DOM, keyboard, and screen-reader order when layout changes.
 - Matching text inputs and selects follow Core's `40px` mobile minimum height.
-  Where WCAG 2.2 AA applies, its separate pointer target requirement is
-  `24 x 24 CSS px` or an allowed
-  exception.
-- Use logical properties in unavoidable plugin CSS.
-- Adapt to localized and expanded content using
-  [internationalization's layout contract](internationalization.md#layout).
+- Write unavoidable plugin CSS and adapt to localized and expanded content as
+  [internationalization's layout rules](internationalization.md#layout) say.
 - Primary actions remain visible. Secondary actions wrap or move to an
   accessible labeled menu.
-
-A two-dimensional data view may use one labeled local horizontal scroll
-container. The document must not overflow.
 
 ## Shells
 
@@ -63,6 +56,6 @@ gutters. Density is not a responsive switch.
   and pagination in source order.
 - Wrap toolbars into multiple rows without losing labels or accessible names.
 - Prefer a compact list or detail disclosure when it preserves the task.
-- If columns must remain two-dimensional, use a labeled local scroll container
-  with visible keyboard focus.
-- Sticky or clipped UI must not obscure focus.
+- If columns must remain two-dimensional, use one labeled local horizontal
+  scroll container with visible keyboard focus. The document must not
+  overflow.

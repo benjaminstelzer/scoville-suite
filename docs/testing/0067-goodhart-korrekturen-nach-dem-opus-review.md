@@ -3727,3 +3727,702 @@ mit dem geänderten Satz nicht gemessen. Der Skill bleibt auf
 diesem Stand; weitere Änderungen folgen nur aus Mängeln in
 echter Projektarbeit. Belege: `greenfield-r3` (Bewertungen
 unter `blind-mixed`).
+
+## W-006: UI-Skill an realen Korrekturläufen
+
+### Fehlerklassen aus zwei realen Projekten
+
+Aus der Historie zweier realer Projekte sind 67 UI-Fehler belegt,
+die nach dem ersten Versuch korrigiert werden mussten. Geordnet
+nach Mechanismus: Vorhandenes nicht wiederverwendet (8),
+Nachbar- oder Zwillingsstelle vergessen (8), Kollision mit
+bestehendem Verhalten (5), Zustände nicht durchgegangen (9),
+Konvention der Plattform verletzt (10), Unverlangtes ergänzt (12),
+Text aus Sicht der Implementierung (4), Auftrag oder Vorlage
+falsch gelesen (5), Fehler nur gerendert sichtbar (6). Etwa 17
+betreffen Abstand, Größe oder Ausrichtung. Die Fehler stammen
+fast alle von GPT-Modellen als Umsetzer; kein Fall belegt einen
+Fehler von Opus. Ein Teil entstand, bevor ein UI-Skill aktiv
+war; die Fälle zeigen, was der Skill abfangen soll, nicht dass
+eine Regel versagt hat.
+
+Daraus ergänzt (Suite `22cc71e`, `a646439`): der Abschnitt „Only
+what the task needs“, je ein Absatz zu dem, was auf ein Element
+schon wirkt, und zu den Werten, die seine Daten annehmen können,
+zwei Punkte zu Texten, zwei weitere Abstandsquellen und die
+Rollentrennung der Schlussprüfung.
+
+### Test mit und ohne Skill (Suite `a646439`, Shared `0361b3d`)
+
+27 Review-Fälle (22 mit dem später korrigierten Mangel, 5
+Kontrollen) und 10 Umsetzungsfälle, jeweils mit gpt-6.2-sol und
+Claude Opus 5.5 auf medium, einmal mit und einmal ohne Skill:
+148 Läufe, alle gültig. Jeder Skill-Lauf hat den UI-Skill
+geladen, kein Lauf ohne Skill hat einen gelesen. Bewertet haben
+sieben Prüfer (Opus 5.5 high) ohne Kenntnis von Modell und Arm
+nach vorab festgelegten Kriterien.
+
+Review, 22 Fälle mit Mangel:
+
+| | Treffer | Teiltreffer | Verfehlt | sonstige Befunde | fordern Unverlangtes |
+|---|---|---|---|---|---|
+| Opus mit Skill | 10 | 5 | 7 | 150 | 9 |
+| Opus ohne | 9 | 4 | 9 | 128 | 12 |
+| Sol mit Skill | 10 | 1 | 11 | 161 | 21 |
+| Sol ohne | 7 | 2 | 13 | 129 | 14 |
+
+Kontrollen (5 Änderungen ohne spätere Korrektur): Befunde mit
+Skill 26 (Opus) und 31 (Sol), ohne 21 und 23; jede Review nennt
+in beiden Armen mindestens einen Pflichtbefund. Zeit je Review im
+Mittel: Opus 139 s mit und 122 s ohne, Sol 208 s und 172 s.
+
+Umsetzung, 10 Fälle:
+
+| | Fehler vermieden (ja/teils/nein) | Vorhandenes genutzt (ja/teils/nein) | unverlangte Zusätze | Abweichungen bei Abstand und Größe | Prüfung gebrochen |
+|---|---|---|---|---|---|
+| Opus mit Skill | 2/5/3 | 7/3/0 | 4 | 1 | 1 |
+| Opus ohne | 1/7/2 | 6/4/0 | 8 | 8 | 1 |
+| Sol mit Skill | 1/5/4 | 5/3/2 | 8 | 3 | 0 |
+| Sol ohne | 1/5/4 | 5/3/2 | 8 | 7 | 1 |
+
+Zeit je Umsetzung im Mittel: Opus 456 s mit und 457 s ohne, Sol
+391 s und 381 s.
+
+Befund: Der Skill verhindert die Fehler des ersten Versuchs in
+diesem Test nicht messbar. In der Umsetzung sind die Noten je
+Fall fast gleich; der Unterschied bei Abstand und Größe und bei
+den Zusätzen von Opus stammt überwiegend aus einem Fall mit
+einem neuen Bedienelement. Im Review liegen die Skill-Arme um
+einen bis drei Treffer vorn, bei mehr sonstigen Befunden und 17
+bis 36 Sekunden mehr Zeit. Bei Sol fordern die Reviews mit Skill
+mehr Unverlangtes; ein Teil davon sind Zugänglichkeitspunkte,
+die die Referenzen des Skills garantieren und die Bewertung als
+Zusatz zählt. Sieben Fälle verfehlen alle vier Arme oder lösen
+sie gleich schlecht (Review: zwei Wiederverwendungsfälle, ein
+nur gerendert sichtbarer Fall, ein Plattformfall; Umsetzung: ein
+Plattformfall, ein Zustandsfall, ein Fall mit Trennzeichen).
+
+Grenzen: ein Lauf je Zelle, also Unterschiede von einem bis drei
+Fällen innerhalb der Streuung. Die neuen Regeln wurden nicht
+gegen den vorherigen Skill-Stand gemessen, sondern der ganze
+Skill gegen keinen Skill; welche einzelne Regel wirkt, zeigt der
+Test nicht. Die Regeln sind aus denselben Fehlerklassen
+abgeleitet, aus denen die Fälle stammen. Bewertet wurde aus dem
+Quelltext, nichts gerendert; jeder Fall hat einen Bewerter.
+Belege: `ui-real-cases` (`RESULTS-DATA.json`, Bewertungen unter
+`grading`).
+
+Korrektur zur Tabelle oben: In Fall r15 hatte der Bewerter zwei
+Reviews vertauscht (Opus mit Skill und Sol ohne). Richtig sind
+Opus mit Skill 11/5/6 und Sol ohne 6/2/14. Seit Runde 2 bewerten
+deshalb zwei Bewerter jeden Fall unabhängig.
+
+### Analyse der Fehlschläge und zweite Runde (Suite `64f4012`, Shared `a7ac7e5`)
+
+Gelesen wurden die Fälle, in denen der Skill-Arm denselben Fehler
+machte, obwohl eine Regel passte. Ergebnis: Reviews benutzten die
+für Schreibende formulierten Regeln nicht als Suchauftrag (Opus
+las eng um die geänderten Zeilen, Sol las die richtigen Zeilen
+und verband sie nicht); Maße wurden als „nicht geprüft"
+zurückgestellt, obwohl der Quelltext sie bestimmt; für
+Grundlinie, Icon-Größe und Leerraum in einer größeren Klickfläche
+fehlte die entscheidende Aussage; der Vorbildtest endete bei
+irgendeinem Vorkommen eines Wertes. Zwei Umsetzungsfälle (i03,
+i10) sind unfair, weil die Wahrheit von späteren Entscheidungen
+abhängt; teilweise gilt das für i08, i09, r19, r21 und r22. Ein
+Teil der Fehler entstand, bevor ein UI-Skill aktiv war: Ein Fall
+zeigt, was der Skill abfangen muss, nicht, dass eine Regel
+versagt hat.
+
+Ergänzt wurden fünf Aussagen (Icon-Größe nach dem Text des
+Labels; Grundlinie; Leerraum in einer Box zählt als Abstand;
+Vorbild auf einem Element derselben Rolle; Maße aus dem
+Quelltext berechnen). Runde 2 wiederholte nur die 74 Läufe mit
+Skill; alle gültig, alle mit geladenem UI-Skill. Zwei Bewerter
+je Fall; bei zwei Werten weichen sie ab.
+
+| Review, 22 Fälle (Treffer/teils/verfehlt) | mit Skill | ohne |
+|---|---|---|
+| Opus | 14/2/6 | 7–9/4–6/9 |
+| Sol | 10/3/9 | 6/3/13 |
+
+| Umsetzung, 10 Fälle | Fehler vermieden (ja/teils/nein) | unverlangte Zusätze | Abweichungen bei Abstand und Größe |
+|---|---|---|---|
+| Opus mit Skill | 3–4/4–5/2 | 1–2 | 3 |
+| Opus ohne | 1–2/5–6/3 | 5–6 | 6–7 |
+| Sol mit Skill | 2/4/4 | 3–6 | 3 |
+| Sol ohne | 1/4/5 | 4–6 | 5–7 |
+
+Kontrollen: Befunde mit Skill 27–31 (Opus) und 25–28 (Sol), ohne
+je 22. Die zusätzlichen Befunde sind überwiegend in der
+Wahrheitsdatei als berechtigt gelistet oder konkrete Mängel der
+Änderung. Sol fordert im Review mit Skill etwa doppelt so viel
+Unverlangtes wie ohne (1,1 gegen 0,5 je Review); die Quelle sind
+die Aufzählungen zu Zuständen, Ansagen und Fallbacks in den
+Referenzen. Fünf Fälle verfehlen beide Modelle mit Skill weiter
+(r03, r05, r18, r22, r27); bei r05 und r22 hing die Wahrheit an
+späteren Entscheidungen, r27 deckt keine Regel ab. Sol wendet die
+Vorbildregel nicht an. Sechs Referenzen hat kein Lauf geöffnet;
+der Test konnte sie nicht auslösen, weil Rendern verboten war.
+
+Grenzen: ein Lauf je Zelle; die neuen Aussagen stammen aus der
+Analyse derselben Fälle, die Runde 2 misst; die Pakete enthielten
+auch Astras Änderungen an den gemeinsamen Regeln. Belege:
+`RESULTS-DATA-r2.json`, `grading-r2`.
+
+### Eine Formulierung je Regel und dritte Runde (Suite `7950535`, Shared `a3c8cab`)
+
+Nutzerentscheidung (ADR-0240): Jede Regel steht einmal und gilt
+für Schreiben und Review gleich; Prüfabschnitte formulieren keine
+eigenen Regeln; Prüfer laden die Skills selbst. Drei Prüfläufe
+über alle neun Skills und die gemeinsamen Quellen fanden rund 50
+klare Doppelungen. Entfernt wurden unter anderem die Fragen am
+Ende der Code-Regeln (sie wiederholten die Regeln 1 bis 6 und
+ließen Teile aus), die Aufzählung im Schlussabschnitt des
+UI-Skills, eingebettete Code-Regeln und eigene Reviewregeln in
+den Hilfsskripten von Workflow und Ask sowie Wiederholungen
+zwischen SKILL.md, Referenzen und gemeinsamen Quellen. Danach
+wurde der Aufbau geordnet (Überschriften, Reihenfolge,
+Ladebedingungen). Je Schritt lasen zwei unabhängige Prüfer
+(Claude Opus 5.5, xhigh) das Ergebnis gegen; ihre Befunde sind
+eingearbeitet, darunter zwei verlorene Regeln, eine Regel nur
+für Reviewer, eine verengte Review-Anleitung und eine beim
+Vereinen entstandene widersprüchliche Regel. Die Gesamtprüfung
+besteht.
+
+Runde 3 wiederholte die 54 Review-Läufe mit Skill; alle gültig,
+alle mit geladenem UI-Skill. Zwei Bewerter je Fall.
+
+| Review, 22 Fälle (Treffer/teils/verfehlt) | Runde 2 mit Skill | Runde 3 mit Skill | ohne |
+|---|---|---|---|
+| Opus | 14/2/6 | 14/3–4/4–5 | 8–9/4–5/9 |
+| Sol | 10/3/9 | 10/0–1/11–12 | 7–8/1–2/13 |
+
+Unverlangtes je Review in Runde 3: Opus 0,2–0,3, Sol 1,1–1,2.
+Befunde in den Kontrollen: Opus 26, Sol 34 (ohne Skill 19–20 und
+22). Zeit je Review: Opus 136 s, Sol 205 s.
+
+Befund: Das Kürzen des Schlussabschnitts auf einen Verweis hat
+bei Opus keinen Treffer gekostet. Sol hält die Treffer; zwei bis
+drei Fälle fallen von teilweise auf verfehlt, was bei einem Lauf
+je Fall in der Streuung liegt und einen kleinen Verlust nicht
+ausschließt. Der Halbsatz, der die Bedarfsregel auf Reviews
+ausdehnt, zeigt bei Sol keine Wirkung auf das geforderte
+Unverlangte. Die Bewerter weichen in 47 von 432 Feldern ab, bei
+den Urteilen in vier Fällen um eine Stufe.
+
+Nicht erprobt: die Aufträge von Workflow und Ask an echte Agenten
+unter Codex. Bestätigt an einem echten Aufruf: Die Claude-CLI
+liest mit den Einstellungen von Ask eine Datei außerhalb des
+Arbeitsordners. Belege: `RESULTS-DATA-r3.json`, `grading-r3`.
+
+### Code-Review nach dem Entfernen der Doppelungen (Suite `7950535`, Shared `a3c8cab`)
+
+Die 23 Review-Fälle des Code-Skills liefen nach dem Entfernen der
+Doppelungen erneut, mit und ohne Skill; 92 Läufe gültig, zwei
+Bewerter je Fall (22 von 296 Feldern abweichend).
+
+| Review, 18 Fehlerfälle (Treffer/teils/verfehlt) | Runde 2 mit Skill | Runde 3 mit Skill | ohne |
+|---|---|---|---|
+| Opus | 16/1/1 | 15/0/3 | 11/3/4 |
+| Sol | 12/4/2 | 11–12/3–4/3 | 10/2/6 |
+
+Befund: Das Streichen der Fragen am Ende der Code-Regeln hat die
+Treffer gehalten. Verloren ging bei beiden Modellen ein
+Kapselungsfall. Ein zusätzlicher Satz, der Reviewer zuerst die
+Stellen je Regel benennen ließ (Suite `55c16e7`, Shared `7dcd381`),
+wurde an den drei Kapselungsfällen und zwei Kontrollen
+nachgemessen: Der verlorene Fall blieb bei Opus verfehlt und bei
+Sol teilweise. Der Satz zeigte keine Wirkung und ist wieder
+entfernt (Suite `e4e1242`, Shared `dd84f0e`). Der Verlust ist
+hingenommen; eine Regel für diesen einen Fall wäre eine
+Anpassung an die Messaufgabe.
+
+Grenze: Während Runde 3 hat sich die Codex-App zweimal selbst
+aktualisiert, und ein Systemabsturz hat Läufe abgebrochen, die
+neu gestartet wurden. Die Sol-Läufe der Runden stammen daher
+nicht alle von derselben App-Fassung.
+
+### Barrierefreiheit als Projektentscheidung, Übersetzbarkeit, neuer Aufbau (Suite `06dad25`)
+
+Entscheidungen des Eigentümers vom 2026-11-19 und 2026-11-20:
+
+- Eine Basis der Barrierefreiheit gilt immer (Bedienung mit der
+  Tastatur und sichtbarer Fokus, das richtige Element, Beschriftung
+  und zugänglicher Name). Darüber hinaus gibt es eine Stufe: WCAG AA
+  vollständig, in Fassung 2.1, sofern die Projektregeln nicht 2.2
+  nennen, getrennt nach Frontend und Backend. Der Skill fragt
+  einmal und verankert die Antwort als eine Zeile in den
+  Projektregeln; nur dann wird die Referenz geladen.
+- In WordPress-Plugins und -Themes ist jeder neue oder geänderte
+  Text übersetzbar; Übersetzungsdateien werden nicht erzeugt.
+- Tests laufen ohne die Regeldateien der Originalprojekte, weil
+  sonst nicht messbar ist, was aus dem Skill kommt.
+- Der UI-Skill wurde nach einer unabhängigen Strukturprüfung (Opus
+  5.5, xhigh) in zwölf Schritten neu geordnet; zwei Referenzen sind
+  zusammengeführt, eine ungenutzte ist gestrichen.
+
+Nachprüfung der 40 Umsetzungen aus Runde 2 auf diese beiden
+Punkte: 0 unübersetzte von 147 Texten und 0 Mängel an der Basis
+in allen Armen. Einschränkung: In Runde 2 lagen die Regeldateien
+der Projekte in beiden Armen im Arbeitsordner; sie verlangen
+Übersetzbarkeit selbst. Alle UI-Runden vor der folgenden sind mit
+Projektregeln gemessen.
+
+### Runde ohne Projektregeln (Suite `55c16e7`, Shared `7dcd381`)
+
+Alle 37 Fälle liefen neu, mit und ohne Skill, in Arbeitsordnern
+ohne `AGENTS.md` und `CLAUDE.md`. Ein dritter Arm wiederholte vier
+Umsetzungsfälle mit Skill und einer Regeldatei, deren einzige
+Zeile WCAG 2.1 AA für Frontend und Backend verlangt. 156 Läufe,
+alle gültig, in jedem Skill-Lauf war der UI-Skill geladen. Zwei
+Bewerter je Fall; 85 von 864 Feldern weichen ab, fast nur
+Zählwerte, bei den Urteilen sechs Fälle um eine Stufe.
+
+| Review, 22 Fehlerfälle (Treffer/teils/verfehlt) | mit Skill | ohne |
+|---|---|---|
+| Opus | 14/2/6 | 5/6–7/10–11 |
+| Sol | 9/1/12 | 7/1/14 |
+
+| Review, weitere Werte | Opus mit | Opus ohne | Sol mit | Sol ohne |
+|---|---|---|---|---|
+| Unverlangtes je Review | 0,2–0,4 | 0,4–0,6 | 0,8–1,1 | 0,2–0,4 |
+| Befunde in 5 Kontrollen | 22–23 | 16–17 | 31–32 | 24 |
+| Sekunden je Review | 151 | 105 | 196 | 166 |
+
+| Umsetzung, 10 Fälle | Opus mit | Opus ohne | Sol mit | Sol ohne |
+|---|---|---|---|---|
+| Fehler vermieden (ja/teils/nein) | 3–5/3–5/2 | 3–4/4–5/2 | 1–2/5–6/3 | 2/4/4 |
+| Unverlangte Zusätze | 4–5 | 6–7 | 6–8 | 4–6 |
+| Abweichende Abstände | 2 | 2–4 | 2–3 | 6–7 |
+| Unübersetzte Texte | 0 | 0 | 0 | 0 |
+| Mängel an der Basis | 0 | 0 | 0 | 0 |
+| Über die Basis hinaus gebaut | 4 | 4 | 5–6 | 4–5 |
+| Sekunden je Lauf | 426 | 413 | 383 | 297 |
+
+| Vier Fälle mit der WCAG-Zeile | Opus | Sol |
+|---|---|---|
+| Über die Basis hinaus gebaut: ohne Skill / Skill / Skill mit Zeile | 4 / 4 / 7 | 4–5 / 5–6 / 9 |
+| Referenz zur Barrierefreiheit gelesen (mit Zeile) | 3 von 4 | 4 von 4 |
+
+Befunde:
+
+- Die Wirkung im Review besteht ohne Projektregeln fort, bei Opus
+  deutlich (14 gegen 5 Treffer), bei Sol klein (9 gegen 7).
+- Sol fordert im Review mit Skill mehr Unverlangtes als ohne; die
+  Bedarfsregel wirkt dort weiterhin nicht. Opus fordert mit Skill
+  weniger.
+- In der Umsetzung zeigt der Skill beim Vermeiden des
+  ursprünglichen Fehlers keinen messbaren Unterschied. Abweichende
+  Abstände sind mit Skill seltener, am deutlichsten bei Sol.
+- Übersetzbarkeit und Basis der Barrierefreiheit halten beide
+  Modelle in diesen Projekten auch ohne Skill und ohne
+  Projektregeln ein. Eine Wirkung der beiden Regeln ist hier weder
+  belegt noch widerlegt; sie bleiben als Vorgabe des Eigentümers.
+  Die Referenz zur Übersetzbarkeit lud Sol in 33 von 37
+  Skill-Läufen, Opus in 9.
+- Die Projektzeile wirkt: Mit ihr wird die Referenz geladen und
+  mehr über die Basis hinaus gebaut. Ohne die Zeile wird die
+  Referenz in keinem Lauf geladen.
+- Ohne die Zeile baut kein Modell mit Skill weniger über die Basis
+  hinaus als ohne. Der Skill verringert das hier nicht.
+
+Grenzen: ein Lauf je Zelle. Die Claude-CLI lädt `AGENTS.md` nicht
+von selbst; ein Opus-Lauf mit der Zeile lud die Referenz nicht.
+Belege: `RESULTS-DATA-nr.json`, `grading-nr`, `JUDGING-nr.md`.
+
+Berichtigung vom 2026-11-20: Diese Runde ist durch
+Projektdokumentation verfälscht. In den Arbeitsordnern lag die
+Dokumentation der Projekte, und 87 von 156 Läufen lasen daraus,
+mit Skill weit häufiger als ohne (Sol-Review: 25 von 27 Läufen mit
+Skill, 13 von 27 ohne). Die Werte oben sind deshalb nicht
+belastbar, auch nicht der Abstand von 14 zu 5 Treffern bei Opus.
+Maßgeblich ist die folgende Runde.
+
+### Runde ohne Projektdokumentation (Suite `55c16e7`, Shared `7dcd381`)
+
+Vorgabe des Eigentümers vom 2026-11-20: Skill-Tests laufen ohne
+jede Projektdokumentation. Die Arbeitsordner enthielten weder
+`AGENTS.md` und `CLAUDE.md` noch die Ordner `docs` und `research`
+noch sonst eine Datei mit `.md`, `.mdx` oder `.rst`. Alle 37 Fälle
+liefen neu, 156 Läufe, alle gültig, der UI-Skill in allen 82
+Skill-Läufen geladen. Kein Lauf las Projektdokumentation: Die
+Prüfung meldete zehn Läufe, alle Fehlalarme (sieben Mal bestand
+eine Zeile einer entfernten Datei nur aus einem Pfad, der im Lauf
+in einer Dateiliste vorkam; drei Mal legte der Lauf eine Datei
+gleichen Namens selbst an). Zwei Bewerter je Fall; 86 von 864
+Feldern weichen ab.
+
+| Review, 22 Fehlerfälle (Treffer/teils/verfehlt) | mit Skill | ohne |
+|---|---|---|
+| Opus | 14/2–3/5–6 | 11–12/2–3/8 |
+| Sol | 10–11/0–1/11 | 7/1/14 |
+
+| Review, weitere Werte | Opus mit | Opus ohne | Sol mit | Sol ohne |
+|---|---|---|---|---|
+| Unverlangte Forderungen in 27 Reviews | 6–9 | 14–16 | 26–29 | 12–15 |
+| Befunde in 5 Kontrollen | 24–26 | 20–21 | 32–33 | 25 |
+| Sekunden je Review | 145 | 109 | 203 | 157 |
+
+| Umsetzung, 10 Fälle | Opus mit | Opus ohne | Sol mit | Sol ohne |
+|---|---|---|---|---|
+| Fehler vermieden (ja/teils/nein) | 3–4/3–4/3 | 3/6/1 | 2/5/3 | 3/4/3 |
+| Unverlangte Zusätze | 2–4 | 6 | 6–7 | 8 |
+| Abweichende Abstände | 3–4 | 6–7 | 1–2 | 6–8 |
+| Unübersetzte Texte | 0 | 0–1 | 0 | 0 |
+| Mängel an der Basis | 0 | 0 | 0 | 0 |
+| Sekunden je Lauf | 404 | 348 | 400 | 333 |
+
+| Vier Fälle mit der WCAG-Zeile | Opus | Sol |
+|---|---|---|
+| Über die Basis hinaus gebaut: ohne Skill / Skill / Skill mit Zeile | 5–7 / 3–4 / 8 | 5 / 4–5 / 9–10 |
+| Referenz zur Barrierefreiheit gelesen (mit Zeile) | 3 von 4 | 4 von 4 |
+
+Befunde:
+
+- Im Review hebt der Skill die Treffer bei beiden Modellen um etwa
+  drei Fälle.
+- Sol fordert im Review mit Skill etwa doppelt so viel Unverlangtes
+  wie ohne, auch ohne jede Dokumentation. Die Ursache liegt im
+  Skill. Opus fordert mit Skill weniger.
+- In der Umsetzung vermeidet kein Modell den ursprünglichen Fehler
+  mit Skill häufiger. Abweichende Abstände und unverlangte Zusätze
+  sind mit Skill seltener.
+- Die Projektzeile zu WCAG AA wirkt wie zuvor; ohne sie wird die
+  Referenz in keinem Lauf geladen.
+
+Verblindung: Sols Berichte enthielten Dateipfade mit dem Namen des
+Laufordners, also Modell und Arm, in allen Runden bis hierher. Ein
+dritter Bewerter auf bereinigten Review-Dateien kam auf dieselben
+Werte (Treffer Opus 14 gegen 10, Sol 10 gegen 7; Unverlangtes Opus
+6 gegen 15, Sol 24 gegen 10). `build_grading.py` entfernt die Pfade
+seither.
+
+Belege: `RESULTS-DATA-nd.json`, `grading-nd`, `JUDGING-nd.md`.
+
+### Ursache der unverlangten Forderungen und Änderung (Suite `c8f41fa`)
+
+Zwei unabhängige Analysen (eigene, Opus 5.5 xhigh) und eine
+Gegenprüfung der Änderung (Opus 5.5 xhigh) ergaben: Der Skill
+selbst erlaubte die Forderungen. Die Bedarfsregel ließ „eine
+Zusage aus einer gewählten Referenz“ als Bedarf gelten; die
+Referenz zu Interaktionen formulierte mehrere Punkte als Pflicht,
+Texte, Zustände, Bestätigungen und Bedienelemente zu ergänzen, und
+verwies zugleich im Kreis auf die Bedarfsregel; ein Satz („Add an
+error summary when it helps“) widersprach ihr. Sol lädt im Review
+etwa 15 Skill-Dateien und prüft jeden Punkt ab, Opus etwa 4.
+
+Geändert:
+
+- Die Punkte der Referenz zu Interaktionen nennen, was nicht
+  fehlschlagen darf, statt Ergänzungen zu verlangen; der
+  widersprüchliche Satz und zwei doppelte Punkte sind gestrichen.
+- Die Bedarfsregel nennt Projektregeln ausdrücklich (Entscheidung
+  des Eigentümers: dauerhafte Projektregeln zählen im Review als
+  Bedarf) und lässt Regeln des Skills nur für Elemente gelten, die
+  die Änderung hinzufügt oder ändert.
+- „Check and report“ sagt in einem Satz, dass eine Forderung nach
+  etwas, das die Änderung nicht enthält, einen Bedarf braucht.
+- Die Gruppierung von Eingaben steht nur noch bei WCAG AA.
+
+Nachmessung: die 27 Review-Fälle mit dem geänderten Skill, beide
+Modelle, ohne Dokumentation, 54 Läufe, alle gültig; die Läufe ohne
+Skill stammen aus der Runde davor und wurden neu mitbewertet. Zwei
+Bewerter, 59 von 432 Feldern abweichend.
+
+| Review, 22 Fehlerfälle (Treffer/teils/verfehlt) | mit Skill | ohne |
+|---|---|---|
+| Opus | 12/3/7 | 10/4/8 |
+| Sol | 9/1–2/11–12 | 6–7/1–3/13–14 |
+
+| Review, weitere Werte | Opus mit | Opus ohne | Sol mit | Sol ohne |
+|---|---|---|---|---|
+| Unverlangte Forderungen in 27 Reviews | 4–6 | 17 | 18 | 13 |
+| Weitere bekannte Mängel gefunden | 40–42 | 22 | 21 | 10 |
+| Befunde in 5 Kontrollen | 24–25 | 20 | 32 | 25 |
+
+Befund: Sols unverlangte Forderungen mit Skill sinken von 26–29
+auf 18 und liegen noch um 5 über dem Wert ohne Skill (vorher um
+etwa 14). Der Treffervorteil bleibt bei beiden Modellen bei zwei
+bis drei Fällen; mit Skill finden beide etwa doppelt so viele der
+weiteren bekannten Mängel. Opus liegt mit 12 Treffern zwei unter
+der Runde davor; bei einem Lauf je Zelle ist das nicht von
+Streuung zu trennen.
+
+Belege: `RESULTS-DATA-ne.json`, `grading-ne`, `JUDGING-ne.md`.
+
+### Warum der Skill in der Umsetzung den ursprünglichen Fehler nicht verhindert
+
+Zwei unabhängige Analysen der Läufe (Opus 5.5 xhigh, Fable 5.2
+high) an sieben Umsetzungsfällen kommen zum selben Ergebnis:
+
+- `SKILL.md` war in allen 28 Umsetzungsläufen mit Skill vor der
+  ersten Änderung geladen. Zu spätes Lesen scheidet aus.
+- In sechs von sieben Fällen ist die erwartete Lösung aus Auftrag
+  und Arbeitsordner nicht oder nur teilweise herleitbar: Sie ist
+  die spätere Korrektur des Eigentümers nach Ansicht des
+  Ergebnisses, steht in entfernter Dokumentation, oder der
+  Auftragstext ist der Planeintrag des damaligen Fehlversuchs.
+- Beim Umsetzen hat der Auftrag Vorrang; die Modelle folgen seinem
+  Wortlaut und melden eine erkannte Folge im Bericht. Im Review ist
+  dieselbe Folge ein Befund.
+- Regeln, die an einen Schreibvorgang gebunden sind (Vorbild für
+  feste Werte, Icon-Größe am Text, Höhe der Nachbarn), wurden
+  sichtbar angewandt. Die dreistufige Bewertung zeigt das nicht.
+- Zwei Lücken im Text: Der Skill sagt nicht, wohin ein neues
+  Bedienelement gehört; und die Regel zu Zuständen fragt nach
+  Datenwerten, nicht danach, wie ein Wert entstand und was eine
+  Vorgabe des Nutzers in nicht genannten Zuständen ändert.
+
+Entscheidung des Eigentümers vom 2026-11-20: Die beiden Lücken
+sind geschlossen (Suite `eff3235`): Ein neues Bedienelement entsteht
+in der Schicht, die die eigenen Komponenten dieser Art hält; eine
+Vorgabe des Nutzers gilt für ihren Fall, und der Bericht nennt und
+erfragt, was sie in nicht genannten Zuständen ändert; die Regel zu
+Zuständen fragt auch, wie ein Wert entstand. Wegen der Tokenkosten
+wird die Wirkung dieser drei Sätze nicht eigens gemessen; die
+Gesamtprüfung besteht. Die Umsetzungsmessung bleibt, wie sie ist,
+mit den oben genannten Grenzen.
+
+### Gezielte Tests nach den Änderungen (Suite `1a35bfd`)
+
+Vorgabe des Eigentümers vom 2026-11-20: nur noch ganz gezielte
+Tests. Drei kleine Tests, zusammen 18 Läufe, ohne Bewerter-Agenten,
+von Hand gegengelesen; je ein Lauf, also Hinweise, keine Messwerte.
+
+Verständnis der UI-Regeln: 15 beschriebene Situationen in drei
+Blöcken, je Block ein Lauf mit Sol und Opus. Alle 30 Antworten
+treffen die gemeinte Lesart, auch bei den am selben Tag geänderten
+Regeln (Bedarf im Review, Basis gegen WCAG AA, Ort einer neuen
+Komponente, Geltung einer Nutzer-Vorgabe, Zustände nach Entstehung,
+Punkte zu Interaktionen). Kein Text geändert. Material:
+`ui-comprehension/scenarios.md`.
+
+Umsetzungsfälle i08 und i10 mit dem geänderten Skill, je ein Lauf
+je Modell, verglichen mit den Läufen der Runde ohne Dokumentation:
+
+- Ort einer neuen Komponente (i08): Beide Modelle bauten den
+  Schalter nur im Plugin; Sol umging dabei die Feldausgabe der
+  gemeinsamen Schicht. Kein Bericht erwähnt die Schicht.
+  Berichtigung vom 2026-11-21: In der Runde davor hatte Opus die
+  gemeinsame Schicht erweitert, mit der Regel nicht mehr. Der
+  damalige Zusatz „kein eingebundenes Fremdpaket“ hat also eher
+  geschadet als nichts bewirkt; er ist gestrichen. Der Ordner weist
+  sich im Quelltext selbst als internes Framework aus.
+- Lage des Schalters (i08): bei beiden neben dem Feld; Opus hatte
+  ihn zuvor in der Überschriftenzeile.
+- Frage zu nicht genannten Zuständen (i10): Opus stellt die Folge
+  jetzt als direkte Frage, vorher als offenen Punkt. Sol nennt sie
+  weiterhin nicht.
+- Die Aufteilung der Zustände selbst ist bei beiden unverändert.
+
+Stand: Die Regel zum Ort einer neuen Komponente ist verstanden,
+aber ohne belegte Wirkung; sie bleibt vorerst, bis der Eigentümer
+entscheidet.
+
+Handoff, erstmals mit Modellen: vier Übergaben (halb fertig mit
+rotem Test; fertig mit offener Entscheidung des Nutzers; im
+Planprofil; Vorgabe, verworfener Ansatz und ungeprüfte Annahme) je
+einmal mit Sol und Opus. Alle acht Übergaben folgen der Vorlage,
+und ihre Angaben stimmen mit dem Arbeitsordner überein. Opus stellt
+einen Arbeitsbericht voran. Kein Text am Handoff-Skill geändert.
+
+Dabei gefunden und behoben (Suite `2037f22`): Opus schrieb im
+Planprofil einen Nachweis mit 344 Zeichen; das Profil wurde ungültig
+übergeben. Die Grenze von 200 Zeichen stand nur im Prüfprogramm, und
+eine reine Nachweis-Änderung verlangt keine Prüfung. Sie steht jetzt
+im Abschnitt zum Nachweis. Nicht mit einem Lauf nachgeprüft.
+
+### Fixplan, externe Prüfung und Kontrollläufe (Suite `8b66460`, Shared `cb9d724`)
+
+Die Ergebnisse im Abschnitt davor gelten für Suite `1a35bfd`. Was
+danach geändert wurde, steht hier; gemessen ist davon nur, was
+unten als Lauf genannt ist.
+
+Nebenbefunde der gezielten Tests:
+
+- Zeilenenden: Opus stellte in Umsetzungsläufen ganze Dateien von
+  LF auf CRLF um. Durchsicht aller vorhandenen Arbeitsordner mit
+  Git-Verzeichnis (Byte-Vergleich): Opus in 25 von 62, Sol in 4 von
+  62 Läufen, mit und ohne Skill. Ursachen: `git stash` und
+  Zurückholen bei `core.autocrlf=true` und Neuschreiben per Skript
+  ohne feste Zeilenenden. `git diff` verbirgt die Umstellung, und
+  der gespeicherte Diff der Tests hatte sie bis dahin verschluckt.
+  Die Testfälle liegen auf älteren Ständen der Projekte; beide
+  Projekte führen heute eine `.gitattributes`, die den Weg über
+  Git schließt.
+- Projektprüfung: Sol ersetzte in i10 in vier von vier Läufen bis
+  dahin eine bestehende Zusicherung der Vertragsprüfung durch eine,
+  die zur eigenen Änderung passt, ohne das zu berichten.
+- Sol lädt 7 bis 14 Skill-Dateien je Aufgabe, Opus 2 bis 7; Opus
+  las in i10 nur `SKILL.md` und eine Referenz.
+
+Fixplan (eigener Vorschlag und Gegenentwurf von Opus 5.5 xhigh),
+danach Prüfung durch ein drittes Modell (Astra 6.2) und Beurteilung
+jedes Befunds durch zwei Prüfer. Umgesetzt:
+
+- Regeln zum Erhalt unveränderter Bytes und bestehender
+  Projektprüfungen als ein gemeinsames Stück im Kern von Code und
+  UI, weil die Code-Kriterien reine Textänderungen im UI-Skill
+  nicht erreichen.
+- UI-Referenzen: weitere Sätze gestrichen, die Ergänzungen
+  vorschreiben (Grund einer deaktivierten Aktion, Zurück- und
+  Abbrechen-Wege, „was zuerst kommen muss“, Seltenes hinter einem
+  Aufklappelement); Bestätigung nur vor nicht umkehrbaren
+  Wirkungen; Feldfehler am Feld; keine doppelte Wirkung statt kein
+  zweiter Start; Label-Zeile des WordPress-Adapters ohne versteckte
+  Felder und Schaltflächen.
+- UI: Zusatz zum Fremdpaket und Satz zu Zuständen nach Entstehung
+  gestrichen; die Frage zu nicht genannten Zuständen steht bei den
+  Inhalten des Berichts.
+- Handoff: erst der Arbeitsbericht, dann der eingerahmte Text; die
+  Größenprüfung gilt für die ganze Antwort.
+- Plan: Nachweis als einfacher Text höchstens 200 Zeichen, in
+  einer Klammerliste 200 je Eintrag.
+- Entscheidung des Eigentümers: Die Basis der Barrierefreiheit
+  verlangt die Gruppenfrage, wo ein Label seine Bedeutung nur aus
+  ihr bezieht.
+
+Nicht übernommen aus der externen Prüfung: wieder eingeführte
+Pflichten (Fortschrittsanzeige, Format-Hinweis vor der Eingabe,
+weit gefasste Bestätigung), eine neue Fassung der Bedarfsregel,
+das Streichen der Rückfrage im Bericht, Byte-Vergleich als
+Prüfschritt.
+
+Kontrollläufe, je ein Lauf:
+
+| Lauf | Stand | Ergebnis |
+|---|---|---|
+| Opus, Übergabe mit Arbeitsauftrag | `2dfc363` | keine Zeilenenden umgestellt (zuvor alle vier Dateien) |
+| Sol, dieselbe Übergabe | `2dfc363` | Arbeitsbericht vor dem eingerahmten Text (zuvor keiner) |
+| Sol, i10 | `2dfc363` | Projektprüfung wieder umgeschrieben und nicht berichtet; keine Frage |
+| Opus, i10 | `6c8ec65` | wieder `git stash`, drei Dateien umgestellt, eine Prüfung danach rot und als bestanden berichtet; Frage gestellt |
+| Sol, i10 | `6c8ec65` | Projektprüfung wieder umgeschrieben und nicht berichtet; keine Frage |
+| Opus, i10 | `8b66460` | kein Stash, Zeilenenden zeilengenau wiederhergestellt, alle Prüfungen wie im Ausgangsstand; Frage gestellt |
+| Sol, i10 | `8b66460` | Projektprüfung unverändert, früherer Stand über `git show` geprüft, Zeilenenden erhalten; keine Frage |
+
+Befund: Die erste Fassung der Regel nannte nur die Ursache und
+verließ sich auf den Bericht; sie griff in i10 bei keinem Modell.
+Die Fassung, die die Handlung nennt (früheren Stand über eine
+Kopie ansehen, nicht stashen; eine bestehende Prüfung besteht
+weiter), griff bei beiden. Die Frage zu nicht genannten Zuständen
+stellt Opus in drei von drei Läufen, Sol in keinem von vier.
+
+Grenzen: je ein Lauf, alle am selben Fall, an dem die Regel
+geschärft wurde; das zeigt, dass sie dort greift, nicht, dass sie
+allgemein greift. Die gestrichenen und umformulierten Sätze der
+UI-Referenzen, die Basis-Ergänzung und die Plan- und
+Handoff-Sätze nach `2dfc363` sind nicht mit Läufen geprüft. Der
+Verständnistest zeigt, dass Regeln richtig gelesen werden, wenn
+die Situation benannt ist, nicht, dass ein Modell sie beim Bauen
+erkennt; drei seiner Situationen umschreiben die geprüften Sätze.
+Die Review-Nachmessung mit 18 gegen 13 unverlangten Forderungen
+gilt für `c8f41fa`.
+
+Prüfwerkzeug: Die Doku-Prüfung zählt reine Pfadzeilen und vom Lauf
+angelegte Dateien nicht mehr; in der Runde ohne Dokumentation
+bleiben zwei Fehlalarme gleicher Art (Befehl mit Pfad). Der
+gespeicherte Diff wird aus Bytes geschrieben; je Datei wird
+festgehalten, ob sich Zeilenenden geändert haben.
+
+### Gegenprüfung vor der Veröffentlichung (Suite `28ceef2`, Shared `0cc30c5`)
+
+Opus 5.5 xhigh las alle Änderungen an Anweisungen seit `2dfc363`
+gegen. Urteil: nach Änderungen veröffentlichen. Eingearbeitet:
+
+- Die Regel zum Erhalt von Dateien widersprach den Code-Kriterien
+  („ändere, was das vollständige Ergebnis braucht“). Sie gilt jetzt
+  für alles außerhalb dessen, was das vollständige Ergebnis braucht.
+- Das Entfernen eines Tests, das eine Code-Regel in einem Fall
+  verlangt, ist abgedeckt.
+- Für den früheren Stand ist neben `git show` die Projektkopie mit
+  zurückgenommener Änderung genannt. Nachgeprüft: Windows
+  PowerShell 5.1 kodiert umgeleitete Ausgaben um; das steht bei
+  den Shell-Regeln.
+- Gruppenfrage: Sie ist der Name der Gruppe; die Adapterzeile nutzt
+  dieselbe Bedingung.
+- Handoff: „unverändert“ kollidierte mit dem Kürzen nach der
+  Größenprüfung.
+- Changelog: drei Aussagen überzeichneten (Treffervorteil, Regel
+  zum Komponentenort als ungetestet, Ursachenanteil bei den
+  Zeilenenden) und sind berichtigt.
+
+Die Gegenprüfung erinnerte an den Befund vom 2026-11-17: Ein
+Absatz zu Zeilenenden im Code-Skill ließ Sol häufiger umstellen
+(3 von 6 Läufen gegen 0 von 4) und wurde gestrichen. Deshalb sechs
+Kontrollläufe mit geladenem Code-Skill auf dem Übungsprojekt (LF,
+keine `.gitattributes`, `core.autocrlf=true`): Sol auf allen vier
+Übergabe-Aufgaben, Opus auf den beiden, in denen es zuvor
+umgestellt hatte.
+
+| | Ergebnis in 6 von 6 Läufen |
+|---|---|
+| Zeilenenden geändert | nein |
+| `git stash`, `reset`, `checkout`, `restore` | nein |
+| Arbeitsbericht vor der Übergabe (2 Läufe) | ja, bei beiden Modellen |
+| Planprofil am Ende gültig (2 Läufe) | ja; Opus schrieb den Nachweis als Liste, Sol als Text mit 191 Zeichen |
+
+Opus schrieb Dateien in diesen Läufen nur über das
+Bearbeitungswerkzeug, Sol nur über Patches. Ein Sol-Lauf schrieb
+einen bestehenden Test strenger um und nannte das im Bericht
+nicht; die Berichtspflicht für geänderte Prüfungen greift bei Sol
+also nicht verlässlich.
+
+Grenzen: je ein Lauf. Die Größenprüfung der ganzen Handoff-Antwort,
+die Formulierung zur Gruppenfrage und die PowerShell-Angabe sind
+nicht mit Läufen geprüft.
+
+## W-007: Python als Voraussetzung, Plan schlank
+
+### Änderung (Suite `1c6ddea` und `156b4ca`, Shared `b7d099c`)
+
+Nach ADR-0241 sind alle Ersatzwege ohne Python aus der Suite
+entfernt. Der Plan-Skill ist von rund 13.350 auf 5.670 Wörter
+gekürzt: fünf Dateien statt zehn, keine Regeln mehr für
+abgeschaffte Formate, seltene Abläufe in einer Referenz, die nur
+auf Wunsch geladen wird. An den Skripten sind nur Texte geändert;
+Feldnamen und Aufbau der Ausgabe sind gleich. Ein unabhängiger
+Prüfer (Opus 5.5, xhigh) las Aufbau und Ergebnis gegen; seine
+Befunde sind eingearbeitet. Die Gesamtprüfung besteht.
+
+### Alltagsaufgaben, alte gegen neue Fassung (`e4e1242` gegen `156b4ca`)
+
+Zehn Aufgaben auf einem erfundenen kleinen Projekt ohne
+Projektregeln: Plan anlegen, Arbeitspaket ergänzen, Schritt
+abschließen, nach Unterbrechung fortsetzen, Stand ohne
+Codeänderung nachführen, Entscheidung festhalten, offene Wahl
+erfragen, beschädigten Plan prüfen und richten, Paket abschließen,
+Stand nur berichten. Jede Aufgabe einmal je Modell und Fassung auf
+medium; 40 Läufe, alle gültig, Plan-Skill in allen geladen. Zwei
+blinde Bewerter; 10 von 200 Feldern weichen ab.
+
+| | Opus neu | Opus alt | Sol neu | Sol alt |
+|---|---|---|---|---|
+| Ergebnis (erledigt/teils) | 9/1 | 8/2 | 10/0 | 7/3 |
+| Einträge richtig (ja/teils/nein) | 9/0–1/0–1 | 8/1–2/0–1 | 9–10/0–1/0 | 5–7/2–5/0–1 |
+| Erfundenes | 0–1 | 3–4 | 0–1 | 1–2 |
+| Ungefragte Änderungen | 0 | 2 | 2 | 1 |
+| Prüfprogramm gültig | 9 von 9 | 9 von 9 | 9 von 9 | 9 von 9 |
+| Gelesene Wörter des Skills | 2.905 | 4.916 | 3.959 | 6.684 |
+| Sekunden je Lauf | 51 | 44 | 104 | 99 |
+| Tokens je Lauf (Tsd.) | 305 | 273 | 484 | 435 |
+
+Kein Lauf hat Tests gebrochen, Bestehendes beschädigt oder beim
+reinen Bericht eine Datei geändert. Bei der beschädigten
+Entscheidung blieb in allen Läufen nur der Fehler stehen, für den
+der Nutzer gefragt werden muss.
+
+Befund: Die gekürzte Fassung löst die Alltagsaufgaben mit beiden
+Modellen nicht schlechter als die vorige, bei Sol besser (das
+Arbeitspaket mit Abhängigkeit, die Rückfrage zum fehlenden Datum).
+Die Bedingung aus ADR-0241 ist erfüllt. Zeit und Tokens sind trotz
+weniger gelesenem Text nicht gesunken.
+
+Grenzen: ein Lauf je Zelle. Bei der Aufgabe „Entscheidung
+festhalten“ verlangte die Erwartung eine eigene Entscheidung,
+obwohl die Wahl nur ein Arbeitspaket betrifft; der Skill legt
+solche Wahlen im Arbeitspaket ab. Drei der vier Läufe taten das
+und wurden als „teils“ gewertet (Opus neu und alt, Sol alt). Das
+ist eine Schwäche der Erwartung, nicht dieser Läufe; ohne sie
+stünde Opus bei 10/0 und 9/1. Belege: `plan-everyday/RESULTS-DATA.json`,
+`plan-everyday/grading`, `plan-everyday/JUDGING.md`.

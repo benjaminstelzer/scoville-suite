@@ -1,6 +1,9 @@
-# Rendered UI Validation
+# Rendered UI validation
 
-Use this file when SKILL.md's References table selects it.
+This file holds how to check a rendered interface: which check settles a
+claim, which conditions to test, when to refresh evidence and how to report
+it. Read it when the [evidence route](../SKILL.md#mode-and-scope) calls for a
+rendered check or you evaluate retained rendered evidence.
 
 ## Establish the claim
 
@@ -16,11 +19,15 @@ check in its row and read each named reference completely:
 | Painted appearance or optical alignment | View the render beside its reference | Exact distances or interaction | Geometry and sight |
 | A setting's visible effect or absence | Measure or view the element that consumes the setting | Source agreement, a declaration or a computed value alone | Geometry and sight |
 | Interaction or state behavior | Operate the flow and its transitions in an interactive runtime | Visual quality | [Interactions](ui-interactions.md) |
-| Accessibility conformance | Run the applicable checks below | Task understanding | — |
-| Consistency across a page or region | Check every entry in the scope | A sample without the population and variants it leaves out | [Audit coverage](ui-consistency-audit.md) |
+| Accessibility conformance | Run the applicable checks in [Derive the test surface](#derive-the-test-surface) | Task understanding | — |
+| Consistency across a page or region | Check every entry in the scope | A sample without the population and variants it leaves out | [Consistency audit](ui-consistency-audit.md) |
+| New or changed interface text, or interface text in a consistency audit | Read it against the rules in source and in its rendered context; source alone does not show its presentation | The runtime behavior of the action it names | [Wording](ui-wording.md) |
 
 A check settles only its own row: equal heights do not show that the button
 works. Use a supplied decision's target and keep the status of its proof.
+
+When you operate a flow, use controlled data and local targets, and cause no
+unrequested external or durable effect.
 
 ## Derive the test surface
 
@@ -43,18 +50,18 @@ applicable normative limits, for example 767px and 768px for a toolbar that stac
 broad viewport may establish composition without being an accessibility
 threshold.
 
-When accessibility conformance of web UI with an AA target is among the
-claims, use the checks below for the criteria the claim covers:
+When accessibility conformance of web UI is among the claims, always operate
+the affected primary flow using only the keyboard and inspect visible focus
+at each step. Retain [WCAG 2.1.1's exceptions](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html)
+and verify [WCAG 2.4.7](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html).
+Where the frontend or backend under check is at WCAG AA, also:
 
-- Operate the affected primary flow using only the keyboard and inspect visible
-  focus at each step. Retain [WCAG 2.1.1's exceptions](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html)
-  and verify [WCAG 2.4.7](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html).
 - For each affected view, check reflow at an equivalent width of 320 CSS px for
   vertically scrolling content, such as 1280px at 400% zoom. Preserve information
   and functionality; the exception for content requiring two-dimensional layout does not exempt
   the whole page. See [WCAG 1.4.10](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html).
-- Calculate contrast for distinct new, changed or audited text and background pairs
-  in their rendered states: 4.5:1, or 3:1 for large text (at least 18pt/24 CSS px,
+- Calculate contrast for distinct text and background pairs the task adds,
+  changes or checks, in their rendered states: 4.5:1, or 3:1 for large text (at least 18pt/24 CSS px,
   or 14pt/18⅔ CSS px bold), retaining
   [WCAG 1.4.3's exceptions](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html).
 - Required non-text control and state cues and authored focus indicators need 3:1
@@ -73,6 +80,12 @@ Further conditions by case:
   at least one such handoff in the same task, such as pointer to keyboard.
   Separate clean-start passes per method do not prove the transition. Build no
   cross-input matrix for methods that behave independently.
+- A flow you operate has a concrete loading or input-latency risk: observe
+  layout movement and input responsiveness during the transition, not only
+  its settled end state, with focused local measurements where needed. Lab
+  observations, emulation and real-device interaction remain distinct; field
+  performance claims require matching field data. Do not introduce backend
+  tuning or a universal benchmark.
 - A shared component changed: inspect each immediately affected use that
   differs in role, variant, state or layout relationship. Render
   representative distinct uses; identical copies need no separate proof.
@@ -84,10 +97,8 @@ Further conditions by case:
 
 Keep populated and recovery-state evidence distinct.
 
-Compare the rendered emphasis with the primary task. Decision-critical values,
-states and actions stay readily readable and findable, and no decoration
-obscures or competes with them. Judge the task, not a fixed size hierarchy or
-a prescribed visual style.
+Judge the rendered emphasis against the primary task as
+[Start with the user task](ui-structure.md#start-with-the-user-task) says.
 
 ## Select and refresh evidence
 
@@ -130,16 +141,15 @@ flowchart TD
 
 - Run the branches the claims need, not every branch for every task.
 - Source findings come before conclusions from the render, and known
-  corrections before the final measurement or viewing. Check that source
-  against SKILL.md's Implementation and acceptance, Integrity floor and
-  Spacing sections.
+  corrections before the final measurement or viewing. Review that source as
+  SKILL.md's [Check and report](../SKILL.md#check-and-report) says.
 - After repeated failed corrections, continue with a supported diagnosis
   instead of another unchanged attempt. Keep acceptance open and name the
   actual prerequisite.
 
 ## Use automation as supporting evidence
 
-Within the evidence route selected in SKILL.md, run the existing component,
+Within the selected evidence route, run the existing component,
 integration, visual-regression and accessibility checks that cover the change.
 Add or change automated coverage
 only when it protects a behavior that can regress and the repository has a
@@ -152,8 +162,7 @@ in the rendered interface and interaction path.
 ## Report the result
 
 Report what you rendered or operated and under which conditions, the defects
-found, and each condition left unverified. For Audit, prioritize findings by
-impact.
+found, and each condition left unverified.
 
 When supplied proof explicitly names conditions it did not observe and they
 limit the requested claim, keep each of them or an equally precise grouping:
@@ -162,10 +171,3 @@ limit the requested claim, keep each of them or an equally precise grouping:
 
 When a check covers only some conditions, state them: `no overflow at 320px
 and 768px`, not "responsive", "accessible" or "looks good".
-
-## Interface text evidence
-
-Check new or changed interface text, and interface text in a consistency
-audit, against [Wording](ui-wording.md) in source and in rendered context;
-source alone proves neither its presentation nor the action's runtime
-behavior.

@@ -1,14 +1,17 @@
 # Classic Core patterns
 
-These are observed WordPress 7.1 implementation patterns at
+This file holds the observed spacing and size declarations of Classic Core
+admin markup, at WordPress 7.1
 [`b998fef9238af183f9523b3df71618e6e57498b6`](https://github.com/WordPress/WordPress/tree/b998fef9238af183f9523b3df71618e6e57498b6).
+Read it for spacing and sizes on a Classic page, as [spacing.md](spacing.md)
+and [WordPress validation](validation.md) say.
 Other WordPress versions can differ. No row defines a universal gap.
 
 ## Declarations and context
 
-Paths below are relative to that Core checkout. Keep authored units.
-Resolved values assume the font rule named in the row wins. Other selectors,
-inheritance, display behavior and media queries can change the result.
+Paths below are relative to that Core checkout. Resolved values assume the
+font rule named in the row wins. Other selectors, inheritance, display
+behavior and media queries can change the result.
 
 | Context and source | Authored declarations | Interpretation |
 | --- | --- | --- |
@@ -46,20 +49,18 @@ first wrap heading when no marker exists. `.inline` prevents relocation.
 
 ## Prove the actual relationship
 
-When implementing, write the change from the declarations above; do not
-render to confirm it. A requested rendered check, or a requested review or
-audit of how the page looks, proves it in the render. Check loaded styles and
-the final DOM under
+Implementing writes the change from the declarations above, and a source
+review judges it from them. A rendered check proves it in the render: check
+loaded styles and the final DOM under
 [WordPress validation](validation.md#wordpress-runtime-evidence), including
 the relevant minified rules selected by `SCRIPT_DEBUG` in
 `wp-includes/script-loader.php:1620`, then the computed cascade, and measure
 geometry at relevant wide and narrow conditions.
 
-There, measure the visible separation; margin collapsing, table layout,
+The rendered check measures the visible separation; margin collapsing, table layout,
 padding and inline line boxes can make it differ from the authored margins.
 Do not report a gap from this table as measured.
 
 Core's native CSS and its token definitions are independent, although Core
-supplies both. A Classic page stays Classic on 7.1. For a relationship Core
-really leaves unspaced, follow [spacing.md](spacing.md); do not apply the
-fallback scale to the native relationships above.
+supplies both. For a relationship Core really leaves unspaced, follow
+[spacing.md](spacing.md).

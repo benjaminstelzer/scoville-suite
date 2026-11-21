@@ -18,6 +18,7 @@ RULE_FRAGMENTS = {
     'rules.code_quality': 'prompting/code-quality-criteria.md',
     'rules.code_review': 'prompting/code-review.md',
     'rules.optout': 'runtime/skill_optout.md',
+    'rules.preserve_existing': 'prompting/preserve-existing.md',
     'rules.references': 'runtime/shared_references.md',
     'rules.native_output': 'runtime/native_output.md',
 }
@@ -127,9 +128,6 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
             raise ValueError('invalid member name')
     for member in data['members']:
         runtime_scope([member])
-        if data.get('profile') == 'codex':
-            for rule in member.get('helper_contracts', {}).values():
-                rule.pop('fallback', None)
         distribution = member.get('distribution', 'standalone')
         if distribution not in {'standalone', 'suite'}:
             raise ValueError('invalid distribution kind')
@@ -341,7 +339,7 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                 if len(owners) != 1:
                     raise ValueError('helper.policy requires exactly one task-helper policy owner')
                 owner = owners.pop()
-            return helper_policy(member, config, owner)
+            return helper_policy(member, owner)
         if key == 'family.contract':
             return variant_text(within(shared_root(), 'runtime/skill_composition.md').read_text(encoding='utf-8'), config).strip()
         if key.startswith('family.') and config.get('layout') == 'suite':
@@ -487,41 +485,29 @@ def payload(root: Path, member: dict, config: dict | None = None) -> dict[str, b
             result[target] = expand_fragments(root, result[target].decode('utf-8'), member, config=config).encode('utf-8')
     if member['name'] + '/SKILL.md' not in result:
         raise ValueError('missing entrypoint')
-    validate_helper_contracts(result, member, config or load(root))
+    validate_helper_contracts(result, member)
     validate_package_links(result)
     return result
 
 
-def helper_policy(member: dict, config: dict, owner: str = 'SKILL.md') -> str:
-    """One generated route, with manual instructions disclosed only on demand."""
+def helper_policy(member: dict, owner: str = 'SKILL.md') -> str:
+    """The generated helper requirement for one policy owner."""
     helpers = [path for path, rule in member.get('helper_contracts', {}).items()
                if rule.get('kind') == 'helper' and rule.get('policy', 'SKILL.md') == owner]
     if not helpers:
         raise ValueError(f'helper policy owner {owner} requires registered callable helpers')
-    lines = ['## Runtime helpers', '',
-             'Use the bundled helpers for their operations. Read their invocation instructions,',
-             'not their source, unless diagnosing a failure.']
-    if config.get('profile') == 'general':
-        lines += ['', '| Condition | Required route |', '| --- | --- |',
-                  '| Suitable Python 3.11+ is available | Use the bundled helper; do not load manual references. |',
-                  '| No suitable Python 3.11+ | Read only the matching optional reference below. |',
-                  '| Missing script, missing dependency or helper error | Stop the affected operation; this never enables the manual route. |', '',
-                  '| Helper | Optional no-Python reference |', '| --- | --- |']
-        for path in helpers:
-            fallback = member['helper_contracts'][path].get('fallback')
-            if fallback != f'references/fallbacks/{Path(path).stem}-fallback.md':
-                raise ValueError(f'{member["name"]}: noncanonical fallback for {path}')
-            relative = posixpath.relpath(fallback, posixpath.dirname(owner) or '.')
-            lines.append(f'| `{path}` | [{Path(path).stem}]({relative}) |')
-    else:
-        lines += ['', '| Condition | Required route |', '| --- | --- |',
-                  '| Python and every named helper are available | Use the bundled helper. |',
-                  '| Missing Python, script, dependency or helper error | Stop the affected operation; do not substitute manual execution. |', '',
-                  'Helpers: ' + ', '.join(f'`{p}`' for p in helpers) + '.']
-    return '\n'.join(lines)
+    return '\n'.join([
+        '## Runtime helpers', '',
+        'Use the bundled helpers for their operations. Read their invocation instructions,',
+        'not their source, unless diagnosing a failure. They require Python 3.11+.',
+        'When Python discovery finds no suitable interpreter, a script or dependency is',
+        "missing, or a helper reports an error its operation's instructions do not",
+        'resolve, stop the affected operation and report the cause, with the',
+        "helper's diagnostic where there is one. Never do a helper's work by hand.", '',
+        'Helpers: ' + ', '.join(f'`{p}`' for p in helpers) + '.'])
 
 
-def validate_helper_contracts(files: dict[str, bytes], member: dict, config: dict) -> None:
+def validate_helper_contracts(files: dict[str, bytes], member: dict) -> None:
     prefix = member['name'] + '/'
     outside = [path for path in files if path.endswith('.py')
                and not path.startswith(prefix + 'scripts/')]
@@ -532,39 +518,26 @@ def validate_helper_contracts(files: dict[str, bytes], member: dict, config: dic
     rules = member.get('helper_contracts', {})
     if not isinstance(rules, dict) or set(scripts) != set(rules):
         raise ValueError(f'{member["name"]}: helper registry differs from runtime script inventory')
-    fallbacks = {}
     for path, rule in rules.items():
         if not path.endswith('.py'):
             raise ValueError(f'unsupported runtime helper type; add its explicit validation before packaging: {path}')
-        if not isinstance(rule, dict) or set(rule) - {'kind', 'fallback', 'policy'}:
+        if not isinstance(rule, dict) or set(rule) - {'kind', 'policy'}:
             raise ValueError(f'invalid helper contract: {path}')
         tree = ast.parse(scripts[path].decode('utf-8'))
         callable_script = any(isinstance(node, ast.If) and '__name__' in ast.unparse(node.test)
                               and '__main__' in ast.unparse(node.test) for node in tree.body)
         if rule.get('kind') != ('helper' if callable_script else 'library'):
             raise ValueError(f'helper/library classification mismatch: {path}')
-        fallback = rule.get('fallback')
-        if rule['kind'] == 'library' and (fallback is not None or 'policy' in rule):
-            raise ValueError(f'internal library cannot have a policy or manual route: {path}')
+        if rule['kind'] == 'library' and 'policy' in rule:
+            raise ValueError(f'internal library cannot have a policy: {path}')
         if callable_script:
             owner = rule.get('policy', 'SKILL.md')
             if (not isinstance(owner, str) or not owner.endswith('.md') or '\\' in owner
                     or owner.startswith('/') or ':' in owner or '..' in owner.split('/')
                     or prefix + owner not in files):
                 raise ValueError(f'{path}: policy must name a packaged Markdown owner: {owner}')
-        if fallback is not None:
-            if fallback != f'references/fallbacks/{Path(path).stem}-fallback.md':
-                raise ValueError(f'noncanonical fallback path: {path}')
-            fallbacks[prefix + fallback] = path
-        if config.get('profile') == 'general' and callable_script and fallback is None:
-            raise ValueError(f'general helper lacks its no-Python fallback: {path}')
-    actual_fallbacks = {path for path in files if '/references/fallbacks/' in path
-                        or path.endswith('-without-python.md')}
-    expected_fallbacks = set(fallbacks) if config.get('profile') == 'general' else set()
-    if actual_fallbacks != expected_fallbacks:
-        raise ValueError(f'{member["name"]}: fallback inventory violates build profile')
     owners = {r.get('policy', 'SKILL.md') for r in rules.values() if r['kind'] == 'helper'}
-    policies = {prefix + owner: helper_policy(member, config, owner) for owner in owners}
+    policies = {prefix + owner: helper_policy(member, owner) for owner in owners}
     # Follow packaged Markdown routes, never sibling sources or installed Skills.
     reachable, pending = set(), [prefix + 'SKILL.md']
     while pending:
@@ -589,26 +562,12 @@ def validate_helper_contracts(files: dict[str, bytes], member: dict, config: dic
         if (owner not in reachable or files[owner].decode('utf-8').count(policy) != 1
                 or sum(text.count(policy) for text in markdown) != 1):
             raise ValueError(f'{member["name"]}: require exactly one reachable generated helper policy in {owner}')
-    for path in actual_fallbacks:
-        marker = f'<!-- helper-fallback: {fallbacks[path]} -->'
-        content = files[path].decode('utf-8')
-        if not content.startswith(marker + '\n') or len(content.splitlines()) < 5:
-            raise ValueError(f'missing or wrong helper fallback identity/body: {path}')
     for path, data in files.items():
         if not path.endswith('.md') or Path(path).name == 'CHANGELOG.md':
             continue
-        text = data.decode('utf-8')
-        for referenced in re.findall(r'scripts/[A-Za-z0-9_./-]+\.py', text):
+        for referenced in re.findall(r'scripts/[A-Za-z0-9_./-]+\.py', data.decode('utf-8')):
             if referenced not in rules:
                 raise ValueError(f'instruction references an unregistered helper: {path}: {referenced}')
-        if path in policies:
-            text = text.replace(policies[path], '', 1)
-        if path in actual_fallbacks:
-            text = text.replace(f'<!-- helper-fallback: {fallbacks[path]} -->', '', 1)
-        # Optional routes have one owner. No inline copies or other entry links.
-        if ('helper-fallback:' in text or re.search(r'(?:references/)?fallbacks/|[\w-]+-(?:without-python|fallback)\.md', text)
-                or any(Path(f).name in text for f in fallbacks)):
-            raise ValueError(f'unconditional or forbidden helper fallback route: {path}')
 
 
 def validate_package_links(files: dict[str, bytes]) -> None:
@@ -791,7 +750,7 @@ def verify_packages(root: Path, output: Path) -> list[str]:
         actual = {p.relative_to(folder).as_posix(): p.read_bytes()
                   for p in folder.rglob('*') if p.is_file()}
         try:
-            validate_helper_contracts(actual, member, config)
+            validate_helper_contracts(actual, member)
         except (ValueError, KeyError) as error:
             errors.append(member['name'] + ': ' + str(error))
         if actual != expected:

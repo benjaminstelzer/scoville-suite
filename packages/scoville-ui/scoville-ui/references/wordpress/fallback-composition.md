@@ -1,12 +1,10 @@
 # Fallback composition only
 
-Read this file only for a plugin-owned relationship that
+This file holds the Skill-Norm gaps for plugin-owned relationships. Read it
+only for a plugin-owned relationship that
 [spacing.md](spacing.md)'s table shows Core leaves unspaced.
 
-- No value here is a Classic compliance target.
 - Do not add a value to existing native margins or padding.
-- Do not use the scale to judge an existing native paragraph, Notice, table
-  or control.
 - Treat a list with its filters and pagination as one composed region before
   you decide where a section ends.
 

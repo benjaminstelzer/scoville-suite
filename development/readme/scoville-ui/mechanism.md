@@ -6,7 +6,7 @@
   Settled design still needs correct states, semantics and input behavior.
 - Choose source, geometry, visual and interaction evidence for the actual
   claims. Group related changes and refresh only evidence they invalidate.
-- Route WordPress admin advice through surface and runtime classification.
+- Route WordPress admin advice by which page it concerns and what renders it.
   Classic plugin pages are written and audited against one source checklist:
   page frame, Settings API, labels, Notices, buttons, where styles load and
   what they select, widths, status beyond color and translatable strings. For

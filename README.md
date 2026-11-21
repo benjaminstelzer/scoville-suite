@@ -163,7 +163,7 @@ the user sweat.
   Settled design still needs correct states, semantics and input behavior.
 - Choose source, geometry, visual and interaction evidence for the actual
   claims. Group related changes and refresh only evidence they invalidate.
-- Route WordPress admin advice through surface and runtime classification.
+- Route WordPress admin advice by which page it concerns and what renders it.
   Classic plugin pages are written and audited against one source checklist:
   page frame, Settings API, labels, Notices, buttons, where styles load and
   what they select, widths, status beyond color and translatable strings. For
@@ -316,9 +316,8 @@ describe the changes and lessons that shaped each one.
 
 ## Compatibility
 
-Developed for Codex and Claude Code, with Python 3.11+ for helpers and
-manual alternatives only when suitable Python is unavailable. Missing helpers,
-dependencies or helper errors stop the affected operation.
+Developed for Codex and Claude Code. Requires Python 3.11+ for the bundled
+helpers; missing helpers, dependencies or helper errors stop the affected operation.
 Use at least `gpt-6.1-sol` or Claude Opus 5.5 at medium reasoning effort; lower effort skips steps more often.
 Code, Plan, UI, Handoff and Skillwriter are tested with both models.
 

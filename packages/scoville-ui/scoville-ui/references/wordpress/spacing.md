@@ -1,43 +1,45 @@
 # Spacing ownership
 
-Before choosing or judging a spacing value, find what renders the region:
+This file holds where spacing comes from on a plugin admin page: the reference
+for each kind of region, who sets the space in a new plugin-owned group, how
+each runtime expresses it, and the CSS ownership ladder. Read it before
+choosing or judging composition, CSS or a spacing value. First find what
+renders the region:
 
 | Region | Read | Rule |
 | --- | --- | --- |
-| Classic page built from Core markup | [classic-patterns.md](classic-patterns.md) | Keep its authored units and context-specific cascade. Classic has no universal 4/8px scale. |
-| Region that consumes WPDS tokens | [wpds-tokens.md](wpds-tokens.md), [version rules](version-compatibility.md) | A token's existence does not map it to a Classic relationship. |
-| Plugin-owned relationship, new or existing, that Core markup, classes and components leave unspaced, which you check in their source | Only then [fallback-composition.md](fallback-composition.md) | Skill choices, not official defaults or targets for normalizing existing UI. |
+| Classic page built from Core markup | [classic-patterns.md](classic-patterns.md) | Keep its context-specific cascade. |
+| Region that consumes WPDS tokens at the WordPress 7.0 pin (bundled experimental WPDS) | [experimental-policy.md](experimental-policy.md), then [wpds-tokens.md](wpds-tokens.md) and [version-compatibility.md](version-compatibility.md) | A token's existence does not map it to a Classic relationship. |
+| Region that consumes Core tokens on WordPress 7.1 and later | [version-compatibility.md](version-compatibility.md) for the `wp-theme` style dependency, the optional public `ThemeProvider` and token loading in portals, popups and iframes; [wpds-tokens.md](wpds-tokens.md) for the values | The same. |
+| Plugin-owned relationship, new or existing, that Core markup, classes and components leave unspaced, which you check in their source | Only then [fallback-composition.md](fallback-composition.md) | Skill choices that may supply a local fallback where SKILL.md's [rule for literal values](../../SKILL.md#spacing-size-alignment-and-literal-values) would ask for a precedent; not official defaults or targets for normalizing existing UI. |
 
-- A requested rendered check, or a requested review or audit of how the page
-  looks, takes its spacing evidence from [validation.md](validation.md);
-  `gap` alone proves no visible distance.
-- Keep authored units: `1em` at a 13px font resolves to 13px but must not
-  become a new `13px` or `1rem` rule.
-- A native value outside a 4/8px scale is not a defect for that reason.
+- A declared `gap` alone proves no visible distance.
+- Classic has no universal 4/8px scale.
 - Project-specific minimums do not become Core rules.
 
 ## Parent ownership
 
 These rules apply to a new plugin-owned group composed with `gap`. They do
-not replace working native margin-based flow.
+not replace working native margin-based flow. Each source of space counts
+once, as SKILL.md's
+[Spacing, size, alignment and literal values](../../SKILL.md#spacing-size-alignment-and-literal-values)
+says.
 
 1. The direct parent sets the spacing between its direct children.
-2. Children do not add the same outer margin when their parent uses `gap`.
-3. A nested group chooses the gap for its own children instead of copying
+2. A nested group chooses the gap for its own children instead of copying
    the parent's gap.
-4. A card or panel sets its internal padding. Its parent sets the distance
+3. A card or panel sets its internal padding. Its parent sets the distance
    to peers.
-5. Hidden, unmounted, or empty children occupy no gap slot.
-6. Help, status, and error text stays with the control it explains.
-7. Reset heading or paragraph margins only inside the exact plugin-owned gap
+4. Hidden, unmounted, or empty children occupy no gap slot.
+5. Help, status, and error text stays with the control it explains.
+6. Reset heading or paragraph margins only inside the exact plugin-owned gap
    parent that replaces them.
-8. A portal or overlay gets its spacing at the element it renders into.
+7. A portal or overlay gets its spacing at the element it renders into.
 
 Compare a heading's distance to its content with its distance to the next
-section. Trace an unexplained difference to the parent gap, child margins,
-padding and native elements in between before changing a value. Keep
-deliberate differences between levels; do not make every distance equal. A
-valid token alone does not show that the rendered grouping is right.
+section. Keep deliberate differences between levels; do not make every
+distance equal. A valid token alone does not show that the rendered grouping
+is right.
 
 ## Runtime expression
 
@@ -51,8 +53,7 @@ unspaced.
 Where no Core markup or class spaces such a relationship and the supported
 range includes 7.1, express its gap through Core's `--wpds-dimension-gap-*`
 tokens, branched at runtime, in narrowly scoped plugin CSS, not through a new
-local spacing variable. A stylesheet is not a React runtime. Do not apply the
-token over native rhythm that works. See
+local spacing variable. A stylesheet is not a React runtime. See
 [version-compatibility.md](version-compatibility.md) for the explicit 7.0
 fallback and registration, loading and token-name checks.
 
@@ -80,21 +81,7 @@ components:
 ```
 
 Use `FlexItem` for intrinsic content. Use `FlexBlock` only for content intended
-to grow into remaining space. Preserve an existing `__experimentalVStack`
-subtree unless a functional requirement justifies changing it.
-
-### Bundled WPDS at the 7.0 pin
-
-Before this route, read [experimental-policy.md](experimental-policy.md) for
-public APIs, token ownership and explicit Stack props at the pin.
-
-### Core tokens and public theming in 7.1
-
-- Inside WordPress, depend on the existing `wp-theme` style handle. Do not
-  bundle a second token stylesheet.
-- A public `ThemeProvider` is optional, for scoped React theming. It does not
-  replace the stylesheet, and PHP does not need it.
-- For portals, popups and iframes, check which document loads the tokens.
+to grow into remaining space.
 
 ## CSS ownership ladder
 
@@ -108,4 +95,4 @@ Stop at the first layer that fits:
 5. Narrow plugin CSS, only for a gap the layers above leave open.
 
 Before writing an exception, apply
-[SKILL.md's rule on custom styling](../../SKILL.md#implementation-and-acceptance).
+[SKILL.md's rule on custom styling](../../SKILL.md#custom-styling).

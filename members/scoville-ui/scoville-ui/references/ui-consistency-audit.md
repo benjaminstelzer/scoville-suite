@@ -1,8 +1,9 @@
-# Consistency audit coverage
+# Consistency audit
 
-A request to check page X for consistency selects Audit with a consistency
-focus on the named page or region. Redesign, edits, other screens and a full
-accessibility audit are separate requests.
+This file holds how to cover every element of a page or region in a
+consistency check. A request to check page X for consistency selects Audit
+with a consistency focus on the named page or region; read this file with
+[Validation](validation.md) for it.
 
 1. From the source, build the inventory: the scope's regions, component
    families, distinct variants and known exceptions. Where present, include
@@ -13,11 +14,10 @@ accessibility audit are separate requests.
 2. After the source findings, compare the inventory with the final rendered
    DOM. Include content below the first viewport, nested scroll areas and
    relevant same-page tabs, disclosures, menus and overlays, and add what
-   they reveal. Interact read-only: never save, submit, delete or cause an
-   external effect for coverage. Name states you cannot reach as unverified.
+   they reveal. Name states you cannot reach as unverified.
 3. Check every entry against what decides it (component, token, platform
-   default, product requirement or local rule) with the checks Validation's
-   claim table requires. Compare within and between groups, such as links
+   default, product requirement or local rule) with the checks
+   [Validation's claim table](validation.md#establish-the-claim) requires. Compare within and between groups, such as links
    with the buttons that do the same kind of action.
 4. Report the defects with their entries, and each entry or state left
    unverified. A required entry left unverified prevents a complete

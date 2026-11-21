@@ -1,5 +1,11 @@
 # Bundled translation delivery
 
+This file holds custom translation loading for bundled translations and an
+optional PO-based delivery chain. Read it only when
+[internationalization.md](internationalization.md#required-readiness-optional-translation-delivery)
+sends you here: bundled translations are requested, or existing loading or
+PO-based delivery changes.
+
 ## Optional custom translation loading
 
 Register a custom language path at `init` when the plugin bundles translations:
@@ -14,31 +20,18 @@ add_action( 'init', static function () {
 } );
 ```
 
-Register the JavaScript handle first, attach translations to that exact handle
-and literal domain with an explicit language path, then enqueue:
+Register and enqueue the JavaScript handle as in
+[internationalization.md](internationalization.md#prepare-loading-without-requiring-catalogs),
+and attach translations to that exact handle and literal domain with the
+explicit language path:
 
 ```php
-$asset = require plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
-
-wp_register_script(
-    'plugin-slug-app',
-    plugins_url( 'build/index.js', __FILE__ ),
-    $asset['dependencies'],
-    $asset['version'],
-    true
-);
-
 wp_set_script_translations(
     'plugin-slug-app',
     'plugin-slug',
     plugin_dir_path( __FILE__ ) . 'languages'
 );
-
-wp_enqueue_script( 'plugin-slug-app' );
 ```
-
-Pass the dependency list the build generated. A hand-written list can miss
-runtime handles such as `react` or `react-jsx-runtime` that the build emits.
 
 ## Optional PO-based delivery example
 

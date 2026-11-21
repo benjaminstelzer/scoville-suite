@@ -86,10 +86,6 @@
           "target": "scoville-code/scripts/check_text_size.py"
         },
         {
-          "source": "shared:runtime/check_text_size-fallback.md",
-          "target": "scoville-code/references/fallbacks/check_text_size-fallback.md"
-        },
-        {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-code/references/shell-commands.md"
         },
@@ -131,7 +127,6 @@
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md",
           "policy": "references/output-delivery.md"
         }
       },
@@ -204,10 +199,6 @@
           "target": "scoville-handoff/scripts/check_text_size.py"
         },
         {
-          "source": "shared:runtime/check_text_size-fallback.md",
-          "target": "scoville-handoff/references/fallbacks/check_text_size-fallback.md"
-        },
-        {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-handoff/references/shell-commands.md"
         },
@@ -249,7 +240,6 @@
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md",
           "policy": "references/output-delivery.md"
         }
       },
@@ -295,32 +285,12 @@
           "target": "scoville-plan/LICENSE"
         },
         {
-          "source": "members/scoville-plan/scoville-plan/references/native-decision-format.md",
-          "target": "scoville-plan/references/native-decision-format.md"
+          "source": "members/scoville-plan/scoville-plan/references/decisions.md",
+          "target": "scoville-plan/references/decisions.md"
         },
         {
-          "source": "members/scoville-plan/scoville-plan/references/native-project-lifecycle.md",
-          "target": "scoville-plan/references/native-project-lifecycle.md"
-        },
-        {
-          "source": "members/scoville-plan/scoville-plan/references/planning-granularity.md",
-          "target": "scoville-plan/references/planning-granularity.md"
-        },
-        {
-          "source": "members/scoville-plan/scoville-plan/references/fallbacks/validate_profile-fallback.md",
-          "target": "scoville-plan/references/fallbacks/validate_profile-fallback.md"
-        },
-        {
-          "source": "members/scoville-plan/scoville-plan/references/repair.md",
-          "target": "scoville-plan/references/repair.md"
-        },
-        {
-          "source": "members/scoville-plan/scoville-plan/references/read-only.md",
-          "target": "scoville-plan/references/read-only.md"
-        },
-        {
-          "source": "members/scoville-plan/scoville-plan/references/fallbacks/select_context-fallback.md",
-          "target": "scoville-plan/references/fallbacks/select_context-fallback.md"
+          "source": "members/scoville-plan/scoville-plan/references/maintenance.md",
+          "target": "scoville-plan/references/maintenance.md"
         },
         {
           "source": "members/scoville-plan/scoville-plan/scripts/select_context.py",
@@ -365,10 +335,6 @@
         {
           "source": "shared:runtime/check_text_size.py",
           "target": "scoville-plan/scripts/check_text_size.py"
-        },
-        {
-          "source": "shared:runtime/check_text_size-fallback.md",
-          "target": "scoville-plan/references/fallbacks/check_text_size-fallback.md"
         },
         {
           "source": "shared:prompting/shell-commands.md",
@@ -421,7 +387,6 @@
       "helper_contracts": {
         "scripts/select_context.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/select_context-fallback.md",
           "policy": "SKILL.md"
         },
         "scripts/markdown_structure.py": {
@@ -429,12 +394,10 @@
         },
         "scripts/validate_profile.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/validate_profile-fallback.md",
           "policy": "SKILL.md"
         },
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md",
           "policy": "references/output-delivery.md"
         }
       },
@@ -483,8 +446,12 @@
           "target": "scoville-ui/references/framework-alignment.md"
         },
         {
-          "source": "members/scoville-ui/scoville-ui/references/ui-quality.md",
-          "target": "scoville-ui/references/ui-quality.md"
+          "source": "members/scoville-ui/scoville-ui/references/accessibility.md",
+          "target": "scoville-ui/references/accessibility.md"
+        },
+        {
+          "source": "members/scoville-ui/scoville-ui/references/ui-structure.md",
+          "target": "scoville-ui/references/ui-structure.md"
         },
         {
           "source": "members/scoville-ui/scoville-ui/references/validation.md",
@@ -535,10 +502,6 @@
           "target": "scoville-ui/references/wordpress/routing.md"
         },
         {
-          "source": "members/scoville-ui/scoville-ui/references/wordpress/classification-output.md",
-          "target": "scoville-ui/references/wordpress/classification-output.md"
-        },
-        {
           "source": "members/scoville-ui/scoville-ui/references/wordpress/sources.md",
           "target": "scoville-ui/references/wordpress/sources.md"
         },
@@ -575,10 +538,6 @@
           "target": "scoville-ui/scripts/check_text_size.py"
         },
         {
-          "source": "shared:runtime/check_text_size-fallback.md",
-          "target": "scoville-ui/references/fallbacks/check_text_size-fallback.md"
-        },
-        {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-ui/references/shell-commands.md"
         },
@@ -589,10 +548,6 @@
         {
           "source": "members/scoville-ui/scoville-ui/references/ui-wording.md",
           "target": "scoville-ui/references/ui-wording.md"
-        },
-        {
-          "source": "members/scoville-ui/scoville-ui/references/ui-layout.md",
-          "target": "scoville-ui/references/ui-layout.md"
         },
         {
           "source": "members/scoville-ui/scoville-ui/references/ui-interactions.md",
@@ -653,7 +608,6 @@
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md",
           "policy": "references/output-delivery.md"
         }
       },
@@ -722,10 +676,6 @@
           "target": "scoville-project-context-cleanup/scripts/check_text_size.py"
         },
         {
-          "source": "shared:runtime/check_text_size-fallback.md",
-          "target": "scoville-project-context-cleanup/references/fallbacks/check_text_size-fallback.md"
-        },
-        {
           "source": "shared:prompting/shell-commands.md",
           "target": "scoville-project-context-cleanup/references/shell-commands.md"
         },
@@ -767,7 +717,6 @@
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
-          "fallback": "references/fallbacks/check_text_size-fallback.md",
           "policy": "references/output-delivery.md"
         }
       }

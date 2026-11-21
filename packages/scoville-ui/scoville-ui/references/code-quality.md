@@ -1,7 +1,7 @@
 # Code quality
 
-Authors and reviewers apply these criteria; complete criteria embedded in an
-assignment or in Code count as read. For a review, also use the review section
+Authors and reviewers apply these criteria; the complete criteria in Code
+count as read. For a review, also use the review section
 below.
 
 ## Criteria
@@ -163,43 +163,14 @@ rule whose subject does not occur there needs no action.
    failure, unless the request removes it. That the state "cannot change"
    is no reason to drop the line that set it.
 
-### Questions for the finished change
-
-Answer each by naming the place in the code; skip one whose subject does not
-occur. Authors correct what is part of this change, reviewers report it.
-
-1. **Rule 1.** Starting at the caller that runs the changed code more than
-   once: what runs per item, request, poll or event, what does it walk,
-   load, rebuild or write each time, and does that grow with the data or
-   repeat although nothing changed?
-2. **Rules 2 and 3.** What in the change has no need you can name, what
-   has no caller, and does the codebase now hold two pieces of code for one
-   job or an old form beside the new one?
-3. **Rule 4.** Which uses does each general piece serve, and is the same
-   code written by hand in several places? Does each piece the change adds,
-   moves or extends sit in the module that owns its data or rule, also
-   where it lands in shared code or in a file that registers and wires, and
-   does any code reach past another module's interface?
-4. **Rule 5.** For each value loaded again after a check: which line checks
-   the value that is used?
-5. **Rule 6.** For each call or pass the change replaces: where does the
-   new path set the state and cause the effects the old one did?
-6. **Tests.** Would the decisive test fail if the requested behavior broke,
-   and does the project's command for this kind of test run it?
-
 ## Reviewing a change
 
-A reviewer checks the change against the rules in "What the code has to be"
-and answers every one of the "Questions for the finished change": the same
-ones its author had to follow. Read the whole change with its callers and the
-helpers it calls, also where the change did not touch them. Go through the
-questions in their order and write down the defects each one shows; a question
-you do not ask is a rule nobody checked. Start
-with question 1, because the author of a loop usually sees it as linear.
-Judge from the code; run no benchmark for this.
+A reviewer checks the change against the rules its author had to follow:
+the whole Skill it reviews with, and in it every rule of "What the code has
+to be" in their order. It writes down the defects each one shows; a rule
+you do not check is a rule nobody checked. Start with rule 1, because the
+author of a loop usually sees it as linear.
 
 A finding names the file and line, the rule it breaks and, where one exists,
 the function or structure to use instead. Report each defect on its own. A
-defect is a breach of one of the rules. An optional improvement, a further
-protection or a case nobody described is not one: leave it out, or list it
-apart as a question. A read-only reviewer changes nothing.
+defect is a breach of one of the rules. A read-only reviewer changes nothing.
