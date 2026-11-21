@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-21 - The size checker works in a Windows sandbox
+
+The size checker gives a complete file its final name by rename on Windows. Codex's Windows sandbox refuses hard links in the project and in a temporary folder a helper creates, so saving a complete output as a file failed there. On Windows rename refuses an existing name, as the hard link does elsewhere. Checked inside that sandbox: the file is saved, and a second file under the same name is refused.
+
 ## 2026-11-20 - Python is required
 
 The bundled text-size checker now always needs Python 3.11+. The manual no-Python route and its reference file are gone: without a suitable Python the size check stops and says so, as it already did after a helper error. I removed the manual route because a host without Python is rare, an agent following a prose copy of a helper makes mistakes the program does not, and every copy was one more wording of the same rules to keep in step.

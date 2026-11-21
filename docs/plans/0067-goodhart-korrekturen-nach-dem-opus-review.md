@@ -150,3 +150,18 @@ Steps:
 2. [status: done] Pakete mit dem CI-Nachweis bauen und in die vorhandenen Installationsordner spiegeln; fertig, wenn sie dem Build gleichen.
 3. [status: done] Nach Freigabe Changelog-Einträge schreiben, mit release_suite.py vorbereiten und veröffentlichen; fertig, wenn published.json alle Ziele als geprüft führt.
 Evidence: CI-Run 44836940153: 6/6 Jobs. publish von dec276f am 2026-11-21: acht Ziele remote=verified, Suite 6a9637f, Codex-Suite d231397. Installiert in .claude, .codex, .agents; gleich dem Build.
+
+### W-009 Installierte Codex-Skills über die CLI prüfen und korrigieren
+
+Status: done
+Depends on: [W-008]
+Blocked by: []
+Decisions: []
+Outcome: Die installierten Codex-Skills sind mit gpt-6.2-sol über die Codex-CLI geprüft, und die dabei belegten Fehler sind an den Quellen behoben.
+Acceptance: Fünf Aufgaben, eine Ask-Review und ein Workflow-Lauf sind unabhängig ausgewertet. Jede Korrektur nennt ihren Anlass. Die Suite-Prüfung und die private Laufzeit-CI bestehen für den korrigierten Stand.
+Instructions: []
+Steps:
+1. [status: done] Die mitgelieferten Standardmodelle auf gpt-6.2 anheben und ausliefern; fertig, wenn die installierten Vorgaben gpt-6.2-sol und gpt-6.2-astra nennen.
+2. [status: done] Fünf Aufgaben, eine Ask-Review und einen Workflow-Lauf als frische Sitzungen fahren und auswerten; fertig, wenn je Lauf Bytes, Git-Spuren, Tests, Profil und Skill-Zugriffe vorliegen.
+3. [status: done] Belegte Fehler beheben und mit Kontrollläufen prüfen; fertig bei bestandener Suite-Prüfung und Laufzeit-CI.
+Evidence: CLI-Läufe vom 2026-11-21 im Testprotokoll (W-009). check_all 12/12 auf 070f567. CI-Run 44894282174: 6/6. Offen: Sol nennt in der Umsetzung keine Stufe und fragt nicht nach.

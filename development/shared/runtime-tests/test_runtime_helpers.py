@@ -82,7 +82,7 @@ def unconfirmed(process, timeout):
     out,err,failure=original(process,timeout)
     assert failure == 'timeout'
     return out,err,'timeout_cleanup_incomplete'
-storage_failure = (patch.object(check_text_size.os,'link',side_effect=OSError(errno.EOPNOTSUPP,'no hardlinks')) if sys.argv.pop(1) == 'link' else patch.object(check_text_size,'publish_full',side_effect=PermissionError(errno.EACCES,'write denied')))
+storage_failure = (patch.object(check_text_size,'name_new_file',side_effect=OSError(errno.EOPNOTSUPP,'no hardlinks')) if sys.argv.pop(1) == 'link' else patch.object(check_text_size,'publish_full',side_effect=PermissionError(errno.EACCES,'write denied')))
 with patch.object(check_text_size,'collect_output',side_effect=unconfirmed), storage_failure:
     raise SystemExit(check_text_size.main())
 ''', encoding='utf-8')
@@ -115,7 +115,7 @@ with patch.object(check_text_size,'collect_output',side_effect=unconfirmed), sto
 from unittest.mock import patch
 sys.path.insert(0,sys.argv.pop(1))
 import check_text_size
-with patch.object(check_text_size.os,'link',side_effect=OSError(errno.EOPNOTSUPP,'no hardlinks')):
+with patch.object(check_text_size,'name_new_file',side_effect=OSError(errno.EOPNOTSUPP,'no hardlinks')):
     raise SystemExit(check_text_size.main())
 ''', encoding='utf-8')
         producer = 'import sys;from pathlib import Path;p=Path(sys.argv[1]);p.write_text(p.read_text()+"x" if p.exists() else "x");sys.stdout.buffer.write(b"BEGIN"+b"x"*431000+b"END");sys.stderr.buffer.write(b"required error");sys.exit(7)'

@@ -96,8 +96,7 @@ user once whether the law requires WCAG AA for the frontend, the backend or
 both, and record the answer as that line, with version 2.1 unless the user
 chooses 2.2, in the project's rule file with Scoville
 Project Context Cleanup. A review, an audit or a run without a
-user to ask does not ask: it works to the base and says in its report that no
-level is recorded.
+user to ask does not ask and works to the base.
 
 Where the base holds, nothing beyond the base is built or reported as
 missing. Where WCAG AA holds,
@@ -209,8 +208,8 @@ the output of `git show <commit>:<path>` saved in a temporary folder; do not
 stash, reset, check out or restore files in the working tree for that. A
 project check or test that passes before your change still passes after it.
 Change or remove one only where the request changes or removes the guarantee
-it tests, or to keep testing that guarantee another way, and name the edit
-and its reason in the report.
+it tests, or to keep testing that guarantee another way. Name every edit to
+an existing check or test, and its reason, in the report.
 
 ## States of what you add
 
@@ -332,5 +331,7 @@ part of the Audit. For Implement, report the changes, the checks they rest on
 and their limits, with what Code's report requires where that Skill applies.
 Where the change alters what a state or place the request does not name
 shows, say what it shows now and ask whether that is wanted.
+Where no accessibility level is recorded and the user was not asked, the
+report says that none is recorded and that the work was held to the base.
 When a requested check selected Validation, use its results to decide
 acceptance too.

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-21 - The report says when no accessibility level is recorded
+
+The statement that no accessibility level is recorded and the work was held to the base now stands in the report section. Where it stood before, one model left it out of a review and of an implementation report. After the move it appeared in the review and was still missing from the implementation report, one run each.
+
+Naming an edit to an existing check or test, with its reason, is now a sentence of its own. It stood at the end of the sentence that says when such a test may change, and in two runs in Codex one model made an existing test stricter without naming the edit. In two later runs on the same tasks the model edited no existing test, so the new sentence is not shown to work.
+
+The size checker gives a complete file its final name by rename on Windows. Codex's Windows sandbox refuses hard links in the project and in a temporary folder a helper creates, so saving a complete output as a file failed there. On Windows rename refuses an existing name, as the hard link does elsewhere. Checked inside that sandbox: the file is saved, and a second file under the same name is refused.
+
 ## 2026-11-21 - Fewer unrequested demands in reviews; existing files and checks stay intact
 
 I measured the Skill on real review and implementation cases from two of my projects, in workspaces without project rules or documentation. In reviews both models found about three more of 22 known defects with it. One model also asked for about twice as many additions nobody had requested, and the cause was the Skill: references phrased points as duties to add hints, states, confirmations and controls, and the rule for additions accepted a reference as the need.

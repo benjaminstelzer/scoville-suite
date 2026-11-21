@@ -4426,3 +4426,84 @@ und wurden als „teils“ gewertet (Opus neu und alt, Sol alt). Das
 ist eine Schwäche der Erwartung, nicht dieser Läufe; ohne sie
 stünde Opus bei 10/0 und 9/1. Belege: `plan-everyday/RESULTS-DATA.json`,
 `plan-everyday/grading`, `plan-everyday/JUDGING.md`.
+
+## W-009: Installierte Codex-Skills über die CLI
+
+Anlass war ein erster Codex-Lauf des Nutzers, dessen Prüfauftrag den
+Subagenten das Lesen außerhalb des Arbeitsordners verbot: Keiner las einen
+Skill. Die Wiederholung lief am 2026-11-21 über die Codex-CLI, mit dem
+Hauptagenten als Prüfer.
+
+Aufbau: Jede Aufgabe ist eine frische `codex exec`-Sitzung im echten
+Codex-Home mit dem dort aktiven Skill-Satz unter `~/.agents/skills`.
+Modell gpt-6.2-sol, Aufwand medium; der Workflow-Lauf high, weil das
+mitgelieferte Hauptpaar so lautet. Sandbox `workspace-write`, Codex-Memories
+und Plugins aus. Der Auftrag besteht aus dem Aufgabentext und einem Satz zum
+Ordner; ein Skill wird nicht genannt. Bytes, Git-Spuren, Tests, Planprofil
+und Skill-Zugriffe sind unabhängig aus Arbeitsordner und Sitzungsereignissen
+erhoben. Skript, Vorlagen und die Auswertungen je Lauf liegen im Arbeitsbereich
+unter `state/2026-11-14-skill-evaluation/codex-check/`.
+
+### Erste Runde, installierter Stand 6cebd34
+
+| Lauf | Gelesene Skills | Ergebnis |
+| --- | --- | --- |
+| A1, Option `--min` | Code | 13 Tests bestanden. Ein bestehender Test wurde verschärft; der Bericht nennt das nicht. |
+| A2, Semikolon und Übergabe | Code, Handoff | 12 Tests bestanden. Bericht vor der Übergabe, vier Backticks, vier Abschnitte, ein Schritt; Angaben stimmen. Der geänderte Test ist nur indirekt genannt. |
+| A3, laufender Plan-Schritt | Plan, Code | 16 Tests bestanden, Profil gültig, Nachweis in einer Zeile, Schritt 2 erledigt, Schritt 3 offen. |
+| A4, UI-Review | UI, Code | Vier gesetzte Mängel gefunden, kein ausgeschlossener Punkt gefordert. Die Angabe zur Barrierefreiheitsstufe fehlt; ein Befund ist eine Vermutung. |
+| A5, Aktion „Duplizieren“ | UI, Code | Nativer `button` mit vorhandener Klasse, keine Meldung, keine Abfrage. Der Filter wird umgeschaltet und genannt, aber nicht nachgefragt; die Stufenangabe fehlt. |
+| Ask, Review von A1 | Ask; Berater: Code | gpt-6.2-astra/high angenommen. Berater ohne geerbten Verlauf, lädt den Code-Skill selbst, ändert nichts. |
+| Workflow, W-002 abschließen | Workflow, Plan, Code | Sechs frische Reviewer auf gpt-6.2-sol/xhigh. Das Abschlussreview fand einen Fehler in Schritt 1; Korrektur, frische Review, wiederholter Abschluss. 17 Tests, Profil gültig, W-003 unberührt. |
+
+In keinem Lauf änderte sich ein Zeilenende, und kein Lauf versuchte Stash,
+Reset, Checkout oder Restore. Die Sandbox hält `.git` schreibgeschützt; ein
+Versuch wäre im Befehlsverlauf sichtbar gewesen. Für den Workflow-Lauf war
+`.git` freigegeben.
+
+Der unabhängige Reviewer, den Code nach einer Verhaltensänderung verlangt,
+startete in vier Läufen; in zwei davon erbte er den Verlauf des Autors, weil
+`spawn_agent` ohne `fork_turns` den Verlauf mitgibt.
+
+### Hardlinks in der Windows-Sandbox
+
+Die Sandbox verweigert `os.link` im Projektordner und in einem Ordner, den
+`tempfile.mkdtemp` anlegt (WinError 5). Im Temp-Verzeichnis der Sitzung
+selbst gelingt der Hardlink, dieses Verzeichnis kann ein gestarteter Agent
+aber nicht lesen. Folgen in den Läufen: Der erste Workflow-Reviewer meldete
+`blocked`, weil er seine Auftragsdatei nicht erreichte. Die Ablage im
+Projekt scheiterte am Hardlink, worauf der Hauptfaden die Datei von Hand
+kopierte. Ask konnte eine Frage über 8 KiB nicht als Datei übergeben und
+kürzte sie. `os.rename` gelingt an allen drei Orten und verweigert unter
+Windows ein vorhandenes Ziel.
+
+Ein erster Workflow-Lauf hielt beim Reviewer-Start an, weil der Prüfauftrag
+„arbeite nur dort“ sagte und die Sitzung deshalb nur Pfade im Projekt
+versuchte. Der Hauptfaden ließ den Schritt offen und meldete die Ursache.
+Das war ein Fehler des Prüfauftrags; der zweite Lauf ohne diesen Satz lief
+durch.
+
+### Korrekturen und Kontrollläufe
+
+| Korrektur | Kontrolle |
+| --- | --- |
+| Größenprüfer aller Skills und Workflow-Helfer benennen die fertige Datei unter Windows um. | In der Sandbox: Ablage im Projekt gelingt, zweite Ablage unter demselben Namen wird abgelehnt. Kein neuer vollständiger Workflow-Lauf. |
+| Code, Codex-Ausgabe: Reviewer mit `fork_turns` `none` starten. | Drei von drei Starts ohne geerbten Verlauf. |
+| UI: Die Angabe, dass keine Stufe festgelegt ist, steht im Berichtsabschnitt. | Im Review vorhanden, in der Umsetzung weiter nicht; je ein Lauf. |
+| Code und UI: Das Benennen einer Teständerung ist ein eigener Satz. | Nicht belegt: In beiden Kontrollläufen wurde kein bestehender Test geändert. |
+
+Die Kontrollläufe (A1, A2, A4, A5) nutzten die korrigierten Pakete aus dem
+Arbeitsordner, bei abgeschalteten installierten Skills. Es sind dieselben
+Aufgaben; sie zeigen nur, ob die Formulierung bei diesen Aufgaben greift.
+
+### Offen
+
+- Sol nennt im Umsetzungsbericht weder die fehlende Stufe, noch fragt es
+  nach, wenn die Änderung einen nicht genannten Zustand verändert.
+- Die Zahl der Befunde im UI-Review schwankt zwischen zwei Läufen derselben
+  Aufgabe (7 und 12); die ausgeschlossenen Punkte wurden in keinem gefordert.
+- `codex exec` startet in der Windows-Sandbox nur mit der Entwickleroption
+  `prefer_mxc` Befehle; ohne sie scheiterte jeder Befehl mit Fehler 1909.
+
+Suite-Prüfung 12/12 auf `070f567`; Laufzeit-CI Run 44894282174, sechs von
+sechs Jobs.
