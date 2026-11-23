@@ -1,12 +1,21 @@
 # Changelog
 
+## 2026-11-23 - Validator diagnostics after a follow-up review
+
+I had `gpt-6.2-astra` check the corrections of the entry below against their counterparts. Fifteen of the nineteen were resolved; these changes follow from the rest. None was tested with a model.
+
+- Plan: After a duplicate Work Item ID the validator now names the next free ID itself and says that the marked line is the second occurrence in the file, not necessarily the newer item. The advice of the entry below left the calculation to the agent and could be read as pointing at the older item.
+- Plan: A Goal that holds only `[]` is rejected like an empty one. The earlier advice for an empty Goal had recommended that marker, and a Plan saved that way passed the check without a Goal.
+
+Statements in the entries below said more than was shown, and I corrected them. The three uses removed from the rule against unrequested safeguards came from sessions in the measuring runs, not from the tasks.
+
 ## 2026-11-23 - Corrections after a full review
 
 I had `gpt-6.2-astra` review every Skill source and all changes since 2026-11-14. These corrections follow from its report. Unless an item says so, none was tested with a model.
 
 - Plan: The sentence that keeps conditions on the working process out of Goal and Non-goals no longer names examples. The two it named, when work may start and what a session may touch, were the conditions of the test task, so the run after the change showed little. One run with `gpt-6.2-sol` on the sentence without examples created a first Plan from the same request: the result limit stands in Goal, the exclusion in Non-goals, "do not implement yet" appears nowhere, and the limit on what to access stands in the Instructions of both items. That is one run; it fits the sentence and does not prove it.
 - Plan: After a duplicate Work Item ID the validator advised the next-ID helper, which stops on the same duplicate; it now says to take the ID one above the highest in the Plan. For an empty Goal one helper message advised `[]` while the validator says that Goal needs authored content; both now say the latter. A Decision is deleted only when no kept Decision names it in `superseded_by`; deleting it left that Decision without the link the validator requires.
-- Code and UI: The rule against safeguards for a use nobody described no longer lists three such uses: a second writer at the same moment, a second open window, another process on the same data. They were the scenarios of the tasks that measured the rule. The rule still says that such a use is a question for the user, named in the report, and neither a mechanism to build nor a defect to report. Its effect was measured with the list and not again without it.
+- Code and UI: The rule against safeguards for a use nobody described no longer lists three such uses: a second writer at the same moment, a second open window, another process on the same data. They came from the runs that measured the rule, where sessions had assumed such uses unasked; the tasks did not name them. The rule still says that such a use is a question for the user, named in the report, and neither a mechanism to build nor a defect to report. Its effect was measured with the list and not again without it.
 - UI: The WordPress table reported a group of controls without `<fieldset>` and `<legend>` as a defect, although the base rule also accepts a group component that carries the group's name. A requested check of translation loading now asserts one translated string from each source the page ships, PHP and each registered script handle; it asked for a React string also on a page without script.
 - Handoff: The sentence on handing off a stopped Scoville Workflow now ships only in the Codex suite, the one edition that contains Workflow.
 - Skillwriter: "Preserve the intention" repeated the list of what a revision preserves from the shared writing rules. It now names only what it adds: the intended outcome, the activation boundaries, and that a preserved property changes only when the user explicitly asks.

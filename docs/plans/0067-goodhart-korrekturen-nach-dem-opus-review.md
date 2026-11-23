@@ -181,3 +181,18 @@ Steps:
 3. [status: done] Den Plan-Satz ohne Beispiele einmal mit gpt-6.2-sol prüfen; fertig, wenn der Lauf ausgewertet ist.
 4. [status: done] Laufzeit-CI für den korrigierten Stand fahren; fertig bei sechs von sechs Jobs.
 Evidence: Einordnung, Gegenlesen und Sol-Lauf vom 2026-11-23 im Testprotokoll (W-010). check_all 12/12. CI-Run 45204759085: 6/6.
+
+### W-011 Befunde der Astra-Nachprüfung beheben
+
+Status: done
+Depends on: [W-010]
+Blocked by: []
+Decisions: []
+Outcome: Die berechtigten Befunde aus der Nachprüfung der W-010-Korrekturen sind an den Quellen behoben.
+Acceptance: Jeder Punkt der Nachprüfung ist als übernommen oder nicht übernommen mit Grund festgehalten. Die Suite-Prüfung und die private Laufzeit-CI bestehen für den korrigierten Stand.
+Instructions: []
+Steps:
+1. [status: done] Punkte an den Quellen nachlesen und einordnen; fertig, wenn jeder Punkt eine Einordnung mit Grund im Testprotokoll hat.
+2. [status: done] Übernommene Punkte beheben; fertig bei bestandener Suite-Prüfung.
+3. [status: done] Laufzeit-CI für den korrigierten Stand fahren; fertig bei sechs von sechs Jobs.
+Evidence: Einordnung und Änderungen vom 2026-11-23 im Testprotokoll (W-011). check_all 12/12. CI-Run 45246766728: 6/6.

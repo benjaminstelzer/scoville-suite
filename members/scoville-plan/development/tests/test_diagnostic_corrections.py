@@ -193,6 +193,21 @@ class DiagnosticCorrections(unittest.TestCase):
         self.replace(self.decision, '## Consequences\n', '## Consequences\n\n[]\n')
         self.assert_valid()
 
+    def test_duplicate_work_item_id_names_the_next_free_id(self):
+        self.replace(self.plan, '### W-002 Validate relationships', '### W-001 Validate relationships')
+        issue = self.diagnostic('WORK_ITEM_ID_DUPLICATE')
+        self.assertIn('`W-002`', issue['suggestion'])
+        self.assertIn('second occurrence', issue['suggestion'])
+        self.replace(self.plan, '### W-001 Validate relationships', '### W-002 Validate relationships')
+        self.assert_valid()
+
+    def test_goal_holding_only_the_empty_marker_is_rejected(self):
+        self.replace(self.plan, 'Observe one valid profile.', '[]')
+        issue = self.diagnostic('PLAN_SECTION_BOUNDARY_INVALID')
+        self.assertIn('Goal needs authored content', issue['message'])
+        self.replace(self.plan, '## Goal\n\n[]', '## Goal\n\nObserve one valid profile.')
+        self.assert_valid()
+
     def test_missing_acceptance_date_uses_today_for_a_new_acceptance(self):
         self.replace(self.decision, 'accepted: 2026-08-08\n', '')
         issue = self.diagnostic('DECISION_ACCEPTED_REQUIRED')

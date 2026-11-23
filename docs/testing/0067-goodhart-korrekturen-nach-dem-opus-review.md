@@ -4574,6 +4574,9 @@ Quelle nachgelesen; F04 wurde an einer Kopie nachgestellt.
 
 Übernommen (19): F03, F04, F05, F06, F07, F08 (nur die rechnerabhängige
 Testzeile), F10, F11, F12, F14, F15, F16, F17, F18, L06, L07, L08, K01, K02.
+L08 nur zum Teil: Die drei Beispiele sind gestrichen; die Frage an den Nutzer
+im Bericht, die der Befund ebenfalls nannte, bleibt auf Entscheidung des
+Nutzers.
 Sechs davon gehen ganz oder teilweise auf Änderungen aus W-009 zurück: L07, F08, F12, F15, F16
 und F17.
 
@@ -4581,14 +4584,15 @@ Nicht übernommen (9, dazu ein Teil von F08):
 
 | Befund | Grund |
 |---|---|
-| F01 | Schreiben außerhalb des Projekts setzt voraus, dass jemand `.scoville/temp` selbst nach außen verlinkt hat. |
-| F02 | Überschreibt Ask die Auftragsdatei der Vorrunde, geht nichts verloren, was noch gebraucht wird. |
-| F08, zweiter Teil | Die Pfaderkennung auf POSIX hat keinen belegten Fehler. |
+| F01 | Schreiben außerhalb des Projekts setzt voraus, dass jemand `.scoville` oder `.scoville/temp` selbst nach außen verlinkt hat. |
+| F02 | Die Referenz verlangt je Runde eine eigene Datei. Überschreibt ein Agent trotzdem die Auftragsdatei der Vorrunde, fehlt sie nur zum Nachvollziehen: die Folgedatei trägt Berater, Arbeitsverzeichnis und Einstellungen weiter. |
+| F08, zweiter Teil | Die Erkennung prüft nur Pfadbestandteile und würde auch einen gleich aufgebauten Temp-Pfad außerhalb der Sandbox umleiten. Ein solcher Pfad ist nicht belegt, und die Folge wäre nur die Ablage im Projekt. |
 | F09 | Ein Eingabeweg über stdin wäre neue Mechanik für eine Schätzung. |
 | F13 | Der Bewertungskatalog von Code ist laut `members/scoville-code/development/README.md` unveränderter historischer Beleg; die README nennt die Zwei-Korrekturen-Schwelle selbst als überholtes Beispiel. |
-| L01 bis L03 | Mehrfaches Auflisten, Rekursionstiefe und Speicher zählen erst bei Größen, die kein Projekt erreicht. Nicht an der Quelle nachgelesen. |
+| L01, L03 | Mehrfaches Auflisten und Speicher zählen erst bei Größen, die kein Projekt erreicht. Nicht an der Quelle nachgelesen. |
+| L02 | Der Validator folgt einer Kette abgelöster Decisions rekursiv. Die Messaufgabe R19 verlangte eine Kette von 1.200 Decisions, und der Validator brach dort mit `RecursionError` ab. Eine solche Kette heißt, dass dieselbe Entscheidung rund tausendmal nacheinander abgelöst wurde. |
 | L04 | Hinter dem gestrichenen Explorer-Satz steht kein belegter Fehler. |
-| L05 | Eine fremde `.gitignore` in `.scoville/temp` hat der Nutzer selbst angelegt. |
+| L05 | Eine `.gitignore` ohne die Regel hat der Nutzer selbst angelegt, oder sie blieb leer zurück, weil das Schreiben von zwei Zeichen scheiterte. Folge: Auftragsdateien erscheinen im Git-Status. |
 
 ### Änderungen (Suite `7511973`, Shared `d3d9073` und `1989d4b`)
 
@@ -4656,3 +4660,50 @@ spätere Arbeit gelesen. `authoring.md` wurde vor dem Schreiben gelesen.
 Einordnung: ein Lauf. Er passt zum Satz ohne Beispiele und beweist ihn nicht.
 Anders als im Nachlauf zu W-009 nennt die Regel die Bedingungen der Aufgabe
 nicht mehr.
+Die Ergebnisgrenze der Aufgabe (nur Standardbibliothek) ähnelt aber dem
+Beispiel `No new runtime dependency`, das die Regel für Ergebnisgrenzen
+nennt. Dass die Grenze im Ziel blieb, zeigt deshalb wenig über andere
+Ergebnisgrenzen.
+
+## W-011: Nachprüfung der Korrekturen durch gpt-6.2-astra
+
+### Prüfung und Einordnung
+
+`gpt-6.2-astra` (high) hat die Korrekturen aus W-010 gegen ihre Gegenstellen
+gelesen, ohne etwas zu ändern und ohne Tests zu starten. Der Bericht vom
+2026-11-23 liegt unter
+`state/2026-11-14-skill-evaluation/ASTRA-6.2-NACHPRUEFUNG.md`. Er nennt 15 der
+19 übernommenen Befunde behoben und 4 teilweise behoben (F04, F05, F10, L08),
+dazu 7 Befunde (B1 bis B7) und 5 Einwände gegen Ablehnungsgründe (A1 bis A5).
+Nach seiner Lesart scheitern beide neuen Tests aus W-010 am alten Code. Jeder
+Punkt wurde an der Quelle nachgelesen.
+
+| Punkt | Einordnung | Änderung oder Grund |
+|---|---|---|
+| B1 (F10) | nicht übernommen | Die Prozesskennung fehlt nur, wenn der Aufrufer ein Ausgabelimit unter etwa 125 Tokens angibt und zugleich ein Timeout oder eine Unterbrechung mit unbestätigtem Aufräumen eintritt. Kein Host setzt ein solches Limit. |
+| B2 (F04) | übernommen, ohne die Obergrenze | Der Validator nennt die nächste freie ID selbst und sagt, dass die markierte Zeile das zweite Vorkommen in der Datei ist, nicht zwingend das neuere Arbeitspaket. Bei `W-999` nennt er eine ungültige ID; 999 Arbeitspakete in einem Plan erreicht kein Projekt. |
+| B3 (F05) | übernommen | Ein Goal, das nur `[]` enthält, wird wie ein leeres abgewiesen. |
+| B4 (L08) | übernommen | Die Einordnung in W-010 sagt jetzt, dass L08 nur zum Teil übernommen ist. |
+| B5 | übernommen | Zwei Changelog-Sätze nannten einen Vorfall, der nur aus der Quelle folgt: dass ein Backend-Review Scoville UI las und dass ein Workflow-Test in der Windows-Sandbox scheiterte. Sie beschreiben jetzt die Bedingung. |
+| B6 | übernommen | Der Changelog nannte die drei gestrichenen Nutzungen „the scenarios of the tasks“. Sie stammen aus den Messläufen, in denen Sitzungen sie ungefragt unterstellt hatten; die Aufgaben nannten sie nicht. |
+| B7 | übernommen | Die Überschrift im Plan-Changelog nennt nur noch den Satz zu Arbeitsbedingungen. Die Einordnung des Laufs in W-010 hält fest, dass die Ergebnisgrenze der Aufgabe dem verbliebenen Beispiel der Regel ähnelt. |
+| A1 (L02) | Grund berichtigt, keine Änderung | Die Ablehnung nennt jetzt den Abbruch aus R19 und was eine solche Kette bedeutet. |
+| A2 (F02) | Grund berichtigt, keine Änderung | Verloren geht die Nachvollziehbarkeit der Vorrunde, keine Angabe, die eine spätere Runde liest. Ein exklusives Anlegen ließe jede weitere Beratung mit demselben Dateinamen einmal scheitern. |
+| A3 (F01) | Grund berichtigt, keine Änderung | Es genügt ein nach außen verlinktes `.scoville`; auch das legt nur der Nutzer selbst an. |
+| A4 (F08, zweiter Teil) | Aussage berichtigt, keine Codeänderung | Der Workflow-Changelog sagte „Outside such a sandbox nothing changes“. Er sagt jetzt, dass der Helfer den privaten Ordner an seinem Pfad erkennt. |
+| A5 (L05) | Grund berichtigt, keine Änderung | Die leere Datei kann auch vom Helfer stammen; die Folge bleibt eine Datei im Git-Status. |
+
+### Änderungen (Suite `eb4ede3`)
+
+- Plan, `validate_profile.py`: Der Rat zu `WORK_ITEM_ID_DUPLICATE` nennt die
+  nächste freie ID aus den gelesenen Überschriften.
+- Plan, `markdown_structure.py`: `[]` allein im Goal gilt als fehlender Inhalt;
+  die Meldung lautet „Goal needs authored content, not `[]`.“ Die Prüfung gilt
+  für Validator und Selektor.
+- Zwei Tests in `test_diagnostic_corrections.py`, je mit der Korrektur und
+  erneutem Validatorlauf. Beide scheitern am Stand `95d2da2`: Der alte Rat
+  enthält keine ID, und ein Goal aus `[]` galt als gültig.
+- Changelogs der Suite, von Plan, Code, UI, Ask und Workflow berichtigt.
+
+Kein Modelllauf und kein Gegenlesen: zwei kleine Änderungen an Diagnosen,
+durch Tests gedeckt. Suite-Prüfung 12/12, Laufzeit-CI-Run 45246766728: 6 von 6.
