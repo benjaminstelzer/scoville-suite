@@ -41,9 +41,9 @@ Continue work independent of the open decision.
 
 ## Preserve the intention
 
-Keep the intended outcome, scope, activation boundaries, facts, permissions,
-required behavior and acceptance criteria unless the user explicitly asks to
-change them.
+Beyond what Agent instruction design preserves, keep the intended outcome
+and the activation boundaries. Change a preserved property only when the
+user explicitly asks.
 
 ## Read and edit at the source
 

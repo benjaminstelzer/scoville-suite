@@ -105,6 +105,32 @@ with patch.object(check_text_size,'collect_output',side_effect=unconfirmed), sto
                     self.assertIsNone(metadata['full_file'])
                     self.assertIn('No saved copy', metadata['instruction'])
 
+    def test_unconfirmed_cleanup_without_saved_copy_names_the_process(self):
+        checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
+        wrapper = self.base / 'unconfirmed.py'
+        wrapper.write_text('''import sys
+from unittest.mock import patch
+sys.path.insert(0,sys.argv.pop(1))
+import check_text_size
+kind=sys.argv.pop(1)
+original=check_text_size.collect_output
+def unconfirmed(process, timeout):
+    out,err,failure=original(process,timeout)
+    assert failure == 'timeout'
+    return out,err,kind
+with patch.object(check_text_size,'collect_output',side_effect=unconfirmed):
+    raise SystemExit(check_text_size.main())
+''', encoding='utf-8')
+        pid_file = self.base / 'unconfirmed.pid'
+        producer = 'import os,sys,time;from pathlib import Path;Path(sys.argv[1]).write_text(str(os.getpid()));print("before-timeout",flush=True);time.sleep(60)'
+        for kind in ('timeout_cleanup_incomplete', 'interrupted_cleanup_incomplete'):
+            with self.subTest(kind=kind):
+                result = subprocess.run([sys.executable, str(wrapper), str(checker.parent), kind, '--max-output-tokens', '2500',
+                    '--timeout-seconds', '2', '--run', '--', sys.executable, '-c', producer, str(pid_file)],
+                    capture_output=True, timeout=20)
+                self.assertEqual(result.returncode, 125)
+                self.assertIn(f'error={kind} process_id={int(pid_file.read_text())} '.encode('ascii'), result.stderr)
+
     def test_publication_failure_retains_full_capture_without_repeating_effect(self):
         checker = next(packages('scoville-code')) / 'scripts/check_text_size.py'
         marker = self.base / 'once.txt'

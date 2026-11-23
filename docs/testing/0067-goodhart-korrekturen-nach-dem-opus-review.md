@@ -4412,9 +4412,11 @@ reinen Bericht eine Datei geändert. Bei der beschädigten
 Entscheidung blieb in allen Läufen nur der Fehler stehen, für den
 der Nutzer gefragt werden muss.
 
-Befund: Die gekürzte Fassung löst die Alltagsaufgaben mit beiden
+Befund: Die gekürzte Fassung erledigt die Alltagsaufgaben mit beiden
 Modellen nicht schlechter als die vorige, bei Sol besser (das
 Arbeitspaket mit Abhängigkeit, die Rückfrage zum fehlenden Datum).
+Gegenläufig ist die Zeile „Ungefragte Änderungen“: bei Sol 2 statt 1,
+bei Opus 0 statt 2.
 Die Bedingung aus ADR-0241 ist erfüllt. Zeit und Tokens sind trotz
 weniger gelesenem Text nicht gesunken.
 
@@ -4553,5 +4555,104 @@ Zeilenenden aus der PowerShell-Ausgabe; die Sitzung stellte auf LF um und
 validierte erneut.
 
 Einordnung: Der Fehler war in einem Lauf aufgetreten. Ein sauberer Lauf passt
-zum Satz und beweist ihn nicht; widerlegt ist, dass er zu stark wirkt und
-Ergebnisgrenzen aus dem Ziel drängt.
+zum Satz und beweist ihn nicht. In diesem einen Lauf blieb die Ergebnisgrenze
+im Ziel. Die Regel nannte zu diesem Zeitpunkt genau die beiden
+Arbeitsbedingungen der Aufgabe als Beispiele; der Lauf zeigt deshalb nur,
+dass das Modell die genannten Fälle erkennt. Die Beispiele sind in W-010
+gestrichen.
+
+## W-010: Gesamtprüfung durch gpt-6.2-astra
+
+### Prüfung und Einordnung
+
+`gpt-6.2-astra` (high) hat alle Skill-Quellen und die Änderungen
+dieses Plans gelesen, ohne etwas zu ändern. Der Bericht liegt unter
+`state/2026-11-14-skill-evaluation/ASTRA-6.2-GESAMTPRUEFUNG.md` und vom 2026-11-23 nennt 28
+Befunde: 18 Fehler (F01 bis F18), 8 Lücken (L01 bis L08) und 2
+Kürzungsmöglichkeiten (K01, K02). Jeder Befund außer L01 bis L03 wurde an der
+Quelle nachgelesen; F04 wurde an einer Kopie nachgestellt.
+
+Übernommen (19): F03, F04, F05, F06, F07, F08 (nur die rechnerabhängige
+Testzeile), F10, F11, F12, F14, F15, F16, F17, F18, L06, L07, L08, K01, K02.
+Sechs davon gehen ganz oder teilweise auf Änderungen aus W-009 zurück: L07, F08, F12, F15, F16
+und F17.
+
+Nicht übernommen (9, dazu ein Teil von F08):
+
+| Befund | Grund |
+|---|---|
+| F01 | Schreiben außerhalb des Projekts setzt voraus, dass jemand `.scoville/temp` selbst nach außen verlinkt hat. |
+| F02 | Überschreibt Ask die Auftragsdatei der Vorrunde, geht nichts verloren, was noch gebraucht wird. |
+| F08, zweiter Teil | Die Pfaderkennung auf POSIX hat keinen belegten Fehler. |
+| F09 | Ein Eingabeweg über stdin wäre neue Mechanik für eine Schätzung. |
+| F13 | Der Bewertungskatalog von Code ist laut `members/scoville-code/development/README.md` unveränderter historischer Beleg; die README nennt die Zwei-Korrekturen-Schwelle selbst als überholtes Beispiel. |
+| L01 bis L03 | Mehrfaches Auflisten, Rekursionstiefe und Speicher zählen erst bei Größen, die kein Projekt erreicht. Nicht an der Quelle nachgelesen. |
+| L04 | Hinter dem gestrichenen Explorer-Satz steht kein belegter Fehler. |
+| L05 | Eine fremde `.gitignore` in `.scoville/temp` hat der Nutzer selbst angelegt. |
+
+### Änderungen (Suite `7511973`, Shared `d3d9073` und `1989d4b`)
+
+- Plan: `done` im Workflow-Lauf erst nach einem Step-Review, den Workflow für
+  den Step verlangt (F03). Rat bei doppelter Arbeitspaket-ID ohne den Helfer,
+  der an derselben Dublette abbricht (F04). Meldung zum leeren Abschnitt wie
+  im Validator (F05). Eine Decision wird nur gelöscht, wenn keine erhaltene sie
+  in `superseded_by` nennt (F06). Der Satz zu Arbeitsbedingungen nennt keine
+  Beispiele mehr (L07). Bewertungsfall nennt eine Änderung, die Validierung
+  verlangt (F14).
+- Setup: `show` füllt eine unvollständige Schema-2-Angabe mit alten Feldern
+  aus den Vorgaben auf; Test ergänzt (F07).
+- Workflow: rechnerabhängige Testzeile entfernt (F08).
+- Größenprüfer: Prozesskennung auch nach `interrupted_cleanup_incomplete`
+  (F10). Vorher `error=interrupted_cleanup_incomplete exit=1`, nachher
+  `error=interrupted_cleanup_incomplete process_id=<n> exit=1`, beide Stände
+  mit demselben Aufruf nachgestellt; Test für beide Ursachen ergänzt. Die
+  Zustellreferenz sagt, wozu die Kennung dient.
+- UI: Übersetzungsprüfung je Quelle, die die Seite ausliefert (F11);
+  WordPress-Tabelle nennt den fehlenden Gruppennamen als Mangel (F18).
+- Handoff: Workflow-Satz nur in der Codex-Ausgabe (F16).
+- Skillwriter: „Preserve the intention“ nennt nur den Zusatz zur gemeinsamen
+  Schreibregel (K01).
+- Ask: Der Berater liest den zutreffenden Skill (K02).
+- Code-Kriterien, Regel 2: die drei Beispielnutzungen gestrichen, auf
+  Entscheidung des Nutzers (L08). Die Wirkung der Regel ist mit den Beispielen
+  gemessen (W-005) und ohne sie nicht erneut.
+- Aussagen berichtigt: Ask-Überschrift (F12), „All Skills“ und
+  Workflow-Überschrift im Suite-Changelog (F15, F16), zwei Urteile in diesem
+  Protokoll (F17, L06).
+
+### Gegenlesen
+
+Ein Agent mit Claude Opus 5.5 (xhigh) hat die 15 Quelländerungen gegen ihre
+Gegenstellen gelesen, ohne etwas zu ändern: kein Fehler, kein neuer
+Widerspruch; der neue Setup-Test scheitert am alten Code. Sechs Hinweise,
+fünf übernommen:
+
+- Die Löschbedingung für Decisions galt nur für abgelöste; sie steht jetzt an
+  der Löschung selbst.
+- Die einfache Fehlerzeile mit `process_id` war in der Zustellreferenz nicht
+  erklärt, und kein Test deckte sie ab; beides ergänzt.
+- „the Step review“ unterstellte, dass jeder Step einen Review hat; jetzt „any
+  Step review that Workflow requires for it“.
+- Der Bewertungsfall nennt, dass die Acceptance beobachtet ist.
+- Die Übersetzungsprüfung nennt jeden registrierten Skript-Handle.
+
+Nicht übernommen: Der Vorschlag, den Plan-Satz um „when or how the work is
+carried out“ zu erweitern. Der Lauf unten zeigt den vermuteten Fehler nicht,
+und die Formulierung läge nah an einem der gestrichenen Beispiele.
+
+### Lauf zum Plan-Satz ohne Beispiele
+
+Ein Lauf mit gpt-6.2-sol medium über die Codex-CLI, 76 Sekunden, mit den
+Paketen aus Quelle `7511973`; Aufgabe und Wortlaut wie im Nachlauf zu W-009.
+
+Ergebnis: Profil gültig, zwei Dateien, zwei Arbeitspakete mit Abhängigkeit,
+kein Code geändert, Tests unverändert bestanden. Das Ziel nennt das Ergebnis
+und die Grenze „ausschließlich die Python-Standardbibliothek“, die
+Nicht-Ziele nennen nur die Jahresauswertung. „Setz noch nichts um“ steht
+nirgends. Die Grenze „keine anderen Projekte, kein entfernter Server“ steht in
+den Instructions beider Arbeitspakete; die Sitzung hat sie als Bedingung für
+spätere Arbeit gelesen. `authoring.md` wurde vor dem Schreiben gelesen.
+
+Einordnung: ein Lauf. Er passt zum Satz ohne Beispiele und beweist ihn nicht.
+Anders als im Nachlauf zu W-009 nennt die Regel die Bedingungen der Aufgabe
+nicht mehr.

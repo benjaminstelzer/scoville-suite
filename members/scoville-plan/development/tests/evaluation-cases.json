@@ -341,7 +341,7 @@
     },
     {
       "id": "large-plan-progress-selective-output",
-      "given": "A valid version-1 Plan contains 160 Work Items and a small current progress edit. Completed historical bodies are irrelevant to that edit.",
+      "given": "A valid version-1 Plan contains 160 Work Items; the update sets the current Work Item, whose Acceptance is observed, to done. Completed historical bodies are irrelevant to that update.",
       "expect": [
         "Read required direction, current and affected blocks, relevant relations, and unresolved proposals without dumping unrelated history.",
         "Preserve unrelated history using context-bound edits and inspect the scoped result. No routine saved byte receipt is required; stop on concurrent or partial writes.",

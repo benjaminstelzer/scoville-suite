@@ -1,6 +1,20 @@
 # Changelog
 
-## 2026-11-21 - A new Plan keeps working conditions out of its Goal; Workflow assignments in a Windows sandbox
+## 2026-11-23 - Corrections after a full review
+
+I had `gpt-6.2-astra` review every Skill source and all changes since 2026-11-14. These corrections follow from its report. Unless an item says so, none was tested with a model.
+
+- Plan: The sentence that keeps conditions on the working process out of Goal and Non-goals no longer names examples. The two it named, when work may start and what a session may touch, were the conditions of the test task, so the run after the change showed little. One run with `gpt-6.2-sol` on the sentence without examples created a first Plan from the same request: the result limit stands in Goal, the exclusion in Non-goals, "do not implement yet" appears nowhere, and the limit on what to access stands in the Instructions of both items. That is one run; it fits the sentence and does not prove it.
+- Plan: After a duplicate Work Item ID the validator advised the next-ID helper, which stops on the same duplicate; it now says to take the ID one above the highest in the Plan. For an empty Goal one helper message advised `[]` while the validator says that Goal needs authored content; both now say the latter. A Decision is deleted only when no kept Decision names it in `superseded_by`; deleting it left that Decision without the link the validator requires.
+- Code and UI: The rule against safeguards for a use nobody described no longer lists three such uses: a second writer at the same moment, a second open window, another process on the same data. They were the scenarios of the tasks that measured the rule. The rule still says that such a use is a question for the user, named in the report, and neither a mechanism to build nor a defect to report. Its effect was measured with the list and not again without it.
+- UI: The WordPress table reported a group of controls without `<fieldset>` and `<legend>` as a defect, although the base rule also accepts a group component that carries the group's name. A requested check of translation loading now asserts one translated string from each source the page ships, PHP and each registered script handle; it asked for a React string also on a page without script.
+- Handoff: The sentence on handing off a stopped Scoville Workflow now ships only in the Codex suite, the one edition that contains Workflow.
+- Skillwriter: "Preserve the intention" repeated the list of what a revision preserves from the shared writing rules. It now names only what it adds: the intended outcome, the activation boundaries, and that a preserved property changes only when the user explicitly asks.
+- Every Skill except Skillwriter: The size checker names the process ID when a capture was interrupted and its cleanup is unconfirmed, as it did after a timeout. The delivery reference now says what that ID is for: resolve the state of that process before a rerun.
+
+Two statements in the entries of 2026-11-21 said more than was shown, and I corrected them: the size checker entry said "All Skills", although Skillwriter ships no checker, and a heading named Workflow in the edition that does not contain it.
+
+## 2026-11-21 - A new Plan keeps working conditions out of its Goal
 
 - Plan: Goal and Non-goals describe the result. A condition on the working process, such as when work may start or what a session may touch, is neither; where it binds later work it goes into the item's Instructions. In a test run a model had written "do not implement yet" and a limit on that session into Goal and Non-goals of a new Plan. One run with `gpt-6.2-sol` after the change created a first Plan from a request that named a result limit, an exclusion and the same two working conditions: the limit stands in Goal, the exclusion in Non-goals, and the working conditions appear nowhere in the Plan. The defect had appeared in one run, so one clean run fits the sentence and does not prove it.
 - Plan: The progress reference asked for position mode first when the recorded facts disagree, which is known only after the direct read it was to precede. It now says: position mode when the ID is unknown or a recorded return matters, and after the direct read when the facts disagree.
@@ -9,7 +23,7 @@ Two runs in Codex with `gpt-6.2-sol` covered everyday maintenance: adding a Work
 
 ## 2026-11-21 - Helpers work in a Windows sandbox; reports name edited tests and the missing accessibility level
 
-- All Skills: The size checker gives a complete file its final name by rename on Windows. Codex's Windows sandbox refuses hard links in the project and in a temporary folder a helper creates, so saving a complete output as a file failed there. On Windows rename refuses an existing name, as the hard link does elsewhere. Checked inside that sandbox: the file is saved, and a second file under the same name is refused.
+- Every Skill except Skillwriter: The size checker gives a complete file its final name by rename on Windows. Codex's Windows sandbox refuses hard links in the project and in a temporary folder a helper creates, so saving a complete output as a file failed there. On Windows rename refuses an existing name, as the hard link does elsewhere. Checked inside that sandbox: the file is saved, and a second file under the same name is refused.
 - Code and UI: Naming an edit to an existing check or test, with its reason, is now a sentence of its own. It stood at the end of the sentence that says when such a test may change, and in two runs in Codex one model made an existing test stricter without naming the edit. In two later runs on the same tasks the model edited no existing test, so the new sentence is not shown to work.
 - UI: The statement that no accessibility level is recorded and the work was held to the base now stands in the report section. Where it stood before, one model left it out of a review and of an implementation report. After the move it appeared in the review and was still missing from the implementation report, one run each.
 

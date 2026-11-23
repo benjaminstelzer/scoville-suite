@@ -3,7 +3,7 @@ format_version: 1
 id: PLAN-0067
 status: active
 created: 2026-11-14
-updated: 2026-11-21
+updated: 2026-11-23
 current_item: W-003
 ---
 
@@ -165,3 +165,19 @@ Steps:
 2. [status: done] Fünf Aufgaben, eine Ask-Review und einen Workflow-Lauf als frische Sitzungen fahren und auswerten; fertig, wenn je Lauf Bytes, Git-Spuren, Tests, Profil und Skill-Zugriffe vorliegen.
 3. [status: done] Belegte Fehler beheben und mit Kontrollläufen prüfen; fertig bei bestandener Suite-Prüfung und Laufzeit-CI.
 Evidence: CLI-Läufe, drei Abschlussläufe und ein Nachlauf vom 2026-11-21 im Testprotokoll (W-009). check_all 12/12. CI-Run 44900592553: 6/6.
+
+### W-010 Befunde der Astra-Gesamtprüfung beheben
+
+Status: done
+Depends on: [W-009]
+Blocked by: []
+Decisions: []
+Outcome: Die berechtigten Befunde der Gesamtprüfung durch gpt-6.2-astra sind an den Quellen behoben.
+Acceptance: Jeder Befund ist als übernommen oder nicht übernommen mit Grund festgehalten. Ein unabhängiger Review hat die Änderungen gegengelesen. Die Suite-Prüfung und die private Laufzeit-CI bestehen für den korrigierten Stand.
+Instructions: []
+Steps:
+1. [status: done] Befunde an den Quellen nachlesen und einordnen; fertig, wenn jeder Befund eine Einordnung mit Grund im Testprotokoll hat.
+2. [status: done] Übernommene Befunde beheben und gegenlesen lassen; fertig bei bestandener Suite-Prüfung.
+3. [status: done] Den Plan-Satz ohne Beispiele einmal mit gpt-6.2-sol prüfen; fertig, wenn der Lauf ausgewertet ist.
+4. [status: done] Laufzeit-CI für den korrigierten Stand fahren; fertig bei sechs von sechs Jobs.
+Evidence: Einordnung, Gegenlesen und Sol-Lauf vom 2026-11-23 im Testprotokoll (W-010). check_all 12/12. CI-Run 45204759085: 6/6.

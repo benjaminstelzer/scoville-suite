@@ -52,8 +52,9 @@ deliberately used.
 4. `wp i18n make-json --no-purge` creates Jed JSON from the same PO.
 
 A requested check of runtime loading sets the site locale, then the
-admin-user locale, verifies `determine_locale()`, and asserts one genuinely
-translated PHP string and one translated React string in a browser.
+admin-user locale, verifies `determine_locale()`, and asserts in a browser
+one genuinely translated string from each source of translated strings the
+page ships: PHP and each registered script handle.
 
 When the selected release process uses authored POT and PO files, keep them
 together with the MO and path-hashed Jed JSON files that process requires.

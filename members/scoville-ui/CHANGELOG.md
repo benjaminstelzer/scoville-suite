@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-23 - WordPress checks match the base rules
+
+The WordPress table reported a group of controls without `<fieldset>` and `<legend>` as a defect, although the base rule also accepts a group component that carries the group's name. A requested check of translation loading now asserts one translated string from each source the page ships, PHP and each registered script handle; it asked for a React string also on a page without script.
+
+The rule against safeguards for a use nobody described no longer lists three such uses: a second writer at the same moment, a second open window, another process on the same data. They were the scenarios of the tasks that measured the rule. The rule still says that such a use is a question for the user, named in the report, and neither a mechanism to build nor a defect to report. Its effect was measured with the list and not again without it.
+
+The size checker names the process ID when a capture was interrupted and its cleanup is unconfirmed, as it did after a timeout. The delivery reference now says what that ID is for: resolve the state of that process before a rerun.
+
 ## 2026-11-21 - The report says when no accessibility level is recorded
 
 The statement that no accessibility level is recorded and the work was held to the base now stands in the report section. Where it stood before, one model left it out of a review and of an implementation report. After the move it appeared in the review and was still missing from the implementation report, one run each.

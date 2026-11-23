@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 - "Preserve the intention" without the repeated list
+
+"Preserve the intention" repeated the list of what a revision preserves from the shared writing rules. It now names only what it adds: the intended outcome, the activation boundaries, and that a preserved property changes only when the user explicitly asks.
+
 ## 2026-11-20 - Clearer structure
 
 Reading and regenerating sources have their own section. How to report an evaluation stands once, in the entry point.
