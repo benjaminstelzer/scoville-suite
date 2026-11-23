@@ -1,11 +1,15 @@
 ## How it works
 
-- Use the repository's existing planning system and relevant Plan, Work Items and Decisions.
-- Check current sources before starting the next item.
-- Edit Markdown and YAML records with observed Step progress and any additional Instructions.
-- Record observed acceptance results before completion and validate record structure.
-
-The validator checks structure and references. It cannot establish permission,
-meaning or whether an acceptance result is true.
-Selector and validator share Plan section boundaries; diagnostics identify
-the location and correction without imposing blank-line layout.
+- Plan keeps a Plan, its Work Items and your Decisions as Markdown files in
+  the repository: `PROJECT_INDEX.md`, `docs/plans` and `docs/decisions`. A
+  Work Item has ordered Steps with a status, dependencies and acceptance
+  criteria.
+- Before the next item starts, the agent checks the current sources and not
+  only the record.
+- Progress is recorded as it is observed. Finished means the acceptance was
+  checked.
+- Confirmed choices become Decisions. Open questions stay proposals and block
+  only the work that depends on them.
+- A bundled validator checks structure and references. It can't tell whether
+  an acceptance result is true.
+- Edit Plan records from one session at a time.

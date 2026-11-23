@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-23 - Shorter READMEs
+
+I rewrote the READMEs of the suite and of every Skill. Each one now says what the Skill does, how to call it, what it needs and where it stops, and leaves out how the suite is built. The suite README lists the Skills in a table and links to their READMEs. The Skills themselves are unchanged.
+
+The requirements name `gpt-6.2-sol` instead of `gpt-6.1-sol`.
+
 ## 2026-11-23 - Validator diagnostics after a follow-up review
 
 I had `gpt-6.2-astra` check the corrections of the entry below against their counterparts. Fifteen of the nineteen were resolved; these changes follow from the rest. None was tested with a model.

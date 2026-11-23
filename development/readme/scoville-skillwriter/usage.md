@@ -1,3 +1,7 @@
 ## How to use
 
-Ask to write, simplify or review a Skill or reusable prompt, or invoke `$scoville-skillwriter`. For a revision, it respects already approved changes and asks only for changes outside that approval.
+Ask it to write, simplify or review a Skill or a reusable prompt:
+
+```text
+Use Scoville Skillwriter to review this Skill for repetition and unclear activation. Report findings without editing.
+```

@@ -7,3 +7,6 @@ Use Scoville Handoff to transfer this active task to a new session. Include the 
 ```text
 Create a compact handoff for another agent. Preserve the objective, decisions, changed files, blockers and next action. Do not continue the work.
 ```
+
+The prompt comes in the language you ask for, otherwise in the language of the
+conversation. Paste it into the new session.

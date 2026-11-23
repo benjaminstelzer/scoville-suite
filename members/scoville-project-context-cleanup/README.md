@@ -13,72 +13,45 @@ ingredients that made the rules useful.
 
 ## How it works
 
-- Resolve the target file and read its relevant governing rules.
-- Check useful project information, duplicates and conflicts; reuse authorization covering the edit.
-- Place concise wording in the affected structure, with conditions and exceptions together.
-- Inspect the saved change and use the record owner's checks where required. Plan keeps native fields and lifecycle.
-
-## What it enforces
-
-- Requested additions and cleanup stay within the named project-context files.
-- Scope, conditions, permissions, safeguards and necessary reasons survive edits.
-- Existing formats and record owners remain responsible for fields and lifecycle.
-- Suitable text stays unchanged, and unresolved material choices are asked directly.
-
-## What it costs
-
-- Reading the rules and checking edits takes tokens and time. The useful return is clearer context for later work, without deleting necessary detail.
-
-## How it was developed
-
-Project-rule edits exposed lost exceptions and references that did not carry
-the full rule. Those problems shaped the attention to scope, independent copies
-and complete context. Brevity only helps when the meaning survives.
-
-Changes are tried in focused editing tasks and checked against real project
-conversations. The results guide further revisions to how rules are shortened,
-organized and preserved.
-
-## Compatibility
-
-Requires project-file access and permission for the requested edits.
-Size checks require Python 3.11+ and the bundled checker.
-Use at least `gpt-6.1-sol` or Claude Opus 5.5 at medium reasoning effort.
-
-## Install
-
-Install and enable every Skill in the suite. Each applies to its own task scope.
-
-Install this Skill with the complete released suite from
-[the suite packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
-Use the edition for your host and preserve unrelated Skills and settings.
-The package is distributed through the suite, without a separate Skill repository.
+- It finds the right file, reads the rules that already apply and checks for
+  duplicates and conflicts before it writes.
+- Changes stay within the project-context files you named.
+- Scope, conditions, permissions, safeguards and the reasons that matter
+  survive the edit. A condition or exception stays with its rule.
+- Where a choice would change the meaning, it asks.
 
 ## How to use
-
-Ask the agent to add or revise project rules:
 
 ```text
 Add this to the project rules: edit schemas/ and regenerate docs/generated/.
 ```
 
-Or name `AGENTS.md`, `CLAUDE.md` or `PROJECT_INDEX.md` explicitly. Requests such as
-“Füge das den Projektregeln hinzu” use the same scope.
-At a clear project root, this can create a missing
-`AGENTS.md`, or `CLAUDE.md` on a Claude host. Cleanup does not
-create a missing index. Plan creates it with its profile. When you name a
-missing file, the agent asks before placing the text elsewhere. A text
-addition alone does not create a Plan.
+You can also name `AGENTS.md`, `CLAUDE.md` or `PROJECT_INDEX.md` directly, or
+name the Skill in your request. At a clear project root it creates a
+missing `AGENTS.md`, or `CLAUDE.md` on a Claude host. A missing
+`PROJECT_INDEX.md` is Plan's to create. Mentioning a file or editing a README
+doesn't start a cleanup.
 
-For an explicit call, use `$scoville-project-context-cleanup`. A file mention,
-ordinary README edit or routine Plan progress does not request cleanup.
+## Install
 
-## Sources
+Context Cleanup comes with the suite and has no repository of its own. Install
+the suite for your host from [its packages](https://github.com/benjaminstelzer/scoville-suite/tree/main/packages).
+It needs Python 3.11+ for its bundled helper.
 
-- [OpenAI: current Skills and AGENTS.md guidance](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra)
-- [Anthropic: effective context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
-- [AGENTS.md format](https://agents.md/)
-- [AGENTbench study](https://arxiv.org/abs/2602.11988) and [efficiency study](https://arxiv.org/abs/2601.20404): different results, no universal savings claim.
+Use `gpt-6.2-sol` or Claude Opus 5.5 at medium reasoning effort or higher. Below
+that, steps get skipped more often.
+
+## Background
+
+Edits to project rules kept losing exceptions, and references didn't carry the
+full rule. Brevity only helps when the meaning survives. The
+[full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-project-context-cleanup/scoville-project-context-cleanup/SKILL.md) are what the agent reads.
+
+Sources: [OpenAI's Skills and AGENTS.md guidance](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra),
+Anthropic on [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents),
+the [AGENTS.md format](https://agents.md/) and two studies on context files,
+[AGENTbench](https://arxiv.org/abs/2602.11988) and an
+[efficiency study](https://arxiv.org/abs/2601.20404).
 
 ## Developer links
 

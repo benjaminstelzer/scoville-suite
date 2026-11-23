@@ -15,17 +15,13 @@
       "readme": [
         "development/readme/scoville-code/description.md",
         "development/readme/scoville-code/mechanism.md",
-        "development/readme/scoville-code/requirements.md",
         "development/readme/scoville-code/costs.md",
-        "development/readme/scoville-code/development.md",
-        "development/readme/scoville-code/compatibility-4055f96f435388ed.md",
-        "shared:skill-installation-contract.md",
-        "shared:scoville-install.md",
-        "shared:scoville-suite-install.md",
-        "development/readme/scoville-code/configuration.md",
         "development/readme/scoville-code/usage.md",
-        "development/readme/scoville-code/sources.md",
-        "shared:family.md",
+        "development/readme/scoville-code/install.md",
+        "shared:scoville-models.md",
+        "shared:scoville-install.md",
+        "development/readme/scoville-code/configuration.md",
+        "development/readme/scoville-code/background.md",
         {
           "source": "shared:member-development-inline.md",
           "audience": "suite"
@@ -107,9 +103,7 @@
         }
       ],
       "family": {
-        "label": "Code",
         "owner": "engineering scope, implementation, risk, and validation.",
-        "summary": "covers engineering scope, implementation, risk and validation.",
         "order": 0,
         "neighbors": []
       },
@@ -118,12 +112,6 @@
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
         "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md"
       },
-      "description_fragments": [
-        "development/readme/scoville-code/description.md",
-        "development/readme/scoville-code/mechanism.md",
-        "development/readme/scoville-code/requirements.md",
-        "development/readme/scoville-code/costs.md"
-      ],
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
@@ -145,16 +133,11 @@
       "readme": [
         "development/readme/scoville-handoff/description.md",
         "development/readme/scoville-handoff/mechanism.md",
-        "development/readme/scoville-handoff/requirements.md",
-        "development/readme/scoville-handoff/costs.md",
-        "development/readme/scoville-handoff/development.md",
-        "development/readme/scoville-handoff/compatibility-f77ff2edbfe28893.md",
-        "shared:skill-installation-contract.md",
-        "shared:scoville-install.md",
-        "shared:scoville-suite-install.md",
         "development/readme/scoville-handoff/usage.md",
-        "development/readme/scoville-handoff/sources.md",
-        "shared:family.md",
+        "development/readme/scoville-handoff/install.md",
+        "shared:scoville-models.md",
+        "shared:scoville-install.md",
+        "development/readme/scoville-handoff/background.md",
         {
           "source": "shared:member-development-inline.md",
           "audience": "suite"
@@ -220,9 +203,7 @@
         }
       ],
       "family": {
-        "label": "Handoff",
         "owner": "active-work transfer.",
-        "summary": "passes active work to another agent or session.",
         "order": 6,
         "neighbors": []
       },
@@ -231,12 +212,6 @@
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
         "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md"
       },
-      "description_fragments": [
-        "development/readme/scoville-handoff/description.md",
-        "development/readme/scoville-handoff/mechanism.md",
-        "development/readme/scoville-handoff/requirements.md",
-        "development/readme/scoville-handoff/costs.md"
-      ],
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
@@ -258,17 +233,12 @@
       "readme": [
         "development/readme/scoville-plan/description.md",
         "development/readme/scoville-plan/mechanism.md",
-        "development/readme/scoville-plan/requirements.md",
         "development/readme/scoville-plan/costs.md",
-        "development/readme/scoville-plan/development.md",
-        "development/readme/scoville-plan/compatibility-16ef3bbbbcff0431.md",
-        "shared:skill-installation-contract.md",
-        "shared:scoville-install.md",
-        "shared:scoville-suite-install.md",
-        "development/readme/scoville-plan/configuration.md",
         "development/readme/scoville-plan/usage.md",
-        "development/readme/scoville-plan/sources.md",
-        "shared:family.md",
+        "development/readme/scoville-plan/install.md",
+        "shared:scoville-models.md",
+        "shared:scoville-install.md",
+        "development/readme/scoville-plan/background.md",
         {
           "source": "shared:member-development-inline.md",
           "audience": "suite"
@@ -358,9 +328,7 @@
         }
       ],
       "family": {
-        "label": "Plan",
         "owner": "durable Plans, Work Items, Decisions, and lifecycle state.",
-        "summary": "keeps Plans, Work Items, Decisions and their status in the repository.",
         "neighbors": [
           {
             "member": "scoville-code",
@@ -378,12 +346,6 @@
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
         "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md"
       },
-      "description_fragments": [
-        "development/readme/scoville-plan/description.md",
-        "development/readme/scoville-plan/mechanism.md",
-        "development/readme/scoville-plan/requirements.md",
-        "development/readme/scoville-plan/costs.md"
-      ],
       "helper_contracts": {
         "scripts/select_context.py": {
           "kind": "helper",
@@ -416,16 +378,12 @@
       "readme": [
         "development/readme/scoville-ui/description.md",
         "development/readme/scoville-ui/mechanism.md",
-        "development/readme/scoville-ui/requirements.md",
         "development/readme/scoville-ui/costs.md",
-        "development/readme/scoville-ui/development.md",
-        "development/readme/scoville-ui/compatibility-221fa1eaa338cb20.md",
-        "shared:skill-installation-contract.md",
-        "shared:scoville-install.md",
-        "shared:scoville-suite-install.md",
         "development/readme/scoville-ui/usage.md",
-        "development/readme/scoville-ui/sources.md",
-        "shared:family.md",
+        "development/readme/scoville-ui/install.md",
+        "shared:scoville-models.md",
+        "shared:scoville-install.md",
+        "development/readme/scoville-ui/background.md",
         {
           "source": "shared:member-development-inline.md",
           "audience": "suite"
@@ -583,9 +541,7 @@
         }
       ],
       "family": {
-        "label": "UI",
         "owner": "framework UI implementation and acceptance, including supported WordPress admin surfaces.",
-        "summary": "covers UI implementation, information structure, accessibility and rendered checks, with an optional WordPress adapter.",
         "neighbors": [
           {
             "member": "scoville-code",
@@ -599,12 +555,6 @@
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
         "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md"
       },
-      "description_fragments": [
-        "development/readme/scoville-ui/description.md",
-        "development/readme/scoville-ui/mechanism.md",
-        "development/readme/scoville-ui/requirements.md",
-        "development/readme/scoville-ui/costs.md"
-      ],
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
@@ -627,15 +577,10 @@
       "readme": [
         "development/readme/scoville-project-context-cleanup/description.md",
         "development/readme/scoville-project-context-cleanup/mechanism.md",
-        "development/readme/scoville-project-context-cleanup/requirements.md",
-        "development/readme/scoville-project-context-cleanup/costs.md",
-        "development/readme/scoville-project-context-cleanup/development.md",
-        "development/readme/scoville-project-context-cleanup/compatibility.md",
-        "shared:skill-installation-contract.md",
-        "development/readme/scoville-project-context-cleanup/install.md",
         "development/readme/scoville-project-context-cleanup/usage.md",
-        "development/readme/scoville-project-context-cleanup/sources.md",
-        "shared:family.md",
+        "development/readme/scoville-project-context-cleanup/install.md",
+        "shared:scoville-models.md",
+        "development/readme/scoville-project-context-cleanup/background.md",
         {
           "source": "shared:member-development-inline.md",
           "audience": "suite"
@@ -697,9 +642,7 @@
         }
       ],
       "family": {
-        "label": "Project Context Cleanup",
         "owner": "requested project-rule and index wording, information quality and structure.",
-        "summary": "keeps requested project rules and index text concise without losing required context.",
         "order": 12,
         "neighbors": []
       },
@@ -708,12 +651,6 @@
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
         "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-project-context-cleanup/scoville-project-context-cleanup/SKILL.md"
       },
-      "description_fragments": [
-        "development/readme/scoville-project-context-cleanup/description.md",
-        "development/readme/scoville-project-context-cleanup/mechanism.md",
-        "development/readme/scoville-project-context-cleanup/requirements.md",
-        "development/readme/scoville-project-context-cleanup/costs.md"
-      ],
       "helper_contracts": {
         "scripts/check_text_size.py": {
           "kind": "helper",
@@ -734,16 +671,11 @@
       "readme": [
         "development/readme/scoville-skillwriter/description.md",
         "development/readme/scoville-skillwriter/mechanism.md",
-        "development/readme/scoville-skillwriter/requirements.md",
-        "development/readme/scoville-skillwriter/costs.md",
-        "development/readme/scoville-skillwriter/development.md",
-        "development/readme/scoville-skillwriter/compatibility.md",
-        "shared:skill-installation-contract.md",
-        "shared:scoville-install.md",
-        "shared:scoville-suite-install.md",
         "development/readme/scoville-skillwriter/usage.md",
-        "development/readme/scoville-skillwriter/sources.md",
-        "shared:family.md",
+        "development/readme/scoville-skillwriter/install.md",
+        "shared:scoville-models.md",
+        "shared:scoville-install.md",
+        "development/readme/scoville-skillwriter/background.md",
         {
           "source": "shared:member-development-inline.md",
           "audience": "suite"
@@ -785,9 +717,7 @@
         }
       ],
       "family": {
-        "label": "Skillwriter",
         "owner": "Skill and reusable prompt wording for frontier models.",
-        "summary": "writes, simplifies and reviews Skills and reusable agent prompts.",
         "order": 13,
         "neighbors": []
       },
@@ -796,25 +726,18 @@
         "codex_skills_guide": "https://learn.chatgpt.com/docs/build-skills",
         "contract_url": "https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-skillwriter/scoville-skillwriter/SKILL.md"
       },
-      "description_fragments": [
-        "development/readme/scoville-skillwriter/description.md",
-        "development/readme/scoville-skillwriter/mechanism.md",
-        "development/readme/scoville-skillwriter/requirements.md",
-        "development/readme/scoville-skillwriter/costs.md"
-      ],
       "helper_contracts": {},
       "distribution": "suite"
     }
   ],
   "readme": [
     "development/readme/suite-intro.md",
-    "shared:suite-descriptions.md",
-    "development/readme/suite-history.md",
-    "shared:suite-requirements.md",
     "development/readme/suite-install.md",
+    "shared:scoville-models.md",
+    "development/readme/suite-install-steps.md",
     "shared:suite-catalog.md",
     "development/readme/suite-configuration.md",
-    "development/readme/codex-limitations.md",
+    "development/readme/suite-history.md",
     "development/readme/suite-deprecated.md",
     "development/readme/suite-development.md",
     "shared:suite-development-links.md",

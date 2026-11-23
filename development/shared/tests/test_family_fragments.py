@@ -36,8 +36,7 @@ class FamilyFragmentsTests(unittest.TestCase):
 
     def test_suite_omits_family_projections(self):
         config = builder.load(ROOT, 'codex')
-        for key in ('family.owners', 'family.catalog'):
-            self.assertEqual('', builder.expand_fragments(ROOT, '{{ include: ' + key + ' }}', config=config))
+        self.assertEqual('', builder.expand_fragments(ROOT, '{{ include: family.owners }}', config=config))
         workflow = next(m for m in config['members'] if m['name'] == 'scoville-workflow-for-codex')
         self.assertEqual('benjaminstelzer/scoville-suite-for-codex-mainloop', workflow['repository'])
 
@@ -50,17 +49,11 @@ class FamilyFragmentsTests(unittest.TestCase):
             name = 'scoville-test-member'
             config['members'].append({'name': name, 'repository': 'benjaminstelzer/' + name,
                                       'visibility': 'public', 'public_distribution': True,
-                                      'family': {'order': 100, 'label': 'Test member', 'owner': 'test ownership.',
-                                                 'summary': 'provides a test capability.'}})
+                                      'family': {'order': 100, 'owner': 'test ownership.'}})
             (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
             for member in config['members'][:-1]:
-                readme = builder.readme(root, member).decode()
-                if member.get('distribution') == 'suite':
-                    self.assertNotIn(f'https://github.com/benjaminstelzer/{name}', readme)
-                else:
-                    self.assertIn(f'https://github.com/benjaminstelzer/{name}', readme)
-                    self.assertIn('[Test member]', readme)
-                self.assertNotIn('[Workflow Codex]', readme)
+                # A README lists no other members: a new one changes only the owner projections.
+                self.assertNotIn(name, builder.readme(root, member).decode())
                 source = root / f'members/{member["name"]}/{member["name"]}/SKILL.md'
                 raw = source.read_text(encoding='utf-8')
                 rendered = builder.expand_fragments(root, raw, member)

@@ -20,12 +20,25 @@ class ReadmeTemplateTests(unittest.TestCase):
         changed = dict(member, readme=list(member['readme']))
         configuration = next(p for p in changed['readme'] if isinstance(p, str) and p.endswith('/configuration.md'))
         changed['readme'].remove(configuration)
-        changed['readme'].insert(changed['readme'].index('shared:skill-installation-contract.md'), configuration)
+        changed['readme'].insert(1, configuration)
         with self.assertRaisesRegex(ValueError, 'Order the member readme entries'):
             builder.readme(root, changed, 'suite', config=config)
         changed['readme'] = member['readme']
         self.assertEqual(expected, builder.readme(root, changed, 'suite', config=config))
 
+
+    def test_optional_sections_may_be_absent_and_edition_gaps_close(self):
+        root = SHARED.parent / 'scoville-suite'
+        for profile in ('general', 'codex'):
+            config = builder.load(root, profile, 'suite')
+            for member in config['members']:
+                with self.subTest(profile=profile, member=member['name']):
+                    text = builder.readme(root, member, 'suite', config=config).decode()
+                    headings = [line[3:] for line in text.splitlines() if line.startswith('## ')]
+                    self.assertEqual([h for h in builder.README_SECTIONS if h in headings], headings)
+                    self.assertLessEqual({'How it works', 'How to use', 'Install', 'License'}, set(headings))
+                    # A fragment that is empty in this edition leaves no run of blank lines.
+                    self.assertNotIn('\n\n\n\n', text)
 
     def test_development_blocks_are_suite_only_for_every_member(self):
         for profile in ('general', 'codex'):
@@ -38,7 +51,7 @@ class ReadmeTemplateTests(unittest.TestCase):
                     release = builder.readme(root, member, config=config).decode()
                     preview = builder.readme(root, member, 'suite', config=config).decode()
                     self.assertNotIn('## Development\n', release)
-                    self.assertIn('## How it was developed\n', preview)
+                    self.assertIn('## Developer links\n', preview)
                     self.assertIn(member['name'], index)
                     for path in member['development'].values():
                         self.assertTrue((root / path).exists())
@@ -54,7 +67,7 @@ class ReadmeTemplateTests(unittest.TestCase):
             builder.readme_references([], 'sutie')
         root = SHARED.parent / 'scoville-suite'
         member = dict(builder.load(root)['members'][0])
-        member.pop('description_fragments', None)
+        member.pop('family')
         member['readme'] = ['shared:member-development-inline.md']
         with self.assertRaisesRegex(ValueError, 'requires suite audience'):
             builder.readme(root, member)
@@ -99,49 +112,6 @@ class ReadmeTemplateTests(unittest.TestCase):
         with patch.object(builder, 'readme', return_value=b'[Absent](development/test.py)'):
             with self.assertRaisesRegex(ValueError, 'missing package link target'):
                 builder.payload(root, member)
-
-    def test_suite_descriptions_reuse_member_sources_and_feature_workflow(self):
-        root = SHARED.parent / 'scoville-suite'
-        config = builder.load(root, 'codex')
-        result = builder.expand_fragments(root, '{{ include: suite.descriptions }}', config=config)
-        self.assertTrue(result.startswith('## Scoville Workflow for Codex\n'))
-        self.assertEqual(len(config['members']), result.count('](members/') )
-        for member in config['members']:
-            source = builder.readme_source(root, member['readme'][0]).read_text(encoding='utf-8').strip()
-            expected_body = builder.variant_text(source.partition('\n')[2], dict(config, layout='suite'))
-            self.assertIn(builder.expand_variables(expected_body, member), result)
-            self.assertIn(f'](members/{member["name"]}/README.md#how-to-use).', result)
-        expected = sorted(builder.load(root)['members'], key=lambda m: m['family']['order'])
-        expected = [m for m in expected if m['name'] != 'scoville-workflow-for-codex']
-        headings = [builder.readme_source(root, m['readme'][0]).read_text(encoding='utf-8').splitlines()[0][2:] for m in expected]
-        positions = [result.index('## ' + heading + '\n') for heading in headings]
-        self.assertEqual(sorted(positions), positions)
-        with self.assertRaisesRegex(ValueError, 'only valid in the suite README'):
-            builder.expand_fragments(root, '{{ include: suite.descriptions }}', builder.load(root)['members'][0])
-
-    def test_description_addition_edit_and_missing_source(self):
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            member = {'name': 'new-skill', 'repository': 'benjaminstelzer/new-skill',
-                      'visibility': 'public', 'public_distribution': True, 'readme': ['intro.md']}
-            config = {'schema_version': 1, 'name': 'test-suite', 'members': [member]}
-            (root / 'suite.json').write_text(json.dumps(config), encoding='utf-8')
-            source = root / 'intro.md'
-            source.write_text('# New Skill\n\nOriginal description.\n\n## How to use\n\nInvoke it.\n', encoding='utf-8')
-            for body in ('Original description.', 'Updated description.'):
-                source.write_text('# New Skill\n\n' + body + '\n\n## How to use\n\nInvoke it.\n', encoding='utf-8')
-                self.assertIn(body, builder.readme(root, member).decode())
-                self.assertIn(body, builder.expand_fragments(root, '{{ include: suite.descriptions }}'))
-            source.unlink()
-            with self.assertRaises(FileNotFoundError):
-                builder.expand_fragments(root, '{{ include: suite.descriptions }}')
-            source.write_text('# New Skill\n', encoding='utf-8')
-            with self.assertRaisesRegex(ValueError, 'expected title and description'):
-                builder.expand_fragments(root, '{{ include: suite.descriptions }}')
-            source.write_text('# New Skill\n\n[Local](relative.md)\n', encoding='utf-8')
-            with self.assertRaisesRegex(ValueError, 'absolute links'):
-                builder.expand_fragments(root, '{{ include: suite.descriptions }}')
-
 
     def test_shared_sources_are_confined_and_missing_templates_fail(self):
         root = SHARED.parent / 'scoville-suite'

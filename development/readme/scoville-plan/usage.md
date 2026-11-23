@@ -5,65 +5,18 @@ Use Scoville Plan to create an implementation plan for migrating the billing sch
 ```
 
 ```text
-Create a detailed repository-owned implementation plan for the billing migration so workers can execute each point without this conversation.
+Plan the billing migration in the repository so another session can carry out each step without this conversation.
 ```
 
-State the result you want and the constraints that matter. Plan records the
-work, dependencies and acceptance criteria. It reuses known expectations for
-the project's lifetime, maintenance and further development, and asks only when
-an unknown would materially change the solution. Those expectations stay in
-Goal or Non-goals so the next agent can use them without this conversation.
-Plan does not dispatch agents. New Plans use your task language; related records
-follow the Plan. An unrelated question does not change an existing record's language.
+State the result you want and the constraints that matter. Plan asks only when
+an unknown would materially change the solution. It writes the records and
+doesn't start agents to do the work. New Plans use the language of your task.
 
-### Progress and decisions
+To correct a record, ask "Review and correct PLAN-0001". Without such a
+request, inspection stays read-only. On an explicit cleanup request Plan
+shortens old Plans and Decisions and, if you ask for removal, deletes expired
+or superseded Decisions. Deleting a file needs its contents committed or your
+approval.
 
-New Plan points use ordered Steps with explicit progress:
-
-```text
-1. [status: done] Write the draft.
-2. [status: in_progress] Review it against the brief.
-3. [status: todo] Deliver the reviewed text.
-```
-
-The agent records observed progress, keeps open decisions visible and asks
-before dependent work. Completed Steps still need the Plan point's acceptance
-checks.
-
-To correct an existing record, ask: "Review and correct PLAN-0001." The agent
-checks the evidence and actual result before changing progress. Inspection
-without a correction request stays read-only.
-
-### Keeping Decisions current
-
-When creating a later Plan, Plan checks only Decisions it would link or replace,
-or whose Work Items it replaces, and removes none of them. On an explicit
-cleanup request it can shorten old Plans and Decisions, and remove expired
-temporary or superseded Decisions and obsolete links in the requested scope,
-preserving current constraints, including unlinked ones, and the needs of
-other open Plans. Ordinary reading and resuming work clean up nothing.
-
-Deletion requires the file's current contents to be committed or your explicit
-approval. A tracked path with uncommitted changes is not enough.
-
-### Companion app
-
-[Plan Viewer downloads](https://github.com/benjaminstelzer/scoville-plan-viewer/releases/latest)
-include a portable EXE and installers for Windows x64, DMGs and zipped apps for
-macOS Apple Silicon and Intel, and a portable binary, AppImage, DEB and RPM for
-Linux x64.
-
-Open a project containing `PROJECT_INDEX.md`, `docs/plans` and `docs/decisions`.
-The read-only Viewer shows current work, Step progress and decisions, refreshing
-automatically while active. Removing a project from its list leaves the
-repository untouched.
-
-Portable copies keep the project list in `scoville-plan-viewer.xml` beside the
-application. An installed copy in a read-only folder uses the platform's user
-configuration directory. Skill and Viewer updates are independent; use a
-Viewer that supports the progress fields in your Plan records.
-
-The [authoring guide](scoville-plan/references/authoring.md) has the Plan and
-Work Item templates and Step annotations; the bundled validator explains field
-formats in its diagnostics. Plan uses `format_version: 1`. Records in the
-retired formats still validate, but the Skill no longer describes them.
+The [authoring guide](scoville-plan/references/authoring.md) has the templates
+if you write Plans by hand.

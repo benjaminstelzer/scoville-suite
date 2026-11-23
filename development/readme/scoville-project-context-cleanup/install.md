@@ -1,4 +1,5 @@
-Install this Skill with the complete released suite from
-[the suite packages]({{ include: suite.repository }}/tree/main/packages).
-Use the edition for your host and preserve unrelated Skills and settings.
-The package is distributed through the suite, without a separate Skill repository.
+## Install
+
+Context Cleanup comes with the suite and has no repository of its own. Install
+the suite for your host from [its packages]({{ include: suite.repository }}/tree/main/packages).
+It needs Python 3.11+ for its bundled helper.

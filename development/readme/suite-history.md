@@ -1,11 +1,8 @@
-## How it was developed
+## Background
 
-Scoville grew from recurring problems in real software projects. Separate Skills
-addressed code, interfaces, planning and the work around them. Shared guidance
-keeps their foundations aligned, while the Codex workflow evolved toward a main
-chat supported by focused exploration and independent review.
-
-Development follows a repeated cycle: develop an idea, test it, and analyze how
-it behaves in real workflows on large projects. Those observations guide the
-next revision, which is tested and used again. The individual Skill READMEs
-describe the changes and lessons that shaped each one.
+Scoville grew from a frustrating pattern in real software projects: an agent
+could follow plenty of rules and still lose the goal between planning,
+implementation and review. Every idea is tested and then used in real
+workflows on large projects, and what those show goes into the next revision.
+The [development notes]({{ include: suite.repository }}/blob/main/docs/README.md)
+tell the longer story.

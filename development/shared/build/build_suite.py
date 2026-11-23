@@ -14,6 +14,8 @@ import sys
 import posixpath
 from urllib.parse import unquote, urlsplit
 
+README_SECTIONS = ['How it works', 'What it costs', 'How to use', 'Install', 'Configuration',
+                   'Limitations', 'Background', 'Developer links', 'License']
 RULE_FRAGMENTS = {
     'rules.code_quality': 'prompting/code-quality-criteria.md',
     'rules.code_review': 'prompting/code-review.md',
@@ -107,8 +109,6 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
         all_names = {m['name'] for m in data['members']}
         data['members'] = [m for m in data['members'] if included(m)]
         names = {m['name'] for m in data['members']}
-        if data.get('featured_member') not in names:
-            data.pop('featured_member', None)
         for member in data['members']:
             member['files'] = [item for item in member['files'] if included(item)]
             if member.get('distribution') == 'suite':
@@ -143,8 +143,6 @@ def load(root: Path, profile: str | None = None, layout: str | None = None) -> d
         data['members'] = [m for m in data['members'] if 'codex' in m.get('standalone_profiles', [])]
         if not data['members']:
             raise ValueError('Codex edition is suite-only without explicitly standalone members')
-        if data.get('featured_member') not in {m['name'] for m in data['members']}:
-            data.pop('featured_member', None)
     if selected_layout not in {'standalone', 'suite'}:
         raise ValueError('unknown package layout')
     if 'layout' in data and selected_layout != data['layout']:
@@ -274,25 +272,16 @@ def readme(root: Path, member: dict, audience: str = 'release', config: dict | N
     config = config if config is not None else load(root)
     config = dict(config, layout=member.get('distribution', config.get('layout', 'standalone')))
     references = readme_references(member['readme'], audience)
-    if config.get('layout') == 'suite':
-        references = [p for p in references if p != 'shared:family.md']
-    text = ''.join(expand_fragments(root, expand_variables(readme_source(root, p).read_text(encoding='utf-8'), member), member, audience=audience, config=config).rstrip() + '\n\n' for p in references)
-    if 'description_fragments' in member:
-        expected = ['How it works', 'What it enforces', 'What it costs',
-                    'How it was developed', 'Compatibility', 'Install',
-                    'Configuration', 'Limitations', 'How to use', 'Sources',
-                    'Family', 'Developer links', 'License']
-        if config.get('layout') == 'suite':
-            expected.remove('Family')
+    parts = (expand_fragments(root, expand_variables(readme_source(root, p).read_text(encoding='utf-8'), member), member, audience=audience, config=config).rstrip() for p in references)
+    # A fragment written for another edition expands to nothing and leaves no gap.
+    text = ''.join(part + '\n\n' for part in parts if part)
+    if 'family' in member:
         actual = re.findall(r'^## (.+)$', text, re.M)
-        optional = {'Configuration', 'Limitations', 'Developer links'}
-        expected = [heading for heading in expected if heading not in optional or heading in actual]
-        # Shared family and license headings are expanded from their files above.
+        optional = {'What it costs', 'Configuration', 'Limitations', 'Background', 'Developer links'}
+        expected = [heading for heading in README_SECTIONS if heading not in optional or heading in actual]
         if actual != expected:
             raise ValueError(f'noncanonical README sections for {member["name"]}: {actual}. '
                              f'Order the member readme entries as {expected}; omit optional sections only when unused.')
-        if member['readme'][:4] != member['description_fragments']:
-            raise ValueError('description_fragments must be the first four README entries')
     return (text.rstrip() + '\n').encode('utf-8')
 
 
@@ -343,7 +332,7 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
         if key == 'family.contract':
             return variant_text(within(shared_root(), 'runtime/skill_composition.md').read_text(encoding='utf-8'), config).strip()
         if key.startswith('family.') and config.get('layout') == 'suite':
-            if key not in {'family.catalog', 'family.owners', 'family.neighbors'}:
+            if key not in {'family.owners', 'family.neighbors'}:
                 raise ValueError('unknown build fragment: ' + key)
             return ''
         if key == 'member.defaults':
@@ -372,7 +361,7 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             if not entries:
                 return ''
             return '### Additional Scoville Skills\n\n' + '\n\n'.join(
-                f'#### {item["name"]}\n\n{item["availability"]}, also available as a standalone Skill. '
+                f'#### {item["name"]}\n\n{item["availability"]}, installed on its own. '
                 f'Ask your Codex host:\n\n```text\nInstall this Skill for all my projects from this exact package directory:\n'
                 f'https://github.com/{item["repository"]}/tree/main/{item["name"]}\n'
                 'Preserve personal settings and unrelated Skills. Report the installed location\n'
@@ -383,10 +372,6 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
             if repository != 'benjaminstelzer/' + config['name']:
                 raise ValueError('missing or unexpected suite repository')
             return 'https://github.com/' + repository
-        if key == 'family.catalog':
-            return '\n'.join(f'- [{m.get("family", {}).get("label", m["name"])}](https://github.com/{m["repository"]})'
-                             + (' ' + m['family']['summary'] if 'family' in m else '.')
-                             for m in members if m['public_distribution'])
         if key == 'family.neighbors':
             if member is None:
                 raise ValueError('family.neighbors requires a member')
@@ -398,42 +383,6 @@ def expand_fragments(root: Path, text: str, member: dict | None = None, *, audie
                 prefix = 'optional ' if entry.get('optional') else ''
                 rows.append(f'- {prefix}`{name}`: {entry["description"]}')
             return '\n'.join(rows)
-        if key == 'suite.descriptions':
-            if member is not None:
-                raise ValueError('suite.descriptions is only valid in the suite README')
-            featured = config.get('featured_member')
-            if featured is not None and featured not in by_name:
-                raise ValueError('unknown featured member')
-            selected = ([by_name[featured]] if featured else []) + [m for m in members if m['name'] != featured]
-            sections = []
-            for item in selected:
-                references = item.get('description_fragments', item.get('readme', [])[:1])
-                if not references:
-                    raise ValueError(f'missing description: {item["name"]}')
-                description = '\n\n'.join(variant_text(readme_source(root, ref).read_text(encoding='utf-8'), dict(config, layout='suite')).strip() for ref in references)
-                description = expand_variables(description, item)
-                heading, separator, body = description.partition('\n')
-                if not heading.startswith('# ') or not separator or not body.strip():
-                    raise ValueError(f'expected title and description: {item["name"]}')
-                # Descriptions stay self-contained so moving them cannot break relative links.
-                if '{{ include:' in description or re.search(r'\]\((?!https?://)[^)]+\)', description):
-                    raise ValueError(f'description must use absolute links and no includes: {item["name"]}')
-                title = heading[2:]
-                full_readme = readme(root, item, 'suite', config).decode()
-                if '\n## How to use\n' not in full_readme:
-                    raise ValueError(f'missing How to use section: {item["name"]}')
-                description += (f'\n\n[How to use {title}]'
-                                f'(members/{item["name"]}/README.md#how-to-use).')
-                lines = []
-                fenced = False
-                for line in description.splitlines():
-                    if line.startswith('```'):
-                        fenced = not fenced
-                    if not fenced and re.match(r'^#{1,5} ', line):
-                        line = '#' + line
-                    lines.append(line)
-                sections.append('\n'.join(lines))
-            return '\n\n'.join(sections)
         if key != 'family.owners':
             raise ValueError(f'unknown build fragment: {key}')
         return '\n'.join(f'- `{item["name"]}`: {item["family"]["owner"]}'
@@ -449,7 +398,8 @@ def render_readmes(root: Path, write: bool, config: dict | None = None, destinat
     config = config if config is not None else load(root)
     destination = destination or root
     rendered = {f'members/{m["name"]}/README.md': readme(root, m, 'suite', config) for m in config['members']}
-    rendered['README.md'] = ''.join(expand_fragments(root, readme_source(root, p).read_text(encoding='utf-8'), config=config).rstrip() + '\n\n' for p in config['readme']).encode('utf-8')
+    parts = (expand_fragments(root, readme_source(root, p).read_text(encoding='utf-8'), config=config).rstrip() for p in config['readme'])
+    rendered['README.md'] = ''.join(part + '\n\n' for part in parts if part).encode('utf-8')
     changed = []
     for relative, content in rendered.items():
         target = within(destination, relative)

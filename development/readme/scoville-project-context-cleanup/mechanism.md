@@ -1,6 +1,8 @@
 ## How it works
 
-- Resolve the target file and read its relevant governing rules.
-- Check useful project information, duplicates and conflicts; reuse authorization covering the edit.
-- Place concise wording in the affected structure, with conditions and exceptions together.
-- Inspect the saved change and use the record owner's checks where required. Plan keeps native fields and lifecycle.
+- It finds the right file, reads the rules that already apply and checks for
+  duplicates and conflicts before it writes.
+- Changes stay within the project-context files you named.
+- Scope, conditions, permissions, safeguards and the reasons that matter
+  survive the edit. A condition or exception stays with its rule.
+- Where a choice would change the meaning, it asks.

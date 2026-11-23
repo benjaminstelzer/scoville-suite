@@ -1,15 +1,16 @@
 ## How it works
 
-- Establish the requested page or region, task, approved decisions and component
-  owners. Audits stay read-only; a local change stays local.
-- Load guidance for open concerns and build through the existing framework.
-  Settled design still needs correct states, semantics and input behavior.
-- Choose source, geometry, visual and interaction evidence for the actual
-  claims. Group related changes and refresh only evidence they invalidate.
-- Route WordPress admin advice by which page it concerns and what renders it.
-  Classic plugin pages are written and audited against one source checklist:
-  page frame, Settings API, labels, Notices, buttons, where styles load and
-  what they select, widths, status beyond color and translatable strings. For
-  a surface the plugin does not own, such as a Block Editor panel or a
-  metabox, the agent recommends the host's own mechanism. Pure visual concepts
-  keep their design scope.
+- Hierarchy, controls and wording follow the task and what the design system
+  already has.
+- An approved design stays as it is. States, semantics, focus, input and
+  error recovery get the checks they need.
+- It checks responsive layout, zoom, reading order, contrast, focus and
+  keyboard or touch operation where they apply.
+- The evidence matches the claim: spacing needs a measurement, appearance a
+  viewed render and behavior an actual interaction. A sample doesn't establish
+  a whole-page pass.
+- Audits stay read-only, and a local change stays local.
+- On WordPress, for a surface the plugin doesn't own, such as a Block Editor
+  panel or a metabox, it recommends the host's own mechanism.
+- New and changed UI code gets the same review for simplicity and
+  maintainability as other code.

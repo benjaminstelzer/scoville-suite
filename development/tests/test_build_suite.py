@@ -111,21 +111,21 @@ class BuildTests(unittest.TestCase):
         self.assertEqual([], builder.render_readmes(ROOT, False))
 
 
-    def test_suite_overview_links_each_member_how_to_use(self):
+    def test_suite_overview_links_each_member_readme(self):
         for profile, expected_count in (('general', 6), ('codex', 9)):
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
                 destination = Path(temp)
                 config = builder.load(ROOT, profile, 'suite')
                 builder.render_readmes(ROOT, True, config, destination)
                 overview = (destination / 'README.md').read_text(encoding='utf-8')
-                self.assertEqual(expected_count, overview.count('/README.md#how-to-use)'))
+                self.assertEqual(expected_count, len(config['members']))
                 for member in config['members']:
                     name = member['name']
-                    self.assertIn(f'(members/{name}/README.md#how-to-use)', overview)
+                    self.assertEqual(1, overview.count(f'(members/{name}/README.md)'))
                     full_readme = destination / 'members' / name / 'README.md'
                     self.assertTrue(full_readme.is_file())
                     self.assertIn('\n## How to use\n', full_readme.read_text(encoding='utf-8'))
-                workflow_link = '(members/scoville-workflow-for-codex/README.md#how-to-use)'
+                workflow_link = '(members/scoville-workflow-for-codex/README.md)'
                 self.assertEqual(profile == 'codex', workflow_link in overview)
 
             # Setup activation is checked by the native effect cases, not prose spelling.

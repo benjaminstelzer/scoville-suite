@@ -8,325 +8,28 @@ Scoville is the scale for chili heat. These Skills aim for sharper work and
 less diluted context. Adding more instructions is easy. Keeping the useful
 ones is the point.
 
-The Skills keep a short shared core and load data checks, shell details and
-helper instructions when the task needs them. Project choices and existing
-approvals stay with the work; shorter instructions still have to carry the
-whole job.
+This edition is for Claude Code and other Agent Skills hosts. For Codex desktop
+there is [Scoville Suite for Codex Mainloop](https://github.com/benjaminstelzer/scoville-suite-for-codex-mainloop),
+which adds Workflow, Ask and Setup.
 
-For Claude Code and other Agent Skills hosts, use
-[Scoville Suite](https://github.com/benjaminstelzer/scoville-suite).
-For Codex desktop, use
-[Scoville Suite for Codex Mainloop](https://github.com/benjaminstelzer/scoville-suite-for-codex-mainloop),
-which adds Workflow, Ask and Setup. Mainloop is the maintained Codex suite.
-
-| Skill | Purpose |
+| Skill | What it does |
 | --- | --- |
-| [Code](#scoville-code) | Keeps implementation, risk assessment and checks focused on what you asked for. |
-| [Plan](#scoville-plan) | Keeps longer work, decisions and progress easy to pick up again. |
-| [UI](#scoville-ui) | Builds and checks interfaces with their framework and design system. |
-| [Handoff](#scoville-handoff) | Passes unfinished work to another session. |
-| [Project Context Cleanup](#scoville-project-context-cleanup) | Keeps requested project rules and index text clear without losing required context. |
-| [Skillwriter](#scoville-skillwriter) | Writes and reviews Skills and reusable prompts for frontier models. |
+| [Code](members/scoville-code/README.md) | Keeps implementation, debugging and review tied to the result you asked for. |
+| [Plan](members/scoville-plan/README.md) | Keeps goals, decisions and progress in the repository so longer work survives the next conversation. |
+| [UI](members/scoville-ui/README.md) | Builds and audits interfaces with the project's framework and design system. |
+| [Handoff](members/scoville-handoff/README.md) | Transfers the work state, not the whole conversation. |
+| [Project Context Cleanup](members/scoville-project-context-cleanup/README.md) | Adds and revises project rules without losing what made them useful. |
+| [Skillwriter](members/scoville-skillwriter/README.md) | Writes and reviews Skills and reusable prompts for current frontier models. |
 
-## Scoville Code
+## Install
 
-Passing tests are useful. Passing tests for the wrong behavior, rather less so.
-Scoville Code keeps implementation, debugging and review tied to the result you
-asked for: find the cause, work with the existing architecture and check what
-actually changed.
+The bundled helpers need Python 3.11+ - without it,
+the affected step stops and says so.
 
-Scoville measures chili heat. Code aims for sharper reasoning before a small
-fix acquires its own framework.
+Use `gpt-6.2-sol` or Claude Opus 5.5 at medium reasoning effort or higher. Below
+that, steps get skipped more often.
 
-### How it works
-
-- Before writing, the agent looks for what the project already has: the
-  function that does the job, the module it belongs in and the way the project
-  builds that kind of thing.
-- It starts from the simplest approach that solves the request and holds its
-  code to it.
-- While writing, it keeps one path, uses other modules through their public
-  interfaces, keeps each fact in one place and reads its own loops for work
-  that repeats per item. That is a reading check, not a benchmark.
-- It names the test that proves the request and reports it by name. For a
-  bug fix, or new behavior whose failure would charge a wrong amount, grant
-  access, lose data or open a security hole, it sees that test fail first. A refactoring keeps the existing tests green
-  before and after; a change without runtime behavior gets the fitting source
-  or build check, not a test.
-- It ends by reading its diff against these rules and reports the test that
-  proves the request.
-- Where the host can start a separate agent, a change to code behavior is
-  then read once by an agent that has not seen the author's reasoning. The
-  author declines findings that only ask for more protection. Under a
-  workflow that already reviews each change independently, that review takes
-  its place.
-- A review goes through the same points in someone else's change and names
-  the place, the problem and, where one exists, the function, path or
-  interface to use instead.
-
-### What it enforces
-
-- **Code the next reader can extend.** No second implementation of logic the
-  project already has, no parallel path beside the one that works, no reaching
-  into another module's internals and nothing left behind.
-- **Effort in proportion.** A safeguard, an abstraction or a test needs a real
-  case in this application. A local script is not hardened like a payment
-  service, and a small request stays a small diff.
-- **Tests that prove something.** The test checks the requested result and
-  actually runs; for a bug fix or costly behavior it is seen failing first. "All tests pass" does not count when the relevant test was
-  not among them.
-- **Your conventions.** Existing architecture and project rules take precedence.
-  New projects start with a small structure organized by responsibility.
-- **Honest evidence.** The report keeps what was observed apart from what
-  remains unverified. The agent asks about material choices and explains
-  conflicting requirements instead of substituting a different result.
-
-Keep personal conventions outside the installed Skill so updates preserve them.
-See the [customization guide](https://github.com/benjaminstelzer/scoville-code#your-own-conventions)
-and [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-code/scoville-code/SKILL.md).
-
-### What it costs
-
-- Reading relevant code and checking behavior takes tokens and time. The extra work is aimed at avoiding fixes that merely look finished.
-- The independent reading of a change to code behavior adds one agent run. In my measurements a review took two to four minutes.
-
-[How to use Scoville Code](members/scoville-code/README.md#how-to-use).
-
-## Scoville Plan
-
-Scoville Plan keeps goals, decisions and progress in the repository so longer
-work survives the next conversation. You can see what is done, what remains
-and why a choice was made without reconstructing it from chat history.
-
-Use it for work with dependencies or several sessions. Settle the requirements
-and acceptance criteria before implementation, get independent advice where
-useful, and revise the Plan when the facts change. A contained fix can stay small.
-
-Scoville measures chili heat. Plan keeps the direction from being diluted by
-one more perfectly reasonable detour.
-
-[Plan Viewer](https://github.com/benjaminstelzer/scoville-plan-viewer/releases/latest)
-shows these records on Windows, macOS and Linux.
-
-### How it works
-
-- Use the repository's existing planning system and relevant Plan, Work Items and Decisions.
-- Check current sources before starting the next item.
-- Edit Markdown and YAML records with observed Step progress and any additional Instructions.
-- Record observed acceptance results before completion and validate record structure.
-
-The validator checks structure and references. It cannot establish permission,
-meaning or whether an acceptance result is true.
-Selector and validator share Plan section boundaries; diagnostics identify
-the location and correction without imposing blank-line layout.
-
-### What it enforces
-
-- **Resumable work.** Goals, ordered Steps, dependencies and the current position
-  stay explicit, together with live permissions, completed effects and evidence limits.
-- **Decisions with an owner.** Confirmed choices are recorded. Open questions
-  remain proposals and block only the work that depends on them.
-- **Evidence before completion.** Finished means acceptance was checked.
-  Changes of direction preserve completed work, binding constraints and material decisions.
-
-Edit records from one session at a time. Concurrent edits need reconciliation.
-See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-plan/scoville-plan/SKILL.md).
-
-### What it costs
-
-- Maintaining records takes tokens and time. It pays for continuity on dependent work. A small fix rarely needs a large Plan.
-- Writing, machine-data and command rules load for the operation that needs them.
-  Required Plan and Decision text stays complete; source references and embedded
-  Decision text are separate parts of a prompt, so fewer rule words do not imply
-  smaller Decision records or a fixed token saving.
-
-[How to use Scoville Plan](members/scoville-plan/README.md#how-to-use).
-
-## Scoville UI
-
-Scoville UI builds and audits interfaces with the project's framework and
-design system. It covers wording, hierarchy, responsive layouts and accessible
-interactions, with checks matched to the result being claimed. A tidy component
-tree is a start. People still have to use the page.
-
-It includes specific guidance for plugin-owned WordPress admin pages, using
-Core components and WordPress conventions.
-
-Scoville measures chili heat. UI aims for a sharper interface without making
-the user sweat.
-
-### How it works
-
-- Establish the requested page or region, task, approved decisions and component
-  owners. Audits stay read-only; a local change stays local.
-- Load guidance for open concerns and build through the existing framework.
-  Settled design still needs correct states, semantics and input behavior.
-- Choose source, geometry, visual and interaction evidence for the actual
-  claims. Group related changes and refresh only evidence they invalidate.
-- Route WordPress admin advice by which page it concerns and what renders it.
-  Classic plugin pages are written and audited against one source checklist:
-  page frame, Settings API, labels, Notices, buttons, where styles load and
-  what they select, widths, status beyond color and translatable strings. For
-  a surface the plugin does not own, such as a Block Editor panel or a
-  metabox, the agent recommends the host's own mechanism. Pure visual concepts
-  keep their design scope.
-
-### What it enforces
-
-- **A coherent interface.** Hierarchy, controls and terminology follow the task
-  and the existing design system.
-- **Working mechanics.** Approved design stays intact while affected states,
-  semantics, focus, input and recovery receive the checks they need.
-- **Access across devices.** Check responsive layout, zoom, reading order,
-  contrast, focus and keyboard or touch operation where applicable.
-- **Scoped proof.** Source, concepts, geometry, viewed appearance and interaction
-  establish different things. Measurements need independent targets and
-  tolerances chosen before measurement. Partial coverage cannot establish a
-  whole-page pass.
-- **Code quality.** UI construction and updates receive the shared review for
-  simplicity, relevant algorithmic costs, maintainability and clarity, without
-  requiring benchmarks.
-
-See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-ui/scoville-ui/SKILL.md).
-
-### What it costs
-
-- Rendered inspection and interaction checks take tokens and time. Load them
-  when the claim needs them; they catch problems source alone cannot show.
-  WordPress tasks load the platform contracts relevant to their scope.
-
-[How to use Scoville UI](members/scoville-ui/README.md#how-to-use).
-
-## Scoville Handoff
-
-Scoville Handoff turns the current task into one copy-ready continuation
-prompt: the goal, decisions, unfinished work, blockers and next action.
-Another session can pick up the work without asking you to explain it all again.
-
-Scoville measures chili heat. Handoff keeps the useful context from being
-diluted between conversations. The next agent already has enough imagination.
-
-### How it works
-
-- Use established conversation facts and read missing required passages from
-  the task sources already named or established. Preserve any remaining gaps.
-- Capture the facts needed to resume, including permissions, unfinished work
-  and the original evidence for interrupted or one-time effects.
-- Produce one prompt in the requested language, otherwise the conversation
-  language. The receiving agent checks current state before acting.
-
-### What it enforces
-
-- **Explicit transfer.** A handoff starts when you request one. Preparing it is
-  read-only and does not advance the task.
-- **Faithful context.** Decisions, permissions, ownership and blockers survive
-  the transfer. Existing approval is preserved within its scope. Unknown
-  results stay unknown, and secrets stay out, including quoted secrets.
-- **A useful next action.** The prompt tells the next session where to resume
-  and how to recognize completion.
-
-Keep preferences distinct from binding requirements. The receiving session
-still needs the exact permissions and acceptance criteria for its next action.
-
-See the [full instructions](https://github.com/benjaminstelzer/scoville-suite/blob/main/packages/scoville-handoff/scoville-handoff/SKILL.md).
-
-### What it costs
-
-- Preparing the prompt takes tokens and time once, so the next session has less context to reconstruct.
-- The declared base reading routes were about 40% shorter in the current source
-  comparison. Conditional references were measured separately. This is a static
-  text comparison, not measured token use or transfer speed.
-
-[How to use Scoville Handoff](members/scoville-handoff/README.md#how-to-use).
-
-## Scoville Project Context Cleanup
-
-Project rules grow. Unfortunately, clarity does not grow automatically with
-them. This Skill adds or revises the rules you request in
-`AGENTS.md` or `CLAUDE.md` and
-context in `PROJECT_INDEX.md`, keeping useful information where the next agent
-will find it.
-
-It preserves meaning, scope and safeguards. Suitable text stays as it is.
-
-Scoville measures chili heat. Context Cleanup removes the dilution, not the
-ingredients that made the rules useful.
-
-### How it works
-
-- Resolve the target file and read its relevant governing rules.
-- Check useful project information, duplicates and conflicts; reuse authorization covering the edit.
-- Place concise wording in the affected structure, with conditions and exceptions together.
-- Inspect the saved change and use the record owner's checks where required. Plan keeps native fields and lifecycle.
-
-### What it enforces
-
-- Requested additions and cleanup stay within the named project-context files.
-- Scope, conditions, permissions, safeguards and necessary reasons survive edits.
-- Existing formats and record owners remain responsible for fields and lifecycle.
-- Suitable text stays unchanged, and unresolved material choices are asked directly.
-
-### What it costs
-
-- Reading the rules and checking edits takes tokens and time. The useful return is clearer context for later work, without deleting necessary detail.
-
-[How to use Scoville Project Context Cleanup](members/scoville-project-context-cleanup/README.md#how-to-use).
-
-## Scoville Skillwriter
-
-Scoville Skillwriter writes and reviews Skills and reusable prompts for current
-frontier models. It keeps the goal, real constraints and useful context while
-cutting repetition and unnecessary ceremony.
-
-Scoville measures chili heat. Skillwriter keeps instructions sharp without
-seasoning every sentence with another warning.
-
-### How it works
-
-It combines shared instruction-design rules with an authoring workflow. Approved
-revisions preserve the exact pre-edit state for comparison; reviews return
-findings without editing. The host's Skill Creator owns Skill structure,
-packaging and format validation. Source review and format validation are
-reported separately from observed model behavior.
-
-### What it enforces
-
-It preserves the intended outcome, activation boundaries, permissions and
-acceptance criteria. It asks only about material changes beyond the request or
-prior approval. Changed instructions and affected consumers are checked together
-in one review.
-
-### What it costs
-
-The Skill has no paid service calls. Host model usage and any explicitly requested evaluation have their usual costs.
-
-[How to use Scoville Skillwriter](members/scoville-skillwriter/README.md#how-to-use).
-
-## How it was developed
-
-Scoville grew from recurring problems in real software projects. Separate Skills
-addressed code, interfaces, planning and the work around them. Shared guidance
-keeps their foundations aligned, while the Codex workflow evolved toward a main
-chat supported by focused exploration and independent review.
-
-Development follows a repeated cycle: develop an idea, test it, and analyze how
-it behaves in real workflows on large projects. Those observations guide the
-next revision, which is tested and used again. The individual Skill READMEs
-describe the changes and lessons that shaped each one.
-
-## Compatibility
-
-Developed for Codex and Claude Code. Requires Python 3.11+ for the bundled
-helpers; missing helpers, dependencies or helper errors stop the affected operation.
-Use at least `gpt-6.1-sol` or Claude Opus 5.5 at medium reasoning effort; lower effort skips steps more often.
-Code, Plan, UI, Handoff and Skillwriter are tested with both models.
-
-## Install the suite
-
-Install the complete suite in your agent host to use it across projects.
-### New installation
-
-Use this request in your agent host:
+Ask your agent host:
 
 ```text
 Install and enable the complete suite for all my projects from the packages/ directory of https://github.com/benjaminstelzer/scoville-suite.
@@ -334,23 +37,20 @@ Preserve personal settings and unrelated Skills. Ask before overwriting conflict
 Report the installed location and whether the host discovers every member.
 ```
 
-Do not mix standalone and suite copies of the same Skill. If your host cannot
-install from GitHub, download the repository and copy each
-`packages/<name>/<name>/` Skill directory into the host's Skills location.
-The repository root and development sources are not installable Skills.
+If your host can't install from GitHub, download the repository and copy each
+`packages/<name>/<name>/` directory into the host's Skills location. Don't mix
+standalone and suite copies of the same Skill.
 
-### Upgrade or migrate an existing installation
+### Upgrading
 
-Choose the target suite explicitly. Preserve project settings and personal
-customizations, then replace duplicate installed copies with the target suite's
-complete packages. Remove only superseded Skills you have selected for removal.
-An upgrade is not permission to erase settings or unrelated Skills.
+Replace the installed copies with the complete packages of the suite you
+chose. Your project settings and unrelated Skills stay.
 
 ### Additional Scoville Skills
 
 #### scoville-ask-for-codex
 
-For Codex, also available as a standalone Skill. Ask your Codex host:
+For Codex, installed on its own. Ask your Codex host:
 
 ```text
 Install this Skill for all my projects from this exact package directory:
@@ -359,13 +59,14 @@ Preserve personal settings and unrelated Skills. Report the installed location
 and whether the host discovers the Skill.
 ```
 
-## Configuration
+## Background
 
-Keep personal project conventions outside the installed Skills so updates
-preserve them. The [Code configuration guide](members/scoville-code/README.md#configuration)
-shows how to connect them to your project.
-
-
+Scoville grew from a frustrating pattern in real software projects: an agent
+could follow plenty of rules and still lose the goal between planning,
+implementation and review. Every idea is tested and then used in real
+workflows on large projects, and what those show goes into the next revision.
+The [development notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/docs/README.md)
+tell the longer story.
 
 ## Deprecated
 
@@ -383,29 +84,8 @@ current frontier models to be worth maintaining.
 
 ## Developer links
 
-<details>
-<summary>Development and builds</summary>
-
-Both suite editions share one maintained source and Plan. Sources live under
-`members/`. Edit README fragments in `development/readme/`,
-then run `python development/build_suite.py --write-readmes`. The manifest
-`suite.json` owns package membership and README composition.
-
-Shared runtime files use the same manifest file entries as member-owned files
-and copy directly from their declared sources. The builder checks the packaged
-inventory, source hashes and helper routes.
-The shared development snapshot still supports builds from an isolated suite
-checkout. The build guide gives the current checks and export commands.
-
-[Development notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/docs/README.md)
-explain the problems behind the suite. The
-[build guide](development/shared/build/fragments.md) covers package generation,
-runtime checks and Skill publication integrity. Installed Skills need only their own packages.
-
-</details>
-
-Sources, tests and notes live in this suite. Individual packages leave out
-this block and the development files.
+Sources, tests and notes for every Skill live in this repository. The
+[build guide](development/shared/build/fragments.md) covers builds and checks.
 
 - **scoville-code**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-code/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-code/development/README.md)
 - **scoville-plan**: [Source](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan) | [Tests](https://github.com/benjaminstelzer/scoville-suite/tree/main/members/scoville-plan/development/tests) | [Notes](https://github.com/benjaminstelzer/scoville-suite/blob/main/members/scoville-plan/development/README.md)

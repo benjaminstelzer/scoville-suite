@@ -25,7 +25,7 @@ project-specific source ownership, boundaries and release-test scope.
 - `../shared/`: shared build tools and runtime-helper sources.
   Suite-local copies, including `development/shared/`, are generated snapshots.
 - `development/readme/`: README fragments. Member READMEs are generated previews.
-  Each member's `description_fragments` owns its complete description.
+  The READMEs of the Codex-only members are copied from a `--profile codex` build.
 - `development/shared/instruction-writing.md`: Suite authoring rules for
   AI-consumed content and public copy, generated from `../shared/instruction-writing.md`.
 

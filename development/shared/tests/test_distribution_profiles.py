@@ -66,12 +66,9 @@ class DistributionProfilesTests(unittest.TestCase):
                         self.assertEqual(discovery, package[member['name'] + '/references/python-discovery.md'].decode().strip())
                     readme = package['README.md'].decode()
                     if member.get('distribution') == 'suite':
-                        self.assertNotIn('## Family', readme)
-                        install = readme.split('## Install', 1)[1].split('## How to use', 1)[0]
+                        install = readme.split('## Install', 1)[1].split('\n## ', 1)[0]
                         self.assertIn(config['repository'] + '/tree/main/packages', install)
                         self.assertNotIn('https://github.com/benjaminstelzer/' + member['name'] + '/tree/', install)
-                    else:
-                        self.assertIn('## Family', readme)
 
     def test_refresh_preserves_inventory_and_refuses_local_changes(self):
         with tempfile.TemporaryDirectory() as temp:

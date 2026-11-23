@@ -104,14 +104,13 @@ External URLs and heading anchors need separate release checks. Historical
 evidence stays explicit, never automatically rewritten to an imported commit.
 
 `suite.json` owns membership. Scoville members also define `family.order`
-(unique nonnegative integer), `label`, `owner`, and `summary`. Add a member once;
+(unique nonnegative integer) and `owner`. Add a member once;
 full lists follow its order. Ask uses manifest member order.
 
 Use `{{ include: KEY }}` in exported Markdown or README source fragments:
 
 | KEY | Output |
 | --- | --- |
-| `suite.descriptions` | Suite README only: each member's first README fragment, with `featured_member` first, then family order |
 | `family.owners` | Public members and their ownership |
 | `family.neighbors` | Current member's explicit `family.neighbors` subset |
 
@@ -121,12 +120,12 @@ scope and authored order; adding a family member never expands a subset.
 An existing optional private neighbor reference is not publication approval.
 Historical evidence and ordinary prose references are not membership lists.
 
-The first four member README fragments form `description_fragments`: title and
-introduction, How it works, What it enforces, What it costs. The last three use
-bullets. Suite descriptions reuse the complete block and demote headings outside
-code fences. Keep absolute links and no include tags inside these fragments.
 Follow [the common project template](../readme/README-template.md) for all projects.
-How it was developed uses brief prose and stays outside the suite description block.
+For a member with a `family` entry the builder checks the template's section
+order and accepts a missing optional section. A fragment that expands to
+nothing in one edition is left out without a gap. The suite README lists each
+member in a table written in its introduction fragment, with one sentence and
+a link to `members/<name>/README.md`; it embeds no member sections.
 
 The shared builder expands placeholders before packaging. Packages contain
 complete Markdown and need no shared directory. Never install source templates.
@@ -150,7 +149,7 @@ Scoville uses `--profile general` (default) or `--profile codex`. `suite.json`
 contains two flat profile objects with name, repository and optional README
 sources. Member and file entries may declare `profiles: ["general"]` or
 `profiles: ["codex"]`; omission selects both. The resolved manifest owns every
-projection. Optional neighbors and the featured member disappear when excluded.
+projection. Optional neighbors disappear when excluded.
 Unknown profiles fail. Visibility checks still apply to the selected members.
 
 Keep short text alternatives beside their owner using flat blocks:
@@ -184,9 +183,9 @@ Exports always retain `layout: suite` and rebuild only that edition/layout.
 `{{ package: suite }}...{{ /package }}` select installation-contract prose.
 These flat blocks are independent of the general/codex profile.
 `family.contract` expands canonical `runtime/skill_composition.md`;
-other family projections are absent from suite packages. README requirements
-come from `readme/skill-installation-contract.md` and
-`readme/suite-requirements.md`. Suite installation uses only its own packages;
+other family projections are absent from suite packages. The model
+requirement comes from `readme/scoville-models.md` and the installation
+request from `readme/scoville-install.md`. Suite installation uses only its own packages;
 missing members are errors, never permission to fetch individual repositories.
 
 Local release staging uses exactly `<workspace-root>/skills/temp/release`.

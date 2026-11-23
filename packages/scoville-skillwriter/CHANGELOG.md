@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 - A shorter README
+
+I rewrote the README. It now says what the Skill does, how to call it, what it needs and where it stops, and leaves out how the suite is built. The Skill itself is unchanged. The requirements name `gpt-6.2-sol` instead of `gpt-6.1-sol`.
+
 ## 2026-11-23 - "Preserve the intention" without the repeated list
 
 "Preserve the intention" repeated the list of what a revision preserves from the shared writing rules. It now names only what it adds: the intended outcome, the activation boundaries, and that a preserved property changes only when the user explicitly asks.

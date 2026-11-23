@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 - A shorter README
+
+I rewrote the README. It now says what the Skill does, how to call it, what it needs and where it stops, and leaves out how the suite is built. The Skill itself is unchanged. The requirements name `gpt-6.2-sol` instead of `gpt-6.1-sol`. The source list moved to the development notes.
+
 ## 2026-11-23 - WordPress checks match the base rules
 
 The WordPress table reported a group of controls without `<fieldset>` and `<legend>` as a defect, although the base rule also accepts a group component that carries the group's name. A requested check of translation loading now asserts one translated string from each source the page ships, PHP and each registered script handle; it asked for a React string also on a page without script.

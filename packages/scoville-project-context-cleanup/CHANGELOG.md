@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23 - A shorter README
+
+I rewrote the README. It now says what the Skill does, how to call it, what it needs and where it stops, and leaves out how the suite is built. The Skill itself is unchanged. The requirements name `gpt-6.2-sol` instead of `gpt-6.1-sol`.
+
 ## 2026-11-23 - The size checker names the process after an interrupted capture
 
 The size checker names the process ID when a capture was interrupted and its cleanup is unconfirmed, as it did after a timeout. The delivery reference now says what that ID is for: resolve the state of that process before a rerun.

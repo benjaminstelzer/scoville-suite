@@ -1,3 +1,0 @@
-## Family
-
-{{ include: family.catalog }}
