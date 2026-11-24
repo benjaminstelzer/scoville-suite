@@ -3,6 +3,10 @@
 Handoff grew out of real transfers that lost blockers, decisions and the
 question of who owned the unfinished changes.
 
+On one transfer task with 16 check points, every run with Handoff met them
+all - `gpt-6.1-sol` in 4 of 4 runs, Claude Opus 5.5 in 3 of 3 - and no run
+without it did.
+
 The [full instructions]({{ var: contract_url }}) are what the agent reads.
 Sources: Compact Handoff `v1.0.0`,
 [Microsoft SkillOpt](https://github.com/microsoft/SkillOpt),

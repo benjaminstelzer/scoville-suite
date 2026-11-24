@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-24 - Test results name both models
+
+The READMEs of Code, Plan, UI, Handoff and Skillwriter state their test result in one sentence for Claude Opus 5.5 and Sol. The Code README had named only Opus since yesterday.
+
 ## 2026-11-23 - Shorter READMEs
 
 I rewrote the READMEs of the suite and of every Skill. Each one now says what the Skill does, how to call it, what it needs and where it stops, and leaves out how the suite is built. The suite README lists the Skills in a table and links to their READMEs. The Skills themselves are unchanged.

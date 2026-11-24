@@ -28,7 +28,9 @@ the name does so once, in the introduction. Use restrained humor where it fits.
 6. `## Configuration`, when there are settings to explain.
 7. `## Limitations`, when a limit changes what the reader does, with its workaround.
 8. `## Background`, optional: where the project came from in two or three
-   sentences, a link to the full instructions and its sources in one line.
+   sentences, a measured result in one sentence that names every model it
+   was measured with, a link to the full instructions and its sources in one
+   line. Result tables stay in the development notes.
 9. `## Developer links`, when included in this distribution.
 10. `## License`
 
