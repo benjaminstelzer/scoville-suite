@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-25 - Skillwriter README without the test result
+
+I took the test result out of the Skillwriter README again. Its one test showed no difference with and without the Skill, which tells a reader nothing.
+
 ## 2026-11-24 - Test results name both models
 
 The READMEs of Code, Plan, UI, Handoff and Skillwriter state their test result in one sentence for Claude Opus 5.5 and Sol. The Code README had named only Opus since yesterday.

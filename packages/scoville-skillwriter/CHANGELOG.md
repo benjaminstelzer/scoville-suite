@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-25 - The README no longer states a test result
+
+I took yesterday's sentence out again. The one test showed no difference with and without the Skill, which tells a reader nothing.
+
 ## 2026-11-24 - The test result names both models
 
 The README states the test result in one sentence for Claude Opus 5.5 and Sol. On its one task both models did as well without the Skill, and the README says so.
